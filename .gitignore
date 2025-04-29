@@ -1,0 +1,18 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/HuloToys-Front-End/bin
+/HuloToys-Front-End/obj
+/.vs
+/.vs
+/.vs
+/.vs
+/BIOLIFE/obj
+/.vs
+/BIOLIFE/bin
+/BIOLIFE/obj
+/BIOLIFE/Properties
+.vs/HuloToys-Front-End/v17/.suo
+.vs/HuloToys-Front-End/DesignTimeBuild/.dtbcache.v2
+/HuloToys-Front-End/Properties

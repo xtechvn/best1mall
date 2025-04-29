@@ -1,0 +1,82 @@
+﻿@using HuloToys_Front_End.Models.News;
+@using HuloToys_Front_End.Utilities.Lib;
+@model List<ArticleResponse>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="list-news">
+        @foreach (var item in Model)
+        {
+            <div class="item-news">
+                <div class="box-news">
+                    <div class="thumb-art">
+                        <div class="thumb thumb-news">
+                            <a href="@("/tin-tuc"+CommonHelper.genLinkNewsV2(item.title,item.id.ToString()))">
+                                <img src="@item.image_169" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="right-content">
+                        <div class="flex-cat">
+                            <span class="time">
+                                <i class="icon icon-time"></i>
+                                @{
+                                    var category_name = item.category_name.TrimEnd(',', ' ').Split(',');
+                                }
+                                @item.publish_date.ToString("dd/MM/yyyy") |   @category_name[0]
+                            </span>
+                        </div>
+                        <h2 class="title-news">
+                            <a href="@("/tin-tuc"+CommonHelper.genLinkNewsV2(item.title,item.id.ToString()))">
+                                @item.title
+                            </a>
+                        </h2>
+                        <p class="description">
+                            @item.lead
+                        </p>
+                        <a href="@("/tin-tuc"+CommonHelper.genLinkNewsV2(item.title,item.id.ToString()))" class="xemthem">Đọc tiếp</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="wrap-paging">
+
+
+        @if (Model[0].total_page > 1)
+        {
+            <ul class="pagination" style="justify-content: center !important;">
+                <li class="page first"><a onclick="_new.paging(1);" href="javascripts:;"><i class="icon icon-page-first"></i></a></li>
+                <li class="page first"><a onclick="_new.prev(1);" href="javascripts:;"><i class="icon icon-page-previous"></i></a></li>
+                @for (int i = 1; i <= Model[0].total_page; i++)
+                {
+                    <li class="page paging_@i" data-page="@i"><a onclick="_new.paging(@i);" href="javascripts:;">@i</a></li>
+                }
+                <li class="page last"><a onclick="_new.next(@Model[0].total_page)" href="javascripts:;"><i class="icon icon-page-next"></i></a></li>
+                <li class="page last"><a onclick="_new.paging(@Model[0].total_page)" href="javascripts:;"><i class="icon icon-page-last"></i></a></li>
+            </ul>
+        }
+
+
+    </div>
+
+}
+else
+{
+    <div class="list-news">
+        <div class="wrap-paging">
+            @if (ViewBag.skip > 1)
+            {
+                <ul class="pagination" style="justify-content: center !important;">
+                    <li class="page first"><a onclick="_new.paging(1);" href="javascripts:;"><i class="icon icon-page-first"></i></a></li>
+                    <li class="page first"><a onclick="_new.prev(1);" href="javascripts:;"><i class="icon icon-page-previous"></i></a></li>
+                    @for (int i = 1; i <= ViewBag.skip; i++)
+                    {
+                        <li class="page paging_@i"><a onclick="_new.paging(@i);" href="javascripts:;">@i</a></li>
+                    }
+                    <li class="page last"><a onclick="_new.next(@ViewBag.skip)" href="javascripts:;"><i class="icon icon-page-next"></i></a></li>
+                    <li class="page last"><a onclick="_new.paging(@ViewBag.skip)" href="javascripts:;"><i class="icon icon-page-last"></i></a></li>
+                </ul>
+            }
+        </div>
+    </div>
+}

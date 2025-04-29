@@ -1,0 +1,54 @@
+﻿@using HuloToys_Front_End.Models.Products
+
+@{
+    Layout = null;
+    string keyword = (string)ViewBag.Keyword;
+    string static_url = (string)ViewBag.Static;
+}
+@model ProductGlobalSearchResponseModel
+@if (Model != null && Model.data != null && Model.data.items != null && Model.data.items.Count > 0)
+{
+    foreach (var p in Model.data.items)
+    {
+        <div class="item-product">
+            <a href="/san-pham/@(HuloToys_Front_End.Utilities.Lib.StringHelpers.ConvertNewsUrlToNoSymbol(p.name))--@p._id">
+                <div class="box-thumb">
+                    <div class="thumb-product">
+                        <img src="@(p.avatar.StartsWith(static_url) || p.avatar.Contains("data:images") || p.avatar.Contains("base64")? p.avatar: static_url+p.avatar)" alt="" />
+                    </div>
+                </div>
+                <div class="box-info">
+                    <h3 class="name-product">@p.name</h3>
+                    <div class="flex-price">
+                        @{
+                            string label_price = p.amount.ToString("N0");
+
+                            if (p.amount_min != null && p.amount_max != null && p.amount_min > 0 && p.amount_max > 0)
+                            {
+                                if (p.amount_min >= p.amount_max)
+                                {
+                                    label_price = ((double)p.amount_min).ToString("N0");
+                                }
+                                else
+                                {
+                                    label_price = ((double)p.amount_min).ToString("N0") + " - " + ((double)p.amount_max).ToString("N0");
+
+                                }
+                            }
+                        }
+                        <div class="price-sale">@label_price</div>
+                        <div class="review">@p.star<i class="icon icon-star"></i>@* <span class="total-review">(322)</span> *@</div>
+                    </div>
+                    @*  <div class="price-old" >
+            So với giá cũ 767,009đ <i class="icon icon-info"></i>
+            <div class="info-detail">
+            Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+            được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+            </div>
+            </div> *@
+                </div>
+            </a>
+        </div>
+    }
+
+}

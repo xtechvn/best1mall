@@ -1,0 +1,77 @@
+﻿@using HuloToys_Front_End.Models.News
+@{
+    ViewData["Title"] = "Hỗ trợ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var MenuHelpers = (List<GetCategoryResponse>)ViewBag.MenuHelpers;
+}
+
+<style>
+    .content-policy
+    {
+        margin-left: 20px;
+    }
+
+    .Option-load
+    {
+        cursor: pointer;
+    }
+
+    .Hide-ContentPolicy
+    {
+        display : block !important;
+    }
+</style>
+
+<section class="section-banner-search">
+    <div class="container">
+        <div class="flex-banner">
+            <div class="wrap-form">
+                <h2 class="title">Chào mừng quý khách !</h2>
+                <h3 class="sub-title">HULOTOYS có thể giúp được gì cho quý khách ?</h3>
+                <div class="form-search">
+                    <form onsubmit="return false">
+                        <input id="search-input" type="text" @* oninput="_support.OnchangeInput()" *@ placeholder="Câu hỏi, thắc mắc của quý khách...">
+                        <button onclick="_support.SearchQuestion()" type="button" class="btn-search"><i class="icon icon-search"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="image">
+                <img src="/assets/images/img-search.png" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section-help">
+    <div class="container">
+        <!-- Kết quả tìm kiếm -->
+        <div class="result-search">
+            
+            
+        </div>
+        <!-- //Policy -->
+        <div class="flex-content">
+            <div class="left-content">
+                <ul class="list-faq" style="min-width:250px">
+                    @if (MenuHelpers != null)
+                    {
+                        <div id="IDdefaultOption" style="display:none">@MenuHelpers[0].id</div>
+                        <div id="NamedefaultOption" style="display:none">@MenuHelpers[0].name</div>
+                        @for (int i = 0; i < MenuHelpers.Count; i++)
+                        {
+                            <li class="Option-load" id="Selected-@MenuHelpers[i].id" onclick="_support.GetBodyArticle('@MenuHelpers[i].id','@MenuHelpers[i].name')">
+                                <a>@MenuHelpers[i].name</a>
+                            </li>
+                        }
+
+                    }
+                </ul>
+            </div>
+
+            <div class="content-policy list-faq-v2">
+                
+            </div>
+        </div>
+    </div>
+</section>

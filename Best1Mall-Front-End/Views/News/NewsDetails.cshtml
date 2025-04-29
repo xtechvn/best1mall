@@ -1,0 +1,93 @@
+﻿@using HuloToys_Front_End.Models.News;
+@model HuloToys_Front_End.Models.News.GetNewDetailObjectResponse
+@{
+    ViewData["Title"] = "Chi tiết tin tức";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var details = Model.Details;
+    var mostViewedArticles = Model.MostViewedArticles;
+    var data_NewsCategory = (List<GetCategoryResponse>)ViewBag.NewsCategory;
+}
+@if (details != null)
+{
+
+
+    <section class="section-news section-news-detail">
+        <div class="container">
+            <div class="wrap-news cat-menu">
+                <div class="content" id="list-news-category">
+                    <ul class="list-cat" id="news-category">
+                        <li> <a onclick="_newdetail.getNewsByTag(@ViewBag.category_id,'tin-tuc')" href="javascript:;" data-id="@ViewBag.category_id" class="cat-tag  tag_@ViewBag.category_id">Tất cả</a></li>
+                        @if (data_NewsCategory != null)
+                        {
+
+                            foreach (var item in data_NewsCategory)
+                            {
+                                <li> <a onclick="_newdetail.getNewsByTag(@item.id,'@item.url_path')" href="javascript:;" data-id="@item.id" class="cat-tag tag_@item.id">@item.name</a></li>
+                            }
+                        }
+                       
+                    </ul>
+                </div>
+                <div class="top-siderbar-news">
+                    <div class="form-search">
+                        <input type="search" placeholder="Tìm kiếm tin..." id="text_input">
+                        <button type="button" class="btn-search" onclick="_new.GetFindArticleByTitle();"><i class="icon icon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="wrap-news">
+                <div class="content" id="body-data-new">
+                    <div class="thumb-art">
+                        <div class="thumb thumb-news">
+                            <a href=""><img src="@(details.image_11 != "" ? details.image_11 : (details.image_169 != "" ? details.image_169 : details.image_43))" alt=""> </a>
+                        </div>
+                    </div>
+                    <div class="flex-cat">
+
+                    </div>
+                    <h1 class="title-news"> @details.title</h1>
+                
+                    <div class="details">
+                        <p class="Normal">
+                            @details.lead
+                        </p>
+                        <p>
+
+                            @Html.Raw(details.body)
+                        </p>
+
+                    </div>
+                </div>
+                <div class="siderbar-news">
+                        <div class="box-side">
+                            <h3 class="title">
+                                XEM NHIỀU NHẤT
+                            </h3>
+                            <div class="list-news" id="Most_Viewed_Article">
+
+                            </div>
+                        </div>
+                        @*<div class="box-side">
+                            <h3 class="title">
+                                SẢN PHẨM KHUYẾN MÃI
+                            </h3>
+                            <div class="list-product" id="list_new_Sale">
+
+                            </div>
+                        </div>*@
+                    </div>
+            </div>
+        </div>
+    </section>
+
+}
+@section scripts {
+    <script type="text/javascript" src="~/modules/newdetail.js"></script>
+}
+
+@* @section HeadMeta
+    {
+        <meta property="og:image" content="@details.image_169">
+        <meta property="og:description" content="@details.lead.Trim()">
+        <meta property="og:title" content="@details.title.Trim()" />
+    } *@

@@ -1,0 +1,101 @@
+﻿@{
+    Layout = null;
+}
+
+
+<style>
+    .li-Cursor
+    {
+        cursor : pointer;
+    }
+
+    .PromotionNoti {
+        padding: 15px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        background-color: #f0ad4e;
+        color: #fff;
+    }
+</style>
+<!-- Footer Start-->
+<footer class="footer">
+    <div class="container">
+        <div class="topfooter">
+            <div class="logo">
+                <img src="/assets/images/logo-footer.png" alt="" />
+                <h3 class="slogan">
+                    Hulo Toys - Chuyên cung cấp các sản phẩm đồ chơi cho trẻ. Giúp em phát triển trí não,
+                    nhằm kích thích tư duy, tính kiên trì, khả năng vận động qua từng món đồ chơi
+                </h3>
+                <a href="/dong-gop-y-kien" class="btn-gopy">Đóng góp ý kiến</a>
+            </div>
+            <div class="address">
+                <ul>
+                    <li><i class="icon icon-hotline"></i> 036 5809 316</li>
+                    <li><i class="icon icon-map"></i> hulotoys@gmail.com</li>
+                    <li>
+                        <i class="icon icon-mail"></i> D25-47, Khu D, Khu đô thị Geleximco, Lê Trọng Tấn, Dương Nội, Hà
+                        Đông, Hà Nội
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="midfooter">
+            <div class="col-links">
+                <h4 class="tt-footer">VỀ HULO TOYS</h4>
+                <ul class="AboutHulotoy-footer">
+                    
+                </ul>
+            </div>
+            <div class="col-links">
+                <h4 class="tt-footer">CHĂM SÓC KHÁCH HÀNG</h4>
+                <ul class="CustomerSupport-footer">
+@*                     <li><a href="">Trải nghiệm mua sắm 100% hài lòng</a></li> *@
+                    <li><a style="cursor:pointer" onclick="_support.GotoSearchBox()">Hỏi đáp - FAQs</a></li>
+                </ul>
+            </div>
+            <div class="col-links">
+                <h4 class="tt-footer">CHÍNH SÁCH</h4>
+                <ul class="policy-footer">
+                </ul>
+            </div>
+            <div class="col-links">
+                <h4 class="tt-footer">CỘNG ĐỒNG HULOTOYS</h4>
+                <ul>
+                    <li><a href="/tin-tuc">Tin Tức</a></li>
+                    <li><a href="https://www.facebook.com/hulotoys">Group Con ngoan</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="PromotionNoti" class="PromotionNoti" style="display:none;justify-content:center">
+            <strong style="text-align:center">Thông báo:</strong>
+        </div>
+        <div class="bottomfooter">
+            <div class="col-links">
+                <h4 class="tt-footer">ĐĂNG KÍ NHẬN KHUYẾN MÃI</h4>
+                <div class="form-search">
+                    <form>
+                        <input id="Email-text" type="text" placeholder="Nhập email của bạn">
+                        <button type="button" onclick="_feedback.CreateEmailPromotion()" class="btn-search">Đăng kí</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-links">
+                <h4 class="tt-footer">PHƯƠNG THỨC THANH TOÁN</h4>
+                <div class="flex-col">
+                    <ul>
+                        <li><img src="/assets/images/mastercard.png" alt="" /></li>
+                        <li><img src="/assets/images/jcb.png" alt="" /></li>
+                        <li><img src="/assets/images/visa.png" alt="" /></li>
+                    </ul>
+                    <ul>
+                        <li><a href="https://www.facebook.com/hulotoys"><i class="icon icon-facebook"></i></a></li>
+                        @* <li><a href=""><i class="icon icon-instagram"></i></a></li> *@
+                        <li><a href="@Html.Raw("https://www.tiktok.com/@hulo.toys?_r=1&_d=dgke6i40b2kj8f&sec_uid=MS4wLjABAAAAdn-rhy-rk0MtMkBpyeuJgoVKxklZHbIXgoXKy4CwTUEcglPvu1yZ_TG7lNNC6qDn&share_author_id=7318368424345371649&sharer_language=vi&source=h5_t&u_code=dj3ldm7e517i25&ug_btm=b6880,b5836&sec_user_id=MS4wLjABAAAACt-ik6Vb0POpjIT6KHmE3Jf-IobB4qUgenfK3qh80oqPJ8FWZnxgHUadKCXfggz5&utm_source=copy&social_share_type=5&utm_campaign=client_share&utm_medium=ios&tt_from=copy&user_id=6972604119156802562&enable_checksum=1&share_link_id=63B16E77-285B-4471-8AC1-D18055FBD119&share_app_id=1180")"><i class="icon icon-tiktok"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer End-->

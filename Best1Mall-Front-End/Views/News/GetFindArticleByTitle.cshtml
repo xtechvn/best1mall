@@ -1,0 +1,52 @@
+﻿@using HuloToys_Front_End.Models.News;
+@using HuloToys_Front_End.Utilities.Lib;
+@using HuloToys_Front_End.Utilities;
+@model List<ArticleRelationModel>
+@if (Model != null)
+{
+    <div class="list-news">
+        @foreach (var item in Model)
+        {
+            string link = @Html.GetStaticUrlNews(item.Title, item.Id);
+            <div class="item-news">
+                <div class="box-news">
+                    <div class="thumb-art">
+                        <div class="thumb thumb-news">
+                            <a href="@link">
+                                <img src="@(item.Image)" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="right-content">
+                        <div class="flex-cat">
+                            <span class="time">
+                                <i class="icon icon-time"></i>
+                                @item.publish_date.ToString("dd/MM/yyyy") |   @item.category_name
+                            </span>
+                        </div>
+                        <h2 class="title-news">
+                            <a href="@link">
+                                @item.Title
+                            </a>
+                        </h2>
+                        <p class="description">
+                            @item.Lead
+                        </p>
+                        <a href="@link" class="xemthem">Đọc tiếp</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div> 
+}
+else
+{
+    <div class="search-null center mb40">
+        <div class="mb24">
+            <img src="/assets/images/graphics/icon-search.png" alt="">
+        </div>
+        <h2 class="title txt_24">Không tìm thấy kết quả</h2>
+        <div class="gray">Chúng tôi không tìm thấy thông tin mà bạn cần, vui lòng thử lại</div>
+    </div>
+}
+

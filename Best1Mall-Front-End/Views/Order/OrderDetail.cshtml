@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "Chi tiết đơn hàng | Hulotoys";
+    Layout = "~/Views/Shared/_AccountManagementLayout.cshtml";
+    string data_id = (string)ViewBag.Id;
+}
+@Html.AntiForgeryToken()
+<input id="order-detail" style="display:none;" value="@data_id" />
+<div class="wrap-order-details">
+    <a href="/order" class="link-back">Quay lại đơn hàng của tôi</a>
+    <div id="process-step-refund" class="process-wrap process-wrap-2">
+        <div class="process-main">
+            <div class="item active progress-start-refund">
+                <div class="process-step-cont">
+                    <div class="process-step step-1">
+                        <i class="icon icon-dolar"></i>
+                    </div>
+                    <span class="process-label">Yêu cầu hoàn tiền</span>
+                    <span class="date-time">09:00 7/1/2023</span>
+                </div>
+            </div>
+            <div class="item progress-refunded">
+                <div class="process-step-cont">
+                    <div class="process-step step-2">
+                        <i class="icon icon-cashback"></i>
+                    </div>
+                    <span class="process-label">Hoàn tiền</span>
+                    <span class="date-time">09:00 7/1/2023</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="process-step-order" class="process-wrap process-wrap-4">
+        <div class="process-main">
+            <div class="item active progress-confirmed">
+                <div class="process-step-cont">
+                    <div class="process-step step-1">
+                        <i class="icon icon-text"></i>
+                    </div>
+                    <span class="process-label">Đơn hàng đã đặt</span>
+                    <span class="date-time">09:00 7/1/2023</span>
+                </div>
+            </div>
+            <div class="item active progress-payment">
+                <div class="process-step-cont  ">
+                    <div class="process-step step-2">
+                        <i class="icon icon-cashback"></i>
+                    </div>
+                    <span class="process-label">Đã thanh toán</span>
+                    <span class="date-time">09:00 7/1/2023</span>
+                </div>
+            </div>
+            <div class="item active  progress-delivering">
+                <div class="process-step-cont">
+                    <div class="process-step step-3 ">
+                        <i class="icon icon-ship"></i>
+                    </div>
+                    <span class="process-label">Đang giao hàng</span>
+                    <span class="date-time">09:00 7/1/2023</span>
+                </div>
+            </div>
+            <div class="item progress-received">
+                <div class="process-step-cont">
+                    <div class="process-step step-4  ">
+                        <i class="icon icon-box"></i>
+                    </div>
+                    <span class="process-label">Đã nhận được hàng </span>
+                    <span class="date-time">09:00 7/1/2023</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action">
+        <a href="javascript:;" class="btn btn-base btn-buy-again">Mua lại</a>
+        <a href="javascript:;" class="btn btn-line btn-review">Đánh giá</a>
+    </div>
+    <div class="box-order-detail">
+        <div class="head-box">
+            <span class="code">Mã đơn hàng: <b id="order-no">NG7668779</b></span>
+            <span class="status">Tình trạng: <span class="high status-name">Trả hàng/Hoàn tiền</span></span>
+            <span class="code">Ngày đặt hàng: <b class="created-time">09:00 23/1/2024</b></span>
+        </div>
+        <div class="list-product-order">
+            <div class="item">
+                <div class="img">
+                    <img id="product-avt" src="/assets/images/product.jpg" alt="" />
+                </div>
+                <div class="info">
+                    <h1 class="name-product">
+                        Gấu Bông Mèo Hoàng Thượng Cosplay, Thú Nhồi Bông An Toàn
+                        Cho Bé
+                    </h1>
+                    <div class="cat">Phân loại hàng: Gấu Trúc, 40cm</div>
+                    <div class="flex-quantity">
+                        <span>Giá: 899.000đ</span>
+                        <span>Số lượng:1</span>
+                    </div>
+                    <p class="price">890.000đ</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="box-info-address">
+            <div class="user">
+                <h3 class="name-user">Nguyễn Văn A</h3>
+                <p class="add">
+                    Địa chỉ: Tầng 10, Tòa A FPT Tower, số 10 Phạm Văn Bạch, Dịch Vọng, Cầu
+                    Giấy, Hà Nội
+                </p>
+                <p class="tel">Điện thoại:0923832323</p>
+                <a href="javascript:;" data-id="@data_id" class="update-add update-address-order">Cập nhật</a>
+            </div>
+            <div class="table-order">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Hình thức thanh toán</td>
+                            <td class="payment-type">Thanh toán bằng ATM</td>
+                        </tr>
+                        <tr>
+                            <td>Tiền hàng:</td>
+                            <td class="amount-before-discount">809.890 đ</td>
+                        </tr>
+                        <tr>
+                            <td>Phí vận chuyển</td>
+                            <td class="delivery-fee">33.000 đ</td>
+                        </tr>
+                        <tr>
+                            <td>Giảm giá:</td>
+                            <td class="discount-fee">-120.0000 đ</td>
+                        </tr>
+                        <tr>
+                            <td>Tổng tiền</td>
+                            <td class="price total-amount">779.000 đ</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="action">
+                    <a href="javascript:;" class="btn btn-base btn-buy-again">Mua lại</a>
+                    <a href="javascript:;" class="btn btn-line btn-review">Đánh giá</a>
+                </div>
+                <div class="action">
+                    <a href="javascript:;" class="btn btn-line">Liên hệ người bán</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="/modules/address_client.js" asp-append-version="true"></script>
+
+    <script type="text/javascript" src="/modules/order_detail.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/modules/order_address.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/modules/order_raiting.js" asp-append-version="true"></script>
+
+}

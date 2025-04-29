@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>HuloToys_Front_End</RootNamespace>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Utilities\Common\" />
+    <Folder Include="FilterAttribute\" />
+    <Folder Include="ViewComponents\Home\" />
+
+    <Folder Include="Utilities\Common\" />
+    <Folder Include="FilterAttribute\" />
+    <Folder Include="ViewComponents\Home\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\modules\address_client.js" />
+    <None Include="wwwroot\modules\feedback.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.12" />
+    <PackageReference Include="MongoDB.Bson" Version="2.28.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
+  </ItemGroup>
+
+</Project>

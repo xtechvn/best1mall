@@ -1,0 +1,314 @@
+﻿@using HuloToys_Front_End.Models.Products
+@{
+    ViewData["Title"] = "Tìm kiếm sản phẩm";
+    string keyword = (string)ViewBag.Keyword;
+    string static_url = (string)ViewBag.Static;
+}
+@model ProductGlobalSearchResponseModel
+<partial name="_BannerLarge" />
+
+<section class="section-product">
+    <input style="display:none;" id="kw" value="@keyword"  />
+    <div class="container">
+        <div class="wrap-list-product" id="productList">
+            <div class="left-sidebar">
+                <div id="closeFilter" class="close"><i class="icon icon-close"></i></div>
+                <div class="box-filter">
+                    <h3 class="tt-filter danhmuc">Danh mục sản phẩm</h3>
+                    <ul class="list-filter">
+                        @if (Model != null && Model.groups != null && Model.groups.Count > 0)
+                        {
+                            foreach (var g in Model.groups)
+                            {
+                                <li data-group-id="@g.id">
+                                    <a href="javascript:;">@g.name</a>
+                                </li>
+                            }
+
+                        }
+                    </ul>
+                </div>
+                <div class="box-filter">
+                    <h3 class="tt-filter danhgia">Đánh giá</h3>
+                    <ul class="list-filter-star">
+                        <li>
+                            <a href="javascript:;">
+                                <span class="list-star " data-star="0">
+                                    <i class="icon icon-star"></i>
+                                    <i class="icon icon-star"></i>
+                                    <i class="icon icon-star"></i>
+                                    <i class="icon icon-star"></i>
+                                    <i class="icon icon-star"></i>
+                                </span>
+                                <span class="des">(Tất cả)</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="box-filter">
+                    <h3 class="tt-filter gia">Giá</h3>
+                    <div>
+                        @{
+                            double? max = 0;
+                            if (Model != null && Model.data != null && Model.data.items != null && Model.data.items.Count > 0)
+                            {
+                                var list = Model.data.items.Where(x => x.amount_min!=null && x.amount_min > 0).Select(x => (double)x.amount_min).ToList();
+                                if(list!=null && list.Count > 0)
+                                {
+                                    list.AddRange(Model.data.items.Where(x => x.amount_min == 0).Select(x => x.amount));
+                                    max = list.OrderByDescending(x => x).First();
+                                }
+
+                            }
+                        }
+                        <div class="flex-form">
+                            <input type="text" value="0" />
+                            <i class="icon icon-arrow-right"></i>
+                            <input type="text" value="@(max!=null ? ((double)max).ToString("N0"):"")" />
+                        </div>
+                    </div>
+                </div>
+                <div class="box-filter">
+                    <h3 class="tt-filter thuonghieu">Thương hiệu</h3>
+                    <ul class="list-filter">
+                        @if (Model != null && Model.brands != null && Model.brands.Count > 0)
+                        {
+                            foreach (var b in Model.brands)
+                            {
+                                <li data-group-id="@b.value">
+                                    <a href="javascript:;">@b.value</a>
+                                </li>
+                            }
+
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="product-category">
+                <button class="btn-filter">Bộ lọc</button>
+                <div class="list-product">
+                    @if (Model != null && Model.data != null && Model.data.items != null && Model.data.items.Count > 0)
+                    {
+                        foreach (var p in Model.data.items)
+                        {
+                            <div class="item-product">
+                                <a href="/san-pham/@(HuloToys_Front_End.Utilities.Lib.StringHelpers.ConvertNewsUrlToNoSymbol(p.name))--@p._id">
+                                    <div class="box-thumb">
+                                        <div class="thumb-product">
+                                            <img src="@(p.avatar.StartsWith(static_url) || p.avatar.Contains("data:images") || p.avatar.Contains("base64")? p.avatar: static_url+p.avatar)" alt="" />
+                                        </div>
+                                    </div>
+                                    <div class="box-info">
+                                        <h3 class="name-product">@p.name</h3>
+                                        <div class="flex-price">
+                                            @{
+                                                string label_price = p.amount.ToString("N0");
+
+                                                if (p.amount_min != null && p.amount_max != null && p.amount_min > 0 && p.amount_max > 0)
+                                                {
+                                                    if (p.amount_min >= p.amount_max)
+                                                    {
+                                                        label_price = ((double)p.amount_min).ToString("N0");
+                                                    }
+                                                    else
+                                                    {
+                                                        label_price = ((double)p.amount_min).ToString("N0") + " - " + ((double)p.amount_max).ToString("N0");
+
+                                                    }
+                                                }
+                                            }
+                                            <div class="price-sale">@label_price</div>
+                                            <div class="review">@p.star<i class="icon icon-star"></i>@* <span class="total-review">(322)</span> *@</div>
+                                        </div>
+                                       @*  <div class="price-old" >
+                                            So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                            <div class="info-detail">
+                                                Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                                được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                            </div>
+                                        </div> *@
+                                    </div>
+                                </a>
+                            </div>
+                        }
+
+                    }
+                </div>
+                <div class="wrap-paging" data-count="@((Model != null && Model.data != null && Model.data.count > 0) ? Model.data.count : "0")">
+                    @if (Model != null && Model.data != null && Model.data.count > 0)
+                    {
+                       @await Component.InvokeAsync("Paging", new HuloToys_Front_End.ViewModels.PagingFeViewModel()
+                       {
+                           function_name = "global_search.DetailPaging",
+                           max_page = (int)(Model.data.count / 12),
+                           page = 1,
+                           total_count = Model.data.count
+                       })
+                    }
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@* <div class="section-category">
+    <div class="container">
+        <div class="list-product-category">
+            <div class="title-box">
+                <h3 class="name-tt"><a href="javascript:;">SẢN PHẨM BẠN ĐÃ XEM</a></h3>
+                <a href="javascript:;" class="xemthem">Xem thêm</a>
+            </div>
+            <div class="product-category">
+                <div class="list-product scroll-product">
+                    <div class="item-product">
+                        <a href="javascript:;">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="./assets/images/product.jpg" alt="" />
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="javascript:;">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="./assets/images/product.jpg" alt="" />
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="javascript:;">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="./assets/images/product.jpg" alt="" />
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="javascript:;">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="./assets/images/product.jpg" alt="" />
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="javascript:;">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="./assets/images/product.jpg" alt="" />
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="javascript:;">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="./assets/images/product.jpg" alt="" />
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> *@
+
+
+@section Scripts 
+{
+    <script type="text/javascript" src="/modules/global_search.js"</script>
+
+}

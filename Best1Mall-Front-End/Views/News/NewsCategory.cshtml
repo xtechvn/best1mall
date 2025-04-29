@@ -1,0 +1,11 @@
+﻿@using HuloToys_Front_End.Models.News;
+@model List<GetCategoryResponse>
+@if(Model != null)
+{
+    <li> <a onclick="_new.getNewsByTag(1,10,@ViewBag.category_id,'tin-tuc')" href="tin-tuc" data-id="@ViewBag.category_id" class="cat-tag  tag_@ViewBag.category_id">Tất cả</a></li>
+    foreach(var item in Model)
+    {
+        <li> <a onclick="_new.getNewsByTag(1,10,@item.id,'@item.url_path')" href="javascript:;" data-id="@item.id" class="cat-tag tag_@item.id">@item.name</a></li>
+       @*  <li> <a onclick="_new.getNewsByTag(1,10,@item.id)" href="@item.url_path" data-id="@item.id" class="cat-tag tag_@item.id">@item.name</a></li> *@
+    }
+}

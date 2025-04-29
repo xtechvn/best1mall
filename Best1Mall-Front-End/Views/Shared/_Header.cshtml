@@ -1,0 +1,109 @@
+﻿@{
+    Layout = null;
+}
+<!-- Header Start -->
+<header class="header">
+    <div class="topbar">
+        <div class="container">
+            <div class="wrap_topbar">
+                <div class="left_topbar">
+                    <a href="/cham-soc-khach-hang"><i class="icon icon-hotro"></i>Hỗ trợ</a>
+                    <a href=""><i class="icon icon-hotline"></i>Hotline: 036 5809 316</a>
+                    <a href="/tin-tuc"><i class="icon icon-news"></i>Tin tức</a>
+                </div>
+                <div class="right_topbar" id="New_newDate" onload="_load_new_date.loadnew()">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mainheader">
+        <div class="container">
+            <div class="wrap_mainheader">
+                <div class="logo">
+                    <a href="/"><img src="/assets/images/logo.png" alt=""></a>
+
+                </div>
+                <div class="form-search">
+                    @await Component.InvokeAsync("Search")
+
+
+                </div>
+                <div class="right-mainheader">
+                    <ul class="list-action">
+                        <li>
+                            <a href="/dong-gop-y-kien">
+                                <i class="icon icon-comment"></i>
+                                <span class="name">Đóng góp ý kiến</span>
+                            </a>
+                        </li>
+                        <li class="notification">
+                            <a href="">
+                                <i class="icon icon-notifi"></i>
+                                <span class="badge">10</span>
+                                <span class="name">Thông báo</span>
+                            </a>
+                            <!-- Thông báo -->
+                            <div class="box-noti">
+                                <h3 class="title">Thông báo</h3>
+                                <div class="list-noti">
+                                    <div class="item">
+                                        <div class="thumb-noti">
+                                            <a href=""><img src="/assets/images/product.jpg" alt=""></a>
+                                        </div>
+                                        <div class="des">
+                                            <a href="">
+                                                <h3 class="title-noti">
+                                                    Giao kiện hàng thành công
+                                                </h3>
+                                                <p>
+                                                    Kiện hàng <b>VN123456789</b> của đơn hàng <b>123456789</b> đã giao
+                                                    thành
+                                                    công đến bạn
+                                                </p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="item readed">
+                                        <div class="thumb-noti">
+                                            <a href=""> <img src="/assets/images/product.jpg" alt=""></a>
+                                        </div>
+                                        <div class="des">
+                                            <a href="">
+                                                <h3 class="title-noti">
+                                                    Giao kiện hàng thành công
+                                                </h3>
+                                                <p>
+                                                    Kiện hàng <b>VN123456789</b> của đơn hàng <b>123456789</b> đã giao
+                                                    thành
+                                                    công đến bạn
+                                                </p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="" class="xemtatca">Xem tất cả</a>
+                            </div>
+                        </li>
+                        <li id="carts">
+                            <a href="javascript:;" onclick="global_service.GotoCart()">
+                                <i class="icon icon-cart"></i>
+                                <span class="badge">0</span>
+                                <span class="name">Giỏ hàng</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="client-login" href="javascript:;" data-id="#dangnhap">
+                                <i class="icon icon-user"></i>
+                                <span id="client-account-name" class="name account-name">Tài khoản</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Header End -->
+

@@ -1,0 +1,420 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Giỏ hàng | Hulotoys";
+
+}
+<section class="section-cart placeholder" style="margin-bottom:100px;">
+    <div class="container">
+        <div class="breadcrumb">
+            <ul>
+                <li><a href="/">Trang chủ</a></li>
+                <li class="active"><a href="javascript:;">Giỏ hàng / Thanh toán</a></li>
+            </ul>
+        </div>
+        <div class="box-cart">
+            <div class="list-addtocart">
+                <div class="shopping-cart">
+                    <div class="column-labels">
+                        <div class="product-checkall">
+                            <div class="box-checkbox">
+                                <input type="checkbox" id="checkbox11" class="checkbox" />
+                                <label class="box-checkbox-all" for="checkbox11"></label>
+                            </div>
+                        </div>
+                        <label class="product-image">Tên sản phẩm <span class="total-sp">(2 sản phẩm)</span></label>
+                        <label class="product-price">Đơn giá</label>
+                        <label class="product-quantity">Số lượng</label>
+                        <label class="product-line-price">Thành tiền</label>
+                        <label class="product-removal"></label>
+                    </div>
+                    <div class="table-addtocart">
+                        <div class="product">
+                            <div class="product-checkall">
+                                <div class="box-checkbox">
+                                    <input type="checkbox" id="checkbox12" class="checkbox" />
+                                    <label for="checkbox12"></label>
+                                </div>
+                            </div>
+                            <div class="product-image">
+                                <img class="thumb-product" src="/assets/images/product.jpg" alt="" />
+                                <div class="product-title">
+                                    <h3 class="name-product">
+                                        Gấu Bông Mèo Hoàng Thượng Cosplay, Thú Nhồi Bông An Toàn
+                                        Cho Bé
+                                    </h3>
+                                    <p class="product-description">Phân loại: Gấu trúc, Kích thước: 60cm</p>
+                                </div>
+
+                            </div>
+                            <div class="product-price">
+                                <span class="price-one">832.00đ</span>
+                                <span class="price-old">
+                                    932.00đ <span class="percent">6%</span>
+                                    <div class="discount">
+                                        <span class="bg-sale">Giảm 30K</span>
+                                    </div>
+                            </div>
+                            <div class="product-quantity">
+                                <div class="number-input">
+                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
+                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
+                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                            class="plus"></button>
+                                </div>
+                            </div>
+
+                            <div class="product-line-price">25.000đ</div>
+                            <div class="product-removal">
+                                <button class="remove-product">
+                                    Xóa
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product">
+                            <div class="product-checkall">
+                                <div class="box-checkbox">
+                                    <input type="checkbox" id="checkbox12" class="checkbox" />
+                                    <label for="checkbox12"></label>
+                                </div>
+                            </div>
+                            <div class="product-image">
+                                <img class="thumb-product" src="/assets/images/product.jpg" alt="" />
+                                <div class="product-title">
+                                    <h3 class="name-product">
+                                        Gấu Bông Mèo Hoàng Thượng Cosplay, Thú Nhồi Bông An Toàn
+                                        Cho Bé
+                                    </h3>
+                                    <p class="product-description">Phân loại: Gấu trúc, Kích thước: 60cm</p>
+                                </div>
+
+                            </div>
+                            <div class="product-price">
+                                <span class="price-one">832.00đ</span>
+                                <span class="price-old">
+                                    932.00đ <span class="percent">6%</span>
+                                    <div class="discount">
+                                        <span class="bg-sale">Giảm 30K</span>
+                                    </div>
+                            </div>
+                            <div class="product-quantity">
+                                <div class="number-input">
+                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
+                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
+                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                            class="plus"></button>
+                                </div>
+                            </div>
+
+                            <div class="product-line-price">25.000đ</div>
+                            <div class="product-removal">
+                                <button class="remove-product">
+                                    Xóa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="right-cart">
+                <div class="address">
+                    <h4 class="name">
+                        <nw id="address-receivername">Phạm ái phương</nw> <span></span> <nw id="address-phone">098878779</nw>
+                    </h4>
+                    <p class="add"><nw id="address">Tầng 5, tòa nhà Diamond Flower, số 1 Hoàng Đạo Thúy, Hà Nội</nw></p>
+                    <a href="javascript:;" class="edit update-address-order">Thay đổi</a>
+
+                    <a href="javascript:;" id="delivery-shippingtype" class="delivery ">
+                        <span class="tt">Hình thức giao hàng:</span>
+                        <div class="select-delivery select-option active">
+                            <span class="tt">Giao nhanh</span>
+                            
+                        </div>
+                    </a>
+                    <a href="javascript:;" id="delivery-carrier" class="delivery ">
+                        <span class="tt">Đơn vị giao hàng:</span>
+                        <div class="select-delivery select-option active">
+                            <span class="tt">Ninja Van</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="voucher">
+                    <div class="box-tt">
+                        <h4 class="tt"><img src="/assets/images/icon-vc.png" alt="" />Mã voucher:</h4>
+                        <a href="" class="choose-voucher">Chọn hoặc nhập mã Khuyễn mãi khác</a>
+                    </div>
+                    <div class="voucher-add">
+                        <div class="img"><img src="/assets/images/voucher.png" alt="" /></div>
+                        <div class="info">
+                            <h4 class="name">Giảm đậm gơn 20%<i class="icon icon-info"> </i></h4>
+
+                        </div>
+                        <a href="" class="remove-voucher">Bỏ chọn</a>
+                    </div>
+                </div>
+                <div class="pay">
+                    <span class="tt">Phương thức thanh toán:</span>
+                    <div class="select-option select-bank">
+                        <span class="tt">Chuyển khoản qua ngân hàng </span>
+                      
+                    </div>
+                </div>
+                <div class="total-cart">
+                    <div class="flex-total total-amount">
+                        <div class="tt">Tiền hàng</div>
+                        <div class="pr">3.000.000đ</div>
+                    </div>
+                    <div class="flex-total total-shipping-fee">
+                        <div class="tt">Phí vận chuyển</div>
+                        <div class="pr">0đ</div>
+                    </div>
+                    <div class="flex-total total-discount" style="display:none;">
+                        <div class="tt">Giảm giá</div>
+                        <div class="pr">-3.000đ</div>
+                    </div>
+                    <div class="bt-total total-final-amount">
+                        <div class="flex-total">
+                            <div class="tt">Tổng tiền</div>
+                            <div class="pr">3.000.000đ</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="javascript:;" class="btn btn-base btn-confirm btn-confirm-cart">XÁC NHẬN THANH TOÁN</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Box xác nhận xóa-->
+<div id="lightbox-delete-cart" class="overlay form-noti" style="margin-top:50px;">
+    <div class="popup">
+        <a class="close" href="javascript:;">
+            <i class="icon icon-close"></i>
+        </a>
+        <div class="content">
+            <h4 class="title-popup">Cập nhật thông tin giao hàng</h4>
+            <p style="font-size:14px;color:red;">Sản phẩm này sẽ bị xóa khỏi giỏ hàng, bạn có chắc chắn không?</p>
+            <form>
+                <div class="action">
+                    <a href="javascript:;" class="btn btn-back">Hủy</a>
+                    <a href="javascript:;" class="btn btn-base btn-save">Xác nhận</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Box không thành công-->
+
+<div id="lightbox-cannot-add-cart" class="overlay form-noti" style="margin-top:50px;text-align: -webkit-center;">
+    <div class="popup">
+        <a class="close" href="javascript:;">
+            <i class="icon icon-close"></i>
+        </a>
+        <div class="content">
+            <div class="box-payment box-pending">
+                <a class="close" href="javascript:;">
+                    <i class="icon icon-close"></i>
+                </a>
+                <img class="img-check" src="/assets/images/icon-err.png" alt="" />
+                <h2 class="title-box">Xác nhận thanh toán không thành công </h2>
+                <div class="info-order">
+                    <p class="notification-content">
+                       Có lỗi xảy ra trong quá trình xác nhận thông tin
+                    </p>
+                    <br />
+                    <p>
+                        Hãy gọi :<sapn class="tel"> 1900.633.376</sapn> để được hỗ trợ
+                    </p>
+
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Chọn Chọn hình thức giao hàng  -->
+<div id="hinhthucgiaohang" class="overlay form-voucher">
+    <div class="popup">
+        <a class="close" href="#">
+            <i class="icon icon-close"></i>
+        </a>
+        <div class="content">
+            <h4 class="title-popup">Chọn hình thức giao hàng</h4>
+            <div class="list-giaohang">
+                @* <div class="item">
+                    <h3 class="title">Giao hàng Nhanh </h3>
+                    <div class="answer">
+                        <ul>
+                            <li class="active">
+                                <div class="box-select-ship">
+                                    <div class="name">Giao nhanh</div>
+                                    <div class="des">Đảm bảo nhận hàng từ 1 tháng 11 - 4 tháng 11</div>
+                                </div>
+                                <span class="price">32.900đ</span>
+                            </li>
+                            <li>
+                                <div class="box-select-ship">
+                                    <div class="name">Giao hỏa tốc</div>
+                                    <div class="des">Đảm bảo nhận hàng sau 2h</div>
+                                </div>
+                                <span class="price">32.900đ</span>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="item">
+                    <h3 class="title">Viettel post</h3>
+                    <div class="answer">
+                        <ul>
+                            <li class="active">
+                                <div class="box-select-ship">
+                                    <div class="name">Giao nhanh</div>
+                                    <div class="des">Đảm bảo nhận hàng từ 1 tháng 11 - 4 tháng 11</div>
+                                </div>
+                                <span class="price">32.900đ</span>
+                            </li>
+                            <li>
+                                <div class="box-select-ship">
+                                    <div class="name">Giao hỏa tốc</div>
+                                    <div class="des">Đảm bảo nhận hàng sau 2h</div>
+                                </div>
+                                <span class="price">32.900đ</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="item">
+                    <h3 class="title">J&T Express</h3>
+                    <div class="answer">
+                        <ul>
+                            <li class="active">
+                                <div class="box-select-ship">
+                                    <div class="name">Giao nhanh</div>
+                                    <div class="des">Đảm bảo nhận hàng từ 1 tháng 11 - 4 tháng 11</div>
+                                </div>
+                                <span class="price">32.900đ</span>
+                            </li>
+                            <li>
+                                <div class="box-select-ship">
+                                    <div class="name">Giao hỏa tốc</div>
+                                    <div class="des">Đảm bảo nhận hàng sau 2h</div>
+                                </div>
+                                <span class="price">32.900đ</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div> *@
+                <div class="item" data-carrier-id="1">
+                    <h3 class="title">Ninja van</h3>
+                    <div class="answer" style="display:block;">
+                        <ul>
+                            <li data-shipping-type="1">
+                                <div class="box-select-ship">
+                                    <div class="name">Giao nhanh</div>
+                                    <div class="des">Nhận hàng trong 2-7 ngày </div>
+                                </div>
+                                <span class="price placeholder">_______________</span>
+                            </li>
+                            <li class="force-payment-cod shipping-fee-cod" data-shipping-type="5">
+                                <div class="box-select-ship">
+                                    <div class="name">Thanh toán khi nhận hàng(COD)</div>
+                                    <div class="des">Nhận hàng trước, trả tiền sau</div>
+                                </div>
+                                <span class="price">_______________</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="item" data-carrier-id="1">
+                    <h3 class="title active">Lấy tại cửa hàng</h3>
+                    <div class="answer" style="display:block;">
+                        <ul>
+                            <li class="active active-delivery" data-shipping-type="2">
+                                <div class="box-select-ship">
+                                    <div class="name">Nhận hàng tại cửa hàng</div>
+                                    <div class="des">Nhận hàng tại chi nhánh Hà Nội</div>
+                                </div>
+                                <span class="price">0đ</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="action">
+            <a href="javascript:;" class="btn btn-back">Trở lại</a>
+            <a href="javascript:;" class="btn btn-base btn-save">OK</a>
+        </div>
+    </div>
+</div>
+
+<!-- Chọn Phương thức thanh toán -->
+<div id="phuongthucthanhtoan" class="overlay form-voucher">
+    <div class="popup">
+        <a class="close" href="#">
+            <i class="icon icon-close"></i>
+        </a>
+        <div class="content">
+            <h4 class="title-popup">Chọn hình thức thanh toán</h4>
+            <ul class="list-option select-bank">
+                <li class="item">
+                    <div class="choose">
+                        <div class="box-radio">
+                            <input class="radio" id="radio1" name="payment_type" type="radio" value="1">
+                            <label for="radio1">
+                                <img src="./assets/images/icon/COD_Dou.svg" alt="" />
+                                Thanh toán khi nhận hàng(COD)
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="choose">
+                        <div class="box-radio">
+                            <input class="radio" id="radio2" name="payment_type" type="radio" value="2" checked>
+                            <label for="radio2">
+                                <img src="./assets/images/icon/Bank_Dou.svg" alt="" />
+                                Chuyển khoản qua ngân hàng
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="choose">
+                        <div class="box-radio">
+                            <input class="radio" id="radio3" name="payment_type" type="radio" value="4">
+                            <label for="radio3">
+                                <img src="./assets/images/icon/QR_Dou.svg" alt="" />Thanh
+                                toán QR-PAY
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="choose">
+                        <div class="box-radio">
+                            <input class="radio" id="radio4" name="payment_type" type="radio" value="3">
+                            <label for="radio4">
+                                <img src="./assets/images/icon/MasterCard_Dou.svg" alt="" />Thẻ
+                                Visa - Master
+                                Card
+                            </label>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="action">
+            <a href="javascript:;" class="btn btn-back">Trở lại</a>
+            <a href="javascript:;" class="btn btn-base btn-save">Xác nhận</a>
+        </div>
+    </div>
+</div>
+</div>
+@section Scripts {
+    <script type="text/javascript" src="/modules/cart.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/modules/order_address.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/modules/address_client.js" asp-append-version="true"></script>
+
+}

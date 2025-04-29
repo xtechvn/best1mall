@@ -1,0 +1,182 @@
+﻿@using HuloToys_Front_End.ViewModels;
+@using HuloToys_Front_End.Utilities;
+@model ArticleViewModel
+@{
+    int d = 0;
+    int category_id = Model.category_id;
+}
+
+<div class="list-news-top list-news" id="article" style="display: flex; gap: 5%; ">
+    <!-- MAIN ARTICLE - 65% -->
+    <div class="top-news" style="width: 65%;">
+        @{
+            // Lấy bài ghim position = 1
+            var mainArticles = Model.obj_article_list
+            .Where(a => a.status == 0 && a.position == 1)
+            .OrderByDescending(a => a.publish_date)
+            .Take(1)
+            .ToList();
+
+            // Fallback: nếu không có bài position 1, lấy bài position 0 mới nhất
+            if (!mainArticles.Any())
+            {
+                var excludeIds = new List<long>();
+                excludeIds.AddRange(mainArticles.Select(x => x.id));
+
+                mainArticles = Model.obj_article_list
+                .Where(a => a.status == 0 && a.position == 0 && !excludeIds.Contains(a.id))
+                .OrderByDescending(a => a.publish_date)
+                .Take(1)
+                .ToList();
+            }
+        }
+
+        @foreach (var item in mainArticles)
+        {
+            string folder_name = item.list_category_name.Split(",").First();
+            int folder_id = Convert.ToInt32(item.list_category_id.Split(",").First());
+            string link_folder = @Html.GetStaticUrlCategory(folder_name, folder_id);
+            string link = @Html.GetStaticUrlNews(item.title, item.id);
+            <div class="item-news" style="margin-bottom: 30px;">
+                <div class="box-news" id="article-1">
+                    <a href="@link">
+                        <img src="@item.image_169" alt="@item.title" style="width: 100%; border-radius: 10px;" />
+                    </a>
+                    <div class="right-content" style="padding-top: 15px;">
+                        <div class="flex-cat" style="margin-bottom: 8px; color: #999; font-size: 14px;">
+                            <i class="icon icon-time"></i> @item.publish_date.ToString("dd/MM/yyyy")
+                            @if (category_id <= 0)
+                            {
+                                <span style="margin-left: 10px;">| <a href="@link_folder" class="cat-tag">@folder_name</a></span>
+                            }
+                        </div>
+                        <h2 class="title-news" style="font-size: 22px; font-weight: bold; line-height: 1.4;">
+                            <a href="@link" style="color: #003366; text-decoration: none;">@item.title</a>
+                        </h2>
+                        <p class="description" style="font-size: 16px; color: #444; line-height: 1.6; margin-top: 10px;">
+                            @item.lead
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- SIDE ARTICLES - 25% -->
+    <div class="next-news" style="width: 25%;">
+        @{
+            // Lấy bài position = 2,3
+            var sideArticles = Model.obj_article_list
+            .Where(a => a.status == 0 && (a.position == 2 || a.position == 3))
+            .GroupBy(a => a.position)
+            .Select(g => g.OrderByDescending(a => a.publish_date).First())
+            .ToList();
+
+            // Nếu chưa đủ 2 bài => bổ sung bài thường (position = 0)
+            if (sideArticles.Count < 2)
+            {
+                var excludeIds = sideArticles.Select(x => x.id).ToList();
+                excludeIds.AddRange(mainArticles.Select(x => x.id));
+
+                var additionalArticles = Model.obj_article_list
+                .Where(a => a.status == 0 && a.position == 0 && !excludeIds.Contains(a.id))
+                .OrderByDescending(a => a.publish_date)
+                .Take(2 - sideArticles.Count)
+                .ToList();
+
+                sideArticles.AddRange(additionalArticles);
+            }
+
+            // Sắp xếp ưu tiên: 2 > 0 > 3
+            sideArticles = sideArticles
+            .OrderBy(a => a.position == 2 ? 0 : (a.position == 0 ? 1 : 2))
+            .ThenByDescending(a => a.publish_date)
+            .ToList();
+        }
+
+        @for (int i = 0; i < sideArticles.Count; i++)
+        {
+            var item = sideArticles[i];
+            string folder_name = item.list_category_name.Split(",").First();
+            int folder_id = Convert.ToInt32(item.list_category_id.Split(",").First());
+            string link_folder = @Html.GetStaticUrlCategory(folder_name, folder_id);
+            string link = @Html.GetStaticUrlNews(item.title, item.id);
+            <div class="item-news" style="margin-bottom: 20px;">
+                <!-- ĐÃ CHỈNH FLEX DỌC -->
+                <div class="box-news" id="article-@(i + 2)" style="display: flex; flex-direction: column; gap: 10px;">
+                    <div class="thumb thumb-news" style="width: 100%;">
+                        <a href="@link">
+                            <img src="@item.image_169" alt="@item.title" style="width: 100%; border-radius: 6px;" />
+                        </a>
+                    </div>
+                    <div class="right-content">
+                        <div class="flex-cat" style="font-size: 13px; color: #999; margin-bottom: 4px;">
+                            <i class="icon icon-time"></i> @item.publish_date.ToString("dd/MM/yyyy")
+                        </div>
+                        <h3 class="title-news" style="font-size: 15px; font-weight: 600; line-height: 1.3;">
+                            <a href="@link" style="color: #003366; text-decoration: none;">@item.title</a>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+<div class="list-news" id="section-article-paginate">
+    @{
+        // var d = 1;
+        // Lấy ID của tất cả bài đã hiển thị ở trên
+        var displayedIds = mainArticles.Select(x => x.id)
+            .Concat(sideArticles.Select(x => x.id))
+            .ToList();
+        
+        // Lấy các bài còn lại, không trùng với bài đã hiển thị
+        var remainingArticles = Model.obj_article_list
+            .Where(a => a.status == 0 && !displayedIds.Contains(a.id))
+            .OrderByDescending(a => a.publish_date)
+            .Take(10);
+    }
+    @foreach (var item in remainingArticles)
+    {
+        string link = @Html.GetStaticUrlNews(item.title, item.id);
+        <div class="item-news">
+            <div class="box-news">
+                <div class="thumb-art">
+                    <div class="thumb thumb-news">
+                        <a href="@link"><img src="@item.image_169" alt="@item.title" /> </a>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="flex-cat">
+                        <span class="time">
+                            <i class="icon icon-time"></i>
+                            @item.publish_date.ToString("dd/MM/yyyy")
+                        </span>
+                    </div>
+                    <h2 class="title-news">
+                        <a href="@link">@item.title</a>
+                    </h2>
+                    <p class="description">
+                        @item.lead
+                    </p>
+                    <a href="@link" class="xemthem">Đọc tiếp</a>
+                </div>
+            </div>
+        </div>
+
+        if (d == 3)
+        {
+            <div class="banner-ads-full">
+                <a href="/">
+                    <img src="~/images/banner3.jpg" alt="Biolife" />
+                </a>
+            </div>
+        }
+        d += 1;
+    }
+</div>

@@ -1,0 +1,72 @@
+﻿@using HuloToys_Front_End.ViewModels;
+@{
+    Layout = null;
+}
+@model PagingFeViewModel
+<ul class="pagination">
+    @if (Model.total_count > 0)
+    {
+        @if (Model.page > 1)
+        {
+            <li class="page first">
+                <a href="javascript:;" onclick="@(Model.function_name+"(1)")"><i class="icon icon-page-first"></i></a>
+            </li>
+        }
+
+        if (Model.page - 1 > 0)
+        {
+            <li class="page previous">
+                <a href="javascript:;" onclick="@(Model.function_name+"("+(Model.page-1)+")")"><i class="icon icon-page-previous"></i></a>
+            </li>
+        }
+
+        if (Model.page - 4 > 0)
+        {
+            <li class="page"><a href="javascript:;" class="disabled button-disabled">...</a></li>
+        }
+        if (Model.page - 3 > 0)
+        {
+            <li class="page"><a href="javascript:;" onclick="@(Model.function_name+"("+(Model.page-3)+")")">@(Model.page - 3)</a></li>
+        }
+        if (Model.page - 2 > 0)
+        {
+            <li class="page"><a href="javascript:;" onclick="@(Model.function_name+"("+(Model.page-2)+")")">@(Model.page - 2)</a></li>
+        }
+        if (Model.page - 1 > 0)
+        {
+            <li class="page"><a href="javascript:;" onclick="@(Model.function_name+"("+(Model.page-1)+")")">@(Model.page - 1)</a></li>
+        }
+        <li class="page active"><a href="javascript:;" onclick="@(Model.function_name+"("+(Model.page)+")")">@(Model.page)</a></li>
+
+        if (Model.page + 1 <= Model.max_page)
+        {
+            <li class="page"><a href="javascript:;" onclick="@(Model.function_name+"("+(Model.page+1)+")")">@(Model.page + 1)</a></li>
+        }
+        if (Model.page + 2 <= Model.max_page)
+        {
+            <li class="page"><a href="javascript:;" onclick="@(Model.function_name+"("+(Model.page+2)+")")">@(Model.page + 2)</a></li>
+        }
+        if (Model.page + 3 <= Model.max_page)
+        {
+            <li class="page"><a href="javascript:;" onclick="@(Model.function_name+"("+(Model.page+3)+")")">@(Model.page + 3)</a></li>
+        }
+        if (Model.page + 4 <= Model.max_page)
+        {
+            <li class="page"><a href="javascript:;" class="disabled button-disabled">...</a></li>
+        }
+        if (Model.page + 1 < Model.max_page)
+        {
+            <li class="page next">
+                <a href="javascript:;" onclick="@(Model.function_name+"("+(Model.page+1)+")")"><i class="icon icon-page-next"></i></a>
+
+            </li>
+        }
+        if (Model.page < Model.max_page)
+        {
+            <li class="page last">
+                <a onclick="@(Model.function_name+"("+(Model.max_page)+")")" href="javascript:;"><i class="icon icon-page-last"></i></a>
+            </li>
+        }
+    }
+
+</ul>

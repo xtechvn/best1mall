@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Tin tức";
+}
+@model ArticleDetailModel
+
+<section class="section-news section-news-detail">
+    <div class="container">
+        <div class="wrap-news cat-menu">
+            @await Component.InvokeAsync("MenuNews")
+        </div>
+        <div class="wrap-news">
+            <div class="content">
+
+                @*  <div class="flex-cat">
+                     class="cat-tag">Đồ chơi</a>
+                </div> *@
+                <h1 class="title-news">@Html.Raw(Model.title)</h1>
+                <div class="details">
+                    <p class="Normal">
+                        @Html.Raw(Model.lead)
+                    </p>
+                    @Html.Raw(Model.body)
+                </div>
+                <div class="link-share">
+                    <span>Chia sẻ:</span>
+                    <ul>
+                        <li><a href="/"><img src="~/images/facebook.png" alt="" /></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="siderbar-news">
+                <div class="box-side box-side-ads">
+                    <img src="~/images/banner-news.png" alt="" />
+                </div>
+                <div class="siderbar-news">
+                    <div class="box-side">
+                        <h3 class="title">
+                            XEM NHIỀU NHẤT
+                        </h3>
+                        <div class="list-news" id="Most_Viewed_Article">
+                        </div>
+                    </div>
+                    @*<div class="box-side">
+                            <h3 class="title">
+                                SẢN PHẨM KHUYẾN MÃI
+                            </h3>
+                            <div class="list-product" id="list_new_Sale">
+
+                            </div>
+                        </div>*@
+                </div>
+
+                <div class="box-side box_product_sale">
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-category product_history">@*wwwroot\js\header\main.js*@</section>
+
+
+
+
+@section scripts {
+    <script type="text/javascript" src="~/modules/newdetail.js"></script>
+}

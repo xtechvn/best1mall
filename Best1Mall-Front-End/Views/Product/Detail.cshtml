@@ -1,0 +1,751 @@
+﻿@{
+    // ViewData["Title"] = product.name +" | Hulotoys";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var product_code = (string)ViewBag.ProductCode;
+}
+
+<div class="section-details-product" data-code="@product_code">
+    <div class="container">
+        <div class="wrap-details">
+            <div class="gallery-product">
+                <div id="lightgallery" class="img-product swiper thumb-big">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="/assets/images/product.jpg" alt="" />
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/assets/images/product.jpg" alt="" />
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/assets/images/product.jpg" alt="" />
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/assets/images/product.jpg" alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper thumb-small">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="/assets/images/product.jpg" alt="" />
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/assets/images/product.jpg" alt="" />
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/assets/images/product.jpg" alt="" />
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/assets/images/product.jpg" alt="" />
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="/assets/images/product.jpg" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="info-product">
+                <div class="box-name-product">
+                    <h1 class="name-product">Gấu Bông Mèo Hoàng Thượng Cosplay, Thú Nhồi Bông An Toàn Cho Bé</h1>
+                    <div class="like"><i class="icon icon-like"></i></div>
+                    <!-- <div class="like active"><i class="icon icon-like"></i></div> -->
+                </div>
+                <div class="box-review">
+                    <div class="review">
+                        <i class="icon icon-star"></i>
+                        <i class="icon icon-star"></i>
+                        <i class="icon icon-star"></i>
+                        <i class="icon icon-star"></i>
+                        <i class="icon icon-star"></i>
+                        4.8
+                    </div>
+                    <div class="total-sold">1,1k Đã bán</div>
+                    <div class="total-review">687 Đánh giá</div>
+                </div>
+                <div class="box-price">
+                    <span class="price">55.000 - 169.000</span>
+                    <div class="price-old">
+                        So với giá cũ <b>767,009đ</b> <i class="icon icon-info"></i>
+                        <div class="info-detail">
+                            Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                            được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-info-details">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Mã giảm giá</td>
+                                <td>
+                                    <span class="coupon">30% giảm</span>
+                                    <span class="coupon">50% giảm</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Combo khuyến mại</td>
+                                <td> <span class="combo">Mua 3 giảm 50%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Vận chuyển</td>
+                                <td>Miễn phí vận chuyển</td>
+                            </tr>
+                            <tr>
+                                <td>Chính sách đổi trả</td>
+                                <td>Đổi trả trong vòng 3 ngày</td>
+                            </tr>
+                            <tr>
+                                <td>Phân loại</td>
+                                <td>
+                                    <ul class="box-tag">
+                                        <li class="disabled">
+                                            <img src="/assets/images/product.jpg" alt=""> Gấu trúc
+                                        </li>
+                                        <li class="active"><img src="/assets/images/product.jpg" alt="">Ếch xanh</li>
+                                        <li class=""><img src="/assets/images/product.jpg" alt="">Thỏ hồng</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Kích thước</td>
+                                <td>
+                                    <ul class="box-tag">
+                                        <li class="disabled">20cm</li>
+                                        <li class="active">40cm</li>
+                                        <li class="">50cm</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Số lượng:</td>
+                                <td>
+                                    <div class="number-input">
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
+                                        <input class="quantity" min="0" name="quantity" value="1" type="number">
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                    </div>
+
+                                    <span class="soluong">138 sản phẩm có sẵn</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-action">
+                    <a href="javascript:;" class="btn add-cart">Thêm vào giỏ hàng</a>
+                    <a href="javascript:;" class="btn buy-now">Mua ngay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="combo-discount" class="section-category">
+    <div class="container">
+        <div class="list-product-category">
+            <div class="title-box">
+                <h3 class="name-tt"><a href="">COMBO KHUYẾN MÃI</a></h3>
+                <a href="" class="xemthem">Xem thêm</a>
+            </div>
+            <div class="product-category">
+                <div class="list-product scroll-product">
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old" >
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section-description-product">
+    <div class="container">
+        <div class="box-description">
+            <div class="content-comment">
+                <div class="box-des">
+                    <h3 class="title">Chi tiết sản phẩm</h3>
+                    <p>
+                        GẤU BÔNG MÈO HOÀNG THƯỢNG COSPLAY HULO TOYS SIZE 20-50CM, THÚ NHỒI BÔNG AN TOÀN CHO BÉ( •_•
+                        )<br>ĐẶC ĐIỂM NỔI BẬT:<br>- Gấu bông mèo hoàng thượng cho bé Hulo Toys với chất liệu
+                        cotton PP mềm
+                        mại, đàn hồi tốt, không dễ biến dạng sau thời gian sử dụng<br>- Không dụng lông, đảm bảo an
+                        toàn cho
+                        bé<br>- Dùng để trang trí trang trí, ôm, làm quà tặng<br>- Được đóng gói chắn chắn.
+                        Đảm bảo sản
+                        phẩm khi nhận sẽ được mới và giữ được form tốt nhất<br>THÔNG TIN SẢN PHẨM:<br>-
+                        Kích thước:
+                        size 20 không thêu chân, size 20cm và 45cm<br>- Chất liệu: Bông gòn, cotton PP<br>- Phân
+                        loại: Thỏ, Ếch,
+                        Gấu Trúc <br>THÔNG TIN CẢNH BÁO:<br>- Độ tuổi khuyến nghị: Từ 1 tháng<br>HƯỚNG DẪN
+                        SỬ DỤNG<br>:- Mở ra
+                        và chơi thôi <br>^^HULO TOYS XIN CAM KẾT:<br>- Sản phẩm giống hình và mô tả
+                        100%<br>- Nếu bố mẹ
+                        cần gấp thì đặt hàng qua giao hàng hỏa tốc Shopee chúng tớ sẽ đóng và giao hàng
+                        trong vòng vài giờ ^^<br>- Đổi trả, bảo hành sản phẩm nếu có lỗi từ nhà sản
+                        xuất<br>----------------------<br>TIỆM ĐỒ CHƠI CHO BÉ HULO TOYS - CÙNG BÉ PHÁT TRIỂN
+                        TOÀN
+                        DIỆN🚀<br>#gaubong #gaubongmeo #meo #meohoangthuong #dochoi #hulotoys
+                    </p>
+                </div>
+                <div class="box-comment">
+                    <h3 class="title">Đánh giá sản phẩm</h3>
+                    <div class="box-review">
+                        <div class="overview">
+                            <div class="overview__briefing">
+                                <div class="overview__score-wrapper">
+                                    <span class="overview__rating-score">4.7</span>
+                                    <span class="overview__rating-score-out-of"> trên <nw style="font-size:28px;">5</nw> </span>
+                                </div>
+                                <div class="rating-stars overview__stars">
+                                    <div class="rating-stars__stars">
+                                        <i class="icon icon-star"></i>
+                                        <i class="icon icon-star"></i>
+                                        <i class="icon icon-star"></i>
+                                        <i class="icon icon-star"></i>
+                                        <i class="icon half-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="overview__filters">
+                                <div class="overview__filter active">
+                                    Tất
+                                    cả
+                                </div>
+                                <div id="overview_filter_5" class="overview__filter" data-value="5">5 Sao (<nw class="count">0</nw>)</div>
+                                <div id="overview_filter_4" class="overview__filter" data-value="4">4 Sao (<nw class="count">0</nw>)</div>
+                                <div id="overview_filter_3" class="overview__filter" data-value="3">3 Sao (<nw class="count">0</nw>)</div>
+                                <div id="overview_filter_2" class="overview__filter" data-value="2">2 Sao (<nw class="count">0</nw>)</div>
+                                <div id="overview_filter_1" class="overview__filter" data-value="1">1 Sao (<nw class="count">0</nw>)</div>
+                                <div id="overview_filter_hascomment" class="overview__filter" data-value="comment">Có Bình luận (<nw class="count">0</nw>)</div>
+                                <div id="overview_filter_hasmedia" class="overview__filter" data-value="media">Có hình ảnh / video (<nw class="count">0</nw>)</div>
+                            </div>
+
+                        </div>
+                        <div class="product-ratings__list">
+                            <div class="product-comment-list">
+                                <div class="item-commnet">
+                                    <div class="flex-comment">
+                                        <div class="avatar">
+                                            <img src="/assets/images/product.jpg" alt="">
+                                        </div>
+                                        <div class="comment-user">
+                                            <h4 class="name">Nguyễn văn A</h4>
+                                            <div class="review">
+                                                <i class="icon icon-star"></i>
+                                                <i class="icon icon-star"></i>
+                                                <i class="icon icon-star"></i>
+                                                <i class="icon icon-star"></i>
+                                                <i class="icon icon-star"></i>
+                                            </div>
+                                            <div class="meta">
+                                                <span class="time">2024-03-29 11:12</span>
+                                                <span class="cat">Phân loại hàng: Gấu Trúc, 40cm</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="cmt-review">
+                                        Giao hành siu nhanh trong 2h luôn á, nhân viên gọi xác nhận
+                                        order dth, đóng gói đơn giản, tiết kiệm được cái hộp giấy.
+                                    </div>
+                                    <div id="lightgallery" class="img-product">
+
+                                        <a href="/assets/images/product.jpg" data-lg-id="3e1fbec2-9c35-461a-b9cc-79fd1d885438">
+                                            <img src="/assets/images/product.jpg" width="500" height="300">
+                                        </a>
+
+                                        <a data-video="{&quot;source&quot;: [{&quot;src&quot;:&quot;https://static-image.adavigo.com/uploads/videos/2024/10/dceeu5zi.otz.mp4&quot;, &quot;type&quot;:&quot;video/mp4&quot;}],&quot;attributes&quot;: {&quot;preload&quot;: false, &quot;controls&quot;: false}}" data-poster="/assets/images/product.jpg" data-lg-id="94f486d5-5871-40ca-9e21-40d9ed640822">
+                                            <img src="/assets/images/product.jpg" width="500" height="300">
+                                        </a>
+
+                                        <!-- <a data-lg-size="1280-720" data-pinterest-text="Pin it3"
+                                            data-tweet-text="lightGallery slide  4"
+                                            data-video='{"source": [{"src":"https://www.lightgalleryjs.com/videos/video1.mp4", "type":"video/mp4"}], "tracks": [{"src": "https://www.lightgalleryjs.com/videos/title.txt", "kind":"captions", "srclang": "en", "label": "English", "default": "true"}], "attributes": {"preload": false, "controls": true}}'
+                                            data-poster="https://www.lightgalleryjs.com/images/demo/html5-video-poster.jpg"
+                                            data-sub-html="<h4>'Peck Pocketed' by Kevin Herron | Disney Favorite</h4>">
+                                            <img class="img-responsive"
+                                                src="https://www.lightgalleryjs.com/images/demo/html5-video-poster.jpg"
+                                                width="300" />
+                                        </a> -->
+                                    </div>
+                                    <div class="reply-comment">
+                                        <span class="time">2024-03-29 11:12</span>
+                                        <h4 class="name">Nguyễn văn A</h4>
+                                        <div class="cmt">
+                                            Giao hành siu nhanh trong 2h luôn á, nhân viên gọi xác nhận
+                                            order dth, đóng gói đơn giản, tiết kiệm được cái hộp giấy.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-commnet">
+                                    <div class="flex-comment">
+                                        <div class="avatar">
+                                            <img src="/assets/images/product.jpg" alt="">
+                                        </div>
+                                        <div class="comment-user">
+                                            <h4 class="name">Nguyễn văn A</h4>
+                                            <div class="review">
+                                                <i class="icon icon-star"></i>
+                                                <i class="icon icon-star"></i>
+                                                <i class="icon icon-star"></i>
+                                                <i class="icon icon-star"></i>
+                                                <i class="icon icon-star"></i>
+                                            </div>
+                                            <div class="meta">
+                                                <span class="time">2024-03-29 11:12</span>
+                                                <span class="cat">Phân loại hàng: Gấu Trúc, 40cm</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="cmt-review">
+                                        Giao hành siu nhanh trong 2h luôn á, nhân viên gọi xác nhận
+                                        order dth, đóng gói đơn giản, tiết kiệm được cái hộp giấy.
+                                    </div>
+                                    <div class="img-product">
+                                        <img src="/assets/images/product.jpg" alt="">
+                                    </div>
+                                    <div class="reply-comment">
+                                        <span class="time">2024-03-29 11:12</span>
+                                        <h4 class="name">Nguyễn văn A</h4>
+                                        <div class="cmt">
+                                            Giao hành siu nhanh trong 2h luôn á, nhân viên gọi xác nhận
+                                            order dth, đóng gói đơn giản, tiết kiệm được cái hộp giấy.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="wrap-paging">
+                    <a href="" class="xemthem">Xem thêm</a>
+                    <ul class="pagination">
+                        <li class="page first"><a href=""><i class="icon icon-page-first"></i></a></li>
+                        <li class="page previous disabled">
+                            <a href=""><i class="icon icon-page-previous"></i></a>
+                        </li>
+                        <li class="page active"><a href="">1</a></li>
+                        <li class="page"><a href="">2</a></li>
+                        <li class="page"><a href="">...</a></li>
+                        <li class="page"><a href="">3</a></li>
+                        <li class="page next"><a href=""><i class="icon icon-page-next"></i></a></li>
+                        <li class="page last"><a href=""><i class="icon icon-page-last"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="coupon-list">
+                <div class="boxside">
+                    <div class="title-box">Voucher</div>
+                    <div class="list-voucher">
+                        <div class="item">
+                            <div class="img"><img src="/assets/images/voucher.png" alt=""></div>
+                            <div class="info">
+                                <h4 class="name">Giảm đậm gơn 20%</h4>
+                                <p class="date">7/9/2022</p>
+                                <button class="btn save">Lưu</button>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="img"><img src="/assets/images/voucher.png" alt=""></div>
+                            <div class="info">
+                                <h4 class="name">Giảm đậm gơn 20%</h4>
+                                <p class="date">7/9/2022</p>
+                                <button class="btn save">Lưu</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="boxside">
+                    <div class="title-box">Nổi bật</div>
+                    <div class="list-product-most">
+                        <div class="item-product">
+                            <a href="">
+                                <div class="box-thumb">
+                                    <div class="thumb-product">
+                                        <img src="/assets/images/product.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="box-info">
+                                    <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                    <div class="flex-price">
+                                        <div class="price-sale">689,098đ</div>
+                                        <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                    </div>
+                                    <div class="price-old">
+                                        So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                        <div class="info-detail">
+                                            Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                            được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="item-product">
+                            <a href="">
+                                <div class="box-thumb">
+                                    <div class="thumb-product">
+                                        <img src="/assets/images/product.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="box-info">
+                                    <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                    <div class="flex-price">
+                                        <div class="price-sale">689,098đ</div>
+                                        <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                    </div>
+                                    <div class="price-old">
+                                        So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                        <div class="info-detail">
+                                            Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                            được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="item-product">
+                            <a href="">
+                                <div class="box-thumb">
+                                    <div class="thumb-product">
+                                        <img src="/assets/images/product.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="box-info">
+                                    <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                    <div class="flex-price">
+                                        <div class="price-sale">689,098đ</div>
+                                        <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                    </div>
+                                    <div class="price-old">
+                                        So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                        <div class="info-detail">
+                                            Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                            được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="item-product">
+                            <a href="">
+                                <div class="box-thumb">
+                                    <div class="thumb-product">
+                                        <img src="/assets/images/product.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="box-info">
+                                    <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                    <div class="flex-price">
+                                        <div class="price-sale">689,098đ</div>
+                                        <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                    </div>
+                                    <div class="price-old">
+                                        So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                        <div class="info-detail">
+                                            Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                            được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="product-alike" class="section-category">
+    <div class="container">
+        <div class="list-product-category">
+            <div class="title-box">
+                <h3 class="name-tt"><a href="">CÓ THỂ BẠN CŨNG THÍCH</a></h3>
+                <a href="" class="xemthem">Xem thêm</a>
+            </div>
+            <div class="product-category">
+                <div class="list-product scroll-product">
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item-product">
+                        <a href="">
+                            <div class="box-thumb">
+                                <div class="thumb-product">
+                                    <img src="/assets/images/product.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="box-info">
+                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
+                                <div class="flex-price">
+                                    <div class="price-sale">689,098đ</div>
+                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
+                                </div>
+                                <div class="price-old">
+                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
+                                    <div class="info-detail">
+                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
+                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="/modules/product_detail.js"></script>
+    <script type="text/javascript" src="/modules/product_raiting.js"></script>
+
+}
