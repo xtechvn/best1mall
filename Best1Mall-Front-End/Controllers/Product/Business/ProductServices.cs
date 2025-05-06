@@ -56,6 +56,34 @@ namespace HuloToys_Front_End.Controllers.Client.Business
             return null;
 
         }
+        public async Task<GroupProductResponseModel> GetGroupProduct(ProductListRequestModel request)
+        {
+            try
+            {
+                var result = await POST(_configuration["API:get_group_product"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    var products = JsonConvert.DeserializeObject<List<GroupProductModel>>(jsonData["data"].ToString());
+
+                    return new GroupProductResponseModel
+                    {
+                        items = products,
+                        count = products.Count
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string error_msg = Assembly.GetExecutingAssembly().GetName().Name + "->" + MethodBase.GetCurrentMethod().Name + "=>" + ex.Message;
+                LogHelper.InsertLogTelegramByUrl(_configuration["telegram:log_try_catch:bot_token"], _configuration["telegram:log_try_catch:group_id"], error_msg);
+            }
+            return null;
+
+        }
         public async Task<ProductListResponseModel> Search(ProductGlobalSearchRequestModel request)
         {
             try

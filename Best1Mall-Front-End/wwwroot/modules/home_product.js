@@ -36,7 +36,10 @@ var home_product = {
             //-- Bear Grid:
             global_service.LoadHomeProductGrid($('#bear-collection .list-product'), GLOBAL_CONSTANTS.GroupProduct.BEAR_COLLECTION, GLOBAL_CONSTANTS.GridSize)
             //-- Intelligence Grid:
-           global_service.LoadHomeProductGrid($('#intelligence-collection .list-product'), GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT, GLOBAL_CONSTANTS.GridSize)
+            global_service.LoadHomeProductGrid($('#intelligence-collection .list-product'), GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT, GLOBAL_CONSTANTS.GridSize)
+            global_service.LoadGroupProduct($('.list-category .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.GROUP_PRODUCT, GLOBAL_CONSTANTS.GridSize)
+
+
         }
         $('.xemthem').hide()
     },

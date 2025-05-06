@@ -19,6 +19,8 @@ var API_URL = {
     Register: '/Client/Register',
     ProductDetail: '/Product/ProductDetail',
     ProductList: '/Product/GetList',
+    GroupProduct: '/Product/GetGroupProduct',
+
     AddToCart: '/Cart/AddToCart',
     CartCount: '/Cart/CartCount',
     CartList: '/Cart/GetList',
@@ -78,7 +80,8 @@ var GLOBAL_CONSTANTS = {
         FlashSale: 15,
         Discount: 16,
         BEAR_COLLECTION: 17,
-        INTELLECTUAL_DEVELOPMENT: 18
+        INTELLECTUAL_DEVELOPMENT: 18,
+        GROUP_PRODUCT: 1
     },
     PaymentType: [
         { id: 1, name: 'Thanh toán khi nhận hàng(COD)' },
@@ -134,6 +137,16 @@ var HTML_CONSTANTS = {
                                 </a>
                             </div>
                         </div>`,
+        GroupProductItem: ` <div class="swiper-slide">
+        <div class="box-category">
+            <a href="{url}">
+                <div class="thumb-category">
+                    <img src="{avt}" alt="{name}" />
+                </div>
+                <h3 class="name-category">{name}</h3>
+            </a>
+        </div>
+    </div>`,
         GlobalSearchProductItem: ` <div class="item-product">
             <a href="{url}">
                 <div class="box-thumb">

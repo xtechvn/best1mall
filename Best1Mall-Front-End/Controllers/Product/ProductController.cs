@@ -71,6 +71,28 @@ namespace HuloToys_Front_End.Controllers.Product
             }
 
         }
+        public async Task<IActionResult> GetGroupProduct(ProductListRequestModel request)
+        {
+            GroupProductResponseModel result = await _productServices.GetGroupProduct(request);
+
+            if (result != null && result.items != null && result.items.Count > 0)
+            {
+                return Ok(new
+                {
+                    is_success = true,
+                    data = result.items,
+                    count = result.count
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    is_success = false
+                });
+            }
+
+        }
         public async Task<IActionResult> Search(ProductGlobalSearchRequestModel request)
         {
             var result = await _productServices.Search(request);

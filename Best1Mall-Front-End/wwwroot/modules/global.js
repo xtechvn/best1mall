@@ -5,6 +5,8 @@
     global_service.LoadAbouHulotoys();
     global_service.LoadCustomerSupport();
     global_service.LoadCartCount();
+    // 👉 GỌI THÊM:
+    global_service.renderViewedProducts(); // gọi hàm load sản phẩm đã xem
 })
 var global_service = {
     Initialization: function () {
@@ -20,6 +22,10 @@ var global_service = {
         $('#dangky').removeClass('overlay-active')
         $('#quenmk').removeClass('overlay-active')
         $('#global-search-loading').hide()
+        // 👇 Thêm đoạn này để đảm bảo key tồn tại
+        if (!localStorage.getItem('viewedProducts')) {
+            localStorage.setItem('viewedProducts', JSON.stringify([]));
+        }
     },
     DynamicBind: function () {
         $("body").on('click', ".client-login", function (event) {
@@ -316,6 +322,39 @@ var global_service = {
                     element.html(html)
                     
                 })
+                
+            } else {
+                element.html('')
+            }
+            element.removeClass('placeholder')
+            element.removeClass('box-placeholder')
+            element.css('height', 'auto')
+        })
+    },
+    LoadGroupProduct: function (element, group_id, size) {
+        debugger
+        element.addClass('placeholder')
+        element.addClass('box-placeholder')
+        element.css('width', '100%')
+        element.css('height', '255px')
+        var request = {
+            "group_id": group_id,
+            "page_index": 1,
+            "page_size": size
+        }
+        $.when(
+            global_service.POST(API_URL.GroupProduct, request)
+        ).done(function (result) {
+            debugger
+            if (result.is_success) {
+                debugger
+                var products = result.data
+                
+                
+                    var html = global_service.RenderGroupProductItem(products, HTML_CONSTANTS.Home.GroupProductItem)
+                    element.html(html)
+
+               
                 //var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                 //element.html(html)
             } else {
@@ -326,6 +365,7 @@ var global_service = {
             element.css('height', 'auto')
         })
     },
+
     GotoCart: function () {
         var usr = global_service.CheckLogin()
         if (usr) {
@@ -421,6 +461,26 @@ var global_service = {
         $('.box-search-list .name-product').addClass('placeholder')
         $('.box-search-list .price-old').addClass('placeholder')
     },
+
+    RenderGroupProductItem: function (list, template) {
+        debugger
+        var html = '';
+        $(list).each(function (index, item) {
+            var img_src = item.imagePath;
+            if (!img_src.includes(API_URL.StaticDomain)
+                && !img_src.includes("data:image")
+                && !img_src.includes("http")) {
+                img_src = API_URL.StaticDomain + img_src;
+            }
+
+            html += template
+                .replaceAll('{url}', '/' + item.path)
+                .replaceAll('{avt}', img_src)
+                .replaceAll('{name}', item.name);
+        });
+
+        return html;
+    },
     RenderSlideProductItem: function (list, template) {
         var html = ''
         $(list).each(function (index, item) {
@@ -448,6 +508,7 @@ var global_service = {
             if (has_price) {
                 html += template
                     .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
+                    .replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}', ${amount_number})" href="`)
                     .replaceAll('{avt}', img_src)
                     .replaceAll('{name}', item.name)
                     .replaceAll('{amount}', amount_html)
@@ -463,6 +524,90 @@ var global_service = {
 
         return html
     },
+
+    saveViewedProduct: function (id, name, image, price) {
+        debugger
+        const key = 'viewedProducts';
+        let list = JSON.parse(localStorage.getItem(key)) || [];
+
+        // Xóa nếu trùng ID
+        list = list.filter(p => p.id !== id);
+
+        // Thêm vào đầu
+        list.unshift({
+            id,
+            name,
+            image,
+            price,
+            url: `/san-pham/${global_service.toSlug(name)}--${id}`
+        });
+
+        // Chỉ giữ lại 10 sản phẩm
+        if (list.length > 10) {
+            list = list.slice(0, 10);
+        }
+
+        localStorage.setItem(key, JSON.stringify(list));
+    },
+
+    toSlug: function (str) {
+        debugger
+            str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            str = str.replace(/[^a-zA-Z0-9\s-]/g, '');
+            return str.replace(/\s+/g, '-').toLowerCase();
+    },
+   
+    renderViewedProducts: function () {
+        debugger
+        const container = document.getElementById('viewed-products');
+        const list = JSON.parse(localStorage.getItem('viewedProducts')) || [];
+        if (!list.length) return;
+
+        let html = '';
+        list.forEach(p => {
+            html += `
+            <div class="swiper-slide">
+                <div class="item-product">
+                    <a href="${p.url}">
+                        <div class="box-thumb">
+                            <div class="thumb-product">
+                                <img src="${p.image}" alt="${p.name}" />
+                            </div>
+                        </div>
+                        <div class="box-info">
+                            <h3 class="name-product">${p.name}</h3>
+                            <div class="flex-price">
+                                <div class="price-sale">${p.price.toLocaleString()} đ</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>`;
+        });
+
+        container.innerHTML = html;
+
+        // Khởi tạo lại Swiper sau khi render
+        if (window.mySwiperViewedProducts) {
+            window.mySwiperViewedProducts.update();
+        } else {
+            window.mySwiperViewedProducts = new Swiper(".mySwiper", {
+                slidesPerView: 2,
+                spaceBetween: 10,
+                breakpoints: {
+                    640: { slidesPerView: 3 },
+                    768: { slidesPerView: 4 },
+                    1024: { slidesPerView: 5 }
+                }
+            });
+        }
+    },
+
+
+
+
+
+
     RenderSearchProductItem: function (list) {
         
         var html = ''
