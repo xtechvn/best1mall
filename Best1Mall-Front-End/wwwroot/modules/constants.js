@@ -170,13 +170,16 @@ var HTML_CONSTANTS = {
                 </div>
             </a>
         </div>`,
-        GlobalSearchByKeyword: ` <div class="item-product">
-            <a href="{url}">
-                <div class="box-info">
-                    <h3 class="name-product">{name}</h3>
-                </div>
-            </a>
-        </div>`,
+        GlobalSearchByKeyword: ` 
+        <li class="p-2 hover:bg-red-50 hover:text-red-500 cursor-pointer flex items-center gap-2 text-xs">
+            <img src="assets/images/product1.jpg" alt="Sản phẩm" class="w-14 h-14 object-cover rounded">
+            <div>
+                <a href="{url}">{name}</a>
+                <div class="text-red-400 mt-1">185.000 đ</div>
+            </div>
+        </li>
+
+        `,
         GlobalSearchBoxLoading:` <div class="list-product-recomment">
         <div class="item-product">
             <a href="">

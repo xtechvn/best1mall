@@ -82,7 +82,7 @@ var global_service = {
             data: { idTypePolicy : 21},
             success: function (data) {
                 data.forEach(item => {
-                    let html = `<li><a class="li-Cursor" onclick="global_service.PolicyNaviga('/chinh-sach/','${item.id}','${item.name}')">${item.name}</a></li>`;
+                    let html = `<li><a class="li-Cursor hover:text-red-500" onclick="global_service.PolicyNaviga('/chinh-sach/','${item.id}','${item.name}')">${item.name}</a></li>`;
                     $(".policy-footer").append(html);
                 });
             },
@@ -95,7 +95,7 @@ var global_service = {
             data: {idCate : 25},
             success: function (data) {
                 data.forEach(item => {
-                    let html = `<li><a class="li-Cursor" onclick="global_service.Naviga('/tin-tuc/','${item.id}','${item.title}-${item.id}')">${item.title}</a></li>`;
+                    let html = `<li><a class="li-Cursor hover:text-red-500" onclick="global_service.Naviga('/tin-tuc/','${item.id}','${item.title}-${item.id}')">${item.title}</a></li>`;
                     $(".AboutHulotoy-footer").append(html);
                 });
             },
@@ -441,7 +441,7 @@ var global_service = {
             debugger
             if (result.is_success && result.data && result.data.items) {
                 if (result.data.items.length > 0) {
-                    var html = `<div class="list-product-recomment">` + global_service.RenderSearchProductItem(result.data.items) + `</div>`
+                    var html = `<ul class="divide-y divide-gray-100">` + global_service.RenderSearchProductItem(result.data.items) + `</ul>`
                     $('.box-search-list').html(html)
                 } else {
                     $('.box-search-list').html('Không tìm thấy kết quả')

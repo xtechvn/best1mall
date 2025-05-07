@@ -1,96 +1,30 @@
-const swiperBanner = new Swiper('.swiper-banner', {
-    loop: true,
+const swiperProduct = new Swiper('.slide-product', {
+    slidesPerView: 1,
+    spaceBetween: 16,
+    navigation: {
+    nextEl: '.slide-product .swiper-button-next',
+    prevEl: '.slide-product .swiper-button-prev',
+    },
     pagination: {
-        el: '.swiper-banner .swiper-pagination',
-    },
+        el: '.slide-product  .swiper-pagination',
+        clickable: true,
+      },
+    breakpoints: {
+    640: { slidesPerView: 2 },
+    1024: { slidesPerView: 3 },
+    1280: { slidesPerView: 4 }
+    }
+});
+new Swiper('.slide-review', {
     navigation: {
-        nextEl: '.swiper-banner .swiper-button-next',
-        prevEl: '.swiper-banner .swiper-button-prev',
+      nextEl: '.slide-review .swiper-button-next',
+      prevEl: '.slide-review .swiper-button-prev',
     },
-
-});
-const swiperADS = new Swiper('.banner-ads', {
-    loop: false,
-    pagination: false,
-    navigation: false,
-    slidesPerView: 1.5,
-    spaceBetween: 25,
-    breakpoints: {
-        540: {
-            slidesPerView: 1.5,
-        },
-        768: {
-            slidesPerView: 2.5,
-        },
-        992: {
-            slidesPerView: 3,
-        }
-    }
-});
-const swiperCAT = new Swiper('.category-slide', {
-    loop: false,
-    pagination: false,
-    navigation: false,
-    spaceBetween: 10,
-    slidesPerView: 2.5,
-    breakpoints: {
-        540: {
-            slidesPerView: 2.5,
-        },
-        640: {
-            slidesPerView: 3.5,
-        },
-        768: {
-            slidesPerView: 4.5,
-        },
-        1024: {
-            slidesPerView: 5.5,
-        },
-        1400: {
-            slidesPerView: 7.5,
-        },
-        1680: {
-            slidesPerView: 9,
-        },
-    }
-});
-
-const swiperFlash = new Swiper('.section-flashsale .product-slide', {
-    loop: false,
-    pagination: false,
-    navigation: {
-        nextEl: '.section-flashsale .product-slide .swiper-button-next',
-        prevEl: '.section-flashsale .product-slide .swiper-button-prev',
-    },
-    spaceBetween: 15,
-    slidesPerView: 1.5,
-    breakpoints: {
-        540: {
-            slidesPerView: 2.5,
-        },
-        768: {
-            slidesPerView: 3.5,
-        },
-        1024: {
-            slidesPerView: 4.5,
-        },
-        1400: {
-            slidesPerView: 5,
-        }
-    }
-});
-$(function () {
-    $('.btn-filter').on('click', function () {
-        $('#productList').addClass('show-filter');
-    });
-    $('#closeFilter').on('click', function () {
-        $('#productList').removeClass('show-filter');
-    });
-    $('.list-tab-menu .sub-menu').on('click', function () {
-        $(this).toggleClass('active');
-    });
-});
-
+    pagination: {
+        el: '.slide-review  .swiper-pagination',
+        clickable: true,
+      },
+  });
 // gallery
 var swiperSmallThumb = new Swiper(".thumb-small", {
     spaceBetween: 15,
@@ -210,22 +144,5 @@ $(document).ready(function () {
         videojs: true,
         speed: 500,
         thumbnail: true,
-    });
-
-    // Chọn hình thức giao hàng
-    $(".list-giaohang .item > .title").on("click", function () {
-        if ($(this).hasClass("active")) {
-            $(this).removeClass("active");
-            $(this)
-                .siblings(".answer")
-                .slideUp(300);
-        } else {
-            $(".list-giaohang .item > .title").removeClass("active");
-            $(this).addClass("active");
-            $(".answer").slideUp(300);
-            $(this)
-                .siblings(".answer")
-                .slideDown(300);
-        }
     });
 });

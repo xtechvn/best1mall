@@ -9,8 +9,14 @@
     <link rel="stylesheet" href="/assets/css/jquery-ui.css">
     <link rel="stylesheet" href="/assets/css/select2.min.css">
     <link rel="stylesheet" href="/assets/css/lightgallery-bundle.css" />
-    <link rel="stylesheet" href="/assets/css/main.min.css">
+    
+    
+     @* <link rel="stylesheet" href="/assets/css/main.min.css">  *@
+    <script src="/assets/js/tailwindcss.js"></script>
+    <link rel="stylesheet" href="/assets/css/main.css">
+   
     <link rel="stylesheet" href="/custom/site.css">
+   
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet" />
 
@@ -18,18 +24,19 @@
     <title>@ViewData["Title"]</title>
     <link type="image/x-icon" href="~/images/img-search.png" rel="shortcut icon" />
     <!-- CSS-->
-
+    @RenderSection("Styles", required: false)
 </head>
-<body>
+<body class="text-sky-900 bg-[#F9FBFC]">
     <partial name="_Header" />
-    <partial name="_Login" />
+    @* <partial name="_Login" /> *@
 
     <section id="main">
         @RenderBody()
     </section>
     <partial name="_Footer" />
     <button class="backToTopBtn"></button>
-    <partial name="_Lightbox" />
+    @* <partial name="_Lightbox"/> *@
+  
 
     <script asp-append-version="true" src="/assets/js/jquery.min.js"></script>
     <script asp-append-version="true" src="/assets/js/swiper-bundle.min.js"></script>
@@ -40,6 +47,7 @@
     <script src="/modules/constants.js" asp-append-version="true"></script>
     <script src="/modules/services.js" asp-append-version="true"></script>
     <script src="/modules/global.js" asp-append-version="true"></script>
+    
 
     <!-- lightgallery-->
     <script src="/assets/js/lightgallery.min.js"></script>
@@ -56,6 +64,126 @@
     <script type="text/javascript" src="~/modules/feedback.js" asp-append-version="true"></script>
     <script src="https://accounts.google.com/gsi/client" async></script>
     @* <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v20.0" nonce="P6zkdA3O"></script> *@
+
+    <script>
+        // js banner
+        new Swiper(".banner-slide", {
+            loop: true,
+            pagination: {
+                el: ".banner-slide .swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".banner-slide .swiper-button-next",
+                prevEl: ".banner-slide .swiper-button-prev",
+            },
+        });
+        // js slide sản phẩm 5 cột
+        const flashSaleSwiper = new Swiper(".flash-sale-swiper .swiper", {
+            slidesPerView: 2,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: ".flash-sale-swiper .swiper-button-next",
+                prevEl: ".flash-sale-swiper .swiper-button-prev",
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2.5,
+                },
+                768: {
+                    slidesPerView: 3.5,
+                },
+                1024: {
+                    slidesPerView: 5,
+                },
+            },
+        });
+        const brandsSwiper = new Swiper(".brands-swiper .swiper", {
+            slidesPerView: 2,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: ".brands-swiper .swiper-button-next",
+                prevEl: ".brands-swiper .swiper-button-prev",
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2.5,
+                },
+                768: {
+                    slidesPerView: 3.5,
+                },
+                1024: {
+                    slidesPerView: 5,
+                },
+            },
+        });
+        // js slide sản phẩm 4 cột
+        const productSwiper = new Swiper(".product-swiper .swiper", {
+            slidesPerView: 2,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: ".product-swiper .swiper-button-next",
+                prevEl: ".product-swiper .swiper-button-prev",
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2.5,
+                },
+                768: {
+                    slidesPerView: 3.5,
+                },
+                1024: {
+                    slidesPerView: 4,
+                },
+            },
+        });
+    </script>
+    <script>
+        // Thiết lập thời gian kết thúc - ví dụ hôm nay lúc 23:59:59
+        const now = new Date();
+        const endTime = new Date();
+        endTime.setHours(23, 59, 59, 999); // Hết ngày
+
+        function updateCountdown() {
+            const currentTime = new Date().getTime();
+            const timeLeft = endTime - currentTime;
+
+            if (timeLeft <= 0) {
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                clearInterval(timer);
+                return;
+            }
+
+            const hours = String(Math.floor(timeLeft / (1000 * 60 * 60))).padStart(2, '0');
+            const minutes = String(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            const seconds = String(Math.floor((timeLeft % (1000 * 60)) / 1000)).padStart(2, '0');
+
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        const timer = setInterval(updateCountdown, 1000);
+        updateCountdown(); // chạy lần đầu
+    </script>
+
+
+    <script>
+        const menuBtn = document.getElementById('menuToggle');
+        const closeBtn = document.getElementById('menuClose');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('-translate-x-full');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('-translate-x-full');
+        });
+    </script>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     

@@ -170,7 +170,7 @@ input {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    justify-content: center;
+    justify-content: end
 }
 
 @media (max-width:767px) {
@@ -244,7 +244,6 @@ input {
     visibility: hidden;
     opacity: 0;
     z-index: 10;
-    display: flex;
     overflow-y: auto
 }
 
@@ -295,7 +294,7 @@ input {
     }
 
 .popup {
-    margin: auto;
+    margin: 3% auto;
     padding: 40px;
     background: #fcfcfc;
     border-radius: 15px;
@@ -308,8 +307,7 @@ input {
 @media (max-width:767px) {
     .popup {
         max-width: 95%;
-        padding: 15px;
-        padding-top: 30px
+        padding: 15px
     }
 }
 
@@ -2021,10 +2019,6 @@ select {
     .swiper-button-next:after {
         position: static;
         content: url('data:image/svg+xml,<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(%23filter0_dd_4142_31195)"><circle cx="18" cy="18" r="18" transform="matrix(1 -7.28523e-08 -1.04907e-07 -1 30 62)" fill="%23FCFCFC" fill-opacity="1"/><path opacity="1" fill-rule="evenodd" clip-rule="evenodd" d="M44.6 48.5998L46 49.9998L52 43.9998L46 37.9998L44.6 39.3998L49.2 43.9998L44.6 48.5998Z" fill="%231F2549"/></g><defs><filter id="filter0_dd_4142_31195" x="0" y="0" width="96" height="96" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="4"/><feGaussianBlur stdDeviation="15"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0.211765 0 0 0 0 0.160784 0 0 0 0 0.717647 0 0 0 0.07 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4142_31195"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="4"/><feGaussianBlur stdDeviation="4"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0.211765 0 0 0 0 0.160784 0 0 0 0 0.717647 0 0 0 0.08 0"/><feBlend mode="normal" in2="effect1_dropShadow_4142_31195" result="effect2_dropShadow_4142_31195"/><feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_4142_31195" result="shape"/></filter></defs></svg>')
-    }
-
-    .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
-        display: none
     }
 
 .section-banner .swiper-banner img {
@@ -6772,91 +6766,6 @@ video {
     display: none
 }
 
-.list-giaohang .item .title {
-    color: #343e7a;
-    font-size: 16px;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    cursor: pointer;
-    position: relative;
-    padding-right: 30px
+.swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+    display: none;
 }
-
-    .list-giaohang .item .title::before {
-        content: "";
-        width: 10px;
-        height: 10px;
-        display: block;
-        position: absolute;
-        right: 5px;
-        top: 5px;
-        border-right: 1px solid #343e7a;
-        border-bottom: 1px solid #343e7a;
-        transform: rotate(-45deg);
-        transition: all .2s ease-in
-    }
-
-    .list-giaohang .item .title:not(:last-of-type) {
-        margin-bottom: 15px
-    }
-
-    .list-giaohang .item .title.active::before {
-        transform: rotate(45deg);
-        transition: all .2s ease-in;
-        top: 3px
-    }
-
-.list-giaohang .item .answer {
-    display: none
-}
-
-    .list-giaohang .item .answer li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px;
-        border-left: 2px solid transparent;
-        background: 0 0;
-        margin-bottom: 8px
-    }
-
-        .list-giaohang .item .answer li.active {
-            border-left: 2px solid #858baf;
-            background: #f6f7ff
-        }
-
-    .list-giaohang .item .answer .box-select-ship .name {
-        color: #1f2549;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 150%
-    }
-
-    .list-giaohang .item .answer .box-select-ship .des {
-        color: #919191;
-        font-size: 13px;
-        font-weight: 400;
-        line-height: 150%
-    }
-
-    .list-giaohang .item .answer .box-select-ship .price {
-        color: #fd5023;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 150%
-    }
-
-.select-bank .item {
-    margin-bottom: 15px
-}
-
-.select-bank .box-radio label {
-    display: flex;
-    gap: 7px;
-    align-items: center
-}
-
-    .select-bank .box-radio label::after {
-        top: 7px !important
-    }

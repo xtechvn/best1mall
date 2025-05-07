@@ -1,0 +1,113 @@
+// // Base
+// @import 'base/reset';
+// @import 'base/typography';
+// @import 'base/base';
+
+// // Layout
+// @import 'layout/header';
+// @import 'layout/footer';
+// @import 'layout/sidebar';
+// @import 'layout/grid';
+
+// // Pages
+// @import 'pages/home';
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+  font-family: "Kanit", sans-serif;
+  font-weight: 300;
+}
+
+$color-base: #FF4169;
+
+.text-base {
+  color: $color-base;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  width: 32px;
+  height: 32px;
+  color: #1F2549;
+  box-shadow: 0px 4px 30px rgba(54, 41, 183, 0.07);
+
+  &::after {
+    content: none;
+
+  }
+
+  @media (max-width:767px) {
+    display: none;
+  }
+}
+
+.swiper-pagination {
+  bottom: 0;
+}
+
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+}
+
+.swiper-pagination-bullet-active {
+  background: #1F2549;
+  width: 24px;
+  height: 12px;
+  border-radius: 20px;
+  transition: all 0.3s ease-out;
+}
+
+// menu mobile
+.menu-enter {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.menu-enter-active {
+  transition: all 0.3s ease-out;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.menu-leave {
+  opacity: 1;
+}
+
+.menu-leave-active {
+  transition: all 0.3s ease-in;
+  opacity: 0;
+}
+
+.footer {
+  background: var(--BG-1, radial-gradient(48.85% 43.17% at 42.42% 57.75%, #FFE5F0 3%, #FFF 100%));
+}
+
+.bg-box {
+  background: linear-gradient(90deg, #098EF7 0%, #BC61F8 41%, #FF4169 97%);
+}
+
+.flash-sale-swiper {
+  .swiper-button-next {
+    right: -20px;
+  }
+
+  .swiper-button-prev {
+    left: -20px;
+  }
+}
+
+.product-swiper,
+.brands-swiper {
+  .swiper-button-next {
+    right: -10px;
+  }
+
+  .swiper-button-prev {
+    left: -10px;
+  }
+}
+
+.swiper-slide {
+  height: initial;
+}
