@@ -112,41 +112,46 @@ var HTML_CONSTANTS = {
         SelectOption: `<option value="{value}">{name}</option>`
     },
     Home: {
-        SlideProductItem: ` <div class="swiper-slide">
-                            <div class="item-product">
-                                <a href="{url}">
-                                    <div class="box-thumb">
-                                        <div class="thumb-product">
-                                            <img src="{avt}" alt="" />
+        SlideProductItem: ` 
+
+                         <div class="swiper-slide pt-3">
+                                        <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                                            <!-- Sale badge -->
+                                            <a href="{url}">
+                                                <div class="absolute -top-1  z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
+                                                    -50%
+                                                </div>
+                                                <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                                    <img src="{avt}" alt="Sản phẩm"
+                                                         class="absolute inset-0 w-full h-full object-cover" />
+
+                                                </div>
+                                                <p class="text-sm line-clamp-2 font-medium mt-2">
+                                                   {name}
+                                                </p>
+                                                <div class="absolute bottom-2 w-full px-2 left-0">
+                                                    <div class="text-rose-600 font-bold mt-1">{amount}</div>
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="text-xs line-through text-slate-400 " style="{old_price_style}">{price}</div>
+                                                        <div class="text-xs text-yellow-500 mt-1">
+                                                            {review_point} <span class="text-slate-400">{review_count}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
-                                    <div class="box-info">
-                                        <h3 class="name-product">{name}</h3>
-                                        <div class="flex-price">
-                                            <div class="price-sale">{amount}</div>
-                                            <div class="review">{review_point}<span class="total-review">{review_count}</span></div>
-                                        </div>
-                                        <div class="price-old" style="{old_price_style}">
-                                            <nw >So với: {price} <i class="icon icon-info"></i></nw>
-                                            <div class="info-detail">
-                                                Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                                được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>`,
-        GroupProductItem: ` <div class="swiper-slide">
-        <div class="box-category">
-            <a href="{url}">
-                <div class="thumb-category">
-                    <img src="{avt}" alt="{name}" />
-                </div>
-                <h3 class="name-category">{name}</h3>
-            </a>
-        </div>
-    </div>`,
+                        
+                        `,
+        GroupProductItem: ` 
+      <div class="flex-shrink-0 w-27 text-center p-2 rounded-xl border border-blue-100">
+                        <div class="rounded-xl bg-blue-50 mb-2 p-2 h-22 w-22 flex items-center justify-center">
+                            <img src="{avt}" alt="{name}" class="mx-auto h-15">
+                        </div>
+                        <a href="{url}" class="text-[13px] text-slate-700 ">{name}</a>
+                    </div>
+
+    `,
         GlobalSearchProductItem: ` <div class="item-product">
             <a href="{url}">
                 <div class="box-thumb">

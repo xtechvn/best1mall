@@ -49,7 +49,7 @@ var global_service = {
         //    } else {
         //        $('.box-search-list').fadeOut()
         //    }
-            
+
         //});
         $("body").on('keyup', ".global-search", function () {
             if (!$('#global-search-loading').is(':hidden')) {
@@ -79,7 +79,7 @@ var global_service = {
         $.ajax({
             url: "/Support/GetListPolicy",
             type: 'post',
-            data: { idTypePolicy : 21},
+            data: { idTypePolicy: 21 },
             success: function (data) {
                 data.forEach(item => {
                     let html = `<li><a class="li-Cursor hover:text-red-500" onclick="global_service.PolicyNaviga('/chinh-sach/','${item.id}','${item.name}')">${item.name}</a></li>`;
@@ -92,7 +92,7 @@ var global_service = {
         $.ajax({
             url: "/Support/GetListAboutHulotoys",
             type: 'post',
-            data: {idCate : 25},
+            data: { idCate: 25 },
             success: function (data) {
                 data.forEach(item => {
                     let html = `<li><a class="li-Cursor hover:text-red-500" onclick="global_service.Naviga('/tin-tuc/','${item.id}','${item.title}-${item.id}')">${item.title}</a></li>`;
@@ -105,7 +105,7 @@ var global_service = {
         $.ajax({
             url: "/Support/GetListCustomerSupport",
             type: 'post',
-            data: {idCate : 26},
+            data: { idCate: 26 },
             success: function (data) {
                 data.forEach(item => {
                     let html = `<li><a class="li-Cursor" onclick="global_service.Naviga('/tin-tuc/','${item.id}','${item.title}-${item.id}')">${item.title}</a></li>`;
@@ -135,10 +135,9 @@ var global_service = {
         else {
             $('#carts .badge').html('0')
         }
-       
+
     },
-    PolicyNaviga: function (url,id,title)
-    {
+    PolicyNaviga: function (url, id, title) {
         window.location.href = url + this.convertVietnameseToUnsign(title) + "-" + id;
         //localStorage.setItem('ChosenIdPolicy', id);
         //localStorage.setItem('ChosenUrlPolicy', title);
@@ -245,8 +244,8 @@ var global_service = {
             x1 = x1.replace(rgx, '$1' + ',' + '$2');
         return x1 + x2;
     },
-    RemoveUnicode: function ( text) {
-        var arr1 =  [
+    RemoveUnicode: function (text) {
+        var arr1 = [
             "á", "à", "ả", "ã", "ạ", "â", "ấ", "ầ", "ẩ", "ẫ", "ậ", "ă", "ắ", "ằ", "ẳ", "ẵ", "ặ",
             "đ",
             "é", "è", "ẻ", "ẽ", "ẹ", "ê", "ế", "ề", "ể", "ễ", "ệ",
@@ -254,7 +253,7 @@ var global_service = {
             "ó", "ò", "ỏ", "õ", "ọ", "ô", "ố", "ồ", "ổ", "ỗ", "ộ", "ơ", "ớ", "ờ", "ở", "ỡ", "ợ",
             "ú", "ù", "ủ", "ũ", "ụ", "ư", "ứ", "ừ", "ử", "ữ", "ự",
             "ý", "ỳ", "ỷ", "ỹ", "ỵ"];
-        var arr2 =  [
+        var arr2 = [
             "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a",
             "d",
             "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e",
@@ -268,23 +267,21 @@ var global_service = {
         }
         return text;
     },
-    convertVietnameseToUnsign: function (str)
-    {
-       // Bảng chuyển đổi các ký tự có dấu thành không dấu
-       const from = "àáạảãâầấậẩẫăắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơớờợởỡùúụủũưừứựửữỳýỵỷỹđ";
-       const to = "aaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd";
-       const fromArray = from.split('');
-       const toArray = to.split('');
+    convertVietnameseToUnsign: function (str) {
+        // Bảng chuyển đổi các ký tự có dấu thành không dấu
+        const from = "àáạảãâầấậẩẫăắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơớờợởỡùúụủũưừứựửữỳýỵỷỹđ";
+        const to = "aaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd";
+        const fromArray = from.split('');
+        const toArray = to.split('');
 
-       str = str.toLowerCase();
+        str = str.toLowerCase();
 
-       for (let i = 0; i < fromArray.length; i++)
-       {
-       str = str.replace(new RegExp(fromArray[i], 'g'), toArray[i]);
-       }
+        for (let i = 0; i < fromArray.length; i++) {
+            str = str.replace(new RegExp(fromArray[i], 'g'), toArray[i]);
+        }
 
-       str = str.replace(/\s+/g, '-'); // Thay thế nhiều khoảng trắng thành 1 -
-       return str.trim();
+        str = str.replace(/\s+/g, '-'); // Thay thế nhiều khoảng trắng thành 1 -
+        return str.trim();
     },
     LoadHomeProductGrid: function (element, group_id, size) {
         element.addClass('placeholder')
@@ -320,9 +317,9 @@ var global_service = {
                 $.when.apply($, productPromises).done(function () {
                     var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                     element.html(html)
-                    
+
                 })
-                
+
             } else {
                 element.html('')
             }
@@ -349,12 +346,12 @@ var global_service = {
             if (result.is_success) {
                 debugger
                 var products = result.data
-                
-                
-                    var html = global_service.RenderGroupProductItem(products, HTML_CONSTANTS.Home.GroupProductItem)
-                    element.html(html)
 
-               
+
+                var html = global_service.RenderGroupProductItem(products, HTML_CONSTANTS.Home.GroupProductItem)
+                element.html(html)
+
+
                 //var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                 //element.html(html)
             } else {
@@ -369,7 +366,7 @@ var global_service = {
     GotoCart: function () {
         var usr = global_service.CheckLogin()
         if (usr) {
-            window.location.href='/cart'
+            window.location.href = '/cart'
 
         }
         else {
@@ -377,9 +374,9 @@ var global_service = {
             return
         }
     },
-  
-    DateTimeToString: function (date, has_time=false) {
-        var text = ("0" + date.getDate()).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() ;
+
+    DateTimeToString: function (date, has_time = false) {
+        var text = ("0" + date.getDate()).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
         if (has_time == true) {
             text += + ' ' + ("0" + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2)
         }
@@ -388,7 +385,7 @@ var global_service = {
     DateTimeDotNetToString: function (date_string, has_time = false) {
         //"2024-08-28T09:15:09.43Z"
         var date = new Date(date_string)
-        var text = ("0" + date.getDate()).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() ;
+        var text = ("0" + date.getDate()).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
         if (has_time == true) {
             var time_text = + ' ' + (date.getHours()) + ':' + (("0" + date.getMinutes()).slice(-2))
             return text + ' ' + time_text
@@ -396,23 +393,23 @@ var global_service = {
         return text
     },
     CorrectImage: function (image) {
-         var img_src = image
-         if (img_src == null || img_src == undefined) return ''
-         if (!img_src.includes(API_URL.StaticDomain)
+        var img_src = image
+        if (img_src == null || img_src == undefined) return ''
+        if (!img_src.includes(API_URL.StaticDomain)
             && !img_src.includes("data:image")
             && !img_src.includes("http")
             && !img_src.includes("base64,"))
-             img_src = API_URL.StaticDomain + image
+            img_src = API_URL.StaticDomain + image
         return img_src
     },
     Select2WithFixedOptionAndSearch: function (element, placeholder = "Vui lòng chọn...") {
-      
+
         element.select2({
             placeholder: placeholder,
         });
     },
-    
-    RemoveSpecialCharacters: function(value) {
+
+    RemoveSpecialCharacters: function (value) {
         value = value.replace(/[^a-zA-Z0-9 ]/g, '');
         return value.trim();
     },
@@ -429,7 +426,7 @@ var global_service = {
         var token = ''
         if (usr) {
             token = usr.token
-           
+
         }
         var request = {
             "keyword": global_service.GetGlobalSearchKeyword(),
@@ -452,7 +449,7 @@ var global_service = {
             $('#global-search-loading').hide()
 
         })
-     
+
     },
     RenderSearchBoxLoading: function () {
         $('.box-search-list').html(HTML_CONSTANTS.Home.GlobalSearchBoxLoading)
@@ -494,13 +491,13 @@ var global_service = {
             var has_price = false
             if (item.amount_min != null
                 && item.amount_min != undefined && item.amount_min > 0) {
-                amount_html = global_service.Comma(item.amount_min) + ' Đ'
+                amount_html = global_service.Comma(item.amount_min) + ' đ'
                 amount_number = item.amount_min
                 has_price = true
             }
             else if (item.amount != undefined
                 && item.amount != null && item.amount > 0) {
-                amount_html = global_service.Comma(item.amount) + ' Đ'
+                amount_html = global_service.Comma(item.amount) + ' đ'
                 amount_number = item.amount
 
                 has_price = true
@@ -508,15 +505,18 @@ var global_service = {
             if (has_price) {
                 html += template
                     .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
-                    .replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}', ${amount_number})" href="`)
+                    .replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}',  ${amount_number},
+                    ${item.rating || 0},
+                    ${item.review_count || 0},
+                    ${item.amount_max || 0})" href="`)
                     .replaceAll('{avt}', img_src)
                     .replaceAll('{name}', item.name)
                     .replaceAll('{amount}', amount_html)
-                    .replaceAll('{review_point}', (item.rating == null || item.rating == undefined || item.rating <= 0) ? '' : item.rating.toFixed(1) + '<i class="icon icon-star"></i>')
+                    .replaceAll('{review_point}', (item.rating == null || item.rating == undefined || item.rating <= 0) ? '' : item.rating.toFixed(1) + '★')
                     //.replaceAll('{review_point}', (item.star == null || item.star == undefined || item.star <= 0) ? '' : item.star.toFixed(1) +'<i class="icon icon-star"></i>')
-                    .replaceAll('{review_count}', (item.review_count == null || item.review_count == undefined || item.review_count <= 0) ? '' : '('+ item.review_count.toFixed(0) + ')')
+                    .replaceAll('{review_count}', (item.review_count == null || item.review_count == undefined || item.review_count <= 0) ? '' : '(' + item.review_count.toFixed(0) + ')')
                     //.replaceAll('{review_count}', (item.total_sold == null || item.total_sold == undefined || item.total_sold <= 0) ? '' : '(' + item.total_sold.toFixed(0) + ')')
-                    .replaceAll('{old_price_style}', (item.amount_max <= amount_number ? 'display:none;' : '') )
+                    .replaceAll('{old_price_style}', (item.amount_max <= amount_number ? 'display:none;' : ''))
                     .replaceAll('{price}', global_service.Comma(item.amount_max) + ' ' + 'đ')
 
             }
@@ -525,7 +525,7 @@ var global_service = {
         return html
     },
 
-    saveViewedProduct: function (id, name, image, price) {
+    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, amount_max = 0) {
         debugger
         const key = 'viewedProducts';
         let list = JSON.parse(localStorage.getItem(key)) || [];
@@ -539,6 +539,9 @@ var global_service = {
             name,
             image,
             price,
+            rating,
+            review_count,
+            amount_max,
             url: `/san-pham/${global_service.toSlug(name)}--${id}`
         });
 
@@ -552,11 +555,11 @@ var global_service = {
 
     toSlug: function (str) {
         debugger
-            str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-            str = str.replace(/[^a-zA-Z0-9\s-]/g, '');
-            return str.replace(/\s+/g, '-').toLowerCase();
+        str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        str = str.replace(/[^a-zA-Z0-9\s-]/g, '');
+        return str.replace(/\s+/g, '-').toLowerCase();
     },
-   
+
     renderViewedProducts: function () {
         debugger
         const container = document.getElementById('viewed-products');
@@ -565,24 +568,31 @@ var global_service = {
 
         let html = '';
         list.forEach(p => {
+            const showOldPrice = p.amount_max && p.amount_max > p.price;
+            const ratingHtml = p.rating > 0 ? `${p.rating.toFixed(1)}★` : '';
+            const reviewHtml = p.review_count > 0 ? `(${p.review_count})` : '';
+
             html += `
-            <div class="swiper-slide">
-                <div class="item-product">
-                    <a href="${p.url}">
-                        <div class="box-thumb">
-                            <div class="thumb-product">
-                                <img src="${p.image}" alt="${p.name}" />
-                            </div>
+            <div class="swiper-slide pt-3">
+            <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                <a href="${p.url}">
+                    <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
+                        -50%
+                    </div>
+                    <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                        <img src="${p.image}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover" />
+                    </div>
+                    <p class="text-sm line-clamp-2 font-medium mt-2">${p.name}</p>
+                    <div class="absolute bottom-2 w-full px-2 left-0">
+                        <div class="text-rose-600 font-bold mt-1">${p.price.toLocaleString()} đ</div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-xs line-through text-slate-400" style="${showOldPrice ? '' : 'display:none;'}">${p.amount_max.toLocaleString()} đ</div>
+                            <div class="text-xs text-yellow-500 mt-1">${ratingHtml} <span class="text-slate-400">${reviewHtml}</span></div>
                         </div>
-                        <div class="box-info">
-                            <h3 class="name-product">${p.name}</h3>
-                            <div class="flex-price">
-                                <div class="price-sale">${p.price.toLocaleString()} đ</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>`;
+                    </div>
+                </a>
+            </div>
+        </div>`;
         });
 
         container.innerHTML = html;
@@ -609,7 +619,7 @@ var global_service = {
 
 
     RenderSearchProductItem: function (list) {
-        
+
         var html = ''
         var template = HTML_CONSTANTS.Home.GlobalSearchByKeyword
         var keyword = global_service.GetGlobalSearchKeyword()
@@ -636,7 +646,7 @@ var global_service = {
             }, ms || 0);
         };
     },
-    LightBoxFailed: function (title, description,redirect_url='javascript:;') {
+    LightBoxFailed: function (title, description, redirect_url = 'javascript:;') {
         $('#thatbai .content h4').html(title)
         $('#thatbai .content p').html(description)
         $('#thatbai .content a').attr('href', redirect_url)

@@ -3,6 +3,7 @@
 })
 var home_product = {
     Initialization: function () {
+        debugger
         if ($('.list-product-sale .swiper-wrapper').length > 0) {
             //--Product Sale Slide:
             global_service.LoadHomeProductGrid($('.list-product-sale .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.FlashSale, GLOBAL_CONSTANTS.Size)
@@ -32,12 +33,12 @@ var home_product = {
                 },
             });
             //-- Discount Grid:
-           global_service.LoadHomeProductGrid($('#product-discount .list-product'), GLOBAL_CONSTANTS.GroupProduct.Discount, GLOBAL_CONSTANTS.GridSize)
+            global_service.LoadHomeProductGrid($('#product-discount .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.Discount, GLOBAL_CONSTANTS.GridSize)
             //-- Bear Grid:
-            global_service.LoadHomeProductGrid($('#bear-collection .list-product'), GLOBAL_CONSTANTS.GroupProduct.BEAR_COLLECTION, GLOBAL_CONSTANTS.GridSize)
+            global_service.LoadHomeProductGrid($('#bear-collection .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.BEAR_COLLECTION, GLOBAL_CONSTANTS.GridSize)
             //-- Intelligence Grid:
-            global_service.LoadHomeProductGrid($('#intelligence-collection .list-product'), GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT, GLOBAL_CONSTANTS.GridSize)
-            global_service.LoadGroupProduct($('.list-category .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.GROUP_PRODUCT, GLOBAL_CONSTANTS.GridSize)
+            global_service.LoadHomeProductGrid($('#intelligence-collection .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT, GLOBAL_CONSTANTS.GridSize)
+            global_service.LoadGroupProduct($('.list-category'), GLOBAL_CONSTANTS.GroupProduct.GROUP_PRODUCT, GLOBAL_CONSTANTS.GridSize)
 
 
         }

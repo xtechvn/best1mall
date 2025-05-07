@@ -5,8 +5,22 @@
     const url_params = new URLSearchParams(query_string);
     const page = url_params.get('page') == null ? 1 : url_params.get('page');
 
-    // Gọi ngay để load bài viết liền, khỏi đợi Initialization
-    _new.bin_news_home(category_id2, page);
+    // Load danh sách bài viết ngay
+    _new.loadNewsSection({
+        targetSelector: '.list-news-home',
+        view_name: '~/Views/Shared/Components/News/Home.cshtml',
+        category_id: category_id2,
+        page: page
+    });
+
+    _new.loadNewsSection({
+        targetSelector: '.list-home',
+        view_name: '~/Views/Shared/Components/News/HealthCorner.cshtml',
+        category_id: category_id2,
+        page: page
+    });
+
+
 
     // Sau đó mới tới khởi tạo các thành phần còn lại
     _new.Initialization();
@@ -27,20 +41,31 @@ var _new = {
         _new.getNewsMostViewedArticle(1, 3, category_id_menu);
     },
 
-    bin_news_home: function (category_id, page) {
+    loadNewsSection: function ({ targetSelector, category_id, page = 1, view_name }) {
+        debugger
+        const $container = $(targetSelector);
+        const loading = `<div class="py-6 text-center text-blue-500">Đang tải dữ liệu...</div>`;
+        $container.html(loading);
+
         $.ajax({
-            dataType: 'html',
             type: 'POST',
+            dataType: 'html',
             url: '/news/home/get-article-list.json',
-            data: { category_id: category_id, page: page, view_name: "~/Views/Shared/Components/News/Home.cshtml" },
-            success: function (data) {
-                $('.list-news-home').html(data);
+            data: {
+                category_id: category_id,
+                page: page,
+                view_name: view_name
+            },
+            success: function (html) {
+                debugger
+                $container.html(html);
             },
             error: function (xhr, status, error) {
-                console.log("Error: " + error);
+                $container.html(`<div class="text-red-500 text-center">Tải thất bại: ${error}</div>`);
             }
         });
     },
+
 
     getNewsMostViewedArticle: function (page, size, category_id) {
         var requestObj = {
