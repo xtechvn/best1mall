@@ -12,7 +12,8 @@
 <section class="section-news">
     <div class="container">
         <div class="wrap-news cat-menu">
-            @await Component.InvokeAsync("MenuNews")
+            @await Component.InvokeAsync("MenuNews", new { menuType = "news" })
+
             <div class="top-siderbar-news">
                 <div class="form-search">
                     <input type="search" placeholder="Tìm kiếm tin..." id="text_input">
@@ -23,8 +24,13 @@
         <div class="wrap-news">
             <div class="content">
 
-                @*Load nhóm tin*@
-                <div class="list-news-home"></div>
+                @* Vùng render danh sách bài viết *@
+                <div class="list-news-home mt-4 relative min-h-[150px]">
+                    <div class="loading absolute inset-0 flex justify-center items-center z-10 bg-white bg-opacity-80 hidden">
+                        <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-blue-500"></div>
+                    </div>
+                    <div class="articles-wrapper"></div>
+                </div>
 
                 @*Phân trang*@
                 @await Component.InvokeAsync("Pagination", new { page = current_page, total_items = total_items, page_size = page_size, view = "~/Views/Shared/Components/Pagination/Default.cshtml" })

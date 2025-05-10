@@ -1,11 +1,15 @@
 ﻿using HuloToys_Front_End.Controllers.Client.Business;
+using HuloToys_Front_End.Controllers.News.Business;
+using HuloToys_Front_End.Models;
 using HuloToys_Front_End.Models.Products;
 using HuloToys_Front_End.Models.Raiting;
+using HuloToys_Front_End.Service.Redis;
 using HuloToys_Front_End.Utilities.contants;
 using HuloToys_Front_End.Utilities.Lib;
 using HuloToys_Front_End.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace HuloToys_Front_End.Controllers.Product
@@ -14,16 +18,72 @@ namespace HuloToys_Front_End.Controllers.Product
     public class ProductController : Controller
     {
         private readonly IConfiguration _configuration;
+
         private readonly ProductServices _productServices;
         private readonly IMemoryCache _cache;
 
-        public ProductController(IConfiguration configuration, IMemoryCache cache) {
+        public ProductController(IConfiguration configuration, IMemoryCache cache, RedisConn _redisService) {
 
             _configuration= configuration;
-            _productServices = new ProductServices(configuration);
+            _productServices = new ProductServices(configuration, _redisService);
             _cache = cache;
 
         }
+        // Layout trang chủ news dùng chung với trang Category cấp 2
+        [Route("san-pham")]
+        [HttpGet]
+        public async Task<IActionResult> Index(int group_id, int pageindex = 1, int pageize = 12)
+        {
+
+           
+           
+                // Nếu không có trong cache, truy vấn dữ liệu
+                var request = new ProductListRequestModel
+                {
+                    group_id = group_id,
+                    page_index = pageindex,
+                    page_size = pageize
+                };
+                ViewBag.group_id = group_id;
+
+                var result = await _productServices.GetProductList(request);
+
+                if (result != null && result.items != null && result.items.Count > 0)
+                {
+                    // Lưu vào cache
+                    //_cache.Set(cacheKey, result.items, TimeSpan.FromMinutes(10)); // Lưu trong 10 phút
+                    return View(result);
+                }
+                else
+                {
+                    return View("NoProductsFound");
+                }
+           
+        }
+        // Load  sản phẩm 
+        [HttpPost]
+        public IActionResult loadProductTopComponent(int group_id, int page_index, int page_size, string view_name)
+        {
+            try
+            {
+                var model = new ProductListRequestModel
+                {
+                    group_id = group_id,
+                    view_name= view_name,
+                    page_index = page_index,
+                    page_size = page_size
+                };
+                // Gọi ViewComponent trực tiếp và trả về kết quả
+                return ViewComponent("ProductList", model);
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi nếu cần
+               
+                return StatusCode(500); // Trả về lỗi 500 nếu có lỗi
+            }
+        }
+
         public ActionResult Detail(string product_code, string title)
         {
             ViewBag.ProductCode = product_code;

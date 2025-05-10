@@ -1,11 +1,12 @@
 ﻿$(document).ready(function () {
-    // 👇 Gọi load tin liền tay ngay khi trang vừa load
-    let category_id2 = parseInt($(".category_id").data("categoryid"));
+    // ✅ Mặc định load danh sách "Tất cả" (category_id = 0)
+    let category_id2 = parseInt($(".category_id").data("categoryid")) || 0;
+
     const query_string = window.location.search;
     const url_params = new URLSearchParams(query_string);
     const page = url_params.get('page') == null ? 1 : url_params.get('page');
 
-    // Load danh sách bài viết ngay
+    // ✅ Gọi load bài viết mặc định
     _new.loadNewsSection({
         targetSelector: '.list-news-home',
         view_name: '~/Views/Shared/Components/News/Home.cshtml',
@@ -20,17 +21,50 @@
         page: page
     });
 
+    // ✅ Gắn sự kiện click cho từng danh mục
+    $('body').on('click', '.cat-tag', function (e) {
+        e.preventDefault();
 
+        const $this = $(this);
+        const categoryId = parseInt($this.data('id'));
+        if (isNaN(categoryId)) return;
 
-    // Sau đó mới tới khởi tạo các thành phần còn lại
+        // Xóa active tab "Tất cả" khi chọn danh mục khác
+        if (categoryId !== 0) {
+            $('.cat-tag[data-id="0"]').removeClass('bg-blue-500 text-white border-blue-500');
+        }
+
+        // Thêm active cho tab được chọn
+        $('.cat-tag').removeClass('bg-blue-500 text-white border-blue-500');  // Xóa active tất cả
+        $this.addClass('bg-blue-500 text-white border-blue-500');  // Thêm active cho thẻ <a> đang click
+
+        // Load bài viết tương ứng
+        _new.loadNewsSection({
+            targetSelector: '.list-news-home',
+            view_name: '~/Views/Shared/Components/News/Home.cshtml',
+            category_id: categoryId,
+            page: 1
+        });
+
+        _new.loadNewsSection({
+            targetSelector: '.list-home',
+            view_name: '~/Views/Shared/Components/News/HealthCorner.cshtml',
+            category_id: categoryId,
+            page: 1
+        });
+    });
+
+    // ✅ Các phần khởi tạo khác
     _new.Initialization();
     _home_product.Initialization();
+
     $("#text_input").on('keyup', function (e) {
         if (e.key === 'Enter' || e.keyCode === 13) {
             _new.GetFindArticleByTitle();
         }
     });
 });
+
 
 let category_id = 22;
 let category_id_menu = 22;
@@ -40,6 +74,8 @@ var _new = {
         
         _new.getNewsMostViewedArticle(1, 3, category_id_menu);
     },
+
+
 
     loadNewsSection: function ({ targetSelector, category_id, page = 1, view_name }) {
         debugger

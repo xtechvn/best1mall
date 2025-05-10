@@ -6,14 +6,17 @@ using HuloToys_Front_End.Models.Products;
 using HuloToys_Front_End.Models.Raiting;
 using System.Reflection;
 using HuloToys_Front_End.Utilities.Lib;
+using HuloToys_Front_End.Service.Redis;
 
 namespace HuloToys_Front_End.Controllers.Client.Business
 {
     public class ProductServices :APIService
     {
         private readonly IConfiguration _configuration;
-        public ProductServices(IConfiguration configuration) :base(configuration) {
+        private readonly RedisConn redisService;
+        public ProductServices(IConfiguration configuration , RedisConn _redisService) :base(configuration) {
             _configuration = configuration;
+            redisService = _redisService;
         }
         public async Task<ProductDetailResponseModel> GetProductDetail(ProductDetailRequestModel request)
         {

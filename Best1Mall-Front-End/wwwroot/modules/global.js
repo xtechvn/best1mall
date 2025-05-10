@@ -5,6 +5,7 @@
     global_service.LoadAbouHulotoys();
     global_service.LoadCustomerSupport();
     global_service.LoadCartCount();
+   
     // 👉 GỌI THÊM:
     global_service.renderViewedProducts(); // gọi hàm load sản phẩm đã xem
 })
@@ -111,6 +112,19 @@ var global_service = {
                     let html = `<li><a class="li-Cursor" onclick="global_service.Naviga('/tin-tuc/','${item.id}','${item.title}-${item.id}')">${item.title}</a></li>`;
                     $(".CustomerSupport-footer").prepend(html);
                 });
+            },
+        });
+    },
+    LoadLabelList: function () {
+        debugger
+        $.ajax({
+            url: "/Home/loadLabelComponent",
+            type: 'POST',
+            dataType: 'html',
+            data: { top: 6 },
+            success: function (data) {
+                debugger
+                $('.component-label-list').html(data);
             },
         });
     },
@@ -284,6 +298,7 @@ var global_service = {
         return str.trim();
     },
     LoadHomeProductGrid: function (element, group_id, size) {
+        debugger
         element.addClass('placeholder')
         element.addClass('box-placeholder')
         element.css('width', '100%')
@@ -298,27 +313,27 @@ var global_service = {
         ).done(function (result) {
             if (result.is_success) {
                 var products = result.data
-                var productPromises = []
+                //var productPromises = []
 
-                $.each(products, function (index, product) {
-                    var ratingRequest = {
-                        "id": product._id
-                    }
-                    var productPromise = global_service.POST(API_URL.ProductRaitingCount, ratingRequest)
-                        .then(function (ratingResult) {
-                            if (ratingResult.is_success) {
-                                product.review_count = ratingResult.data.total_count || 0
-                            } else {
-                                product.review_count = 0
-                            }
-                        })
-                    productPromises.push(productPromise)
-                })
-                $.when.apply($, productPromises).done(function () {
+                //$.each(products, function (index, product) {
+                //    var ratingRequest = {
+                //        "id": product._id
+                //    }
+                //    var productPromise = global_service.POST(API_URL.ProductRaitingCount, ratingRequest)
+                //        .then(function (ratingResult) {
+                //            if (ratingResult.is_success) {
+                //                product.review_count = ratingResult.data.total_count || 0
+                //            } else {
+                //                product.review_count = 0
+                //            }
+                //        })
+                //    productPromises.push(productPromise)
+                //})
+                //$.when.apply($, productPromises).done(function () {
                     var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                     element.html(html)
 
-                })
+                //})
 
             } else {
                 element.html('')
@@ -328,6 +343,7 @@ var global_service = {
             element.css('height', 'auto')
         })
     },
+   
     LoadGroupProduct: function (element, group_id, size) {
         debugger
         element.addClass('placeholder')

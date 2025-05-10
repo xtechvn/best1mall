@@ -3,6 +3,7 @@ using HuloToys_Front_End.Controllers.Home.Business;
 using HuloToys_Front_End.Service.Redis;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 
 
 namespace WEB.CMS.ViewComponents
@@ -23,27 +24,69 @@ namespace WEB.CMS.ViewComponents
         // Nhóm san pham vị trí giữa trang
         /// </summary>
         /// <returns></returns>
-        public async Task<IViewComponentResult?> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(string menuType)
         {
             try
             {
-                // Nếu không có trong cache, gọi dịch vụ
-                var cacheKey = "menu_news"; // Đặt khóa cho cache
-                if (!_cache.TryGetValue(cacheKey, out var cached_view)) // Kiểm tra xem có trong cache không
+                string cacheKey;
+                int categoryOrGroupId;
+
+                // Kiểm tra loại menu và lấy đúng giá trị từ cấu hình
+                if (menuType == "home") // Home menu sử dụng group_id
+                {
+                    cacheKey = "menu_home";
+                    categoryOrGroupId = Convert.ToInt32(configuration["config:group_id"]);
+                }
+                else if (menuType == "news") // News menu sử dụng category_id
+                {
+                    cacheKey = "menu_news";
+                    categoryOrGroupId = Convert.ToInt32(configuration["config:category_id"]);
+                }
+                else if (menuType == "listproduct") // ListProduct menu sử dụng listproduct_group_id
+                {
+                    cacheKey = "menu_listproduct";
+                    categoryOrGroupId = Convert.ToInt32(configuration["config:group_id"]);
+                }
+                else
+                {
+                    return Content(""); // Nếu menuType không hợp lệ, trả về rỗng
+                }
+
+                // Kiểm tra cache
+                if (!_cache.TryGetValue(cacheKey, out var cachedView))
                 {
                     var objMenu = new MenuService(configuration, _redisService);
-                    cached_view = await objMenu.getListMenu(Convert.ToInt32(configuration["config:category_id"]));
-                    if (cached_view != null)
+                    // Lấy danh sách menu theo category_id hoặc group_id
+                    cachedView = await objMenu.getListMenu(categoryOrGroupId);
+
+                    // Lưu vào cache với thời gian hết hạn 30 giây
+                    if (cachedView != null)
                     {
-                        // Lưu vào cache với thời gian hết hạn 60 giây
-                        _cache.Set(cacheKey, cached_view, TimeSpan.FromSeconds(30));
+                        _cache.Set(cacheKey, cachedView, TimeSpan.FromSeconds(30));
                     }
                 }
-                return View("~/Views/Shared/Components/News/Menu.cshtml", cached_view);
+
+                // Trả về view tùy theo loại menu (Home, News hoặc ListProduct)
+                if (menuType == "home")
+                {
+                    return View("~/Views/Shared/Components/Home/MenuHome.cshtml", cachedView);
+                }
+                else if (menuType == "news")
+                {
+                    return View("~/Views/Shared/Components/News/Menu.cshtml", cachedView);
+                }
+                else if (menuType == "listproduct")
+                {
+                    return View("~/Views/Shared/Components/Product/MenuListProduct.cshtml", cachedView);
+                }
+                else
+                {
+                    return Content(""); // Nếu menuType không hợp lệ, trả về rỗng
+                }
             }
             catch (Exception)
             {
-                return Content("");
+                return Content(""); // Trong trường hợp có lỗi
             }
         }
 

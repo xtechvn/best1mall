@@ -76,6 +76,7 @@ var THIRDPARTY_CONSTANTS = {
 var GLOBAL_CONSTANTS = {
     Size: 6,
     GridSize: 10,
+    ProductSize:12,
     GroupProduct: {
         FlashSale: 15,
         Discount: 16,
@@ -143,6 +144,7 @@ var HTML_CONSTANTS = {
                                     </div>
                         
                         `,
+     
         GroupProductItem: ` 
       <div class="flex-shrink-0 w-27 text-center p-2 rounded-xl border border-blue-100">
                         <div class="rounded-xl bg-blue-50 mb-2 p-2 h-22 w-22 flex items-center justify-center">

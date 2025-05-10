@@ -1,0 +1,25 @@
+﻿@using HuloToys_Front_End.Models;
+@using HuloToys_Front_End.Utilities;
+@model List<CategoryModel>
+@{
+    if (Model != null)
+    {
+        <ul class=" mt-2 space-y-1">
+           
+            @foreach (var item in Model)
+            {
+                <li>
+                    <a href="javascript:void(0)" class=" menu_group_product flex my-2 items-center gap-2 text-gray-700 hover:text-purple-500" data-id="@item.id"><span>»</span>@item.name</a>
+                </li>
+            }
+        </ul>
+        <div class="category_id" data-categoryid="0" style="display:none;"></div>
+    }
+}
+
+@* <li><a href="#" *@
+@*                class="flex my-2 items-center gap-2 text-gray-700 hover:text-purple-500 text-purple-500 font-medium"><span>»</span> *@
+@*                Thực phẩm chức năng</a></li> *@
+@*        <li><a href="#" *@
+@*                class="flex my-2 items-center gap-2 text-gray-700 hover:text-purple-500"><span>»</span> *@
+@*                Hỗ trợ làm đẹp</a></li> *@
