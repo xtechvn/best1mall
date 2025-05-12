@@ -4,81 +4,101 @@
     string StaticDomain = "https://static-image.adavigo.com";
 }
 @model List<RatingESResponseModel>
-@if (Model!=null  && Model.Count > 0)
-{
-    foreach(var comment in Model)
-    {
-        <div class="item-commnet">
-            <div class="flex-comment">
-                <div class="avatar">
-                    <img src="@(comment.client_avatar==null ||comment.client_avatar.Trim()==""?"/assets/images/logo.png":comment.client_avatar)" alt="" />
-                </div>
-                <div class="comment-user">
-                    <h4 class="name">@comment.client_name</h4>
-                    <div class="review">
-                        @for (int i = 0; i < (int)Math.Round((decimal)comment.star); i++)
-                        {
-                            <i class="icon icon-star"></i>
 
-                        }
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var comment in Model)
+    {
+        <div class="item-commnet border-t pt-4 mt-4">
+            <div class="flex items-start gap-4">
+                <img src="@(string.IsNullOrWhiteSpace(comment.client_avatar) ? "/assets/images/logo.png" : comment.client_avatar)"
+                     alt="avatar" class="w-12 h-12 rounded-full" />
+
+                <div class="flex-1">
+                    <div class="flex items-center gap-2">
+                        <p class="font-semibold">@comment.client_name</p>
+                        <div class="flex gap-1 text-yellow-400">
+                            @for (int i = 0; i < (int)Math.Round((decimal)comment.star); i++)
+                            {
+                                <span>★</span>
+                            }
+                        </div>
                     </div>
+
                     @{
                         TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-                        DateTime comment_date_time = TimeZoneInfo.ConvertTime((DateTime)comment.createddate, timeZoneInfo);
+                        DateTime commentDate = TimeZoneInfo.ConvertTime((DateTime)comment.createddate, timeZoneInfo);
                     }
-                    <div class="meta">
-                        <span class="time">@(comment_date_time.ToString("dd/MM/yyyy HH:mm"))</span>
-                        <span class="cat">@comment.variation_detail</span>
-                    </div>
+                    <p class="text-sm text-gray-500">
+                        @commentDate.ToString("yyyy-MM-dd HH:mm") · Phân loại hàng: @comment.variation_detail
+                    </p>
 
+                    <p class="text-gray-800 mt-1">@comment.comment</p>
+
+                    @if ((!string.IsNullOrWhiteSpace(comment.imglink)) || (!string.IsNullOrWhiteSpace(comment.videolink)))
+                    {
+                        <div class="img-product mt-2 flex gap-2 flex-wrap">
+                            @* Render videos *@
+                            @if (!string.IsNullOrWhiteSpace(comment.videolink))
+                            {
+                                foreach (var vid in comment.videolink.Split(","))
+                                {
+                                    if (!string.IsNullOrWhiteSpace(vid))
+                                    {
+                                        var vid_src = vid;
+                                        if (!vid_src.Contains(StaticDomain) && !vid_src.Contains("http") && !vid_src.StartsWith("data"))
+                                            vid_src = StaticDomain + vid;
+
+                                        <a data-video='{"source": [{"src":"@vid_src", "type":"video/mp4"}], "attributes": {"preload": false, "controls": true}}'
+                                           data-poster="/assets/images/product.jpg">
+                                            <img src="/assets/images/product.jpg" width="120" height="80" class="rounded-md border" />
+                                        </a>
+                                    }
+                                }
+                            }
+
+                            @* Render images *@
+                            @if (!string.IsNullOrWhiteSpace(comment.imglink))
+                            {
+                                foreach (var img in comment.imglink.Split(","))
+                                {
+                                    if (!string.IsNullOrWhiteSpace(img))
+                                    {
+                                        var img_src = img;
+                                        if (!img_src.Contains(StaticDomain) && !img_src.Contains("http") && !img_src.StartsWith("data"))
+                                            img_src = StaticDomain + img;
+
+                                        <a href="@img_src" class="block" data-lg-id="@Guid.NewGuid()">
+                                            <img src="@img_src" class="w-24 h-24 rounded-md border object-cover" />
+                                        </a>
+                                    }
+                                }
+                            }
+                        </div>
+                    }
+                    <!-- Shop Reply -->
+                    <div class="bg-gray-50 mt-2 border-l-4 border-blue-300 p-3 rounded-md text-sm text-gray-700">
+                        <p class="text-gray-500 mb-1">2024-03-29 21:12</p>
+                        <p>
+                            <span class="font-bold">BEST MALL</span><br />
+                            Hulo Toys cảm ơn cậu đã tin tưởng và ủng hộ ạ ^^ cậu nhớ áp dụng mã giảm giá chúng tớ đã gửi kèm cho lần mua sau nhé ❤️
+                        </p>
+                    </div>
+                    @* Shop Reply *@
+                    @* @if (!string.IsNullOrWhiteSpace(comment.reply_content)) *@
+                    @* { *@
+                    @*     <div class="bg-gray-50 mt-3 border-l-4 border-blue-300 p-3 rounded-md text-sm text-gray-700"> *@
+                    @*         <p class="text-gray-500 mb-1"> *@
+                    @*             @comment.reply_createddate?.ToString("yyyy-MM-dd HH:mm") *@
+                    @*         </p> *@
+                    @*         <p> *@
+                    @*             <span class="font-bold">BEST MALL</span><br /> *@
+                    @*             @comment.reply_content *@
+                    @*         </p> *@
+                    @*     </div> *@
+                    @* } *@
                 </div>
             </div>
-            <div class="cmt-review">
-                @comment.comment
-
-            </div>
-            <div id="lightgallery" class="img-product">
-
-                @if (comment.videolink != null && comment.videolink.Trim() != "")
-                {
-                    @foreach (var vid in comment.videolink.Split(","))
-                    {
-                        if (vid != null && vid.Trim() != "")
-                        {
-                            var vid_src = vid;
-                            if (!vid_src.Contains(StaticDomain) && !vid_src.Contains("data:video") && !vid_src.Contains("http") && !vid_src.Contains("base64,"))
-                                vid_src = StaticDomain + vid;
-                            <a data-video='{"source": [{"src":"@vid_src", "type":"video/mp4"}],"attributes": {"preload": false, "controls": false}}'
-                               data-poster="/assets/images/product.jpg">
-                                <i class="icon-video"></i>
-
-                                <img src="/assets/images/product.jpg" width="500" height="300" />
-                            </a>
-
-                        }
-                    }
-                }
-                @if (comment.imglink != null && comment.imglink.Trim() != "")
-                {
-                    @foreach (var img in comment.imglink.Split(","))
-                    {
-                        if (img != null && img.Trim() != "")
-                        {
-                            var img_src = img;
-                            if (!img_src.Contains(StaticDomain) && !img_src.Contains("data:image") && !img_src.Contains("http") && !img_src.Contains("base64,"))
-                                img_src = StaticDomain + img;
-                            <a href="@img_src" data-lg-id="3e1fbec2-9c35-461a-b9cc-79fd1d885438">
-                                <img src="@img_src" width="500" height="300">
-                            </a>
-
-                        }
-                    }
-                }
-
-            </div>
-           
         </div>
-      
     }
 }
-
