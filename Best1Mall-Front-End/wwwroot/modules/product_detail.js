@@ -30,14 +30,16 @@ var product_detail = {
     },
     DynamicBind: function () {
         $("body").on('click', ".attribute-detail", function () {
+            debugger
             var element = $(this)
             if (!element.hasClass('disabled')) {
-                element.closest('ul').find('li').removeClass('active')
+                element.closest('.box-tag').find('.attribute-detail').removeClass('active');
                 element.addClass('active')
             }
             var product = product_detail.GetProductDetailSession()
             if (product != undefined) {
-                product_detail.RenderChangedAttributeSelected(product)
+                product_detail.RenderChangedAttributeSelected(product,element)
+
 
             } else {
                 window.location.reload()
@@ -60,6 +62,7 @@ var product_detail = {
         });
     },
     Detail: function () {
+        debugger
         var code = $('.section-details-product').attr('data-code')
         if (code == undefined || code.trim() == '')
             window.location.href = '/error'
@@ -81,7 +84,8 @@ var product_detail = {
         })
     },
     RenderDetail: function (product, product_sub) {
-
+        debugger
+        var html2 =''
         var html = ''
         var html_thumb = ''
         var img_src = product.avatar
@@ -183,12 +187,20 @@ var product_detail = {
                     .replaceAll('{level}', attribute._id)
                     .replaceAll('{name}', attribute.name)
                     .replaceAll('{li}', html_item)
+                html2 += HTML_CONSTANTS.Detail.Tr_Attributes
+                    .replaceAll('{level}', attribute._id)
+                    .replaceAll('{name}', attribute.name)
+                    .replaceAll('{li}', html_item)
             });
             total_stock = product_sub.reduce((n, { amount }) => n + amount, 0)
         }
         html += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock))
 
         $('.box-info-details tbody').html(html)
+        $('.box-attribute').html(html2)
+
+
+
         $('.section-description-product .box-des p').html(product.description.replaceAll('\n', '<br />'))
 
         //--hide voucher (implement later):
@@ -238,30 +250,48 @@ var product_detail = {
         }
         return undefined
     },
-    RenderChangedAttributeSelected: function (product) {
-        var options=[]
-        $('.box-info-details tbody .attributes').each(function (index, item) {
-            var element = $(this)
-            var value = element.find('.box-tag').find('.active').attr('data-id')
-            var level = element.attr('data-level')
-            options.push({
-                id: level,
-                name: value
+    RenderChangedAttributeSelected: function (product, clickedElement) {
+        var options = []
+        var container = null
+
+        // 🧠 Phân biệt vùng chính xác bằng .closest()
+        if (clickedElement.closest('.box-info-details').length > 0) {
+            container = $('.box-info-details .attributes')
+        } else if (clickedElement.closest('.box-attribute').length > 0) {
+            container = $('.box-attribute .attributes')
+        }
+
+        if (container) {
+            container.each(function () {
+                var element = $(this)
+                var active = element.find('.box-tag .active')
+                var value = active.length > 0 ? active.attr('data-id') : null
+                var level = element.attr('data-level')
+                if (value != null) {
+                    options.push({
+                        id: level,
+                        name: value
+                    })
+                }
             })
-        })
+        }
+
+        // Tiếp tục xử lý variation
         var json = sessionStorage.getItem(STORAGE_NAME.SubProduct)
-        if (json != undefined && json.trim() != '') {
+        if (json && json.trim() !== '') {
             var list = JSON.parse(json)
             var variation = list.filter(obj => {
                 return product_detail.Compare2Array(obj.variation_detail, options)
             })
-            if (variation != undefined && variation.length > 0) {
+
+            if (variation && variation.length > 0) {
                 $('.section-details-product .price').html(global_service.Comma(variation[0].amount))
                 $('.box-info-details .box-detail-stock .soluong').html(global_service.Comma(variation[0].quanity_of_stock) + ' sản phẩm có sẵn')
             }
         }
-       
     },
+
+  
     RenderBuyNowButton: function () {
         var no_select_all = false
         if ($('.box-info-details tbody .attributes').length <= 0) {

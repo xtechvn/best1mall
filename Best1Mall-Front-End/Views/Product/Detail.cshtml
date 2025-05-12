@@ -3,746 +3,810 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var product_code = (string)ViewBag.ProductCode;
 }
+<style>
+    .attribute-detail.active {
+        background-color: var(--color-red-100);
+        border-color: var(--color-red-500);
+    }
 
-<div class="section-details-product" data-code="@product_code">
-    <div class="container">
-        <div class="wrap-details">
-            <div class="gallery-product">
-                <div id="lightgallery" class="img-product swiper thumb-big">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <img src="/assets/images/product.jpg" alt="" />
+</style>
+<!-- DANH SACH SAN PHAM -->
+<section class="product-details-section">
+    <div class="max-w-[1230px] mx-auto px-[15px]">
+        <div class="breadcrumb my-4 ">
+            <ul class="flex items-center gap-3 font-normal">
+                <li><a href="">Trang chủ</a></li>
+                <li><a href="" class="text-color-base">Giỏ hàng / Thanh toán</a></li>
+            </ul>
+        </div>
+        <div class="details-box-images section-details-product" data-code="@product_code">
+            <div class=" border border-gray-300 bg-white md:rounded-3xl rounded-xl md:p-5 p-3">
+                <div class="flex flex-wrap md:flex-nowrap justify-between md:gap-8 gap-3">
+                    <div class="w-full md:w-2/5 shrink-0">
+                        <!-- Main Image Swiper -->
+                        <div class="swiper mainSwiper mb-4 thumb-big">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="w-full aspect-square bg-white flex items-center justify-center ">
+                                        <img src="/assets/images/product1.jpg" alt="Ảnh 1"
+                                             class="object-contain w-full h-full" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="swiper-slide">
-                            <img src="/assets/images/product.jpg" alt="" />
+
+                        <!-- Thumbnail Swiper -->
+                        <div class="thumbSwiper relative ">
+                            <div class="thumb-small swiper  mb-6">
+                                <div class="swiper-wrapper">
+                                    <!-- Thumbnail Images -->
+                                    <div class="swiper-slide w-20 h-20">
+                                        <img src="/assets/images/product1.jpg" alt=""
+                                             class="w-full h-full object-contain border border-gray-300 rounded-md" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- Navigation -->
+                            <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2 !right-0">
+                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                            <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2 !left-0">
+                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </div>
                         </div>
-                        <div class="swiper-slide">
-                            <img src="/assets/images/product.jpg" alt="" />
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="/assets/images/product.jpg" alt="" />
+
+                        <!-- Share & Like -->
+                        <div class="flex items-center text-sm justify-center ">
+                            <span class="mr-3">Chia sẻ:</span>
+                            <div class="flex space-x-2 pr-3 mr-3 border-r border-gray-300">
+                                <a href=""><img src="/assets/images/icon/mess.png" alt="Messenger" /></a>
+                                <a href=""><img src="/assets/images/icon/fb.png" alt="Facebook" /></a>
+                                <a href=""><img src="/assets/images/icon/zalo.png" alt="Zalo" /></a>
+                            </div>
+                            <button id="heart" class="heart cursor-pointer rounded-full transition-colors">
+                                <span class="icon icon-like"></span>
+                            </button>
+                            <button id="heart" class="heart active cursor-pointer rounded-full transition-colors">
+                                <span class="icon icon-like"></span>
+                            </button>
+                            <span class="ml-2">Đã thích (4.9k)</span>
                         </div>
                     </div>
-                </div>
-                <div class="swiper thumb-small">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <img src="/assets/images/product.jpg" alt="" />
+                    <div class="w-full info-product">
+                        <h1 class="md:text-3xl text-xl font-normal mb-4 name-product">
+                            @* Viên Uống Healthy Care Glucosamine HCL 1500mg, *@
+                            @* Hộp *@
+                            @* 400 Viên *@
+                        </h1>
+                        <div class="flex items-center gap-2 mb-4 text-xs md:text-base box-review">
+
+
+                            <span class="star flex items-center gap-1 review">
+                                <svg width="18" height="19" viewBox="0 0 18 19"
+                                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 7.83382C18 8.00017 17.9063 8.18165 17.7188 8.37825L13.7921 12.3934L14.7224 18.0644C14.7296 18.1174 14.7332 18.193 14.7332 18.2913C14.7332 18.4501 14.6935 18.5824 14.6142 18.6883C14.5421 18.8017 14.4339 18.8584 14.2897 18.8584C14.1526 18.8584 14.0084 18.813 13.857 18.7223L9 16.0455L4.14303 18.7223C3.98437 18.813 3.84014 18.8584 3.71034 18.8584C3.55889 18.8584 3.44351 18.8017 3.36418 18.6883C3.29207 18.5824 3.25601 18.4501 3.25601 18.2913C3.25601 18.2459 3.26322 18.1703 3.27764 18.0644L4.20793 12.3934L0.270434 8.37825C0.090145 8.17409 0 7.99261 0 7.83382C0 7.55405 0.201923 7.38014 0.605769 7.31208L6.03606 6.48411L8.46995 1.32343C8.60697 1.01341 8.78365 0.858398 9 0.858398C9.21635 0.858398 9.39303 1.01341 9.53005 1.32343L11.9639 6.48411L17.3942 7.31208C17.7981 7.38014 18 7.55405 18 7.83382Z"
+                                          fill="#FFAA00"></path>
+                                </svg>
+                                <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 7.83382C18 8.00017 17.9063 8.18165 17.7188 8.37825L13.7921 12.3934L14.7224 18.0644C14.7296 18.1174 14.7332 18.193 14.7332 18.2913C14.7332 18.4501 14.6935 18.5824 14.6142 18.6883C14.5421 18.8017 14.4339 18.8584 14.2897 18.8584C14.1526 18.8584 14.0084 18.813 13.857 18.7223L9 16.0455L4.14303 18.7223C3.98437 18.813 3.84014 18.8584 3.71034 18.8584C3.55889 18.8584 3.44351 18.8017 3.36418 18.6883C3.29207 18.5824 3.25601 18.4501 3.25601 18.2913C3.25601 18.2459 3.26322 18.1703 3.27764 18.0644L4.20793 12.3934L0.270434 8.37825C0.090145 8.17409 0 7.99261 0 7.83382C0 7.55405 0.201923 7.38014 0.605769 7.31208L6.03606 6.48411L8.46995 1.32343C8.60697 1.01341 8.78365 0.858398 9 0.858398C9.21635 0.858398 9.39303 1.01341 9.53005 1.32343L11.9639 6.48411L17.3942 7.31208C17.7981 7.38014 18 7.55405 18 7.83382Z"
+                                          fill="#FFAA00"></path>
+                                </svg>
+                                <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 7.83382C18 8.00017 17.9063 8.18165 17.7188 8.37825L13.7921 12.3934L14.7224 18.0644C14.7296 18.1174 14.7332 18.193 14.7332 18.2913C14.7332 18.4501 14.6935 18.5824 14.6142 18.6883C14.5421 18.8017 14.4339 18.8584 14.2897 18.8584C14.1526 18.8584 14.0084 18.813 13.857 18.7223L9 16.0455L4.14303 18.7223C3.98437 18.813 3.84014 18.8584 3.71034 18.8584C3.55889 18.8584 3.44351 18.8017 3.36418 18.6883C3.29207 18.5824 3.25601 18.4501 3.25601 18.2913C3.25601 18.2459 3.26322 18.1703 3.27764 18.0644L4.20793 12.3934L0.270434 8.37825C0.090145 8.17409 0 7.99261 0 7.83382C0 7.55405 0.201923 7.38014 0.605769 7.31208L6.03606 6.48411L8.46995 1.32343C8.60697 1.01341 8.78365 0.858398 9 0.858398C9.21635 0.858398 9.39303 1.01341 9.53005 1.32343L11.9639 6.48411L17.3942 7.31208C17.7981 7.38014 18 7.55405 18 7.83382Z"
+                                          fill="#FFAA00"></path>
+                                </svg>
+                                <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 7.83382C18 8.00017 17.9063 8.18165 17.7188 8.37825L13.7921 12.3934L14.7224 18.0644C14.7296 18.1174 14.7332 18.193 14.7332 18.2913C14.7332 18.4501 14.6935 18.5824 14.6142 18.6883C14.5421 18.8017 14.4339 18.8584 14.2897 18.8584C14.1526 18.8584 14.0084 18.813 13.857 18.7223L9 16.0455L4.14303 18.7223C3.98437 18.813 3.84014 18.8584 3.71034 18.8584C3.55889 18.8584 3.44351 18.8017 3.36418 18.6883C3.29207 18.5824 3.25601 18.4501 3.25601 18.2913C3.25601 18.2459 3.26322 18.1703 3.27764 18.0644L4.20793 12.3934L0.270434 8.37825C0.090145 8.17409 0 7.99261 0 7.83382C0 7.55405 0.201923 7.38014 0.605769 7.31208L6.03606 6.48411L8.46995 1.32343C8.60697 1.01341 8.78365 0.858398 9 0.858398C9.21635 0.858398 9.39303 1.01341 9.53005 1.32343L11.9639 6.48411L17.3942 7.31208C17.7981 7.38014 18 7.55405 18 7.83382Z"
+                                          fill="#FFAA00"></path>
+                                </svg>
+                                <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.00488 1.39941L9.07227 1.52539L9.07812 1.53711L11.5117 6.69727L11.625 6.93848L11.8887 6.97852L17.3193 7.80664V7.80566C17.3895 7.81794 17.4393 7.83396 17.4736 7.84766C17.4796 7.85005 17.4845 7.85331 17.4893 7.85547C17.4879 7.85835 17.4871 7.86188 17.4854 7.86523C17.4661 7.90243 17.4265 7.95877 17.3555 8.0332L13.4346 12.0439L13.2578 12.2246L13.2988 12.4746L14.2256 18.1318H14.2266C14.2292 18.1511 14.2334 18.2001 14.2334 18.291C14.2334 18.3147 14.229 18.3328 14.2266 18.3467C14.1979 18.3375 14.1609 18.3209 14.1143 18.293L14.1064 18.2891L14.0986 18.2842L9.24121 15.6074L9 15.4746L8.75879 15.6074L3.90137 18.2842L3.89453 18.2881C3.83604 18.3215 3.79219 18.3385 3.76172 18.3477C3.75965 18.3325 3.75586 18.3139 3.75586 18.291C3.75591 18.289 3.75611 18.2762 3.75879 18.248C3.7613 18.2217 3.76584 18.1878 3.77148 18.1455L4.70117 12.4746L4.74219 12.2246L4.56445 12.043L0.645508 8.04688C0.575143 7.96718 0.535841 7.90691 0.515625 7.86621C0.513647 7.86222 0.511288 7.85884 0.509766 7.85547C0.514705 7.8532 0.520028 7.85019 0.526367 7.84766C0.560508 7.83402 0.610039 7.8179 0.679688 7.80566L0.680664 7.80664L6.11133 6.97852L6.375 6.93848L6.48828 6.69727L8.92188 1.53711L8.92773 1.52539C8.95558 1.46242 8.98059 1.42019 9 1.39258C9.00155 1.39479 9.00326 1.39701 9.00488 1.39941Z"
+                                          fill="white" stroke="#B7CCD9"></path>
+                                </svg>
+                                <span class="text-red-500">4.9</span>
+                            </span>
+
+
+                            <span class="pl-2 border-l border-gray-300 leading-none total-sold">1,1k Đã bán</span>
+                            <span class="pl-2 border-l border-gray-300 leading-none total-review">687 Đánh giá</span>
                         </div>
-                        <div class="swiper-slide">
-                            <img src="/assets/images/product.jpg" alt="" />
+                        <a href="#check-popup"
+                           class="text-sm bg-red-400 text-white flex w-fit gap-2 items-center px-3 py-1 rounded-full hover:bg-red-500 transition mb-4">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_580_5329)">
+                                    <path d="M12.3484 8.06625L9.12461 6.875L7.93711 3.64875C7.86679 3.45771 7.73956 3.29283 7.57259 3.17637C7.40561 3.0599 7.20694 2.99746 7.00336 2.99746C6.79979 2.99746 6.60111 3.0599 6.43414 3.17637C6.26716 3.29283 6.13993 3.45771 6.06961 3.64875L4.87461 6.875L1.64836 8.0625C1.45732 8.13282 1.29244 8.26005 1.17598 8.42702C1.05951 8.594 0.99707 8.79267 0.99707 8.99625C0.99707 9.19983 1.05951 9.3985 1.17598 9.56548C1.29244 9.73245 1.45732 9.85968 1.64836 9.93L4.87461 11.125L6.06211 14.3512C6.13243 14.5423 6.25966 14.7072 6.42664 14.8236C6.59361 14.9401 6.79229 15.0025 6.99586 15.0025C7.19944 15.0025 7.39811 14.9401 7.56509 14.8236C7.73206 14.7072 7.85929 14.5423 7.92961 14.3512L9.12461 11.125L12.3509 9.9375C12.5419 9.86718 12.7068 9.73995 12.8232 9.57298C12.9397 9.406 13.0022 9.20733 13.0022 9.00375C13.0022 8.80017 12.9397 8.6015 12.8232 8.43452C12.7068 8.26755 12.5419 8.14032 12.3509 8.07L12.3484 8.06625ZM8.56211 10.2638C8.49424 10.2888 8.43261 10.3282 8.38146 10.3793C8.33031 10.4305 8.29087 10.4921 8.26586 10.56L6.99961 13.9906L5.73586 10.5625C5.71089 10.4939 5.6712 10.4316 5.61959 10.38C5.56798 10.3284 5.5057 10.2887 5.43711 10.2638L2.00899 9L5.43711 7.73625C5.5057 7.71128 5.56798 7.67159 5.61959 7.61998C5.6712 7.56837 5.71089 7.50608 5.73586 7.4375L6.99961 4.00938L8.26336 7.4375C8.28837 7.50537 8.32781 7.567 8.37896 7.61815C8.43011 7.6693 8.49174 7.70874 8.55961 7.73375L11.9902 9L8.56211 10.2638ZM8.99961 2.5C8.99961 2.36739 9.05229 2.24021 9.14606 2.14645C9.23983 2.05268 9.367 2 9.49961 2H10.4996V1C10.4996 0.867392 10.5523 0.740215 10.6461 0.646447C10.7398 0.552678 10.867 0.5 10.9996 0.5C11.1322 0.5 11.2594 0.552678 11.3532 0.646447C11.4469 0.740215 11.4996 0.867392 11.4996 1V2H12.4996C12.6322 2 12.7594 2.05268 12.8532 2.14645C12.9469 2.24021 12.9996 2.36739 12.9996 2.5C12.9996 2.63261 12.9469 2.75979 12.8532 2.85355C12.7594 2.94732 12.6322 3 12.4996 3H11.4996V4C11.4996 4.13261 11.4469 4.25979 11.3532 4.35355C11.2594 4.44732 11.1322 4.5 10.9996 4.5C10.867 4.5 10.7398 4.44732 10.6461 4.35355C10.5523 4.25979 10.4996 4.13261 10.4996 4V3H9.49961C9.367 3 9.23983 2.94732 9.14606 2.85355C9.05229 2.75979 8.99961 2.63261 8.99961 2.5ZM15.4996 5.5C15.4996 5.63261 15.4469 5.75979 15.3532 5.85355C15.2594 5.94732 15.1322 6 14.9996 6H14.4996V6.5C14.4996 6.63261 14.4469 6.75979 14.3532 6.85355C14.2594 6.94732 14.1322 7 13.9996 7C13.867 7 13.7398 6.94732 13.6461 6.85355C13.5523 6.75979 13.4996 6.63261 13.4996 6.5V6H12.9996C12.867 6 12.7398 5.94732 12.6461 5.85355C12.5523 5.75979 12.4996 5.63261 12.4996 5.5C12.4996 5.36739 12.5523 5.24021 12.6461 5.14645C12.7398 5.05268 12.867 5 12.9996 5H13.4996V4.5C13.4996 4.36739 13.5523 4.24021 13.6461 4.14645C13.7398 4.05268 13.867 4 13.9996 4C14.1322 4 14.2594 4.05268 14.3532 4.14645C14.4469 4.24021 14.4996 4.36739 14.4996 4.5V5H14.9996C15.1322 5 15.2594 5.05268 15.3532 5.14645C15.4469 5.24021 15.4996 5.36739 15.4996 5.5Z"
+                                          fill="white" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_580_5329">
+                                        <rect width="16" height="16" fill="white" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            Check hàng chính hãng
+                        </a>
+                        <!-- Popup 1 -->
+                        <div id="check-popup"
+                             class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
+                            <div class="flex justify-center md:items-center h-full">
+                                <div class="bg-white p-6 md:rounded-3xl shadow-lg max-w-2xl w-full mx-auto relative h-full  overflow-y-auto scrollbar-hide">
+
+                                    <span class="closePopup absolute right-2 top-2 cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25"
+                                             viewBox="0 0 24 25" fill="none">
+                                            <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                                                  fill="#2A3262" />
+                                        </svg>
+                                    </span>
+                                    <h3 class="text-center md:text-2xl text-xl mb-3 text-color-base font-medium">
+                                        Xác
+                                        minh
+                                        hàng chính hãng
+                                    </h3>
+                                    <!-- Accordion Sections -->
+                                    <div class="accordion-tab" id="accordion">
+                                        <div class="group pb-3">
+                                            <div class="font-medium cursor-pointer toggle text-md">
+                                                THƯƠNG HIỆU GỐC
+                                                <p class="text-slate-500 text-base font-light">
+                                                    Giấy ĐKKD, Lịch sử thương
+                                                    hiệu
+                                                </p>
+
+                                            </div>
+                                            <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide">
+                                                <p class="text-color-base">Giấy đăng ký kinh doanh</p>
+                                                <p class="mt-2">
+                                                    Viên uống Glucosamine Hydrochloride 1500 mg là một sản phẩm được sản
+                                                    xuất bởi thương hiệu Healthy Care, đến từ nước Úc.
+                                                </p>
+                                                <img src="/assets/images/chungchi.jpg" alt="Giấy xác minh"
+                                                     class="mt-2 object-contain max-w-2/3 w-full h-auto m-auto" />
+                                            </div>
+                                        </div>
+
+                                        <div class="group pb-3">
+                                            <div class="font-medium cursor-pointer toggle text-md">
+                                                HÀNG HÓA
+                                                <p class="text-slate-500 text-base font-light">
+                                                    Giấy ĐKKD, Lịch sử thương
+                                                    hiệu
+                                                </p>
+
+                                            </div>
+                                            <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide">
+                                                <p class="text-color-base">Giấy đăng ký kinh doanh</p>
+                                                <p class="mt-2">
+                                                    Viên uống Glucosamine Hydrochloride 1500 mg là một sản phẩm được sản
+                                                    xuất bởi thương hiệu Healthy Care, đến từ nước Úc.
+                                                </p>
+                                                <img src="/assets/images/chungchi.jpg" alt="Giấy xác minh"
+                                                     class="mt-2 object-contain max-w-2/3 w-full h-auto m-auto" />
+                                            </div>
+                                        </div>
+
+                                        <div class="group pb-3">
+                                            <div class="font-medium cursor-pointer toggle text-md">
+                                                NHÀ PHÂN PHỐI
+                                                <p class="text-slate-500 text-base font-light">
+                                                    Giấy ĐKKD, Lịch sử thương
+                                                    hiệu
+                                                </p>
+
+                                            </div>
+                                            <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide">
+                                                <p>Giấy đăng ký kinh doanh</p>
+                                                <p class="mt-2">
+                                                    Viên uống Glucosamine Hydrochloride 1500 mg là một sản phẩm được sản
+                                                    xuất bởi thương hiệu Healthy Care, đến từ nước Úc.
+                                                </p>
+                                                <img src="/assets/images/chungchi.jpg" alt="Giấy xác minh"
+                                                     class="mt-2 object-contain max-w-2/3 w-full h-auto m-auto" />
+                                            </div>
+                                        </div>
+
+                                        <div class="group pb-3">
+                                            <div class="font-medium cursor-pointer toggle text-md">
+                                                <div class="flex gap-2">
+                                                    <div>
+                                                        XÁC NHẬN
+                                                        <p class="text-slate-500 text-base font-light">
+                                                            Giấy ĐKKD, Lịch
+                                                            sử
+                                                            thương hiệu
+                                                        </p>
+                                                    </div>
+                                                    <img src="/assets/images/dau.png" alt="Giấy xác minh" />
+
+                                                </div>
+                                            </div>
+                                            <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide">
+                                                <p>Giấy đăng ký kinh doanh</p>
+                                                <p class="mt-2">
+                                                    Viên uống Glucosamine Hydrochloride 1500 mg là một sản phẩm được sản
+                                                    xuất bởi thương hiệu Healthy Care, đến từ nước Úc.
+                                                </p>
+                                                <img src="/assets/images/chungchi.jpg" alt="Giấy xác minh"
+                                                     class="mt-2 object-contain max-w-2/3 w-full h-auto m-auto" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="swiper-slide">
-                            <img src="/assets/images/product.jpg" alt="" />
+                        <div class="box-price">
+                            <div class="rounded-2xl bg-blue-50 p-4 md:px-6 md:text-4xl text-2xl text-red-400 font-normal mb-4 price">
+                                55.000 - 169.000
+                            </div>
                         </div>
-                        <div class="swiper-slide">
-                            <img src="/assets/images/product.jpg" alt="" />
+
+                        <div class="box-info-details">
+                            <table class="font-normal table-product mb-4 w-full mb-4">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-slate-500">Mã giảm giá:</td>
+                                        <td>
+                                            <span class="flex gap-2 items-center">
+                                                <span class="rounded bg-red-100 text-red-400 px-2 text-sm cursor-pointer">
+                                                    30%
+                                                    giảm
+                                                </span>
+                                                <span class="rounded bg-red-100 text-red-400 px-2 text-sm cursor-pointer">
+                                                    30%
+                                                    giảm
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-slate-500">Combo khuyến mãi:</td>
+                                        <td>
+                                            <span class="flex gap-2 items-center">
+                                                <span class="rounded bg-red-100 text-red-400 px-2 text-sm cursor-pointer">
+                                                    30%
+                                                    giảm
+                                                </span>
+                                                <span class="rounded bg-red-100 text-red-400 px-2 text-sm cursor-pointer">
+                                                    30%
+                                                    giảm
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-slate-500">Vận chuyển:</td>
+                                        <td>Miễn phí vận chuyển</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-slate-500">Chính sách đổi trả:</td>
+                                        <td>Đổi trả trong vòng 3 ngày</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-slate-500">Phân loại: </td>
+                                        <td>
+                                            <span class="flex gap-2 items-center">
+                                                <span class="rounded hover:bg-red-100 border border-gray-200 hover:border-red-500 p-2 text-sm cursor-pointer">
+                                                    nguyên
+                                                    hộp
+                                                </span>
+                                                <span class="rounded hover:bg-red-100 border border-gray-200 hover:border-red-500 p-2 text-sm cursor-pointer">
+                                                    nguyên
+                                                    hộp
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-slate-500">Số lượng:</td>
+                                        <td>
+                                            <span class="flex gap-2 items-center">
+                                                <div class="flex items-center number-input">
+                                                    <button type="button"
+                                                            class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer"
+                                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                        -
+                                                    </button>
+                                                    <input id="quantity" type="number" value="1" min="1"
+                                                           class="h-8 w-15 text-center border-t border-b border-gray-100 quantity" />
+                                                    <button type="button"
+                                                            class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 border-gray-100  cursor-pointer"
+                                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                                        +
+                                                    </button>
+                                                </div>
+
+                                                <span class="text-slate-500 font-light"> 138 sản phẩm có sẵn</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="swiper-slide">
-                            <img src="/assets/images/product.jpg" alt="" />
+
+
+                        <div class="flex items-center flex-wrap gap-3 mb-4 box-action">
+                            <button class="add-cart border-blue-500 border px-6 py-2 text-color-base rounded-full cursor-pointer hover:opacity-80 flex items-center justify-center gap-2 w-full sm:w-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none">
+                                    <path d="M9.75 20.25C9.75 20.5467 9.66203 20.8367 9.4972 21.0834C9.33238 21.33 9.09811 21.5223 8.82403 21.6358C8.54994 21.7494 8.24834 21.7791 7.95736 21.7212C7.66639 21.6633 7.39912 21.5204 7.18934 21.3107C6.97956 21.1009 6.8367 20.8336 6.77882 20.5426C6.72094 20.2517 6.75065 19.9501 6.86418 19.676C6.97771 19.4019 7.16997 19.1676 7.41665 19.0028C7.66332 18.838 7.95333 18.75 8.25 18.75C8.64782 18.75 9.02936 18.908 9.31066 19.1893C9.59196 19.4706 9.75 19.8522 9.75 20.25ZM18 18.75C17.7033 18.75 17.4133 18.838 17.1666 19.0028C16.92 19.1676 16.7277 19.4019 16.6142 19.676C16.5006 19.9501 16.4709 20.2517 16.5288 20.5426C16.5867 20.8336 16.7296 21.1009 16.9393 21.3107C17.1491 21.5204 17.4164 21.6633 17.7074 21.7212C17.9983 21.7791 18.2999 21.7494 18.574 21.6358C18.8481 21.5223 19.0824 21.33 19.2472 21.0834C19.412 20.8367 19.5 20.5467 19.5 20.25C19.5 19.8522 19.342 19.4706 19.0607 19.1893C18.7794 18.908 18.3978 18.75 18 18.75ZM22.4728 6.95062L20.0691 15.6019C19.9369 16.0745 19.6542 16.4911 19.2639 16.7885C18.8736 17.0859 18.397 17.2479 17.9062 17.25H8.64C8.14784 17.2498 7.66926 17.0886 7.27725 16.791C6.88523 16.4935 6.6013 16.0758 6.46875 15.6019L3.18 3.75H1.5C1.30109 3.75 1.11032 3.67098 0.96967 3.53033C0.829018 3.38968 0.75 3.19891 0.75 3C0.75 2.80109 0.829018 2.61032 0.96967 2.46967C1.11032 2.32902 1.30109 2.25 1.5 2.25H3.75C3.91397 2.24997 4.07343 2.30367 4.20398 2.40289C4.33452 2.50211 4.42895 2.64138 4.47281 2.79938L5.36156 6H21.75C21.8656 5.99998 21.9797 6.02669 22.0833 6.07805C22.1869 6.1294 22.2772 6.20401 22.3472 6.29605C22.4171 6.38809 22.4649 6.49506 22.4867 6.60861C22.5085 6.72216 22.5037 6.83922 22.4728 6.95062ZM20.7628 7.5H5.77875L7.91719 15.2006C7.96105 15.3586 8.05548 15.4979 8.18602 15.5971C8.31657 15.6963 8.47603 15.75 8.64 15.75H17.9062C18.0702 15.75 18.2297 15.6963 18.3602 15.5971C18.4908 15.4979 18.5852 15.3586 18.6291 15.2006L20.7628 7.5Z"
+                                          fill="#773EFA" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                          d="M13.125 8.625C13.5392 8.625 13.875 8.96079 13.875 9.375V10.5H15C15.4142 10.5 15.75 10.8358 15.75 11.25C15.75 11.6642 15.4142 12 15 12H13.875V13.125C13.875 13.5392 13.5392 13.875 13.125 13.875C12.7108 13.875 12.375 13.5392 12.375 13.125V12H11.25C10.8358 12 10.5 11.6642 10.5 11.25C10.5 10.8358 10.8358 10.5 11.25 10.5H12.375V9.375C12.375 8.96079 12.7108 8.625 13.125 8.625Z"
+                                          fill="#773EFA" />
+                                </svg>Thêm vào giỏ hàng
+                            </button>
+                            <button class=" buy-now border-blue-500 bg-blue-500 border px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full sm:w-auto">
+                                Mua
+                                ngay
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="info-product">
-                <div class="box-name-product">
-                    <h1 class="name-product">Gấu Bông Mèo Hoàng Thượng Cosplay, Thú Nhồi Bông An Toàn Cho Bé</h1>
-                    <div class="like"><i class="icon icon-like"></i></div>
-                    <!-- <div class="like active"><i class="icon icon-like"></i></div> -->
-                </div>
-                <div class="box-review">
-                    <div class="review">
-                        <i class="icon icon-star"></i>
-                        <i class="icon icon-star"></i>
-                        <i class="icon icon-star"></i>
-                        <i class="icon icon-star"></i>
-                        <i class="icon icon-star"></i>
-                        4.8
+            <!-- So sánh -->
+            <div class="md:my-10 my-6">
+                <h2 class="text-sky-900 mb-2 font-medium uppercase">
+                    <a href="">
+                        THƯỜNG MUA CÙNG
+                        <span class="text-red-500 normal-case">(Giảm tới 20.000đ với mỗi sản phẩm mua cùng)</span>
+                    </a>
+                </h2>
+                <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 mb-3"></div>
+                <div class="flex flex-wrap md:flex-nowrap items-center gap-2 justify-center md:justify-start">
+                    <div class="flex flex-wrap md:flex-nowrap flex-col md:flex-row gap-2 items-center">
+                        <!-- Sản phẩm -->
+                        <div class="w-full bg-white rounded p-2">
+                            <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                     class="absolute inset-0 w-full h-full object-cover" />
+                            </div>
+                            <label class="inline-flex items-center cursor-pointer mt-2">
+                                <input type="checkbox" class="sr-only peer" />
+                                <div class="w-5 h-5 shrink-0 rounded-full  bg-purple-200 peer-checked:bg-purple-600 relative transition-colors">
+                                    <!-- Checkmark -->
+                                    <span class="absolute inset-0">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M14.2806 8.2806L9.0306 13.5306C8.961 13.6004 8.8783 13.6557 8.7872 13.6934C8.6962 13.7312 8.5986 13.7506 8.5 13.7506C8.4014 13.7506 8.3038 13.7312 8.2128 13.6934C8.1218 13.6557 8.039 13.6004 7.96938 13.5306L5.71938 11.2806C5.57865 11.1399 5.49959 10.949 5.49959 10.75C5.49959 10.551 5.57865 10.3601 5.71938 10.2194C5.86011 10.0786 6.05098 9.9996 6.25 9.9996C6.44903 9.9996 6.6399 10.0786 6.78063 10.2194L8.5 11.9397L13.2194 7.21937C13.2891 7.14969 13.3718 7.09442 13.4628 7.0567C13.5539 7.01899 13.6515 6.99958 13.75 6.99958C13.8486 6.99958 13.9461 7.01899 14.0372 7.0567C14.1282 7.09442 14.2109 7.14969 14.2806 7.21937C14.3503 7.28906 14.4056 7.37178 14.4433 7.46283C14.481 7.55387 14.5004 7.65145 14.5004 7.75C14.5004 7.84855 14.481 7.94613 14.4433 8.0372C14.4056 8.1282 14.3503 8.2109 14.2806 8.2806Z"
+                                                  fill="white" />
+                                        </svg>
+                                    </span>
+
+
+                                </div>
+                                <span class="ml-2 text-sm text-gray-700"> BLACKMORES - Multivitamins ...</span>
+                            </label>
+                            <p class="text-red-600 font-semibold mt-1 text-center">185.000 đ</p>
+
+                        </div>
+
+                        <!-- dấu cộng -->
+                        <svg class="shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none">
+                            <path d="M21 12C21 12.1989 20.921 12.3897 20.7803 12.5303C20.6397 12.671 20.4489 12.75 20.25 12.75H12.75V20.25C12.75 20.4489 12.671 20.6397 12.5303 20.7803C12.3897 20.921 12.1989 21 12 21C11.8011 21 11.6103 20.921 11.4697 20.7803C11.329 20.6397 11.25 20.4489 11.25 20.25V12.75H3.75C3.55109 12.75 3.36032 12.671 3.21967 12.5303C3.07902 12.3897 3 12.1989 3 12C3 11.8011 3.07902 11.6103 3.21967 11.4697C3.36032 11.329 3.55109 11.25 3.75 11.25H11.25V3.75C11.25 3.55109 11.329 3.36032 11.4697 3.21967C11.6103 3.07902 11.8011 3 12 3C12.1989 3 12.3897 3.07902 12.5303 3.21967C12.671 3.36032 12.75 3.55109 12.75 3.75V11.25H20.25C20.4489 11.25 20.6397 11.329 20.7803 11.4697C20.921 11.6103 21 11.8011 21 12Z"
+                                  fill="#033256" />
+                        </svg>
+                        <!-- dấu cộng -->
+                        <div class="w-full bg-white rounded p-2">
+                            <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                     class="absolute inset-0 w-full h-full object-cover" />
+                            </div>
+                            <label class="inline-flex items-center cursor-pointer  mt-2">
+                                <input type="checkbox" class="sr-only peer" />
+                                <div class="w-5 h-5 shrink-0 rounded-full  bg-purple-200 peer-checked:bg-purple-600 relative transition-colors">
+                                    <!-- Checkmark -->
+                                    <span class="absolute inset-0">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M14.2806 8.2806L9.0306 13.5306C8.961 13.6004 8.8783 13.6557 8.7872 13.6934C8.6962 13.7312 8.5986 13.7506 8.5 13.7506C8.4014 13.7506 8.3038 13.7312 8.2128 13.6934C8.1218 13.6557 8.039 13.6004 7.96938 13.5306L5.71938 11.2806C5.57865 11.1399 5.49959 10.949 5.49959 10.75C5.49959 10.551 5.57865 10.3601 5.71938 10.2194C5.86011 10.0786 6.05098 9.9996 6.25 9.9996C6.44903 9.9996 6.6399 10.0786 6.78063 10.2194L8.5 11.9397L13.2194 7.21937C13.2891 7.14969 13.3718 7.09442 13.4628 7.0567C13.5539 7.01899 13.6515 6.99958 13.75 6.99958C13.8486 6.99958 13.9461 7.01899 14.0372 7.0567C14.1282 7.09442 14.2109 7.14969 14.2806 7.21937C14.3503 7.28906 14.4056 7.37178 14.4433 7.46283C14.481 7.55387 14.5004 7.65145 14.5004 7.75C14.5004 7.84855 14.481 7.94613 14.4433 8.0372C14.4056 8.1282 14.3503 8.2109 14.2806 8.2806Z"
+                                                  fill="white" />
+                                        </svg>
+                                    </span>
+
+
+                                </div>
+                                <span class="ml-2 text-sm text-gray-700"> BLACKMORES - Multivitamins ...</span>
+                            </label>
+                            <p class="text-red-600 font-semibold mt-1 text-center">185.000 đ</p>
+
+                        </div>
+                        <!-- dấu cộng -->
+                        <svg class="shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none">
+                            <path d="M21 12C21 12.1989 20.921 12.3897 20.7803 12.5303C20.6397 12.671 20.4489 12.75 20.25 12.75H12.75V20.25C12.75 20.4489 12.671 20.6397 12.5303 20.7803C12.3897 20.921 12.1989 21 12 21C11.8011 21 11.6103 20.921 11.4697 20.7803C11.329 20.6397 11.25 20.4489 11.25 20.25V12.75H3.75C3.55109 12.75 3.36032 12.671 3.21967 12.5303C3.07902 12.3897 3 12.1989 3 12C3 11.8011 3.07902 11.6103 3.21967 11.4697C3.36032 11.329 3.55109 11.25 3.75 11.25H11.25V3.75C11.25 3.55109 11.329 3.36032 11.4697 3.21967C11.6103 3.07902 11.8011 3 12 3C12.1989 3 12.3897 3.07902 12.5303 3.21967C12.671 3.36032 12.75 3.55109 12.75 3.75V11.25H20.25C20.4489 11.25 20.6397 11.329 20.7803 11.4697C20.921 11.6103 21 11.8011 21 12Z"
+                                  fill="#033256" />
+                        </svg>
+                        <!-- dấu cộng -->
+
+                        <div class="w-full bg-white rounded p-2">
+                            <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                     class="absolute inset-0 w-full h-full object-cover" />
+                            </div>
+                            <label class="inline-flex items-center cursor-pointer  mt-2">
+                                <input type="checkbox" class="sr-only peer" />
+                                <div class="w-5 h-5 shrink-0 rounded-full  bg-purple-200 peer-checked:bg-purple-600 relative transition-colors">
+                                    <!-- Checkmark -->
+                                    <span class="absolute inset-0">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M14.2806 8.2806L9.0306 13.5306C8.961 13.6004 8.8783 13.6557 8.7872 13.6934C8.6962 13.7312 8.5986 13.7506 8.5 13.7506C8.4014 13.7506 8.3038 13.7312 8.2128 13.6934C8.1218 13.6557 8.039 13.6004 7.96938 13.5306L5.71938 11.2806C5.57865 11.1399 5.49959 10.949 5.49959 10.75C5.49959 10.551 5.57865 10.3601 5.71938 10.2194C5.86011 10.0786 6.05098 9.9996 6.25 9.9996C6.44903 9.9996 6.6399 10.0786 6.78063 10.2194L8.5 11.9397L13.2194 7.21937C13.2891 7.14969 13.3718 7.09442 13.4628 7.0567C13.5539 7.01899 13.6515 6.99958 13.75 6.99958C13.8486 6.99958 13.9461 7.01899 14.0372 7.0567C14.1282 7.09442 14.2109 7.14969 14.2806 7.21937C14.3503 7.28906 14.4056 7.37178 14.4433 7.46283C14.481 7.55387 14.5004 7.65145 14.5004 7.75C14.5004 7.84855 14.481 7.94613 14.4433 8.0372C14.4056 8.1282 14.3503 8.2109 14.2806 8.2806Z"
+                                                  fill="white" />
+                                        </svg>
+                                    </span>
+
+
+                                </div>
+                                <span class="ml-2 text-sm text-gray-700"> BLACKMORES - Multivitamins ...</span>
+                            </label>
+                            <p class="text-red-600 font-semibold mt-1 text-center">185.000 đ</p>
+
+                        </div>
+
+                        <!-- dấu cộng -->
+                        <svg class="shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none">
+                            <path d="M21 12C21 12.1989 20.921 12.3897 20.7803 12.5303C20.6397 12.671 20.4489 12.75 20.25 12.75H12.75V20.25C12.75 20.4489 12.671 20.6397 12.5303 20.7803C12.3897 20.921 12.1989 21 12 21C11.8011 21 11.6103 20.921 11.4697 20.7803C11.329 20.6397 11.25 20.4489 11.25 20.25V12.75H3.75C3.55109 12.75 3.36032 12.671 3.21967 12.5303C3.07902 12.3897 3 12.1989 3 12C3 11.8011 3.07902 11.6103 3.21967 11.4697C3.36032 11.329 3.55109 11.25 3.75 11.25H11.25V3.75C11.25 3.55109 11.329 3.36032 11.4697 3.21967C11.6103 3.07902 11.8011 3 12 3C12.1989 3 12.3897 3.07902 12.5303 3.21967C12.671 3.36032 12.75 3.55109 12.75 3.75V11.25H20.25C20.4489 11.25 20.6397 11.329 20.7803 11.4697C20.921 11.6103 21 11.8011 21 12Z"
+                                  fill="#033256" />
+                        </svg>
+                        <!-- dấu cộng -->
+
+                        <div class="w-full bg-white rounded p-2">
+                            <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                     class="absolute inset-0 w-full h-full object-cover" />
+                            </div>
+                            <label class="inline-flex items-center cursor-pointer  mt-2">
+                                <input type="checkbox" class="sr-only peer" />
+                                <div class="w-5 h-5 shrink-0 rounded-full  bg-purple-200 peer-checked:bg-purple-600 relative transition-colors">
+                                    <!-- Checkmark -->
+                                    <span class="absolute inset-0">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M14.2806 8.2806L9.0306 13.5306C8.961 13.6004 8.8783 13.6557 8.7872 13.6934C8.6962 13.7312 8.5986 13.7506 8.5 13.7506C8.4014 13.7506 8.3038 13.7312 8.2128 13.6934C8.1218 13.6557 8.039 13.6004 7.96938 13.5306L5.71938 11.2806C5.57865 11.1399 5.49959 10.949 5.49959 10.75C5.49959 10.551 5.57865 10.3601 5.71938 10.2194C5.86011 10.0786 6.05098 9.9996 6.25 9.9996C6.44903 9.9996 6.6399 10.0786 6.78063 10.2194L8.5 11.9397L13.2194 7.21937C13.2891 7.14969 13.3718 7.09442 13.4628 7.0567C13.5539 7.01899 13.6515 6.99958 13.75 6.99958C13.8486 6.99958 13.9461 7.01899 14.0372 7.0567C14.1282 7.09442 14.2109 7.14969 14.2806 7.21937C14.3503 7.28906 14.4056 7.37178 14.4433 7.46283C14.481 7.55387 14.5004 7.65145 14.5004 7.75C14.5004 7.84855 14.481 7.94613 14.4433 8.0372C14.4056 8.1282 14.3503 8.2109 14.2806 8.2806Z"
+                                                  fill="white" />
+                                        </svg>
+                                    </span>
+
+
+                                </div>
+                                <span class="ml-2 text-sm text-gray-700"> BLACKMORES - Multivitamins ...</span>
+                            </label>
+                            <p class="text-red-600 font-semibold mt-1 text-center">185.000 đ</p>
+
+                        </div>
+                        <!-- Dấu bằng -->
+                        <svg class="shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 15C21 15.1989 20.921 15.3897 20.7803 15.5303C20.6397 15.671 20.4489 15.75 20.25 15.75H3.75C3.55109 15.75 3.36032 15.671 3.21967 15.5303C3.07902 15.3897 3 15.1989 3 15C3 14.8011 3.07902 14.6103 3.21967 14.4697C3.36032 14.329 3.55109 14.25 3.75 14.25H20.25C20.4489 14.25 20.6397 14.329 20.7803 14.4697C20.921 14.6103 21 14.8011 21 15ZM3.75 9.75H20.25C20.4489 9.75 20.6397 9.67098 20.7803 9.53033C20.921 9.38968 21 9.19891 21 9C21 8.80109 20.921 8.61032 20.7803 8.46967C20.6397 8.32902 20.4489 8.25 20.25 8.25H3.75C3.55109 8.25 3.36032 8.32902 3.21967 8.46967C3.07902 8.61032 3 8.80109 3 9C3 9.19891 3.07902 9.38968 3.21967 9.53033C3.36032 9.67098 3.55109 9.75 3.75 9.75Z"
+                                  fill="#033256" />
+                        </svg>
+
+
                     </div>
-                    <div class="total-sold">1,1k Đã bán</div>
-                    <div class="total-review">687 Đánh giá</div>
-                </div>
-                <div class="box-price">
-                    <span class="price">55.000 - 169.000</span>
-                    <div class="price-old">
-                        So với giá cũ <b>767,009đ</b> <i class="icon icon-info"></i>
-                        <div class="info-detail">
-                            Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                            được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
+                    <div class="grid grid-cols-2 gap-2">
+                        <!-- Quà tặng -->
+                        <div class=" bg-white rounded p-2">
+                            <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                     class="absolute inset-0 w-full h-full object-cover" />
+                            </div>
+                            <p class="text-center text-xs mt-2">
+                                BLACKMORES - CoQ10<br /><span class="text-red-500">
+                                    [Quà
+                                    tặng]
+                                </span>
+                            </p>
+                        </div>
+
+                        <div class="bg-white rounded p-2">
+                            <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                     class="absolute inset-0 w-full h-full object-cover" />
+                            </div>
+                            <p class="text-center text-xs mt-2">
+                                BLACKMORES - Multivitamin<br /><span class="text-red-500">[Quà tặng]</span>
+                            </p>
+                        </div>
+                        <!-- Tổng giá & nút -->
+                        <div class="col-span-2 flex flex-col gap-2">
+                            <p class="text-slate-500 font-normal flex justify-between">
+                                Tổng: <span class="text-red-400">1.070.000 đ</span>
+                            </p>
+                            <button class="border-blue-500 border bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 flex items-center justify-center gap-2 w-full sm:w-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none">
+                                    <path d="M9.75 20.25C9.75 20.5467 9.66203 20.8367 9.4972 21.0834C9.33238 21.33 9.09811 21.5223 8.82403 21.6358C8.54994 21.7494 8.24834 21.7791 7.95736 21.7212C7.66639 21.6633 7.39912 21.5204 7.18934 21.3107C6.97956 21.1009 6.8367 20.8336 6.77882 20.5426C6.72094 20.2517 6.75065 19.9501 6.86418 19.676C6.97771 19.4019 7.16997 19.1676 7.41665 19.0028C7.66332 18.838 7.95333 18.75 8.25 18.75C8.64782 18.75 9.02936 18.908 9.31066 19.1893C9.59196 19.4706 9.75 19.8522 9.75 20.25ZM18 18.75C17.7033 18.75 17.4133 18.838 17.1666 19.0028C16.92 19.1676 16.7277 19.4019 16.6142 19.676C16.5006 19.9501 16.4709 20.2517 16.5288 20.5426C16.5867 20.8336 16.7296 21.1009 16.9393 21.3107C17.1491 21.5204 17.4164 21.6633 17.7074 21.7212C17.9983 21.7791 18.2999 21.7494 18.574 21.6358C18.8481 21.5223 19.0824 21.33 19.2472 21.0834C19.412 20.8367 19.5 20.5467 19.5 20.25C19.5 19.8522 19.342 19.4706 19.0607 19.1893C18.7794 18.908 18.3978 18.75 18 18.75ZM22.4728 6.95062L20.0691 15.6019C19.9369 16.0745 19.6542 16.4911 19.2639 16.7885C18.8736 17.0859 18.397 17.2479 17.9062 17.25H8.64C8.14784 17.2498 7.66926 17.0886 7.27725 16.791C6.88523 16.4935 6.6013 16.0758 6.46875 15.6019L3.18 3.75H1.5C1.30109 3.75 1.11032 3.67098 0.96967 3.53033C0.829018 3.38968 0.75 3.19891 0.75 3C0.75 2.80109 0.829018 2.61032 0.96967 2.46967C1.11032 2.32902 1.30109 2.25 1.5 2.25H3.75C3.91397 2.24997 4.07343 2.30367 4.20398 2.40289C4.33452 2.50211 4.42895 2.64138 4.47281 2.79938L5.36156 6H21.75C21.8656 5.99998 21.9797 6.02669 22.0833 6.07805C22.1869 6.1294 22.2772 6.20401 22.3472 6.29605C22.4171 6.38809 22.4649 6.49506 22.4867 6.60861C22.5085 6.72216 22.5037 6.83922 22.4728 6.95062ZM20.7628 7.5H5.77875L7.91719 15.2006C7.96105 15.3586 8.05548 15.4979 8.18602 15.5971C8.31657 15.6963 8.47603 15.75 8.64 15.75H17.9062C18.0702 15.75 18.2297 15.6963 18.3602 15.5971C18.4908 15.4979 18.5852 15.3586 18.6291 15.2006L20.7628 7.5Z"
+                                          fill="#ffffff" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                          d="M13.125 8.625C13.5392 8.625 13.875 8.96079 13.875 9.375V10.5H15C15.4142 10.5 15.75 10.8358 15.75 11.25C15.75 11.6642 15.4142 12 15 12H13.875V13.125C13.875 13.5392 13.5392 13.875 13.125 13.875C12.7108 13.875 12.375 13.5392 12.375 13.125V12H11.25C10.8358 12 10.5 11.6642 10.5 11.25C10.5 10.8358 10.8358 10.5 11.25 10.5H12.375V9.375C12.375 8.96079 12.7108 8.625 13.125 8.625Z"
+                                          fill="#ffffff" />
+                                </svg>Thêm vào giỏ hàng
+                            </button>
                         </div>
                     </div>
+
                 </div>
-                <div class="box-info-details">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>Mã giảm giá</td>
-                                <td>
-                                    <span class="coupon">30% giảm</span>
-                                    <span class="coupon">50% giảm</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Combo khuyến mại</td>
-                                <td> <span class="combo">Mua 3 giảm 50%</span></td>
-                            </tr>
-                            <tr>
-                                <td>Vận chuyển</td>
-                                <td>Miễn phí vận chuyển</td>
-                            </tr>
-                            <tr>
-                                <td>Chính sách đổi trả</td>
-                                <td>Đổi trả trong vòng 3 ngày</td>
-                            </tr>
-                            <tr>
-                                <td>Phân loại</td>
-                                <td>
-                                    <ul class="box-tag">
-                                        <li class="disabled">
-                                            <img src="/assets/images/product.jpg" alt=""> Gấu trúc
-                                        </li>
-                                        <li class="active"><img src="/assets/images/product.jpg" alt="">Ếch xanh</li>
-                                        <li class=""><img src="/assets/images/product.jpg" alt="">Thỏ hồng</li>
+
+
+            </div>
+
+            <div class="md:my-10 my-6 section-description-product">
+                <div class="grid md:grid-cols-3 grid-cols-1 gap-3">
+                    <div class="md:col-span-2">
+                        <div class="md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
+                            <h2 class="font-semibold mb-2">Thông tin sản phẩm</h2>
+
+                            <div class="overflow-hidden rounded-xl border border-gray-300">
+                                <table class="w-full table-info">
+                                    <tbody>
+                                        <tr>
+                                            <td>Nơi sản xuất</td>
+                                            <td>Mỹ</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kết cấu</td>
+                                            <td>Dạng viên</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Xuất xứ thương hiệu</td>
+                                            <td>Mỹ</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <!-- Tabs Sticky -->
+                            <div id="tabs"
+                                 class="sticky top-0 z-50 bg-white px-4 border-b border-gray-100 pt-2 md:rounded-tl-xl md:rounded-tr-xl rounded-tl-xl rounded-tr-xl  mb-2">
+                                <div class="flex md:justify-between gap-3 overflow-x-auto whitespace-nowrap">
+                                    <button class="w-full text-center tab-link  font-normal border-b-2 border-transparent text-gray-600 px-3 py-2 focus:outline-none text-color-base border-blue-500 "
+                                            data-target="#mo-ta">
+                                        Mô tả sản phẩm
+                                    </button>
+                                    <button class="w-full text-center tab-link  font-normal border-b-2 border-transparent text-gray-600 px-3 py-2"
+                                            data-target="#thanh-phan">
+                                        Thành phần
+                                    </button>
+                                    <button class="w-full text-center tab-link  font-normal border-b-2 border-transparent text-gray-600 px-3 py-2"
+                                            data-target="#cong-dung">
+                                        Công dụng
+                                    </button>
+                                    <button class="w-full text-center tab-link  font-normal border-b-2 border-transparent text-gray-600 px-3 py-2"
+                                            data-target="#cach-dung">
+                                        Cách dùng
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Nội dung -->
+                            <div class="space-y-10">
+                                <section id="mo-ta"
+                                         class="section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
+                                    <h2 class="font-semibold mb-2">Mô tả sản phẩm</h2>
+                                    <p class="text-gray-700">
+                                        Viên Uống Youtheory Collagen Biotin 6000mg từ lâu đã trở thành người bạn đồng
+                                        hành...
+                                    </p>
+                                    <img src="/assets/images/product1.jpg" alt="Collagen"
+                                         class="w-auto m-auto mt-4 rounded-lg" />
+                                </section>
+
+                                <section id="thanh-phan"
+                                         class="section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
+                                    <h2 class="font-semibold mb-2">Thành phần</h2>
+                                    <ul class="list-disc list-inside text-gray-700">
+                                        <li>Vitamin C: ...</li>
+                                        <li>Collagen type 1: ...</li>
+                                        <li>Collagen type 2: ...</li>
+                                        <li>Biotin: ...</li>
                                     </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Kích thước</td>
-                                <td>
-                                    <ul class="box-tag">
-                                        <li class="disabled">20cm</li>
-                                        <li class="active">40cm</li>
-                                        <li class="">50cm</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Số lượng:</td>
-                                <td>
-                                    <div class="number-input">
-                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                                        <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                </section>
+
+                                <section id="cong-dung"
+                                         class="section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
+                                    <h2 class="font-semibold mb-2">Công dụng</h2>
+                                    <p class="text-gray-700">Giúp tăng đàn hồi, làm mịn da, móng tóc khỏe mạnh...</p>
+                                </section>
+
+                                <section id="cach-dung"
+                                         class="section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
+                                    <h2 class="font-semibold mb-2">Cách dùng</h2>
+                                    <p class="text-gray-700">Ngày uống 1-2 viên sau ăn...</p>
+                                </section>
+                            </div>
+                        </div>
+
+                        <div class="md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
+                            <h2 class="font-semibold mb-2 uppercase">Đánh giá sản phẩm</h2>
+
+                            <!-- Rating Summary + Filters -->
+                            <div class="border flex-wrap md:flex-nowrap border-gray-300 md:rounded-3xl rounded-xl md:p-5 p-3 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                <div class="flex flex-col justify-center gap-2">
+                                    <div class="flex items-center justify-center gap-2 whitespace-nowrap">
+                                        <span class="text-3xl font-bold text-red-400 overview__rating-score">4.9</span>
+                                        <span class="text-red-400 text-lg">trên 5</span>
+                                    </div>
+                                    <div class=" rating-stars overview__stars">
+                                        <div class="rating-stars__stars flex items-center justify-center gap-2">
+                                            <i class="icon icon-star"></i>
+                                            <i class="icon icon-star"></i>
+                                            <i class="icon icon-star"></i>
+                                            <i class="icon icon-star"></i>
+                                            <i class="icon half-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 text-sm overview__filters">
+                                    <button class="border border-red-400 bg-red-100 text-red-400 font-semibold px-3 py-2 rounded cursor-pointer overview__filter active">
+                                        TẤT CẢ
+                                    </button>
+                                    <button id="overview_filter_5" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="5">
+                                        5 sao (<nw class="count">0</nw>)
+                                    </button>
+                                    <button id="overview_filter_4" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="4">
+                                        4 sao (<nw class="count">0</nw>)
+                                    </button>
+                                    <button id="overview_filter_3" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="3">
+                                        3 sao (<nw class="count">0</nw>)
+                                    </button>
+                                    <button id="overview_filter_2" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="2">
+                                        2 sao (<nw class="count">0</nw>)
+                                    </button>
+                                    <button id="overview_filter_1" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="1">
+                                        1 sao (<nw class="count">0</nw>)
+                                    </button>
+                                    <button id="overview_filter_hascomment" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="comment">
+                                        Có Bình Luận(<nw class="count">0</nw>)
+                                    </button>
+                                    <button id="overview_filter_hasmedia" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="media">
+                                        Có Hình Ảnh / Video (<nw class="count">0</nw>)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="list-review product-ratings__list">
+                                <div class="item-review !border-gray-300 pt-3 mt-3 product-comment-list">
+                                    <!-- User Review -->
+                                    <div class="item-commnet">
+                                        <div class="flex items-start gap-4">
+                                            <img src="https://i.pravatar.cc/48?img=3" alt="avatar" class="w-12 h-12 rounded-full" />
+                                            <div class="flex-1">
+                                                <div class="flex items-center gap-2">
+                                                    <p class="font-semibold">Nguyễn Văn A</p>
+                                                    <div class="flex gap-1 text-yellow-400">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <p class="text-sm text-gray-500">
+                                                    2024-03-29 11:12 · Phân loại hàng: Gấu Trúc, 40cm
+                                                </p>
+                                                <p class="text-gray-800">
+                                                    Giao hành siêu nhanh trong 2h luôn á, nhân viên gọi xác nhận order dth, đóng gói đơn giản, tiết kiệm được cái hộp giấy.
+                                                </p>
+                                                <img src="/assets/images/product1.jpg" alt="review-img" class="w-24 h-24 rounded-md mt-2" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Shop Reply -->
+                                        <div class="bg-gray-50 mt-2 border-l-4 border-blue-300 p-3 rounded-md text-sm text-gray-700">
+                                            <p class="text-gray-500 mb-1">2024-03-29 21:12</p>
+                                            <p>
+                                                <span class="font-bold">BEST MALL</span><br />
+                                                Hulo Toys cảm ơn cậu đã tin tưởng và ủng hộ ạ ^^ cậu nhớ áp dụng mã giảm giá chúng tớ đã gửi kèm cho lần mua sau nhé ❤️
+                                            </p>
+                                        </div>
                                     </div>
 
-                                    <span class="soluong">138 sản phẩm có sẵn</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="hidden md:block md:rounded-3xl rounded-xl bg-white md:p-5 p-3">
+                        <h1 class="md:text-2xl text-xl font-normal mb-4 name-product">
+                            Viên Uống Healthy Care Glucosamine HCL 1500mg,
+                            Hộp 400 Viên
+                        </h1>
+                        <div class="box-price">
+                            <div class="rounded-2xl bg-blue-50 p-4 md:px-6 md:text-3xl text-2xl text-red-400 font-normal mt-4 price">
+                                55.000 - 169.000
+                            </div>
+                        </div>
+                        <div class="flex gap-2 items-center mt-4 box-attribute  ">
+                            <div class="text-slate-500">Phân loại: </div>
+                            <div>
+                                <span class="flex gap-2 items-center ">
+                                    <span class="rounded hover:bg-red-100 border border-gray-200 hover:border-red-500 p-2 text-sm cursor-pointer">
+                                        nguyên
+                                        hộp
+                                    </span>
+                                    <span class="rounded hover:bg-red-100 border border-gray-200 hover:border-red-500 p-2 text-sm cursor-pointer">
+                                        nguyên
+                                        hộp
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center flex-wrap gap-3 mb-4 mt-4 box-action">
+                            <button class="add-cart border-blue-500 border px-6 py-2 text-color-base rounded-full cursor-pointer hover:opacity-80 flex items-center justify-center gap-2 w-full sm:w-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none">
+                                    <path d="M9.75 20.25C9.75 20.5467 9.66203 20.8367 9.4972 21.0834C9.33238 21.33 9.09811 21.5223 8.82403 21.6358C8.54994 21.7494 8.24834 21.7791 7.95736 21.7212C7.66639 21.6633 7.39912 21.5204 7.18934 21.3107C6.97956 21.1009 6.8367 20.8336 6.77882 20.5426C6.72094 20.2517 6.75065 19.9501 6.86418 19.676C6.97771 19.4019 7.16997 19.1676 7.41665 19.0028C7.66332 18.838 7.95333 18.75 8.25 18.75C8.64782 18.75 9.02936 18.908 9.31066 19.1893C9.59196 19.4706 9.75 19.8522 9.75 20.25ZM18 18.75C17.7033 18.75 17.4133 18.838 17.1666 19.0028C16.92 19.1676 16.7277 19.4019 16.6142 19.676C16.5006 19.9501 16.4709 20.2517 16.5288 20.5426C16.5867 20.8336 16.7296 21.1009 16.9393 21.3107C17.1491 21.5204 17.4164 21.6633 17.7074 21.7212C17.9983 21.7791 18.2999 21.7494 18.574 21.6358C18.8481 21.5223 19.0824 21.33 19.2472 21.0834C19.412 20.8367 19.5 20.5467 19.5 20.25C19.5 19.8522 19.342 19.4706 19.0607 19.1893C18.7794 18.908 18.3978 18.75 18 18.75ZM22.4728 6.95062L20.0691 15.6019C19.9369 16.0745 19.6542 16.4911 19.2639 16.7885C18.8736 17.0859 18.397 17.2479 17.9062 17.25H8.64C8.14784 17.2498 7.66926 17.0886 7.27725 16.791C6.88523 16.4935 6.6013 16.0758 6.46875 15.6019L3.18 3.75H1.5C1.30109 3.75 1.11032 3.67098 0.96967 3.53033C0.829018 3.38968 0.75 3.19891 0.75 3C0.75 2.80109 0.829018 2.61032 0.96967 2.46967C1.11032 2.32902 1.30109 2.25 1.5 2.25H3.75C3.91397 2.24997 4.07343 2.30367 4.20398 2.40289C4.33452 2.50211 4.42895 2.64138 4.47281 2.79938L5.36156 6H21.75C21.8656 5.99998 21.9797 6.02669 22.0833 6.07805C22.1869 6.1294 22.2772 6.20401 22.3472 6.29605C22.4171 6.38809 22.4649 6.49506 22.4867 6.60861C22.5085 6.72216 22.5037 6.83922 22.4728 6.95062ZM20.7628 7.5H5.77875L7.91719 15.2006C7.96105 15.3586 8.05548 15.4979 8.18602 15.5971C8.31657 15.6963 8.47603 15.75 8.64 15.75H17.9062C18.0702 15.75 18.2297 15.6963 18.3602 15.5971C18.4908 15.4979 18.5852 15.3586 18.6291 15.2006L20.7628 7.5Z"
+                                          fill="#773EFA" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                          d="M13.125 8.625C13.5392 8.625 13.875 8.96079 13.875 9.375V10.5H15C15.4142 10.5 15.75 10.8358 15.75 11.25C15.75 11.6642 15.4142 12 15 12H13.875V13.125C13.875 13.5392 13.5392 13.875 13.125 13.875C12.7108 13.875 12.375 13.5392 12.375 13.125V12H11.25C10.8358 12 10.5 11.6642 10.5 11.25C10.5 10.8358 10.8358 10.5 11.25 10.5H12.375V9.375C12.375 8.96079 12.7108 8.625 13.125 8.625Z"
+                                          fill="#773EFA" />
+                                </svg>Thêm vào giỏ hàng
+                            </button>
+                            <button class=" buy-now border-blue-500 bg-blue-500 border px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full sm:w-auto">
+                                Mua
+                                ngay
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="box-action">
-                    <a href="javascript:;" class="btn add-cart">Thêm vào giỏ hàng</a>
-                    <a href="javascript:;" class="btn buy-now">Mua ngay</a>
-                </div>
+
             </div>
+
+
+
         </div>
-    </div>
-</div>
-<div id="combo-discount" class="section-category">
-    <div class="container">
-        <div class="list-product-category">
-            <div class="title-box">
-                <h3 class="name-tt"><a href="">COMBO KHUYẾN MÃI</a></h3>
-                <a href="" class="xemthem">Xem thêm</a>
+
+
+        <!-- List Sản phẩm đã xem -->
+        <div class="my-6 md:my-10">
+            <div class="flex justify-between flex-wrap gap-2 mb-3">
+                <h2 class="text-sky-900 font-medium uppercase"><a href="">Sản phẩm đã xem</a> </h2>
+                <a href="/san-pham?group_id=1" class="flex items-center gap-2 text-blue-500 text-sm">
+                    Xem thêm
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z"
+                              fill="#098EF7" />
+                    </svg>
+                </a>
             </div>
-            <div class="product-category">
-                <div class="list-product scroll-product">
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old" >
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old">
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old">
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old">
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old">
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old">
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="section-description-product">
-    <div class="container">
-        <div class="box-description">
-            <div class="content-comment">
-                <div class="box-des">
-                    <h3 class="title">Chi tiết sản phẩm</h3>
-                    <p>
-                        GẤU BÔNG MÈO HOÀNG THƯỢNG COSPLAY HULO TOYS SIZE 20-50CM, THÚ NHỒI BÔNG AN TOÀN CHO BÉ( •_•
-                        )<br>ĐẶC ĐIỂM NỔI BẬT:<br>- Gấu bông mèo hoàng thượng cho bé Hulo Toys với chất liệu
-                        cotton PP mềm
-                        mại, đàn hồi tốt, không dễ biến dạng sau thời gian sử dụng<br>- Không dụng lông, đảm bảo an
-                        toàn cho
-                        bé<br>- Dùng để trang trí trang trí, ôm, làm quà tặng<br>- Được đóng gói chắn chắn.
-                        Đảm bảo sản
-                        phẩm khi nhận sẽ được mới và giữ được form tốt nhất<br>THÔNG TIN SẢN PHẨM:<br>-
-                        Kích thước:
-                        size 20 không thêu chân, size 20cm và 45cm<br>- Chất liệu: Bông gòn, cotton PP<br>- Phân
-                        loại: Thỏ, Ếch,
-                        Gấu Trúc <br>THÔNG TIN CẢNH BÁO:<br>- Độ tuổi khuyến nghị: Từ 1 tháng<br>HƯỚNG DẪN
-                        SỬ DỤNG<br>:- Mở ra
-                        và chơi thôi <br>^^HULO TOYS XIN CAM KẾT:<br>- Sản phẩm giống hình và mô tả
-                        100%<br>- Nếu bố mẹ
-                        cần gấp thì đặt hàng qua giao hàng hỏa tốc Shopee chúng tớ sẽ đóng và giao hàng
-                        trong vòng vài giờ ^^<br>- Đổi trả, bảo hành sản phẩm nếu có lỗi từ nhà sản
-                        xuất<br>----------------------<br>TIỆM ĐỒ CHƠI CHO BÉ HULO TOYS - CÙNG BÉ PHÁT TRIỂN
-                        TOÀN
-                        DIỆN🚀<br>#gaubong #gaubongmeo #meo #meohoangthuong #dochoi #hulotoys
-                    </p>
-                </div>
-                <div class="box-comment">
-                    <h3 class="title">Đánh giá sản phẩm</h3>
-                    <div class="box-review">
-                        <div class="overview">
-                            <div class="overview__briefing">
-                                <div class="overview__score-wrapper">
-                                    <span class="overview__rating-score">4.7</span>
-                                    <span class="overview__rating-score-out-of"> trên <nw style="font-size:28px;">5</nw> </span>
-                                </div>
-                                <div class="rating-stars overview__stars">
-                                    <div class="rating-stars__stars">
-                                        <i class="icon icon-star"></i>
-                                        <i class="icon icon-star"></i>
-                                        <i class="icon icon-star"></i>
-                                        <i class="icon icon-star"></i>
-                                        <i class="icon half-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="overview__filters">
-                                <div class="overview__filter active">
-                                    Tất
-                                    cả
-                                </div>
-                                <div id="overview_filter_5" class="overview__filter" data-value="5">5 Sao (<nw class="count">0</nw>)</div>
-                                <div id="overview_filter_4" class="overview__filter" data-value="4">4 Sao (<nw class="count">0</nw>)</div>
-                                <div id="overview_filter_3" class="overview__filter" data-value="3">3 Sao (<nw class="count">0</nw>)</div>
-                                <div id="overview_filter_2" class="overview__filter" data-value="2">2 Sao (<nw class="count">0</nw>)</div>
-                                <div id="overview_filter_1" class="overview__filter" data-value="1">1 Sao (<nw class="count">0</nw>)</div>
-                                <div id="overview_filter_hascomment" class="overview__filter" data-value="comment">Có Bình luận (<nw class="count">0</nw>)</div>
-                                <div id="overview_filter_hasmedia" class="overview__filter" data-value="media">Có hình ảnh / video (<nw class="count">0</nw>)</div>
-                            </div>
 
-                        </div>
-                        <div class="product-ratings__list">
-                            <div class="product-comment-list">
-                                <div class="item-commnet">
-                                    <div class="flex-comment">
-                                        <div class="avatar">
-                                            <img src="/assets/images/product.jpg" alt="">
-                                        </div>
-                                        <div class="comment-user">
-                                            <h4 class="name">Nguyễn văn A</h4>
-                                            <div class="review">
-                                                <i class="icon icon-star"></i>
-                                                <i class="icon icon-star"></i>
-                                                <i class="icon icon-star"></i>
-                                                <i class="icon icon-star"></i>
-                                                <i class="icon icon-star"></i>
-                                            </div>
-                                            <div class="meta">
-                                                <span class="time">2024-03-29 11:12</span>
-                                                <span class="cat">Phân loại hàng: Gấu Trúc, 40cm</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="cmt-review">
-                                        Giao hành siu nhanh trong 2h luôn á, nhân viên gọi xác nhận
-                                        order dth, đóng gói đơn giản, tiết kiệm được cái hộp giấy.
-                                    </div>
-                                    <div id="lightgallery" class="img-product">
-
-                                        <a href="/assets/images/product.jpg" data-lg-id="3e1fbec2-9c35-461a-b9cc-79fd1d885438">
-                                            <img src="/assets/images/product.jpg" width="500" height="300">
-                                        </a>
-
-                                        <a data-video="{&quot;source&quot;: [{&quot;src&quot;:&quot;https://static-image.adavigo.com/uploads/videos/2024/10/dceeu5zi.otz.mp4&quot;, &quot;type&quot;:&quot;video/mp4&quot;}],&quot;attributes&quot;: {&quot;preload&quot;: false, &quot;controls&quot;: false}}" data-poster="/assets/images/product.jpg" data-lg-id="94f486d5-5871-40ca-9e21-40d9ed640822">
-                                            <img src="/assets/images/product.jpg" width="500" height="300">
-                                        </a>
-
-                                        <!-- <a data-lg-size="1280-720" data-pinterest-text="Pin it3"
-                                            data-tweet-text="lightGallery slide  4"
-                                            data-video='{"source": [{"src":"https://www.lightgalleryjs.com/videos/video1.mp4", "type":"video/mp4"}], "tracks": [{"src": "https://www.lightgalleryjs.com/videos/title.txt", "kind":"captions", "srclang": "en", "label": "English", "default": "true"}], "attributes": {"preload": false, "controls": true}}'
-                                            data-poster="https://www.lightgalleryjs.com/images/demo/html5-video-poster.jpg"
-                                            data-sub-html="<h4>'Peck Pocketed' by Kevin Herron | Disney Favorite</h4>">
-                                            <img class="img-responsive"
-                                                src="https://www.lightgalleryjs.com/images/demo/html5-video-poster.jpg"
-                                                width="300" />
-                                        </a> -->
-                                    </div>
-                                    <div class="reply-comment">
-                                        <span class="time">2024-03-29 11:12</span>
-                                        <h4 class="name">Nguyễn văn A</h4>
-                                        <div class="cmt">
-                                            Giao hành siu nhanh trong 2h luôn á, nhân viên gọi xác nhận
-                                            order dth, đóng gói đơn giản, tiết kiệm được cái hộp giấy.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item-commnet">
-                                    <div class="flex-comment">
-                                        <div class="avatar">
-                                            <img src="/assets/images/product.jpg" alt="">
-                                        </div>
-                                        <div class="comment-user">
-                                            <h4 class="name">Nguyễn văn A</h4>
-                                            <div class="review">
-                                                <i class="icon icon-star"></i>
-                                                <i class="icon icon-star"></i>
-                                                <i class="icon icon-star"></i>
-                                                <i class="icon icon-star"></i>
-                                                <i class="icon icon-star"></i>
-                                            </div>
-                                            <div class="meta">
-                                                <span class="time">2024-03-29 11:12</span>
-                                                <span class="cat">Phân loại hàng: Gấu Trúc, 40cm</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="cmt-review">
-                                        Giao hành siu nhanh trong 2h luôn á, nhân viên gọi xác nhận
-                                        order dth, đóng gói đơn giản, tiết kiệm được cái hộp giấy.
-                                    </div>
-                                    <div class="img-product">
-                                        <img src="/assets/images/product.jpg" alt="">
-                                    </div>
-                                    <div class="reply-comment">
-                                        <span class="time">2024-03-29 11:12</span>
-                                        <h4 class="name">Nguyễn văn A</h4>
-                                        <div class="cmt">
-                                            Giao hành siu nhanh trong 2h luôn á, nhân viên gọi xác nhận
-                                            order dth, đóng gói đơn giản, tiết kiệm được cái hộp giấy.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+            <!-- Swiper -->
+            <div class="relative mt-3">
+                <div class="flash-sale-swiper">
+                    <div class="swiper">
+                        <div class="swiper-wrapper" id="viewed-products">
                         </div>
                     </div>
 
-                </div>
-                <div class="wrap-paging">
-                    <a href="" class="xemthem">Xem thêm</a>
-                    <ul class="pagination">
-                        <li class="page first"><a href=""><i class="icon icon-page-first"></i></a></li>
-                        <li class="page previous disabled">
-                            <a href=""><i class="icon icon-page-previous"></i></a>
-                        </li>
-                        <li class="page active"><a href="">1</a></li>
-                        <li class="page"><a href="">2</a></li>
-                        <li class="page"><a href="">...</a></li>
-                        <li class="page"><a href="">3</a></li>
-                        <li class="page next"><a href=""><i class="icon icon-page-next"></i></a></li>
-                        <li class="page last"><a href=""><i class="icon icon-page-last"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="coupon-list">
-                <div class="boxside">
-                    <div class="title-box">Voucher</div>
-                    <div class="list-voucher">
-                        <div class="item">
-                            <div class="img"><img src="/assets/images/voucher.png" alt=""></div>
-                            <div class="info">
-                                <h4 class="name">Giảm đậm gơn 20%</h4>
-                                <p class="date">7/9/2022</p>
-                                <button class="btn save">Lưu</button>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="img"><img src="/assets/images/voucher.png" alt=""></div>
-                            <div class="info">
-                                <h4 class="name">Giảm đậm gơn 20%</h4>
-                                <p class="date">7/9/2022</p>
-                                <button class="btn save">Lưu</button>
-                            </div>
-                        </div>
+                    <!-- Navigation -->
+                    <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                        <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
                     </div>
-                </div>
-                <div class="boxside">
-                    <div class="title-box">Nổi bật</div>
-                    <div class="list-product-most">
-                        <div class="item-product">
-                            <a href="">
-                                <div class="box-thumb">
-                                    <div class="thumb-product">
-                                        <img src="/assets/images/product.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="box-info">
-                                    <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                    <div class="flex-price">
-                                        <div class="price-sale">689,098đ</div>
-                                        <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                    </div>
-                                    <div class="price-old">
-                                        So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                        <div class="info-detail">
-                                            Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                            được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="item-product">
-                            <a href="">
-                                <div class="box-thumb">
-                                    <div class="thumb-product">
-                                        <img src="/assets/images/product.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="box-info">
-                                    <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                    <div class="flex-price">
-                                        <div class="price-sale">689,098đ</div>
-                                        <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                    </div>
-                                    <div class="price-old">
-                                        So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                        <div class="info-detail">
-                                            Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                            được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="item-product">
-                            <a href="">
-                                <div class="box-thumb">
-                                    <div class="thumb-product">
-                                        <img src="/assets/images/product.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="box-info">
-                                    <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                    <div class="flex-price">
-                                        <div class="price-sale">689,098đ</div>
-                                        <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                    </div>
-                                    <div class="price-old">
-                                        So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                        <div class="info-detail">
-                                            Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                            được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="item-product">
-                            <a href="">
-                                <div class="box-thumb">
-                                    <div class="thumb-product">
-                                        <img src="/assets/images/product.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="box-info">
-                                    <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                    <div class="flex-price">
-                                        <div class="price-sale">689,098đ</div>
-                                        <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                    </div>
-                                    <div class="price-old">
-                                        So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                        <div class="info-detail">
-                                            Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                            được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                    <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                        <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div id="product-alike" class="section-category">
-    <div class="container">
-        <div class="list-product-category">
-            <div class="title-box">
-                <h3 class="name-tt"><a href="">CÓ THỂ BẠN CŨNG THÍCH</a></h3>
-                <a href="" class="xemthem">Xem thêm</a>
-            </div>
-            <div class="product-category">
-                <div class="list-product scroll-product">
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old">
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old">
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old">
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old">
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old">
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item-product">
-                        <a href="">
-                            <div class="box-thumb">
-                                <div class="thumb-product">
-                                    <img src="/assets/images/product.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="box-info">
-                                <h3 class="name-product">Đồ Chơi Lắp Ráp Tàu Vũ Trụ Lele Brother, Xếp Hình Cho Bé Từ 6 Tuổi</h3>
-                                <div class="flex-price">
-                                    <div class="price-sale">689,098đ</div>
-                                    <div class="review">4.8<i class="icon icon-star"></i><span class="total-review">(322)</span></div>
-                                </div>
-                                <div class="price-old">
-                                    So với giá cũ 767,009đ <i class="icon icon-info"></i>
-                                    <div class="info-detail">
-                                        Giá sản phẩm <b>rẻ nhất</b> của đơn vị khác
-                                        được Hulo Toys nghiên cứu trên <b>mọi nền tảng</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</section>
 
 @section Scripts {
     <script type="text/javascript" src="/modules/product_detail.js"></script>
