@@ -1,4 +1,4 @@
-﻿namespace HuloToys_Front_End.ViewModels
+﻿namespace Best1Mall_Front_End.ViewModels
 {
     public class PagingFeViewModel
     {

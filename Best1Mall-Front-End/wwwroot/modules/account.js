@@ -121,10 +121,6 @@ var account = {
             }
         });
 
-        $("body").on('click', ".btn-login-gg", function () {
-            document.querySelector('.g_id_signin div[role=button]').click();
-
-        });
         $("body").on('click', ".btn-login-fb", function () {
             FB.getLoginStatus(function (response) {
                 FacebookLogin();

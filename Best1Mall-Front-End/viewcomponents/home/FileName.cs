@@ -1,4 +1,4 @@
-﻿namespace HuloToys_Front_End.ViewComponents.Home
+﻿namespace Best1Mall_Front_End.ViewComponents.Home
 {
     public class FileName
     {

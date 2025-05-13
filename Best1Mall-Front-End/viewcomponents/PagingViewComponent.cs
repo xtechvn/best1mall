@@ -1,4 +1,4 @@
-﻿using HuloToys_Front_End.ViewModels;
+﻿using Best1Mall_Front_End.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WEB.CMS.ViewComponents

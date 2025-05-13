@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace HuloToys_Front_End.ViewModels.Files
+namespace Best1Mall_Front_End.ViewModels.Files
 {
     public class VideoUploadModel
     {

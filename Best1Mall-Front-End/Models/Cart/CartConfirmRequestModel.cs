@@ -1,5 +1,5 @@
-﻿using HuloToys_Front_End.Models.NinjaVan;
-using HuloToys_Front_End.Models.Client;
+﻿using Best1Mall_Front_End.Models.NinjaVan;
+using Best1Mall_Front_End.Models.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;

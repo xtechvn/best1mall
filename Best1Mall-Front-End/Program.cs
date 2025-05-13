@@ -1,4 +1,4 @@
-﻿using HuloToys_Front_End.Service.Redis;
+﻿using Best1Mall_Front_End.Service.Redis;
 using Microsoft.AspNetCore.Http.Features;
 using System.Text.Json;
 

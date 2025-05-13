@@ -1,15 +1,15 @@
-﻿using HuloToys_Front_End.Models.Comments;
-using HuloToys_Front_End.Models.News;
-using HuloToys_Front_End.Utilities.Contants;
-using HuloToys_Front_End.Utilities.Lib;
-using HuloToys_Front_End.Utilities.Lib;
+﻿using Best1Mall_Front_End.Models.Comments;
+using Best1Mall_Front_End.Models.News;
+using Best1Mall_Front_End.Utilities.Contants;
+using Best1Mall_Front_End.Utilities.Lib;
+using Best1Mall_Front_End.Utilities.Lib;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Utilities.Contants;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace HuloToys_Front_End.Controllers.Support.Business
+namespace Best1Mall_Front_End.Controllers.Support.Business
 {
     public class SupportServices : APIService
     {

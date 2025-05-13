@@ -1,9 +1,9 @@
-﻿using HuloToys_Front_End.Models.Authentication;
-using HuloToys_Front_End.Models.Client;
-using HuloToys_Front_End.Models.Products;
-using HuloToys_Front_End.Utilities.Contants;
-using HuloToys_Front_End.Models;
-using HuloToys_Front_End.Utilities.Lib;
+﻿using Best1Mall_Front_End.Models.Authentication;
+using Best1Mall_Front_End.Models.Client;
+using Best1Mall_Front_End.Models.Products;
+using Best1Mall_Front_End.Utilities.Contants;
+using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Utilities.Lib;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,9 +11,9 @@ using System.Security.AccessControl;
 using System.Text;
 using Utilities.Contants;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using HuloToys_Front_End.Service.Redis;
+using Best1Mall_Front_End.Service.Redis;
 
-namespace HuloToys_Front_End.Utilities.Lib
+namespace Best1Mall_Front_End.Utilities.Lib
 {
     public class APIService
     {

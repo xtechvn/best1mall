@@ -1,5 +1,5 @@
-﻿using HuloToys_Front_End.ViewModels;
-using HuloToys_Front_End.ViewModels.Paginated;
+﻿using Best1Mall_Front_End.ViewModels;
+using Best1Mall_Front_End.ViewModels.Paginated;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WEB.CMS.ViewComponents

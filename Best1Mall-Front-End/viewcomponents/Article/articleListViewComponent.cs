@@ -1,8 +1,8 @@
 ﻿
-using HuloToys_Front_End.Controllers.News.Business;
-using HuloToys_Front_End.Models;
-using HuloToys_Front_End.Service.Redis;
-using HuloToys_Front_End.Utilities;
+using Best1Mall_Front_End.Controllers.News.Business;
+using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System.Reflection;

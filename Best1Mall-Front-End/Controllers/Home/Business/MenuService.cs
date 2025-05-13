@@ -1,13 +1,13 @@
 ﻿
-using HuloToys_Front_End.Models;
-using HuloToys_Front_End.Models.Labels;
-using HuloToys_Front_End.Service.Redis;
-using HuloToys_Front_End.Utilities;
-using HuloToys_Front_End.Utilities.Contants;
+using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Models.Labels;
+using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities;
+using Best1Mall_Front_End.Utilities.Contants;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace HuloToys_Front_End.Controllers.Home.Business
+namespace Best1Mall_Front_End.Controllers.Home.Business
 {
     public class MenuService
     {

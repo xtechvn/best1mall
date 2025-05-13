@@ -1,5 +1,5 @@
 ﻿using StackExchange.Redis;
-namespace HuloToys_Front_End.Service.Redis
+namespace Best1Mall_Front_End.Service.Redis
 {
    
         public class RedisConn

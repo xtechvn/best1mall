@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>HuloToys_Front_End</RootNamespace>
+    <RootNamespace>Best1Mall_Front_End</RootNamespace>
   </PropertyGroup>
 
 
@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.69.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.15" />
     <PackageReference Include="MongoDB.Bson" Version="2.28.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

@@ -1,18 +1,18 @@
-﻿using HuloToys_Front_End.Controllers.Client.Business;
-using HuloToys_Front_End.Controllers.News.Business;
-using HuloToys_Front_End.Models;
-using HuloToys_Front_End.Models.Products;
-using HuloToys_Front_End.Models.Raiting;
-using HuloToys_Front_End.Service.Redis;
-using HuloToys_Front_End.Utilities.contants;
-using HuloToys_Front_End.Utilities.Lib;
-using HuloToys_Front_End.ViewModels;
+﻿using Best1Mall_Front_End.Controllers.Client.Business;
+using Best1Mall_Front_End.Controllers.News.Business;
+using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Models.Products;
+using Best1Mall_Front_End.Models.Raiting;
+using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities.contants;
+using Best1Mall_Front_End.Utilities.Lib;
+using Best1Mall_Front_End.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
-namespace HuloToys_Front_End.Controllers.Product
+namespace Best1Mall_Front_End.Controllers.Product
 {
 
     public class ProductController : Controller

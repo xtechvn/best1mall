@@ -1,4 +1,4 @@
-﻿namespace HuloToys_Front_End.Models.Authentication
+﻿namespace Best1Mall_Front_End.Models.Authentication
 {
     public class APITokenCacheModel
     {

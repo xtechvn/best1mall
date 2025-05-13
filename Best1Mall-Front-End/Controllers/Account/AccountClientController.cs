@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace HuloToys_Front_End.Controllers
+namespace Best1Mall_Front_End.Controllers.Accounts
 {
     public class AccountClientController : Controller
     {
@@ -16,7 +16,7 @@ namespace HuloToys_Front_End.Controllers
         {
             return PartialView();
         }
-        public IActionResult UpdateOrderStatus(long Id,long Status)
+        public IActionResult UpdateOrderStatus(long Id, long Status)
         {
             return PartialView();
         }

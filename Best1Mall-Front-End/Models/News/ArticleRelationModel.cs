@@ -1,4 +1,4 @@
-﻿namespace HuloToys_Front_End.Models.News
+﻿namespace Best1Mall_Front_End.Models.News
 {
     public class ArticleRelationModel
     {

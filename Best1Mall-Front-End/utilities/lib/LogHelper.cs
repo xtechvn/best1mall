@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace HuloToys_Front_End.Utilities.Lib
+namespace Best1Mall_Front_End.Utilities.Lib
 {
     public static class LogHelper
     {

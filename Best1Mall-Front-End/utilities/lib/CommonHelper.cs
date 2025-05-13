@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace HuloToys_Front_End.Utilities.Lib
+namespace Best1Mall_Front_End.Utilities.Lib
 {
     public static class CommonHelper
     {

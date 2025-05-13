@@ -1,4 +1,4 @@
-﻿namespace HuloToys_Front_End.Models.NinjaVan
+﻿namespace Best1Mall_Front_End.Models.NinjaVan
 {
     public class ShippingFeeRequestModel
     {

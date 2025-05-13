@@ -1,6 +1,6 @@
 ﻿
 
-namespace HuloToys_Front_End.ViewModels.Paginated
+namespace Best1Mall_Front_End.ViewModels.Paginated
 {
     public class PaginationNewsViewModel
     {        

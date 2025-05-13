@@ -1,10 +1,10 @@
-﻿using HuloToys_Front_End.Controllers.News.Business;
-using HuloToys_Front_End.Models.Labels;
-using HuloToys_Front_End.Models.Products;
-using HuloToys_Front_End.Service.Redis;
+﻿using Best1Mall_Front_End.Controllers.News.Business;
+using Best1Mall_Front_End.Models.Labels;
+using Best1Mall_Front_End.Models.Products;
+using Best1Mall_Front_End.Service.Redis;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HuloToys_Front_End.Controllers.Home
+namespace Best1Mall_Front_End.Controllers.Home
 {
     public class HomeController : Controller
     {

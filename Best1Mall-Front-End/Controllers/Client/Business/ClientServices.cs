@@ -1,16 +1,16 @@
-﻿using HuloToys_Front_End.Utilities.Lib;
-using HuloToys_Front_End.Models;
+﻿using Best1Mall_Front_End.Utilities.Lib;
+using Best1Mall_Front_End.Models;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Net.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Reflection;
-using HuloToys_Front_End.Models.Client;
-using HuloToys_Front_End.Utilities.Contants;
+using Best1Mall_Front_End.Models.Client;
+using Best1Mall_Front_End.Utilities.Contants;
 using LIB.Models.APIRequest;
-using HuloToys_Front_End.Models.Client;
+using Best1Mall_Front_End.Models.Client;
 
-namespace HuloToys_Front_End.Controllers.Client.Business
+namespace Best1Mall_Front_End.Controllers.Client.Business
 {
     public class ClientServices :APIService
     {

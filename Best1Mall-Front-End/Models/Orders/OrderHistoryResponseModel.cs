@@ -1,6 +1,6 @@
 ﻿using Models.MongoDb;
 
-namespace HuloToys_Front_End.Models.Orders
+namespace Best1Mall_Front_End.Models.Orders
 {
     public class OrderHistoryResponseModel
     {

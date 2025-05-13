@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace HuloToys_Front_End.Utilities.Lib
+namespace Best1Mall_Front_End.Utilities.Lib
 {
     public class EncodeHelpers
     {

@@ -2,203 +2,193 @@
     Layout = null;
     ViewData["NeedLoginCss"] = true;
 }
-<!-- đăng nhập -->
-<div id="dangnhap" class="overlay client-login-popup">
-    <div class="popup">
-        <a class="close" href="javascript:;">
-            <i class="icon icon-close"></i>
-        </a>
-        <div class="content">
-            <ul class="tab-login">
-                <li class="active">
-                    <a class="client-login" href="javascript:;" data-id="#dangnhap">Đăng nhập</a>
-                </li>
-                <li class="">
-                    <a class="client-login" href="javascript:;" data-id="#dangky">Đăng ký</a>
-                </li>
-            </ul>
+<!-- Popup 1 -->
+    <div id="login-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
+        <div class="flex justify-center md:items-center h-full">
+            <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto  overflow-y-auto relative">
 
-            <ul>
-                <li>
-                    <div class="form-group">
-                        <label>Tên tài khoản / Email / Số điện thoại</label>
-                        <div class="box-input user">
-                            <input class="form-control" type="text" placeholder="Nhập Tên tài khoản / Địa chỉ Email" />
-                        </div>
-                        <span class="err">Vui lòng không để trống</span>
-
-                    </div>
-                    <div class="form-group">
-
-                        <label>Mật khẩu</label>
-                        <div class="box-input password">
-                            <input class="form-control" type="password" placeholder="Nhập mật khẩu" />
-                        </div>
-                        <span class="err">Vui lòng không để trống</span>
-
-                    </div>
-                    <div class="flex-note">
-                        <div class="ghinho">
-                            <div class="box-checkbox">
-                                <input type="checkbox" class="checkbox" />
-                                <label for="checkbox"></label>
-                            </div>
-                            <span>Ghi nhớ đăng nhập</span>
-                        </div>
-                        <a href="javascript:;" class="forgot-pass">Quên mật khẩu?</a>
-                    </div>
-                    <div id="register-detail" data-type="1"></div>
-                    <button id="btn-client-login" class="btn-submit ">Đăng nhập</button>
-                    <div class="orther-login" style="display:none;"><span>Hoặc đăng nhập bằng</span></div>
-                    <div class="flex-social" style="grid-template-columns:auto;display:none;">
-                        <a href="javascript:;" class="btn btn-login-fb" style="display:none;">Đăng nhập bằng Facebook</a>
-                        <a href="javascript:;" class="btn btn-login-gg ">Đăng nhập bằng Google</a>
-                        <div id="g_id_onload" style="display:none;"
-                             data-client_id="65575993345-u9qk911fs77lls8tgmn2c3gjk04lg78c.apps.googleusercontent.com"
-                             data-context="signin"
-                             data-ux_mode="popup"
-                             data-callback="GoogleSignIn"
-                             data-auto_prompt="false">
-                        </div>
-                        <div class="g_id_signin" style="display:none;"
-                             data-type="standard"
-                             data-shape="pill"
-                             data-theme="filled_black"
-                             data-text="signin_with"
-                             data-size="large"
-                             data-logo_alignment="left">
-                        </div>
-                    </div>
-                    <div id="fb-root" style="display:none;"></div>
-                    <div class="fb-login-button" style="display:none;" data-width="" data-size="" data-button-type="" data-layout="" data-auto-logout-link="false" data-use-continue-as="false"></div>
-
-                </li>
-              </ul>
-        </div>
-    </div>
-</div>
-<!-- đăng kí -->
-<div id="dangky" class="overlay client-login-popup">
-    <div class="popup">
-        <a class="close" href="javascript:;">
-            <i class="icon icon-close"></i>
-        </a>
-        <div class="content">
-            <ul class="tab-login">
-                <li class="">
-                    <a class="client-login" href="javascript:;" data-id="#dangnhap">Đăng nhập</a>
-                </li>
-                <li class="active">
-                    <a class="client-login" href="javascript:;" data-id="#dangky">Đăng ký</a>
-                </li>
-            </ul>
-            <ul>
-                <div class="scroll-form">
-                    <div class="form-group">
-                        <!-- <label>Họ và tên</label> -->
-                        <div class="box-input user">
-                            <input class="form-control" type="text" placeholder="Nhập họ tên" />
-                        </div>
-                        <span class="err">Vui lòng không để trống</span>
-                    </div>
-                    <div class="form-group">
-                        <!-- <label>Email</label> -->
-                        <div class="box-email">
-                            <div class="box-input email">
-                                <input class="form-control" type="text" placeholder="Nhập địa chỉ Email " />
-                            </div>
-                            @* <button class="resend">Gửi mã xác thực</button> *@
-
-                        </div>
-                        <span class="err">Vui lòng không để trống</span>
-                    </div>
-                    @*  <div class="form-group">
-                    <!-- <label>Mã xác thực</label> -->
-                    <div class="box-input code">
-                    <input class="form-control" type="text"
-                    placeholder="Nhập mã xác thực đã gửi vào email" />
-                    </div>
-                    </div> *@
-                    <div class="form-group">
-                        <!-- <label>Số điện thoại</label> -->
-                        <div class="box-input tel">
-                            <input class="form-control" type="text" placeholder="Nhập số điện thoại" />
-                        </div>
-                        <span class="err">Vui lòng không để trống</span>
-                    </div>
-                    <div class="form-group">
-                        <!-- <label>Mật khẩu</label> -->
-                        <div class="box-input password register-password">
-                            <input class="form-control" type="password"
-                                   placeholder="Nhập mật khẩu từ 6 đến 32 ký tự" />
-                        </div>
-                        <span class="err">Vui lòng không để trống</span>
-                    </div>
-                    <div class="form-group">
-                        <!-- <label>Xác nhận mật khẩu</label> -->
-                        <div class="box-input password confirm-password">
-                            <input class="form-control" type="password" placeholder="Nhập lại mật khẩu" />
-                        </div>
-                        <span class="err">Vui lòng không để trống</span>
-                    </div>
-                    <div class="ghinho">
-                        <div class="box-checkbox">
-                            <input type="checkbox" class="checkbox" />
-                            <label for="checkbox"></label>
-                        </div>
-                        <span>Nhận Email thông báo từ chúng tôi</span>
-                    </div>
+                <span class="closePopup absolute right-2 top-2 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                        <path
+                            d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                            fill="#2A3262" />
+                    </svg>
+                </span>
+                <!-- Tabs -->
+                <div class="flex justify-center items-center border-b border-gray-200 mb-6">
+                    <button id="tab-login"
+                        class="w-full px-6 py-2 font-semibold text-purple-500 border-b-3 border-purple-500 cursor-pointer">
+                        Đăng nhập
+                    </button>
+                    <button id="tab-register" class="w-full px-6 py-2 font-semibold text-gray-500  cursor-pointer">
+                        Đăng kí</button>
                 </div>
-                <button id="btn-client-register" class="btn-submit">Tạo tài khoản</button>
-                <p class="note ">
-                    Khi bạn nhấn Đăng ký, bạn đã đồng ý thực hiện mọi giao dịch mua bán theo<a href="">
-                        điều kiện sử dụng và chính sách của Chúng tôi
-                    </a>.
-                </p>
-            </ul>
-        </div>
-    </div>
-</div>
 
-<!-- Thành công -->
-<div id="success" class="overlay form-succes client-login-popup">
-    <div class="popup">
-        <a class="close" href="javascript:;">
-            <i class="icon icon-close"></i>
-        </a>
-        <div class="content">
-            <img src="/assets/images/img-successs.png" alt="" />
-            <h4>Đăng kí tài khoản thành công!</h4>
-        </div>
-    </div>
-</div>
-<!-- Quên mật khẩu -->
-<div id="quenmk" class="overlay client-forgot-popup">
-    <div class="popup">
-        <a class="close" href="javascript:;">
-            <i class="icon icon-close"></i>
-        </a>
-        <div class="content">
-            <ul class="tab-login">
-                <li class="active">
-                    <a class="client-forgot" href="javascript:;">Quên mật khẩu</a>
-                </li>
-            </ul>
-            <ul>
-                <div class="scroll-form">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <div class="box-email">
-                            <div class="box-input email">
-                                <input id="forgot-password-email" class="form-control" type="text" placeholder="Nhập địa chỉ Email " />
-                            </div>
-                            <span class="err">Email không đúng định dạng</span>
-                        </div>
-                        <span class="err">Vui lòng không để trống</span>
+                <!-- Login Form -->
+                <form id="login-form" class="space-y-4">
+                    <div class="mb-4">
+                        <label class="block relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
+                                    fill="none">
+                                    <path
+                                        d="M21 5H3C2.80109 5 2.61032 5.07902 2.46967 5.21967C2.32902 5.36032 2.25 5.55109 2.25 5.75V18.5C2.25 18.8978 2.40804 19.2794 2.68934 19.5607C2.97064 19.842 3.35218 20 3.75 20H20.25C20.6478 20 21.0294 19.842 21.3107 19.5607C21.592 19.2794 21.75 18.8978 21.75 18.5V5.75C21.75 5.55109 21.671 5.36032 21.5303 5.21967C21.3897 5.07902 21.1989 5 21 5ZM12 12.9828L4.92844 6.5H19.0716L12 12.9828ZM9.25406 12.5L3.75 17.5447V7.45531L9.25406 12.5ZM10.3641 13.5172L11.4891 14.5531C11.6274 14.6801 11.8084 14.7506 11.9963 14.7506C12.1841 14.7506 12.3651 14.6801 12.5034 14.5531L13.6284 13.5172L19.0659 18.5H4.92844L10.3641 13.5172ZM14.7459 12.5L20.25 7.45438V17.5456L14.7459 12.5Z"
+                                        fill="#773EFA" />
+                                </svg>
+                            </span>
+                            <input type="email" placeholder="Nhập email của bạn"
+                                class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </label>
                     </div>
-                    <button id="forgot-password-btn" class="btn-submit">Gửi email đổi mật khẩu</button>
-                </div>
-            </ul>
+                    <div class="mb-4">
+                        <label class="block relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
+                                    fill="none">
+                                    <path
+                                        d="M19.5 8H16.5V5.75C16.5 4.55653 16.0259 3.41193 15.182 2.56802C14.3381 1.72411 13.1935 1.25 12 1.25C10.8065 1.25 9.66193 1.72411 8.81802 2.56802C7.97411 3.41193 7.5 4.55653 7.5 5.75V8H4.5C4.10218 8 3.72064 8.15804 3.43934 8.43934C3.15804 8.72064 3 9.10218 3 9.5V20C3 20.3978 3.15804 20.7794 3.43934 21.0607C3.72064 21.342 4.10218 21.5 4.5 21.5H19.5C19.8978 21.5 20.2794 21.342 20.5607 21.0607C20.842 20.7794 21 20.3978 21 20V9.5C21 9.10218 20.842 8.72064 20.5607 8.43934C20.2794 8.15804 19.8978 8 19.5 8ZM9 5.75C9 4.95435 9.31607 4.19129 9.87868 3.62868C10.4413 3.06607 11.2044 2.75 12 2.75C12.7956 2.75 13.5587 3.06607 14.1213 3.62868C14.6839 4.19129 15 4.95435 15 5.75V8H9V5.75ZM19.5 20H4.5V9.5H19.5V20ZM13.125 14.75C13.125 14.9725 13.059 15.19 12.9354 15.375C12.8118 15.56 12.6361 15.7042 12.4305 15.7894C12.225 15.8745 11.9988 15.8968 11.7805 15.8534C11.5623 15.81 11.3618 15.7028 11.2045 15.5455C11.0472 15.3882 10.94 15.1877 10.8966 14.9695C10.8532 14.7512 10.8755 14.525 10.9606 14.3195C11.0458 14.1139 11.19 13.9382 11.375 13.8146C11.56 13.691 11.7775 13.625 12 13.625C12.2984 13.625 12.5845 13.7435 12.7955 13.9545C13.0065 14.1655 13.125 14.4516 13.125 14.75Z"
+                                        fill="#773EFA" />
+                                </svg>
+                            </span>
+                            <input type="password" placeholder="Nhập mật khẩu"
+                                class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </label>
+                    </div>
+                    <div class="flex items-center justify-between mb-6">
+                        <label class="inline-flex items-center">
+                            <input type="checkbox"
+                                class="form-checkbox w-5 h-5 text-purple-600 rounded focus:ring-purple-500">
+                            <span class="ml-2 text-sm">Ghi nhớ đăng nhập</span>
+                        </label>
+                        <a href="#" class="text-sm text-red-400">Quên mật khẩu?</a>
+                    </div>
+                    <button class="w-full bg-purple-600 text-white py-3 rounded-full font-normal">Đăng nhập</button>
+
+                    <div class="flex items-center">
+                        <hr class="flex-grow border-gray-300">
+                        <span class="mx-3 text-sm text-gray-400">Hoặc đăng nhập bằng</span>
+                        <hr class="flex-grow border-gray-300">
+                    </div>
+
+                    <div class="flex flex-wrap justify-between gap-4">
+                       @*  <button class="w-full border rounded-full py-2 flex items-center justify-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
+                                fill="none">
+                                <path
+                                    d="M9.71483 22.5V13.5547H6.54541V10H9.71483V7.19922C9.71483 4.15625 11.6818 2.5 14.5537 2.5C15.9297 2.5 17.1115 2.59766 17.4545 2.64062V5.82031H15.4628C13.9008 5.82031 13.5991 6.52344 13.5991 7.55078V10H17.1239L16.6405 13.5547H13.5991V22.5"
+                                    fill="#3B5998" />
+                            </svg>
+                            Đăng nhập bằng Facebook
+                        </button> *@
+                        <button class="w-full border rounded-full py-2 flex items-center justify-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25"
+                                fill="none">
+                                <path
+                                    d="M22.5 12.7339C22.5 18.4395 18.5287 22.5 12.6639 22.5C7.04098 22.5 2.5 18.0323 2.5 12.5C2.5 6.96774 7.04098 2.5 12.6639 2.5C15.4016 2.5 17.7049 3.4879 19.4795 5.11694L16.7131 7.73387C13.0943 4.29839 6.36475 6.87903 6.36475 12.5C6.36475 15.9879 9.19672 18.8145 12.6639 18.8145C16.6885 18.8145 18.1967 15.9758 18.4344 14.504H12.6639V11.0645H22.3402C22.4344 11.5766 22.5 12.0685 22.5 12.7339Z"
+                                    fill="#DF4A32" />
+                            </svg> Đăng nhập bằng Google
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" class="space-y-4 hidden">
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <label class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M21.6489 19.8751C20.2211 17.4067 18.0208 15.6367 15.4529 14.7976C16.7231 14.0415 17.7099 12.8893 18.2619 11.518C18.8139 10.1468 18.9004 8.63224 18.5083 7.20701C18.1162 5.78178 17.2671 4.52467 16.0914 3.62873C14.9156 2.73279 13.4783 2.24756 12.0001 2.24756C10.5219 2.24756 9.08463 2.73279 7.90891 3.62873C6.73318 4.52467 5.88406 5.78178 5.49195 7.20701C5.09984 8.63224 5.18641 10.1468 5.73837 11.518C6.29033 12.8893 7.27716 14.0415 8.54732 14.7976C5.97951 15.6357 3.77919 17.4057 2.35138 19.8751C2.29902 19.9605 2.26429 20.0555 2.24924 20.1545C2.23419 20.2535 2.23912 20.3545 2.26375 20.4516C2.28837 20.5487 2.33219 20.6399 2.39262 20.7197C2.45305 20.7996 2.52887 20.8666 2.61559 20.9167C2.70232 20.9667 2.7982 20.999 2.89758 21.0114C2.99695 21.0238 3.09782 21.0163 3.19421 20.9891C3.29061 20.9619 3.38059 20.9157 3.45884 20.8532C3.53709 20.7907 3.60203 20.7131 3.64982 20.6251C5.41607 17.5726 8.53794 15.7501 12.0001 15.7501C15.4623 15.7501 18.5842 17.5726 20.3504 20.6251C20.3982 20.7131 20.4632 20.7907 20.5414 20.8532C20.6197 20.9157 20.7097 20.9619 20.806 20.9891C20.9024 21.0163 21.0033 21.0238 21.1027 21.0114C21.2021 20.999 21.2979 20.9667 21.3847 20.9167C21.4714 20.8666 21.5472 20.7996 21.6076 20.7197C21.6681 20.6399 21.7119 20.5487 21.7365 20.4516C21.7611 20.3545 21.7661 20.2535 21.751 20.1545C21.736 20.0555 21.7012 19.9605 21.6489 19.8751ZM6.75013 9.00011C6.75013 7.96176 7.05804 6.94672 7.63492 6.08337C8.21179 5.22001 9.03173 4.5471 9.99104 4.14974C10.9504 3.75238 12.006 3.64841 13.0244 3.85099C14.0428 4.05356 14.9782 4.55357 15.7124 5.2878C16.4467 6.02202 16.9467 6.95748 17.1493 7.97589C17.3518 8.99429 17.2479 10.0499 16.8505 11.0092C16.4531 11.9685 15.7802 12.7884 14.9169 13.3653C14.0535 13.9422 13.0385 14.2501 12.0001 14.2501C10.6082 14.2486 9.27371 13.695 8.28947 12.7108C7.30522 11.7265 6.75162 10.392 6.75013 9.00011Z"
+                                        fill="#773EFA" />
+                                </svg>
+
+                            </span>
+                            <input type="text" placeholder="Họ và tên"
+                                class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full">
+                        </label>
+                        <label class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M13.5253 4.30599C13.5508 4.21081 13.5947 4.12158 13.6547 4.04339C13.7147 3.9652 13.7894 3.8996 13.8748 3.85032C13.9601 3.80104 14.0543 3.76906 14.152 3.7562C14.2496 3.74334 14.3489 3.74985 14.4441 3.77537C15.8344 4.13813 17.103 4.86497 18.119 5.88103C19.1351 6.89708 19.8619 8.16562 20.2247 9.55599C20.2502 9.65116 20.2567 9.75042 20.2439 9.84811C20.231 9.94579 20.199 10.04 20.1497 10.1253C20.1005 10.2106 20.0349 10.2854 19.9567 10.3454C19.8785 10.4053 19.7893 10.4493 19.6941 10.4747C19.6307 10.4914 19.5655 10.4999 19.5 10.5001C19.3347 10.5001 19.1741 10.4455 19.043 10.3448C18.912 10.244 18.8179 10.1029 18.7753 9.94318C18.4795 8.80817 17.8863 7.77259 17.0569 6.9432C16.2275 6.11381 15.1919 5.52061 14.0569 5.22474C13.9616 5.19938 13.8723 5.15549 13.794 5.09558C13.7157 5.03566 13.65 4.9609 13.6006 4.87557C13.5513 4.79024 13.5192 4.69601 13.5063 4.59828C13.4933 4.50054 13.4998 4.40122 13.5253 4.30599ZM13.3069 8.22474C14.5997 8.56974 15.4303 9.40037 15.7753 10.6932C15.8179 10.8529 15.912 10.994 16.043 11.0948C16.1741 11.1955 16.3347 11.25 16.5 11.2501C16.5655 11.2499 16.6307 11.2414 16.6941 11.2247C16.7893 11.1993 16.8785 11.1553 16.9567 11.0954C17.0349 11.0354 17.1005 10.9606 17.1497 10.8753C17.199 10.79 17.231 10.6958 17.2439 10.5981C17.2567 10.5004 17.2502 10.4012 17.2247 10.306C16.7447 8.50974 15.4903 7.25537 13.6941 6.77537C13.5019 6.72402 13.2971 6.75113 13.1249 6.85073C12.9527 6.95033 12.8271 7.11426 12.7758 7.30646C12.7244 7.49866 12.7516 7.70338 12.8512 7.87559C12.9508 8.04781 13.1147 8.1734 13.3069 8.22474ZM20.9888 17.1638C20.8216 18.4341 20.1977 19.6002 19.2337 20.4442C18.2696 21.2882 17.0313 21.7523 15.75 21.7501C8.30626 21.7501 2.25001 15.6938 2.25001 8.25005C2.24771 6.96876 2.7119 5.73045 3.55588 4.76639C4.39986 3.80234 5.56592 3.17847 6.83626 3.0113C7.1575 2.97208 7.4828 3.0378 7.76362 3.19865C8.04444 3.35951 8.2657 3.60687 8.39438 3.9038L10.3744 8.32412V8.33537C10.4729 8.56267 10.5136 8.81083 10.4928 9.05769C10.472 9.30455 10.3904 9.54242 10.2553 9.75005C10.2384 9.77537 10.2206 9.7988 10.2019 9.82224L8.25001 12.136C8.9522 13.5629 10.4447 15.0422 11.8903 15.7463L14.1722 13.8047C14.1946 13.7859 14.2181 13.7684 14.2425 13.7522C14.45 13.6139 14.6887 13.5294 14.937 13.5065C15.1853 13.4836 15.4354 13.5229 15.6647 13.621L15.6769 13.6266L20.0934 15.6057C20.3909 15.7339 20.6389 15.955 20.8003 16.2358C20.9616 16.5167 21.0278 16.8422 20.9888 17.1638ZM19.5 16.9763C19.5 16.9763 19.4934 16.9763 19.4897 16.9763L15.0834 15.0029L12.8006 16.9444C12.7785 16.9632 12.7553 16.9807 12.7313 16.9969C12.5154 17.1409 12.2659 17.2265 12.0071 17.2452C11.7483 17.2639 11.489 17.2152 11.2547 17.1038C9.49876 16.2554 7.74845 14.5182 6.89907 12.781C6.7866 12.5484 6.73613 12.2906 6.75255 12.0327C6.76898 11.7749 6.85174 11.5256 6.99282 11.3091C7.00872 11.2837 7.02659 11.2596 7.04626 11.2369L9.00001 8.92037L7.03126 4.51412C7.03089 4.51038 7.03089 4.50661 7.03126 4.50287C6.12212 4.62146 5.28739 5.0674 4.68339 5.75716C4.0794 6.44693 3.74755 7.33322 3.75001 8.25005C3.75348 11.4316 5.01888 14.4818 7.26856 16.7315C9.51825 18.9812 12.5685 20.2466 15.75 20.2501C16.6663 20.2532 17.5523 19.9225 18.2425 19.3198C18.9327 18.7171 19.3797 17.8837 19.5 16.9754V16.9763Z"
+                                        fill="#773EFA" />
+                                </svg>
+
+                            </span>
+                            <input type="text" placeholder="Số điện thoại"
+                                class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full">
+                        </label>
+                    </div>
+                    <div class="mb-4 relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
+                                fill="none">
+                                <path
+                                    d="M21 5H3C2.80109 5 2.61032 5.07902 2.46967 5.21967C2.32902 5.36032 2.25 5.55109 2.25 5.75V18.5C2.25 18.8978 2.40804 19.2794 2.68934 19.5607C2.97064 19.842 3.35218 20 3.75 20H20.25C20.6478 20 21.0294 19.842 21.3107 19.5607C21.592 19.2794 21.75 18.8978 21.75 18.5V5.75C21.75 5.55109 21.671 5.36032 21.5303 5.21967C21.3897 5.07902 21.1989 5 21 5ZM12 12.9828L4.92844 6.5H19.0716L12 12.9828ZM9.25406 12.5L3.75 17.5447V7.45531L9.25406 12.5ZM10.3641 13.5172L11.4891 14.5531C11.6274 14.6801 11.8084 14.7506 11.9963 14.7506C12.1841 14.7506 12.3651 14.6801 12.5034 14.5531L13.6284 13.5172L19.0659 18.5H4.92844L10.3641 13.5172ZM14.7459 12.5L20.25 7.45438V17.5456L14.7459 12.5Z"
+                                    fill="#773EFA" />
+                            </svg>
+                        </span>
+                        <input type="email" placeholder="Địa chỉ Email"
+                            class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full md:pr-[140px] pr-[80px]">
+                        <button
+                            class="absolute right-2 top-1/2 -translate-y-1/2 bg-red-400 text-white text-sm px-3 py-2 rounded-full">Gửi
+                            mã <span class="hidden md:inline">xác thực</span></button>
+                    </div>
+                    <div class="mb-4 relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2.25C10.0716 2.25 8.18657 2.82183 6.58319 3.89317C4.97982 4.96451 3.73013 6.48726 2.99218 8.26884C2.25422 10.0504 2.06114 12.0108 2.43735 13.9021C2.81355 15.7934 3.74215 17.5307 5.10571 18.8943C6.46928 20.2579 8.20656 21.1865 10.0979 21.5627C11.9892 21.9389 13.9496 21.7458 15.7312 21.0078C17.5127 20.2699 19.0355 19.0202 20.1068 17.4168C21.1782 15.8134 21.75 13.9284 21.75 12C21.7473 9.41498 20.7192 6.93661 18.8913 5.10872C17.0634 3.28084 14.585 2.25273 12 2.25ZM12 20.25C10.3683 20.25 8.77326 19.7661 7.41655 18.8596C6.05984 17.9531 5.00242 16.6646 4.378 15.1571C3.75358 13.6496 3.5902 11.9908 3.90853 10.3905C4.22685 8.79016 5.01259 7.32015 6.16637 6.16637C7.32016 5.01259 8.79017 4.22685 10.3905 3.90852C11.9909 3.59019 13.6497 3.75357 15.1571 4.37799C16.6646 5.00242 17.9531 6.05984 18.8596 7.41655C19.7661 8.77325 20.25 10.3683 20.25 12C20.2475 14.1873 19.3775 16.2843 17.8309 17.8309C16.2843 19.3775 14.1873 20.2475 12 20.25ZM13.5 16.5C13.5 16.6989 13.421 16.8897 13.2803 17.0303C13.1397 17.171 12.9489 17.25 12.75 17.25C12.3522 17.25 11.9706 17.092 11.6893 16.8107C11.408 16.5294 11.25 16.1478 11.25 15.75V12C11.0511 12 10.8603 11.921 10.7197 11.7803C10.579 11.6397 10.5 11.4489 10.5 11.25C10.5 11.0511 10.579 10.8603 10.7197 10.7197C10.8603 10.579 11.0511 10.5 11.25 10.5C11.6478 10.5 12.0294 10.658 12.3107 10.9393C12.592 11.2206 12.75 11.6022 12.75 12V15.75C12.9489 15.75 13.1397 15.829 13.2803 15.9697C13.421 16.1103 13.5 16.3011 13.5 16.5ZM10.5 7.875C10.5 7.6525 10.566 7.43499 10.6896 7.24998C10.8132 7.06498 10.9889 6.92078 11.1945 6.83564C11.4001 6.75049 11.6263 6.72821 11.8445 6.77162C12.0627 6.81502 12.2632 6.92217 12.4205 7.0795C12.5778 7.23684 12.685 7.43729 12.7284 7.65552C12.7718 7.87375 12.7495 8.09995 12.6644 8.30552C12.5792 8.51109 12.435 8.68679 12.25 8.8104C12.065 8.93402 11.8475 9 11.625 9C11.3266 9 11.0405 8.88147 10.8295 8.6705C10.6185 8.45952 10.5 8.17337 10.5 7.875Z"
+                                    fill="#773EFA" />
+                            </svg>
+
+                        </span>
+                        <input type="text" placeholder="Mã xác nhận"
+                            class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full">
+                    </div>
+                    <div class="mb-4 relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
+                                fill="none">
+                                <path
+                                    d="M19.5 8H16.5V5.75C16.5 4.55653 16.0259 3.41193 15.182 2.56802C14.3381 1.72411 13.1935 1.25 12 1.25C10.8065 1.25 9.66193 1.72411 8.81802 2.56802C7.97411 3.41193 7.5 4.55653 7.5 5.75V8H4.5C4.10218 8 3.72064 8.15804 3.43934 8.43934C3.15804 8.72064 3 9.10218 3 9.5V20C3 20.3978 3.15804 20.7794 3.43934 21.0607C3.72064 21.342 4.10218 21.5 4.5 21.5H19.5C19.8978 21.5 20.2794 21.342 20.5607 21.0607C20.842 20.7794 21 20.3978 21 20V9.5C21 9.10218 20.842 8.72064 20.5607 8.43934C20.2794 8.15804 19.8978 8 19.5 8ZM9 5.75C9 4.95435 9.31607 4.19129 9.87868 3.62868C10.4413 3.06607 11.2044 2.75 12 2.75C12.7956 2.75 13.5587 3.06607 14.1213 3.62868C14.6839 4.19129 15 4.95435 15 5.75V8H9V5.75ZM19.5 20H4.5V9.5H19.5V20ZM13.125 14.75C13.125 14.9725 13.059 15.19 12.9354 15.375C12.8118 15.56 12.6361 15.7042 12.4305 15.7894C12.225 15.8745 11.9988 15.8968 11.7805 15.8534C11.5623 15.81 11.3618 15.7028 11.2045 15.5455C11.0472 15.3882 10.94 15.1877 10.8966 14.9695C10.8532 14.7512 10.8755 14.525 10.9606 14.3195C11.0458 14.1139 11.19 13.9382 11.375 13.8146C11.56 13.691 11.7775 13.625 12 13.625C12.2984 13.625 12.5845 13.7435 12.7955 13.9545C13.0065 14.1655 13.125 14.4516 13.125 14.75Z"
+                                    fill="#773EFA" />
+                            </svg>
+                        </span>
+                        <input type="password" placeholder="Nhập mật khẩu từ 6 đến 32 ký tự"
+                            class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full">
+                    </div>
+                    <div class="mb-4 relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M19.5 7.5H16.5V5.25C16.5 4.05653 16.0259 2.91193 15.182 2.06802C14.3381 1.22411 13.1935 0.75 12 0.75C10.8065 0.75 9.66193 1.22411 8.81802 2.06802C7.97411 2.91193 7.5 4.05653 7.5 5.25V7.5H4.5C4.10218 7.5 3.72064 7.65804 3.43934 7.93934C3.15804 8.22064 3 8.60218 3 9V19.5C3 19.8978 3.15804 20.2794 3.43934 20.5607C3.72064 20.842 4.10218 21 4.5 21H19.5C19.8978 21 20.2794 20.842 20.5607 20.5607C20.842 20.2794 21 19.8978 21 19.5V9C21 8.60218 20.842 8.22064 20.5607 7.93934C20.2794 7.65804 19.8978 7.5 19.5 7.5ZM9 5.25C9 4.45435 9.31607 3.69129 9.87868 3.12868C10.4413 2.56607 11.2044 2.25 12 2.25C12.7956 2.25 13.5587 2.56607 14.1213 3.12868C14.6839 3.69129 15 4.45435 15 5.25V7.5H9V5.25ZM19.5 19.5H4.5V9H19.5V19.5Z"
+                                    fill="#773EFA" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M16.6553 11.4697C16.9482 11.7626 16.9482 12.2374 16.6553 12.5303L11.25 17.9357L7.71967 14.4053C7.42678 14.1124 7.42678 13.6376 7.71967 13.3447C8.01256 13.0518 8.48744 13.0518 8.78033 13.3447L11.25 15.8143L15.5947 11.4697C15.8876 11.1768 16.3624 11.1768 16.6553 11.4697Z"
+                                    fill="black" />
+                            </svg>
+                        </span>
+                        <input type="password" placeholder="Nhập lại mật khẩu"
+                            class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full">
+                    </div>
+                    <label class="inline-flex items-start ">
+                        <input type="checkbox"
+                            class="form-checkbox shrink-0 w-5 h-5 text-purple-600 rounded focus:ring-purple-500">
+                        <span class="ml-2 text-sm">Nhận các thông tin và chương trình khuyến mãi qua email.</span>
+                    </label>
+                    <button class="w-full bg-purple-600 text-white py-3 rounded-full font-semibold">Tạo tài
+                        khoản</button>
+
+                    <p class="text-xs text-gray-300">
+                        Khi bạn nhấn Đăng ký, bạn đã đồng ý thực hiện mọi giao dịch mua bán theo <a href="#"
+                            class="text-blue-400">điều kiện sử dụng và chính sách của Chúng tôi.</a>
+                    </p>
+                </form>
+            </div>
         </div>
     </div>
-</div>

@@ -1,14 +1,14 @@
-﻿using HuloToys_Front_End.Controllers.News.Business;
-using HuloToys_Front_End.Controllers.Support.Business;
-using HuloToys_Front_End.Models.Comments;
-using HuloToys_Front_End.Models.News;
-using HuloToys_Front_End.Service.Redis;
-using HuloToys_Front_End.Utilities;
-using HuloToys_Front_End.Utilities.Contants;
+﻿using Best1Mall_Front_End.Controllers.News.Business;
+using Best1Mall_Front_End.Controllers.Support.Business;
+using Best1Mall_Front_End.Models.Comments;
+using Best1Mall_Front_End.Models.News;
+using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities;
+using Best1Mall_Front_End.Utilities.Contants;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace HuloToys_Front_End.Controllers.Support
+namespace Best1Mall_Front_End.Controllers.Support
 {
     public class SupportController : Controller
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HuloToys_Front_End.Models.Files
+namespace Best1Mall_Front_End.Models.Files
 {
     public class ImageBase64
     {

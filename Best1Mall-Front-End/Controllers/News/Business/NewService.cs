@@ -1,21 +1,21 @@
-﻿using HuloToys_Front_End.Models.Client;
-using HuloToys_Front_End.Utilities.Contants;
+﻿using Best1Mall_Front_End.Models.Client;
+using Best1Mall_Front_End.Utilities.Contants;
 
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using HuloToys_Front_End.Models.News;
+using Best1Mall_Front_End.Models.News;
 using System.Net.Http;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 using System.Diagnostics;
 using System.Reflection;
-using HuloToys_Front_End.Models;
-using HuloToys_Front_End.Utilities;
-using HuloToys_Front_End.ViewModels;
-using HuloToys_Front_End.Service.Redis;
-using HuloToys_Front_End.Utilities.Lib;
+using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Utilities;
+using Best1Mall_Front_End.ViewModels;
+using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities.Lib;
 
-namespace HuloToys_Front_End.Controllers.News.Business
+namespace Best1Mall_Front_End.Controllers.News.Business
 {
     public class NewsService : APIService
     {

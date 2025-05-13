@@ -1,4 +1,4 @@
-﻿namespace HuloToys_Front_End.Models.Products
+﻿namespace Best1Mall_Front_End.Models.Products
 {
     public class ProductListRequestModel
     {
