@@ -7,7 +7,7 @@
     global_service.LoadCartCount();
    
     // 👉 GỌI THÊM:
-    //global_service.renderViewedProducts(); // gọi hàm load sản phẩm đã xem
+    global_service.renderViewedProducts(); // gọi hàm load sản phẩm đã xem
 })
 var global_service = {
     Initialization: function () {
@@ -15,7 +15,6 @@ var global_service = {
             $(window).on('popstate', function () {
                 window.location.reload()
             });
-
         }
         $('#thanhcong').removeClass('overlay-active')
         $('#thatbai').removeClass('overlay-active')

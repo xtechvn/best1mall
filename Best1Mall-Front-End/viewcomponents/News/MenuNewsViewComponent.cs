@@ -56,6 +56,10 @@ namespace WEB.CMS.ViewComponents
                         _cache.Set(menuInfo.cacheKey, cachedView, TimeSpan.FromSeconds(30));
                     }
                 }
+                if (cachedView == null)
+                {
+                    return Content("");
+                }
 
                 return View(menuInfo.viewPath, cachedView);
             }

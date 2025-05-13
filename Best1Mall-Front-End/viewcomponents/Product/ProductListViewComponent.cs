@@ -42,6 +42,11 @@ namespace BIOLIFE.ViewComponents.Product
                         _cache.Set(cacheKey, cached_view, TimeSpan.FromSeconds(20));
                     }
                 }
+                // ✅ Nếu vẫn null → đừng render
+                if (cached_view == null)
+                {
+                    return Content("");
+                }
                 return View("~/Views/Shared/Components/Product/ProductListViewComponent.cshtml", cached_view);
             }
             catch (Exception)
