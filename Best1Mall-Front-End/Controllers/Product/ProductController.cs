@@ -62,7 +62,7 @@ namespace HuloToys_Front_End.Controllers.Product
         }
         // Load  sản phẩm 
         [HttpPost]
-        public IActionResult loadProductTopComponent(int group_id, int page_index, int page_size, string view_name)
+        public IActionResult loadProductTopComponent(int group_id, int page_index, int page_size, string view_name , double? price_from, double? price_to , float? rating)
         {
             try
             {
@@ -71,7 +71,10 @@ namespace HuloToys_Front_End.Controllers.Product
                     group_id = group_id,
                     view_name= view_name,
                     page_index = page_index,
-                    page_size = page_size
+                    page_size = page_size,
+                    price_from = price_from,
+                    price_to = price_to,
+                    rating = rating
                 };
                 // Gọi ViewComponent trực tiếp và trả về kết quả
                 return ViewComponent("ProductList", model);

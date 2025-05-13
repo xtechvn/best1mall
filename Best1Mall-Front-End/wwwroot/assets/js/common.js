@@ -1,44 +1,3 @@
-const swiperProduct = new Swiper('.slide-product', {
-    slidesPerView: 1,
-    spaceBetween: 16,
-    navigation: {
-    nextEl: '.slide-product .swiper-button-next',
-    prevEl: '.slide-product .swiper-button-prev',
-    },
-    pagination: {
-        el: '.slide-product  .swiper-pagination',
-        clickable: true,
-      },
-    breakpoints: {
-    640: { slidesPerView: 2 },
-    1024: { slidesPerView: 3 },
-    1280: { slidesPerView: 4 }
-    }
-});
-new Swiper('.slide-review', {
-    navigation: {
-      nextEl: '.slide-review .swiper-button-next',
-      prevEl: '.slide-review .swiper-button-prev',
-    },
-    pagination: {
-        el: '.slide-review  .swiper-pagination',
-        clickable: true,
-      },
-  });
-// gallery
-var swiperSmallThumb = new Swiper(".thumb-small", {
-    spaceBetween: 15,
-    slidesPerView: 4,
-    freeMode: true,
-    watchSlidesProgress: true,
-});
-var swiperBigThumb = new Swiper(".thumb-big", {
-    spaceBetween: 15,
-    navigation: false,
-    thumbs: {
-        swiper: swiperSmallThumb,
-    },
-});
 
 // custom select
 
@@ -144,5 +103,27 @@ $(document).ready(function () {
         videojs: true,
         speed: 500,
         thumbnail: true,
+    });
+});
+$(document).ready(function() {
+    $('a').click(function(event) {
+        var targetId = $(this).attr('href'); 
+        var targetPopup = $(targetId); 
+        targetPopup.fadeIn(200); 
+        $('body').addClass('overflow-hidden'); // Ngăn cuộn
+        event.preventDefault();
+    });
+
+    $('.closePopup').click(function() {
+        $(this).closest('.popup').fadeOut(200);
+        $('body').removeClass('overflow-hidden'); // Cho phép cuộn lại
+    });
+});
+  // popup
+$(document).ready(function () {
+    $('.toggle').on('click', function () {
+        const $panel = $(this).next('.panel');
+        $('.panel').not($panel).slideUp(); // Đóng các panel khác
+        $panel.stop(true, true).slideToggle(); // Mở/đóng panel hiện tại
     });
 });

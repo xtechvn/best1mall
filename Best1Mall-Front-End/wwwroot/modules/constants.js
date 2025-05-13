@@ -76,7 +76,7 @@ var THIRDPARTY_CONSTANTS = {
 var GLOBAL_CONSTANTS = {
     Size: 6,
     GridSize: 10,
-    ProductSize:12,
+    ProductSize: 12,
     GroupProduct: {
         FlashSale: 15,
         Discount: 16,
@@ -135,7 +135,7 @@ var HTML_CONSTANTS = {
                                                     <div class="flex items-center justify-between">
                                                         <div class="text-xs line-through text-slate-400 " style="{old_price_style}">{price}</div>
                                                         <div class="text-xs text-yellow-500 mt-1">
-                                                            {review_point} <span class="text-slate-400">{review_count}</span>
+                                                            {review_point} <span class="text-color-base">{review_count}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -144,7 +144,7 @@ var HTML_CONSTANTS = {
                                     </div>
                         
                         `,
-     
+
         GroupProductItem: ` 
       <div class="flex-shrink-0 w-27 text-center p-2 rounded-xl border border-blue-100">
                         <div class="rounded-xl bg-blue-50 mb-2 p-2 h-22 w-22 flex items-center justify-center">
@@ -187,7 +187,7 @@ var HTML_CONSTANTS = {
         </li>
 
         `,
-        GlobalSearchBoxLoading:` <div class="list-product-recomment">
+        GlobalSearchBoxLoading: ` <div class="list-product-recomment">
         <div class="item-product">
             <a href="">
                 <div class="box-thumb">
@@ -310,8 +310,12 @@ var HTML_CONSTANTS = {
                                       Your browser does not support the video tag.
                                     </video>
                             </div >`,
-     
-        Star: `<i class="icon icon-star"></i>`,
+
+        Star: ` <svg width="18" height="19" viewBox="0 0 18 19"
+                                         fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18 7.83382C18 8.00017 17.9063 8.18165 17.7188 8.37825L13.7921 12.3934L14.7224 18.0644C14.7296 18.1174 14.7332 18.193 14.7332 18.2913C14.7332 18.4501 14.6935 18.5824 14.6142 18.6883C14.5421 18.8017 14.4339 18.8584 14.2897 18.8584C14.1526 18.8584 14.0084 18.813 13.857 18.7223L9 16.0455L4.14303 18.7223C3.98437 18.813 3.84014 18.8584 3.71034 18.8584C3.55889 18.8584 3.44351 18.8017 3.36418 18.6883C3.29207 18.5824 3.25601 18.4501 3.25601 18.2913C3.25601 18.2459 3.26322 18.1703 3.27764 18.0644L4.20793 12.3934L0.270434 8.37825C0.090145 8.17409 0 7.99261 0 7.83382C0 7.55405 0.201923 7.38014 0.605769 7.31208L6.03606 6.48411L8.46995 1.32343C8.60697 1.01341 8.78365 0.858398 9 0.858398C9.21635 0.858398 9.39303 1.01341 9.53005 1.32343L11.9639 6.48411L17.3942 7.31208C17.7981 7.38014 18 7.55405 18 7.83382Z"
+                                              fill="#FFAA00"></path>
+                                    </svg>`,
         Half_Star: `<i class="icon half-star"></i>`,
         Empty_Star: `<i class="icon empty-star"></i>`,
         Tr_Voucher: ` <tr>
@@ -327,32 +331,48 @@ var HTML_CONSTANTS = {
                             </tr>`,
         Tr_Combo_Td_span: ` <span class="combo" data-id="{id}">{name}</span>`,
 
-        Tr_Shipping: ` <tr>
+        Tr_Shipping: ` <tr class="text-slate-500">
                                 <td>Vận chuyển</td>
                                 <td>Miễn phí vận chuyển</td>
                             </tr>`,
         Tr_Attributes: `<tr class="attributes" data-level="{level}">
-                                <td>{name}</td>
-                                <td>
-                                    <ul class="box-tag">
-                                       {li}
+                    <td class="text-slate-500">{name}:</td>
+                    <td>
+                        <span class="flex flex-wrap gap-2 items-center box-tag">
+                            {li}
+                        </span>
+                    </td>
+                </tr>`,
+        Tr_Attributes_Td_li: `
+            <span class=" attribute-detail rounded border border-gray-200 hover:border-red-500 hover:bg-red-100 p-2 text-sm cursor-pointer {active}" data-id="{name}">
+    {src}{name}
+</span>
 
-                                    </ul>
-                                </td>
-                            </tr>`,
-        Tr_Attributes_Td_li: `<li class="attribute-detail {active}" data-id="{name}">{src} {name}</li>`,
+        `,
         Tr_Quanity: `<tr class="box-detail-stock">
-                                <td>Số lượng:</td>
-                                <td>
-                                    <div class="number-input">
-                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                                        <input class="quantity" min="1" name="quantity" value="1" type="number">
-                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-                                    </div>
+    <td class="text-slate-500">Số lượng:</td>
+    <td>
+        <span class="flex gap-2 items-center">
+            <div class="flex items-center number-input">
+                <button type="button"
+                        class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer"
+                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                    -
+                </button>
+                <input id="quantity" name="quantity" type="number" value="1" min="1"
+                       class="h-8 w-16 text-center border-t border-b border-gray-100 quantity" />
+                <button type="button"
+                        class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 border-gray-100 cursor-pointer"
+                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                    +
+                </button>
+            </div>
 
-                                    <span class="soluong">{stock} sản phẩm có sẵn</span>
-                                </td>
-                            </tr>`
+            <span class="text-slate-500 font-light soluong">{stock} sản phẩm có sẵn</span>
+        </span>
+    </td>
+</tr>
+`
     },
     Cart: {
         Product: `<div class="product" data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">

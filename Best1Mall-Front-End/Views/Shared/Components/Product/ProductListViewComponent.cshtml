@@ -1,36 +1,73 @@
 ﻿@using HuloToys_Front_End.Models.Products
-@using HuloToys_Front_End.ViewModels;
-@using HuloToys_Front_End.Utilities;
+@using HuloToys_Front_End.ViewModels
 @model ProductListResponseModel
 
- 
-@foreach (var item in Model.items)
+@functions {
+    string ToSeoUrl(string name)
+    {
+        return RemoveUnicode(RemoveSpecialCharacters(name)).Replace(" ", "-").ToLower();
+    }
+
+    string RemoveUnicode(string text)
+    {
+        var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+        var chars = normalized.Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark);
+        return new string(chars.ToArray()).Normalize(System.Text.NormalizationForm.FormC);
+    }
+
+    string RemoveSpecialCharacters(string input)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(input, "[^a-zA-Z0-9\\s-]", "");
+    }
+
+    string FormatCurrency(double? amount)
+    {
+        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "Giá liên hệ";
+    }
+}
+
+@if (Model == null || Model.items == null || !Model.items.Any())
 {
-    <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-        <!-- Sale badge -->
-        <a href="@Url.Action("Details", "Product", new { id = item._id })">
-            <!-- Link đến trang chi tiết sản phẩm -->
-            <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
-                -50%
-            </div>
-            <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                <img src="@item.avatar" alt="Sản phẩm"
-                     class="absolute inset-0 w-full h-full object-cover" />
-            </div>
-            <p class="text-sm line-clamp-2 font-medium mt-2">@item.name</p>
-            <div class="absolute bottom-2 w-full px-2 left-0">
-                <div class="text-rose-600 font-bold mt-1">@item.amount_min đ</div>  <!-- Giá -->
-                <div class="flex items-center justify-between">
-                    <div class="text-xs line-through text-slate-400">@item.amount_max đ</div>  <!-- Giá cũ -->
-                    <div class="text-xs text-yellow-500 mt-1">
-                        @if (item.rating.HasValue)
-                        {
-                            @item.rating.Value.ToString("0.0")  <!-- Xếp hạng -->
-                        }
-                        <span class="text-slate-400">(@item.review_count)</span>  <!-- Số lượng đánh giá -->
-                    </div>
-                </div>
-            </div>
-        </a>
+    <div class="text-center text-gray-500 py-10">
+        Không tìm thấy sản phẩm.
     </div>
 }
+else
+{
+    foreach (var item in Model.items)
+    {
+        bool hasPrice = (item.amount_min.HasValue && item.amount_min > 0);
+        double price = item.amount_min ?? item.amount;
+        double oldPrice = item.amount_max ?? 0;
+        bool showOldPrice = oldPrice > price;
+        string seoUrl = $"/san-pham/{ToSeoUrl(item.name)}--{item._id}";
+        string ratingDisplay = (item.rating.HasValue && item.rating > 0) ? item.rating.Value.ToString("0.0") + "★" : "";
+        string reviewCountDisplay = (item.review_count.HasValue && item.review_count > 0) ? $"({item.review_count})" : "";
+
+        <div class="swiper-slide pt-3">
+            <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                <a href="@seoUrl"
+                   onclick="global_service.saveViewedProduct('@item._id', '@item.name.Replace("'", "\\'")', '@item.avatar', @price, @(item.rating ?? 0), @(item.review_count ?? 0), @(item.amount_max ?? 0))">
+                    <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
+                        -50%
+                    </div>
+                    <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                        <img src="@item.avatar" alt="Sản phẩm"
+                             class="absolute inset-0 w-full h-full object-cover" />
+                    </div>
+                    <p class="text-sm line-clamp-2 font-medium mt-2">@item.name</p>
+                    <div class="absolute bottom-2 w-full px-2 left-0">
+                        <div class="text-rose-600 font-bold mt-1">@FormatCurrency(price)</div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-xs line-through text-slate-400" style="@(showOldPrice ? "" : "display:none;")">@FormatCurrency(oldPrice)</div>
+                            <div class="text-xs text-yellow-500 mt-1">
+                                @Html.Raw(ratingDisplay) <span class="text-slate-400">@Html.Raw(reviewCountDisplay)</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+}
+
