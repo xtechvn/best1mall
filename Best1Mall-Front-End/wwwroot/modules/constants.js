@@ -150,7 +150,7 @@ var HTML_CONSTANTS = {
                         <div class="rounded-xl bg-blue-50 mb-2 p-2 h-22 w-22 flex items-center justify-center">
                             <img src="{avt}" alt="{name}" class="mx-auto h-15">
                         </div>
-                        <a href="{url}" class="text-[13px] text-slate-700 ">{name}</a>
+                        <a href="/san-pham?group_id={id}" class="text-[13px] text-slate-700 ">{name}</a>
                     </div>
 
     `,

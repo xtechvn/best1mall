@@ -26,15 +26,8 @@
     }
 }
 
-@if (Model == null || Model.items == null || !Model.items.Any())
-{
-    <div class="text-center text-gray-500 py-10">
-        Không tìm thấy sản phẩm.
-    </div>
-}
-else
-{
-    foreach (var item in Model.items)
+
+    @foreach (var item in Model.items)
     {
         bool hasPrice = (item.amount_min.HasValue && item.amount_min > 0);
         double price = item.amount_min ?? item.amount;
@@ -52,7 +45,7 @@ else
                         -50%
                     </div>
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                        <img src="@item.avatar" alt="Sản phẩm"
+                       <img src="https://static-image.adavigo.com@(@item.avatar)" alt="Sản phẩm"
                              class="absolute inset-0 w-full h-full object-cover" />
                     </div>
                     <p class="text-sm line-clamp-2 font-medium mt-2">@item.name</p>
@@ -69,5 +62,9 @@ else
             </div>
         </div>
     }
-}
+<div id="no-products-message" class="text-center text-gray-500 py-10 hidden">
+    Không tìm thấy sản phẩm.
+</div>
+
+
 

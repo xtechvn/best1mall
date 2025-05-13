@@ -74,6 +74,34 @@ var global_service = {
                 $('#global-search-loading').hide()
             }
         });
+        // Xử lý click vào item mẫu tìm kiếm
+        $("body").on("click", ".search-sample", function (e) {
+            e.preventDefault();
+            var keyword = $(this).text().trim();
+            var $input = $(".global-search");
+
+            $input.val(keyword).trigger("input").trigger("keyup"); // Thêm trigger input ở đây nè
+        });
+
+        // Xử lý hiển thị nút clear khi có text
+        $("body").on("input", ".global-search", function () {
+            let val = $(this).val().trim();
+            if (val !== "") {
+                $("#clear-search").removeClass("hidden");
+            } else {
+                $("#clear-search").addClass("hidden");
+            }
+        });
+
+        // Xử lý click nút clear: xóa input, ẩn nút, ẩn gợi ý
+        $("#clear-search").on("click", function () {
+            $(".global-search").val("").trigger("input"); // clear và check lại trạng thái
+            $(this).addClass("hidden");
+            $(".box-search-list").fadeOut();
+            $("#global-search-loading").hide();
+        });
+
+
     },
     LoadPolicy: function () {
         $.ajax({
@@ -490,6 +518,7 @@ var global_service = {
             html += template
                 .replaceAll('{url}', '/' + item.path)
                 .replaceAll('{avt}', img_src)
+                .replaceAll('{id}', item.id)
                 .replaceAll('{name}', item.name);
         });
 

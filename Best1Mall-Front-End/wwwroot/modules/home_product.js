@@ -197,13 +197,26 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     debugger
+                    const isEmptyResponse = !response || response.trim() === "";
                     // Nếu bạn muốn thêm sản phẩm mới vào danh sách hiện tại mà không thay thế toàn bộ
                     if (skip === 1) {
                         // Nếu là lần đầu tiên tải, thay thế toàn bộ sản phẩm
                         $('.component-product-list').html(response);
+                        // Ẩn hoặc hiện nút Xem thêm
+                        if (isEmptyResponse) {
+                            $('#load-more-btn').hide();
+                            $('#no-products-message').show(); // Hiện thông báo
+                        } else {
+                            $('#load-more-btn').show();
+                            $('#no-products-message').hide(); // Ẩn thông báo nếu có sản phẩm
+                        }
                     } else {
                         // Nếu là lần sau (khi nhấn "Xem thêm"), thêm sản phẩm mới vào cuối danh sách
                         $('.component-product-list').append(response);
+                        // Nếu không có gì mới => ẩn nút
+                        if (isEmptyResponse) {
+                            $('#load-more-btn').hide();
+                        }
                     }
                     // Cập nhật lại giá trị skip (tăng lên mỗi lần load thêm)
                     home_product.skip = skip; // reset lại skip về 1 sau khi load sản phẩm mới
