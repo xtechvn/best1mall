@@ -91,12 +91,13 @@
                                 </svg>
                             </button>
                         </div>
-                        <ul class="p-4 space-y-2 bg-white">
-                            <li><a href="#" class="block py-2 hover:text-red-400 rounded">Khung ảnh</a></li>
-                            <li><a href="#" class="block py-2 hover:text-red-400 rounded">Tranh canvas</a></li>
-                            <li><a href="#" class="block py-2 hover:text-red-400 rounded">Quà tặng</a></li>
-                            <li><a href="#" class="block py-2 hover:text-red-400 rounded">Khác</a></li>
-                        </ul>
+                        @await Component.InvokeAsync("MenuNews", new { menuType = "header_menu" })
+                        @* <ul class="p-4 space-y-2 bg-white"> *@
+                        @*     <li><a href="#" class="block py-2 hover:text-red-400 rounded">Khung ảnh</a></li> *@
+                        @*     <li><a href="#" class="block py-2 hover:text-red-400 rounded">Tranh canvas</a></li> *@
+                        @*     <li><a href="#" class="block py-2 hover:text-red-400 rounded">Quà tặng</a></li> *@
+                        @*     <li><a href="#" class="block py-2 hover:text-red-400 rounded">Khác</a></li> *@
+                        @* </ul> *@
                     </div>
                 </div>
             </div>

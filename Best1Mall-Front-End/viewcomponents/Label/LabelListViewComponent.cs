@@ -4,6 +4,7 @@ using HuloToys_Front_End.Controllers.Home.Business;
 using HuloToys_Front_End.Service.Redis;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace BIOLIFE.ViewComponents.Product
 {
@@ -12,11 +13,13 @@ namespace BIOLIFE.ViewComponents.Product
         private readonly IConfiguration configuration;
         private readonly RedisConn redisService;
         private readonly IMemoryCache _cache; // Inject IMemoryCache
-        public LabelListViewComponent(IConfiguration _Configuration, RedisConn _redisService, IMemoryCache cache)
+        private readonly ILogger<LabelListViewComponent> _logger;
+        public LabelListViewComponent(IConfiguration _Configuration, RedisConn _redisService, IMemoryCache cache, ILogger<LabelListViewComponent> logger)
         {
             configuration = _Configuration;
             redisService = _redisService;
             _cache = cache;
+            _logger = logger; // 👈 Logger này chưa được inject, nên null
         }
 
         /// <summary>
@@ -25,60 +28,43 @@ namespace BIOLIFE.ViewComponents.Product
         /// <returns>group_product_id: id của nhóm</returns>
         public async Task<IViewComponentResult> InvokeAsync(string labeltype)
         {
-            
             try
             {
+                var labelMap = new Dictionary<string, (string cacheKey, int top, string viewPath)>
+            {
+                { "home", ("label_home", 6, "~/Views/Shared/Components/Label/LabelListViewComponent.cshtml") },
+                { "product", ("label_product", 6, "~/Views/Shared/Components/Label/LabelProductViewComponent.cshtml") }
+            };
 
-                string cacheKey;
-                int top;
-
-                // Kiểm tra loại menu và lấy đúng giá trị từ cấu hình
-                if (labeltype == "home") // Home menu sử dụng group_id
+                if (!labelMap.TryGetValue(labeltype, out var config))
                 {
-                    cacheKey = "label_home";
-                    top = 6;
-                }
-                else if (labeltype == "product") // News menu sử dụng category_id
-                {
-                    cacheKey = "label_product";
-                    top = 6;
-                }
-                else
-                {
-                    return Content(""); // Nếu menuType không hợp lệ, trả về rỗng
+                    _logger.LogWarning("Label ViewComponent: labeltype không hợp lệ ({LabelType})", labeltype);
+                    return Content(""); // labeltype sai thì return rỗng
                 }
 
-                
-                if (!_cache.TryGetValue(cacheKey, out var cached_view)) // Kiểm tra xem có trong cache không
+                if (!_cache.TryGetValue(config.cacheKey, out var cachedView))
                 {
-                    var obj_cate = new MenuService(configuration, redisService);
-                    cached_view = await obj_cate.GetLabelList(top);
-                    if (cached_view != null)
+                    var objCate = new MenuService(configuration, redisService);
+                    cachedView = await objCate.GetLabelList(config.top);
+
+                    if (cachedView != null)
                     {
-                        // Lưu vào cache với thời gian hết hạn 
-                        _cache.Set(cacheKey, cached_view, TimeSpan.FromSeconds(20));
+                        _cache.Set(config.cacheKey, cachedView, TimeSpan.FromSeconds(20));
                     }
                 }
-
-                // Trả về view tùy theo loại menu (Home, News hoặc ListProduct)
-                if (labeltype == "home")
+                // ✅ Nếu không có dữ liệu → không render gì cả
+                if (cachedView == null)
                 {
-                    return View("~/Views/Shared/Components/Label/LabelListViewComponent.cshtml", cached_view);
-                }
-                else if (labeltype == "product")
-                {
-                    return View("~/Views/Shared/Components/Label/LabelProductViewComponent.cshtml", cached_view);
-                }
-                else
-                {
-                    return Content(""); // Nếu menuType không hợp lệ, trả về rỗng
+                    _logger.LogWarning("Label ViewComponent: Không có dữ liệu label cho {LabelType}", labeltype);
+                    return Content("");
                 }
 
+                return View(config.viewPath, cachedView);
             }
-            
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Content("");
+                _logger.LogError(ex, "Lỗi khi thực hiện Label ViewComponent với labeltype = {LabelType}", labeltype);
+                return Content(""); // fallback nếu lỗi
             }
         }
     }
