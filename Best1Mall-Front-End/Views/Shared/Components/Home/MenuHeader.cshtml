@@ -1,0 +1,20 @@
+﻿@using HuloToys_Front_End.Models;
+@using HuloToys_Front_End.Utilities;
+@model List<CategoryModel>
+@{
+    if (Model != null)
+    {
+ 
+        <ul class="p-4 space-y-2 bg-white">
+            @foreach (var item in Model)
+            {
+                <li>
+                    <a href="/san-pham?group_id=@item.id" class="block py-2 hover:text-red-400 rounded" data-id="@item.id">@item.name</a>
+                </li>
+            }
+            
+        </ul>
+        <div class="category_id" data-categoryid="0" style="display:none;"></div>
+    }
+}
+

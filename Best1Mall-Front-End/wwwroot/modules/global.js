@@ -331,7 +331,9 @@ var global_service = {
                 //})
                 //$.when.apply($, productPromises).done(function () {
                     var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
-                    element.html(html)
+                element.html(html)
+                //console.log('HTML sau render:', element.html()); // 👈 check đây
+
 
                 //})
 
@@ -579,8 +581,17 @@ var global_service = {
     renderViewedProducts: function () {
         debugger
         const container = document.getElementById('viewed-products');
+        const wrapper = document.getElementById('viewed-products-wrapper'); // 👈 thêm dòng này
         const list = JSON.parse(localStorage.getItem('viewedProducts')) || [];
-        if (!list.length) return;
+       
+        // Nếu không có sản phẩm đã xem thì ẩn nguyên cái wrapper luôn
+        if (!list.length) {
+            if (wrapper) wrapper.style.display = 'none';
+            return;
+        }
+
+        // Nếu có sản phẩm thì hiển thị lại
+        if (wrapper) wrapper.style.display = '';
 
         let html = '';
         list.forEach(p => {

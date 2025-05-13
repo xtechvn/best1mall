@@ -28,67 +28,45 @@ namespace WEB.CMS.ViewComponents
         {
             try
             {
-                string cacheKey;
-                int categoryOrGroupId;
+                // Mapping các loại menu
+                var menuMap = new Dictionary<string, (string cacheKey, string configKey, string viewPath)>
+        {
+            { "home", ("menu_home", "config:group_id", "~/Views/Shared/Components/Home/MenuHome.cshtml") },
+            { "news", ("menu_news", "config:category_id", "~/Views/Shared/Components/News/Menu.cshtml") },
+            { "listproduct", ("menu_listproduct", "config:group_id", "~/Views/Shared/Components/Product/MenuListProduct.cshtml") },
+            { "header_menu", ("menu_header", "config:group_id", "~/Views/Shared/Components/Home/MenuHeader.cshtml") }
+        };
 
-                // Kiểm tra loại menu và lấy đúng giá trị từ cấu hình
-                if (menuType == "home") // Home menu sử dụng group_id
+                // Check nếu không map được menuType thì trả về rỗng
+                if (!menuMap.TryGetValue(menuType, out var menuInfo))
                 {
-                    cacheKey = "menu_home";
-                    categoryOrGroupId = Convert.ToInt32(configuration["config:group_id"]);
-                }
-                else if (menuType == "news") // News menu sử dụng category_id
-                {
-                    cacheKey = "menu_news";
-                    categoryOrGroupId = Convert.ToInt32(configuration["config:category_id"]);
-                }
-                else if (menuType == "listproduct") // ListProduct menu sử dụng listproduct_group_id
-                {
-                    cacheKey = "menu_listproduct";
-                    categoryOrGroupId = Convert.ToInt32(configuration["config:group_id"]);
-                }
-                else
-                {
-                    return Content(""); // Nếu menuType không hợp lệ, trả về rỗng
+                    return Content("");
                 }
 
-                // Kiểm tra cache
-                if (!_cache.TryGetValue(cacheKey, out var cachedView))
+                int categoryOrGroupId = Convert.ToInt32(configuration[menuInfo.configKey]);
+
+                // Lấy từ cache nếu có
+                if (!_cache.TryGetValue(menuInfo.cacheKey, out var cachedView))
                 {
                     var objMenu = new MenuService(configuration, _redisService);
-                    // Lấy danh sách menu theo category_id hoặc group_id
                     cachedView = await objMenu.getListMenu(categoryOrGroupId);
 
-                    // Lưu vào cache với thời gian hết hạn 30 giây
                     if (cachedView != null)
                     {
-                        _cache.Set(cacheKey, cachedView, TimeSpan.FromSeconds(30));
+                        _cache.Set(menuInfo.cacheKey, cachedView, TimeSpan.FromSeconds(30));
                     }
                 }
 
-                // Trả về view tùy theo loại menu (Home, News hoặc ListProduct)
-                if (menuType == "home")
-                {
-                    return View("~/Views/Shared/Components/Home/MenuHome.cshtml", cachedView);
-                }
-                else if (menuType == "news")
-                {
-                    return View("~/Views/Shared/Components/News/Menu.cshtml", cachedView);
-                }
-                else if (menuType == "listproduct")
-                {
-                    return View("~/Views/Shared/Components/Product/MenuListProduct.cshtml", cachedView);
-                }
-                else
-                {
-                    return Content(""); // Nếu menuType không hợp lệ, trả về rỗng
-                }
+                return View(menuInfo.viewPath, cachedView);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Content(""); // Trong trường hợp có lỗi
+                // Gợi ý: log lỗi nếu có logger, để dễ debug
+                // _logger.LogError(ex, "MenuComponent Error: {MenuType}", menuType);
+                return Content("");
             }
         }
+
 
     }
 }
