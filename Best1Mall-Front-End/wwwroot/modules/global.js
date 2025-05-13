@@ -143,14 +143,14 @@ var global_service = {
         });
     },
     LoadLabelList: function () {
-        debugger
+       
         $.ajax({
             url: "/Home/loadLabelComponent",
             type: 'POST',
             dataType: 'html',
             data: { top: 6 },
             success: function (data) {
-                debugger
+               
                 $('.component-label-list').html(data);
             },
         });
@@ -325,7 +325,7 @@ var global_service = {
         return str.trim();
     },
     LoadHomeProductGrid: function (element, group_id, size) {
-        debugger
+       
         element.addClass('placeholder')
         element.addClass('box-placeholder')
         element.css('width', '100%')
@@ -374,7 +374,7 @@ var global_service = {
     },
    
     LoadGroupProduct: function (element, group_id, size) {
-        debugger
+       
         element.addClass('placeholder')
         element.addClass('box-placeholder')
         element.css('width', '100%')
@@ -387,9 +387,9 @@ var global_service = {
         $.when(
             global_service.POST(API_URL.GroupProduct, request)
         ).done(function (result) {
-            debugger
+           
             if (result.is_success) {
-                debugger
+               
                 var products = result.data
 
 
@@ -459,14 +459,14 @@ var global_service = {
         return value.trim();
     },
     GetGlobalSearchKeyword: function () {
-        debugger
+       
         var value = $('.global-search').val()
         // Giữ mọi chữ cái (bao gồm có dấu), số và vài ký tự đặc biệt hợp lệ
         value = value.replace(/[^\p{L}0-9+-_@* ]/gu, '');
         return value.trim();
     },
     RenderSearchBox: function () {
-        debugger
+       
         var usr = global_service.CheckLogin()
         var token = ''
         if (usr) {
@@ -480,7 +480,7 @@ var global_service = {
         $.when(
             global_service.POST(API_URL.GlobalSearch, request)
         ).done(function (result) {
-            debugger
+           
             if (result.is_success && result.data && result.data.items) {
                 if (result.data.items.length > 0) {
                     var html = `<ul class="divide-y divide-gray-100">` + global_service.RenderSearchProductItem(result.data.items) + `</ul>`
@@ -505,7 +505,7 @@ var global_service = {
     },
 
     RenderGroupProductItem: function (list, template) {
-        debugger
+       
         var html = '';
         $(list).each(function (index, item) {
             var img_src = item.imagePath;
@@ -572,7 +572,7 @@ var global_service = {
     },
 
     saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, amount_max = 0) {
-        debugger
+       
         const key = 'viewedProducts';
         let list = JSON.parse(localStorage.getItem(key)) || [];
 
@@ -600,14 +600,14 @@ var global_service = {
     },
 
     toSlug: function (str) {
-        debugger
+       
         str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         str = str.replace(/[^a-zA-Z0-9\s-]/g, '');
         return str.replace(/\s+/g, '-').toLowerCase();
     },
 
     renderViewedProducts: function () {
-        debugger
+       
         const container = document.getElementById('viewed-products');
         const wrapper = document.getElementById('viewed-products-wrapper'); // 👈 thêm dòng này
         const list = JSON.parse(localStorage.getItem('viewedProducts')) || [];

@@ -30,7 +30,7 @@ var product_detail = {
     },
     DynamicBind: function () {
         $("body").on('click', ".attribute-detail", function () {
-            debugger
+            
             var element = $(this)
             if (!element.hasClass('disabled')) {
                 element.closest('.box-tag').find('.attribute-detail').removeClass('active');
@@ -62,7 +62,7 @@ var product_detail = {
         });
     },
     Detail: function () {
-        debugger
+        
         var code = $('.section-details-product').attr('data-code')
         if (code == undefined || code.trim() == '')
             window.location.href = '/error'
@@ -84,7 +84,7 @@ var product_detail = {
         })
     },
     RenderDetail: function (product, product_sub) {
-        debugger
+        
         var html2 =''
         var html = ''
         var html_thumb = ''

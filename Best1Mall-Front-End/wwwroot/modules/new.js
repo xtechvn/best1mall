@@ -78,7 +78,7 @@ var _new = {
 
 
     loadNewsSection: function ({ targetSelector, category_id, page = 1, view_name }) {
-        debugger
+        
         const $container = $(targetSelector);
         const loading = `<div class="py-6 text-center text-blue-500">Đang tải dữ liệu...</div>`;
         $container.html(loading);
@@ -93,7 +93,7 @@ var _new = {
                 view_name: view_name
             },
             success: function (html) {
-                debugger
+                
                 $container.html(html);
             },
             error: function (xhr, status, error) {
@@ -120,7 +120,7 @@ var _new = {
     },
   
     GetFindArticleByTitle: function () {
-        debugger
+        
         $('.list-news-top').hide();
         $('#section-article-paginate').hide();
         $('.pagination').hide();

@@ -16,7 +16,7 @@ $(document).ready(function () {
 
     // Gắn sự kiện click cho từng danh mục
     $('body').on('click', '.cat-tag2', function (e) {
-        debugger
+       
         e.preventDefault();
 
         const $this = $(this);
@@ -37,7 +37,7 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '.menu_group_product', function (e) {
-        debugger
+       
         e.preventDefault();
 
         const $this = $(this);
@@ -64,7 +64,7 @@ $(document).ready(function () {
     // Lắng nghe sự kiện khi thay đổi giá
     let debounceTimer;
     $('#priceFrom, #priceTo').on('input', function () {
-        debugger
+       
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             const priceFrom = getRawNumber(document.getElementById('priceFrom'));
@@ -94,7 +94,7 @@ $(document).ready(function () {
 
         // Lắng nghe sự kiện khi thay đổi Rating
         $('body').on('click', '.rating-filter', function (e) {
-            debugger
+           
             e.preventDefault();
 
             // Lấy giá trị rating
@@ -138,7 +138,7 @@ $(document).ready(function () {
 
     var home_product = {
         Initialization: function () {
-            debugger
+           
             // Lấy group_id đầu tiên từ danh sách danh mục
             const firstCategoryId = parseInt($('.cat-tag2').first().data('id')) || 0;
 
@@ -171,7 +171,7 @@ $(document).ready(function () {
             $('.xemthem').hide()
         },
         loadProductByGroup: function (group_id) {
-            debugger;
+           ;
 
             // Chỉ gán động cho #List-product, các phần khác vẫn gán cứng
             global_service.LoadHomeProductGrid($('.list-product .swiper-wrapper'), group_id, GLOBAL_CONSTANTS.GridSize);
@@ -180,7 +180,7 @@ $(document).ready(function () {
         skip: 1, // Biến để theo dõi trang hiện tại
         take: 12, // Số lượng sản phẩm mỗi trang
         loadListProduct: function (group_id, skip, take, view_name, priceFrom = 0, priceTo = 0, ratingFrom = 0) {
-            debugger
+           
 
             $.ajax({
                 url: '/product/loadProductTopComponent', // URL tới action loadProductTopComponent
@@ -196,7 +196,7 @@ $(document).ready(function () {
                     rating: ratingFrom // Truyền ratingFrom
                 },
                 success: function (response) {
-                    debugger
+                   
                     const isEmptyResponse = !response || response.trim() === "";
                     // Nếu bạn muốn thêm sản phẩm mới vào danh sách hiện tại mà không thay thế toàn bộ
                     if (skip === 1) {
@@ -228,7 +228,7 @@ $(document).ready(function () {
         },
         // Hàm gọi Ajax để load thêm sản phẩm
         loadMore: function () {
-            debugger
+           
             var group_id;
 
             // Kiểm tra xem đã chọn tab hay chưa
