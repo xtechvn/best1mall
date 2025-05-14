@@ -45,8 +45,11 @@ public class AuthController : Controller
                 },
                 Scopes = new[] { "openid", "profile", "email" } // Các scope bạn đã yêu cầu
             });
-
-            var tokenResponse = await flow.ExchangeCodeForTokenAsync("me", code, redirectUri, CancellationToken.None);
+            string domain = Request.Host.Host;
+            string scheme = Request.Scheme; // Lấy giao thức (http hoặc https)
+            string host = Request.Host.Value; // Lấy tên miền và cổng (ví dụ: localhost:2335)
+            string fullDomain = $"{scheme}://{host}{redirectUri}";
+            var tokenResponse = await flow.ExchangeCodeForTokenAsync("me", code, fullDomain, CancellationToken.None);
 
             if (string.IsNullOrEmpty(tokenResponse.IdToken))
             {

@@ -10,19 +10,7 @@ var account = {
             account.RenderHTML()
             account.DynamicBind()
         }
-      
-		//window.onload = function () {
-  //   google.accounts.id.initialize({
-  //   client_id: THIRDPARTY_CONSTANTS.GSI.ClientID,
-  //       callback: this.GoogleSignIn
-  //    });
-  //          google.accounts.id.prompt();
-  //      }
-        //FB.init({
-        //    appId: THIRDPARTY_CONSTANTS.Facebook.AppId,
-        //    xfbml: true,
-        //    version: THIRDPARTY_CONSTANTS.Facebook.Version
-        //});  
+     
     },
     DynamicBindChangePassword: function () {
         var notification_empty ='Vui lòng không để trống'
@@ -77,39 +65,42 @@ var account = {
             if (usr.token == null || usr.token == undefined) {
                 account.Logout()
             }
-            $('#client-account-name').html(usr.name +' '/*+ `<a href="javascript:;" id="account-logout"> [ Đăng xuất ]</a>`*/)
-            $('#client-account-name').closest('a').attr('href', '/order')
-            $('.right-mainheader .client-login').removeAttr('data-id')
-            $('.right-mainheader .client-login').addClass('client-logged')
-            $('.right-mainheader .client-login').removeClass('client-login')
+            $('#client-account-name').html(usr.name +' '+ `<a href="javascript:;" id="account-logout"> [ Đăng xuất ]</a>`)
+            $('#client-account-name').closest('a').attr('href', '/client')
+            $('#client-account-name').closest('a').removeAttr('data-id')
+            $('#client-account-name').closest('a').addClass('client-logged')
+            $('#client-account-name').closest('a').removeClass('client-login')
 
         }
-        $('#dangky .email input').addClass('no-requirement')
+        $('#register-form .email input').addClass('no-requirement')
     },
     DynamicBind: function () {
-        $("body").on('focusout', "#dangnhap input, #dangky input", function () {
+        $("body").on('focusout', "#login-form input, #register-form input", function () {
             var element = $(this)
 
             if (element.hasClass('no-requirement') && (element.val() == undefined || element.val().trim() == '')) {
-                element.closest('.form-group').find('.err').show()
+                element.closest('.mb-4').find('.err').show()
             }
 
         });
-        $("body").on('focusin', "#dangnhap input, #dangky input", function () {
+        $("body").on('focusin', "#login-form input, #register-form input", function () {
             var element = $(this)
-            element.closest('.form-group').find('.err').hide()
-            element.closest('.form-group').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
+            element.closest('.mb-4').find('.err').hide()
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
         });
-        $("body").on('click', "#btn-client-login", function () {
+        $("body").on('click', "#btn-client-login", function (e) {
+            e.preventDefault()
             account.Login()
         });
-        $("body").on('click', "#account-logout", function () {
+        $("body").on('click', "#account-logout", function (e) {
             account.Logout()
         });
         $("body").on('click', "#logout-action", function () {
             $('#dangxuat').addClass('overlay-active')
         });
-        $("body").on('click', "#btn-client-register", function () {
+        $("body").on('click', "#btn-client-register", function (e) {
+            e.preventDefault()
+
             account.Register()
         });
         $("body").on('click', ".ghinho", function () {
@@ -121,12 +112,12 @@ var account = {
             }
         });
 
-        $("body").on('click', ".btn-login-fb", function () {
-            FB.getLoginStatus(function (response) {
-                FacebookLogin();
+        //$("body").on('click', ".btn-login-fb", function () {
+        //    FB.getLoginStatus(function (response) {
+        //        FacebookLogin();
 
-            });
-        });
+        //    });
+        //});
         $("body").on('keyup', "#forgot-password-email", function () {
             $("#forgot-password-email").closest('.box-email').find('.err').hide()
 
@@ -138,6 +129,28 @@ var account = {
             account.ConfirmForgotPassword()
 
         });
+        $("body").on('click', "#tab-login", function () {
+            $('#tab-login').addClass('text-purple-500')
+            $('#tab-login').addClass('border-b-3')
+            $('#tab-login').addClass('border-purple-500')
+            $('#tab-register').removeClass('text-purple-500')
+            $('#tab-register').removeClass('border-b-3')
+            $('#tab-register').removeClass('border-purple-500')
+            $('#login-form').removeClass('hidden')
+            $('#register-form').addClass('hidden')
+
+        });
+        $("body").on('click', "#tab-register", function () {
+            $('#tab-login').removeClass('text-purple-500')
+            $('#tab-login').removeClass('border-b-3')
+            $('#tab-login').removeClass('border-purple-500')
+            $('#tab-register').addClass('text-purple-500')
+            $('#tab-register').addClass('border-b-3')
+            $('#tab-register').addClass('border-purple-500')
+            $('#login-form').addClass('hidden')
+            $('#register-form').removeClass('hidden')
+
+        });
     },
     Login: function () {
         var element = $('#btn-client-login')
@@ -146,9 +159,9 @@ var account = {
             element.html('Vui lòng chờ ....')
             element.prop("disabled", true);
             var request = {
-                "user_name": $('#dangnhap .user input').val(),
-                "password": $('#dangnhap .password input').val(),
-                "remember_me": $('#dangnhap .checkbox').is(":checked"),
+                "user_name": $('#login-usr').val(),
+                "password": $('#login-pwd').val(),
+                "remember_me": $('#login-remember').is(":checked"),
                 "token": '',
                 "type": 1
             }
@@ -156,7 +169,7 @@ var account = {
                 global_service.POST(API_URL.Login, request)
             ).done(function (res) {
                 if (res.is_success) {
-                    if ($('#dangnhap .checkbox').is(":checked")) {
+                    if ($('#login-remember').is(":checked")) {
                         localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
                     } else {
                         sessionStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
@@ -166,8 +179,8 @@ var account = {
                 else {
                     $(':input[type="submit"]').prop('disabled', false);
 
-                    $('#dangnhap .user input').closest('.form-group').find('.err').show()
-                    $('#dangnhap .user input').closest('.form-group').find('.err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
+                    $('#login-usr').closest('.mb-4').find('.err').show()
+                    $('#login-usr').closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
                     element.html('Đăng nhập')
                     element.prop("disabled", false);
 
@@ -190,12 +203,12 @@ var account = {
             $('.err-gg-account').hide()
             var token = $('#register-detail').attr('data-token') == undefined ? '' : $('#register-detail').attr('data-token')
             var request = {
-                "user_name": $('#dangky .user input').val(),
-                "email": $('#dangky .email input').val(),
-                "phone": $('#dangky .tel input').val(),
-                "password": $('#dangky .register-password input').val(),
-                "confirm_password": $('#dangky .confirm-password input').val(),
-                "is_receive_email": $('#dangky .checkbox').is(":checked"),
+                "user_name": $('#register-form .user input').val(),
+                "email": $('#register-form .email input').val(),
+                "phone": $('#register-form .tel input').val(),
+                "password": $('#register-form .register-password input').val(),
+                "confirm_password": $('#register-form .confirm-password input').val(),
+                "is_receive_email": $('#register-form .checkbox').is(":checked"),
                 "token": token,
                 "type": parseInt($('#register-detail').attr('data-type'))
             }
@@ -206,7 +219,7 @@ var account = {
                     $('.client-login-popup').removeClass('overlay-active')
                     $('#success').addClass('overlay-active')
                     setTimeout(() => {
-                        if ($('#dangnhap .checkbox').is(":checked")) {
+                        if ($('#login-form .checkbox').is(":checked")) {
                             localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data.data))
                         } else {
                             sessionStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data.data))
@@ -217,11 +230,11 @@ var account = {
                 else {
                     $(':input[type="submit"]').prop('disabled', false);
                     if (res.data.msg.toLowerCase().includes('email')) {
-                        $('#dangky .email input').closest('.form-group').find('.err').show()
-                        $('#dangky .email input').closest('.form-group').find('.err').html(res.data.msg)
+                        $('#register-form .email input').closest('.mb-4').find('.err').show()
+                        $('#register-form .email input').closest('.mb-4').find('.err').html(res.data.msg)
                     } else {
-                        $('#dangky .user input').closest('.form-group').find('.err').show()
-                        $('#dangky .user input').closest('.form-group').find('.err').html(res.data.msg)
+                        $('#register-form .user input').closest('.mb-4').find('.err').show()
+                        $('#register-form .user input').closest('.mb-4').find('.err').html(res.data.msg)
                     }
                    
                     element.html('Đăng ký')
@@ -233,14 +246,14 @@ var account = {
     },
     ValidateLogin: function () {
         var success = true
-        var element = $('#dangnhap .user input')
+        var element = $('#login-usr')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.form-group').find('.err').show()
             success = false
 
         }
         //if (!success) return success
-        element = $('#dangnhap .password input')
+        element = $('#login-pwd')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.form-group').find('.err').show()
             success = false
@@ -254,14 +267,14 @@ var account = {
         var password_length = 6
 
         var success = true
-        var element = $('#dangky .user input')
+        var element = $('#register-form .user input')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.form-group').find('.err').show()
             success = false
 
         }
         //if (!success) return success
-        element = $('#dangky .email input')
+        element = $('#register-form .email input')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.form-group').find('.err').show()
             success = false
@@ -277,7 +290,7 @@ var account = {
         }
         //if (!success) return success
 
-        element = $('#dangky .tel input')
+        element = $('#register-form .tel input')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.form-group').find('.err').show()
             success = false
@@ -293,7 +306,7 @@ var account = {
         }
         //if (!success) return success
 
-        element = $('#dangky .register-password input')
+        element = $('#register-form .register-password input')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.form-group').find('.err').show()
             success = false
@@ -305,12 +318,12 @@ var account = {
         }
         //if (!success) return success
 
-        element = $('#dangky .confirm-password input')
+        element = $('#register-form .confirm-password input')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.form-group').find('.err').show()
             success = false
         }
-        else if (element.val() != $('#dangky .password input').val()) {
+        else if (element.val() != $('#register-form .password input').val()) {
             element.closest('.form-group').find('.err').html(NOTIFICATION_MESSAGE.PasswordConfirmNotEqual)
             element.closest('.form-group').find('.err').show()
             success = false
@@ -329,15 +342,15 @@ var account = {
 
     ThirdPartyRegister: function (email, password, token, name, type) {
         $('.client-login-popup').removeClass('overlay-active')
-        $('#dangky').addClass('overlay-active')
-        $('#dangky .user input').val(name)
-        $('#dangky .email input').val(email)
-        $('#dangky .register-password input').val('')
-        $('#dangky .confirm-password input').val('')
+        $('#register-form').addClass('overlay-active')
+        $('#register-form .user input').val(name)
+        $('#register-form .email input').val(email)
+        $('#register-form .register-password input').val('')
+        $('#register-form .confirm-password input').val('')
         $('#register-detail').attr('data-type', type)
         $('#register-detail').attr('data-token', token)
 
-        $('#dangky .scroll-form').prepend(HTML_CONSTANTS.GoogleAccountNotRegistered)
+        $('#register-form .scroll-form').prepend(HTML_CONSTANTS.GoogleAccountNotRegistered)
     },
     ThirdPartyLogin: function (email, password, token,name,type) {
         var request = {
@@ -351,7 +364,7 @@ var account = {
             global_service.POST(API_URL.Login, request)
         ).done(function (res) {
             if (res.is_success) {
-                if ($('#dangnhap .checkbox').is(":checked")) {
+                if ($('#login-form .checkbox').is(":checked")) {
                     localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
                 } else {
                     sessionStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
@@ -374,7 +387,7 @@ var account = {
                 global_service.POST(API_URL.ClientForgotPassword, request)
             ).done(function (res) {
                 $('#quenmk').removeClass('overlay-active')
-                $('#dangnhap').removeClass('overlay-active')
+                $('#login-form').removeClass('overlay-active')
                 $('#success h4').html(res.msg)
                 $('#success').addClass('overlay-active')
                 $('#forgot-password-email').val('')

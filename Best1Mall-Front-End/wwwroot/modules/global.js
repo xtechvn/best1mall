@@ -32,25 +32,15 @@ var global_service = {
             var element = $(this)
             event.preventDefault()
             var box_id = element.attr('data-id')
-            $('.client-login-popup').removeClass('overlay-active')
-            $('' + box_id).addClass('overlay-active')
+            $('.popup').addClass('hidden')
+            $('' + box_id).removeClass('hidden')
+            $('' + box_id).show()
         });
         $("body").on('click', ".overlay .close, .overlay .btn-close", function (event) {
             var element = $(this)
             event.preventDefault()
-            element.closest('.overlay').removeClass('overlay-active')
+            element.closest('.popup').addClass('hidden')
         });
-        //$("body").on('keyup', ".global-search", function (event) {
-        //    var element = $(this)
-        //    global_service.RenderSearchBoxLoading()
-        //    if (element.val() != undefined && element.val().trim() != '') {
-        //        $('.box-search-list').fadeIn()
-        //        global_service.RenderSearchBox()
-        //    } else {
-        //        $('.box-search-list').fadeOut()
-        //    }
-
-        //});
         $("body").on('keyup', ".global-search", function () {
             if (!$('#global-search-loading').is(':hidden')) {
                 return
