@@ -1,15 +1,12 @@
-﻿function formatCurrencyInput(el) {
-    let value = el.value.replace(/\D/g, ''); // Chỉ giữ số
-    if (!value) {
-        el.value = "";
-        return;
-    }
-    el.value = parseInt(value).toLocaleString('vi-VN');
+﻿function formatCurrencyVND(number) {
+    return number.toLocaleString('vi-VN');
 }
 
-function getRawNumber(el) {
-    return parseFloat(el.value.replace(/\./g, '')) || 0;
+function getRawNumber(str) {
+    if (!str) return 0;
+    return parseFloat(str.replace(/\./g, '').replace(/[^0-9]/g, '')) || 0;
 }
+
 
 $(document).ready(function () {
     // ✅ Mặc định load danh sách "Tất cả" (group_id = 0)
@@ -47,6 +44,9 @@ $(document).ready(function () {
         var take = 12; // Số lượng sản phẩm mỗi trang (tùy chỉnh theo yêu cầu)
         var view_name = "/Views/Shared/Components/Product/ProductListViewComponent.cshtml";
         if (isNaN(categoryId)) return;
+        // ✅ Reset giá và rating filter
+        $('#priceFrom, #priceTo').val('');
+        $('.rating-filter').removeClass('text-yellow-500 font-bold');
         history.pushState(null, null, "/san-pham?group_id=" + categoryId); // Thay đổi đường dẫn mà không tải lại trang
         // Reset skip
         home_product.skip = skip;
@@ -59,17 +59,20 @@ $(document).ready(function () {
 
     });
    
-    $('#priceFrom, #priceTo').on('input', function () {
-        formatCurrencyInput(this);
-    });
+    
     // Lắng nghe sự kiện khi thay đổi giá
     let debounceTimer;
     $('#priceFrom, #priceTo').on('input', function () {
-       
+        
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
-            const priceFrom = getRawNumber(document.getElementById('priceFrom'));
-            const priceTo = getRawNumber(document.getElementById('priceTo'));
+            debugger
+            // Lấy raw number từ chuỗi
+            const rawFrom = getRawNumber($('#priceFrom').val());
+            const rawTo = getRawNumber($('#priceTo').val());
+            // Format lại hiển thị
+            $('#priceFrom').val(rawFrom > 0 ? formatCurrencyVND(rawFrom) : '');
+            $('#priceTo').val(rawTo > 0 ? formatCurrencyVND(rawTo) : '');
             var group_id;
 
             // Kiểm tra xem đã chọn tab hay chưa
@@ -87,53 +90,43 @@ $(document).ready(function () {
             }
 
             // Gọi lại hàm load sản phẩm với giá lọc
-            home_product.loadListProduct(group_id, 1, 12, "/Views/Shared/Components/Product/ProductListViewComponent.cshtml", priceFrom, priceTo);
-            }, 2000); // 300ms delay
+            home_product.loadListProduct(group_id, 1, 12, "/Views/Shared/Components/Product/ProductListViewComponent.cshtml", rawFrom, rawTo);
+            }, 500); // 300ms delay
 
-        });
+    });
+    $('body').on('click', '.rating-filter', function (e) {
+        debugger
+        e.preventDefault();
 
+        const rating = parseFloat($(this).data('rating')) || 0;
 
-        // Lắng nghe sự kiện khi thay đổi Rating
-        $('body').on('click', '.rating-filter', function (e) {
-           
-            e.preventDefault();
+        // Đặt active class cho filter được chọn
+        $('.rating-filter').removeClass('text-yellow-500 font-bold');
+        $(this).addClass('text-yellow-500 font-bold');
 
-            // Lấy giá trị rating
-            var ratingFrom = $(this).data('rating');
+        const priceFrom = getRawNumber($('#priceFrom').val());
+        const priceTo = getRawNumber($('#priceTo').val());
 
-            var priceFrom = parseFloat($('#priceFrom').val()) || 0;
-            var priceTo = parseFloat($('#priceTo').val()) || 0;
-            var group_id;
+        var group_id;
 
-            // Kiểm tra xem đã chọn tab hay chưa
-            if ($('.menu_group_product.active').length > 0) {
-                // Nếu đã chọn tab, lấy group_id từ tab hiện tại
-                group_id = parseInt($('.menu_group_product.active').data('id'));
-            } else {
-                // Nếu chưa chọn tab, lấy group_id từ ViewBag hoặc URL
-                group_id = parseInt($('#group_id_from_url').val()) || parseInt('@ViewBag.group_id') || 0; // Lấy group_id từ URL hoặc ViewBag
+        // Kiểm tra xem đã chọn tab hay chưa
+        if ($('.menu_group_product.active').length > 0) {
+            // Nếu đã chọn tab, lấy group_id từ tab hiện tại
+            group_id = parseInt($('.menu_group_product.active').data('id'));
+        } else {
+            // Nếu chưa chọn tab, lấy group_id từ ViewBag hoặc URL
+            group_id = parseInt($('#group_id_from_url').val()) || parseInt('@ViewBag.group_id') || 0; // Lấy group_id từ URL hoặc ViewBag
 
-                if (isNaN(group_id)) {
-                    console.log("Invalid group_id");
-                    return;
-                }
+            if (isNaN(group_id)) {
+                console.log("Invalid group_id");
+                return;
             }
+        }
 
-            // Gọi lại hàm load sản phẩm với rating và giá lọc
-            home_product.loadListProduct(group_id, 1, 12, "/Views/Shared/Components/Product/ProductListViewComponent.cshtml", priceFrom, priceTo, ratingFrom);
-        });
+        home_product.loadListProduct(group_id, 1, 12, "/Views/Shared/Components/Product/ProductListViewComponent.cshtml", priceFrom, priceTo, rating);
+    });
 
-        //$('#amountMin, #amountMax').on('input', function () {
-        //    clearTimeout(debounceTimeout);
-        //    debounceTimeout = setTimeout(function () {
-        //        var amountMin = parseFloat($('#amountMin').val()) || 0;
-        //        var amountMax = parseFloat($('#amountMax').val()) || 0;
-        //        group_product.bind_search_products_by_price_range(amountMin, amountMax);
-        //    }, 300); // Adjust the delay as needed
-        //});
-        //// Reset giá trị khi trang được tải lại
-        //$('#amountMin').val('');
-        //$('#amountMax').val('');
+
         home_product.Initialization()
     })
 
@@ -182,7 +175,7 @@ $(document).ready(function () {
         take: 12, // Số lượng sản phẩm mỗi trang
         loadListProduct: function (group_id, skip, take, view_name, priceFrom = 0, priceTo = 0, ratingFrom = 0) {
            
-
+            debugger
             $.ajax({
                 url: '/product/loadProductTopComponent', // URL tới action loadProductTopComponent
                 type: 'POST',
@@ -197,7 +190,7 @@ $(document).ready(function () {
                     rating: ratingFrom // Truyền ratingFrom
                 },
                 success: function (response) {
-                   
+                    debugger
                     const isEmptyResponse = !response || response.trim() === "";
                     // Nếu bạn muốn thêm sản phẩm mới vào danh sách hiện tại mà không thay thế toàn bộ
                     if (skip === 1) {
