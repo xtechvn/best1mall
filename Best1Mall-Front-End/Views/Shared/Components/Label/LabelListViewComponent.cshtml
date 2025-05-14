@@ -19,25 +19,57 @@
 
     <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
 
+    @* <div class="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-3 mt-3"> *@
+    @*     <!-- Item --> *@
+    @*     @foreach (var label in Model) *@
+    @*     { *@
+    @*         <div class="flex-shrink-0 w-full text-center p-3 rounded-xl bg-white"> *@
+    @*             <a href=""> *@
+    @*                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg mb-2"> *@
+    @*                     <!-- Image for label (you can replace with the actual icon from the model) --> *@
+    @*                     <img src="@label.Icon" alt="@label.LabelName" *@
+    @*                          class="absolute inset-0 w-full h-full object-cover" /> *@
+    @*                 </div> *@
+    @*                 <img src="@label.Icon" alt="@label.LabelName" *@
+    @*                      class="rounded-full border border-blue-100 w-2/3 h-10 object-contain bg-white mx-auto" /> *@
+    @*                 <p class="font-medium text-red-400 mt-3">@label.LabelName</p> *@
+    @*             </a> *@
+    @*         </div> *@
+    @*     } *@
+
+       
+
+    @* </div> *@
     <div class="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-3 mt-3">
-        <!-- Item -->
-        @foreach (var label in Model)
+        @for (int i = 0; i < Model.Count; i++)
         {
-            <div class="flex-shrink-0 w-full text-center p-3 rounded-xl bg-white">
-                <a href="">
+            var label = Model[i];
+
+            // Dùng index để chọn ảnh chính và avatar, đảm bảo cố định
+            var imgIndex = i % 6; // Có 6 ảnh (0 → 5)
+
+            var imgMainName = imgIndex == 0 ? "image 18.png" : $"image 18 ({imgIndex}).png";
+            var imgMainPath = $"/assets/images/Card/{imgMainName}";
+
+            var imgAvatarName = imgIndex == 0 ? "Card.png" : $"Card ({imgIndex}).png";
+            var imgAvatarPath = $"/assets/images/Card/{imgAvatarName}";
+
+            <div class="flex-shrink-0 w-full text-center p-3 rounded-xl bg-white shadow hover:shadow-md transition">
+                <a href="/san-pham?label_id=@label.Id" class="block">
+                    <!-- Ảnh chính -->
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg mb-2">
-                        <!-- Image for label (you can replace with the actual icon from the model) -->
-                        <img src="@label.Icon" alt="@label.LabelName"
+                        <img src="@imgMainPath" alt="@label.LabelName"
                              class="absolute inset-0 w-full h-full object-cover" />
                     </div>
-                    <img src="@label.Icon" alt="@label.LabelName"
+
+                    <!-- Avatar -->
+                    <img src="@imgAvatarPath" alt="@label.LabelName"
                          class="rounded-full border border-blue-100 w-2/3 h-10 object-contain bg-white mx-auto" />
+
                     <p class="font-medium text-red-400 mt-3">@label.LabelName</p>
                 </a>
             </div>
         }
-
-       
 
     </div>
 </div>

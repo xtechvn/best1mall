@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     // Gắn sự kiện click cho từng danh mục
     $('body').on('click', '.cat-tag2', function (e) {
+        debugger
        
         e.preventDefault();
 
