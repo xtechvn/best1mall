@@ -33,17 +33,20 @@
         double price = item.amount_min ?? item.amount;
         double oldPrice = item.amount_max ?? 0;
         bool showOldPrice = oldPrice > price;
+        bool showDiscount = item.amount_max.HasValue;
         string seoUrl = $"/san-pham/{ToSeoUrl(item.name)}--{item._id}";
         string ratingDisplay = (item.rating.HasValue && item.rating > 0) ? item.rating.Value.ToString("0.0") + "★" : "";
         string reviewCountDisplay = (item.review_count.HasValue && item.review_count > 0) ? $"({item.review_count})" : "";
+        string discountText = showDiscount ? $"-{item.discount}%" : "";
+        string discountClass = showDiscount ? "" : "hidden";
 
         <div class="swiper-slide pt-3">
             <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
                 <a href="@seoUrl"
                    onclick="global_service.saveViewedProduct('@item._id', '@item.name.Replace("'", "\\'")', '@item.avatar', @price, @(item.rating ?? 0), @(item.review_count ?? 0), @(item.amount_max ?? 0))">
-                    <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
-                        -50%
-                    </div>
+                <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 @discountClass">
+                    @discountText
+                </div>
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                        <img src="https://static-image.adavigo.com@(@item.avatar)" alt="Sản phẩm"
                              class="absolute inset-0 w-full h-full object-cover" />

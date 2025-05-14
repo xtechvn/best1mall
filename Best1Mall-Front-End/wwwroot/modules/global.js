@@ -340,29 +340,10 @@ var global_service = {
         ).done(function (result) {
             if (result.is_success) {
                 var products = result.data
-                //var productPromises = []
-
-                //$.each(products, function (index, product) {
-                //    var ratingRequest = {
-                //        "id": product._id
-                //    }
-                //    var productPromise = global_service.POST(API_URL.ProductRaitingCount, ratingRequest)
-                //        .then(function (ratingResult) {
-                //            if (ratingResult.is_success) {
-                //                product.review_count = ratingResult.data.total_count || 0
-                //            } else {
-                //                product.review_count = 0
-                //            }
-                //        })
-                //    productPromises.push(productPromise)
-                //})
-                //$.when.apply($, productPromises).done(function () {
+                
                     var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                 element.html(html)
-                //console.log('HTML sau render:', element.html()); // 👈 check đây
-
-
-                //})
+                
 
             } else {
                 element.html('')
@@ -526,6 +507,7 @@ var global_service = {
     },
     RenderSlideProductItem: function (list, template) {
         var html = ''
+       
         $(list).each(function (index, item) {
             var img_src = item.avatar
             if (!img_src.includes(API_URL.StaticDomain)
@@ -549,12 +531,20 @@ var global_service = {
                 has_price = true
             }
             if (has_price) {
+                
+                debugger
+                let showDiscount = item.amount_max != null ;
                 html += template
                     .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
                     .replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}',  ${amount_number},
                     ${item.rating || 0},
                     ${item.review_count || 0},
-                    ${item.amount_max || 0})" href="`)
+                    ${item.amount_max || 0},
+                    ${item.discount ||0})" href="`)
+                    .replaceAll('{discount_text}', showDiscount ? `-${item.discount}%` : '')
+                    .replaceAll('{discount_style}', showDiscount ? '' : 'hidden')
+
+
                     .replaceAll('{avt}', img_src)
                     .replaceAll('{name}', item.name)
                     .replaceAll('{amount}', amount_html)
@@ -571,7 +561,7 @@ var global_service = {
         return html
     },
 
-    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, amount_max = 0) {
+    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, amount_max = 0, discount=0) {
        
         const key = 'viewedProducts';
         let list = JSON.parse(localStorage.getItem(key)) || [];
@@ -588,6 +578,7 @@ var global_service = {
             rating,
             review_count,
             amount_max,
+            discount,
             url: `/san-pham/${global_service.toSlug(name)}--${id}`
         });
 
@@ -623,7 +614,9 @@ var global_service = {
 
         let html = '';
         list.forEach(p => {
+           
             const showOldPrice = p.amount_max && p.amount_max > p.price;
+            const showDiscount = p.amount_max != null;
             const ratingHtml = p.rating > 0 ? `${p.rating.toFixed(1)}★` : '';
             const reviewHtml = p.review_count > 0 ? `(${p.review_count})` : '';
 
@@ -631,8 +624,8 @@ var global_service = {
             <div class="swiper-slide pt-3">
             <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
                 <a href="${p.url}">
-                    <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
-                        -50%
+                   <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 ${showDiscount ? '' : 'hidden'}">
+                        -${p.discount}%
                     </div>
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                         <img src="${p.image}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover" />
