@@ -15,8 +15,23 @@ var cart = {
 
     },
     DynamicBind: function () {
-        $("body").on('click', ".right-cart .delivery", function () {
-            $('#hinhthucgiaohang').addClass('overlay-active')
+        $("body").on('click', ".all-pop", function (event) {
+            debugger
+            var cartId
+            var element = $(this)
+            event.preventDefault()
+            var box_id = element.attr('data-id')
+            // Nếu là nút xoá, truyền data-cart-id
+            if (box_id === "#lightbox-delete-cart") {
+                cartId = element.attr('data-cart-id');
+                
+            } else {
+                cartId = element.closest('.product').attr('data-cart-id');
+            }
+            $(box_id).attr("data-cart-id", cartId);
+            $('.popup').addClass('hidden')
+            $('' + box_id).removeClass('hidden')
+            $('' + box_id).show()
         });
         $("body").on('click', "#hinhthucgiaohang .item li", function () {
             var element = $(this)
@@ -33,12 +48,14 @@ var cart = {
 
             cart.RenderSelectionDelivery()
         });
-        $("body").on('click', ".section-cart .table-addtocart .remove-product", function () {
-            var element = $(this)
-            cart.RemoveCartItem(element.closest('.product').attr('data-cart-id'))
+        //$("body").on('click', ".section-cart .table-addtocart .remove-product", function () {
+        //    debugger
+        //    var element = $(this)
+        //    cart.RemoveCartItem(element.closest('.product').attr('data-cart-id'))
 
-        });
+        //});
         $("body").on('click', "#lightbox-delete-cart .btn-save", function () {
+            debugger
             cart.ConfirmRemoveCartItem()
 
         });
@@ -169,6 +186,7 @@ var cart = {
         }
     },
     CartItem: function () {
+        debugger
         var usr = global_service.CheckLogin()
         if (usr) {
             var request = {
@@ -177,6 +195,7 @@ var cart = {
             $.when(
                 global_service.POST(API_URL.CartList, request)
             ).done(function (result) {
+                debugger
                 if (result.is_success && result.data && result.data.length > 0) {
                     cart.RenderCartItem(result.data)
                     cart.RenderBuyNowSelection()
@@ -189,20 +208,31 @@ var cart = {
             })
 
         } else {
-            $('#main').html(HTML_CONSTANTS.Cart.Empty)
-            $('.mainheader .client-login').click()
+            //$('#main').html(HTML_CONSTANTS.Cart.Empty)
+            //$('.mainheader .client-login').click()
+            // 🔴 Nếu chưa login → lấy giỏ từ sessionStorage
+            let localCart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
+
+            if (localCart.length > 0) {
+                cart.RenderCartItem(localCart);
+                cart.RenderBuyNowSelection();
+            } else {
+                $('#main').html(HTML_CONSTANTS.Cart.Empty);
+            }
         }
 
 
     },
     RenderCartItem: function (list) {
+        debugger
         var html = ''
         var total_amount = 0
 
         //-- Table Product
         $(list).each(function (index, item) {
+            debugger
             var html_item = HTML_CONSTANTS.Cart.Product
-                .replaceAll('{id}', item._id)
+                .replaceAll('{id}', item._id || item.product._id)
                 .replaceAll('{product_id}', item.product._id)
                 .replaceAll('{amount}', item.product.amount)
                 .replaceAll('{name}', item.product.name)
@@ -297,13 +327,15 @@ var cart = {
 
         }
     },
-    RemoveCartItem: function (data_id) {
-        $('#lightbox-delete-cart').addClass('overlay-active')
-        $('#lightbox-delete-cart').attr('data-cart-id', data_id)
+    //RemoveCartItem: function (data_id) {
+    //    debugger
+    //    $("#lightbox-delete-cart").attr("data-cart-id", data_id).removeClass("hidden");
 
-    },
+    //},
     ConfirmRemoveCartItem: function () {
+        debugger
         var data_id = $('#lightbox-delete-cart').attr('data-cart-id')
+        var usr = global_service.CheckLogin();
         $('.table-addtocart .product').each(function (index, item) {
             var element = $(this)
             if (element.attr('data-cart-id') == data_id) {
@@ -315,25 +347,46 @@ var cart = {
             $('#main').html(HTML_CONSTANTS.Cart.Empty)
 
         }
-        var request = {
-            "id": data_id
-        }
-        $.when(
-            global_service.POST(API_URL.CartDelete, request)
-        ).done(function (result) {
-            sessionStorage.removeItem(STORAGE_NAME.CartCount)
-            global_service.LoadCartCount()
-            cart.RenderCartNumberOfProduct()
-            cart.ReRenderAmount()
+        if (usr) {
+            var request = {
+                "id": data_id
+            }
+            $.when(
+                global_service.POST(API_URL.CartDelete, request)
+            ).done(function (result) {
+                sessionStorage.removeItem(STORAGE_NAME.CartCount)
+                global_service.LoadCartCount()
+                cart.RenderCartNumberOfProduct()
+                cart.ReRenderAmount()
 
-        })
-        $('#lightbox-delete-cart').removeClass('overlay-active')
+            })
+            $('#lightbox-delete-cart').removeClass('overlay-active')
+
+        } else {
+            debugger
+            // ❌ Nếu chưa login → xoá trong sessionStorage
+            let cart2 = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
+
+            // Lọc lại mảng cart
+            cart2 = cart2.filter(function (item) {
+                return item.product_id !== data_id;
+            });
+
+            sessionStorage.setItem(STORAGE_NAME.Cart, JSON.stringify(cart2));
+
+            // Cập nhật lại số lượng, tổng tiền
+            global_service.LoadCartCount();
+            cart.RenderCartNumberOfProduct();
+            cart.ReRenderAmount();
+        }
+        
 
 
 
     },
 
     ConfirmCart: function () {
+        debugger
         if ($('#address-receivername').attr('data-id') == null || $('#address-receivername').attr('data-id') == undefined || $('#address-receivername').attr('data-id').trim() == '') {
             $('#lightbox-cannot-add-cart .info-order .notification-content').html('Vui lòng thêm/chọn địa chỉ trước khi tiếp tục')
             $('#lightbox-cannot-add-cart .title-box').html('Chưa chọn địa chỉ giao hàng')

@@ -3,415 +3,450 @@
     ViewData["Title"] = "Giỏ hàng | Hulotoys";
 
 }
-<section class="section-cart placeholder" style="margin-bottom:100px;">
-    <div class="container">
-        <div class="breadcrumb">
-            <ul>
-                <li><a href="/">Trang chủ</a></li>
-                <li class="active"><a href="javascript:;">Giỏ hàng / Thanh toán</a></li>
-            </ul>
-        </div>
-        <div class="box-cart">
-            <div class="list-addtocart">
-                <div class="shopping-cart">
-                    <div class="column-labels">
-                        <div class="product-checkall">
-                            <div class="box-checkbox">
-                                <input type="checkbox" id="checkbox11" class="checkbox" />
-                                <label class="box-checkbox-all" for="checkbox11"></label>
-                            </div>
-                        </div>
-                        <label class="product-image">Tên sản phẩm <span class="total-sp">(2 sản phẩm)</span></label>
-                        <label class="product-price">Đơn giá</label>
-                        <label class="product-quantity">Số lượng</label>
-                        <label class="product-line-price">Thành tiền</label>
-                        <label class="product-removal"></label>
-                    </div>
-                    <div class="table-addtocart">
-                        <div class="product">
+<main class="min-h-[40vh]">
+
+
+    <!-- DANH SACH SAN PHAM -->
+    <section class="product-cart-section section-cart placeholder">
+        <div class="max-w-[1230px] mx-auto px-[15px]">
+            <div class="breadcrumb my-4 ">
+                <ul class="flex items-center gap-3 font-normal">
+                    <li><a href="/">Trang chủ</a></li>
+                    <li><a href="" class="text-color-base">Giỏ hàng / Thanh toán</a></li>
+                </ul>
+            </div>
+            <div class=" box-cart flex flex-wrap md:flex-nowrap justify-between gap-3 my-4">
+                <div class=" list-addtocart w-full md:w-[70%] shrink-0 ">
+                    <div class="bg-white md:rounded-3xl rounded-xl md:p-3 p-2 shopping-cart">
+                        <div class="hidden md:flex items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl text-sm w-full mb-2">
+                            @* <input type="checkbox" class="w-5 h-5 shrink-0" /> *@
                             <div class="product-checkall">
                                 <div class="box-checkbox">
-                                    <input type="checkbox" id="checkbox12" class="checkbox" />
-                                    <label for="checkbox12"></label>
+                                    <input type="checkbox" id="checkbox11" class="checkbox w-5 h-5 shrink-0" />
+                                    <label class="box-checkbox-all" for="checkbox11"></label>
                                 </div>
                             </div>
-                            <div class="product-image">
-                                <img class="thumb-product" src="/assets/images/product.jpg" alt="" />
-                                <div class="product-title">
-                                    <h3 class="name-product">
-                                        Gấu Bông Mèo Hoàng Thượng Cosplay, Thú Nhồi Bông An Toàn
-                                        Cho Bé
-                                    </h3>
-                                    <p class="product-description">Phân loại: Gấu trúc, Kích thước: 60cm</p>
-                                </div>
-
-                            </div>
-                            <div class="product-price">
-                                <span class="price-one">832.00đ</span>
-                                <span class="price-old">
-                                    932.00đ <span class="percent">6%</span>
-                                    <div class="discount">
-                                        <span class="bg-sale">Giảm 30K</span>
-                                    </div>
-                            </div>
-                            <div class="product-quantity">
-                                <div class="number-input">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                            class="plus"></button>
-                                </div>
-                            </div>
-
-                            <div class="product-line-price">25.000đ</div>
-                            <div class="product-removal">
-                                <button class="remove-product">
-                                    Xóa
-                                </button>
+                            <div class="md:grid grid-cols-12 whitespace-nowrap w-full">
+                                <div class="col-span-5">Tên sản phẩm<span class="text-slate-500 total-sp"> (2 sản phẩm)</span></div>
+                                <div class="col-span-2 text-center">Đơn giá</div>
+                                <div class="col-span-2 text-center">Số lượng</div>
+                                <div class="col-span-2 text-center">Thành tiền</div>
+                                <div class="col-span-1 text-right"></div>
                             </div>
                         </div>
-                        <div class="product">
-                            <div class="product-checkall">
+                        <div class="list-product-cart table-addtocart">
+                            <div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product">
                                 <div class="box-checkbox">
-                                    <input type="checkbox" id="checkbox12" class="checkbox" />
+                                    <input type="checkbox" id="checkbox12" class="w-5 h-5 shrink-0 md:mt-0 mt-4" />
                                     <label for="checkbox12"></label>
                                 </div>
-                            </div>
-                            <div class="product-image">
-                                <img class="thumb-product" src="/assets/images/product.jpg" alt="" />
-                                <div class="product-title">
-                                    <h3 class="name-product">
-                                        Gấu Bông Mèo Hoàng Thượng Cosplay, Thú Nhồi Bông An Toàn
-                                        Cho Bé
-                                    </h3>
-                                    <p class="product-description">Phân loại: Gấu trúc, Kích thước: 60cm</p>
-                                </div>
-
-                            </div>
-                            <div class="product-price">
-                                <span class="price-one">832.00đ</span>
-                                <span class="price-old">
-                                    932.00đ <span class="percent">6%</span>
-                                    <div class="discount">
-                                        <span class="bg-sale">Giảm 30K</span>
+                                
+                                <div class="md:grid grid-cols-12 w-full items-center relative">
+                                    <div class="col-span-5">
+                                        <div class="flex gap-2 items-center">
+                                            <div class="relative aspect-[1/1] w-15 overflow-hidden rounded-lg shrink-0 shrink-0">
+                                                <img src="images/product1.jpg" alt="Sản phẩm shrink-0"
+                                                     class="absolute inset-0 w-full h-full object-cover" />
+                                            </div>
+                                            <div>
+                                                <p class="font-medium line-clamp-2 md:text-base text-sm">
+                                                    BLACKMORES –
+                                                    Cholesterol Health 400v
+                                                </p>
+                                                <div class="text-sm text-slate-500">Phân loại: 400v</div>
+                                            </div>
+                                        </div>
                                     </div>
-                            </div>
-                            <div class="product-quantity">
-                                <div class="number-input">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                            class="plus"></button>
+                                    <div class="col-span-2 md:text-center md:pl-0 pl-17">
+                                        <div class="flex flex-wrap md:flex-col gap-x-2 items-center">
+                                            <div class="font-medium md:text-base text-sm">169.000 ₫</div>
+                                            <div class="text-sm text-slate-500">
+                                                <span class="line-through">
+                                                    199.000 ₫
+                                                </span> |
+                                                -27%
+                                            </div>
+                                            <div class="discount-badge relative inline-block overflow-hidden">
+                                                <span>Giảm 50k</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- ẩn pc-hiện mb -->
+                                        <span class="md:hidden block text-red-400 font-semibold">119.000 ₫</span>
+                                    </div>
+                                    <div class="col-span-2 md:text-center md:pl-0 pl-17">
+                                        <div class="flex items-center">
+                                            <button type="button"
+                                                    class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer"
+                                                    onclick="decrement()">
+                                                -
+                                            </button>
+                                            <input id="quantity" type="number" value="1" min="1"
+                                                   class="h-8 w-10 text-center border-t border-b border-gray-100 quantity text-sm" />
+                                            <button type="button"
+                                                    class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 border-gray-100  cursor-pointer"
+                                                    onclick="increment()">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- ẩn mb-hiện pc -->
+                                    <div class="col-span-2 md:text-center md:pl-0 pl-17 hidden md:block">
+                                        <span class="text-red-400 font-semibold">
+                                            119.000
+                                            ₫
+                                        </span>
+                                    </div>
+                                    <div class="col-span-1 text-right md:relative absolute right-0 bottom-0 product-removal">
+                                        @* <button class="text-sm text-blue-500 hover:underline cursor-pointer remove-product">Xóa</button> *@
+                                        <button class="text-sm text-blue-500 hover:underline cursor-pointer  all-pop"
+                                                data-id="#lightbox-delete-cart">
+                                            Xóa
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="product-line-price">25.000đ</div>
-                            <div class="product-removal">
-                                <button class="remove-product">
-                                    Xóa
-                                </button>
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full right-cart s">
+                    <!-- Địa chỉ nhận hàng -->
+                    <div class="bg-white md:rounded-3xl rounded-xl md:p-5 p-3 text-slate-500 address">
+                        <div class="flex items-center justify-between ">
+                            <div class="uppercase text-slate-800 font-semibold name">
+                                <p class="line-clamp-1"><nw id="address-receivername"></nw></p>
+                                <p><nw id="address-phone"></nw></p>
                             </div>
+                            <a href="javascript:;" class="whitespace-nowrap rounded-full px-4 py-2 bg-purple-50 text-purple-600 text-sm hover:bg-purple-100 edit update-address-order">
+                                Thay đổi
+                            </a>
+                        </div>
+                        <p><nw id="address"></nw></p>
+
+                        <!-- Giao hàng -->
+                        <div class="border-t border-gray-200 pt-3 mt-3" >
+
+                            <p>Hình thức giao hàng:</p>
+                            <a href="javascript:;" id="delivery-shippingtype" class="text-red-400 cursor-pointer flex items-center justify-between delivery all-pop" data-id="#giaohang-popup">
+                                <div class="select-delivery select-option active">
+                                    <span class="tt">
+                                        Ninja Van
+                                        (Nhanh)
+                                    </span>
+
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"
+                                     fill="none">
+                                    <path d="M12.7729 9.39731L7.14792 15.0223C7.09565 15.0746 7.03361 15.116 6.96533 15.1443C6.89704 15.1726 6.82386 15.1872 6.74995 15.1872C6.67604 15.1872 6.60285 15.1726 6.53457 15.1443C6.46628 15.116 6.40424 15.0746 6.35198 15.0223C6.29972 14.97 6.25826 14.908 6.22998 14.8397C6.20169 14.7714 6.18713 14.6982 6.18713 14.6243C6.18713 14.5504 6.20169 14.4772 6.22998 14.409C6.25826 14.3407 6.29972 14.2786 6.35198 14.2264L11.5797 8.99934L6.35198 3.7723C6.24643 3.66676 6.18713 3.5236 6.18713 3.37434C6.18713 3.22507 6.24643 3.08192 6.35198 2.97637C6.45753 2.87082 6.60068 2.81152 6.74995 2.81152C6.89921 2.81152 7.04237 2.87082 7.14792 2.97637L12.7729 8.60137C12.8252 8.65361 12.8667 8.71565 12.895 8.78393C12.9233 8.85222 12.9379 8.92542 12.9379 8.99934C12.9379 9.07326 12.9233 9.14645 12.895 9.21474C12.8667 9.28303 12.8252 9.34506 12.7729 9.39731Z"
+                                          fill="#FF4169" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
 
-                </div>
-            </div>
-            <div class="right-cart">
-                <div class="address">
-                    <h4 class="name">
-                        <nw id="address-receivername">Phạm ái phương</nw> <span></span> <nw id="address-phone">098878779</nw>
-                    </h4>
-                    <p class="add"><nw id="address">Tầng 5, tòa nhà Diamond Flower, số 1 Hoàng Đạo Thúy, Hà Nội</nw></p>
-                    <a href="javascript:;" class="edit update-address-order">Thay đổi</a>
+                    <!-- Mã voucher -->
+                    @* <div class="bg-white md:rounded-3xl rounded-xl md:p-5 p-3 text-slate-500 mt-3"> *@
+                    @*     <p class="flex gap-2 items-center mb-1"><img src="images/icon/coupon.png" alt="" />Mã voucher : </p> *@
+                    @*     <a href="" class="text-red-400 cursor-pointer flex items-center justify-between"> *@
+                    @*         Mã Khuyễn mãi khác *@
+                    @*         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"> *@
+                    @*             <path d="M12.7729 9.39731L7.14792 15.0223C7.09565 15.0746 7.03361 15.116 6.96533 15.1443C6.89704 15.1726 6.82386 15.1872 6.74995 15.1872C6.67604 15.1872 6.60285 15.1726 6.53457 15.1443C6.46628 15.116 6.40424 15.0746 6.35198 15.0223C6.29972 14.97 6.25826 14.908 6.22998 14.8397C6.20169 14.7714 6.18713 14.6982 6.18713 14.6243C6.18713 14.5504 6.20169 14.4772 6.22998 14.409C6.25826 14.3407 6.29972 14.2786 6.35198 14.2264L11.5797 8.99934L6.35198 3.7723C6.24643 3.66676 6.18713 3.5236 6.18713 3.37434C6.18713 3.22507 6.24643 3.08192 6.35198 2.97637C6.45753 2.87082 6.60068 2.81152 6.74995 2.81152C6.89921 2.81152 7.04237 2.87082 7.14792 2.97637L12.7729 8.60137C12.8252 8.65361 12.8667 8.71565 12.895 8.78393C12.9233 8.85222 12.9379 8.92542 12.9379 8.99934C12.9379 9.07326 12.9233 9.14645 12.895 9.21474C12.8667 9.28303 12.8252 9.34506 12.7729 9.39731Z" *@
+                    @*                   fill="#FF4169" /> *@
+                    @*         </svg> *@
+                    @*     </a> *@
+                    @*     <div class="group rounded-xl p-[1px] bg-gradient-to-r from-cyan-400 to-green-300 hover:cursor-pointer transition-all"> *@
+                    @*         <div class="flex items-center gap-2 rounded-xl bg-white p-2"> *@
+                    @*             <!-- Icon Coupon --> *@
+                    @*             <div class="w-15 shrink-0"> *@
+                    @*                 <img src="~/assets/images/coupon.png" alt="Best Mall" /> *@
+                    @*             </div> *@
 
-                    <a href="javascript:;" id="delivery-shippingtype" class="delivery ">
-                        <span class="tt">Hình thức giao hàng:</span>
-                        <div class="select-delivery select-option active">
-                            <span class="tt">Giao nhanh</span>
-                            
+                    @*             <!-- Nội dung --> *@
+                    @*             <div class="flex-1"> *@
+                    @*                 <p class=" font-medium text-sky-950 leading-snug line-clamp-3"> *@
+                    @*                     Giảm 20% trên tổng hóa đơn *@
+                    @*                 </p> *@
+                    @*             </div> *@
+
+                    @*             <!-- Icon Info & Bỏ chọn --> *@
+                    @*             <div class="flex items-center space-x-1"> *@
+                    @*                 <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 text-xs"> *@
+                    @*                     i *@
+                    @*                 </div> *@
+                    @*                 <button class="bg-gray-100 text-purple-600 text-sm px-3 py-1 rounded-full"> *@
+                    @*                     Bỏ chọn *@
+                    @*                 </button> *@
+                    @*             </div> *@
+                    @*         </div> *@
+                    @*     </div> *@
+
+                    @* </div> *@
+                    
+                    <!-- Thanh toán -->
+                    <div class="bg-white md:rounded-3xl rounded-xl md:p-5 p-3 text-slate-500 mt-3 pay">
+                        <p class="flex gap-2 items-center mb-1 tt">Phương thức thanh toán:</p>
+                        <a href="" class="text-red-400 cursor-pointer flex items-center justify-between select-option select-bank all-pop" data-id="#thanhtoan-popup">
+                            Chuyển khoản qua
+                            ngân hàng
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M12.7729 9.39731L7.14792 15.0223C7.09565 15.0746 7.03361 15.116 6.96533 15.1443C6.89704 15.1726 6.82386 15.1872 6.74995 15.1872C6.67604 15.1872 6.60285 15.1726 6.53457 15.1443C6.46628 15.116 6.40424 15.0746 6.35198 15.0223C6.29972 14.97 6.25826 14.908 6.22998 14.8397C6.20169 14.7714 6.18713 14.6982 6.18713 14.6243C6.18713 14.5504 6.20169 14.4772 6.22998 14.409C6.25826 14.3407 6.29972 14.2786 6.35198 14.2264L11.5797 8.99934L6.35198 3.7723C6.24643 3.66676 6.18713 3.5236 6.18713 3.37434C6.18713 3.22507 6.24643 3.08192 6.35198 2.97637C6.45753 2.87082 6.60068 2.81152 6.74995 2.81152C6.89921 2.81152 7.04237 2.87082 7.14792 2.97637L12.7729 8.60137C12.8252 8.65361 12.8667 8.71565 12.895 8.78393C12.9233 8.85222 12.9379 8.92542 12.9379 8.99934C12.9379 9.07326 12.9233 9.14645 12.895 9.21474C12.8667 9.28303 12.8252 9.34506 12.7729 9.39731Z"
+                                      fill="#FF4169" />
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Tổng tiền -->
+                    <div class="bg-white md:rounded-3xl rounded-xl md:p-5 p-3 text-slate-500 mt-3 total-cart">
+                        <div class="flex gap-2 flex-total total-amount justify-between items-center mb-1">
+                            <p>Tiền hàng : </p>
+                            <p class="font-medium text-slate-700 pr">3.000.000đ</p>
                         </div>
+                        <div class="flex gap-2 flex-total total-shipping-fee justify-between items-center mb-1">
+                            <p>Phí vận chuyển:</p>
+                            <p class="font-medium text-slate-700 pr">13.000đ</p>
+                        </div>
+                        @* <div class="flex gap-2 flex-total total-discount justify-between items-center mb-1"> *@
+                        @*     <p>Giảm giá : </p> *@
+                        @*     <p class="font-medium text-slate-700 pr">-30.000đ</p> *@
+                        @* </div> *@
+                        <div class="flex gap-2 flex-total justify-between items-center mt-3 pt-3 border-t border-gray-200 total-final-amount">
+                            <div class="flex-total">
+                                <p>
+                                    <span class="font-medium text-slate-700">TỔNG TIỀN</span>
+                                    <br />(tạm tính)
+                                </p>
+                                <p class="text-xl text-red-400 font-medium pr">30.000.000đ</p>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                    <!-- Button -->
+                    <button class="mt-3 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full btn btn-base btn-confirm btn-confirm-car">
+                        Xác
+                        nhận thanh toán
+                    </button>
+                </div>
+
+            </div>
+
+
+
+            <!-- List Sản phẩm đã xem -->
+            <div class="my-6 md:my-10">
+                <div class="flex justify-between flex-wrap gap-2 mb-3">
+                    <h2 class="text-sky-900 font-medium uppercase"><a href="">Sản phẩm đã xem</a> </h2>
+                    <a href="/san-pham?group_id=1" class="flex items-center gap-2 text-blue-500 text-sm">
+                        Xem thêm
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z"
+                                  fill="#098EF7" />
+                        </svg>
                     </a>
-                    <a href="javascript:;" id="delivery-carrier" class="delivery ">
-                        <span class="tt">Đơn vị giao hàng:</span>
-                        <div class="select-delivery select-option active">
-                            <span class="tt">Ninja Van</span>
+                </div>
+
+                <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+                <!-- Swiper -->
+                <div class="relative mt-3">
+                    <div class="flash-sale-swiper">
+                        <div class="swiper">
+                            <div class="swiper-wrapper" id="viewed-products">
+                            </div>
                         </div>
-                    </a>
-                </div>
-                <div class="voucher">
-                    <div class="box-tt">
-                        <h4 class="tt"><img src="/assets/images/icon-vc.png" alt="" />Mã voucher:</h4>
-                        <a href="" class="choose-voucher">Chọn hoặc nhập mã Khuyễn mãi khác</a>
-                    </div>
-                    <div class="voucher-add">
-                        <div class="img"><img src="/assets/images/voucher.png" alt="" /></div>
-                        <div class="info">
-                            <h4 class="name">Giảm đậm gơn 20%<i class="icon icon-info"> </i></h4>
 
+                        <!-- Navigation -->
+                        <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                            <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
                         </div>
-                        <a href="" class="remove-voucher">Bỏ chọn</a>
-                    </div>
-                </div>
-                <div class="pay">
-                    <span class="tt">Phương thức thanh toán:</span>
-                    <div class="select-option select-bank">
-                        <span class="tt">Chuyển khoản qua ngân hàng </span>
-                      
-                    </div>
-                </div>
-                <div class="total-cart">
-                    <div class="flex-total total-amount">
-                        <div class="tt">Tiền hàng</div>
-                        <div class="pr">3.000.000đ</div>
-                    </div>
-                    <div class="flex-total total-shipping-fee">
-                        <div class="tt">Phí vận chuyển</div>
-                        <div class="pr">0đ</div>
-                    </div>
-                    <div class="flex-total total-discount" style="display:none;">
-                        <div class="tt">Giảm giá</div>
-                        <div class="pr">-3.000đ</div>
-                    </div>
-                    <div class="bt-total total-final-amount">
-                        <div class="flex-total">
-                            <div class="tt">Tổng tiền</div>
-                            <div class="pr">3.000.000đ</div>
+                        <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                            <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
                         </div>
-                    </div>
-                </div>
-                <a href="javascript:;" class="btn btn-base btn-confirm btn-confirm-cart">XÁC NHẬN THANH TOÁN</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!--Box xác nhận xóa-->
-<div id="lightbox-delete-cart" class="overlay form-noti" style="margin-top:50px;">
-    <div class="popup">
-        <a class="close" href="javascript:;">
-            <i class="icon icon-close"></i>
-        </a>
-        <div class="content">
-            <h4 class="title-popup">Cập nhật thông tin giao hàng</h4>
-            <p style="font-size:14px;color:red;">Sản phẩm này sẽ bị xóa khỏi giỏ hàng, bạn có chắc chắn không?</p>
-            <form>
-                <div class="action">
-                    <a href="javascript:;" class="btn btn-back">Hủy</a>
-                    <a href="javascript:;" class="btn btn-base btn-save">Xác nhận</a>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!--Box không thành công-->
-
-<div id="lightbox-cannot-add-cart" class="overlay form-noti" style="margin-top:50px;text-align: -webkit-center;">
-    <div class="popup">
-        <a class="close" href="javascript:;">
-            <i class="icon icon-close"></i>
-        </a>
-        <div class="content">
-            <div class="box-payment box-pending">
-                <a class="close" href="javascript:;">
-                    <i class="icon icon-close"></i>
-                </a>
-                <img class="img-check" src="/assets/images/icon-err.png" alt="" />
-                <h2 class="title-box">Xác nhận thanh toán không thành công </h2>
-                <div class="info-order">
-                    <p class="notification-content">
-                       Có lỗi xảy ra trong quá trình xác nhận thông tin
-                    </p>
-                    <br />
-                    <p>
-                        Hãy gọi :<sapn class="tel"> 1900.633.376</sapn> để được hỗ trợ
-                    </p>
-
-                </div>
-               
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Chọn Chọn hình thức giao hàng  -->
-<div id="hinhthucgiaohang" class="overlay form-voucher">
-    <div class="popup">
-        <a class="close" href="#">
-            <i class="icon icon-close"></i>
-        </a>
-        <div class="content">
-            <h4 class="title-popup">Chọn hình thức giao hàng</h4>
-            <div class="list-giaohang">
-                @* <div class="item">
-                    <h3 class="title">Giao hàng Nhanh </h3>
-                    <div class="answer">
-                        <ul>
-                            <li class="active">
-                                <div class="box-select-ship">
-                                    <div class="name">Giao nhanh</div>
-                                    <div class="des">Đảm bảo nhận hàng từ 1 tháng 11 - 4 tháng 11</div>
-                                </div>
-                                <span class="price">32.900đ</span>
-                            </li>
-                            <li>
-                                <div class="box-select-ship">
-                                    <div class="name">Giao hỏa tốc</div>
-                                    <div class="des">Đảm bảo nhận hàng sau 2h</div>
-                                </div>
-                                <span class="price">32.900đ</span>
-                            </li>
-                        </ul>
-
-                    </div>
-                </div>
-                <div class="item">
-                    <h3 class="title">Viettel post</h3>
-                    <div class="answer">
-                        <ul>
-                            <li class="active">
-                                <div class="box-select-ship">
-                                    <div class="name">Giao nhanh</div>
-                                    <div class="des">Đảm bảo nhận hàng từ 1 tháng 11 - 4 tháng 11</div>
-                                </div>
-                                <span class="price">32.900đ</span>
-                            </li>
-                            <li>
-                                <div class="box-select-ship">
-                                    <div class="name">Giao hỏa tốc</div>
-                                    <div class="des">Đảm bảo nhận hàng sau 2h</div>
-                                </div>
-                                <span class="price">32.900đ</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="item">
-                    <h3 class="title">J&T Express</h3>
-                    <div class="answer">
-                        <ul>
-                            <li class="active">
-                                <div class="box-select-ship">
-                                    <div class="name">Giao nhanh</div>
-                                    <div class="des">Đảm bảo nhận hàng từ 1 tháng 11 - 4 tháng 11</div>
-                                </div>
-                                <span class="price">32.900đ</span>
-                            </li>
-                            <li>
-                                <div class="box-select-ship">
-                                    <div class="name">Giao hỏa tốc</div>
-                                    <div class="des">Đảm bảo nhận hàng sau 2h</div>
-                                </div>
-                                <span class="price">32.900đ</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div> *@
-                <div class="item" data-carrier-id="1">
-                    <h3 class="title">Ninja van</h3>
-                    <div class="answer" style="display:block;">
-                        <ul>
-                            <li data-shipping-type="1">
-                                <div class="box-select-ship">
-                                    <div class="name">Giao nhanh</div>
-                                    <div class="des">Nhận hàng trong 2-7 ngày </div>
-                                </div>
-                                <span class="price placeholder">_______________</span>
-                            </li>
-                            <li class="force-payment-cod shipping-fee-cod" data-shipping-type="5">
-                                <div class="box-select-ship">
-                                    <div class="name">Thanh toán khi nhận hàng(COD)</div>
-                                    <div class="des">Nhận hàng trước, trả tiền sau</div>
-                                </div>
-                                <span class="price">_______________</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="item" data-carrier-id="1">
-                    <h3 class="title active">Lấy tại cửa hàng</h3>
-                    <div class="answer" style="display:block;">
-                        <ul>
-                            <li class="active active-delivery" data-shipping-type="2">
-                                <div class="box-select-ship">
-                                    <div class="name">Nhận hàng tại cửa hàng</div>
-                                    <div class="des">Nhận hàng tại chi nhánh Hà Nội</div>
-                                </div>
-                                <span class="price">0đ</span>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="action">
-            <a href="javascript:;" class="btn btn-back">Trở lại</a>
-            <a href="javascript:;" class="btn btn-base btn-save">OK</a>
+    </section>
+
+
+    <!-- END DANH SACH SAN PHAM -->
+
+</main>
+
+
+
+
+<div id="giaohang-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
+    <div class="flex justify-center md:items-center h-full">
+        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto  overflow-y-auto relative">
+
+            <span class="closePopup absolute right-2 top-2 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                          fill="#2A3262" />
+                </svg>
+            </span>
+
+            <!-- header -->
+            <h4 class="text-center text-xl text-color-base mb-3">Chọn hình thức giao hàng</h4>
+            <!-- Accordion Sections -->
+            <div class="accordion-ship " id="accordion">
+                <div class="group pb-3">
+                    <div class="font-normal cursor-pointer toggle text-md flex justify-between items-center uppercase">
+                        GIAO
+                        HÀNG NHANH
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                    <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide">
+                        <!-- Item được chọn -->
+                        <div class="gap-2 flex justify-between items-center bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8] px-4 py-2 rounded">
+                            <div>
+                                <p class="font-normal">Giao nhanh</p>
+                                <p class="text-sm text-gray-500">Đảm bảo nhận hàng từ 1 tháng 11 – 4 tháng 11</p>
+                            </div>
+                            <span class="text-[#FF3D71] whitespace-nowrap">32.800 đ</span>
+                        </div>
+
+                        <!-- Item chưa chọn -->
+                        <div class="gap-2 flex justify-between items-center px-4 py-2 cursor-pointer hover:bg-gray-50 transition">
+                            <div>
+                                <p class="font-normal">Giao hoả tốc</p>
+                                <p class="text-sm text-gray-500">Đảm bảo nhận hàng sau 2h</p>
+                            </div>
+                            <span class="text-[#FF3D71] whitespace-nowrap">68.800 đ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group pb-3">
+                    <div class="font-normal cursor-pointer toggle text-md flex justify-between items-center uppercase">
+                        Viettel post
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                    <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide">
+                        <!-- Item được chọn -->
+                        <div class="gap-2 flex justify-between items-center bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8] px-4 py-2 rounded">
+                            <div>
+                                <p class="font-normal">Giao nhanh</p>
+                                <p class="text-sm text-gray-500">Đảm bảo nhận hàng từ 1 tháng 11 – 4 tháng 11</p>
+                            </div>
+                            <span class="text-[#FF3D71] whitespace-nowrap">32.800 đ</span>
+                        </div>
+
+                        <!-- Item chưa chọn -->
+                        <div class="gap-2 flex justify-between items-center px-4 py-2 cursor-pointer hover:bg-gray-50 transition">
+                            <div>
+                                <p class="font-normal">Giao hoả tốc</p>
+                                <p class="text-sm text-gray-500">Đảm bảo nhận hàng sau 2h</p>
+                            </div>
+                            <span class="text-[#FF3D71] whitespace-nowrap">68.800 đ</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Footer -->
+            <div class="flex justify-between items-center mt-4 gap-3">
+                <button class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full">
+                    Trở
+                    lại
+                </button>
+                <button class="border border-blue-500 bg-blue-500 px-1 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full">
+                    Xác
+                    nhận
+                </button>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<div id="thanhtoan-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
+    <div class="flex justify-center md:items-center h-full">
+        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-xl w-full mx-auto  overflow-y-auto relative">
+
+            <span class="closePopup absolute right-2 top-2 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                          fill="#2A3262" />
+                </svg>
+            </span>
+            <!-- header -->
+            <h4 class="text-center text-xl text-color-base mb-3">Chọn hình thức thanh toán</h4>
+            <div class="space-y-4">
+                <label class="flex gap-2 items-center cursor-pointer">
+                    <div class="relative">
+                        <input type="radio" name="address" class="radio-custom mt-1" />
+                    </div>
+                    <img src="images/icon/Package.svg" alt="" class="h-8" />
+
+                    <p>Thanh toán khi nhận hàng (COD)</p>
+                </label>
+                <label class="flex gap-2 items-center cursor-pointer">
+                    <div class="relative">
+                        <input type="radio" name="address" class="radio-custom mt-1" />
+                    </div>
+                    <img src="images/icon/Bank.svg" alt="" class="h-8" />
+
+                    <p>Chuyển khoản qua ngân hàng</p>
+                </label>
+                <label class="flex gap-2 items-center cursor-pointer">
+                    <div class="relative">
+                        <input type="radio" name="address" class="radio-custom mt-1" />
+                    </div>
+                    <img src="images/icon/QrCode.svg" alt="" class="h-8" />
+
+                    <p>Thanh toán QR-PAY</p>
+                </label>
+                <label class="flex gap-2 items-center cursor-pointer">
+                    <div class="relative">
+                        <input type="radio" name="address" class="radio-custom mt-1" />
+                    </div>
+                    <img src="images/icon/CreditCard.svg" alt="" class="h-8" />
+                    <p>Thẻ Visa - Master Card</p>
+                </label>
+            </div>
+            <!-- Footer -->
+            <div class="flex justify-between items-center mt-4 gap-3">
+                <button class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full">
+                    Trở
+                    lại
+                </button>
+                <button class="border border-blue-500 bg-blue-500 px-1 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full">
+                    Xác
+                    nhận
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="lightbox-delete-cart" class="popup fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center" >
+    <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full relative">
+        <button class="absolute top-2 right-2 text-gray-500 hover:text-black close-popup">
+            &times;
+        </button>
+        <p class="text-lg text-center mb-4">Bạn có chắc muốn xoá sản phẩm này khỏi giỏ hàng?</p>
+        <div class="flex justify-between gap-4">
+            <button class="bg-gray-200 px-4 py-2 rounded cancel-popup w-full btn-back">Huỷ</button>
+            <button class="bg-red-500 text-white px-4 py-2 rounded confirm-delete btn-save w-full">Xoá</button>
         </div>
     </div>
 </div>
 
-<!-- Chọn Phương thức thanh toán -->
-<div id="phuongthucthanhtoan" class="overlay form-voucher">
-    <div class="popup">
-        <a class="close" href="#">
-            <i class="icon icon-close"></i>
-        </a>
-        <div class="content">
-            <h4 class="title-popup">Chọn hình thức thanh toán</h4>
-            <ul class="list-option select-bank">
-                <li class="item">
-                    <div class="choose">
-                        <div class="box-radio">
-                            <input class="radio" id="radio1" name="payment_type" type="radio" value="1">
-                            <label for="radio1">
-                                <img src="./assets/images/icon/COD_Dou.svg" alt="" />
-                                Thanh toán khi nhận hàng(COD)
-                            </label>
-                        </div>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="choose">
-                        <div class="box-radio">
-                            <input class="radio" id="radio2" name="payment_type" type="radio" value="2" checked>
-                            <label for="radio2">
-                                <img src="./assets/images/icon/Bank_Dou.svg" alt="" />
-                                Chuyển khoản qua ngân hàng
-                            </label>
-                        </div>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="choose">
-                        <div class="box-radio">
-                            <input class="radio" id="radio3" name="payment_type" type="radio" value="4">
-                            <label for="radio3">
-                                <img src="./assets/images/icon/QR_Dou.svg" alt="" />Thanh
-                                toán QR-PAY
-                            </label>
-                        </div>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="choose">
-                        <div class="box-radio">
-                            <input class="radio" id="radio4" name="payment_type" type="radio" value="3">
-                            <label for="radio4">
-                                <img src="./assets/images/icon/MasterCard_Dou.svg" alt="" />Thẻ
-                                Visa - Master
-                                Card
-                            </label>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="action">
-            <a href="javascript:;" class="btn btn-back">Trở lại</a>
-            <a href="javascript:;" class="btn btn-base btn-save">Xác nhận</a>
-        </div>
-    </div>
-</div>
-</div>
 @section Scripts {
     <script type="text/javascript" src="/modules/cart.js" asp-append-version="true"></script>
     <script type="text/javascript" src="/modules/order_address.js" asp-append-version="true"></script>

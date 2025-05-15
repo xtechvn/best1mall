@@ -25,21 +25,21 @@
 
     var excludeIds = mainArticles.Select(x => x.id).ToList();
 
-    // Bắt đầu bằng việc lấy tối đa 5 bài position 2 hoặc 3
+    // Bắt đầu bằng việc lấy tối đa 7 bài position 2 hoặc 3
     var sideArticles = Model.obj_article_list
         .Where(a => a.status == 0 && (a.position == 2 || a.position == 3))
         .OrderByDescending(a => a.publish_date)
-        .Take(5)
+        .Take(7)
         .ToList();
 
     // Nếu chưa đủ thì lấy thêm từ position == 0 cho đủ 5 bài
-    if (sideArticles.Count < 5)
+    if (sideArticles.Count < 7)
     {
         excludeIds.AddRange(sideArticles.Select(x => x.id));
         var additional = Model.obj_article_list
             .Where(a => a.status == 0 && a.position == 0 && !excludeIds.Contains(a.id))
             .OrderByDescending(a => a.publish_date)
-            .Take(5 - sideArticles.Count)
+            .Take(7 - sideArticles.Count)
             .ToList();
 
         sideArticles.AddRange(additional);

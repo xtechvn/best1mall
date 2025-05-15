@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-	
+
     product_detail.Initialization()
 })
 var product_detail = {
@@ -26,11 +26,11 @@ var product_detail = {
         $('#thanhcong .popup').css('width', '500px')
         $('#thanhcong .popup').css('margin-top', '15%')
         $('#thanhcong .popup').css('text-align', '-webkit-center')
-       
+
     },
     DynamicBind: function () {
         $("body").on('click', ".attribute-detail", function () {
-            
+
             var element = $(this)
             if (!element.hasClass('disabled')) {
                 element.closest('.box-tag').find('.attribute-detail').removeClass('active');
@@ -38,7 +38,7 @@ var product_detail = {
             }
             var product = product_detail.GetProductDetailSession()
             if (product != undefined) {
-                product_detail.RenderChangedAttributeSelected(product,element)
+                product_detail.RenderChangedAttributeSelected(product, element)
 
 
             } else {
@@ -49,15 +49,17 @@ var product_detail = {
             product_detail.RenderBuyNowButton()
         });
         $("body").on('click', ".add-cart", function () {
+            debugger
             product_detail.AddToCart()
 
         });
         $("body").on('click', ".buy-now", function () {
+            debugger
             product_detail.BuyNow()
 
         });
         $("body").on('click', ".btn-go-to-cart", function () {
-            window.location.href='/cart'
+            window.location.href = '/cart'
 
         });
     },
@@ -72,20 +74,20 @@ var product_detail = {
         $.when(
             global_service.POST(API_URL.ProductDetail, request)
         ).done(function (result) {
-            
+
             if (result.is_success && result.data && result.data.product_main) {
                 sessionStorage.setItem(STORAGE_NAME.ProductDetail, JSON.stringify(result.data))
                 sessionStorage.setItem(STORAGE_NAME.SubProduct, JSON.stringify(result.data.product_sub))
                 product_detail.RenderDetail(result.data.product_main, result.data.product_sub)
             }
             else {
-                window.location.href ='/Home/NotFound' 
+                window.location.href = '/Home/NotFound'
             }
         })
     },
     RenderDetail: function (product, product_sub) {
         debugger
-        var html2 =''
+        var html2 = ''
         var html = ''
         var html_thumb = ''
         var img_src = product.avatar
@@ -217,12 +219,13 @@ var product_detail = {
     },
     GetProductDetailSession: function () {
         var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
-        if (json != undefined && json.trim()!='') {
+        if (json != undefined && json.trim() != '') {
             return JSON.parse(json)
         }
         return undefined
     },
     GetSubProductSessionByAttributeSelected: function () {
+        debugger
         var json = sessionStorage.getItem(STORAGE_NAME.SubProduct)
         if (json != undefined && json.trim() != '') {
             var list = JSON.parse(json)
@@ -239,11 +242,11 @@ var product_detail = {
 
             })
             $(options).each(function (index, item) {
-                
+
                 sub_list = sub_list.filter(({ variation_detail }) =>
-                    variation_detail.some(v => v.id == item.id && v.name==item.name)
+                    variation_detail.some(v => v.id == item.id && v.name == item.name)
                 )
-                    
+
 
             })
             return sub_list[0]
@@ -291,7 +294,7 @@ var product_detail = {
         }
     },
 
-  
+
     RenderBuyNowButton: function () {
         var no_select_all = false
         if ($('.box-info-details tbody .attributes').length <= 0) {
@@ -308,7 +311,7 @@ var product_detail = {
             })
         }
         if (no_select_all) {
-            $('.add-cart').prop('disabled',true)
+            $('.add-cart').prop('disabled', true)
             $('.buy-now').prop('disabled', true)
             $('.add-cart').addClass('button-disabled')
             $('.buy-now').addClass('button-disabled')
@@ -320,53 +323,96 @@ var product_detail = {
             $('.buy-now').removeClass('button-disabled')
         }
     },
-    AddToCart: function (buy_now=false) {
-        var product = product_detail.GetSubProductSessionByAttributeSelected()
+    AddToCart: function (buy_now = false) {
+        debugger
+        var product = product_detail.GetSubProductSessionByAttributeSelected();
+
         if (product == undefined) {
-            var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
-            if (json != undefined && json.trim() != '') {
-                product = JSON.parse(json).product_main
-               
+            var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail);
+            if (json && json.trim() !== '') {
+                product = JSON.parse(json).product_main;
             }
         }
-        if (product == undefined) {
-            window.location.reload()
+
+        if (!product) {
+            window.location.reload(); // reload để tránh lỗi không có dữ liệu
         }
-        var usr = global_service.CheckLogin()
-        var token =''
+
+        var quantity = parseInt($('.box-detail-stock .quantity').val()) || 1;
+        var usr = global_service.CheckLogin(); // kiểm tra đăng nhập
+
+        var cartItem = {
+            product_id: product._id,
+            quanity: quantity
+        };
+
         if (usr) {
-            token = usr.token
+            // Nếu đã login → gọi API lưu giỏ hàng
             var request = {
-                "product_id": product._id,
-                "quanity": parseInt($('.box-detail-stock .quantity').val()),
-                "token": token
-            }
-            $.when(
-                global_service.POST(API_URL.AddToCart, request)
-            ).done(function (result) {
+                ...cartItem,
+                token: usr.token
+            };
+
+            $.when(global_service.POST(API_URL.AddToCart, request)).done(function (result) {
                 if (result.is_success && result.data) {
-                    sessionStorage.removeItem(STORAGE_NAME.BuyNowItem)
-                    global_service.LoadCartCount()
-                    product_detail.SuccessAddToCart()
+                    sessionStorage.removeItem(STORAGE_NAME.BuyNowItem);
+                    global_service.LoadCartCount();
+                    product_detail.SuccessAddToCart();
                 }
-            })
+            });
         }
         else {
+            // ✅ Nếu chưa login → lưu thêm dữ liệu sản phẩm
+            cartItem.product = {
+                _id: product._id,
+                name: product.name,
+                amount: product.amount,
+                avatar: product.avatar,
+                variation_detail: product.variation_detail || [],
+                attributes: product.attributes || [],
+                attributes_detail: product.attributes_detail || []
+            };
             product_detail.SaveProductDetailAttributeSelected()
-            $('.mainheader .client-login').click()
-            return
+            //$('.mainheader .client-login').click()
+            //return
+            product_detail.SaveCartItemToSession(cartItem);
+            global_service.LoadCartCount();
+            product_detail.SuccessAddToCart(); // hiển thị toast success
         }
-       
-    },
-    SuccessAddToCart: function () {
-       
-        $('#thanhcong').addClass('overlay-active')
-        setTimeout(function () {
-            $('#thanhcong').removeClass('overlay-active')
 
-        }, 1500);
     },
+    SaveCartItemToSession: function (cartItem) {
+        debugger
+        let cart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
+        let index = cart.findIndex(x => x.product_id === cartItem.product_id);
+
+        if (index >= 0) {
+            cart[index].quanity += cartItem.quanity;
+        } else {
+            cart.push(cartItem);
+        }
+
+        sessionStorage.setItem(STORAGE_NAME.Cart, JSON.stringify(cart));
+    },
+
+    SuccessAddToCart: function () {
+        debugger
+        const popup = $('#thanhcong');
+        popup.removeClass('hidden');
+
+        // Auto ẩn sau 1.5s
+        setTimeout(function () {
+            popup.addClass('hidden');
+        }, 1500);
+
+        // Gắn sự kiện cho nút đóng
+        popup.find('.btn-close').off('click').on('click', function () {
+            popup.addClass('hidden');
+        });
+    },
+
     BuyNow: function () {
+        debugger
         var product = product_detail.GetSubProductSessionByAttributeSelected()
         if (product == undefined) {
             var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
@@ -391,8 +437,9 @@ var product_detail = {
                 global_service.POST(API_URL.AddToCart, request)
             ).done(function (result) {
                 if (result.is_success && result.data) {
-                    sessionStorage.setItem(STORAGE_NAME.BuyNowItem, JSON.stringify(request) )
-                    window.location.href ='/cart'
+                    debugger
+                    sessionStorage.setItem(STORAGE_NAME.BuyNowItem, JSON.stringify(request))
+                    window.location.href = '/cart'
                 }
             })
         }
@@ -401,12 +448,13 @@ var product_detail = {
             product_detail.SaveProductDetailAttributeSelected()
             return
         }
-      
+
     },
     SaveProductDetailAttributeSelected: function () {
+        debugger
         var selected = {
             attributes: [],
-            quanity:1
+            quanity: 1
         }
         $('.box-info-details .attributes').each(function (index_detail, attribute_detail) {
             var tr_attributes = $(this)
@@ -443,7 +491,7 @@ var product_detail = {
 
                             })
                         }
-                       
+
                     })
                 }
                 if (data.quanity != undefined && data.quanity.trim() != '') {

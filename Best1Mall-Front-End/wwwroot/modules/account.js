@@ -1,6 +1,39 @@
 ﻿$(document).ready(function () {
     account.Initialization()
 })
+function SyncSessionCartToServer() {
+    debugger
+    var usr = global_service.CheckLogin();
+    if (!usr) return;
+
+    let cart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
+    if (cart.length === 0) return;
+
+    let syncCount = 0;
+
+    cart.forEach(item => {
+        debugger
+        let request = {
+            product_id: item.product_id,
+            quanity: item.quanity,
+            token: usr.token
+        };
+        $.when(global_service.POST(API_URL.AddToCart, request)).done(function (result) {
+            debugger
+            if (result.is_success && result.data) {
+                syncCount++;
+                if (syncCount === cart.length) {
+                    sessionStorage.removeItem(STORAGE_NAME.Cart);
+                    global_service.LoadCartCount();
+                    resolve(); // ✅ báo hiệu xong
+                }
+            }
+        });
+        
+    });
+}
+
+
 var account = {
     Initialization: function () {
         if ($('#forgot-password-change').length > 0) {
@@ -59,6 +92,7 @@ var account = {
         });
     },
     RenderHTML: function () {
+        debugger
         $('.err').hide()
         var usr = global_service.CheckLogin()
         if (usr) {
@@ -153,6 +187,7 @@ var account = {
         });
     },
     Login: function () {
+        debugger
         var element = $('#btn-client-login')
         if (account.ValidateLogin()) {
             $(':input[type="submit"]').prop('disabled', true);
@@ -168,12 +203,15 @@ var account = {
             $.when(
                 global_service.POST(API_URL.Login, request)
             ).done(function (res) {
+                debugger
                 if (res.is_success) {
                     if ($('#login-remember').is(":checked")) {
                         localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
                     } else {
                         sessionStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
                     }
+                    // 👉 Sau khi login thành công → Đồng bộ giỏ hàng
+                    SyncSessionCartToServer();
                     window.location.reload()
                 }
                 else {
@@ -193,6 +231,7 @@ var account = {
     Logout: function () {
         localStorage.removeItem(STORAGE_NAME.Login)
         sessionStorage.removeItem(STORAGE_NAME.Login)
+        sessionStorage.removeItem(STORAGE_NAME.Cart);
         window.location.href='/'
     },
     Register: function () {

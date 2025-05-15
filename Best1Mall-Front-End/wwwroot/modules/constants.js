@@ -1,4 +1,5 @@
 ﻿var STORAGE_NAME = {
+    Cart: "user_cart_items",
     Login: 'account',
     ProductDetail: 'ProductDetail',
     CartCount: 'CartCount',
@@ -376,61 +377,102 @@ var HTML_CONSTANTS = {
 `
     },
     Cart: {
-        Product: `<div class="product" data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
+        Product: `<div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product"
+     data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
+  
+                          <!-- Checkbox -->
                             <div class="product-checkall">
                                 <div class="box-checkbox">
-                                    <input type="checkbox" name="checkbox-cart-product" class="checkbox-cart" />
+                                    
+                                    <input type="checkbox"  class="w-5 h-5 shrink-0 md:mt-0 mt-4 checkbox-cart" />
                                     <label class="box-checkbox-label"></label>
                                 </div>
                             </div>
-                            <div class="product-image">
-                                <img class="thumb-product" src="{src}" alt="" />
-                                <div class="product-title">
-                                    <h3 class="name-product">
-                                       {name}
-                                    </h3>
-                                    <p class="product-description">{attribute}</p>
-                                </div>
+                         
 
-                            </div>
-                            <div class="product-price">
-                                <span class="price-one">{amount_display}</span>
-                                <span class="price-old" style="display:none">
-                                    932.00đ <span class="percent">6%</span>
-                                    <div class="discount">
-                                        <span class="bg-sale">Giảm 30K</span>
-                                    </div>
-                            </div>
-                            <div class="product-quantity">
-                                <div class="number-input">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                                    <input class="quantity" min="1" name="quantity" value="{quanity}" type="number">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                            class="plus"></button>
+                          <!-- Product Info -->
+                          <div class="md:grid grid-cols-12 w-full items-center relative">
+
+                            <!-- Image + Name -->
+                            <div class="col-span-5">
+                              <div class="flex gap-2 items-center">
+                                <div class="relative aspect-[1/1] w-16 overflow-hidden rounded-lg shrink-0">
+                                  <img src="{src}" alt="{name}" class="absolute inset-0 w-full h-full object-cover" />
                                 </div>
+                                <div>
+                                  <p class="font-medium line-clamp-2 md:text-base text-sm">{name}</p>
+                                  <div class="text-sm text-slate-500">{attribute}</div>
+                                </div>
+                              </div>
                             </div>
 
-                            <div class="product-line-price">{total_amount} đ</div>
-                            <div class="product-removal">
-                                <button class="remove-product">
-                                    Xóa
-                                </button>
+                            <!-- Price & Discount -->
+                            <div class="col-span-2 md:text-center md:pl-0 pl-17">
+                              <div class="flex flex-wrap md:flex-col gap-x-2 items-center">
+                                <div class="font-medium md:text-base text-sm">{amount_display}</div>
+                                <div class="text-sm text-slate-500">
+                                  <span class="line-through">199.000 ₫</span> | -27%
+                                </div>
+                                <div class="discount-badge relative inline-block overflow-hidden">
+                                  <span>Giảm 50k</span>
                             </div>
-                        </div>`,
-        Empty: `<section class="cart-empty" style="margin-top:20px;margin-bottom:100px;">
-    <div class="container">
-        <div class="breadcrumb">
-            <ul>
+                          </div>
+                          <span class="md:hidden block text-red-400 font-semibold">{total_amount} ₫</span>
+                        </div>
+
+                        <!-- Quantity -->
+                        <div class="col-span-2 md:text-center md:pl-0 pl-17 product-quantity">
+                          <div class="flex items-center number-input">
+                            <button type="button"
+                                    class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                              -
+                            </button>
+                           
+                            <input type="number" value="{quanity}" min="1" name="quantity"
+                                   class="h-8 w-10 text-center border-t border-b border-gray-100  text-sm quantity" />
+                            <button type="button"
+                                    class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 cursor-pointer"
+                                   onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                            class="plus">
+                              +
+                            </button>
+                          </div>
+                        </div>
+
+                        <!-- Total (PC only) -->
+                        <div class="col-span-2 md:text-center md:pl-0 pl-17 hidden md:block">
+                          <span class=" product-line-price text-red-400 font-semibold">{total_amount} ₫</span>
+                        </div>
+
+                        <!-- Remove -->
+                        <div class="col-span-1 text-right md:relative absolute right-0 bottom-0 product-removal">
+                          <button class="text-sm text-blue-500 hover:underline cursor-pointer all-pop" data-id="#lightbox-delete-cart" data-cart-id="{id}">
+                            Xóa
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    `,
+        Empty: `<section class="product-cart-section">
+    <div class="max-w-[1230px] mx-auto px-[15px]">
+        <div class="breadcrumb my-4 ">
+            <ul class="flex items-center gap-3 font-normal">
                 <li><a href="/">Trang chủ</a></li>
-                <li class="active"><a href="javascript:;">Giỏ hàng / Thanh toán</a></li>
+                <li><a href="" class="text-color-base">Giỏ hàng / Thanh toán</a></li>
             </ul>
         </div>
-        <div class="box-empty">
-            <img src="/assets/images/empty.png" alt="" />
-            <h3 class="title">Giỏ hàng trống</h3>
+        <div class="flex flex-col text-center items-center justify-center gap-5 bg-white md:rounded-3xl rounded-xl md:p-5 p-3">
+            <img src="assets/images/empty.jpg" alt="Sản phẩm"
+            class="mx-auto max-w-[400px] w-full" />
+            <h3 class="text-2xl font-semibold">Giỏ hàng trống</h3>
             <p>Không có sản phẩm nào trong giỏ hàng của bạn</p>
-            <a href="/" class="btn btn-base">Tiếp tục mua sắm</a>
+            <a href="/" class="bg-blue-500 text-sm text-white px-6 py-3 rounded-full">Tiếp tục mua sắm</a>
         </div>
+
+
+
+        
     </div>
 </section>`
     },

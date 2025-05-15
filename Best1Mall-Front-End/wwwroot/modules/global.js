@@ -29,6 +29,7 @@ var global_service = {
     },
     DynamicBind: function () {
         $("body").on('click', ".client-login", function (event) {
+            debugger
             var element = $(this)
             event.preventDefault()
             var box_id = element.attr('data-id')
@@ -146,6 +147,7 @@ var global_service = {
         });
     },
     LoadCartCount: function () {
+        debugger
         var usr = global_service.CheckLogin()
         if (usr) {
             $.ajax({
@@ -157,14 +159,23 @@ var global_service = {
                     }
                 },
                 success: function (result) {
+                    debugger
                     if (result.is_success && result.data) {
-                        $('#carts .badge').html(result.data)
-                    } else { $('#carts .badge').html('0') }
+                        $('#carts .badge').html(result.data);
+                    } else {
+                        $('#carts .badge').html('0');
+                    }
                 },
+                error: function () {
+                    $('#carts .badge').html('0');
+                }
             });
         }
         else {
-            $('#carts .badge').html('0')
+            // 🔴 Nếu chưa login → lấy giỏ hàng từ sessionStorage
+            let cart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
+            let total = cart.reduce((sum, item) => sum + (item.quanity || 0), 0);
+            $('#carts .badge').html(total);
         }
 
     },
@@ -177,6 +188,7 @@ var global_service = {
         window.location.href = url + this.convertVietnameseToUnsign(title);
     },
     CheckLogin: function () {
+    
         var str = localStorage.getItem(STORAGE_NAME.Login)
         if (str != undefined && str.trim() != '') {
             return JSON.parse(str)
@@ -380,15 +392,17 @@ var global_service = {
     },
 
     GotoCart: function () {
-        var usr = global_service.CheckLogin()
-        if (usr) {
-            window.location.href = '/cart'
+        debugger
+        //var usr = global_service.CheckLogin()
+        //if (usr) {
+        //    window.location.href = '/cart'
 
-        }
-        else {
-            $('.mainheader .client-login').click()
-            return
-        }
+        //}
+        //else {
+        //    $('.mainheader .client-login').click()
+        //    return
+        //}
+        window.location.href = '/cart';
     },
 
     DateTimeToString: function (date, has_time = false) {

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using MongoDB.Bson.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Best1Mall_Front_End.Utilities.Lib;
 
 public class AuthController : Controller
 {
@@ -92,6 +93,7 @@ public class AuthController : Controller
         }
         catch (Exception ex)
         {
+            LogHelper.InsertLogTelegramByUrl(_configuration["BotSetting:bot_token"], _configuration["BotSetting:bot_group_id"], "GoogleSignInCallback - Authentication:" + ex.ToString());
             // Log lỗi
             return StatusCode(500, "Đã xảy ra lỗi trong quá trình đăng nhập bằng Google.");
         }

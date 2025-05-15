@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     // ✅ Mặc định load danh sách "Tất cả" (category_id = 0)
-    let category_id2 = parseInt($(".category_id").data("categoryid")) || 0;
+    let category_id2 = parseInt($(".category_id").data("categoryid")) || 22;
 
     const query_string = window.location.search;
     const url_params = new URLSearchParams(query_string);
@@ -70,6 +70,7 @@ let category_id = 22;
 let category_id_menu = 22;
 
 var _new = {
+
     Initialization: function () {
         
         _new.getNewsMostViewedArticle(1, 3, category_id_menu);
