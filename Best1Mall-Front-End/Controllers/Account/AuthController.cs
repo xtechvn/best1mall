@@ -48,7 +48,7 @@ public class AuthController : Controller
             string domain = Request.Host.Host;
             string scheme = Request.Scheme; // Lấy giao thức (http hoặc https)
             string host = Request.Host.Value; // Lấy tên miền và cổng (ví dụ: localhost:2335)
-            string fullDomain = $"{scheme}://{host}{redirectUri}";
+            string fullDomain = $"{scheme}://{domain}{redirectUri}";
             var tokenResponse = await flow.ExchangeCodeForTokenAsync("me", code, fullDomain, CancellationToken.None);
 
             if (string.IsNullOrEmpty(tokenResponse.IdToken))
