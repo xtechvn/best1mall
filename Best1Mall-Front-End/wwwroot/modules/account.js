@@ -65,7 +65,7 @@ var account = {
             if (usr.token == null || usr.token == undefined) {
                 account.Logout()
             }
-            $('#client-account-name').html(usr.name +' '+ `<a href="javascript:;" id="account-logout"> [ Đăng xuất ]</a>`)
+            $('#client-account-name').html('Xin chào, '+usr.name +' '+ `<a href="javascript:;" id="account-logout"> [ Đăng xuất ]</a>`)
             $('#client-account-name').closest('a').attr('href', '/client')
             $('#client-account-name').closest('a').removeAttr('data-id')
             $('#client-account-name').closest('a').addClass('client-logged')
