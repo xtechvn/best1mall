@@ -547,3 +547,12 @@ var HTML_CONSTANTS = {
     }
 
 }
+const RESPONSE_CODE =  {
+    Success : 0,
+    Gerneral : 1,
+    DataInvalid : 2,
+    EmailInvalid : 3,
+    ErrorOnExcution : 4,
+    OTPNotCorrect : 5,
+
+}

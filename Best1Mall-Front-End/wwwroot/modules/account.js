@@ -2,6 +2,10 @@
     account.Initialization()
 })
 var account = {
+    Data: {
+        SendCodeTimeout: false,
+        PasswordLength:6,
+    },
     Initialization: function () {
         if ($('#forgot-password-change').length > 0) {
             account.DynamicBindChangePassword()
@@ -75,13 +79,26 @@ var account = {
         $('#register-form .email input').addClass('no-requirement')
     },
     DynamicBind: function () {
+        $("body").on('change', "#login-form input, #register-form input", function () {
+            var element = $(this)
+            account.ValidateInput(element)
+        });
         $("body").on('focusout', "#login-form input, #register-form input", function () {
             var element = $(this)
+            account.ValidateInput(element)
+        });
+        $("body").on('keyup', "#register-form input", function () {
+           
+            if (account.ValidateRegisterNoNotify() == true && !$('#register-form').hasClass('hidden')) {
+                $('#btn-client-register').removeAttr('disabled')
+                $('#btn-client-register').removeProp('disabled')
+                $('#btn-client-register').css('background-color', '');
 
-            if (element.hasClass('no-requirement') && (element.val() == undefined || element.val().trim() == '')) {
-                element.closest('.mb-4').find('.err').show()
+            } else {
+                $('#btn-client-register').attr('disabled', 'disabled')
+                $('#btn-client-register').prop('disabled',true)
+                $('#btn-client-register').css('background-color', 'lightgray');
             }
-
         });
         $("body").on('focusin', "#login-form input, #register-form input", function () {
             var element = $(this)
@@ -111,7 +128,9 @@ var account = {
                 element.find('input').prop('checked', true);
             }
         });
-
+        $("body").on('click', "#logout-action", function () {
+            $('#dangxuat').addClass('overlay-active')
+        });
         //$("body").on('click', ".btn-login-fb", function () {
         //    FB.getLoginStatus(function (response) {
         //        FacebookLogin();
@@ -149,6 +168,12 @@ var account = {
             $('#tab-register').addClass('border-purple-500')
             $('#login-form').addClass('hidden')
             $('#register-form').removeClass('hidden')
+
+        });
+        $("body").on('click', "#register-send-code", function (e) {
+            e.preventDefault()
+
+            account.RegisterEmailSendCode()
 
         });
     },
@@ -210,14 +235,15 @@ var account = {
                 "confirm_password": $('#register-form .confirm-password input').val(),
                 "is_receive_email": $('#register-form .checkbox').is(":checked"),
                 "token": token,
-                "type": parseInt($('#register-detail').attr('data-type'))
+                "type": parseInt($('#register-detail').attr('data-type')),
+                otp_code: $('#register-form .otp-code input').val()
             }
             $.when(
                 global_service.POST(API_URL.Register, request)
             ).done(function (res) {
                 if (res.is_success) {
-                    $('.client-login-popup').removeClass('overlay-active')
-                    $('#success').addClass('overlay-active')
+                    //$('.client-login-popup').removeClass('overlay-active')
+                    //$('#success').addClass('overlay-active')
                     setTimeout(() => {
                         if ($('#login-form .checkbox').is(":checked")) {
                             localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data.data))
@@ -228,13 +254,24 @@ var account = {
                     }, 2000);
                 }
                 else {
-                    $(':input[type="submit"]').prop('disabled', false);
-                    if (res.data.msg.toLowerCase().includes('email')) {
-                        $('#register-form .email input').closest('.mb-4').find('.err').show()
-                        $('#register-form .email input').closest('.mb-4').find('.err').html(res.data.msg)
-                    } else {
+                    if (res.data != null && res.data.code != undefined) {
+                        switch (res.data.code) {
+
+                            case RESPONSE_CODE.EmailInvalid:
+                            case RESPONSE_CODE.OTPNotCorrect:
+                                {
+                                    $('#register-form .email input').closest('.mb-4').find('.err').show()
+                                    $('#register-form .email input').closest('.mb-4').find('.err').html(res.data.msg)
+                                } break;
+                            default: {
+                                $('#register-form .user input').closest('.mb-4').find('.err').show()
+                                $('#register-form .user input').closest('.mb-4').find('.err').html(res.data.msg)
+                            } break;
+                        }
+                    }
+                    else {
                         $('#register-form .user input').closest('.mb-4').find('.err').show()
-                        $('#register-form .user input').closest('.mb-4').find('.err').html(res.data.msg)
+                        $('#register-form .user input').closest('.mb-4').find('.err').html(res.msg)
                     }
                    
                     element.html('Đăng ký')
@@ -264,119 +301,175 @@ var account = {
         return success
     },
     ValidateRegister: function () {
-        var password_length = 6
-
         var success = true
+        var password_length = account.Data.PasswordLength
         var element = $('#register-form .user input')
         if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.form-group').find('.err').show()
+            element.closest('.mb-4').find('.err').show()
             success = false
 
         }
         //if (!success) return success
         element = $('#register-form .email input')
         if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.form-group').find('.err').show()
+            element.closest('.mb-4').find('.err').show()
             success = false
 
         }
         else if (element.val() != undefined && element.val().trim() != '') {
             var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
             if (!pattern.test(element.val())) {
-                element.closest('.form-group').find('.err').html(NOTIFICATION_MESSAGE.EmailInCorrect)
-                element.closest('.form-group').find('.err').show()
+                element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmailInCorrect)
+                element.closest('.mb-4').find('.err').show()
                 success = false
             }
         }
         //if (!success) return success
 
-        element = $('#register-form .tel input')
-        if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.form-group').find('.err').show()
-            success = false
+        //element = $('#register-form .tel input')
+        //if (element.val() == undefined || element.val().trim() == '') {
+        //    element.closest('.mb-4').find('.err').show()
+        //    success = false
 
-        }
-        else if (element.val() != undefined && element.val().trim() != '') {
-            var pattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
-            if (!pattern.test(element.val())) {
-                element.closest('.form-group').find('.err').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
-                element.closest('.form-group').find('.err').show()
-                success = false
-            }
-        }
+        //}
+        //else if (element.val() != undefined && element.val().trim() != '') {
+        //    var pattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
+        //    if (!pattern.test(element.val())) {
+        //        element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
+        //        element.closest('.mb-4').find('.err').show()
+        //        success = false
+        //    }
+        //}
         //if (!success) return success
 
         element = $('#register-form .register-password input')
         if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.form-group').find('.err').show()
+            element.closest('.mb-4').find('.err').show()
             success = false
         }
         else if (element.val().length < password_length) {
-            element.closest('.form-group').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
-            element.closest('.form-group').find('.err').show()
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
+            element.closest('.mb-4').find('.err').show()
             success = false
         }
         //if (!success) return success
 
         element = $('#register-form .confirm-password input')
         if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.form-group').find('.err').show()
+            element.closest('.mb-4').find('.err').show()
             success = false
         }
-        else if (element.val() != $('#register-form .password input').val()) {
-            element.closest('.form-group').find('.err').html(NOTIFICATION_MESSAGE.PasswordConfirmNotEqual)
-            element.closest('.form-group').find('.err').show()
+        else if (element.val() != $('#register-form .register-password input').val()) {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordConfirmNotEqual)
+            element.closest('.mb-4').find('.err').show()
             success = false
         }
         //if (!success) return success
+        element = $('#register-form .otp-code input')
+        if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err').show()
+            success = false
+
+        }
         return success
     },
-   
-
-    GoogleSignOut: function () {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-            console.log('User signed out.');
-        });
-    },
-
-    ThirdPartyRegister: function (email, password, token, name, type) {
-        $('.client-login-popup').removeClass('overlay-active')
-        $('#register-form').addClass('overlay-active')
-        $('#register-form .user input').val(name)
-        $('#register-form .email input').val(email)
-        $('#register-form .register-password input').val('')
-        $('#register-form .confirm-password input').val('')
-        $('#register-detail').attr('data-type', type)
-        $('#register-detail').attr('data-token', token)
-
-        $('#register-form .scroll-form').prepend(HTML_CONSTANTS.GoogleAccountNotRegistered)
-    },
-    ThirdPartyLogin: function (email, password, token,name,type) {
-        var request = {
-            "user_name": email,
-            "password": password,
-            "remember_me": true,
-            "token":token,
-            "type": type
+    ValidateRegisterNoNotify: function () {
+        var success = false
+        var password_length = account.Data.PasswordLength
+        var element = $('#register-form .user input')
+        if (element.val() == undefined || element.val().trim() == '') {
+            return success
         }
-        $.when(
-            global_service.POST(API_URL.Login, request)
-        ).done(function (res) {
-            if (res.is_success) {
-                if ($('#login-form .checkbox').is(":checked")) {
-                    localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
-                } else {
-                    sessionStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
-                }
-                window.location.reload()
-            }
-            else  {
-                account.ThirdPartyRegister(email, password, token, name, type)
-            }
+        //if (!success) return success
+        element = $('#register-form .email input')
+        if (element.val() == undefined || element.val().trim() == '') {
+            return success
 
-        })
+        }
+        else if (element.val() != undefined && element.val().trim() != '') {
+            var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+            if (!pattern.test(element.val())) {
+                return success
+            }
+        }
+        //if (!success) return success
+
+        //element = $('#register-form .tel input')
+        //if (element.val() == undefined || element.val().trim() == '') {
+        //    return success
+
+        //}
+        //else if (element.val() != undefined && element.val().trim() != '') {
+        //    var pattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
+        //    if (!pattern.test(element.val())) {
+        //        return success
+        //    }
+        //}
+        //if (!success) return success
+
+        element = $('#register-form .register-password input')
+        if (element.val() == undefined || element.val().trim() == '') {
+            return success
+        }
+        else if (element.val().length < password_length) {
+            return success
+        }
+        //if (!success) return success
+
+        element = $('#register-form .confirm-password input')
+        if (element.val() == undefined || element.val().trim() == '') {
+            return success
+        }
+        else if (element.val() != $('#register-form .register-password input').val()) {
+            
+            return success
+        }
+        element = $('#register-form .otp-code input')
+        if (element.val() == undefined || element.val().trim() == '') {
+
+            return success
+
+        }
+        return true
     },
+    
+    //ThirdPartyRegister: function (email, password, token, name, type) {
+    //    $('.client-login-popup').removeClass('overlay-active')
+    //    $('#register-form').addClass('overlay-active')
+    //    $('#register-form .user input').val(name)
+    //    $('#register-form .email input').val(email)
+    //    $('#register-form .register-password input').val('')
+    //    $('#register-form .confirm-password input').val('')
+    //    $('#register-detail').attr('data-type', type)
+    //    $('#register-detail').attr('data-token', token)
+
+    //    $('#register-form .scroll-form').prepend(HTML_CONSTANTS.GoogleAccountNotRegistered)
+    //},
+    //ThirdPartyLogin: function (email, password, token,name,type) {
+    //    var request = {
+    //        "user_name": email,
+    //        "password": password,
+    //        "remember_me": true,
+    //        "token":token,
+    //        "type": type
+    //    }
+    //    $.when(
+    //        global_service.POST(API_URL.Login, request)
+    //    ).done(function (res) {
+    //        if (res.is_success) {
+    //            if ($('#login-form .checkbox').is(":checked")) {
+    //                localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
+    //            } else {
+    //                sessionStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
+    //            }
+    //            window.location.reload()
+    //        }
+    //        else  {
+    //            account.ThirdPartyRegister(email, password, token, name, type)
+    //        }
+
+    //    })
+    //},
     ConfirmForgotPassword: function () {
         var validate = account.ValidateForgotPassword()
         if (validate) {
@@ -404,41 +497,110 @@ var account = {
             $("#forgot-password-email").closest('.box-email').find('.err').show()
         }
         return validate
-    }
+    },
+    RegisterEmailSendCode: function () {
+        var $thisButton = $('#register-send-code');
+        $thisButton.prop('disabled', true)
+        $thisButton.attr('disabled', 'disabled')
+        $thisButton.css('background-color', 'lightgray');
+        var element = $('#register-form .email input')
+
+        if (account.ValidateEmailInput(element) && account.Data.SendCodeTimeout == false) {
+            account.DisableSendButtonBySecond()
+            var model = {
+                email: element.val()
+            }
+            $.ajax({
+                url: "/api/Auth/RegisterEmailCode",
+                type: 'post',
+                data: model,
+                success: function (data) {
+
+                },
+            });
+        }
+        else {
+            $thisButton.removeProp('disabled')
+            $thisButton.removeAttr('disabled', 'disabled')
+            $thisButton.css('background-color', '');
+        }
+    },
+    DisableSendButtonBySecond: function (second=120) {
+        var $thisButton = $('#register-send-code');
+        var countdownTime = second; // Thời gian chờ (giây)
+        var originalText = $thisButton.text();
+
+        // Vô hiệu hóa nút và đổi text
+        $thisButton.prop('disabled', true).text('Đang gửi...');
+        $thisButton.attr('disabled', 'disabled')
+        $thisButton.css('background-color', 'lightgray');
+        account.Data.SendCodeTimeout = true;
+        // Cập nhật bộ đếm thời gian mỗi giây
+        var countdownInterval = setInterval(function () {
+            countdownTime--;
+            $thisButton.text('Vui lòng đợi (' + countdownTime + 's)');
+
+            // Khi bộ đếm thời gian về 0, kích hoạt lại nút
+            if (countdownTime <= 0) {
+                clearInterval(countdownInterval);
+                $thisButton.removeProp('disabled').text(originalText);
+                $thisButton.removeAttr('disabled', 'disabled')
+                $thisButton.css('background-color', '');
+                account.Data.SendCodeTimeout = false;
+            }
+        }, 1000); // Cập nhật mỗi 1000ms (1 giây)
+    },
+    ValidateInput: function (element) {
+        if (element.hasClass('no-requirement')) {
+            return;
+        }
+        switch (element.attr('type')) {
+            case 'email': {
+                account.ValidateEmailInput(element)
+            } break;
+            case 'password': {
+                account.ValidatePasswordInput(element)
+            } break;
+            default: {
+                if ((element.val() == undefined || element.val().trim() == '')) {
+                    element.closest('.mb-4').find('.err').show()
+                    return
+                }
+            }
+        }
+    },
+    ValidateEmailInput: function (element) {
+        var success = true
+        if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err').show()
+            success = false
+        }
+        else if (element.val() != undefined && element.val().trim() != '') {
+            var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+            if (!pattern.test(element.val())) {
+                element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmailInCorrect)
+                element.closest('.mb-4').find('.err').show()
+                success = false
+            }
+        }
+        return success
+    },
+    ValidatePasswordInput: function () {
+        var success = true
+        var password_length = account.Data.PasswordLength
+
+        element = $('#register-form .register-password input')
+        if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err').show()
+            success = false
+        }
+        else if (element.val().length < password_length) {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
+            element.closest('.mb-4').find('.err').show()
+            success = false
+        }
+        return success
+    },
+
 }
-window.GoogleSignIn = (response) => {
-    // decodeJwtResponse() is a custom function defined by you
-    // to decode the credential response.
-    var google_user = global_service.DecodeGSIToken(response.credential);
-    //console.log("ID: " + google_user.sub);
-    //console.log('Full Name: ' + google_user.name);
-    //console.log('Given Name: ' + google_user.given_name);
-    //console.log('Family Name: ' + google_user.family_name);
-    //console.log("Image URL: " + google_user.picture);
-    //console.log("Email: " + google_user.email);
 
-    //var profile = googleUser.getBasicProfile();
-    //var id_token = googleUser.getAuthResponse().id_token;
-    //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    //console.log('Token: ' + id_token);
-    //console.log('Name: ' + profile.getName());
-    //console.log('Image URL: ' + profile.getImageUrl());
-    //console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-    
-    account.ThirdPartyLogin(google_user.email, '', google_user.sub, google_user.name, 2);
-  
-}
-
-
-//function FacebookLogin() {
-//    FB.login(function (response) {
-//        if (response.authResponse) {
-//            FB.api('/me', function (response) {
-//                account.ThirdPartyLogin(response.email, '', response.id,response.name, 3);
-
-//            });
-//        } else {
-//            console.log('User cancelled login or did not fully authorize.');
-//        }
-//    }, { scope: 'email' });
-//}

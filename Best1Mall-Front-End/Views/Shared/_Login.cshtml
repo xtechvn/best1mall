@@ -95,8 +95,8 @@
 
                 <!-- Register Form -->
                 <form id="register-form" class="space-y-4 hidden">
-@*                     <div class="grid md:grid-cols-2 gap-4 mb-4">
-                        <label class="relative">
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <label class="relative user">
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -120,25 +120,34 @@
 
                             </span>
                             <input type="text" placeholder="Số điện thoại"
-                                class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full">
+                               class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full no-requirement">
                         </label>
-                    </div> *@
-                    <div class="mb-4 relative">
+                        <span class="err" style="display:none;">Vui lòng không để trống</span>
+
+                    </div>
+                <div class="mb-4 relative email">
+                    <div class="relative ">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
-                                fill="none">
-                                <path
-                                    d="M21 5H3C2.80109 5 2.61032 5.07902 2.46967 5.21967C2.32902 5.36032 2.25 5.55109 2.25 5.75V18.5C2.25 18.8978 2.40804 19.2794 2.68934 19.5607C2.97064 19.842 3.35218 20 3.75 20H20.25C20.6478 20 21.0294 19.842 21.3107 19.5607C21.592 19.2794 21.75 18.8978 21.75 18.5V5.75C21.75 5.55109 21.671 5.36032 21.5303 5.21967C21.3897 5.07902 21.1989 5 21 5ZM12 12.9828L4.92844 6.5H19.0716L12 12.9828ZM9.25406 12.5L3.75 17.5447V7.45531L9.25406 12.5ZM10.3641 13.5172L11.4891 14.5531C11.6274 14.6801 11.8084 14.7506 11.9963 14.7506C12.1841 14.7506 12.3651 14.6801 12.5034 14.5531L13.6284 13.5172L19.0659 18.5H4.92844L10.3641 13.5172ZM14.7459 12.5L20.25 7.45438V17.5456L14.7459 12.5Z"
-                                    fill="#773EFA" />
+                                 fill="none">
+                                <path d="M21 5H3C2.80109 5 2.61032 5.07902 2.46967 5.21967C2.32902 5.36032 2.25 5.55109 2.25 5.75V18.5C2.25 18.8978 2.40804 19.2794 2.68934 19.5607C2.97064 19.842 3.35218 20 3.75 20H20.25C20.6478 20 21.0294 19.842 21.3107 19.5607C21.592 19.2794 21.75 18.8978 21.75 18.5V5.75C21.75 5.55109 21.671 5.36032 21.5303 5.21967C21.3897 5.07902 21.1989 5 21 5ZM12 12.9828L4.92844 6.5H19.0716L12 12.9828ZM9.25406 12.5L3.75 17.5447V7.45531L9.25406 12.5ZM10.3641 13.5172L11.4891 14.5531C11.6274 14.6801 11.8084 14.7506 11.9963 14.7506C12.1841 14.7506 12.3651 14.6801 12.5034 14.5531L13.6284 13.5172L19.0659 18.5H4.92844L10.3641 13.5172ZM14.7459 12.5L20.25 7.45438V17.5456L14.7459 12.5Z"
+                                      fill="#773EFA" />
                             </svg>
                         </span>
                         <input type="email" placeholder="Địa chỉ Email"
-                            class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full md:pr-[140px] pr-[80px]">
-                        <button
-                            class="absolute right-2 top-1/2 -translate-y-1/2 bg-red-400 text-white text-sm px-3 py-2 rounded-full">Gửi
-                            mã <span class="hidden md:inline">xác thực</span></button>
+                               class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full md:pr-[140px] pr-[80px]">
+                        <button id="register-send-code"
+                                class="absolute right-2 top-1/2 -translate-y-1/2 bg-red-400 text-white text-sm px-3 py-2 rounded-full">
+                            Gửi
+                            mã <span class="hidden md:inline">xác thực</span>
+                        </button>
+                      </div>
+                    <span class="err" style="display:none;">Vui lòng không để trống</span>
+
                     </div>
-                    <div class="mb-4 relative">
+                <div class="mb-4 relative otp-code">
+                    <div class="relative ">
+
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -151,7 +160,12 @@
                         <input type="text" placeholder="Mã xác nhận"
                             class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full">
                     </div>
-                    <div class="mb-4 relative">
+                    <span class="err" style="display:none;">Vui lòng không để trống</span>
+
+                    </div>
+                <div class="mb-4 relative register-password">
+                    <div class="relative ">
+
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
                                 fill="none">
@@ -163,7 +177,12 @@
                         <input type="password" placeholder="Nhập mật khẩu từ 6 đến 32 ký tự"
                             class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full">
                     </div>
-                   @*  <div class="mb-4 relative">
+                    <span class="err" style="display:none;">Vui lòng không để trống</span>
+
+                    </div>
+                <div class="mb-4 relative confirm-password">
+                    <div class="relative ">
+
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none">
@@ -177,21 +196,24 @@
                         </span>
                         <input type="password" placeholder="Nhập lại mật khẩu"
                             class="pl-10 w-full px-4 py-3 border border-gray-200 rounded-full">
-                    </div> *@
+                    </div>
+                    <span class="err" style="display:none;">Vui lòng không để trống</span>
+
+                    </div>
 
                     <label class="inline-flex items-start ">
                         <input type="checkbox"
                             class="form-checkbox shrink-0 w-5 h-5 text-purple-600 rounded focus:ring-purple-500">
                         <span class="ml-2 text-sm">Nhận các thông tin và chương trình khuyến mãi qua email.</span>
                     </label>
-                    <button  id="btn-client-register" class="w-full bg-purple-600 text-white py-3 rounded-full font-semibold">
+                    <button  id="btn-client-register" class="w-full bg-purple-600 text-white py-3 rounded-full font-semibold"style="background-color:lightgray;" disabled>
                     Tạo tài khoản</button>
 
                     <p class="text-xs text-gray-300">
                         Khi bạn nhấn Đăng ký, bạn đã đồng ý thực hiện mọi giao dịch mua bán theo <a href="#"
                             class="text-blue-400">điều kiện sử dụng và chính sách của Chúng tôi.</a>
                     </p>
-                <div class="flex items-center">
+                @* <div class="flex items-center">
                     <hr class="flex-grow border-gray-300">
                     <span class="mx-3 text-sm text-gray-400">Hoặc đăng ký với</span>
                     <hr class="flex-grow border-gray-300">
@@ -206,7 +228,7 @@
                                   fill="#DF4A32" />
                         </svg> Đăng ký với Gmail
                     </a>
-                </div>
+                </div> *@
                 </form>
             </div>
         </div>

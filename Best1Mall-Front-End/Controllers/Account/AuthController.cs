@@ -10,16 +10,25 @@ using MongoDB.Bson.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Best1Mall_Front_End.Utilities.Lib;
+using Best1Mall_Front_End.Controllers.Account.Business;
+using Best1Mall_Front_End.Utilities.contants;
+using Azure.Core;
+using Microsoft.Extensions.Caching.Memory;
 
 public class AuthController : Controller
 {
     private readonly IConfiguration _configuration;
     private readonly ClientServices _clientServices;
+    private readonly AuthenticationService _authenticationService;
+    private readonly IMemoryCache _cache;
 
-    public AuthController(IConfiguration configuration)
+    public AuthController(IConfiguration configuration, IMemoryCache cache)
     {
         _configuration = configuration;
         _clientServices = new ClientServices(configuration);
+        _authenticationService = new AuthenticationService(configuration);
+        _cache = cache;
+
     }
 
     [HttpGet("api/Auth/GoogleSignInCallback")]
@@ -181,9 +190,34 @@ public class AuthController : Controller
             return StatusCode(500, "Đã xảy ra lỗi trong quá trình đăng nhập bằng Google.");
         }
     }
-    private string GenerateAppToken(object userData)
+    [HttpPost("api/Auth/RegisterEmailCode")]
+    public async Task<IActionResult> RegisterEmailCode(string email)
     {
-        // Implement logic tạo token ứng dụng
-        return "your_app_token_here";
+        try
+        {
+            if (string.IsNullOrEmpty(email) || !_authenticationService.IsValidEmail(email))
+            {
+                return BadRequest(new
+                {
+                    is_success = false,
+                    msg = "Địa chỉ Email không chính xác, vui lòng thử lại"
+                });
+            }
+            string code = new Random().Next(10000000, 99999999).ToString();
+            var cacheKey = CacheKeys.RegisterEmailConfirm + EncodeHelpers.MD5Hash(email); // Đặt khóa cho cache
+            _cache.Set(cacheKey, code, TimeSpan.FromMinutes(15));
+            var success= _authenticationService.SendVerificationEmailAsync(email, code);
+            return Ok(new
+            {
+                is_success=success,
+                msg=email
+            });
+        }
+        catch (Exception ex)
+        {
+            LogHelper.InsertLogTelegramByUrl(_configuration["BotSetting:bot_token"], _configuration["BotSetting:bot_group_id"], "RegisterEmailCode - Authentication:" + ex.ToString());
+            // Log lỗi
+            return StatusCode(500, "Đã xảy ra lỗi trong quá trình đăng nhập bằng Google.");
+        }
     }
 }
