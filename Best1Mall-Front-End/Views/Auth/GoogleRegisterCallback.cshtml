@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+    string data = (string)ViewBag.Data;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Đang xử lý đăng nhập Google...</title>
+</head>
+<body>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            var data = '@Html.Raw(data)'
+            if(data!=null && data.trim()!=''){
+                localStorage.setItem('account', '@Html.Raw(data)');
+            }
+            window.close();
+        });
+    </script>
+</body>
+</html>

@@ -150,7 +150,9 @@ var HTML_CONSTANTS = {
         GroupProductItem: ` 
       <div class="flex-shrink-0 w-27 text-center p-2 rounded-xl border border-blue-100">
                         <div class="rounded-xl bg-blue-50 mb-2 p-2 h-22 w-22 flex items-center justify-center">
-                            <img src="{avt}" alt="{name}" class="mx-auto h-15">
+                            <a href="/san-pham?group_id={id}">
+                                <img src="{avt}" alt="{name}" class="mx-auto h-15">
+                            </a>
                         </div>
                         <a href="/san-pham?group_id={id}" class="text-[13px] text-slate-700 ">{name}</a>
                     </div>
@@ -587,5 +589,14 @@ var HTML_CONSTANTS = {
 
 
     }
+
+}
+const RESPONSE_CODE =  {
+    Success : 0,
+    Gerneral : 1,
+    DataInvalid : 2,
+    EmailInvalid : 3,
+    ErrorOnExcution : 4,
+    OTPNotCorrect : 5,
 
 }
