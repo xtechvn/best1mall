@@ -32,13 +32,13 @@
         .Select(g => g.OrderByDescending(a => a.publish_date).First())
         .ToList();
 
-    if (sideArticles.Count < 2)
+    if (sideArticles.Count < 6)
     {
         excludeIds.AddRange(sideArticles.Select(x => x.id));
         var additional = Model.obj_article_list
             .Where(a => a.status == 0 && a.position == 0 && !excludeIds.Contains(a.id))
             .OrderByDescending(a => a.publish_date)
-            .Take(2 - sideArticles.Count)
+            .Take(6 - sideArticles.Count)
             .ToList();
 
         sideArticles.AddRange(additional);
