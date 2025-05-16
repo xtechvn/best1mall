@@ -65,7 +65,7 @@ namespace Best1Mall_Front_End.Controllers.Client
                     data = new ClientRegisterResponseModel()
                     {
                         code= ResponseCode.OTPNotCorrect,
-                        msg="Lỗi hệ thống xác thực, vui lòng tải lại trang hoặc liên hệ bộ phận kỹ thuật"
+                        msg= "Email chưa được xác nhận, vui lòng nhấn [Gửi mã xác thực] và thử lại"
                     }
                 });
             }
@@ -79,7 +79,7 @@ namespace Best1Mall_Front_End.Controllers.Client
                     data = new ClientRegisterResponseModel()
                     {
                         code = ResponseCode.OTPNotCorrect,
-                        msg = "Lỗi hệ thống xác thực, vui lòng tải lại trang hoặc liên hệ bộ phận kỹ thuật"
+                        msg = "Email chưa được xác nhận, vui lòng nhấn [Gửi mã xác thực] và thử lại"
                     }
                 });
             }
@@ -97,7 +97,7 @@ namespace Best1Mall_Front_End.Controllers.Client
                 });
             }
             var result = await _clientServices.Register(request);
-
+            try { _cache.Remove(cacheKey); } catch { }
             return Ok(new
             {
                 is_success = (result != null && result.data!=null),

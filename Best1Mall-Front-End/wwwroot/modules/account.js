@@ -110,18 +110,17 @@ var account = {
             $('#client-account-name').closest('a').removeClass('client-login')
 
         }
-        $('#register-form .email input').addClass('no-requirement')
     },
     DynamicBind: function () {
-        $("body").on('change', "#login-form input, #register-form input", function () {
-            var element = $(this)
-            account.ValidateInput(element)
-        });
+        //$("body").on('change', "#login-form input, #register-form input", function () {
+        //    var element = $(this)
+        //    account.ValidateInput(element)
+        //});
         $("body").on('focusout', "#login-form input, #register-form input", function () {
             var element = $(this)
             account.ValidateInput(element)
         });
-        $("body").on('keyup', "#register-form input", function () {
+        $("body").on('focusout', "#register-form input", function () {
            
             if (account.ValidateRegisterNoNotify() == true && !$('#register-form').hasClass('hidden')) {
                 $('#btn-client-register').removeAttr('disabled')
@@ -134,8 +133,25 @@ var account = {
                 $('#btn-client-register').css('background-color', 'lightgray');
             }
         });
+        $("body").on('focusout', "#login-form input", function () {
+
+            if (account.ValidateLoginNoNotify() == true && !$('#login-form').hasClass('hidden')) {
+                $('#btn-client-login').removeAttr('disabled')
+                $('#btn-client-login').removeProp('disabled')
+                $('#btn-client-login').css('background-color', '');
+
+            } else {
+                $('#btn-client-login').attr('disabled', 'disabled')
+                $('#btn-client-login').prop('disabled', true)
+                $('#btn-client-login').css('background-color', 'lightgray');
+            }
+        });
         $("body").on('focusin', "#login-form input, #register-form input", function () {
             var element = $(this)
+            $('#register-general-err .err').hide()
+            $('#register-general-err .err').html(NOTIFICATION_MESSAGE.EmptyField)
+            $('#login-general-err .err').hide()
+            $('#login-general-err .err').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err').hide()
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
         });
@@ -240,10 +256,9 @@ var account = {
                     window.location.reload()
                 }
                 else {
-                    $(':input[type="submit"]').prop('disabled', false);
-
-                    $('#login-usr').closest('.mb-4').find('.err').show()
-                    $('#login-usr').closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
+                    $('#login-general-err .err').show()
+                    $('#login-general-err .err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
+                    
                     element.html('Đăng nhập')
                     element.prop("disabled", false);
 
@@ -303,14 +318,14 @@ var account = {
                                     $('#register-form .email input').closest('.mb-4').find('.err').html(res.data.msg)
                                 } break;
                             default: {
-                                $('#register-form .user input').closest('.mb-4').find('.err').show()
-                                $('#register-form .user input').closest('.mb-4').find('.err').html(res.data.msg)
+                                $('#register-general-err .err').show()
+                                $('#register-general-err .err').html(res.data.msg)
                             } break;
                         }
                     }
                     else {
-                        $('#register-form .user input').closest('.mb-4').find('.err').show()
-                        $('#register-form .user input').closest('.mb-4').find('.err').html(res.msg)
+                        $('#register-general-err .err').show()
+                        $('#register-general-err .err').html(res.msg)
                     }
                    
                     element.html('Đăng ký')
@@ -321,23 +336,37 @@ var account = {
         }
     },
     ValidateLogin: function () {
-        var success = true
+        var password_length = account.Data.PasswordLength
+
+        var success = false
         var element = $('#login-usr')
         if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.form-group').find('.err').show()
-            success = false
+            element.closest('.mb-4').find('.err').show()
+            return success
 
+        }
+        else if (element.val() != undefined && element.val().trim() != '') {
+            var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+            if (!pattern.test(element.val())) {
+                element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmailInCorrect)
+                element.closest('.mb-4').find('.err').show()
+                return success
+            }
         }
         //if (!success) return success
         element = $('#login-pwd')
         if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.form-group').find('.err').show()
+            element.closest('.mb-4').find('.err').show()
             success = false
-
+        }
+        else if (element.val().length < password_length) {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
+            element.closest('.mb-4').find('.err').show()
+            success = false
         }
         //if (!success) return success
 
-        return success
+        return true
     },
     ValidateRegister: function () {
         var success = true
@@ -459,16 +488,40 @@ var account = {
         if (element.val() == undefined || element.val().trim() == '') {
             return success
         }
-        else if (element.val() != $('#register-form .register-password input').val()) {
-            
-            return success
-        }
         element = $('#register-form .otp-code input')
         if (element.val() == undefined || element.val().trim() == '') {
 
             return success
 
         }
+        return true
+    },
+    ValidateLoginNoNotify: function () {
+        var password_length = account.Data.PasswordLength
+
+        var success = false
+        var element = $('#login-usr')
+        if (element.val() == undefined || element.val().trim() == '') {
+            return success
+
+        }
+        else if (element.val() != undefined && element.val().trim() != '') {
+            var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+            if (!pattern.test(element.val())) {
+                return success
+            }
+        }
+        //if (!success) return success
+        element = $('#login-pwd')
+        if (element.val() == undefined || element.val().trim() == '') {
+            return success
+        }
+        else if (element.val().length < password_length) {
+            return success
+
+        }
+        //if (!success) return success
+
         return true
     },
     
@@ -624,11 +677,10 @@ var account = {
         }
         return success
     },
-    ValidatePasswordInput: function () {
+    ValidatePasswordInput: function (element) {
         var success = true
         var password_length = account.Data.PasswordLength
 
-        element = $('#register-form .register-password input')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err').show()
             success = false

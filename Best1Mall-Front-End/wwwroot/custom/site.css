@@ -103,3 +103,6 @@
     color: red;
     font-size: 14px;
 }
+#login-form button, #register-form button {
+   cursor:pointer;
+}
