@@ -32,14 +32,15 @@
         .Take(5)
         .ToList();
 
+
     // Nếu chưa đủ thì lấy thêm từ position == 0 cho đủ 5 bài
-    if (sideArticles.Count < 5)
+    if (sideArticles.Count < 6)
     {
         excludeIds.AddRange(sideArticles.Select(x => x.id));
         var additional = Model.obj_article_list
             .Where(a => a.status == 0 && a.position == 0 && !excludeIds.Contains(a.id))
             .OrderByDescending(a => a.publish_date)
-            .Take(5 - sideArticles.Count)
+            .Take(6 - sideArticles.Count)
             .ToList();
 
         sideArticles.AddRange(additional);
