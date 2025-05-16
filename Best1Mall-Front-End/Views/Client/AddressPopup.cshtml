@@ -1,55 +1,58 @@
 ﻿@{
     Layout = null;
 }
-<div id="address-book" class="overlay form-update-address form-noti">
-    <div class="popup">
-        <a class="close btn-close" href="javascript:;" style="display:block !important;">
-            <i class="icon icon-close "></i>
-        </a>
-        <div class="content">
-            <nw class="section-qly-taikhoan">
-                <nw class="box-quanlytaikhoan">
-                    <nw class="content-left-user" style="width:100% !important;">
-                        <h4 class="title-popup">Sổ địa chỉ</h4>
-                        <div class="action">
-                            <a href="javascript:;" class="btn btn-add btn-add-address">+ Thêm địa chỉ giao hàng mới</a>
-                        </div>
-                        <nw>
-                            <!-- Địa chỉ -->
-                            <div class="box-address placeholder">
-                                <div class="list-add">
-                                    <div class="item active">
-                                        <span class="defauld">Đặt làm mặc định</span>
-                                        <h3 class="name">mai văn đinh</h3>
-                                        <p class="add">
-                                            Địa chỉ: Tầng 10, Tòa A FPT Tower, số 10 Phạm Văn Bạch, Dịch Vọng, Cầu Giấy,
-                                            Hà Nội
-                                        </p>
-                                        <p class="tel">Điện thoại: 024 7300 8899</p>
-                                        <a href="" class="btn btn-update">Cập nhật</a>
-                                    </div>
-                                    <div class="item">
-                                        <span class="defauld">Đặt làm mặc định</span>
-                                        <h3 class="name">mai văn đinh</h3>
-                                        <p class="add">
-                                            Địa chỉ: Tầng 10, Tòa A FPT Tower, số 10 Phạm Văn Bạch, Dịch Vọng, Cầu Giấy,
-                                            Hà Nội
-                                        </p>
-                                        <p class="tel">Điện thoại: 024 7300 8899</p>
-                                        <a href="javascript:;" class="btn btn-update">Cập nhật</a>
-                                    </div>
+<div id="address-book" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999 form-update-address form-noti">
+    <div class="flex justify-center md:items-center h-full overflow-y-auto ">
+        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto  overflow-y-autorelative">
+            <span class="closePopup absolute right-2 top-2 cursor-pointer close btn-close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                          fill="#2A3262" />
+                </svg>
+            </span>
+            <!-- content -->
+            <div class="space-y-4 mt-3 content">
+                <nw class="section-qly-taikhoan">
+                    <nw class="box-quanlytaikhoan">
+                        <nw class="content-left-user" style="width:100% !important;">
+                            <div class="flex justify-end items-center action">
+                                <button class="text-sm border border-purple-500 text-purple-600 px-3 py-1 rounded-full hover:bg-purple-100 flex items-center gap-1 btn btn-add btn-add-address">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21 12C21 12.1989 20.921 12.3897 20.7803 12.5303C20.6397 12.671 20.4489 12.75 20.25 12.75H12.75V20.25C12.75 20.4489 12.671 20.6397 12.5303 20.7803C12.3897 20.921 12.1989 21 12 21C11.8011 21 11.6103 20.921 11.4697 20.7803C11.329 20.6397 11.25 20.4489 11.25 20.25V12.75H3.75C3.55109 12.75 3.36032 12.671 3.21967 12.5303C3.07902 12.3897 3 12.1989 3 12C3 11.8011 3.07902 11.6103 3.21967 11.4697C3.36032 11.329 3.55109 11.25 3.75 11.25H11.25V3.75C11.25 3.55109 11.329 3.36032 11.4697 3.21967C11.6103 3.07902 11.8011 3 12 3C12.1989 3 12.3897 3.07902 12.5303 3.21967C12.671 3.36032 12.75 3.55109 12.75 3.75V11.25H20.25C20.4489 11.25 20.6397 11.329 20.7803 11.4697C20.921 11.6103 21 11.8011 21 12Z"
+                                              fill="#773EFA" />
+                                    </svg>
+                                    Thêm địa chỉ mới
+                                </button>
+                            </div>
+                            <nw>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 box-address list-add">
+                                    <!-- Mỗi địa chỉ -->
+                                  
+
+
+
                                 </div>
-                               
+                            </nw>
+                           
+
+                            <!-- Footer -->
+                            <div class="flex justify-between items-center mt-4 gap-3 action">
+                                <button class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full btn btn-back btn-close">
+                                    Trở
+                                    lại
+                                </button>
+                                <button class="border border-blue-500 bg-blue-500 px-1 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full btn btn-base btn-save">
+                                    Xác
+                                    nhận
+                                </button>
+
                             </div>
                         </nw>
-                        <div class="action">
-                            <a href="javascript:;" class="btn btn-back btn-close">Hủy</a>
-                            <a href="javascript:;" class="btn btn-base btn-save">Xác nhận</a>
-                        </div>
                     </nw>
                 </nw>
-            </nw>
-            
+               
+            </div>
         </div>
     </div>
 </div>

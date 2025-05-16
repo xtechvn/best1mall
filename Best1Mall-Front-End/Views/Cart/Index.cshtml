@@ -22,10 +22,12 @@
                             @* <input type="checkbox" class="w-5 h-5 shrink-0" /> *@
                             <div class="product-checkall">
                                 <div class="box-checkbox">
-                                    <input type="checkbox" id="checkbox11" class="checkbox w-5 h-5 shrink-0" />
-                                    <label class="box-checkbox-all" for="checkbox11"></label>
+                                    <label class="box-checkbox-all">
+                                        <input type="checkbox" class="checkbox-all" />
+                                    </label>
                                 </div>
                             </div>
+
                             <div class="md:grid grid-cols-12 whitespace-nowrap w-full">
                                 <div class="col-span-5">Tên sản phẩm<span class="text-slate-500 total-sp"> (2 sản phẩm)</span></div>
                                 <div class="col-span-2 text-center">Đơn giá</div>
@@ -36,10 +38,10 @@
                         </div>
                         <div class="list-product-cart table-addtocart">
                             <div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product">
-                                <div class="box-checkbox">
-                                    <input type="checkbox" id="checkbox12" class="w-5 h-5 shrink-0 md:mt-0 mt-4" />
-                                    <label for="checkbox12"></label>
-                                </div>
+                                @* <div class="box-checkbox"> *@
+                                @*     <input type="checkbox" id="checkbox12" class="w-5 h-5 shrink-0 md:mt-0 mt-4 checkbox-cart" /> *@
+                                @*     <label for="checkbox12 box-checkbox-label"></label> *@
+                                @* </div> *@
                                 
                                 <div class="md:grid grid-cols-12 w-full items-center relative">
                                     <div class="col-span-5">
@@ -118,9 +120,12 @@
                                 <p class="line-clamp-1"><nw id="address-receivername"></nw></p>
                                 <p><nw id="address-phone"></nw></p>
                             </div>
-                            <a href="javascript:;" class="whitespace-nowrap rounded-full px-4 py-2 bg-purple-50 text-purple-600 text-sm hover:bg-purple-100 edit update-address-order">
+                            <a href="javascript:;"
+                               class="whitespace-nowrap rounded-full px-4 py-2 bg-purple-50 text-purple-600 text-sm hover:bg-purple-100 all-pop update-address-order"
+                               data-id="#address-book">
                                 Thay đổi
                             </a>
+
                         </div>
                         <p><nw id="address"></nw></p>
 

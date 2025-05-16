@@ -403,7 +403,7 @@ var product_detail = {
         // Auto ẩn sau 1.5s
         setTimeout(function () {
             popup.addClass('hidden');
-        }, 1500);
+        }, 1000);
 
         // Gắn sự kiện cho nút đóng
         popup.find('.btn-close').off('click').on('click', function () {

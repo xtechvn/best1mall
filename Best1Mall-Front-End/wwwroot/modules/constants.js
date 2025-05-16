@@ -386,8 +386,8 @@ var HTML_CONSTANTS = {
                             <div class="product-checkall">
                                 <div class="box-checkbox">
                                     
-                                    <input type="checkbox"  class="w-5 h-5 shrink-0 md:mt-0 mt-4 checkbox-cart" />
-                                    <label class="box-checkbox-label"></label>
+                                    <input type="checkbox" id="checkbox12"  class="w-5 h-5 shrink-0 md:mt-0 mt-4 checkbox-cart" />
+                                    <label for="checkbox12" class="box-checkbox-label"></label>
                                 </div>
                             </div>
                          
@@ -515,15 +515,27 @@ var HTML_CONSTANTS = {
                                 </div>`
     },
     Address: {
-        GridItem: ` <div class="item address-item {active}" data-id="{id}">
-                            <span class="defauld" style="{default-address-style}">Đặt làm mặc định</span>
-                            <h3 class="name">{name}</h3>
-                            <p class="add">
-                               {address}
-                            </p>
-                            <p class="tel">Điện thoại: {tel}</p>
-                            <a href="javascript:;" class="btn btn-update btn-update-address">Cập nhật</a>
-                        </div>`
+        GridItem: `
+         <label class="address-item rounded-2xl border border-gray-100 cursor-pointer transition-all duration-200 relative">
+                                            <div class="p-3 flex gap-2 items-start ">
+
+                                               <div class="relative">
+                                               <input type="radio" name="address" class="radio-custom mt-1" />
+                                                                                </div>
+                                            <div class="flex flex-col text-slate-500 item address-item {active}" data-id="{id}">
+                                                    <span class="font-medium text-gray-900 mb-1 name">{name}</span>
+                                                    <p class="add">{address}</p>
+                                                    <div class="flex justify-between items-center mt-2 gap-3">
+                                                        <p class="text-sm tel">Điện thoại: {tel}</p>
+                                                        <button class="border border-purple-500 text-purple-600 px-3 py-1 rounded-full mt-2 self-end text-sm hover:bg-purple-100 btn btn-update btn-update-address">
+                                                Sửa
+                                            </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </label>
+       
+            `
     },
 
     OrderDetailRaiting: {
@@ -591,12 +603,12 @@ var HTML_CONSTANTS = {
     }
 
 }
-const RESPONSE_CODE =  {
-    Success : 0,
-    Gerneral : 1,
-    DataInvalid : 2,
-    EmailInvalid : 3,
-    ErrorOnExcution : 4,
-    OTPNotCorrect : 5,
+const RESPONSE_CODE = {
+    Success: 0,
+    Gerneral: 1,
+    DataInvalid: 2,
+    EmailInvalid: 3,
+    ErrorOnExcution: 4,
+    OTPNotCorrect: 5,
 
 }

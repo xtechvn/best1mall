@@ -32,6 +32,14 @@ var cart = {
             $('.popup').addClass('hidden')
             $('' + box_id).removeClass('hidden')
             $('' + box_id).show()
+            // 👉 Nếu là popup địa chỉ, gọi render địa chỉ
+            if (box_id === "#address-book") {
+                var list = sessionStorage.getItem(STORAGE_NAME.AddressClient);
+                if (list) {
+                    var data = JSON.parse(list);
+                    address_client.RenderExistsAddress(data, $('#address-receivername').attr('data-id'));
+                }
+            }
         });
         $("body").on('click', "#hinhthucgiaohang .item li", function () {
             var element = $(this)
@@ -59,22 +67,15 @@ var cart = {
             cart.ConfirmRemoveCartItem()
 
         });
-        $("body").on('click', ".box-checkbox-all", function () {
-            var element = $(this)
-            var checkbox = element.closest('.box-checkbox').find('input')
-            if (!checkbox.is(":checked")) {
-                $('.table-addtocart .box-checkbox').each(function (index_var, variation_item) {
-                    var element_product = $(this)
-                    element_product.find('input').prop('checked', true)
-                })
-            } else {
-                $('.table-addtocart .box-checkbox').each(function (index_var, variation_item) {
-                    var element_product = $(this)
-                    element_product.find('input').prop('checked', false)
-                })
-            }
-            cart.ReRenderAmount()
+        $('body').on('change', '.checkbox-all', function () {
+            debugger
+            const isChecked = $(this).prop('checked');
+
+            $('.table-addtocart .box-checkbox input[type="checkbox"]').prop('checked', isChecked);
+
+            cart.ReRenderAmount();
         });
+
         $("body").on('click', ".box-checkbox-label,.delivery .list-option label,.pay .list-option label", function () {
             var element = $(this)
             element.closest('.box-checkbox').find('input').click()

@@ -184,13 +184,13 @@ var address_client = {
         return data.address + '<br /> ' + address_select
     },
     CreateOrUpdateAddress: function (id) {
-        var overlay_box = false
-        if ($('#address-book').hasClass('overlay')) {
-            overlay_box = true
-        }
-        if (overlay_box) {
-            $('#address-book').removeClass('overlay-active')
-        }
+        //var overlay_box = false
+        //if ($('#address-book').hasClass('overlay')) {
+        //    overlay_box = true
+        //}
+        //if (overlay_box) {
+        //    $('#address-book').removeClass('overlay-active')
+        //}
 
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
@@ -240,6 +240,9 @@ var address_client = {
             $('#update-address .title-popup').html('Thêm địa chỉ giao hàng mới')
             $('#update-address .btn-save').html('Thêm')
         }
+        // 👉 Mở popup theo Tailwind (ẩn class hidden, hiển thị popup)
+        $('.popup').addClass('hidden'); // ẩn các popup khác nếu có
+        $('#update-address').removeClass('hidden').show();
     },
     RenderProvinces: function (selected_value = undefined) {
         var request = {
