@@ -49,6 +49,10 @@ namespace Best1Mall_Front_End.Models.Products
         public float? review_count { get; set; }
         public float? rating { get; set; }
         public long? total_sold { get; set; }
+        public int? supplier_id { get; set; }
+        public int? label_id { get; set; }
+        public double? old_price { get; set; }
+
 
     }
 }

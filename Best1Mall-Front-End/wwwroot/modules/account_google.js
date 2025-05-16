@@ -25,8 +25,8 @@ var account_google = {
                         || token_local.trim() == 'undefined') {
                         $(':input[type="submit"]').prop('disabled', false);
 
-                        $('#dangnhap .user input').closest('.form-group').find('.err').show()
-                        $('#dangnhap .user input').closest('.form-group').find('.err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
+                        $('#login-form .user input').closest('.mb-4').find('.err').show()
+                        $('#login-form .user input').closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
                     } else {
 
                         window.location.reload();
@@ -52,8 +52,8 @@ var account_google = {
                         || token_local.trim() == 'undefined') {
                         $(':input[type="submit"]').prop('disabled', false);
 
-                        $('#dangnhap .user input').closest('.form-group').find('.err').show()
-                        $('#dangnhap .user input').closest('.form-group').find('.err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
+                        $('#login-form .user input').closest('.mb-4').find('.err').show()
+                        $('#login-form .user input').closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
                     } else {
 
                         window.location.reload();
