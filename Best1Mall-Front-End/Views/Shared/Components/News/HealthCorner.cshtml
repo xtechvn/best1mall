@@ -29,7 +29,7 @@
     var sideArticles = Model.obj_article_list
         .Where(a => a.status == 0 && (a.position == 2 || a.position == 3))
         .OrderByDescending(a => a.publish_date)
-        .Take(5)
+        .Take(6)
         .ToList();
 
 
