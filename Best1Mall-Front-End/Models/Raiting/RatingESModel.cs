@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace HuloToys_Front_End.Models.Raiting;
+namespace Best1Mall_Front_End.Models.Raiting;
 
 public partial class RatingESModel
 {

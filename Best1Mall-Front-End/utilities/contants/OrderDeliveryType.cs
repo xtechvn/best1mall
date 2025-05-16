@@ -1,4 +1,4 @@
-﻿namespace HuloToys_Front_End.Utilities.contants
+﻿namespace Best1Mall_Front_End.Utilities.contants
 {
     public enum OrderDeliveryType
     {

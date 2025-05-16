@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HuloToys_Front_End.Models.Raiting
+namespace Best1Mall_Front_End.Models.Raiting
 {
     public class ProductInsertRaitingRequestModel
     {

@@ -1,12 +1,12 @@
-﻿using HuloToys_Front_End.Controllers.Client.Business;
-using HuloToys_Front_End.Models.Cart;
-using HuloToys_Front_End.Models.Raiting;
-using HuloToys_Front_End.Models.Orders;
+﻿using Best1Mall_Front_End.Controllers.Client.Business;
+using Best1Mall_Front_End.Models.Cart;
+using Best1Mall_Front_End.Models.Raiting;
+using Best1Mall_Front_End.Models.Orders;
 using Microsoft.AspNetCore.Mvc;
 using Models.APIRequest;
 using Models.MongoDb;
 
-namespace HuloToys_Front_End.Controllers.Product
+namespace Best1Mall_Front_End.Controllers.Product
 {
 
     public class OrderController : Controller

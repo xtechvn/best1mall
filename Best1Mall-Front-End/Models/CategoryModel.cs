@@ -1,4 +1,4 @@
-﻿namespace HuloToys_Front_End.Models
+﻿namespace Best1Mall_Front_End.Models
 {
     public class CategoryModel
     {

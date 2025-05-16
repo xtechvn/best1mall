@@ -1,6 +1,6 @@
-﻿using HuloToys_Front_End.Models;
+﻿using Best1Mall_Front_End.Models;
 
-namespace HuloToys_Front_End.ViewModels
+namespace Best1Mall_Front_End.ViewModels
 {
     public class ArticleViewModel
     {

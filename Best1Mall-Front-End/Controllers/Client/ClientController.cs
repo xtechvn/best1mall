@@ -1,30 +1,34 @@
-﻿using HuloToys_Front_End.Controllers.Client.Business;
-using HuloToys_Front_End.Models.Client;
-using HuloToys_Front_End.Utilities.Lib;
-using HuloToys_Front_End.Models.Address;
-using HuloToys_Front_End.Models.Client;
-using HuloToys_Front_End.Models.Location;
-using LIB.Models.APIRequest;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Best1Mall_Front_End.Controllers.Client.Business;
+using Best1Mall_Front_End.Models.Client;
+using Best1Mall_Front_End.Utilities.Lib;
+using Best1Mall_Front_End.Models.Address;
+using Best1Mall_Front_End.Models.Location;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Caching.Memory;
+using Best1Mall_Front_End.Utilities.contants;
+using LIB.Models.APIRequest;
+using Utilities.Contants;
+using System.Reflection.Emit;
 
-namespace HuloToys_Front_End.Controllers.Client
+namespace Best1Mall_Front_End.Controllers.Client
 {
     public class ClientController : Controller
     {
         private readonly IConfiguration _configuration;
         private readonly ClientServices _clientServices; 
         private readonly AddressClientServices _addressClientServices; 
-        private readonly LocationServices _locationServices; 
-        public ClientController(IConfiguration configuration) {
+        private readonly LocationServices _locationServices;
+        private readonly IMemoryCache _cache;
+
+        public ClientController(IConfiguration configuration, IMemoryCache cache) {
 
             _configuration=configuration;
             _clientServices = new ClientServices(configuration);
             _addressClientServices = new AddressClientServices(configuration);
             _locationServices = new LocationServices(configuration);
+            _cache = cache;
+
         }
         [HttpGet]
         [Route("token")]
@@ -52,6 +56,46 @@ namespace HuloToys_Front_End.Controllers.Client
 
         public async Task<IActionResult> Register(ClientRegisterRequestModel request)
         {
+            var cacheKey = CacheKeys.RegisterEmailConfirm + EncodeHelpers.MD5Hash(request.email);
+            if (!_cache.TryGetValue(cacheKey, out string confirm_code)) // Kiểm tra xem có trong cache không
+            {
+                return Ok(new
+                {
+                    is_success = false,
+                    data = new ClientRegisterResponseModel()
+                    {
+                        code= ResponseCode.OTPNotCorrect,
+                        msg="Lỗi hệ thống xác thực, vui lòng tải lại trang hoặc liên hệ bộ phận kỹ thuật"
+                    }
+                });
+            }
+            int otp_code_input = -1;
+            int correct_otp = -1;
+            if(!int.TryParse(confirm_code, out correct_otp))
+            {
+                return Ok(new
+                {
+                    is_success = false,
+                    data = new ClientRegisterResponseModel()
+                    {
+                        code = ResponseCode.OTPNotCorrect,
+                        msg = "Lỗi hệ thống xác thực, vui lòng tải lại trang hoặc liên hệ bộ phận kỹ thuật"
+                    }
+                });
+            }
+            if (request.otp_code == null|| request.otp_code.Trim()==null 
+                || !int.TryParse(request.otp_code,out otp_code_input) || otp_code_input<10000000 || otp_code_input!= correct_otp) {
+
+                return Ok(new
+                {
+                    is_success = false,
+                    data = new ClientRegisterResponseModel()
+                    {
+                        code = ResponseCode.OTPNotCorrect,
+                        msg = "Mã xác thực không khớp, vui lòng kiểm tra lại Email"
+                    }
+                });
+            }
             var result = await _clientServices.Register(request);
 
             return Ok(new

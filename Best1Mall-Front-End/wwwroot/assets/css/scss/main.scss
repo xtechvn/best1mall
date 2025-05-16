@@ -265,6 +265,24 @@ $color-base: #773EFA;
   /* Firefox */
   input[type=number] {
     -moz-appearance: textfield;
+    &:focus{
+      outline: none;
+    }
+  }
+}
+.quantity{
+  &[type=number]::-webkit-outer-spin-button,
+  &[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  &[type=number] {
+    -moz-appearance: textfield;
+    &:focus{
+      outline: none;
+    }
   }
 }
 .table-info{
@@ -289,4 +307,181 @@ $color-base: #773EFA;
 }
 .item-review:not(:first-child){
   border-top: 1px solid;
+}
+/* Ẩn giao diện mặc định */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #8C9FB1;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Giao diện khi được checked */
+input[type="checkbox"]:checked {
+  background-color: $color-base; /* ✅ Màu nền khi được chọn */
+  border-color: $color-base;
+}
+
+/* Dấu tích giả lập */
+input[type="checkbox"]:checked::after {
+  content: url('data:image/svg+xml,<svg width="10" height="7" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.28052 1.28053L4.03052 6.53053C3.96092 6.60033 3.87822 6.65563 3.78712 6.69333C3.69612 6.73113 3.59852 6.75053 3.49992 6.75053C3.40132 6.75053 3.30372 6.73113 3.21272 6.69333C3.12172 6.65563 3.03892 6.60033 2.9693 6.53053L0.719302 4.28053C0.578572 4.13983 0.499512 3.94893 0.499512 3.74993C0.499512 3.55093 0.578572 3.36003 0.719302 3.21933C0.860032 3.07853 1.0509 2.99953 1.24992 2.99953C1.44895 2.99953 1.63982 3.07853 1.78055 3.21933L3.49992 4.93963L8.21932 0.219301C8.28902 0.149621 8.37172 0.0943511 8.46272 0.0566311C8.55382 0.0189211 8.65142 -0.000488281 8.74992 -0.000488281C8.84852 -0.000488281 8.94602 0.0189211 9.03712 0.0566311C9.12812 0.0943511 9.21082 0.149621 9.28052 0.219301C9.35022 0.288991 9.40552 0.371711 9.44322 0.462761C9.48092 0.553801 9.50032 0.651381 9.50032 0.749931C9.50032 0.848481 9.48092 0.946061 9.44322 1.03713C9.40552 1.12813 9.35022 1.21083 9.28052 1.28053Z" fill="white"/></svg>');
+  position: absolute;
+  top: 0px;
+  left: 3px;
+  height: 14px;
+  line-height: 14px;
+}
+.discount{
+
+}
+.discount-badge{
+ 
+  span{
+    border: 1px solid $color-base; 
+    color: $color-base;
+    padding: 0 15px;
+    display: inline-block;
+    position: relative;
+    white-space: nowrap;
+    line-height: 19px;
+    font-size: 13px;
+  }
+  &::before,
+    &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 9999px;
+    z-index: 1;
+    border: 1px solid $color-base; /* Màu tím base (tailwind purple-600) */
+  }
+  &::before {
+    left: -4px;
+  }
+  
+  &::after {
+    right: -4px;
+  }
+}
+
+
+.radio-address:hover {
+  border: 2px solid transparent;
+  background-image: linear-gradient(white, white), linear-gradient(to right, #00c6ff, #f500c0);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+.radio-address:checked {
+  background: linear-gradient(to right, #00c6ff, #f500c0);
+  border: none;
+}
+
+.radio-address:checked::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 9px;
+  height: 9px;
+  background: white url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.2l-3.5-3.6L4 14l5 5 12-12-1.5-1.5z"/></svg>') no-repeat center center;
+  background-size: 9px 9px;
+  border-radius: 9999px;
+}
+
+.address-item:has(input:checked) {
+  border: 1px solid transparent;
+  background-image: linear-gradient(white, white), linear-gradient(to right, #00c6ff, #f500c0);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  border-radius: 1rem;
+}
+
+
+.radio-custom {
+  appearance: none;
+  width: 1.25rem;  
+  min-width: 1.25rem;   
+  height: 1.25rem;     
+  border-radius: 9999px; 
+  border: 1px solid #d1d5db;
+  background-color: white; 
+  cursor: pointer;
+  position: relative;  
+  transition: all 0.1s; 
+
+  &:hover {
+    border: 1px solid transparent;
+    background-image: linear-gradient(white, white), linear-gradient(to right, #00c6ff, #f500c0);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+  }
+
+  &:checked {
+    background: linear-gradient(to right, #00c6ff, #f500c0);
+    border: none;
+  }
+
+  &:checked::after {
+    content: url('data:image/svg+xml,<svg width="10" height="7" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.28052 1.28053L4.03052 6.53053C3.96092 6.60033 3.87822 6.65563 3.78712 6.69333C3.69612 6.73113 3.59852 6.75053 3.49992 6.75053C3.40132 6.75053 3.30372 6.73113 3.21272 6.69333C3.12172 6.65563 3.03892 6.60033 2.9693 6.53053L0.719302 4.28053C0.578572 4.13983 0.499512 3.94893 0.499512 3.74993C0.499512 3.55093 0.578572 3.36003 0.719302 3.21933C0.860032 3.07853 1.0509 2.99953 1.24992 2.99953C1.44895 2.99953 1.63982 3.07853 1.78055 3.21933L3.49992 4.93963L8.21932 0.219301C8.28902 0.149621 8.37172 0.0943511 8.46272 0.0566311C8.55382 0.0189211 8.65142 -0.000488281 8.74992 -0.000488281C8.84852 -0.000488281 8.94602 0.0189211 9.03712 0.0566311C9.12812 0.0943511 9.21082 0.149621 9.28052 0.219301C9.35022 0.288991 9.40552 0.371711 9.44322 0.462761C9.48092 0.553801 9.50032 0.651381 9.50032 0.749931C9.50032 0.848481 9.48092 0.946061 9.44322 1.03713C9.40552 1.12813 9.35022 1.21083 9.28052 1.28053Z" fill="white"/></svg>');
+    position: absolute;
+    top: 4px;
+    left: 5px;
+    width: 9px;
+    line-height: 9px;
+  }
+}
+.select2-container--open .select2-dropdown{
+  border: 1px solid #e5e7eb; 
+
+}
+.closePopup{
+  z-index: 10;
+}
+.select2{
+    padding-left: 2.5rem;  
+    padding-right: 1rem;  
+    padding-top: 0.75rem;    
+    padding-bottom: 0.75rem;
+    border: 1px solid #e5e7eb; 
+    border-radius: 9999px;   
+    box-sizing: border-box;
+    width: 100% !important;
+  
+     .select2-selection--single{
+      padding: 0;
+      border: 0;
+      .select2-selection__rendered{
+        padding: 0;
+      }
+      .select2-selection__arrow{
+        top: 12px;
+        right: 12px;
+        content: url('data:image/svg+xml,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.0306 9.53055L12.5306 17.0306C12.4609 17.1003 12.3782 17.1556 12.2871 17.1933C12.1961 17.2311 12.0985 17.2505 11.9999 17.2505C11.9014 17.2505 11.8038 17.2311 11.7127 17.1933C11.6217 17.1556 11.539 17.1003 11.4693 17.0306L3.9693 9.53055C3.82857 9.38982 3.74951 9.19895 3.74951 8.99993C3.74951 8.80091 3.82857 8.61003 3.9693 8.4693C4.11003 8.32857 4.30091 8.24951 4.49993 8.24951C4.69895 8.24951 4.88982 8.32857 5.03055 8.4693L11.9999 15.4396L18.9693 8.4693C19.039 8.39962 19.1217 8.34435 19.2128 8.30663C19.3038 8.26892 19.4014 8.24951 19.4999 8.24951C19.5985 8.24951 19.6961 8.26892 19.7871 8.30663C19.8781 8.34435 19.9609 8.39962 20.0306 8.4693C20.1002 8.53899 20.1555 8.62171 20.1932 8.71276C20.2309 8.8038 20.2503 8.90138 20.2503 8.99993C20.2503 9.09847 20.2309 9.19606 20.1932 9.2871C20.1555 9.37815 20.1002 9.46087 20.0306 9.53055Z" fill="%235C758E"/></svg>');
+      }
+     }
+}
+/* Bỏ hiệu ứng hover và tương tác */
+.item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Cụ thể radio cũng không thể chọn */
+.item.disabled input[type="radio"] {
+  pointer-events: none;
+}
+
+/* Nếu bạn cần override màu hình ảnh (nếu không là PNG trong suốt) */
+.item.disabled img {
+  filter: grayscale(100%) brightness(90%);
 }

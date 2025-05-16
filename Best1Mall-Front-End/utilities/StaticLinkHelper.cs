@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 
-namespace HuloToys_Front_End.Utilities
+namespace Best1Mall_Front_End.Utilities
 {
     public static class StaticLinkHelper
     {

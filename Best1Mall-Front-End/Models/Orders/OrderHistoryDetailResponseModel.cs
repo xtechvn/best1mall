@@ -1,7 +1,7 @@
-﻿using HuloToys_Front_End.Models.Location;
+﻿using Best1Mall_Front_End.Models.Location;
 using Models.MongoDb;
 
-namespace HuloToys_Front_End.Models.Orders
+namespace Best1Mall_Front_End.Models.Orders
 {
     public class OrderHistoryDetailResponseModel
     {

@@ -1,12 +1,12 @@
-﻿using HuloToys_Front_End.Models.Files;
-using HuloToys_Front_End.Utilities.Contants;
-using HuloToys_Front_End.Utilities.Lib;
+﻿using Best1Mall_Front_End.Models.Files;
+using Best1Mall_Front_End.Utilities.Contants;
+using Best1Mall_Front_End.Utilities.Lib;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace HuloToys_Front_End.Controllers.Files.Bussiness
+namespace Best1Mall_Front_End.Controllers.Files.Bussiness
 {
     public class StaticAPIService
     {

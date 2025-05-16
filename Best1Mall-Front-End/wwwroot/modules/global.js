@@ -7,7 +7,7 @@
     global_service.LoadCartCount();
    
     // 👉 GỌI THÊM:
-    //global_service.renderViewedProducts(); // gọi hàm load sản phẩm đã xem
+    global_service.renderViewedProducts(); // gọi hàm load sản phẩm đã xem
 })
 var global_service = {
     Initialization: function () {
@@ -15,7 +15,6 @@ var global_service = {
             $(window).on('popstate', function () {
                 window.location.reload()
             });
-
         }
         $('#thanhcong').removeClass('overlay-active')
         $('#thatbai').removeClass('overlay-active')
@@ -33,25 +32,15 @@ var global_service = {
             var element = $(this)
             event.preventDefault()
             var box_id = element.attr('data-id')
-            $('.client-login-popup').removeClass('overlay-active')
-            $('' + box_id).addClass('overlay-active')
+            $('.popup').addClass('hidden')
+            $('' + box_id).removeClass('hidden')
+            $('' + box_id).show()
         });
         $("body").on('click', ".overlay .close, .overlay .btn-close", function (event) {
             var element = $(this)
             event.preventDefault()
-            element.closest('.overlay').removeClass('overlay-active')
+            element.closest('.popup').addClass('hidden')
         });
-        //$("body").on('keyup', ".global-search", function (event) {
-        //    var element = $(this)
-        //    global_service.RenderSearchBoxLoading()
-        //    if (element.val() != undefined && element.val().trim() != '') {
-        //        $('.box-search-list').fadeIn()
-        //        global_service.RenderSearchBox()
-        //    } else {
-        //        $('.box-search-list').fadeOut()
-        //    }
-
-        //});
         $("body").on('keyup', ".global-search", function () {
             if (!$('#global-search-loading').is(':hidden')) {
                 return
@@ -75,6 +64,34 @@ var global_service = {
                 $('#global-search-loading').hide()
             }
         });
+        // Xử lý click vào item mẫu tìm kiếm
+        $("body").on("click", ".search-sample", function (e) {
+            e.preventDefault();
+            var keyword = $(this).text().trim();
+            var $input = $(".global-search");
+
+            $input.val(keyword).trigger("input").trigger("keyup"); // Thêm trigger input ở đây nè
+        });
+
+        // Xử lý hiển thị nút clear khi có text
+        $("body").on("input", ".global-search", function () {
+            let val = $(this).val().trim();
+            if (val !== "") {
+                $("#clear-search").removeClass("hidden");
+            } else {
+                $("#clear-search").addClass("hidden");
+            }
+        });
+
+        // Xử lý click nút clear: xóa input, ẩn nút, ẩn gợi ý
+        $("#clear-search").on("click", function () {
+            $(".global-search").val("").trigger("input"); // clear và check lại trạng thái
+            $(this).addClass("hidden");
+            $(".box-search-list").fadeOut();
+            $("#global-search-loading").hide();
+        });
+
+
     },
     LoadPolicy: function () {
         $.ajax({
@@ -116,14 +133,14 @@ var global_service = {
         });
     },
     LoadLabelList: function () {
-        debugger
+       
         $.ajax({
             url: "/Home/loadLabelComponent",
             type: 'POST',
             dataType: 'html',
             data: { top: 6 },
             success: function (data) {
-                debugger
+               
                 $('.component-label-list').html(data);
             },
         });
@@ -298,7 +315,7 @@ var global_service = {
         return str.trim();
     },
     LoadHomeProductGrid: function (element, group_id, size) {
-        debugger
+       
         element.addClass('placeholder')
         element.addClass('box-placeholder')
         element.css('width', '100%')
@@ -313,29 +330,10 @@ var global_service = {
         ).done(function (result) {
             if (result.is_success) {
                 var products = result.data
-                //var productPromises = []
-
-                //$.each(products, function (index, product) {
-                //    var ratingRequest = {
-                //        "id": product._id
-                //    }
-                //    var productPromise = global_service.POST(API_URL.ProductRaitingCount, ratingRequest)
-                //        .then(function (ratingResult) {
-                //            if (ratingResult.is_success) {
-                //                product.review_count = ratingResult.data.total_count || 0
-                //            } else {
-                //                product.review_count = 0
-                //            }
-                //        })
-                //    productPromises.push(productPromise)
-                //})
-                //$.when.apply($, productPromises).done(function () {
+                
                     var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                 element.html(html)
-                //console.log('HTML sau render:', element.html()); // 👈 check đây
-
-
-                //})
+                
 
             } else {
                 element.html('')
@@ -347,7 +345,7 @@ var global_service = {
     },
    
     LoadGroupProduct: function (element, group_id, size) {
-        debugger
+       
         element.addClass('placeholder')
         element.addClass('box-placeholder')
         element.css('width', '100%')
@@ -360,9 +358,9 @@ var global_service = {
         $.when(
             global_service.POST(API_URL.GroupProduct, request)
         ).done(function (result) {
-            debugger
+           
             if (result.is_success) {
-                debugger
+               
                 var products = result.data
 
 
@@ -432,14 +430,14 @@ var global_service = {
         return value.trim();
     },
     GetGlobalSearchKeyword: function () {
-        debugger
+       
         var value = $('.global-search').val()
         // Giữ mọi chữ cái (bao gồm có dấu), số và vài ký tự đặc biệt hợp lệ
         value = value.replace(/[^\p{L}0-9+-_@* ]/gu, '');
         return value.trim();
     },
     RenderSearchBox: function () {
-        debugger
+       
         var usr = global_service.CheckLogin()
         var token = ''
         if (usr) {
@@ -453,7 +451,7 @@ var global_service = {
         $.when(
             global_service.POST(API_URL.GlobalSearch, request)
         ).done(function (result) {
-            debugger
+           
             if (result.is_success && result.data && result.data.items) {
                 if (result.data.items.length > 0) {
                     var html = `<ul class="divide-y divide-gray-100">` + global_service.RenderSearchProductItem(result.data.items) + `</ul>`
@@ -478,7 +476,7 @@ var global_service = {
     },
 
     RenderGroupProductItem: function (list, template) {
-        debugger
+       
         var html = '';
         $(list).each(function (index, item) {
             var img_src = item.imagePath;
@@ -491,6 +489,7 @@ var global_service = {
             html += template
                 .replaceAll('{url}', '/' + item.path)
                 .replaceAll('{avt}', img_src)
+                .replaceAll('{id}', item.id)
                 .replaceAll('{name}', item.name);
         });
 
@@ -498,6 +497,7 @@ var global_service = {
     },
     RenderSlideProductItem: function (list, template) {
         var html = ''
+       
         $(list).each(function (index, item) {
             var img_src = item.avatar
             if (!img_src.includes(API_URL.StaticDomain)
@@ -521,12 +521,20 @@ var global_service = {
                 has_price = true
             }
             if (has_price) {
+                
+                debugger
+                let showDiscount = item.amount_max != null ;
                 html += template
                     .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
                     .replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}',  ${amount_number},
                     ${item.rating || 0},
                     ${item.review_count || 0},
-                    ${item.amount_max || 0})" href="`)
+                    ${item.amount_max || 0},
+                    ${item.discount ||0})" href="`)
+                    .replaceAll('{discount_text}', showDiscount ? `-${item.discount}%` : '')
+                    .replaceAll('{discount_style}', showDiscount ? '' : 'hidden')
+
+
                     .replaceAll('{avt}', img_src)
                     .replaceAll('{name}', item.name)
                     .replaceAll('{amount}', amount_html)
@@ -543,8 +551,8 @@ var global_service = {
         return html
     },
 
-    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, amount_max = 0) {
-        debugger
+    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, amount_max = 0, discount=0) {
+       
         const key = 'viewedProducts';
         let list = JSON.parse(localStorage.getItem(key)) || [];
 
@@ -560,6 +568,7 @@ var global_service = {
             rating,
             review_count,
             amount_max,
+            discount,
             url: `/san-pham/${global_service.toSlug(name)}--${id}`
         });
 
@@ -572,14 +581,14 @@ var global_service = {
     },
 
     toSlug: function (str) {
-        debugger
+       
         str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         str = str.replace(/[^a-zA-Z0-9\s-]/g, '');
         return str.replace(/\s+/g, '-').toLowerCase();
     },
 
     renderViewedProducts: function () {
-        debugger
+       
         const container = document.getElementById('viewed-products');
         const wrapper = document.getElementById('viewed-products-wrapper'); // 👈 thêm dòng này
         const list = JSON.parse(localStorage.getItem('viewedProducts')) || [];
@@ -595,7 +604,9 @@ var global_service = {
 
         let html = '';
         list.forEach(p => {
+           
             const showOldPrice = p.amount_max && p.amount_max > p.price;
+            const showDiscount = p.amount_max != null;
             const ratingHtml = p.rating > 0 ? `${p.rating.toFixed(1)}★` : '';
             const reviewHtml = p.review_count > 0 ? `(${p.review_count})` : '';
 
@@ -603,8 +614,8 @@ var global_service = {
             <div class="swiper-slide pt-3">
             <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
                 <a href="${p.url}">
-                    <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
-                        -50%
+                   <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 ${showDiscount ? '' : 'hidden'}">
+                        -${p.discount}%
                     </div>
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                         <img src="${p.image}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover" />

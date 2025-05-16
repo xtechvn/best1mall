@@ -1,6 +1,6 @@
 ﻿
-using HuloToys_Front_End.Controllers.Home.Business;
-using HuloToys_Front_End.Service.Redis;
+using Best1Mall_Front_End.Controllers.Home.Business;
+using Best1Mall_Front_End.Service.Redis;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -55,6 +55,10 @@ namespace WEB.CMS.ViewComponents
                     {
                         _cache.Set(menuInfo.cacheKey, cachedView, TimeSpan.FromSeconds(30));
                     }
+                }
+                if (cachedView == null)
+                {
+                    return Content("");
                 }
 
                 return View(menuInfo.viewPath, cachedView);

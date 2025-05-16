@@ -119,9 +119,10 @@ var HTML_CONSTANTS = {
                                         <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
                                             <!-- Sale badge -->
                                             <a href="{url}">
-                                                <div class="absolute -top-1  z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
-                                                    -50%
+                                               <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 {discount_style}">
+                                                    {discount_text}
                                                 </div>
+
                                                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                                                     <img src="{avt}" alt="Sản phẩm"
                                                          class="absolute inset-0 w-full h-full object-cover" />
@@ -152,7 +153,7 @@ var HTML_CONSTANTS = {
                                 <img src="{avt}" alt="{name}" class="mx-auto h-15">
                             </a>
                         </div>
-                        <a href="{url}" class="text-[13px] text-slate-700 ">{name}</a>
+                        <a href="/san-pham?group_id={id}" class="text-[13px] text-slate-700 ">{name}</a>
                     </div>
 
     `,
@@ -181,7 +182,7 @@ var HTML_CONSTANTS = {
         </div>`,
         GlobalSearchByKeyword: ` 
         <li class="p-2 hover:bg-red-50 hover:text-red-500 cursor-pointer flex items-center gap-2 text-xs">
-            <img src="assets/images/product1.jpg" alt="Sản phẩm" class="w-14 h-14 object-cover rounded">
+            <img src="/assets/images/product1.jpg" alt="Sản phẩm" class="w-14 h-14 object-cover rounded">
             <div>
                 <a href="{url}">{name}</a>
                 <div class="text-red-400 mt-1">185.000 đ</div>
@@ -546,5 +547,14 @@ var HTML_CONSTANTS = {
 
 
     }
+
+}
+const RESPONSE_CODE =  {
+    Success : 0,
+    Gerneral : 1,
+    DataInvalid : 2,
+    EmailInvalid : 3,
+    ErrorOnExcution : 4,
+    OTPNotCorrect : 5,
 
 }

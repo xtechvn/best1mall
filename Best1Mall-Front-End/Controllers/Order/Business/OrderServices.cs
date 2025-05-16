@@ -1,13 +1,13 @@
-﻿using HuloToys_Front_End.Utilities.Lib;
+﻿using Best1Mall_Front_End.Utilities.Lib;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using HuloToys_Front_End.Utilities.Contants;
+using Best1Mall_Front_End.Utilities.Contants;
 using Models.MongoDb;
 using Models.APIRequest;
-using HuloToys_Front_End.Models.Orders;
-using HuloToys_Front_End.Models.Raiting;
+using Best1Mall_Front_End.Models.Orders;
+using Best1Mall_Front_End.Models.Raiting;
 
-namespace HuloToys_Front_End.Controllers.Client.Business
+namespace Best1Mall_Front_End.Controllers.Client.Business
 {
     public class OrderServices :APIService
     {

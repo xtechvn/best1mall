@@ -1,6 +1,6 @@
-﻿using HuloToys_Front_End.Models.Client;
+﻿using Best1Mall_Front_End.Models.Client;
 
-namespace HuloToys_Front_End.Models.Client
+namespace Best1Mall_Front_End.Models.Client
 {
     public class ClientAddressListResponseModel
     {

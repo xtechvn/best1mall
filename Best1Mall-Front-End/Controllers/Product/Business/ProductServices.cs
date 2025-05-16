@@ -1,14 +1,14 @@
-﻿using HuloToys_Front_End.Utilities.Lib;
+﻿using Best1Mall_Front_End.Utilities.Lib;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using HuloToys_Front_End.Utilities.Contants;
-using HuloToys_Front_End.Models.Products;
-using HuloToys_Front_End.Models.Raiting;
+using Best1Mall_Front_End.Utilities.Contants;
+using Best1Mall_Front_End.Models.Products;
+using Best1Mall_Front_End.Models.Raiting;
 using System.Reflection;
-using HuloToys_Front_End.Utilities.Lib;
-using HuloToys_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities.Lib;
+using Best1Mall_Front_End.Service.Redis;
 
-namespace HuloToys_Front_End.Controllers.Client.Business
+namespace Best1Mall_Front_End.Controllers.Client.Business
 {
     public class ProductServices :APIService
     {

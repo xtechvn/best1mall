@@ -1,4 +1,4 @@
-﻿namespace HuloToys_Front_End.Models.Labels
+﻿namespace Best1Mall_Front_End.Models.Labels
 {
     public class LabelRequestModel
     {

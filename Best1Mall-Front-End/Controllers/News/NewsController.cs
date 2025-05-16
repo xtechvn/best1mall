@@ -1,10 +1,10 @@
-﻿using HuloToys_Front_End.Controllers.Client.Business;
-using HuloToys_Front_End.Controllers.News.Business;
-using HuloToys_Front_End.Models;
-using HuloToys_Front_End.Models.News;
-using HuloToys_Front_End.Service.Redis;
-using HuloToys_Front_End.Utilities;
-using HuloToys_Front_End.Utilities.Contants;
+﻿using Best1Mall_Front_End.Controllers.Client.Business;
+using Best1Mall_Front_End.Controllers.News.Business;
+using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Models.News;
+using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities;
+using Best1Mall_Front_End.Utilities.Contants;
 
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace HuloToys_Front_End.Controllers.News
+namespace Best1Mall_Front_End.Controllers.News
 {
     public class NewsController : Controller
     {

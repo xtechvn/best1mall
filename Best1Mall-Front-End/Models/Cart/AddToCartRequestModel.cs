@@ -1,6 +1,6 @@
-﻿using HuloToys_Front_End.Models.Products;
+﻿using Best1Mall_Front_End.Models.Products;
 
-namespace HuloToys_Front_End.Models.Cart
+namespace Best1Mall_Front_End.Models.Cart
 {
     public class AddToCartRequestModel
     {

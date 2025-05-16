@@ -1,4 +1,4 @@
-﻿namespace HuloToys_Front_End.Models.Comments
+﻿namespace Best1Mall_Front_End.Models.Comments
 {
     public class PushQueueCreateRequest
     {

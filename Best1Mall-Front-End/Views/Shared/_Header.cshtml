@@ -47,13 +47,16 @@
                     </svg>
                     <span class="md:block hidden">Thông báo</span>
                 </a>
-                <a href="" class="flex items-center gap-1">
+
+                <a href="javascript:;" class="flex items-center gap-1 client-login" data-id="#login-popup">
                     <svg width="18" height="18" viewBox="0 0 18 18"
                          fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M16.2365 14.9063C15.1657 13.0549 13.5154 11.7274 11.5896 11.0981C12.5422 10.531 13.2823 9.66692 13.6963 8.63847C14.1103 7.61002 14.1752 6.47412 13.8811 5.40519C13.587 4.33627 12.9502 3.39344 12.0684 2.72148C11.1866 2.04953 10.1086 1.68561 8.99998 1.68561C7.89134 1.68561 6.81335 2.04953 5.93156 2.72148C5.04976 3.39344 4.41293 4.33627 4.11884 5.40519C3.82476 6.47412 3.88968 7.61002 4.30366 8.63847C4.71763 9.66692 5.45775 10.531 6.41037 11.0981C4.48451 11.7267 2.83427 13.0542 1.76341 14.9063C1.72414 14.9703 1.6981 15.0416 1.68681 15.1158C1.67552 15.1901 1.67922 15.2658 1.69769 15.3387C1.71616 15.4115 1.74902 15.4798 1.79435 15.5397C1.83967 15.5996 1.89653 15.6499 1.96157 15.6874C2.02662 15.725 2.09853 15.7492 2.17306 15.7585C2.24759 15.7678 2.32324 15.7621 2.39554 15.7417C2.46784 15.7214 2.53532 15.6867 2.59401 15.6398C2.65269 15.5929 2.7014 15.5348 2.73724 15.4688C4.06193 13.1794 6.40334 11.8125 8.99998 11.8125C11.5966 11.8125 13.938 13.1794 15.2627 15.4688C15.2986 15.5348 15.3473 15.5929 15.4059 15.6398C15.4646 15.6867 15.5321 15.7214 15.6044 15.7417C15.6767 15.7621 15.7524 15.7678 15.8269 15.7585C15.9014 15.7492 15.9733 15.725 16.0384 15.6874C16.1034 15.6499 16.1603 15.5996 16.2056 15.5397C16.2509 15.4798 16.2838 15.4115 16.3023 15.3387C16.3207 15.2658 16.3244 15.1901 16.3131 15.1158C16.3019 15.0416 16.2758 14.9703 16.2365 14.9063ZM5.06248 6.75002C5.06248 5.97126 5.29341 5.20998 5.72607 4.56246C6.15872 3.91494 6.77368 3.41026 7.49316 3.11224C8.21264 2.81422 9.00435 2.73625 9.76815 2.88818C10.5319 3.04011 11.2335 3.41512 11.7842 3.96579C12.3349 4.51646 12.7099 5.21805 12.8618 5.98185C13.0137 6.74565 12.9358 7.53735 12.6378 8.25684C12.3397 8.97632 11.8351 9.59127 11.1875 10.0239C10.54 10.4566 9.77874 10.6875 8.99998 10.6875C7.95603 10.6864 6.95516 10.2712 6.21698 9.53302C5.47879 8.79484 5.06359 7.79397 5.06248 6.75002Z"
                               fill="white" />
                     </svg>
-                    <span class="line-clamp-1">Đinh Thanh Bình</span>
+                    <span id="client-account-name" class="line-clamp-1 account-name">
+                       Đăng nhập / Đăng ký
+                    </span>
                 </a>
             </div>
         </div>
@@ -92,12 +95,7 @@
                             </button>
                         </div>
                         @await Component.InvokeAsync("MenuNews", new { menuType = "header_menu" })
-                        @* <ul class="p-4 space-y-2 bg-white"> *@
-                        @*     <li><a href="#" class="block py-2 hover:text-red-400 rounded">Khung ảnh</a></li> *@
-                        @*     <li><a href="#" class="block py-2 hover:text-red-400 rounded">Tranh canvas</a></li> *@
-                        @*     <li><a href="#" class="block py-2 hover:text-red-400 rounded">Quà tặng</a></li> *@
-                        @*     <li><a href="#" class="block py-2 hover:text-red-400 rounded">Khác</a></li> *@
-                        @* </ul> *@
+                       
                     </div>
                 </div>
             </div>
@@ -105,51 +103,24 @@
             <!-- Search -->
             <div class="flex-1 w-full max-w-4xl relative md:order-1 order-3 mt-3 md:mt-0 form-search">
                 @await Component.InvokeAsync("Search")
-                @* <div class="relative"> *@
-                @*     <input type="text" placeholder="Từ khóa, mã sản phẩm..." *@
-                @*            class="w-full outline-0 border bg-white border-gray-300 rounded-full px-4 py-3 pr-26 focus:outline-none font-normal"> *@
-                @*     <div class=" absolute right-[80px] top-[15px] cursor-pointer"> *@
-                @*         <svg width="24" height="24" class="h-full w-full" viewBox="0 0 24 24" *@
-                @*              xmlns="http://www.w3.org/2000/svg"> *@
-                @*             <path d="M12.0033 2.4C17.3053 2.4 21.6033 6.69807 21.6033 12C21.6033 17.3019 17.3053 21.6 12.0033 21.6C6.70139 21.6 2.40332 17.3019 2.40332 12C2.40332 6.69807 6.70139 2.4 12.0033 2.4ZM9.37464 8.53646C9.1408 8.37447 8.81749 8.39761 8.60921 8.60589L8.53978 8.68899C8.37779 8.92283 8.40093 9.24614 8.60921 9.45442L11.1548 12L8.60921 14.5456L8.53978 14.6287C8.37779 14.8625 8.40093 15.1858 8.60921 15.3941L8.69231 15.4635C8.92615 15.6255 9.24946 15.6024 9.45774 15.3941L12.0033 12.8485L14.5489 15.3941L14.632 15.4635C14.8658 15.6255 15.1892 15.6024 15.3974 15.3941L15.4669 15.311C15.6289 15.0772 15.6057 14.7539 15.3974 14.5456L12.8518 12L15.3974 9.45442L15.4669 9.37132C15.6289 9.13748 15.6057 8.81417 15.3974 8.60589L15.3143 8.53646C15.0805 8.37447 14.7572 8.39761 14.5489 8.60589L12.0033 11.1515L9.45774 8.60589L9.37464 8.53646Z" *@
-                @*                   fill="currentColor"></path> *@
-                @*         </svg> *@
-                @*     </div> *@
-                @*     <div class="py-[8px] px-[24px] bg-blue-100 absolute right-2 top-[5px] rounded-full"> *@
-                @*         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" *@
-                @*              fill="none"> *@
-                @*             <path d="M21.5306 20.4694L16.8365 15.7763C18.1971 14.1429 18.8755 12.0478 18.7307 9.92697C18.5859 7.8061 17.629 5.82271 16.0591 4.38938C14.4892 2.95605 12.4271 2.18314 10.3019 2.23144C8.17663 2.27974 6.15181 3.14553 4.64864 4.6487C3.14547 6.15187 2.27968 8.17669 2.23138 10.3019C2.18308 12.4272 2.95599 14.4893 4.38932 16.0592C5.82265 17.6291 7.80604 18.586 9.92691 18.7308C12.0478 18.8756 14.1428 18.1971 15.7762 16.8366L20.4693 21.5307C20.539 21.6003 20.6218 21.6556 20.7128 21.6933C20.8038 21.731 20.9014 21.7505 21 21.7505C21.0985 21.7505 21.1961 21.731 21.2871 21.6933C21.3782 21.6556 21.4609 21.6003 21.5306 21.5307C21.6003 21.461 21.6556 21.3783 21.6933 21.2872C21.731 21.1962 21.7504 21.0986 21.7504 21C21.7504 20.9015 21.731 20.8039 21.6933 20.7129C21.6556 20.6218 21.6003 20.5391 21.5306 20.4694ZM3.74997 10.5C3.74997 9.16501 4.14585 7.85996 4.88755 6.74993C5.62925 5.6399 6.68346 4.77474 7.91686 4.26384C9.15026 3.75295 10.5075 3.61928 11.8168 3.87973C13.1262 4.14018 14.3289 4.78306 15.2729 5.72706C16.2169 6.67106 16.8598 7.8738 17.1203 9.18317C17.3807 10.4925 17.2471 11.8497 16.7362 13.0831C16.2253 14.3165 15.3601 15.3708 14.2501 16.1125C13.14 16.8542 11.835 17.25 10.5 17.25C8.71037 17.248 6.99463 16.5363 5.72919 15.2708C4.46375 14.0054 3.75196 12.2896 3.74997 10.5Z" *@
-                @*                   fill="#098EF7" /> *@
-                @*         </svg> *@
-                @*     </div> *@
-                @* </div> *@
-                <!-- Suggestion Dropdown -->
-                @* <div class="absolute bg-white border border-gray-200 shadow-md w-full rounded-md z-50" *@
-                @*      id="searchSuggestions"> *@
-                @*     <ul class="divide-y divide-gray-100"> *@
-                @*         <li class="p-2 hover:bg-red-50 hover:text-red-500 cursor-pointer text-xs"> *@
-                @*             <a href=""> *@
-                @*                 Bài *@
-                @*                 viết: Cách lựa chọn *@
-                @*                 khung *@
-                @*                 ảnh đẹp *@
-                @*             </a> *@
-                @*         </li> *@
-                @*         <li class="p-2 hover:bg-red-50 hover:text-red-500 cursor-pointer flex items-center gap-2 text-xs"> *@
-                @*             <img src="/assets/images/product1.jpg" alt="Sản phẩm" class="w-14 h-14 object-cover rounded"> *@
-                @*             <div> *@
-                @*                 <a href="">Khung ảnh gia đình 20x30</a> *@
-                @*                 <div class="text-red-400 mt-1">185.000 đ</div> *@
-                @*             </div> *@
-                @*         </li> *@
-                @*     </ul> *@
-                @* </div> *@
-                <ul class="md:flex hidden overflow-ellipsis gap-3 items-center mt-2">
-                    <li><a href="#" class="block text-gray-400 hover:text-gray-500">Khung ảnh</a></li>
-                    <li><a href="#" class="block text-gray-400 hover:text-gray-500">Tranh canvas</a></li>
-                    <li><a href="#" class="block text-gray-400 hover:text-gray-500">Quà tặng</a></li>
-                    <li><a href="#" class="block text-gray-400 hover:text-gray-500">Khác</a></li>
+                
+                <ul class="md:flex hidden overflow-ellipsis gap-3 items-center mt-2" style="
+                    justify-content: space-around;
+                ">
+                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Canxi</a></li>
+                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Kẽm</a></li>
+                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Lợi khuẩn</a></li>
+                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Rối loạn tiêu hoá</a></li>
+                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Tiêu chảy</a></li>
+                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Colon</a></li>
+                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Bifido</a></li>
+                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Omexxel</a></li>
+                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Antibio</a></li>
+
+
                 </ul>
+
+
 
             </div>
 

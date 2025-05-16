@@ -1,11 +1,11 @@
-﻿using HuloToys_Front_End.Controllers.Client.Business;
-using HuloToys_Front_End.Models.Cart;
-using HuloToys_Front_End.Models.Client;
-using HuloToys_Front_End.Models.NinjaVan;
+﻿using Best1Mall_Front_End.Controllers.Client.Business;
+using Best1Mall_Front_End.Models.Cart;
+using Best1Mall_Front_End.Models.Client;
+using Best1Mall_Front_End.Models.NinjaVan;
 using Microsoft.AspNetCore.Mvc;
 using Models.APIRequest;
 
-namespace HuloToys_Front_End.Controllers.Product
+namespace Best1Mall_Front_End.Controllers.Product
 {
 
     public class CartController : Controller

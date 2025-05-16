@@ -5,7 +5,7 @@
 //using Utilities;
 //using System.Linq;
 
-//namespace HuloToys_Front_End.Utilities.Lib
+//namespace Best1Mall_Front_End.Utilities.Lib
 //{
 //    /// <summary>
 //    /// Create By: CuongLv

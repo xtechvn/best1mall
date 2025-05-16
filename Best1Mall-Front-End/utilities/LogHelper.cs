@@ -1,5 +1,5 @@
 ﻿
-namespace HuloToys_Front_End.Utilities
+namespace Best1Mall_Front_End.Utilities
 {
     public static class LogHelper
     {

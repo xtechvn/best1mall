@@ -93,7 +93,7 @@ var _new = {
                 view_name: view_name
             },
             success: function (html) {
-                debugger
+                
                 $container.html(html);
             },
             error: function (xhr, status, error) {
@@ -120,7 +120,7 @@ var _new = {
     },
   
     GetFindArticleByTitle: function () {
-        debugger
+        
         $('.list-news-top').hide();
         $('#section-article-paginate').hide();
         $('.pagination').hide();

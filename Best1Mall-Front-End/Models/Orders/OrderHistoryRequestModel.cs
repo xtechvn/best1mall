@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HuloToys_Front_End.Models.Orders
+namespace Best1Mall_Front_End.Models.Orders
 {
     public class OrderHistoryRequestModel
     {

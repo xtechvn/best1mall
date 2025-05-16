@@ -28,13 +28,19 @@
 </head>
 <body class="text-sky-900 bg-[#F9FBFC]">
     <partial name="_Header" />
-    @* <partial name="_Login" /> *@
+    <partial name="_Login" /> 
 
     <section id="main">
         @RenderBody()
     </section>
     <partial name="_Footer" />
-    <button class="backToTopBtn"></button>
+    <div class="backToTopBtn w-10 h-10 fixed z-10 right-8 bottom-8 flex items-center justify-center cursor-pointer bg-blue-500 rounded-md">
+        <svg width="14" height="7" viewBox="0 0 14 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.39731 0.227219L13.0223 5.8522C13.0746 5.90447 13.116 5.96651 13.1443 6.03479C13.1726 6.10308 13.1872 6.17626 13.1872 6.25017C13.1872 6.32408 13.1726 6.39727 13.1443 6.46555C13.116 6.53384 13.0746 6.59588 13.0223 6.64814C12.97 6.7004 12.908 6.74186 12.8397 6.77014C12.7714 6.79843 12.6982 6.81299 12.6243 6.81299C12.5504 6.81299 12.4772 6.79843 12.409 6.77014C12.3407 6.74186 12.2786 6.7004 12.2264 6.64814L6.99934 1.42042L1.7723 6.64814C1.66676 6.75369 1.5236 6.81299 1.37434 6.81299C1.22507 6.81299 1.08192 6.75369 0.976373 6.64814C0.870823 6.54259 0.811523 6.39944 0.811523 6.25017C0.811523 6.10091 0.870823 5.95775 0.976373 5.8522L6.60137 0.227219C6.65361 0.174919 6.71565 0.133418 6.78393 0.105118C6.85222 0.0768178 6.92542 0.0622187 6.99934 0.0622187C7.07326 0.0622187 7.14645 0.0768178 7.21474 0.105118C7.28303 0.133418 7.34506 0.174919 7.39731 0.227219Z"
+                  fill="white" />
+        </svg>
+
+    </div>
     @* <partial name="_Lightbox"/> *@
   
 
@@ -59,6 +65,7 @@
 
     <!-- Modules-->
     <script asp-append-version="true" src="/modules/account.js"></script>
+    <script asp-append-version="true" src="/modules/account_google.js"></script>
     <script asp-append-version="true" src="/modules/home_product.js"></script>
     <script asp-append-version="true" src="~/modules/support.js"></script>
     <script type="text/javascript" src="~/modules/feedback.js" asp-append-version="true"></script>

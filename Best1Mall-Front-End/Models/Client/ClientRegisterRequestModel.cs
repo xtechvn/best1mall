@@ -1,4 +1,4 @@
-﻿namespace HuloToys_Front_End.Models.Client
+﻿namespace Best1Mall_Front_End.Models.Client
 {
     public class ClientRegisterRequestModel
     {
@@ -9,6 +9,7 @@
         public string confirm_password { get; set; }
         public string token { get; set; }
         public bool is_receive_email { get; set; }
+        public string otp_code { get; set; }
 
     }
 }

@@ -1,12 +1,12 @@
-﻿using HuloToys_Front_End.Controllers.Files.Bussiness;
-using HuloToys_Front_End.Utilities.Contants;
-using HuloToys_Front_End.Utilities.Lib;
+﻿using Best1Mall_Front_End.Controllers.Files.Bussiness;
+using Best1Mall_Front_End.Utilities.Contants;
+using Best1Mall_Front_End.Utilities.Lib;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 
-namespace HuloToys_Front_End.Controllers.Files
+namespace Best1Mall_Front_End.Controllers.Files
 {
     public class FilesController : Controller
     {

@@ -1,7 +1,7 @@
-﻿using HuloToys_Front_End.Models;
-using HuloToys_Front_End.Models.Authentication;
-using HuloToys_Front_End.Service.Redis;
-using HuloToys_Front_End.Utilities.Contants;
+﻿using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Models.Authentication;
+using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities.Contants;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using Utilities.Contants;
 
-namespace HuloToys_Front_End.Utilities
+namespace Best1Mall_Front_End.Utilities
 {
     public class ConnectApi
     {
