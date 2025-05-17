@@ -96,7 +96,7 @@ var account = {
         });
     },
     RenderHTML: function () {
-        debugger
+       
         $('.err').hide()
         var usr = global_service.CheckLogin()
         if (usr) {

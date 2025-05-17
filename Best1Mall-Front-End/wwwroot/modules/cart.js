@@ -52,9 +52,16 @@ var cart = {
             element.addClass('active-delivery')
         });
         $("body").on('click', "#hinhthucgiaohang .btn-save", function () {
-            $('#hinhthucgiaohang').removeClass('overlay-active')
+           // $('#hinhthucgiaohang').removeClass('overlay-active')
+            $('#hinhthucgiaohang').addClass('hidden')
 
             cart.RenderSelectionDelivery()
+        });
+         $("body").on('click', "#hinhthucgiaohang .btn-back", function () {
+           // $('#hinhthucgiaohang').removeClass('overlay-active')
+            $('#hinhthucgiaohang').addClass('hidden')
+
+           
         });
         //$("body").on('click', ".section-cart .table-addtocart .remove-product", function () {
         //    debugger
@@ -138,7 +145,7 @@ var cart = {
             $('#phuongthucthanhtoan').addClass('overlay-active')
         });
         $("body").on('click', "#phuongthucthanhtoan .btn-save", function () {
-            $('#phuongthucthanhtoan').removeClass('overlay-active')
+            $('#phuongthucthanhtoan').addClass('hidden')
             $('.right-cart .pay .select-bank .tt').html($('input[name="payment_type"]:checked').closest('.box-radio').find('label').text())
         });
        

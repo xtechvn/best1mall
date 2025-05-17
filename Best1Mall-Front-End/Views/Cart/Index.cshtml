@@ -62,15 +62,15 @@
                                     <div class="col-span-2 md:text-center md:pl-0 pl-17">
                                         <div class="flex flex-wrap md:flex-col gap-x-2 items-center">
                                             <div class="font-medium md:text-base text-sm">169.000 ₫</div>
-                                            <div class="text-sm text-slate-500">
-                                                <span class="line-through">
-                                                    199.000 ₫
-                                                </span> |
-                                                -27%
-                                            </div>
-                                            <div class="discount-badge relative inline-block overflow-hidden">
-                                                <span>Giảm 50k</span>
-                                            </div>
+                                            @* <div class="text-sm text-slate-500"> *@
+                                            @*     <span class="line-through"> *@
+                                            @*         199.000 ₫ *@
+                                            @*     </span> | *@
+                                            @*     -27% *@
+                                            @* </div> *@
+                                            @* <div class="discount-badge relative inline-block overflow-hidden"> *@
+                                            @*     <span>Giảm 50k</span> *@
+                                            @* </div> *@
                                         </div>
 
                                         <!-- ẩn pc-hiện mb -->
@@ -133,7 +133,7 @@
                         <div class="border-t border-gray-200 pt-3 mt-3" >
 
                             <p>Hình thức giao hàng:</p>
-                            <a href="javascript:;" id="delivery-shippingtype" class="text-red-400 cursor-pointer flex items-center justify-between delivery all-pop" data-id="#giaohang-popup">
+                            <a href="javascript:;" id="delivery-shippingtype" class="text-red-400 cursor-pointer flex items-center justify-between delivery all-pop" data-id="#hinhthucgiaohang">
                                 <div class="select-delivery select-option active">
                                     <span class="tt">
                                         Ninja Van
@@ -191,7 +191,7 @@
                     <!-- Thanh toán -->
                     <div class="bg-white md:rounded-3xl rounded-xl md:p-5 p-3 text-slate-500 mt-3 pay">
                         <p class="flex gap-2 items-center mb-1 tt">Phương thức thanh toán:</p>
-                        <a href="" class="text-red-400 cursor-pointer flex items-center justify-between select-option select-bank all-pop" data-id="#thanhtoan-popup">
+                        <a href="" class="text-red-400 cursor-pointer flex items-center justify-between select-option select-bank all-pop" data-id="#phuongthucthanhtoan">
                             Chuyển khoản qua
                             ngân hàng
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -285,7 +285,7 @@
 
 
 
-<div id="giaohang-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
+<div id="hinhthucgiaohang" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999 form-voucher">
     <div class="flex justify-center md:items-center h-full">
         <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto  overflow-y-auto relative">
 
@@ -299,63 +299,59 @@
             <!-- header -->
             <h4 class="text-center text-xl text-color-base mb-3">Chọn hình thức giao hàng</h4>
             <!-- Accordion Sections -->
-            <div class="accordion-ship " id="accordion">
-                <div class="group pb-3">
-                    <div class="font-normal cursor-pointer toggle text-md flex justify-between items-center uppercase">
-                        GIAO
-                        HÀNG NHANH
+            <div class="accordion-ship list-giaohang " id="accordion">
+                <!-- Ninja Van -->
+                <div class="group item pb-3" data-carrier-id="1">
+                    <div class="font-normal cursor-pointer toggle text-md flex justify-between items-center uppercase title">
+                        Ninja Van
                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </div>
-                    <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide">
-                        <!-- Item được chọn -->
-                        <div class="gap-2 flex justify-between items-center bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8] px-4 py-2 rounded">
-                            <div>
-                                <p class="font-normal">Giao nhanh</p>
-                                <p class="text-sm text-gray-500">Đảm bảo nhận hàng từ 1 tháng 11 – 4 tháng 11</p>
-                            </div>
-                            <span class="text-[#FF3D71] whitespace-nowrap">32.800 đ</span>
-                        </div>
-
-                        <!-- Item chưa chọn -->
-                        <div class="gap-2 flex justify-between items-center px-4 py-2 cursor-pointer hover:bg-gray-50 transition">
-                            <div>
-                                <p class="font-normal">Giao hoả tốc</p>
-                                <p class="text-sm text-gray-500">Đảm bảo nhận hàng sau 2h</p>
-                            </div>
-                            <span class="text-[#FF3D71] whitespace-nowrap">68.800 đ</span>
-                        </div>
+                    <div class="panel answer mt-2 max-h-[400px] overflow-y-auto">
+                        <ul class="space-y-2">
+                            <li class="shipping-option" data-shipping-type="1">
+                                <div class="gap-2 flex justify-between items-center px-4 py-2 cursor-pointer hover:bg-gray-50 transition box-select-ship">
+                                    <div>
+                                        <p class="font-normal name">Giao nhanh</p>
+                                        <p class="text-sm text-gray-500 des">Nhận hàng trong 2-7 ngày</p>
+                                    </div>
+                                    <span class="text-[#FF3D71] whitespace-nowrap price placeholder">_______________</span>
+                                </div>
+                            </li>
+                            <li class="shipping-option force-payment-cod shipping-fee-cod" data-shipping-type="5">
+                                <div class="gap-2 flex justify-between items-center px-4 py-2 cursor-pointer hover:bg-gray-50 transition box-select-ship">
+                                    <div>
+                                        <p class="font-normal name">Thanh toán khi nhận hàng (COD)</p>
+                                        <p class="text-sm text-gray-500 des">Nhận hàng trước, trả tiền sau</p>
+                                    </div>
+                                    <span class="text-[#FF3D71] whitespace-nowrap price">_______________</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
-                <div class="group pb-3">
-                    <div class="font-normal cursor-pointer toggle text-md flex justify-between items-center uppercase">
-                        Viettel post
+                <!-- Lấy tại cửa hàng -->
+                <div class="group item pb-3" data-carrier-id="2">
+                    <div class="font-normal cursor-pointer toggle text-md flex justify-between items-center uppercase title active">
+                        Lấy tại cửa hàng
                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </div>
-                    <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide">
-                        <!-- Item được chọn -->
-                        <div class="gap-2 flex justify-between items-center bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8] px-4 py-2 rounded">
-                            <div>
-                                <p class="font-normal">Giao nhanh</p>
-                                <p class="text-sm text-gray-500">Đảm bảo nhận hàng từ 1 tháng 11 – 4 tháng 11</p>
-                            </div>
-                            <span class="text-[#FF3D71] whitespace-nowrap">32.800 đ</span>
-                        </div>
-
-                        <!-- Item chưa chọn -->
-                        <div class="gap-2 flex justify-between items-center px-4 py-2 cursor-pointer hover:bg-gray-50 transition">
-                            <div>
-                                <p class="font-normal">Giao hoả tốc</p>
-                                <p class="text-sm text-gray-500">Đảm bảo nhận hàng sau 2h</p>
-                            </div>
-                            <span class="text-[#FF3D71] whitespace-nowrap">68.800 đ</span>
-                        </div>
+                    <div class="panel answer mt-2 max-h-[400px] overflow-y-auto">
+                        <ul class="space-y-2">
+                            <li class="active active-delivery shipping-option" data-shipping-type="2">
+                                <div class="gap-2 flex justify-between items-center px-4 py-2 bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8] rounded box-select-ship">
+                                    <div>
+                                        <p class="font-normal name">Nhận hàng tại cửa hàng</p>
+                                        <p class="text-sm text-gray-500 des">Nhận hàng tại chi nhánh Hà Nội</p>
+                                    </div>
+                                    <span class="text-[#FF3D71] whitespace-nowrap price">0đ</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
@@ -364,11 +360,11 @@
 
             <!-- Footer -->
             <div class="flex justify-between items-center mt-4 gap-3">
-                <button class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full">
+                <button class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full btn btn-back">
                     Trở
                     lại
                 </button>
-                <button class="border border-blue-500 bg-blue-500 px-1 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full">
+                <button class="border border-blue-500 bg-blue-500 px-1 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full btn-base btn-save">
                     Xác
                     nhận
                 </button>
@@ -379,66 +375,78 @@
         </div>
     </div>
 </div>
-<div id="thanhtoan-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
+<div id="phuongthucthanhtoan" class="overlay form-voucher popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
     <div class="flex justify-center md:items-center h-full">
-        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-xl w-full mx-auto  overflow-y-auto relative">
+        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-xl w-full mx-auto overflow-y-auto relative">
 
-            <span class="closePopup absolute right-2 top-2 cursor-pointer">
+            <!-- Close Icon -->
+            <span class="closePopup absolute right-2 top-2 cursor-pointer close">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                    <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
-                          fill="#2A3262" />
+                    <path d="M19.281 18.7193..." fill="#2A3262" />
                 </svg>
             </span>
-            <!-- header -->
-            <h4 class="text-center text-xl text-color-base mb-3">Chọn hình thức thanh toán</h4>
-            <div class="space-y-4">
-                <label class="flex gap-2 items-center cursor-pointer">
-                    <div class="relative">
-                        <input type="radio" name="address" class="radio-custom mt-1" />
-                    </div>
-                    <img src="images/icon/Package.svg" alt="" class="h-8" />
 
-                    <p>Thanh toán khi nhận hàng (COD)</p>
-                </label>
-                <label class="flex gap-2 items-center cursor-pointer">
-                    <div class="relative">
-                        <input type="radio" name="address" class="radio-custom mt-1" />
-                    </div>
-                    <img src="images/icon/Bank.svg" alt="" class="h-8" />
+            <!-- Header -->
+            <h4 class="text-center text-xl text-color-base mb-3 title-popup">Chọn hình thức thanh toán</h4>
 
-                    <p>Chuyển khoản qua ngân hàng</p>
-                </label>
-                <label class="flex gap-2 items-center cursor-pointer">
-                    <div class="relative">
-                        <input type="radio" name="address" class="radio-custom mt-1" />
+            <!-- Payment Methods -->
+            <div class="space-y-4 list-option select-bank">
+                <label class="flex gap-2 items-center cursor-pointer item">
+                    <div class="relative choose">
+                        <input type="radio" name="payment_type" class="radio-custom mt-1 radio" id="radio1" value="1">
+                        
                     </div>
-                    <img src="images/icon/QrCode.svg" alt="" class="h-8" />
+                    <label for="radio1" class="flex gap-2 items-center">
+                        <img src="./assets/images/icon/Package.svg" alt="" class="h-8" />
+                        Thanh toán khi nhận hàng (COD)
+                    </label>
+                </label>
 
-                    <p>Thanh toán QR-PAY</p>
-                </label>
-                <label class="flex gap-2 items-center cursor-pointer">
-                    <div class="relative">
-                        <input type="radio" name="address" class="radio-custom mt-1" />
+                <label class="flex gap-2 items-center cursor-pointer item">
+                    <div class="relative choose">
+                        <input type="radio" name="payment_type" class="radio-custom mt-1 radio" id="radio2" value="2" checked>
+                       
                     </div>
-                    <img src="images/icon/CreditCard.svg" alt="" class="h-8" />
-                    <p>Thẻ Visa - Master Card</p>
+                    <label for="radio2" class="flex gap-2 items-center">
+                        <img src="./assets/images/icon/Bank.svg" alt="" class="h-8" />
+                        Chuyển khoản qua ngân hàng
+                    </label>
                 </label>
+
+                @* <label class="flex gap-2 items-center cursor-pointer item"> *@
+                @*     <div class="relative choose"> *@
+                @*         <input type="radio" name="payment_type" class="radio-custom mt-1 radio" id="radio3" value="4"> *@
+                @*         <label for="radio3" class="flex gap-2 items-center"> *@
+                @*             <img src="./assets/images/icon/QrCode.svg" alt="" class="h-8" /> *@
+                @*             Thanh toán QR-PAY *@
+                @*         </label> *@
+                @*     </div> *@
+                @* </label> *@
+
+                @* <label class="flex gap-2 items-center cursor-pointer item"> *@
+                @*     <div class="relative choose"> *@
+                @*         <input type="radio" name="payment_type" class="radio-custom mt-1 radio" id="radio4" value="3"> *@
+                @*         <label for="radio4" class="flex gap-2 items-center"> *@
+                @*             <img src="./assets/images/icon/CreditCard.svg" alt="" class="h-8" /> *@
+                @*             Thẻ Visa - Master Card *@
+                @*         </label> *@
+                @*     </div> *@
+                @* </label> *@
             </div>
-            <!-- Footer -->
-            <div class="flex justify-between items-center mt-4 gap-3">
-                <button class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full">
-                    Trở
-                    lại
-                </button>
-                <button class="border border-blue-500 bg-blue-500 px-1 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full">
-                    Xác
-                    nhận
-                </button>
 
+            <!-- Footer -->
+            <div class="flex justify-between items-center mt-4 gap-3 action">
+                <button class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full btn-back">
+                    Trở lại
+                </button>
+                <button class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full btn-save">
+                    Xác nhận
+                </button>
             </div>
         </div>
     </div>
 </div>
+
 <div id="lightbox-delete-cart" class="popup fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center" >
     <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full relative">
         <button class="absolute top-2 right-2 text-gray-500 hover:text-black close-popup">

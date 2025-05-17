@@ -147,7 +147,7 @@ var global_service = {
         });
     },
     LoadCartCount: function () {
-        debugger
+       
         var usr = global_service.CheckLogin()
         if (usr) {
             $.ajax({
@@ -510,9 +510,11 @@ var global_service = {
         return html;
     },
     RenderSlideProductItem: function (list, template) {
+
         var html = ''
        
         $(list).each(function (index, item) {
+            debugger
             var img_src = item.avatar
             if (!img_src.includes(API_URL.StaticDomain)
                 && !img_src.includes("data:image")
@@ -537,13 +539,13 @@ var global_service = {
             if (has_price) {
                 
                 debugger
-                let showDiscount = item.amount_max != null ;
+                let showDiscount = item.old_price != null ;
                 html += template
                     .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
                     .replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}',  ${amount_number},
                     ${item.rating || 0},
                     ${item.review_count || 0},
-                    ${item.amount_max || 0},
+                    ${item.old_price || 0},
                     ${item.discount ||0})" href="`)
                     .replaceAll('{discount_text}', showDiscount ? `-${item.discount}%` : '')
                     .replaceAll('{discount_style}', showDiscount ? '' : 'hidden')
@@ -557,7 +559,9 @@ var global_service = {
                     .replaceAll('{review_count}', (item.review_count == null || item.review_count == undefined || item.review_count <= 0) ? '' : '(' + item.review_count.toFixed(0) + ')')
                     //.replaceAll('{review_count}', (item.total_sold == null || item.total_sold == undefined || item.total_sold <= 0) ? '' : '(' + item.total_sold.toFixed(0) + ')')
                     .replaceAll('{old_price_style}', (item.amount_max <= amount_number ? 'display:none;' : ''))
-                    .replaceAll('{price}', global_service.Comma(item.amount_max) + ' ' + 'đ')
+                    //.replaceAll('{price_style}', (item.old_price && item.old_price > 0) ? '' : 'display:none;')
+                    .replaceAll('{price}', (item.old_price && item.old_price > 0) ? (global_service.Comma(item.old_price) + ' đ') : '')
+
 
             }
         });
@@ -565,7 +569,7 @@ var global_service = {
         return html
     },
 
-    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, amount_max = 0, discount=0) {
+    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, old_price = 0, discount=0) {
        
         const key = 'viewedProducts';
         let list = JSON.parse(localStorage.getItem(key)) || [];
@@ -581,7 +585,7 @@ var global_service = {
             price,
             rating,
             review_count,
-            amount_max,
+            old_price,
             discount,
             url: `/san-pham/${global_service.toSlug(name)}--${id}`
         });
@@ -602,6 +606,7 @@ var global_service = {
     },
 
     renderViewedProducts: function () {
+        debugger
        
         const container = document.getElementById('viewed-products');
         const wrapper = document.getElementById('viewed-products-wrapper'); // 👈 thêm dòng này
@@ -618,9 +623,10 @@ var global_service = {
 
         let html = '';
         list.forEach(p => {
+            debugger
            
-            const showOldPrice = p.amount_max && p.amount_max > p.price;
-            const showDiscount = p.amount_max != null;
+            const showOldPrice = p.old_price && p.old_price > p.price;
+            const showDiscount = p.discount && p.discount > 0;
             const ratingHtml = p.rating > 0 ? `${p.rating.toFixed(1)}★` : '';
             const reviewHtml = p.review_count > 0 ? `(${p.review_count})` : '';
 
@@ -638,7 +644,7 @@ var global_service = {
                     <div class="absolute bottom-2 w-full px-2 left-0">
                         <div class="text-rose-600 font-bold mt-1">${p.price.toLocaleString()} đ</div>
                         <div class="flex items-center justify-between">
-                            <div class="text-xs line-through text-slate-400" style="${showOldPrice ? '' : 'display:none;'}">${p.amount_max.toLocaleString()} đ</div>
+                            <div class="text-xs line-through text-slate-400" style="${showOldPrice ? '' : 'display:none;'}">${p.old_price.toLocaleString()} đ</div>
                             <div class="text-xs text-yellow-500 mt-1">${ratingHtml} <span class="text-slate-400">${reviewHtml}</span></div>
                         </div>
                     </div>
