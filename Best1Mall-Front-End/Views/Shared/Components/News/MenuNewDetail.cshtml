@@ -1,0 +1,20 @@
+﻿@using Best1Mall_Front_End.Models;
+@using Best1Mall_Front_End.Utilities;
+@model List<CategoryModel>
+@{
+    if (Model != null)
+    {
+        <ul class="list-cat flex flex-wrap gap-2 mt-3">
+            <li>
+                <a href="/tin-tuc" class="px-5 py-1 border border-blue-500 rounded-full inline-block bg-blue-500 text-white cat-tag" data-id="22">Tất cả</a>
+            </li>
+            @foreach (var item in Model)
+            {
+                <li>
+                    <a href="@(Html.GetStaticUrlCategory(item.name, item.id) )" class="cat-tag px-5 py-1 border border-gray-300 rounded-full inline-block" data-id="@item.id">@item.name</a>
+                </li>
+            }
+        </ul>
+        <div class="category_id" data-categoryid="0" style="display:none;"></div>
+    }
+}

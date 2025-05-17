@@ -6,7 +6,7 @@
     int total_items = ViewBag.total_items;// Tổng toàn bộ bản ghi theo 1 cate
 }
 @* @section Styles { *@
-@*     <link rel="stylesheet" href="/assets/css/main.min.css" /> *@
+@*     <link rel="stylesheet" href="/~/assets/css/main.min.css" /> *@
 @* } *@
 <input type="hidden" class="category_id" data-categoryid="@category_id" />
 <section class="section-news news-section">
@@ -19,7 +19,10 @@
         </div>
         <div class="wrap-news cat-menu flex flex-wrap items-center gap-3 justify-between border-b border-gray-200 mb-4 pb-4">
             @* Menu *@
-            @await Component.InvokeAsync("MenuNews", new { menuType = "news" })
+            <div class="newhome" data-view="home">
+                @await Component.InvokeAsync("MenuNews", new { menuType = "news" })
+            </div>
+           
 
             <div class="top-siderbar-news">
                 <div class="relative md:max-w-[350px] w-full -order-1 md:order-none">
@@ -61,7 +64,7 @@
 
             </div>
             <div class="w-full">
-                <img src="assets/images/banner-right.jpg" alt="" class="w-full" />
+                <img src="~/assets/images/banner-right.jpg" alt="" class="w-full" />
                 <div class="my-5">
                     <h2 class="text-sky-900 font-medium uppercase mb-2"><a href="">Xem nhiều nhất</a> </h2>
                     <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
@@ -69,7 +72,7 @@
                         <article class="flex gap-2 items-start w-full">
                             <div class="aspect-[5/3] w-full max-w-[120px] shrink-0">
                                 <a href="">
-                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                    <img src="~/assets/images/image1.jpg" alt="Feature"
                                          class="w-full h-full object-cover rounded-xl" />
                                 </a>
 
@@ -85,7 +88,7 @@
                         <article class="flex gap-2 items-start w-full">
                             <div class="aspect-[5/3] w-full max-w-[120px] shrink-0">
                                 <a href="">
-                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                    <img src="~/assets/images/image1.jpg" alt="Feature"
                                          class="w-full h-full object-cover rounded-xl" />
                                 </a>
 
@@ -101,7 +104,7 @@
                         <article class="flex gap-2 items-start w-full">
                             <div class="aspect-[5/3] w-full max-w-[120px] shrink-0">
                                 <a href="">
-                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                    <img src="~/assets/images/image1.jpg" alt="Feature"
                                          class="w-full h-full object-cover rounded-xl" />
                                 </a>
 
@@ -123,7 +126,7 @@
                         <div class="flex gap-2 items-start w-full">
                             <div class="aspect-[1/1] w-full max-w-[120px] shrink-0">
                                 <a href="">
-                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                    <img src="~/assets/images/image1.jpg" alt="Feature"
                                          class="w-full h-full object-cover rounded-xl" />
                                 </a>
 
@@ -148,7 +151,7 @@
             </div>
             @* <div class="siderbar-news w-full"> *@
             @*     <div class="box-side"> *@
-            @*         <img src="~/assets/images/banner-right.jpg" alt=""> *@
+            @*         <img src="~/~/assets/images/banner-right.jpg" alt=""> *@
             @*     </div> *@
             @*     <div class="box-side my-5"> *@
             @*         <h2 class="text-sky-900 font-medium uppercase mb-2"> *@

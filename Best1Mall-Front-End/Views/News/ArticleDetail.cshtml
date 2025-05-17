@@ -13,7 +13,9 @@
         </div>
         <div class="wrap-news cat-menu flex flex-wrap items-center gap-3 justify-between border-b border-gray-200 mb-4 pb-4">
             @* Menu *@
-            @await Component.InvokeAsync("MenuNews", new { menuType = "news" })
+            <div class="newdetail" data-view="detail">
+                @await Component.InvokeAsync("MenuNews", new { menuType = "newsdetail" })
+            </div>
 
             <div class="top-siderbar-news">
                 <div class="relative md:max-w-[350px] w-full -order-1 md:order-none">
@@ -66,10 +68,10 @@
                         <div class="w-full h-[1px] bg-gray-300"></div>
                         <span class="text-gray-500">Share</span>
                         <ul class="flex flex-nowrap gap-2 shrink-0">
-                            <li><a href="" class="hover:opacity-80"><img src="assets/images/share.svg" /></a></li>
-                            <li><a href="" class="hover:opacity-80"><img src="assets/images/fb.svg" /></a></li>
-                            <li><a href="" class="hover:opacity-80"><img src="assets/images/tw.svg" /></a></li>
-                            <li><a href="" class="hover:opacity-80"><img src="assets/images/pin.svg" /></a></li>
+                            <li><a href="" class="hover:opacity-80"><img src="~/assets/images/share.svg" /></a></li>
+                            <li><a href="" class="hover:opacity-80"><img src="~/assets/images/fb.svg" /></a></li>
+                            <li><a href="" class="hover:opacity-80"><img src="~/assets/images/tw.svg" /></a></li>
+                            <li><a href="" class="hover:opacity-80"><img src="~/assets/images/pin.svg" /></a></li>
                         </ul>
                     </div>
                 </div>
@@ -77,7 +79,7 @@
 
             <!-- Sidebar -->
             <div class="w-full">
-                <img src="assets/images/banner-right.jpg" alt="" class="w-full" />
+                <img src="~/assets/images/banner-right.jpg" alt="" class="w-full" />
                 <div class="my-5">
                     <h2 class="text-sky-900 font-medium uppercase mb-2"><a href="">Xem nhiều nhất</a> </h2>
                     <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
@@ -85,7 +87,7 @@
                         <article class="flex gap-2 items-start w-full">
                             <div class="aspect-[5/3] w-full max-w-[120px] shrink-0">
                                 <a href="">
-                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                    <img src="~/assets/images/image1.jpg" alt="Feature"
                                          class="w-full h-full object-cover rounded-xl" />
                                 </a>
 
@@ -101,7 +103,7 @@
                         <article class="flex gap-2 items-start w-full">
                             <div class="aspect-[5/3] w-full max-w-[120px] shrink-0">
                                 <a href="">
-                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                    <img src="~/assets/images/image1.jpg" alt="Feature"
                                          class="w-full h-full object-cover rounded-xl" />
                                 </a>
 
@@ -117,7 +119,7 @@
                         <article class="flex gap-2 items-start w-full">
                             <div class="aspect-[5/3] w-full max-w-[120px] shrink-0">
                                 <a href="">
-                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                    <img src="~/assets/images/image1.jpg" alt="Feature"
                                          class="w-full h-full object-cover rounded-xl" />
                                 </a>
 
@@ -139,7 +141,7 @@
                         <div class="flex gap-2 items-start w-full">
                             <div class="aspect-[1/1] w-full max-w-[120px] shrink-0">
                                 <a href="">
-                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                    <img src="~/assets/images/image1.jpg" alt="Feature"
                                          class="w-full h-full object-cover rounded-xl" />
                                 </a>
 
@@ -168,11 +170,12 @@
     </div>
 </section>
 
-<section class="section-category product_history">@*wwwroot\js\header\main.js*@</section>
+
 
 
 
 
 @section scripts {
     <script type="text/javascript" src="~/modules/newdetail.js"></script>
+    
 }

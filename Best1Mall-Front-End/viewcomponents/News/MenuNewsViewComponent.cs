@@ -33,6 +33,8 @@ namespace WEB.CMS.ViewComponents
         {
             { "home", ("menu_home", "config:group_id", "~/Views/Shared/Components/Home/MenuHome.cshtml") },
             { "news", ("menu_news", "config:category_id", "~/Views/Shared/Components/News/Menu.cshtml") },
+            { "newsdetail", ("menu_newdetails", "config:category_id", "~/Views/Shared/Components/News/MenuNewDetail.cshtml") },
+
             { "listproduct", ("menu_listproduct", "config:group_id", "~/Views/Shared/Components/Product/MenuListProduct.cshtml") },
             { "header_menu", ("menu_header", "config:group_id", "~/Views/Shared/Components/Home/MenuHeader.cshtml") }
         };
