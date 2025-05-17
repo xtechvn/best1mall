@@ -28,6 +28,7 @@ var payment = {
         });
     },
     Detail: function () {
+        debugger
         var usr = global_service.CheckLogin()
         if (usr) {
             var request = {
@@ -52,6 +53,7 @@ var payment = {
 
     },
     RenderBankTransfer: function (order_detail) {
+        debugger
         switch (order_detail.payment_type) {
             case 2:
             case 3: {
@@ -91,6 +93,7 @@ var payment = {
         $('.box-payment-info').removeClass('placeholder')
     },
     LoadingSuccess: function (count) {
+        debugger
         if (count <= 0) {
             $('.box-payment-info').hide()
             $('.box-payment-sucess').show()

@@ -3,137 +3,120 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string id = (string)ViewBag.Id;
 }
-<section class="section-payment " data-id="@id">
-    <div class="container">
-        <div class="breadcrumb">
-            <ul>
+<section class="section-payment bg-gray-50 py-6" data-id="@id">
+    <div class="max-w-[1230px] mx-auto px-[15px]">
+        <div class="breadcrumb mb-4">
+            <ul class="flex items-center gap-3 font-normal">
                 <li><a href="/">Trang chủ</a></li>
-                <li class="active"><a href="javascript:;">Giỏ hàng / Thanh toán</a></li>
+                <li class="text-color-base">Giỏ hàng / Thanh toán</li>
             </ul>
         </div>
-        <div class="box-payment box-payment-info placeholder">
-            <a class="close" href="javascript:;">
-                <i class="icon icon-close"></i>
-            </a>
-            <h2 class="title-box">Thông tin thanh toán</h2>
-            <div class="info-bank">
-                <div class="img-qr">
-                    <img class="" src="/assets/images/qr.png" alt="" />
+
+        <!-- Thông tin thanh toán -->
+        <div class="p-4 md:p-8 bg-white rounded-xl md:rounded-3xl shadow-md max-w-4xl mx-auto mb-8 box-payment box-payment-info placeholder">
+            <h2 class="text-center text-2xl text-color-base font-medium mb-6">Thông tin thanh toán</h2>
+            <div class="flex flex-col items-start md:flex-row gap-3 info-bank">
+                <div class="flex justify-center md:justify-start md:w-1/3 w-full img-qr">
+                    <img src="/assets/images/qr.png" alt="QR Code" class="max-w-[230px] rounded mx-auto" />
                 </div>
-                <div class="info">
-                    <div class="flex-tr">
-                        <div class="left-td">Số tài khoản</div>
-                        <div class="right-td">01234567890123</div>
-                    </div>
-                    <div class="flex-tr">
-                        <div class="left-td">Chủ tài khoản</div>
-                        <div class="right-td">Chủ tài khoản A</div>
-                    </div>
-                    <div class="flex-tr">
-                        <div class="left-td">Ngân hàng</div>
-                        <div class="right-td">Techcombank - Ngân Hàng TMCP Kỹ Thương Việt Nam chi nhánh Đông Đô</div>
-                    </div>
-                    <div class="flex-tr flex-tr-amount">
-                        <div class="left-td">Số tiền chuyển khoản</div>
-                        <div class="right-td"><b>357.000 đ</b></div>
-                    </div>
-                    <div class="flex-tr flex-tr-transfer-description">
-                        <div class="left-td">Nội dung chuyển khoản</div>
-                        <div class="right-td"><b>VB-2H02300 thanh toan </b></div>
+                <div class="flex-1 space-y-4 info">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+
+                        <div class="text-slate-500 left-td">Số tài khoản</div>
+                        <div class="col-span-2 bg-slate-50 px-3 py-2 rounded right-td">01234567890123</div>
+
+
+                        <div class="text-slate-500 left-td">Chủ tài khoản</div>
+                        <div class="col-span-2 bg-slate-50 px-3 py-2 rounded right-td">Chủ tài khoản A</div>
+
+
+                        <div class="text-slate-500 left-td">Ngân hàng</div>
+                        <div class="col-span-2 bg-slate-50 px-3 py-2 rounded right-td">
+                            Techcombank - Ngân Hàng TMCP Kỹ Thương Việt Nam chi nhánh Đông Đô
+                        </div>
+
+
+                        <div class="text-slate-500 left-td">Số tiền chuyển khoản</div>
+                        <div class="col-span-2 font-medium bg-slate-50 px-3 py-2 rounded right-td flex-tr-amount"><b>357.000 đ</b></div>
+
+
+                        <div class="text-slate-500 left-td">Nội dung chuyển khoản</div>
+                        <div class="col-span-2 font-medium bg-slate-50 px-3 py-2 rounded right-td flex-tr-transfer-description"><b>357.000 đ</b></div>
+
+
+
+
+
                     </div>
                 </div>
             </div>
-            <div class="note">
-                <h3 class="note-tt">Lưu ý</h3>
-                <ul>
-                    <li>
-                        • Bạn vui lòng điền chính xác thông tin chuyển khoản bao gồm “Số tiền chuyển khoản” & “Nội dung
-                        chuyển khoản” để việc đặt hàng diễn ra nhanh chóng.
-                    </li>
-
-                    <li>
-                        • Đơn hàng của bạn sẽ được xác nhận thanh toán sau khi hệ thống của HULOTOYS ghi nhận thông báo
-                        thanh toán thành công từ ngân hàng.
-                    </li>
-
-                    <li> • Bạn vui lòng giữ lại các chứng từ giao dịch để đối chiếu khi có phát sinh vấn đề</li>
-
-                    <li>
-                        • Bạn có thể thực hiện thanh toán tại quầy giao dịch ngân hàng, Mobile Banking, ATM, hoặc thanh
-                        toán qua dịch vụ Internet Banking của ngân hàng <a href="">tại đây</a> .
-                    </li>
-                </ul>
+            <div class="mt-6 text-slate-500 space-y-2 text-sm">
+                <p>• Bạn vui lòng điền chính xác thông tin chuyển khoản bao gồm “Số tiền chuyển khoản” & “Nội dung chuyển khoản” để việc đặt hàng diễn ra nhanh chóng.</p>
+                <p>• Đơn hàng của bạn sẽ được xác nhận thanh toán sau khi hệ thống của HULOTOYS ghi nhận thông báo thanh toán thành công từ ngân hàng.</p>
+                <p>• Bạn vui lòng giữ lại các chứng từ giao dịch để đối chiếu khi có phát sinh vấn đề.</p>
+                <p>• Bạn có thể thực hiện thanh toán tại quầy giao dịch ngân hàng, Mobile Banking, ATM, hoặc thanh toán qua dịch vụ Internet Banking của ngân hàng <a href="#" class="text-blue-500 underline">tại đây</a>.</p>
             </div>
-            <div class="action">
-                <a href="javascript:;" class="btn">Xác nhận đã chuyển khoản</a>
+            <div class="pt-4 text-center mt-6 action">
+                <a href="javascript:;" class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full hover:opacity-80 inline-block md:w-auto w-full btn">Xác nhận đã chuyển khoản</a>
             </div>
         </div>
-        <!-- đang chờ thanh toán -->
-        <div class="box-payment box-pending box-payment-waiting" style="display:none;">
-            <a class="close" href="javascript:;">
-                <i class="icon icon-close"></i>
-            </a>
-            <img class="img-check" src="/assets/images/icon-check.png" alt="" />
-            <h2 class="title-box">Đang chờ thanh toán</h2>
-            <div class="info-order">
+
+        <!-- Đang chờ thanh toán -->
+        <div class="p-4 md:p-8 bg-white rounded-xl md:rounded-3xl shadow-md max-w-xl mx-auto mb-8 box-payment-waiting" style="display:none;"
+             style="display:none;"
+             style="display:none;">
+            <img src="/assets/images/icon-check.png" alt="Success Icon" class="w-12 h-12 mx-auto" />
+            <h2 class="text-center text-2xl my-4 text-color-base font-medium">Đang chờ thanh toán</h2>
+            <div class="text-slate-500 space-y-1">
                 <p>Bạn đã đặt hàng thành công.</p>
-                <br />
-                <p>• Mã đơn hàng :<a href=""> DH123456</a></p>
+                <p>• Mã đơn hàng: <a href="#" class="text-blue-600 font-medium">DH123456</a></p>
                 <p>• Hình thức thanh toán: Thanh toán khi nhận hàng</p>
-                <br />
-                <p>
-                    Lưu ý: Trường hợp có những thắc mắc về đơn hàng, bạn có thể xem thêm mục câu hỏi thường gặp. Nếu bạn
-                    cần được hỗ trợ ngay, hãy gọi tổng đài hỗ trợ 036 5809 316.
-                </p>
-                <p>Chúng tôi luôn sẵn sàng trả lời bạn từ 8h30 - 17h30, thứ 2 đến thứ 6 hàng tuần.</p>
             </div>
-            <div class="action">
-                <a href="javascript:;" class="btn">Xác nhận đã chuyển khoản</a>
+            <div class="text-slate-500 mt-4">
+                <p><strong>Lưu ý:</strong> Trường hợp có những thắc mắc về đơn hàng, bạn có thể xem thêm mục câu hỏi thường gặp. Nếu bạn cần được hỗ trợ ngay, hãy gọi tổng đài hỗ trợ <strong>036 5809 316</strong>.</p>
+                <p>Chúng tôi luôn sẵn sàng trả lời bạn từ 8h30 – 17h30, thứ 2 đến thứ 6 hàng tuần.</p>
+            </div>
+            <div class="text-center mt-6">
+                <a href="/" class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full hover:opacity-80 inline-block md:w-auto w-full">Tiếp tục mua sắm</a>
             </div>
         </div>
+
         <!-- Thanh toán thành công -->
-        <div class="box-payment box-pending box-payment-sucess" style="display:none;">
-            <a class="close" href="javascript:;">
-                <i class="icon icon-close"></i>
-            </a>
-            <img class="img-check" src="/assets/images/icon-check.png" alt="" />
-            <h2 class="title-box">Thanh toán thành công</h2>
-            <div class="info-order">
+        <div class="p-4 md:p-8 bg-white rounded-xl md:rounded-3xl shadow-md max-w-xl mx-auto mb-8 box-payment-sucess" style="display:none;"
+             style="display:none;"
+             style="display:none;">
+            <img src="/assets/images/icon-check.png" alt="Success Icon" class="w-12 h-12 mx-auto" />
+            <h2 class="text-center text-2xl my-4 text-color-base font-medium">Thanh toán thành công</h2>
+            <div class="text-slate-500 space-y-1">
                 <p>Bạn đã đặt hàng thành công.</p>
-                <br />
-                <p><b>• Mã đơn hàng</b> :<a href="javascript:;"> <nw class="order-no">DH123456</nw></a></p>
-                <p><b>• Hình thức thanh toán</b>: <nw class="payment-type">Thanh toán khi nhận hàng</nw></p>
-                <br />
-                <p>Nhân viên của chúng tôi sẽ liên hệ với bạn sớm nhất để xác nhận đơn hàng.</p>
-
+                <p><strong>• Mã đơn hàng:</strong> <a href="#" class="text-blue-600 font-medium order-no">DH123456</a></p>
+                <p><strong>• Hình thức thanh toán:</strong> <span class="payment-type">Thanh toán khi nhận hàng</span></p>
             </div>
-            <div class="action">
-                <a href="/" class="btn">Tiếp tục mua sắm </a>
+            <div class="text-slate-500 mt-4">
+                <p>Nhân viên của chúng tôi sẽ liên hệ với bạn sớm nhất để xác nhận đơn hàng.</p>
+            </div>
+            <div class="text-center mt-6">
+                <a href="/" class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full hover:opacity-80 inline-block md:w-auto w-full">Tiếp tục mua sắm</a>
             </div>
         </div>
-        <!-- Thanh toán không  thành công -->
-        <div class="box-payment box-pending box-payment-failed" style="display:none;">
-            <a class="close" href="javascript:;">
-                <i class="icon icon-close"></i>
-            </a>
-            <img class="img-check" src="/assets/images/icon-err.png" alt="" />
-            <h2 class="title-box">Thanh toán không thành công</h2>
-            <div class="info-order">
-                <p>
-                    Đơn hàng <a href="javascript:;"><nw class="order-no">DH123456</nw></a> của quý khách thanh toán không thành công, vui lòng thanh toán lại .
-                </p>
-                <br />
-                <p>
-                    Hỗ trợ ngay :<sapn class="tel"> 1900.633.376</sapn>
-                </p>
 
+        <!-- Thanh toán thất bại -->
+        <div class="p-4 md:p-8 bg-white rounded-xl md:rounded-3xl shadow-md max-w-xl mx-auto mb-8 box-payment-failed" style="display:none;"
+             style="display:none;"
+             style="display:none;">
+            <img src="/assets/images/icon-err.png" alt="Error Icon" class="w-12 h-12 mx-auto" />
+            <h2 class="text-center text-2xl my-4 text-color-base font-medium">Thanh toán không thành công</h2>
+            <div class="text-slate-500 space-y-1">
+                <p>Đơn hàng <span class="order-no">DH123456</span> của quý khách thanh toán không thành công, vui lòng thanh toán lại.</p>
+                <p>Hỗ trợ ngay: <strong>1900.633.376</strong></p>
             </div>
-            <div class="action">
-                <a href="javascript:;" class="btn">Thanh toán lại</a>
+            <div class="text-center mt-6">
+                <a href="#" class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full hover:opacity-80 inline-block md:w-auto w-full">Thanh toán lại</a>
             </div>
         </div>
     </div>
 </section>
+
 @section Scripts {
     <script type="text/javascript" src="/modules/payment.js" asp-append-version="true"></script>
 

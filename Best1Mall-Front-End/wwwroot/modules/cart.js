@@ -110,6 +110,7 @@ var cart = {
             cart.ReRenderAmount()
         });
         $("body").on('click', ".btn-confirm-cart", function () {
+            debugger
             cart.ConfirmCart()
         });
         $("body").on('keyup', ".product-quantity input", function () {
@@ -144,10 +145,20 @@ var cart = {
         $("body").on('click', ".right-cart .select-bank", function () {
             $('#phuongthucthanhtoan').addClass('overlay-active')
         });
-        $("body").on('click', "#phuongthucthanhtoan .btn-save", function () {
-            $('#phuongthucthanhtoan').addClass('hidden')
-            $('.right-cart .pay .select-bank .tt').html($('input[name="payment_type"]:checked').closest('.box-radio').find('label').text())
-        });
+       $("body").on('click', "#phuongthucthanhtoan .btn-save", function () {
+                $('#phuongthucthanhtoan').addClass('hidden');
+
+                const selected = $('input[name="payment_type"]:checked');
+                const labelText = $(`label[for="${selected.attr('id')}"]`).text().trim();
+
+                $('.right-cart .pay .select-bank .tt').html(labelText);
+            });
+            $("body").on('click', "#phuongthucthanhtoan .btn-back", function () {
+                $('#phuongthucthanhtoan').addClass('hidden');
+
+               
+            });
+
        
     },
     OrderAddress: function () {
