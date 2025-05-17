@@ -5,87 +5,208 @@
     int page_size = ViewBag.page_size;
     int total_items = ViewBag.total_items;// Tổng toàn bộ bản ghi theo 1 cate
 }
-@section Styles {
-    <link rel="stylesheet" href="/assets/css/main.min.css" />
-}
+@* @section Styles { *@
+@*     <link rel="stylesheet" href="/assets/css/main.min.css" /> *@
+@* } *@
 <input type="hidden" class="category_id" data-categoryid="@category_id" />
-<section class="section-news">
-    <div class="container">
-        <div class="wrap-news cat-menu">
+<section class="section-news news-section">
+    <div class="max-w-[1230px] mx-auto px-[15px]">
+        <div class="breadcrumb my-4 ">
+            <ul class="flex items-center gap-3 font-normal">
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/tin-tuc" class="text-color-base">Tin tức</a></li>
+            </ul>
+        </div>
+        <div class="wrap-news cat-menu flex flex-wrap items-center gap-3 justify-between border-b border-gray-200 mb-4 pb-4">
+            @* Menu *@
             @await Component.InvokeAsync("MenuNews", new { menuType = "news" })
 
             <div class="top-siderbar-news">
-                <div class="form-search">
-                    <input type="search" placeholder="Tìm kiếm tin..." id="text_input">
-                    <button type="button" class="btn-search" onclick="_new.GetFindArticleByTitle();"><i class="icon icon-search"></i></button>
+                <div class="relative md:max-w-[350px] w-full -order-1 md:order-none">
+                    <!-- Ô tìm kiếm -->
+                    <input id="text_input"
+                           type="search"
+                           placeholder="Tìm kiếm tin..."
+                           class="w-full outline-none border border-gray-300 bg-white rounded-full px-4 py-3 pr-24 font-normal focus:outline-none" />
+
+                    <!-- Nút clear -->
+                    <div class="absolute right-[80px] top-[15px] cursor-pointer hidden" id="clear-search-btn">
+                        <svg width="24" height="24" class="h-full w-full" viewBox="0 0 24 24"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.0033 2.4C17.3053 2.4 21.6033 6.69807 21.6033 12C21.6033 17.3019 17.3053 21.6 12.0033 21.6C6.70139 21.6 2.40332 17.3019 2.40332 12C2.40332 6.69807 6.70139 2.4 12.0033 2.4ZM9.37464 8.53646C9.1408 8.37447 8.81749 8.39761 8.60921 8.60589L8.53978 8.68899C8.37779 8.92283 8.40093 9.24614 8.60921 9.45442L11.1548 12L8.60921 14.5456L8.53978 14.6287C8.37779 14.8625 8.40093 15.1858 8.60921 15.3941L8.69231 15.4635C8.92615 15.6255 9.24946 15.6024 9.45774 15.3941L12.0033 12.8485L14.5489 15.3941L14.632 15.4635C14.8658 15.6255 15.1892 15.6024 15.3974 15.3941L15.4669 15.311C15.6289 15.0772 15.6057 14.7539 15.3974 14.5456L12.8518 12L15.3974 9.45442L15.4669 9.37132C15.6289 9.13748 15.6057 8.81417 15.3974 8.60589L15.3143 8.53646C15.0805 8.37447 14.7572 8.39761 14.5489 8.60589L12.0033 11.1515L9.45774 8.60589L9.37464 8.53646Z"
+                                  fill="currentColor"></path>
+                        </svg>
+                    </div>
+
+                    <!-- Nút tìm kiếm -->
+                    <button type="button"
+                            class="absolute py-[8px] px-[24px] bg-blue-100 rounded-full shadow right-2 top-[5px] hover:bg-blue-200 transition-all duration-200 btn-search"
+                            onclick="_new.GetFindArticleByTitle();">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M21.5306 20.4694L16.8365 15.7763C18.1971 14.1429 18.8755 12.0478 18.7307 9.92697C18.5859 7.8061 17.629 5.82271 16.0591 4.38938C14.4892 2.95605 12.4271 2.18314 10.3019 2.23144C8.17663 2.27974 6.15181 3.14553 4.64864 4.6487C3.14547 6.15187 2.27968 8.17669 2.23138 10.3019C2.18308 12.4272 2.95599 14.4893 4.38932 16.0592C5.82265 17.6291 7.80604 18.586 9.92691 18.7308C12.0478 18.8756 14.1428 18.1971 15.7762 16.8366L20.4693 21.5307C20.539 21.6003 20.6218 21.6556 20.7128 21.6933C20.8038 21.731 20.9014 21.7505 21 21.7505C21.0985 21.7505 21.1961 21.731 21.2871 21.6933C21.3782 21.6556 21.4609 21.6003 21.5306 21.5307C21.6003 21.461 21.6556 21.3783 21.6933 21.2872C21.731 21.1962 21.7504 21.0986 21.7504 21C21.7504 20.9015 21.731 20.8039 21.6933 20.7129C21.6556 20.6218 21.6003 20.5391 21.5306 20.4694ZM3.74997 10.5C3.74997 9.16501 4.14585 7.85996 4.88755 6.74993C5.62925 5.6399 6.68346 4.77474 7.91686 4.26384C9.15026 3.75295 10.5075 3.61928 11.8168 3.87973C13.1262 4.14018 14.3289 4.78306 15.2729 5.72706C16.2169 6.67106 16.8598 7.8738 17.1203 9.18317C17.3807 10.4925 17.2471 11.8497 16.7362 13.0831C16.2253 14.3165 15.3601 15.3708 14.2501 16.1125C13.14 16.8542 11.835 17.25 10.5 17.25C8.71037 17.248 6.99463 16.5363 5.72919 15.2708C4.46375 14.0054 3.75196 12.2896 3.74997 10.5Z"
+                                  fill="#773EFA" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="wrap-news">
-            <div class="content">
+        <div class="wrap-news flex flex-wrap md:flex-nowrap justify-between gap-3 md:gap-6 my-4">
+            <div class="content w-full md:w-[70%] shrink-0">
 
-                @* Vùng render danh sách bài viết *@
-                <div class="list-news-home mt-4 relative min-h-[150px]">
-                    <div class="loading absolute inset-0 flex justify-center items-center z-10 bg-white bg-opacity-80 hidden">
-                        <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-blue-500"></div>
-                    </div>
-                    <div class="articles-wrapper"></div>
-                </div>
+                @*Load nhóm tin*@
+                <div class="list-news-home"></div>
 
                 @*Phân trang*@
                 @await Component.InvokeAsync("Pagination", new { page = current_page, total_items = total_items, page_size = page_size, view = "~/Views/Shared/Components/Pagination/Default.cshtml" })
 
             </div>
-            <div class="siderbar-news">
-                <div class="box-side">
-                    <img src="~/images/banner.jpg" alt="">
-                </div>
-                <div class="box-side">
-                    <h3 class="title">
-                        XEM NHIỀU NHẤT
-                    </h3>
-                    <div class="list-news" id="Most_Viewed_Article">
-                        <div class="item-news">
-                            <div class="box-news" style="height: 150px">
-                                <div class="thumb-art">
-                                    <div class="thumb thumb-news placeholder box-placeholder" style="height: 150px">
-                                    </div>
-                                </div>
-                                <div class="right-content placeholder box-placeholder" style="width: 100%; height: 150px; margin-left: 5px;">
-                                    <div class="flex-cat placeholder box-placeholder">
-                                    </div>
-                                    <h2 class="title-news placeholder box-placeholder">
-                                    </h2>
-                                    <p class="description placeholder box-placeholder">
+            <div class="w-full">
+                <img src="assets/images/banner-right.jpg" alt="" class="w-full" />
+                <div class="my-5">
+                    <h2 class="text-sky-900 font-medium uppercase mb-2"><a href="">Xem nhiều nhất</a> </h2>
+                    <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+                    <div class="space-y-3 mt-3">
+                        <article class="flex gap-2 items-start w-full">
+                            <div class="aspect-[5/3] w-full max-w-[120px] shrink-0">
+                                <a href="">
+                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                         class="w-full h-full object-cover rounded-xl" />
+                                </a>
 
-                                    </p>
-
-                                </div>
                             </div>
-                        </div>
+                            <div class="">
+                                <a href="">
+                                    <h2 class="font-medium">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    </h2>
+                                </a>
+                            </div>
+                        </article>
+                        <article class="flex gap-2 items-start w-full">
+                            <div class="aspect-[5/3] w-full max-w-[120px] shrink-0">
+                                <a href="">
+                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                         class="w-full h-full object-cover rounded-xl" />
+                                </a>
+
+                            </div>
+                            <div class="">
+                                <a href="">
+                                    <h2 class="font-medium">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    </h2>
+                                </a>
+                            </div>
+                        </article>
+                        <article class="flex gap-2 items-start w-full">
+                            <div class="aspect-[5/3] w-full max-w-[120px] shrink-0">
+                                <a href="">
+                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                         class="w-full h-full object-cover rounded-xl" />
+                                </a>
+
+                            </div>
+                            <div class="">
+                                <a href="">
+                                    <h2 class="font-medium">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    </h2>
+                                </a>
+                            </div>
+                        </article>
                     </div>
                 </div>
-                <div class="box-side">
-                    <h3 class="title">
-                        SẢN PHẨM KHUYẾN MÃI
-                    </h3>
-                    <div class="list-product" id="list_new_Sale">
-                        <div class="list-product-sale">
-                            <div class="swiper product-slide">
-                                <div class="swiper_wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="list-news">
-                                            <div class="list-news placeholder box-placeholder" style="height: 150px">
-                                            </div>
-                                        </div>
-                                    </div>
+                <div class="my-5">
+                    <h2 class="text-sky-900 font-medium uppercase mb-2"><a href="">SẢN PHẨM KHUYẾN MÃI</a> </h2>
+                    <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+                    <div class="space-y-3 mt-3">
+                        <div class="flex gap-2 items-start w-full">
+                            <div class="aspect-[1/1] w-full max-w-[120px] shrink-0">
+                                <a href="">
+                                    <img src="assets/images/image1.jpg" alt="Feature"
+                                         class="w-full h-full object-cover rounded-xl" />
+                                </a>
 
+                            </div>
+                            <div class="flex flex-col justify-center min-h-[120px]">
+                                <a href="">
+                                    <h2 class="font-medium">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    </h2>
+                                </a>
+                                <div class="w-full">
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-xs text-yellow-500 mt-1">★ 4.9</span></div>
+                                        <div class="text-xs text-slate-400">Đã bán 2223</div>
+                                    </div>
+                                    <div class="text-rose-600 font-semibold mt-1">185.000 đ <span class="bg-red-100 font-light text-xs px-1 rounded inline-block">-50%</span> </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            @* <div class="siderbar-news w-full"> *@
+            @*     <div class="box-side"> *@
+            @*         <img src="~/assets/images/banner-right.jpg" alt=""> *@
+            @*     </div> *@
+            @*     <div class="box-side my-5"> *@
+            @*         <h2 class="text-sky-900 font-medium uppercase mb-2"> *@
+            @*             <a href="#">XEM NHIỀU NHẤT</a> *@
+            @*         </h2> *@
+            @*         <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div> *@
+
+            @*         <div class="list-news mt-3 space-y-3" id="Most_Viewed_Article"> *@
+            @*             <div class="item-news"> *@
+            @*                 <div class="flex gap-2 items-start w-full box-news" style="height: auto;"> *@
+            @*                     <div class="aspect-[5/3] w-full max-w-[120px] shrink-0 thumb-art"> *@
+            @*                         <div class="thumb thumb-news placeholder box-placeholder w-full h-full rounded-xl bg-gray-100"></div> *@
+            @*                     </div> *@
+            @*                     <div class="right-content flex-1 space-y-1 placeholder box-placeholder"> *@
+            @*                         <div class="flex-cat placeholder h-4 w-20 bg-gray-200 rounded"></div> *@
+            @*                         <h2 class="title-news placeholder h-5 bg-gray-300 w-4/5 rounded"></h2> *@
+            @*                         <p class="description placeholder h-4 w-full bg-gray-200 rounded"></p> *@
+            @*                     </div> *@
+            @*                 </div> *@
+            @*             </div> *@
+            @*         </div> *@
+            @*     </div> *@
+
+            @*     <div class="box-side my-5"> *@
+            @*         <h2 class="text-sky-900 font-medium uppercase mb-2"> *@
+            @*             <a href="#">SẢN PHẨM KHUYẾN MÃI</a> *@
+            @*         </h2> *@
+            @*         <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div> *@
+
+            @*         <div class="list-product mt-3" id="list_new_Sale"> *@
+            @*             <div class="list-product-sale"> *@
+            @*                 <div class="swiper product-slide"> *@
+            @*                     <div class="swiper_wrapper"> *@
+            @*                         <div class="swiper-slide"> *@
+            @*                             <div class="list-news space-y-3 placeholder box-placeholder"> *@
+            @*                                 <div class="flex gap-2 items-start"> *@
+            @*                                     <div class="aspect-[1/1] w-full max-w-[120px] shrink-0 bg-gray-100 rounded-xl"></div> *@
+            @*                                     <div class="flex flex-col justify-center min-h-[120px] flex-1 space-y-2"> *@
+            @*                                         <h2 class="bg-gray-300 h-5 w-4/5 rounded"></h2> *@
+            @*                                         <div class="flex items-center justify-between text-xs text-slate-400"> *@
+            @*                                             <div class="bg-yellow-100 text-yellow-500 px-2 py-1 rounded">★ 4.9</div> *@
+            @*                                             <div>Đã bán 2223</div> *@
+            @*                                         </div> *@
+            @*                                         <div class="text-rose-600 font-semibold mt-1"> *@
+            @*                                             185.000 đ *@
+            @*                                             <span class="bg-red-100 font-light text-xs px-1 rounded">-50%</span> *@
+            @*                                         </div> *@
+            @*                                     </div> *@
+            @*                                 </div> *@
+            @*                             </div> *@
+            @*                         </div> <!-- end swiper-slide --> *@
+            @*                     </div> *@
+            @*                 </div> *@
+            @*             </div> *@
+            @*         </div> *@
+            @*     </div> *@
+
+            @* </div> *@
         </div>
     </div>
 </section>
