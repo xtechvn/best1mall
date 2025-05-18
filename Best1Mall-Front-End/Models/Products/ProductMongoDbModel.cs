@@ -23,7 +23,7 @@ namespace Best1Mall_Front_End.Models.Products
         public double amount { get; set; }
         public int quanity_of_stock { get; set; }
 
-        public double discount { get; set; }
+        public double? discount { get; set; }
         public List<string> images { get; set; }
         public string avatar { get; set; }
         public List<string> videos { get; set; }

@@ -1,0 +1,81 @@
+﻿@using Best1Mall_Front_End.Models.Products
+@model ProductListResponseModel
+@functions {
+    string ToSeoUrl(string name)
+    {
+        return RemoveUnicode(RemoveSpecialCharacters(name)).Replace(" ", "-").ToLower();
+    }
+
+    string RemoveUnicode(string text)
+    {
+        var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+        var chars = normalized.Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark);
+        return new string(chars.ToArray()).Normalize(System.Text.NormalizationForm.FormC);
+    }
+
+    string RemoveSpecialCharacters(string input)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(input, "[^a-zA-Z0-9\\s-]", "");
+    }
+
+    string FormatCurrency(double? amount)
+    {
+        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "Giá liên hệ";
+    }
+}
+<div class="my-5">
+    <h2 class="text-sky-900 font-medium uppercase mb-2">
+        <a href="">SẢN PHẨM KHUYẾN MÃI</a>
+    </h2>
+    <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+    <div class="space-y-3 mt-3">
+        @foreach (var item in Model.items)
+        {
+            bool hasPrice = (item.amount_min.HasValue && item.amount_min > 0);
+            double price = item.amount_min ?? item.amount;
+            double oldPrice = item.old_price ?? 0;
+            bool showOldPrice = oldPrice > price;
+            bool showDiscount = item.old_price.HasValue;
+            string seoUrl = $"/san-pham/{ToSeoUrl(item.name)}--{item._id}";
+            string ratingDisplay = (item.rating.HasValue && item.rating > 0) ? item.rating.Value.ToString("0.0") + "★" : "";
+            string reviewCountDisplay = (item.review_count.HasValue && item.review_count > 0) ? $"({item.review_count})" : "";
+            string discountText = showDiscount ? $"-{item.discount}%" : "";
+            string discountClass = showDiscount ? "" : "hidden";
+            var discount = item.discount ?? 0;
+            var hasDiscount = discount > 0;
+
+            <div class="flex gap-2 items-start w-full">
+                <div class="aspect-[1/1] w-full max-w-[120px] shrink-0">
+                    <a href="@seoUrl"
+                       onclick="global_service.saveViewedProduct('@item._id', '@item.name.Replace("'", "\\'")', '@item.avatar', @price, @(item.rating ?? 0), @(item.review_count ?? 0), @(item.old_price ?? 0))">
+                        <img src="https://static-image.adavigo.com@(@item.avatar)" alt="@item.name"
+                             class="w-full h-full object-cover rounded-xl" />
+                    </a>
+                </div>
+                <div class="flex flex-col justify-center min-h-[120px]">
+                    <a href="@seoUrl">
+                        <h2 class="font-medium line-clamp-2">@item.name</h2>
+                    </a>
+                    <div class="w-full">
+                        <div class="flex items-center justify-between">
+                            <div class="text-xs text-yellow-500 mt-1">@Html.Raw(ratingDisplay) <span class="text-slate-400">@Html.Raw(reviewCountDisplay)</span></div>
+                            <div class="text-xs text-slate-400">Đã bán 2223</div>
+                        </div>
+                        <div class="text-rose-600 font-semibold mt-1">
+                            @string.Format("{0:#,0} đ", price)
+                            @if (hasDiscount)
+                            {
+                                <span class="bg-red-100 font-light text-xs px-1 rounded inline-block">@discountText</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@if (Model.items == null || !Model.items.Any())
+{
+    <div class="text-center text-gray-500 py-10">Không tìm thấy sản phẩm khuyến mãi.</div>
+}

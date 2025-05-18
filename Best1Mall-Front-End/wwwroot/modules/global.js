@@ -569,7 +569,13 @@ var global_service = {
         return html
     },
 
-    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, old_price = 0, discount=0) {
+    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, old_price = 0, discount = 0) {
+        debugger
+        var img_src = image
+        if (!img_src.includes(API_URL.StaticDomain)
+            && !img_src.includes("data:image")
+            && !img_src.includes("http"))
+            img_src = API_URL.StaticDomain + image
        
         const key = 'viewedProducts';
         let list = JSON.parse(localStorage.getItem(key)) || [];
@@ -581,7 +587,7 @@ var global_service = {
         list.unshift({
             id,
             name,
-            image,
+            img_src,
             price,
             rating,
             review_count,
@@ -629,6 +635,7 @@ var global_service = {
             const showDiscount = p.discount && p.discount > 0;
             const ratingHtml = p.rating > 0 ? `${p.rating.toFixed(1)}★` : '';
             const reviewHtml = p.review_count > 0 ? `(${p.review_count})` : '';
+            
 
             html += `
             <div class="swiper-slide pt-3">
@@ -638,7 +645,7 @@ var global_service = {
                         -${p.discount}%
                     </div>
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                        <img src="${p.image}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover" />
+                        <img src="${p.img_src}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover" />
                     </div>
                     <p class="text-sm line-clamp-2 font-medium mt-2">${p.name}</p>
                     <div class="absolute bottom-2 w-full px-2 left-0">
