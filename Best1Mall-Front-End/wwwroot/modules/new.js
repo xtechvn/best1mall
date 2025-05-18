@@ -79,7 +79,7 @@ var _new = {
 
 
     loadNewsSection: function ({ targetSelector, category_id, page = 1, view_name }) {
-        debugger
+        
         const $container = $(targetSelector);
         const loading = `<div class="py-6 text-center text-blue-500">Đang tải dữ liệu...</div>`;
         $container.html(loading);

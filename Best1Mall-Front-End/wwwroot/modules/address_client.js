@@ -55,7 +55,7 @@ var address_client = {
         });
 
         $("body").on('click', "#update-address .btn-save", function () {
-            debugger
+            
             address_client.Confirm()
         });
         $("body").on('click', "#address-book .list-add .item", function () {
@@ -89,7 +89,7 @@ var address_client = {
 
         });
         $("body").on('click', "#address-book .btn-save", function () {
-            debugger
+            
             var element = $(this)
             var id=undefined
             $('#address-book .box-address .item').each(function (index, item) {
@@ -368,7 +368,7 @@ var address_client = {
 
     },
     Confirm: function () {
-        debugger
+        
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return

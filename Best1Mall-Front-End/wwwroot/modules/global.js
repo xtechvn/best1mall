@@ -29,7 +29,7 @@ var global_service = {
     },
     DynamicBind: function () {
         $("body").on('click', ".client-login", function (event) {
-            debugger
+            
             var element = $(this)
             event.preventDefault()
             var box_id = element.attr('data-id')
@@ -159,7 +159,7 @@ var global_service = {
                     }
                 },
                 success: function (result) {
-                    debugger
+                    
                     if (result.is_success && result.data) {
                         $('#carts .badge').html(result.data);
                     } else {
@@ -392,7 +392,7 @@ var global_service = {
     },
 
     GotoCart: function () {
-        debugger
+        
         //var usr = global_service.CheckLogin()
         //if (usr) {
         //    window.location.href = '/cart'
@@ -514,7 +514,7 @@ var global_service = {
         var html = ''
        
         $(list).each(function (index, item) {
-            debugger
+            
             var img_src = item.avatar
             if (!img_src.includes(API_URL.StaticDomain)
                 && !img_src.includes("data:image")
@@ -538,7 +538,7 @@ var global_service = {
             }
             if (has_price) {
                 
-                debugger
+                
                 let showDiscount = item.old_price != null ;
                 html += template
                     .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
@@ -570,7 +570,7 @@ var global_service = {
     },
 
     saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, old_price = 0, discount = 0) {
-        debugger
+        
         var img_src = image
         if (!img_src.includes(API_URL.StaticDomain)
             && !img_src.includes("data:image")
@@ -612,7 +612,7 @@ var global_service = {
     },
 
     renderViewedProducts: function () {
-        debugger
+        
        
         const container = document.getElementById('viewed-products');
         const wrapper = document.getElementById('viewed-products-wrapper'); // 👈 thêm dòng này
@@ -629,7 +629,7 @@ var global_service = {
 
         let html = '';
         list.forEach(p => {
-            debugger
+            
            
             const showOldPrice = p.old_price && p.old_price > p.price;
             const showDiscount = p.discount && p.discount > 0;

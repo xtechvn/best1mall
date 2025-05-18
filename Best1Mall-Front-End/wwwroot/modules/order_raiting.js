@@ -122,7 +122,7 @@ var order_raiting = {
         parent.addClass(class_name)
         parent.find('.star-label').html(label_by_star)
         parent.closest('.star').attr('data-value', star)
-        debugger
+        
     },
     RenderReviewMedia: function (element) {
         var parent_element = element.closest('.review-item').find('.wrap-img-upload')
@@ -231,7 +231,7 @@ var order_raiting = {
                 "img_link":'',
                 "video_link":'' ,
             }
-            debugger
+            
             var images=[]
             element.find('.review-img').each(function (index, item) {
                 var element_image = $(this)

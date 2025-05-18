@@ -44,7 +44,7 @@ public class AuthController : Controller
             string clientId = _configuration["Authentication:Google:ClientId"];
             string clientSecret = _configuration["Authentication:Google:ClientSecret"];
             string redirectUri = _configuration["Authentication:Google:RedirectUri"];
-            HttpContext.Response.Headers.Add("Cross-Origin-Opener-Policy", "same-origin");
+           // HttpContext.Response.Headers.Add("Cross-Origin-Opener-Policy", "same-origin");
 
             var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {
@@ -59,6 +59,9 @@ public class AuthController : Controller
             string scheme = Request.Scheme; // Lấy giao thức (http hoặc https)
             string host = Request.Host.Value; // Lấy tên miền và cổng (ví dụ: localhost:2335)
             string fullDomain = $"{scheme}://{domain}{redirectUri}";
+            LogHelper.InsertLogTelegramByUrl(_configuration["BotSetting:bot_token"], _configuration["BotSetting:bot_group_id"], 
+                "GoogleSignInCallback - Authentication:" + fullDomain+"\nCode: "+code+ "\nClientId: " + clientId + "\nclientSecret: " + clientSecret);
+
             var tokenResponse = await flow.ExchangeCodeForTokenAsync("me", code, fullDomain, CancellationToken.None);
 
             if (string.IsNullOrEmpty(tokenResponse.IdToken))
@@ -120,7 +123,7 @@ public class AuthController : Controller
             string clientId = _configuration["Authentication:Google:ClientId"];
             string clientSecret = _configuration["Authentication:Google:ClientSecret"];
             string redirectUri = _configuration["Authentication:Google:RedirectUriRegister"];
-            HttpContext.Response.Headers.Add("Cross-Origin-Opener-Policy", "same-origin");
+            //HttpContext.Response.Headers.Add("Cross-Origin-Opener-Policy", "same-origin");
             ViewBag.Data = "";
             var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {

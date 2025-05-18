@@ -101,7 +101,7 @@ var _feedback =
     }
     ,
     CreateEmailPromotion: function () {
-        debugger
+        
         let email_input = $('#Email-text').val();
         var obj =
         {
