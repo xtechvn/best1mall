@@ -87,4 +87,7 @@ $(document).ready(function () {
         $('.panel').not($panel).slideUp(); // Đóng các panel khác
         $panel.stop(true, true).slideToggle(); // Mở/đóng panel hiện tại
     });
+    $('.list-tab-menu .sub-menu').on('click', function () {
+        $(this).toggleClass('active');
+    });
 });

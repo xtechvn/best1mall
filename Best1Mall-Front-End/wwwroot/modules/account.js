@@ -104,7 +104,7 @@ var account = {
                 account.Logout()
             }
             $('#client-account-name').html('Xin chào, '+usr.name +' '+ `<a href="javascript:;" id="account-logout"> [ Đăng xuất ]</a>`)
-            $('#client-account-name').closest('a').attr('href', '/client')
+            $('#client-account-name').closest('a').attr('href', '/order')
             $('#client-account-name').closest('a').removeAttr('data-id')
             $('#client-account-name').closest('a').addClass('client-logged')
             $('#client-account-name').closest('a').removeClass('client-login')

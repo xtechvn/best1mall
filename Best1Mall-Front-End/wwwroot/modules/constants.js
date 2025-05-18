@@ -396,7 +396,9 @@ var HTML_CONSTANTS = {
                           <div class="md:grid grid-cols-12 w-full items-center relative">
 
                             <!-- Image + Name -->
+
                             <div class="col-span-5">
+                            <a href="{url}">
                               <div class="flex gap-2 items-center">
                                 <div class="relative aspect-[1/1] w-16 overflow-hidden rounded-lg shrink-0">
                                   <img src="{src}" alt="{name}" class="absolute inset-0 w-full h-full object-cover" />
@@ -406,6 +408,7 @@ var HTML_CONSTANTS = {
                                   <div class="text-sm text-slate-500">{attribute}</div>
                                 </div>
                               </div>
+                               </a>
                             </div>
 
                             <!-- Price & Discount -->

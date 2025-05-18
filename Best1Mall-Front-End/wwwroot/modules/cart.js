@@ -243,14 +243,17 @@ var cart = {
 
     },
     RenderCartItem: function (list) {
+        debugger
         
         var html = ''
         var total_amount = 0
 
         //-- Table Product
         $(list).each(function (index, item) {
+            debugger
             
             var html_item = HTML_CONSTANTS.Cart.Product
+                .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.product.name)).replaceAll(' ', '-') + '--' + item.product._id)
                 .replaceAll('{id}', item._id || item.product._id)
                 .replaceAll('{product_id}', item.product._id)
                 .replaceAll('{amount}', item.product.amount)

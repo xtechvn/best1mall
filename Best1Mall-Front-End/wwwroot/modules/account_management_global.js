@@ -16,7 +16,7 @@ var account_manage_global = {
         if (usr == undefined ||  usr.token == undefined) {
             window.location.href = '/'
         }
-        $('.box-quanlytaikhoan .avatar img').attr('src', usr.avatar == undefined ? '/images/img-search.png' : usr.avatar)
+        $('.box-quanlytaikhoan .avatar img').attr('src', usr.avatar == undefined ? '/assets/images/img-search.png' : usr.avatar)
         $('.box-quanlytaikhoan .box-name .name').html(usr.name)
         $('.box-quanlytaikhoan .menu-left-user').removeClass('placeholder')
       

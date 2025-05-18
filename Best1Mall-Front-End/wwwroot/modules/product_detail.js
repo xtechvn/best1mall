@@ -341,39 +341,67 @@ var product_detail = {
     //        }
     //    }
     //},
-    RenderBuyNowButton: function (forceDisableAll = false) {
+    //RenderBuyNowButton: function (forceDisableAll = false) {
+    //    debugger
+    //    $('.box-info-details').each(function () {
+    //        debugger
+    //        var wrapper = $(this);
+    //        var no_select_all = forceDisableAll;
+
+    //        if (!forceDisableAll) {
+    //            wrapper.find('.attributes').each(function () {
+    //                if ($(this).find('.box-tag .active').length <= 0) {
+    //                    no_select_all = true;
+    //                    return false;
+    //                }
+    //            });
+    //        }
+
+    //        var addCart = wrapper.find('.add-cart');
+    //        var buyNow = wrapper.find('.buy-now');
+
+    //        if (no_select_all) {
+    //            addCart.prop('disabled', true).addClass('button-disabled');
+    //            buyNow.prop('disabled', true).addClass('button-disabled');
+    //            $('.add-cart').addClass('button-disabled')
+    //            $('.buy-now').addClass('button-disabled')
+    //        } else {
+    //            addCart.prop('disabled', false).removeClass('button-disabled');
+    //            buyNow.prop('disabled', false).removeClass('button-disabled');
+    //            $('.add-cart').removeClass('button-disabled')
+    //            $('.buy-now').removeClass('button-disabled')
+    //        }
+    //    });
+    //},
+    RenderBuyNowButton: function () {
         debugger
-        $('.box-info-details').each(function () {
-            debugger
-            var wrapper = $(this);
-            var no_select_all = forceDisableAll;
+        var no_select_all = false
+        if ($('.box-info-details tbody .attributes').length <= 0) {
 
-            if (!forceDisableAll) {
-                wrapper.find('.attributes').each(function () {
-                    if ($(this).find('.box-tag .active').length <= 0) {
-                        no_select_all = true;
-                        return false;
-                    }
-                });
-            }
+        }
+        else {
+            $('.box-info-details tbody .attributes').each(function (index, item) {
+                var element = $(this)
+                var li_active = element.find('.box-tag').find('.active')
+                if (li_active.length <= 0) {
+                    no_select_all = true
+                    return false
+                }
+            })
+        }
+        if (no_select_all) {
+            $('.add-cart').prop('disabled', true)
+            $('.buy-now').prop('disabled', true)
+            $('.add-cart').addClass('button-disabled')
+            $('.buy-now').addClass('button-disabled')
 
-            var addCart = wrapper.find('.add-cart');
-            var buyNow = wrapper.find('.buy-now');
-
-            if (no_select_all) {
-                addCart.prop('disabled', true).addClass('button-disabled');
-                buyNow.prop('disabled', true).addClass('button-disabled');
-                $('.add-cart').addClass('button-disabled')
-                $('.buy-now').addClass('button-disabled')
-            } else {
-                addCart.prop('disabled', false).removeClass('button-disabled');
-                buyNow.prop('disabled', false).removeClass('button-disabled');
-                $('.add-cart').removeClass('button-disabled')
-                $('.buy-now').removeClass('button-disabled')
-            }
-        });
+        } else {
+            $('.add-cart').prop('disabled', false)
+            $('.buy-now').prop('disabled', false)
+            $('.add-cart').removeClass('button-disabled')
+            $('.buy-now').removeClass('button-disabled')
+        }
     },
-
    
     AddToCart: function (buy_now = false) {
         
