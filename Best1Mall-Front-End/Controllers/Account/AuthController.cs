@@ -44,7 +44,7 @@ public class AuthController : Controller
             string clientId = _configuration["Authentication:Google:ClientId"];
             string clientSecret = _configuration["Authentication:Google:ClientSecret"];
             string redirectUri = _configuration["Authentication:Google:RedirectUri"];
-            HttpContext.Response.Headers.Add("Cross-Origin-Opener-Policy", "same-origin");
+           // HttpContext.Response.Headers.Add("Cross-Origin-Opener-Policy", "same-origin");
 
             var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {
@@ -120,7 +120,7 @@ public class AuthController : Controller
             string clientId = _configuration["Authentication:Google:ClientId"];
             string clientSecret = _configuration["Authentication:Google:ClientSecret"];
             string redirectUri = _configuration["Authentication:Google:RedirectUriRegister"];
-            HttpContext.Response.Headers.Add("Cross-Origin-Opener-Policy", "same-origin");
+            //HttpContext.Response.Headers.Add("Cross-Origin-Opener-Policy", "same-origin");
             ViewBag.Data = "";
             var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {
