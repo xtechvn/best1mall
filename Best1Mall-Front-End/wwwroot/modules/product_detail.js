@@ -49,12 +49,12 @@ var product_detail = {
             product_detail.RenderBuyNowButton()
         });
         $("body").on('click', ".add-cart", function () {
-            debugger
+            
             product_detail.AddToCart()
 
         });
         $("body").on('click', ".buy-now", function () {
-            debugger
+            
             product_detail.BuyNow()
 
         });
@@ -64,7 +64,7 @@ var product_detail = {
         });
     },
     Detail: function () {
-        debugger
+        
         var code = $('.section-details-product').attr('data-code')
         if (code == undefined || code.trim() == '')
             window.location.href = '/error'
@@ -86,7 +86,7 @@ var product_detail = {
         })
     },
     RenderDetail: function (product, product_sub) {
-        debugger
+        
         var html2 = ''
         var html = ''
         var html_thumb = ''
@@ -225,7 +225,7 @@ var product_detail = {
         return undefined
     },
     GetSubProductSessionByAttributeSelected: function () {
-        debugger
+        
         var json = sessionStorage.getItem(STORAGE_NAME.SubProduct)
         if (json != undefined && json.trim() != '') {
             var list = JSON.parse(json)
@@ -324,7 +324,7 @@ var product_detail = {
         }
     },
     AddToCart: function (buy_now = false) {
-        debugger
+        
         var product = product_detail.GetSubProductSessionByAttributeSelected();
 
         if (product == undefined) {
@@ -382,7 +382,7 @@ var product_detail = {
 
     },
     SaveCartItemToSession: function (cartItem) {
-        debugger
+        
         let cart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
         let index = cart.findIndex(x => x.product_id === cartItem.product_id);
 
@@ -396,7 +396,7 @@ var product_detail = {
     },
 
     SuccessAddToCart: function () {
-        debugger
+        
         const popup = $('#thanhcong');
         popup.removeClass('hidden');
 
@@ -412,7 +412,7 @@ var product_detail = {
     },
 
     BuyNow: function () {
-        debugger
+        
         var product = product_detail.GetSubProductSessionByAttributeSelected()
         if (product == undefined) {
             var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
@@ -437,7 +437,7 @@ var product_detail = {
                 global_service.POST(API_URL.AddToCart, request)
             ).done(function (result) {
                 if (result.is_success && result.data) {
-                    debugger
+                    
                     sessionStorage.setItem(STORAGE_NAME.BuyNowItem, JSON.stringify(request))
                     window.location.href = '/cart'
                 }
@@ -451,7 +451,7 @@ var product_detail = {
 
     },
     SaveProductDetailAttributeSelected: function () {
-        debugger
+        
         var selected = {
             attributes: [],
             quanity: 1

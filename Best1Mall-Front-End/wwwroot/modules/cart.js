@@ -16,7 +16,7 @@ var cart = {
     },
     DynamicBind: function () {
         $("body").on('click', ".all-pop", function (event) {
-            debugger
+            
             var cartId
             var element = $(this)
             event.preventDefault()
@@ -64,18 +64,18 @@ var cart = {
            
         });
         //$("body").on('click', ".section-cart .table-addtocart .remove-product", function () {
-        //    debugger
+        //    
         //    var element = $(this)
         //    cart.RemoveCartItem(element.closest('.product').attr('data-cart-id'))
 
         //});
         $("body").on('click', "#lightbox-delete-cart .btn-save", function () {
-            debugger
+            
             cart.ConfirmRemoveCartItem()
 
         });
         $('body').on('change', '.checkbox-all', function () {
-            debugger
+            
             const isChecked = $(this).prop('checked');
 
             $('.table-addtocart .box-checkbox input[type="checkbox"]').prop('checked', isChecked);
@@ -110,7 +110,7 @@ var cart = {
             cart.ReRenderAmount()
         });
         $("body").on('click', ".btn-confirm-cart", function () {
-            debugger
+            
             cart.ConfirmCart()
         });
         $("body").on('keyup', ".product-quantity input", function () {
@@ -205,7 +205,7 @@ var cart = {
         }
     },
     CartItem: function () {
-        debugger
+        
         var usr = global_service.CheckLogin()
         if (usr) {
             var request = {
@@ -214,7 +214,7 @@ var cart = {
             $.when(
                 global_service.POST(API_URL.CartList, request)
             ).done(function (result) {
-                debugger
+                
                 if (result.is_success && result.data && result.data.length > 0) {
                     cart.RenderCartItem(result.data)
                     cart.RenderBuyNowSelection()
@@ -243,13 +243,13 @@ var cart = {
 
     },
     RenderCartItem: function (list) {
-        debugger
+        
         var html = ''
         var total_amount = 0
 
         //-- Table Product
         $(list).each(function (index, item) {
-            debugger
+            
             var html_item = HTML_CONSTANTS.Cart.Product
                 .replaceAll('{id}', item._id || item.product._id)
                 .replaceAll('{product_id}', item.product._id)
@@ -347,12 +347,12 @@ var cart = {
         }
     },
     //RemoveCartItem: function (data_id) {
-    //    debugger
+    //    
     //    $("#lightbox-delete-cart").attr("data-cart-id", data_id).removeClass("hidden");
 
     //},
     ConfirmRemoveCartItem: function () {
-        debugger
+        
         var data_id = $('#lightbox-delete-cart').attr('data-cart-id')
         var usr = global_service.CheckLogin();
         $('.table-addtocart .product').each(function (index, item) {
@@ -382,7 +382,7 @@ var cart = {
             $('#lightbox-delete-cart').removeClass('overlay-active')
 
         } else {
-            debugger
+            
             // ❌ Nếu chưa login → xoá trong sessionStorage
             let cart2 = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
 
@@ -405,7 +405,7 @@ var cart = {
     },
 
     ConfirmCart: function () {
-        debugger
+        
         if ($('#address-receivername').attr('data-id') == null || $('#address-receivername').attr('data-id') == undefined || $('#address-receivername').attr('data-id').trim() == '') {
             $('#lightbox-cannot-add-cart .info-order .notification-content').html('Vui lòng thêm/chọn địa chỉ trước khi tiếp tục')
             $('#lightbox-cannot-add-cart .title-box').html('Chưa chọn địa chỉ giao hàng')

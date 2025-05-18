@@ -2,7 +2,7 @@
     account.Initialization()
 })
 function SyncSessionCartToServer() {
-    debugger
+    
     var usr = global_service.CheckLogin();
     if (!usr) return;
 
@@ -12,14 +12,14 @@ function SyncSessionCartToServer() {
     let syncCount = 0;
 
     cart.forEach(item => {
-        debugger
+        
         let request = {
             product_id: item.product_id,
             quanity: item.quanity,
             token: usr.token
         };
         $.when(global_service.POST(API_URL.AddToCart, request)).done(function (result) {
-            debugger
+            
             if (result.is_success && result.data) {
                 syncCount++;
                 if (syncCount === cart.length) {
@@ -228,7 +228,7 @@ var account = {
         });
     },
     Login: function () {
-        debugger
+        
         var element = $('#btn-client-login')
         if (account.ValidateLogin()) {
             $(':input[type="submit"]').prop('disabled', true);
@@ -244,7 +244,7 @@ var account = {
             $.when(
                 global_service.POST(API_URL.Login, request)
             ).done(function (res) {
-                debugger
+                
                 if (res.is_success) {
                     if ($('#login-remember').is(":checked")) {
                         localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))

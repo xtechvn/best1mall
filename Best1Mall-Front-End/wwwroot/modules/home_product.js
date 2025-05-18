@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     // Gắn sự kiện click cho từng danh mục
     $('body').on('click', '.cat-tag2', function (e) {
-        debugger
+        
        
         e.preventDefault();
 
@@ -66,7 +66,7 @@ $(document).ready(function () {
         
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
-            debugger
+            
             // Lấy raw number từ chuỗi
             const rawFrom = getRawNumber($('#priceFrom').val());
             const rawTo = getRawNumber($('#priceTo').val());
@@ -95,7 +95,7 @@ $(document).ready(function () {
 
     });
     $('body').on('click', '.rating-filter', function (e) {
-        debugger
+        
         e.preventDefault();
 
         const rating = parseFloat($(this).data('rating')) || 0;
@@ -175,7 +175,7 @@ $(document).ready(function () {
         take: 12, // Số lượng sản phẩm mỗi trang
         loadListProduct: function (group_id, skip, take, view_name, priceFrom = 0, priceTo = 0, ratingFrom = 0) {
            
-            debugger
+            
             $.ajax({
                 url: '/product/loadProductTopComponent', // URL tới action loadProductTopComponent
                 type: 'POST',
@@ -190,7 +190,7 @@ $(document).ready(function () {
                     rating: ratingFrom // Truyền ratingFrom
                 },
                 success: function (response) {
-                    debugger
+                    
                     const isEmptyResponse = !response || response.trim() === "";
                     // Nếu bạn muốn thêm sản phẩm mới vào danh sách hiện tại mà không thay thế toàn bộ
                     if (skip === 1) {
