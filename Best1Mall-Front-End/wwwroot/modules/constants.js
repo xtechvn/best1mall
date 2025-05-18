@@ -183,7 +183,7 @@ var HTML_CONSTANTS = {
         </div>`,
         GlobalSearchByKeyword: ` 
         <li class="p-2 hover:bg-red-50 hover:text-red-500 cursor-pointer flex items-center gap-2 text-xs">
-            <img src="/assets/images/product1.jpg" alt="Sản phẩm" class="w-14 h-14 object-cover rounded">
+            <img src="{avatar}" alt="Sản phẩm" class="w-14 h-14 object-cover rounded">
             <div>
                 <a href="{url}">{name}</a>
                 <div class="text-red-400 mt-1">185.000 đ</div>
@@ -412,12 +412,7 @@ var HTML_CONSTANTS = {
                             <div class="col-span-2 md:text-center md:pl-0 pl-17">
                               <div class="flex flex-wrap md:flex-col gap-x-2 items-center">
                                 <div class="font-medium md:text-base text-sm">{amount_display}</div>
-                                <div class="text-sm text-slate-500">
-                                  <span class="line-through">199.000 ₫</span> | -27%
-                                </div>
-                                <div class="discount-badge relative inline-block overflow-hidden">
-                                  <span>Giảm 50k</span>
-                            </div>
+                            
                           </div>
                           <span class="md:hidden block text-red-400 font-semibold">{total_amount} ₫</span>
                         </div>

@@ -120,6 +120,7 @@ var address_client = {
 
     },
     Detail: function (selected_id = undefined) {
+        debugger
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -131,6 +132,7 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressList, request)
         ).done(function (result) {
+            debugger
             var html = ''
             if (result.is_success) {
                 sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(result.data.list))
@@ -186,6 +188,7 @@ var address_client = {
         return data.address + '<br /> ' + address_select
     },
     CreateOrUpdateAddress: function (id) {
+        debugger
         //var overlay_box = false
         //if ($('#address-book').hasClass('overlay')) {
         //    overlay_box = true
