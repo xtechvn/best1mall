@@ -2,6 +2,7 @@
 using Best1Mall_Front_End.Models.Labels;
 using Best1Mall_Front_End.Models.Products;
 using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Best1Mall_Front_End.Controllers.Home
@@ -62,6 +63,28 @@ namespace Best1Mall_Front_End.Controllers.Home
         public IActionResult NotFound()
         {
             return View();
+        }
+        [HttpGet]
+        public IActionResult GetGoogleClientId(int top)
+        {
+            try
+            {
+                return Ok(new
+                {
+                    is_success =true,
+                    data = configuration["Authentication:Google:ClientId"]
+                });
+            }
+            catch (Exception ex)
+            {
+                LogHelper.InsertLogTelegramByUrl(configuration["BotSetting:bot_token"], configuration["BotSetting:bot_group_id"], "GetGoogleClientId - HomeController:" + ex.ToString());
+
+            }
+            return Ok(new
+            {
+                is_success = false,
+                data = "65575993345-haqgehmq7lr2spseivas34237t3qkuos.apps.googleusercontent.com"
+            });
         }
     }
 }

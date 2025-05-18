@@ -2,6 +2,7 @@
 
 $(document).ready(function () {
 
+    account_google.getGoogleClientIdSync()
     account_google.DynamicBind()
     
 });
@@ -61,6 +62,23 @@ var account_google = {
                     }
                 }
             }, 500);
+        });
+    },
+    getGoogleClientIdSync: function () {
+        $.ajax({
+            url: '/Home/GetGoogleClientId', // Đảm bảo đường dẫn URL là chính xác
+            type: 'GET',
+            dataType: 'json',
+            async: false, // Quan trọng: Đặt thành false để thực hiện đồng bộ
+            success: function (response) {
+                if (response.is_success) {
+                    googleClientId = response.data;
+                } else {
+                    console.error('Lỗi khi lấy Google Client ID:', response);
+                }
+            },
+            error: function (xhr, status, error) {
+            }
         });
     }
 }
