@@ -17,7 +17,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
         }
 
 
-        public async Task<OrderDetailMongoDbModel> GetDetail(OrdersGeneralRequestModel request)
+        public async Task<OrderDetailResponseFEModel> GetDetail(OrdersGeneralRequestModel request)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
 
                 if (status == (int)ResponseType.SUCCESS)
                 {
-                    return JsonConvert.DeserializeObject<OrderDetailMongoDbModel>(jsonData["data"].ToString());
+                    return JsonConvert.DeserializeObject<OrderDetailResponseFEModel>(result);
                 }
             }
             catch

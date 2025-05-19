@@ -1,13 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Chi tiết đơn hàng | Hulotoys";
+﻿@using Best1Mall_Front_End.Models.Orders
+@using Best1Mall_Front_End.Utilities
+@using Best1Mall_Front_End.Utilities.contants
+@{
+    OrderDetailResponseFEModel order = (OrderDetailResponseFEModel)ViewBag.Data;
+    ViewData["Title"] = "Chi tiết đơn hàng "+order.data_order.OrderNo+" | BestMall";
     Layout = "~/Views/Shared/_AccountManagementLayout.cshtml";
     string data_id = (string)ViewBag.Id;
+    var static_domain = (string)ViewBag.StaticDomain;
+    var OrderStatusName = (string)ViewBag.OrderStatusName;
+
 }
 @Html.AntiForgeryToken()
 <input id="order-detail" style="display:none;" value="@data_id" />
 <div class="wrap-order-details">
     <a href="/order" class="link-back">Quay lại đơn hàng của tôi</a>
-    <div id="process-step-refund" class="process-wrap process-wrap-2">
+    <div id="process-step-refund" class="process-wrap process-wrap-2" style="@(order.data_order.OrderStatus==OrderStatus.CANCELED?"":"display:none;")">
         <div class="process-main">
             <div class="item active progress-start-refund">
                 <div class="process-step-cont">
@@ -15,7 +22,7 @@
                         <i class="icon icon-dolar"></i>
                     </div>
                     <span class="process-label">Yêu cầu hoàn tiền</span>
-                    <span class="date-time">09:00 7/1/2023</span>
+                    <span class="date-time">@(((DateTime)order.data_order.UpdateLast).ToString("dd/MM/yyyy HH:mm"))</span>
                 </div>
             </div>
             <div class="item progress-refunded">
@@ -24,90 +31,99 @@
                         <i class="icon icon-cashback"></i>
                     </div>
                     <span class="process-label">Hoàn tiền</span>
-                    <span class="date-time">09:00 7/1/2023</span>
+                    <span class="date-time"></span>
                 </div>
             </div>
         </div>
     </div>
     <div id="process-step-order" class="process-wrap process-wrap-4">
         <div class="process-main">
-            <div class="item active progress-confirmed">
+            <div class="item @(order.data_order.OrderStatus >= OrderStatus.NEW ?"active":"") progress-confirmed">
                 <div class="process-step-cont">
                     <div class="process-step step-1">
                         <i class="icon icon-text"></i>
                     </div>
                     <span class="process-label">Đơn hàng đã đặt</span>
-                    <span class="date-time">09:00 7/1/2023</span>
+                    <span class="date-time">@(((DateTime)order.data_order.CreatedDate).ToString("dd/MM/yyyy HH:mm"))</span>
                 </div>
             </div>
-            <div class="item active progress-payment">
+            <div class="item @(order.data_order.OrderStatus >= OrderStatus.ON_DELIVERY &&order.data_order.PaymentStatus == 1 ?"active":"") progress-payment">
                 <div class="process-step-cont  ">
                     <div class="process-step step-2">
                         <i class="icon icon-cashback"></i>
                     </div>
                     <span class="process-label">Đã thanh toán</span>
-                    <span class="date-time">09:00 7/1/2023</span>
+                    <span class="date-time"></span>
                 </div>
             </div>
-            <div class="item active  progress-delivering">
+            <div class="item @(order.data_order.OrderStatus >= OrderStatus.ON_DELIVERY ?"active":"")  progress-delivering">
                 <div class="process-step-cont">
                     <div class="process-step step-3 ">
                         <i class="icon icon-ship"></i>
                     </div>
                     <span class="process-label">Đang giao hàng</span>
-                    <span class="date-time">09:00 7/1/2023</span>
+                    <span class="date-time"></span>
                 </div>
             </div>
-            <div class="item progress-received">
+            <div class="item @(order.data_order.OrderStatus >= OrderStatus.DELIVERED ?"active":"") progress-received">
                 <div class="process-step-cont">
                     <div class="process-step step-4  ">
                         <i class="icon icon-box"></i>
                     </div>
                     <span class="process-label">Đã nhận được hàng </span>
-                    <span class="date-time">09:00 7/1/2023</span>
+                    <span class="date-time"></span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class=" md:grid flex justify-center md:justify-end text-center items-center my-4 gap-3">
-        <a href="javascript:;" class=" btn-buy-again border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Mua lại</a>
-        <a href="javascript:;" class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Đánh giá</a>
+        @if (order.data_order.OrderStatus == OrderStatus.DELIVERED || order.data_order.OrderStatus == OrderStatus.DONE||
+        order.data_order.OrderStatus == OrderStatus.CANCELED){
+            <a href="javascript:;" class=" btn-buy-again border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Mua lại</a>
+            <a href="javascript:;" class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Đánh giá</a>
+        }
+       
     </div>
     <div class="box-order-detail">
         <div class="head-box">
-            <span class="code">Mã đơn hàng: <b id="order-no">NG7668779</b></span>
-            <span class="status">Tình trạng: <span class="high status-name">Trả hàng/Hoàn tiền</span></span>
-            <span class="code">Ngày đặt hàng: <b class="created-time">09:00 23/1/2024</b></span>
+            <span class="code">Mã đơn hàng: <b id="order-no">@order.data_order.OrderNo</b></span>
+            <span class="status">Tình trạng: <span class="high status-name">@OrderStatusName</span></span>
+            <span class="code">Ngày đặt hàng: <b class="created-time">@(((DateTime)order.data_order.CreatedDate).ToString("dd/MM/yyyy HH:mm"))</b></span>
         </div>
         <div class="list-product-order">
-            <div class="item">
-                <div class="img">
-                    <img id="product-avt" src="/assets/images/product.jpg" alt="" />
-                </div>
-                <div class="info">
-                    <h1 class="name-product">
-                        Gấu Bông Mèo Hoàng Thượng Cosplay, Thú Nhồi Bông An Toàn
-                        Cho Bé
-                    </h1>
-                    <div class="cat">Phân loại hàng: Gấu Trúc, 40cm</div>
-                    <div class="flex-quantity">
-                        <span>Giá: 899.000đ</span>
-                        <span>Số lượng:1</span>
+            @if(order.data.carts!=null && order.data.carts.Count > 0)
+            {
+                foreach (var cart in order.data.carts)
+                {
+                    <div class="item">
+                        <div class="img">
+                            <img id="product-avt" src="@StringHelpers.CorrectImage(cart.product.avatar,static_domain)" alt="" />
+                        </div>
+                        <div class="info">
+                            <h1 class="name-product">
+                                @cart.product.name
+                            </h1>
+                            <div class="cat">Phân loại hàng: @StringHelpers.RenderVariationDetail(cart.product.attributes, cart.product.attributes_detail, cart.product.variation_detail)</div>
+                            <div class="flex-quantity">
+                                <span>Giá: @(cart.product.amount.ToString("N0")) đ</span>
+                                <span>Số lượng:@(cart.quanity.ToString("N0")) </span>
+                            </div>
+                            <p class="price">@(cart.total_amount.ToString("N0")) đ</p>
+                        </div>
+                       
                     </div>
-                    <p class="price">890.000đ</p>
-                </div>
-            </div>
+                }
+            }
 
         </div>
         <div class="box-info-address">
             <div class="user">
-                <h3 class="name-user">Nguyễn Văn A</h3>
+                <h3 class="name-user">@order.data.receivername</h3>
                 <p class="add">
-                    Địa chỉ: Tầng 10, Tòa A FPT Tower, số 10 Phạm Văn Bạch, Dịch Vọng, Cầu
-                    Giấy, Hà Nội
+                    Địa chỉ: @order.data.address , @order.data.provinceid
                 </p>
-                <p class="tel">Điện thoại:0923832323</p>
+                <p class="tel">Điện thoại:@order.data.phone</p>
                 <a href="javascript:;" data-id="@data_id" class="update-add update-address-order">Cập nhật</a>
             </div>
             <div class="table-order">
@@ -119,19 +135,19 @@
                         </tr>
                         <tr>
                             <td>Tiền hàng:</td>
-                            <td class="amount-before-discount">809.890 đ</td>
+                            <td class="amount-before-discount">@(((double)order.data.total_amount).ToString("N0")) đ</td>
                         </tr>
-                        <tr>
+                       @*  <tr>
                             <td>Phí vận chuyển</td>
                             <td class="delivery-fee">33.000 đ</td>
                         </tr>
                         <tr>
                             <td>Giảm giá:</td>
                             <td class="discount-fee">-120.0000 đ</td>
-                        </tr>
+                        </tr> *@
                         <tr>
                             <td>Tổng tiền</td>
-                            <td class="price total-amount">779.000 đ</td>
+                            <td class="price total-amount">@(((double)order.data_order.Amount).ToString("N0")) đ</td>
                         </tr>
                     </tbody>
                 </table>
@@ -149,10 +165,6 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript" src="/modules/address_client.js" asp-append-version="true"></script>
-
-    <script type="text/javascript" src="/modules/order_detail.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="/modules/order_address.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="/modules/order_raiting.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/modules/order/detail.js" asp-append-version="true"></script>
 
 }

@@ -729,6 +729,7 @@ var global_service = {
                 .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
                 .replaceAll('{name}', item.name)
                 .replaceAll('{avatar}', img_src)
+                .replaceAll('{amount}', global_service.Comma(item.amount))
 
         });
 
