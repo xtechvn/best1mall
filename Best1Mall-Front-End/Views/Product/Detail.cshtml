@@ -594,9 +594,9 @@
                                 </div>
                             </div>
                             <!-- Nội dung -->
-                            <div class="space-y-10">
+                            <div class="space-y-10 section-description-product">
                                 <section id="mo-ta"
-                                         class="section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
+                                         class=" box-des section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
                                     <h2 class="font-semibold mb-2">Mô tả sản phẩm</h2>
                                     <p class="text-gray-700">
                                         Viên Uống Youtheory Collagen Biotin 6000mg từ lâu đã trở thành người bạn đồng
@@ -845,5 +845,44 @@
 @section Scripts {
     <script type="text/javascript" src="/modules/product_detail.js"></script>
     <script type="text/javascript" src="/modules/product_raiting.js"></script>
+    <script>
+
+
+
+        // tab mô tả
+        $(document).ready(function () {
+            $('.tab-link').on('click', function (e) {
+                e.preventDefault();
+                const targetSelector = $(this).data('target');
+                const $target = $(targetSelector);
+
+                if ($target.length) {
+                    $('html, body').animate({
+                        scrollTop: $target.offset().top - $('#tabs').outerHeight()
+                    }, 100);
+                } else {
+                    console.warn('Không tìm thấy phần tử với selector:', targetSelector);
+                }
+            });
+
+            const sections = $('.section-tab');
+            const tabLinks = $('.tab-link');
+
+            $(window).on('scroll', function () {
+                let scrollPos = $(document).scrollTop() + $('#tabs').outerHeight() + 30;
+
+                sections.each(function () {
+                    const top = $(this).offset().top;
+                    const bottom = top + $(this).outerHeight();
+                    const id = '#' + $(this).attr('id');
+
+                    if (scrollPos >= top && scrollPos <= bottom) {
+                        tabLinks.removeClass('text-color-base border-blue-500');
+                        tabLinks.filter('[data-target="' + id + '"]').addClass('text-color-base border-blue-500');
+                    }
+                });
+            });
+        });
+    </script>
 
 }
