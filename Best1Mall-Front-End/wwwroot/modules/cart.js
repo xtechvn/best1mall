@@ -243,14 +243,14 @@ var cart = {
 
     },
     RenderCartItem: function (list) {
-        debugger
+        
         
         var html = ''
         var total_amount = 0
 
         //-- Table Product
         $(list).each(function (index, item) {
-            debugger
+            
             
             var html_item = HTML_CONSTANTS.Cart.Product
                 .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.product.name)).replaceAll(' ', '-') + '--' + item.product._id)
@@ -408,7 +408,7 @@ var cart = {
     },
 
     ConfirmCart: function () {
-        debugger
+        
         
         if ($('#address-receivername').attr('data-id') == null || $('#address-receivername').attr('data-id') == undefined || $('#address-receivername').attr('data-id').trim() == '') {
             $('#lightbox-cannot-add-cart .info-order .notification-content').html('Vui lòng thêm/chọn địa chỉ trước khi tiếp tục')
@@ -474,7 +474,7 @@ var cart = {
                 $.when(
                     global_service.POST(API_URL.CartConfirm, request)
                 ).done(function (result) {
-                    debugger
+                    
                     if (result.is_success && result.data != undefined) {
                         request.result = result.data
                         sessionStorage.setItem(STORAGE_NAME.Order, JSON.stringify(request))

@@ -30,7 +30,7 @@ var product_detail = {
     },
     DynamicBind: function () {
         $("body").on('click', ".attribute-detail", function () {
-            debugger
+
             var element = $(this);
             if (element.hasClass('disabled')) return;
 
@@ -63,12 +63,12 @@ var product_detail = {
         //    product_detail.RenderBuyNowButton()
         //});
         $("body").on('click', ".add-cart", function () {
-            
+
             product_detail.AddToCart()
 
         });
         $("body").on('click', ".buy-now", function () {
-            
+
             product_detail.BuyNow()
 
         });
@@ -78,7 +78,7 @@ var product_detail = {
         });
     },
     Detail: function () {
-        
+
         var code = $('.section-details-product').attr('data-code')
         if (code == undefined || code.trim() == '')
             window.location.href = '/error'
@@ -100,7 +100,7 @@ var product_detail = {
         })
     },
     RenderDetail: function (product, product_sub) {
-        
+
         var html2 = ''
         var html = ''
         var html_thumb = ''
@@ -239,7 +239,7 @@ var product_detail = {
         return undefined
     },
     GetSubProductSessionByAttributeSelected: function () {
-        
+
         var json = sessionStorage.getItem(STORAGE_NAME.SubProduct)
         if (json != undefined && json.trim() != '') {
             var list = JSON.parse(json)
@@ -268,7 +268,7 @@ var product_detail = {
         return undefined
     },
     RenderChangedAttributeSelected: function (product, clickedElement) {
-        debugger
+
         var options = [];
 
         // ⚠️ Lấy options theo 1 block duy nhất (dùng closest là an toàn)
@@ -303,14 +303,14 @@ var product_detail = {
     },
 
     //RenderChangedAttributeSelected: function (product, clickedElement) {
-    //    debugger
+    //    
     //    var options = []
     //    var container = null
 
     //    // 🧠 Phân biệt vùng chính xác bằng .closest()
-       
+
     //        container = $('.box-info-details .attributes')
-       
+
 
     //    if (container) {
     //        container.each(function () {
@@ -342,9 +342,9 @@ var product_detail = {
     //    }
     //},
     //RenderBuyNowButton: function (forceDisableAll = false) {
-    //    debugger
+    //    
     //    $('.box-info-details').each(function () {
-    //        debugger
+    //        
     //        var wrapper = $(this);
     //        var no_select_all = forceDisableAll;
 
@@ -374,7 +374,7 @@ var product_detail = {
     //    });
     //},
     RenderBuyNowButton: function () {
-        debugger
+        
         var no_select_all = false
         if ($('.box-info-details tbody .attributes').length <= 0) {
 
@@ -402,9 +402,9 @@ var product_detail = {
             $('.buy-now').removeClass('button-disabled')
         }
     },
-   
+
     AddToCart: function (buy_now = false) {
-        
+
         var product = product_detail.GetSubProductSessionByAttributeSelected();
 
         if (product == undefined) {
@@ -457,12 +457,12 @@ var product_detail = {
             //return
             product_detail.SaveCartItemToSession(cartItem);
             global_service.LoadCartCount();
-           // product_detail.SuccessAddToCart(); // hiển thị toast success
+            // product_detail.SuccessAddToCart(); // hiển thị toast success
         }
 
     },
     SaveCartItemToSession: function (cartItem) {
-        
+
         let cart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
         let index = cart.findIndex(x => x.product_id === cartItem.product_id);
 
@@ -476,7 +476,7 @@ var product_detail = {
     },
 
     SuccessAddToCart: function () {
-        
+
         const popup = $('#thanhcong');
         popup.removeClass('hidden');
 
@@ -492,7 +492,7 @@ var product_detail = {
     },
 
     BuyNow: function () {
-        
+
         var product = product_detail.GetSubProductSessionByAttributeSelected()
         if (product == undefined) {
             var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
@@ -517,7 +517,7 @@ var product_detail = {
                 global_service.POST(API_URL.AddToCart, request)
             ).done(function (result) {
                 if (result.is_success && result.data) {
-                    
+
                     sessionStorage.setItem(STORAGE_NAME.BuyNowItem, JSON.stringify(request))
                     window.location.href = '/cart'
                 }
@@ -531,7 +531,7 @@ var product_detail = {
 
     },
     SaveProductDetailAttributeSelected: function () {
-        
+
         var selected = {
             attributes: [],
             quanity: 1

@@ -684,7 +684,7 @@ var global_service = {
 
 
     RenderSearchProductItem: function (list) {
-        debugger
+       
 
         var html = ''
         var template = HTML_CONSTANTS.Home.GlobalSearchByKeyword

@@ -81,7 +81,7 @@ var address_client = {
 
     },
     DynamicConfirmAddress: function (callback) {
-        debugger
+        
         $("body").on('click', "#update-address .btn-save", function () {
             var element = $(this)
             var selected_item = address_client.GetUpdatedAddress()
@@ -90,7 +90,7 @@ var address_client = {
 
         });
         $("body").on('click', "#address-book .btn-save", function () {
-            debugger
+            
             var element = $(this)
             var id=undefined
             $('#address-book .box-address .item').each(function (index, item) {
@@ -121,7 +121,7 @@ var address_client = {
 
     },
     Detail: function (selected_id = undefined) {
-        debugger
+        
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -133,7 +133,7 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressList, request)
         ).done(function (result) {
-            debugger
+            
             var html = ''
             if (result.is_success) {
                 sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(result.data.list))
@@ -159,10 +159,10 @@ var address_client = {
         $('.content-left-user').removeClass('placeholder')
     },
     RenderExistsAddress: function (list, selected_id = undefined) {
-        debugger
+        
         var html = ''
         $(list).each(function (index, item) {
-            debugger
+            
             html += HTML_CONSTANTS.Address.GridItem
                 .replaceAll('{active}', (selected_id != undefined && selected_id == item.id) ? 'active' : '')
                 .replaceAll('{id}', item.id)
@@ -191,7 +191,7 @@ var address_client = {
         return data.address + '<br /> ' + address_select
     },
     CreateOrUpdateAddress: function (id) {
-        debugger
+        
         //var overlay_box = false
         //if ($('#address-book').hasClass('overlay')) {
         //    overlay_box = true
@@ -371,7 +371,7 @@ var address_client = {
 
     },
     Confirm: function () {
-        debugger;
+        ;
 
         // 1. Kiểm tra login
         var usr = global_service.CheckLogin();
@@ -467,7 +467,7 @@ var address_client = {
 
     },
     GetUpdatedAddress: function () {
-        debugger
+        
         var usr = global_service.CheckLogin()
         var request = {
             "id": $('#update-address').attr('data-id'),
