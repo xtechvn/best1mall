@@ -19,6 +19,7 @@ var order_raiting = {
             }
         });
         $("body").on('click', "#danhgia .btn-review", function () {
+
             $('#danhgia').addClass('overlay-active')
         });
         $("body").on('click', "#danhgia .star-number", function () {

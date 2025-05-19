@@ -81,6 +81,7 @@ var address_client = {
 
     },
     DynamicConfirmAddress: function (callback) {
+        debugger
         $("body").on('click', "#update-address .btn-save", function () {
             var element = $(this)
             var selected_item = address_client.GetUpdatedAddress()
@@ -89,7 +90,7 @@ var address_client = {
 
         });
         $("body").on('click', "#address-book .btn-save", function () {
-            
+            debugger
             var element = $(this)
             var id=undefined
             $('#address-book .box-address .item').each(function (index, item) {
@@ -158,8 +159,10 @@ var address_client = {
         $('.content-left-user').removeClass('placeholder')
     },
     RenderExistsAddress: function (list, selected_id = undefined) {
+        debugger
         var html = ''
         $(list).each(function (index, item) {
+            debugger
             html += HTML_CONSTANTS.Address.GridItem
                 .replaceAll('{active}', (selected_id != undefined && selected_id == item.id) ? 'active' : '')
                 .replaceAll('{id}', item.id)
@@ -368,29 +371,47 @@ var address_client = {
 
     },
     Confirm: function () {
-        
-        var usr = global_service.CheckLogin()
-        if (usr == undefined || usr.token == undefined) {
-            return
+        debugger;
+
+        // 1. Kiểm tra login
+        var usr = global_service.CheckLogin();
+        if (!usr || !usr.token) {
+            return;
         }
+
+        // 2. Lấy ID từ form (nếu có)
+        var currentId = $('#update-address').attr('data-id');
+        if (!currentId || parseInt(currentId) <= 0) {
+            currentId = 0; // Mặc định là 0 để BE hiểu là Create
+        }
+
+        // 3. Tạo object request để gửi lên BE
         var request = {
-            "Id": $('#update-address').attr('data-id'),
+            "Id": currentId,
             "token": usr.token,
             "ReceiverName": $('#update-address .user input').val(),
             "Phone": $('#update-address .tel input').val(),
-            "ProvinceId": $('#update-address .province select').find(':selected').val(),
-            "DistrictId": $('#update-address .district select').find(':selected').val(),
-            "WardId": $('#update-address .wards select').find(':selected').val(),
+            "ProvinceId": $('#update-address .province select').val(),
+            "DistrictId": $('#update-address .district select').val(),
+            "WardId": $('#update-address .wards select').val(),
             "Address": $('#update-address .address input').val(),
             "Status": 0,
             "IsActive": 0
-        }
-        var updated_item = address_client.GetUpdatedAddress()
-        var result = global_service.POSTSynchorus(API_URL.UpdateAddress, request)
+        };
+
+        // 4. Gửi request đến BE
+        var result = global_service.POSTSynchorus(API_URL.UpdateAddress, request);
         if (result.is_success) {
-            request.Id = result.data
+            // Gán ID trả về (Create sẽ có ID mới, Update sẽ giữ nguyên)
+            request.Id = result.data;
+            $('#update-address').attr('data-id', result.data); // ✅ Gán lại ID vào DOM
+        } else {
+            alert("Cập nhật địa chỉ thất bại!");
+            return;
         }
-        var request = {
+
+        // 5. Chuẩn bị object lưu vào sessionStorage
+        var sessionItem = {
             "id": request.Id,
             "token": usr.token,
             "receiverName": request.ReceiverName,
@@ -402,43 +423,38 @@ var address_client = {
             "status": 0,
             "isactive": 0,
             "province_detail": {
-                name: $('#update-address .province select').find(':selected').text()
+                name: $('#update-address .province select option:selected').text()
             },
             "district_detail": {
-                name: $('#update-address .district select').find(':selected').text()
+                name: $('#update-address .district select option:selected').text()
             },
             "ward_detail": {
-                name: $('#update-address .wards select').find(':selected').text()
-            },
+                name: $('#update-address .wards select option:selected').text()
+            }
+        };
 
-        }
-        var list = sessionStorage.getItem(STORAGE_NAME.AddressClient)
-        if (list) {
-            var data = JSON.parse(list)
-            if (data == undefined) data = []
-            if (data[0]) {
-                var index = data.findIndex(obj => obj.id == updated_item.id);
-                if (index >= 0) {
-                    data[index] = updated_item
-                } else {
-                    data.push(request)
-                }
-            }
-            else {
-                data.push[request]
-            }
+        // 6. Cập nhật vào sessionStorage
+        var list = sessionStorage.getItem(STORAGE_NAME.AddressClient);
+        var data = list ? JSON.parse(list) : [];
+
+        if (!Array.isArray(data)) data = [];
+
+        var index = data.findIndex(obj => obj.id == sessionItem.id);
+        if (index >= 0) {
+            data[index] = sessionItem; // Update
         } else {
-            var data = []
-            data.push(request)
+            data.push(sessionItem); // Create
         }
-        sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(data))
-        
-        $('#update-address').addClass('hidden');
-        address_client.AddLoading()
-        address_client.RenderExistsAddress(data, request.Id)
-        address_client.RemoveLoading()
 
-    },
+        sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(data));
+
+        // 7. UI handling
+        $('#update-address').addClass('hidden');
+        address_client.AddLoading();
+        address_client.RenderExistsAddress(data, sessionItem.id);
+        address_client.RemoveLoading();
+    }, 
+
     GetSelectedAddress: function (id) {
         var list = sessionStorage.getItem(STORAGE_NAME.AddressClient)
         if (list) {
@@ -451,6 +467,7 @@ var address_client = {
 
     },
     GetUpdatedAddress: function () {
+        debugger
         var usr = global_service.CheckLogin()
         var request = {
             "id": $('#update-address').attr('data-id'),

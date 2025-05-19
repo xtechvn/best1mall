@@ -16,6 +16,7 @@ var order_detail = {
     },
     DynamicBind: function () {
         $("body").on('click', ".btn-review", function () {
+            debugger
             $('#danhgia').addClass('overlay-active')
         });
     },
