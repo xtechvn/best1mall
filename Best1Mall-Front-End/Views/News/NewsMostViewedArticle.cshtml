@@ -2,38 +2,37 @@
 @using Best1Mall_Front_End.Utilities.Lib;
 @using Best1Mall_Front_End.Utilities;
 @model List<ArticleResponse>
-@if (Model != null)
+
+@if (Model != null && Model.Any())
 {
-    foreach (var item in Model)
-    {
-        string link = @Html.GetStaticUrlNews(item.title, item.id);
-        <div class="item-news">
-            <div class="box-news">
-                <div class="thumb-art">
-                    <div class="thumb thumb-news">
-                        <a href="@link"><img src="@item.image_169" alt=""> </a>
-                    </div>
+    <div class="space-y-3 mt-3">
+        @foreach (var item in Model)
+        {
+            string link = @Html.GetStaticUrlNews(item.title, item.id);
+            <article class="flex gap-3 items-start w-full">
+                <div class="aspect-[5/3] w-full max-w-[120px] shrink-0">
+                    <a href="@link">
+                        <img src="@item.image_169" alt="@item.title" class="w-full h-full object-cover rounded-xl" />
+                    </a>
                 </div>
-                <div class="right-content">
-                    <div class="flex-cat">
-
-                        <span class="time">
-                            <i class="icon icon-time"></i>
-                            @item.publish_date.ToString("dd/MM/yyyy") |   @item.category_name
-                        </span>
-                    </div>
-                    <h2 class="title-news">
-                        <a href="@link">
+                <div class="flex-1">
+                   
+                    <a href="@link">
+                        <h2 class="font-medium text-base md:text-lg leading-snug text-gray-900 hover:text-blue-600 transition">
                             @item.title
-                        </a>
-                    </h2>
-                    <p class="description">
-                        @item.lead
-                    </p>
-                    <a href="@link">Đọc tiếp</a>
+                        </h2>
+                    </a>
+                   
                 </div>
-            </div>
-        </div>
-    }
+            </article>
+        }
+    </div>
 }
-
+else
+{
+    <div class="text-center py-8">
+        <img src="/assets/images/graphics/icon-search.png" alt="Không tìm thấy kết quả" class="mx-auto mb-4 w-16 h-16" />
+        <h2 class="text-xl font-semibold mb-2">Không tìm thấy kết quả</h2>
+        <p class="text-gray-500">Chúng tôi không tìm thấy thông tin mà bạn cần, vui lòng thử lại.</p>
+    </div>
+}
