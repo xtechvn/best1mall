@@ -43,8 +43,8 @@
         float:right;
     }
 </style>
-<div id="Comment_success" class="overlay form-noti">
-    <div class="popup">
+<div id="Comment_success" class="overlay form-noti" style="display:none;">
+    <div class="popup p-4 md:p-8 bg-white rounded-xl md:rounded-3xl shadow-md max-w-4xl md:my-8 my-4 mx-auto">
         <a class="close" href="javascript:;">
             <i class="icon icon-close"></i>
         </a>
@@ -56,22 +56,22 @@
     </div>
 </div>
 <section class="section-banner-search section-donggopykien">
-    <div class="container">
-        <div class="flex-banner">
-            <div class="wrap-form">
+    <div class="container p-4 md:p-8 bg-white rounded-xl md:rounded-3xl shadow-md max-w-4xl md:my-8 my-4 mx-auto">
+        <div class="flex-banner flex flex-col items-start md:flex-row ">
+            <div class="wrap-form" style="width:60%;">
                 <h2 class="title">Đóng góp ý kiến</h2>
                 <div class="form-donggop">
                     <form onsubmit="return false" class="needs-validation" novalidate>
                         <div class="form-group">
                             <label>Nội dung*</label>
                             <div class="box-input">
-                                <textarea maxlength="500" style="min-height:150px" oninput="_feedback.SaveText()" class="form-control" id="comment-text" rows="5" placeholder="Hãy chia sẽ những góp ý của bạn với Hulo Toys tại đây nhé."></textarea>
+                                <textarea maxlength="500" style="min-height:150px" oninput="_feedback.SaveText()" class="form-control" id="comment-text" rows="5" placeholder="Hãy chia sẽ những góp ý của bạn với best mall tại đây nhé."></textarea>
                                 <div id="invalid-comment" style="font-size:inherit;color:red;display:none">Vui lòng nhập nội dung góp ý!</div>
                             </div>
                         </div>
                         <div class="action">
                             <div></div>
-                            <a onclick="_feedback.CreateFeedback()" id="liveToastBtn" class="btn btn-Send">Gửi</a>
+                            <a onclick="_feedback.CreateFeedback()" id="liveToastBtn" class="btn btn-Send border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 inline-block md:w-auto w-full">Gửi</a>
                         </div>
                     </form>
                 </div>
