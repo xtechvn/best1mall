@@ -37,7 +37,7 @@ function SyncSessionCartToServer() {
 var account = {
     Data: {
         SendCodeTimeout: false,
-        PasswordLength:6,
+        PasswordLength: 6,
     },
     Initialization: function () {
         if ($('#forgot-password-change').length > 0) {
@@ -116,9 +116,15 @@ var account = {
         //    var element = $(this)
         //    account.ValidateInput(element)
         //});
+        $("body").on('keyup', "#login-form input, #register-form input", function () {
+            var element = $(this)
+            account.ValidateInput(element)
+
+        });
         $("body").on('focusout', "#login-form input, #register-form input", function () {
             var element = $(this)
             account.ValidateInput(element)
+
         });
         $("body").on('keyup', "#register-form input", function () {
            
@@ -657,6 +663,10 @@ var account = {
                 if ((element.val() == undefined || element.val().trim() == '')) {
                     element.closest('.mb-4').find('.err').show()
                     return
+                } else {
+                    element.closest('.mb-4').find('.err').hide()
+                    element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
+                    return
                 }
             }
         }
@@ -666,6 +676,8 @@ var account = {
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err').show()
             success = false
+            return success
+
         }
         else if (element.val() != undefined && element.val().trim() != '') {
             var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
@@ -673,8 +685,12 @@ var account = {
                 element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmailInCorrect)
                 element.closest('.mb-4').find('.err').show()
                 success = false
+                return success
+
             }
         }
+        element.closest('.mb-4').find('.err').hide()
+        element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
         return success
     },
     ValidatePasswordInput: function (element) {
@@ -684,11 +700,15 @@ var account = {
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err').show()
             success = false
+
         }
         else if (element.val().length < password_length) {
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
             element.closest('.mb-4').find('.err').show()
             success = false
+        } else {
+            element.closest('.mb-4').find('.err').hide()
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
         }
         return success
     },

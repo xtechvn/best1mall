@@ -26,8 +26,8 @@ var account_google = {
                         || token_local.trim() == 'undefined') {
                         $(':input[type="submit"]').prop('disabled', false);
 
-                        $('#login-form .user input').closest('.mb-4').find('.err').show()
-                        $('#login-form .user input').closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
+                        $('#login-general-err .err').show()
+                        $('#login-general-err .err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
                     } else {
 
                         window.location.reload();
@@ -53,8 +53,8 @@ var account_google = {
                         || token_local.trim() == 'undefined') {
                         $(':input[type="submit"]').prop('disabled', false);
 
-                        $('#login-form .user input').closest('.mb-4').find('.err').show()
-                        $('#login-form .user input').closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
+                        $('#register-general-err .err').show()
+                        $('#register-general-err .err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
                     } else {
 
                         window.location.reload();
