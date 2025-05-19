@@ -196,7 +196,7 @@ namespace Best1Mall_Front_End.Controllers.Client
                 msg = "Email hướng dẫn đổi mật khẩu sẽ được gửi đến địa chỉ email mà bạn đã nhập. <br /> vui lòng kiểm tra hộp thư đến và làm theo hướng dẫn."
             });
         }
-        public async Task<ActionResult> ChangePassword(string token)
+        public async Task<ActionResult> ChangePassword(string token,int type)
         {
             try
             {
@@ -222,6 +222,7 @@ namespace Best1Mall_Front_End.Controllers.Client
 
                 //}
                 ViewBag.Token = token;
+                ViewBag.type = type;
                 return View();
             }
             catch

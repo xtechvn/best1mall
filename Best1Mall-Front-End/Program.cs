@@ -95,7 +95,7 @@ app.MapControllerRoute(
     defaults: new { controller = "Product", action = "SearchListing" });
 app.MapControllerRoute(
     name: "doi-mat-khau",
-    pattern: "/account/change-password/{token}",
+    pattern: "/account/change-password/{token}/{type}",
     defaults: new { controller = "Client", action = "ChangePassword" });
 app.MapControllerRoute(
     name: "error",

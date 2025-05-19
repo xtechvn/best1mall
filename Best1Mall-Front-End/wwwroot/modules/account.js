@@ -42,6 +42,10 @@ var account = {
     Initialization: function () {
         if ($('#forgot-password-change').length > 0) {
             account.DynamicBindChangePassword()
+            if ($('#forgot-password-change').attr('data-type')==2) {
+                account.RenderHTML()
+                account.DynamicBind()
+            }
         }
         else {
             account.RenderHTML()
