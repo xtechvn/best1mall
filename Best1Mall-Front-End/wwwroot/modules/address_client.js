@@ -139,7 +139,7 @@ var address_client = {
                 sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(result.data.list))
                 address_client.RenderExistsAddress(result.data.list, selected_id)
             }
-            $('#address-book .list-add').html(html)
+            
             address_client.RemoveLoading()
 
         }).fail(function (jqXHR, textStatus) {

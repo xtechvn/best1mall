@@ -16,14 +16,15 @@ namespace Best1Mall_Front_End.Controllers.Client
     public class ClientController : Controller
     {
         private readonly IConfiguration _configuration;
-        private readonly ClientServices _clientServices; 
-        private readonly AddressClientServices _addressClientServices; 
+        private readonly ClientServices _clientServices;
+        private readonly AddressClientServices _addressClientServices;
         private readonly LocationServices _locationServices;
         private readonly IMemoryCache _cache;
 
-        public ClientController(IConfiguration configuration, IMemoryCache cache) {
+        public ClientController(IConfiguration configuration, IMemoryCache cache)
+        {
 
-            _configuration=configuration;
+            _configuration = configuration;
             _clientServices = new ClientServices(configuration);
             _addressClientServices = new AddressClientServices(configuration);
             _locationServices = new LocationServices(configuration);
@@ -64,14 +65,14 @@ namespace Best1Mall_Front_End.Controllers.Client
                     is_success = false,
                     data = new ClientRegisterResponseModel()
                     {
-                        code= ResponseCode.OTPNotCorrect,
-                        msg= "Email chưa được xác nhận, vui lòng nhấn [Gửi mã xác thực] và thử lại"
+                        code = ResponseCode.OTPNotCorrect,
+                        msg = "Email chưa được xác nhận, vui lòng nhấn [Gửi mã xác thực] và thử lại"
                     }
                 });
             }
             int otp_code_input = -1;
             int correct_otp = -1;
-            if(!int.TryParse(confirm_code, out correct_otp))
+            if (!int.TryParse(confirm_code, out correct_otp))
             {
                 return Ok(new
                 {
@@ -83,8 +84,9 @@ namespace Best1Mall_Front_End.Controllers.Client
                     }
                 });
             }
-            if (request.otp_code == null|| request.otp_code.Trim()==null 
-                || !int.TryParse(request.otp_code,out otp_code_input) || otp_code_input<10000000 || otp_code_input!= correct_otp) {
+            if (request.otp_code == null || request.otp_code.Trim() == null
+                || !int.TryParse(request.otp_code, out otp_code_input) || otp_code_input < 10000000 || otp_code_input != correct_otp)
+            {
 
                 return Ok(new
                 {
@@ -100,11 +102,11 @@ namespace Best1Mall_Front_End.Controllers.Client
             try { _cache.Remove(cacheKey); } catch { }
             return Ok(new
             {
-                is_success = (result != null && result.data!=null),
+                is_success = (result != null && result.data != null),
                 data = result
             });
-        } 
-       
+        }
+
         public ActionResult Address()
         {
             return View();
@@ -120,17 +122,17 @@ namespace Best1Mall_Front_End.Controllers.Client
 
             return Ok(new
             {
-                is_success = (result != null && result.list!=null && result.list.Count>0),
+                is_success = (result != null && result.list != null && result.list.Count > 0),
                 data = result
             });
-        }  
+        }
         public async Task<IActionResult> AddressDetail(ClientAddressDetailRequestModel request)
         {
             var result = await _addressClientServices.Detail(request);
 
             return Ok(new
             {
-                is_success = (result != null &&  result.Id >0),
+                is_success = (result != null && result.Id > 0),
                 data = result
             });
         }
@@ -163,15 +165,15 @@ namespace Best1Mall_Front_End.Controllers.Client
                 is_success = (result != null && result.Count > 0),
                 data = result
             });
-        } 
+        }
         public async Task<IActionResult> SubmitAddress(AddressUpdateRequestModel request)
         {
             var result = await _addressClientServices.CreateOrUpdate(request);
 
             return Ok(new
             {
-                is_success = result!=null,
-                data=result
+                is_success = result != null,
+                data = result
             });
         }
         public async Task<IActionResult> DefaultAddress(ClientAddressGeneralRequestModel request)
@@ -191,7 +193,7 @@ namespace Best1Mall_Front_End.Controllers.Client
             return Ok(new
             {
                 is_success = result,
-                msg= "Email hướng dẫn đổi mật khẩu sẽ được gửi đến địa chỉ email mà bạn đã nhập. <br /> vui lòng kiểm tra hộp thư đến và làm theo hướng dẫn."
+                msg = "Email hướng dẫn đổi mật khẩu sẽ được gửi đến địa chỉ email mà bạn đã nhập. <br /> vui lòng kiểm tra hộp thư đến và làm theo hướng dẫn."
             });
         }
         public async Task<ActionResult> ChangePassword(string token)
@@ -202,26 +204,23 @@ namespace Best1Mall_Front_End.Controllers.Client
                 {
                     return Redirect("/Home/Notfound");
                 }
-                string forgot = EncodeHelpers.Decode(token.Replace("-" , "+").Replace("_" , "/"), _configuration["API:SecretKey"]);
-                if(forgot == null || forgot.Trim() == "")
+                string forgot = EncodeHelpers.Decode(token.Replace("-", "+").Replace("_", "/"), _configuration["API:SecretKey"]);
+                if (forgot == null || forgot.Trim() == "")
                 {
                     return Redirect("/Home/Notfound");
                 }
                 var model = JsonConvert.DeserializeObject<ClientForgotPasswordTokenModel>(forgot);
-                if(model == null|| model.account_client_id <= 0 || model.exprire_time<DateTime.Now || model.created_time>DateTime.Now)
+                if (model == null || model.user_name == null)
                 {
                     return Redirect("/Home/Notfound");
                 }
-                if (model == null || model.account_client_id <= 0 || model.exprire_time < DateTime.Now || model.created_time > DateTime.Now)
-                {
-                    return Redirect("/Home/Notfound");
-                }
-                var validate = await _addressClientServices.ValidateForgotPassword(new ClientForgotPasswordRequestModel() { name = token });
-                if (!validate)
-                {
-                    return Redirect("/Home/Notfound");
 
-                }
+                //var validate = await _addressClientServices.ValidateForgotPassword(new ClientForgotPasswordRequestModel() { name = token });
+                //if (!validate)
+                //{
+                //    return Redirect("/Home/Notfound");
+
+                //}
                 ViewBag.Token = token;
                 return View();
             }
@@ -256,7 +255,7 @@ namespace Best1Mall_Front_End.Controllers.Client
                 });
             }
             var model = JsonConvert.DeserializeObject<ClientForgotPasswordTokenModel>(forgot);
-            if (model == null || model.account_client_id <= 0 || model.exprire_time < DateTime.Now || model.created_time > DateTime.Now)
+            if (model == null || model.user_name == null )
             {
                 return Ok(new
                 {
@@ -265,24 +264,28 @@ namespace Best1Mall_Front_End.Controllers.Client
 
                 });
             }
-            var validate = await _addressClientServices.ValidateForgotPassword(new ClientForgotPasswordRequestModel() { name = request.token });
-            if (!validate)
-            {
-                return Ok(new
-                {
-                    is_success = result,
-                    msg = "Đổi mật khẩu thất bại, vui lòng kiểm tra lại thông tin hoặc liên hệ với bộ phận CSKH"
+            //var validate = await _addressClientServices.ValidateForgotPassword(new ClientForgotPasswordRequestModel() { name = request.token });
+            //if (!validate)
+            //{
+            //    return Ok(new
+            //    {
+            //        is_success = result,
+            //        msg = "Đổi mật khẩu thất bại, vui lòng kiểm tra lại thông tin hoặc liên hệ với bộ phận CSKH"
 
-                });
+            //    });
 
-            }
+            //}
             request.id = model.account_client_id;
             result = await _addressClientServices.ChangePassword(request);
-
+            var msg = "Đổi mật khẩu thành công";
+            if (result != true)
+            {
+                msg= "Đổi mật khẩu không thành công";
+            }
             return Ok(new
             {
                 is_success = result,
-                msg="Đổi mật khẩu thành công, vui lòng đăng nhập lại"
+                msg = "Đổi mật khẩu thành công"
             });
         }
     }

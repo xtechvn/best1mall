@@ -53,6 +53,7 @@ var account = {
         var notification_empty ='Vui lòng không để trống'
         var notification_diffirent ='Mật khẩu và Xác nhận mật khẩu phải giống nhau'
         $("body").on('click', "#change-password-confirm", function () {
+            $('#forgot-password-change .content .err-form').hide()
             var request = {
                 "token": $('#forgot-password-change').attr('data-token'),
                 "password": $('#forgot-password-change .new-password input').val(),
@@ -62,31 +63,39 @@ var account = {
                 $('.new-password .err').html(notification_empty)
                 $('.new-password .err').show()
                 return
+            } else {
+                $('.new-password .err').hide()
             }
             if (request.confirm_password == null || request.confirm_password.trim() == '') {
                 $('.confirm-new-password .err').html(notification_empty)
                 $('.confirm-new-password .err').show()
                 return
             }
+            else {
+                $('.confirm-new-password .err').hide()
+            }
             if (request.password != request.confirm_password) {
                 $('.confirm-new-password .err').html(notification_diffirent)
                 $('.confirm-new-password .err').show()
                 return
             }
+            else {
+                $('.confirm-new-password .err').hide()
+            }
             $.when(
                 global_service.POST(API_URL.ChangePassword, request)
             ).done(function (res) {
                 if (res.is_success == true) {
-                    $('#success h4').html(res.msg)
-                    $('#success').addClass('overlay-active')
+                    $('#forgot-password-change .content .err-form').html(res.msg)
+                    $('#forgot-password-change .content .err-form').show()
                     $('#change-password-confirm input').val('')
                     setTimeout(() => {
                         window.location.href = '/'
                     }, 3000);
                 }
                 else {
-                    $('.confirm-new-password .err').html(res.msg)
-                    $('.confirm-new-password .err').show()
+                    $('#forgot-password-change .content .err-form').html(res.msg)
+                    $('#forgot-password-change .content .err-form').show()
                 }
             })
         });
