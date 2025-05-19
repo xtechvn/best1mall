@@ -1,9 +1,9 @@
 ﻿@{
     Layout = null;
 }
-@* @section Styles { *@
-@*     <link rel="stylesheet" href="/assets/css/main.min.css" /> *@
-@* } *@
+ @section Styles { 
+    <link rel="stylesheet" href="/assets/css/main.min.css" />
+ } 
 
 <!-- Popup Thành công - Tailwind Version -->
 <div id="thanhcong" class="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50 hidden">
@@ -30,17 +30,101 @@
     </div>
 </div>
 
-<div id="danhgia" class="overlay fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 hidden form-review">
-    <div class="popup bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 relative text-left">
-        <a class="close absolute top-2 right-2 text-gray-400 hover:text-gray-600" href="javascript:;">
-            <i class="icon icon-close text-2xl"></i>
-        </a>
-        <h4 class="title text-lg font-bold mb-4">Đánh giá</h4>
-        <div class="content space-y-4 max-h-[80vh] overflow-y-auto pr-2">
-            <!-- Nội dung sản phẩm đánh giá (giữ nguyên) -->
-        </div>
-    </div>
-</div>
+@* <div id="danhgia" class="overlay form-review"> *@
+@*     <div class="popup"> *@
+@*         <a class="close" href="javascript:;"> *@
+@*             <i class="icon icon-close"></i> *@
+@*         </a> *@
+@*         <h4 class="title">đánh giá</h4> *@
+@*         <div class="content"> *@
+@*             <div class="list-product-rate"> *@
+@*                 <div class="item"> *@
+@*                     <div class="box-product"> *@
+@*                         <div class="img"> *@
+@*                             <img src="/assets/images/product.jpg" alt="" /> *@
+@*                         </div> *@
+@*                         <div class="info"> *@
+@*                             <h3 class="name-product"> *@
+@*                                 Gấu Bông Mèo Hoàng Thượng Cosplay, Thú Nhồi Bông An Toàn *@
+@*                                 Cho Bé *@
+@*                             </h3> *@
+@*                             <div class="cat">Phân loại hàng: Gấu Trúc, 40cm</div> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="star"> *@
+@*                         <span>Chất lượng sản phẩm</span> *@
+@*                         <span class="rate five"> *@
+@*                             <i>★</i><i>★</i><i>★</i><i>★</i><i>★</i> Tuyệt vời *@
+@*                         </span> *@
+@*                     </div> *@
+@*                     <div class="star"> *@
+@*                         <span>Chất lượng sản phẩm</span> *@
+@*                         <span class="rate four"> *@
+@*                             <i>★</i><i>★</i><i>★</i><i>★</i><i>★</i> Hài lòng *@
+@*                         </span> *@
+@*                     </div> *@
+@*                     <div class="star"> *@
+@*                         <span>Chất lượng sản phẩm</span> *@
+@*                         <span class="rate three"> *@
+@*                             <i>★</i><i>★</i><i>★</i><i>★</i><i>★</i> Bình thường *@
+@*                         </span> *@
+@*                     </div> *@
+@*                     <div class="star"> *@
+@*                         <span>Chất lượng sản phẩm</span> *@
+@*                         <span class="rate two"> *@
+@*                             <i>★</i><i>★</i><i>★</i><i>★</i><i>★</i> Không hài lòng *@
+@*                         </span> *@
+@*                     </div> *@
+@*                     <div class="star "> *@
+@*                         <span>Chất lượng sản phẩm</span> *@
+@*                         <span class="rate one"> *@
+@*                             <i>★</i><i>★</i><i>★</i><i>★</i><i>★</i> Tệ *@
+@*                         </span> *@
+@*                     </div> *@
+@*                     <textarea rows="4" class="form-control" *@
+@*                               placeholder="Hãy chia sẽ điều bạn thích về sản phẩm với những người mua khác nhé."></textarea> *@
+@*                     <div class="upload-file"> *@
+@*                         <div class="uploadIMG"> *@
+@*                             <input type="file" class="upload" multiple/> *@
+@*                             <span>Thêm hình ảnh</span> *@
+@*                         </div> *@
+@*                         <div class="uploadVIDEO"> *@
+@*                             <input type="file" class="upload" /> *@
+@*                             <span>Thêm video</span> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="wrap-img-upload"> *@
+@*                         <div class="item"> *@
+@*                             <img src="./assets/images/product.jpg" alt="" /> *@
+@*                             <div class="del"></div> *@
+@*                         </div> *@
+@*                         <div class="item"> *@
+@*                             <img src="./assets/images/product.jpg" alt="" /> *@
+@*                             <div class="del"></div> *@
+@*                         </div> *@
+@*                         <div class="item"> *@
+@*                             <img src="./assets/images/product.jpg" alt="" /> *@
+@*                             <div class="del"></div> *@
+@*                         </div> *@
+@*                         <div class="uploadIMG"> *@
+@*                             <input type="file" class="upload" multiple /> *@
+@*                             <span>0/5</span> *@
+@*                         </div> *@
+@*                         <div class="uploadVIDEO"> *@
+@*                             <input type="file" class="upload" /> *@
+@*                             <span>0/1</span> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*             <div class="action"> *@
+@*                 <a href="javascript:;" class="btn btn-line btn-cancel">Trở lại</a> *@
+@*                 <a href="javascript:;" class="btn btn-base btn-confirm">Hoàn thành</a> *@
+@*             </div> *@
+@*         </div> *@
+
+@*     </div> *@
+@* </div> *@
 
 <div id="dangxuat" class="overlay fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 hidden form-update-address">
     <div class="popup bg-white rounded-lg shadow-lg w-full max-w-sm p-6 relative text-center">
