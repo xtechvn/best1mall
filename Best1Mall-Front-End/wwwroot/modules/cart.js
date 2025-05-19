@@ -415,7 +415,8 @@ var cart = {
             $('#lightbox-cannot-add-cart .title-box').html('Chưa chọn địa chỉ giao hàng')
             $('#lightbox-cannot-add-cart').addClass('overlay-active')
             cart.HideNotification()
-            return
+            //return
+            $('.mainheader .client-login').click()
         }
         var usr = global_service.CheckLogin()
         if (usr) {

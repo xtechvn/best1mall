@@ -58,10 +58,25 @@ var address_client = {
             
             address_client.Confirm()
         });
-        $("body").on('click', "#address-book .list-add .item", function () {
-            var element = $(this)
-            $('#address-book .list-add .item').removeClass('active')
-            element.addClass('active')
+        //$("body").on('click', "#address-book .list-add .item", function () {
+        //    var element = $(this)
+        //    $('#address-book .list-add .item').removeClass('active')
+        //    element.addClass('active')
+        //});
+        //Chọn Adress
+        $("body").on("click", "#address-book .list-add input[type=radio], #address-book .list-add .address-item", function () {
+            let target = $(this)
+
+            // Nếu là radio thì tìm tới thằng cha label rồi tìm .address-item bên trong
+            if (target.is("input[type=radio]")) {
+                target = target.closest("label").find(".address-item")
+            }
+
+            // Remove active ở tất cả
+            $("#address-book .list-add .address-item").removeClass("active")
+
+            // Add active đúng thằng target
+            target.addClass("active")
         });
         $("body").on('select2:select', "#update-address .province select", function () {
             $('#update-address .wards select').val(null).trigger('change')

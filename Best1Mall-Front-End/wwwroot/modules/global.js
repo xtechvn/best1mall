@@ -451,30 +451,55 @@ var global_service = {
         return value.trim();
     },
     RenderSearchBox: function () {
-       
+
         var usr = global_service.CheckLogin()
         var token = ''
         if (usr) {
             token = usr.token
 
         }
+
+        var keyword = global_service.GetGlobalSearchKeyword(); // <-- PHẢI có dòng này!
+
         var request = {
-            "keyword": global_service.GetGlobalSearchKeyword(),
+            "keyword": keyword,
             "token": token
         }
         $.when(
             global_service.POST(API_URL.GlobalSearch, request)
         ).done(function (result) {
-           
+            debugger
             if (result.is_success && result.data && result.data.items) {
                 if (result.data.items.length > 0) {
                     var html = `<ul class="divide-y divide-gray-100">` + global_service.RenderSearchProductItem(result.data.items) + `</ul>`
                     $('.box-search-list').html(html)
                 } else {
-                    $('.box-search-list').html('Không tìm thấy kết quả')
+                    $('.box-search-list').html(`
+                    
+                        <ul class="p-3">
+                            <li class="py-2 text-sm">Không tìm thấy kết quả với từ khoá “${keyword}”</li>
+                            <li class="border-dashed border-gray-300 border-b my-2"></li>
+                            <li class="py-2 list-disc text-sm ml-4">Kiểm tra lỗi chính tả với từ khoá đã nhập</li>
+                            <li class="py-2 list-disc text-sm ml-4">Trong trường hợp cần hỗ trợ, hãy liên hệ với Best Mall qua tổng đài miễn phí 
+                                <a href="" class="text-color-base">1900 6868</a>
+                            </li>
+                        </ul>
+                    
+                `)
                 }
             } else {
-                $('.box-search-list').html('Không tìm thấy kết quả')
+                $('.box-search-list').html(`
+                    
+                        <ul class="p-3">
+                            <li class="py-2 text-sm">Không tìm thấy kết quả với từ khoá “${keyword}”</li>
+                            <li class="border-dashed border-gray-300 border-b my-2"></li>
+                            <li class="py-2 list-disc text-sm ml-4">Kiểm tra lỗi chính tả với từ khoá đã nhập</li>
+                            <li class="py-2 list-disc text-sm ml-4">Trong trường hợp cần hỗ trợ, hãy liên hệ với Best Mall qua tổng đài miễn phí 
+                                <a href="" class="text-color-base">1900 6868</a>
+                            </li>
+                        </ul>
+                    
+                `)
             }
             $('#global-search-loading').hide()
 

@@ -515,7 +515,7 @@ var HTML_CONSTANTS = {
     },
     Address: {
         GridItem: `
-         <label class="address-item rounded-2xl border border-gray-100 cursor-pointer transition-all duration-200 relative">
+         <label class=" rounded-2xl border border-gray-100 cursor-pointer transition-all duration-200 relative">
                                             <div class="p-3 flex gap-2 items-start ">
 
                                                <div class="relative">

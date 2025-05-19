@@ -44,12 +44,21 @@ $color-base: #773EFA;
     content: none;
 
   }
-
+  &[aria-disabled="true"]{
+    display: none;
+  }
   @media (max-width:767px) {
     display: none;
   }
 }
-
+.details-box-images{
+  .swiper-button-next,
+  .swiper-button-prev {
+    &[aria-disabled="true"]{
+      display: none;
+    }
+  }
+}
 .swiper-pagination {
   bottom: 0;
 }
