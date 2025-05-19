@@ -120,7 +120,7 @@ var account = {
             var element = $(this)
             account.ValidateInput(element)
         });
-        $("body").on('focusout', "#register-form input", function () {
+        $("body").on('keyup', "#register-form input", function () {
            
             if (account.ValidateRegisterNoNotify() == true && !$('#register-form').hasClass('hidden')) {
                 $('#btn-client-register').removeAttr('disabled')
@@ -133,7 +133,7 @@ var account = {
                 $('#btn-client-register').css('background-color', 'lightgray');
             }
         });
-        $("body").on('focusout', "#login-form input", function () {
+        $("body").on('keyup', "#login-form input", function () {
 
             if (account.ValidateLoginNoNotify() == true && !$('#login-form').hasClass('hidden')) {
                 $('#btn-client-login').removeAttr('disabled')
