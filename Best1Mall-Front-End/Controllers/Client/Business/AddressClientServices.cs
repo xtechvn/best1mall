@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Best1Mall_Front_End.Utilities.Contants;
 using Best1Mall_Front_End.Models.Client;
 using Best1Mall_Front_End.Models.Address;
+using Best1Mall_Front_End.Models.Profile;
 
 namespace Best1Mall_Front_End.Controllers.Client.Business
 {
@@ -25,6 +26,46 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                 if (status == (int)ResponseType.SUCCESS)
                 {
                     return JsonConvert.DeserializeObject<ClientAddressListResponseModel>(jsonData["data"].ToString());
+                }
+            }
+            catch
+            {
+            }
+            return null;
+
+        }
+        public async Task<ProfileListResponseModel> ProfileList(ClientAddressGeneralRequestModel request)
+        {
+            try
+            {
+                var result = await POST(_configuration["API:profile_list"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<ProfileListResponseModel>(jsonData["data"].ToString());
+                }
+            }
+            catch
+            {
+            }
+            return null;
+
+        }
+        public async Task<string> UpdateProfile(ProfileUpdateRequestModel request)
+        {
+            try
+            {
+                var url = _configuration["API:profile_update"];
+
+                var result = await POST(url, request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return jsonData["data"].ToString();
                 }
             }
             catch
@@ -73,6 +114,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return null;
 
         }
+       
         public async Task<AddressClientFEModel> DefaultAddress(ClientAddressGeneralRequestModel request)
         {
             try

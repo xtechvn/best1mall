@@ -12,6 +12,7 @@
     ProductCommentCount: 'ProductCommentCount',
     OrderDetail: 'OrderDetail',
     AddressClientLocal: 'AddressClientLocal',
+    Profile:'Profile'
 
 }
 var API_URL = {
@@ -53,6 +54,8 @@ var API_URL = {
     ClientForgotPassword: '/Client/ForgotPassword',
     ProductSearchListingPaging: '/Product/SearchListingPaging',
     CartGetShippingFee: '/Cart/GetShippingFee',
+    ProfileList: '/Client/ProfileList',
+    UpdateProfile: '/Client/UpdateProfile',
 
 
 }

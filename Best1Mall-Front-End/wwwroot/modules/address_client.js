@@ -3,6 +3,8 @@
         address_client.Initialization()
 
     }
+   
+   
 })
 var address_client = {
     Initialization: function () {
@@ -19,11 +21,15 @@ var address_client = {
 
         }
         address_client.Detail()
+       
+
         address_client.RenderProvinces()
         address_client.DynamicBind()
         $('#update-address .err').hide()
     },
     DynamicBind: function () {
+        
+
         $("body").on('click', "#address-book .btn-update-address", function () {
             var element = $(this)
             var id = element.closest('.address-item').attr('data-id')
@@ -163,6 +169,9 @@ var address_client = {
         })
 
     },
+    
+   
+
     AddLoading: function () {
         $('#address-book .box-address').addClass('placeholder')
         $('#address-book').addClass('placeholder')
@@ -244,6 +253,7 @@ var address_client = {
                 $.when(
                     global_service.POST(API_URL.AddressDetail, request)
                 ).done(function (result) {
+                    
                     if (result.is_success) {
                         $('#update-address .err').hide()
                         var item = result.data
@@ -386,7 +396,7 @@ var address_client = {
 
     },
     Confirm: function () {
-        ;
+        
 
         // 1. Kiểm tra login
         var usr = global_service.CheckLogin();

@@ -10,6 +10,7 @@ using Best1Mall_Front_End.Utilities.contants;
 using LIB.Models.APIRequest;
 using Utilities.Contants;
 using System.Reflection.Emit;
+using Best1Mall_Front_End.Models.Profile;
 
 namespace Best1Mall_Front_End.Controllers.Client
 {
@@ -116,6 +117,26 @@ namespace Best1Mall_Front_End.Controllers.Client
         {
             return View();
 
+        }
+        public async Task<IActionResult> ProfileList(ClientAddressGeneralRequestModel request)
+        {
+            var result = await _addressClientServices.ProfileList(request);
+
+            return Ok(new
+            {
+                is_success = (result),
+                data = result
+            });
+        }
+        public async Task<IActionResult> UpdateProfile(ProfileUpdateRequestModel request)
+        {
+            var result = await _addressClientServices.UpdateProfile(request);
+
+            return Ok(new
+            {
+                is_success = result != null,
+                data = result
+            });
         }
         public ActionResult AddressPopup()
         {
