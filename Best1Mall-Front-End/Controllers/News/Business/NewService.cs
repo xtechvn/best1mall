@@ -223,8 +223,8 @@ namespace Best1Mall_Front_End.Controllers.News.Business
                 }
                 else
                 {
-                    var msg = int.Parse(jsonData["msg"].ToString());
-                    Utilities.LogHelper.InsertLogTelegramByUrl(configuration["BotSetting:bot_token"], configuration["BotSetting:bot_group_id"], "GetMostViewedArticles-NewServices:" + msg.ToString());
+                    var msg = jsonData["msg"].ToString();
+                    Utilities.LogHelper.InsertLogTelegramByUrl(configuration["BotSetting:bot_token"], configuration["BotSetting:bot_group_id"], "GetMostViewedArticles-NewServices:" + msg);
 
                 }
             }

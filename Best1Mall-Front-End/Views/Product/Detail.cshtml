@@ -122,7 +122,7 @@
                             <span class="pl-2 border-l border-gray-300 leading-none total-review"></span>
                         </div>
                         <a href="#check-popup"
-                           class="text-sm bg-red-400 text-white flex w-fit gap-2 items-center px-3 py-1 rounded-full hover:bg-red-500 transition mb-4 check">
+                           class="open-popup text-sm bg-red-400 text-white flex w-fit gap-2 items-center px-3 py-1 rounded-full hover:bg-red-500 transition mb-4">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0_580_5329)">
@@ -141,7 +141,7 @@
                         <div id="check-popup"
                              class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
                             <div class="flex justify-center md:items-center h-full">
-                                <div class="bg-white p-6 md:rounded-3xl shadow-lg max-w-2xl w-full mx-auto relative h-full  overflow-y-auto scrollbar-hide">
+                                <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto  overflow-y-auto relative">
 
                                     <span class="closePopup absolute right-2 top-2 cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25"
@@ -594,9 +594,9 @@
                                 </div>
                             </div>
                             <!-- Nội dung -->
-                            <div class="space-y-10">
+                            <div class="space-y-10 section-description-product">
                                 <section id="mo-ta"
-                                         class="section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
+                                         class=" box-des section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
                                     <h2 class="font-semibold mb-2">Mô tả sản phẩm</h2>
                                     <p class="text-gray-700">
                                         Viên Uống Youtheory Collagen Biotin 6000mg từ lâu đã trở thành người bạn đồng
@@ -845,5 +845,44 @@
 @section Scripts {
     <script type="text/javascript" src="/modules/product_detail.js"></script>
     <script type="text/javascript" src="/modules/product_raiting.js"></script>
+    <script>
+
+
+
+        // tab mô tả
+        $(document).ready(function () {
+            $('.tab-link').on('click', function (e) {
+                e.preventDefault();
+                const targetSelector = $(this).data('target');
+                const $target = $(targetSelector);
+
+                if ($target.length) {
+                    $('html, body').animate({
+                        scrollTop: $target.offset().top - $('#tabs').outerHeight()
+                    }, 100);
+                } else {
+                    console.warn('Không tìm thấy phần tử với selector:', targetSelector);
+                }
+            });
+
+            const sections = $('.section-tab');
+            const tabLinks = $('.tab-link');
+
+            $(window).on('scroll', function () {
+                let scrollPos = $(document).scrollTop() + $('#tabs').outerHeight() + 30;
+
+                sections.each(function () {
+                    const top = $(this).offset().top;
+                    const bottom = top + $(this).outerHeight();
+                    const id = '#' + $(this).attr('id');
+
+                    if (scrollPos >= top && scrollPos <= bottom) {
+                        tabLinks.removeClass('text-color-base border-blue-500');
+                        tabLinks.filter('[data-target="' + id + '"]').addClass('text-color-base border-blue-500');
+                    }
+                });
+            });
+        });
+    </script>
 
 }

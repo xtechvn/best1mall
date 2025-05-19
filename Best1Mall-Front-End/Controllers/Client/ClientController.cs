@@ -112,6 +112,11 @@ namespace Best1Mall_Front_End.Controllers.Client
             return View();
 
         }
+        public ActionResult Profile()
+        {
+            return View();
+
+        }
         public ActionResult AddressPopup()
         {
             return View();

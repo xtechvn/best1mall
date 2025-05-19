@@ -32,7 +32,7 @@ var API_URL = {
     OrderHistoryDetail: '/Order/GetHistoryDetail',
     QRCode: '/Order/QRCode',
     StaticDomain: 'https://static-image.adavigo.com',
-    OrderListing: '/Order/Listing',
+    OrderSearch: '/Order/Search',
     AddressList: '/Client/AddressList',
     AddressDetail: '/Client/AddressDetail',
     AddressPopup: '/Client/AddressPopup',
@@ -186,7 +186,7 @@ var HTML_CONSTANTS = {
             <img src="{avatar}" alt="Sản phẩm" class="w-14 h-14 object-cover rounded">
             <div>
                 <a href="{url}">{name}</a>
-                <div class="text-red-400 mt-1">185.000 đ</div>
+                <div class="text-red-400 mt-1">{amount} đ</div>
             </div>
         </li>
 
@@ -515,7 +515,7 @@ var HTML_CONSTANTS = {
     },
     Address: {
         GridItem: `
-         <label class="address-item rounded-2xl border border-gray-100 cursor-pointer transition-all duration-200 relative">
+         <label class=" rounded-2xl border border-gray-100 cursor-pointer transition-all duration-200 relative">
                                             <div class="p-3 flex gap-2 items-start ">
 
                                                <div class="relative">

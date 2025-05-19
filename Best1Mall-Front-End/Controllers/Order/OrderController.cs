@@ -5,6 +5,7 @@ using Best1Mall_Front_End.Models.Orders;
 using Microsoft.AspNetCore.Mvc;
 using Models.APIRequest;
 using Models.MongoDb;
+using Best1Mall_Front_End.Utilities.contants;
 
 namespace Best1Mall_Front_End.Controllers.Product
 {
@@ -25,37 +26,74 @@ namespace Best1Mall_Front_End.Controllers.Product
             return View();
 
         }
-        public ActionResult OrderDetail(string id)
-        {
-            ViewBag.Id= id;
-            return View();
-
-        }
         public async Task<ActionResult> Payment(string id)
         {
             ViewBag.Id = id;
             return View();
 
         }
-        public async Task<IActionResult> Listing(OrderHistoryRequestModel request)
+        [HttpPost]
+        public async Task<IActionResult> Search(OrderHistoryRequestModel request)
         {
-            var result = await _orderServices.Listing(request);
-
-            return Ok(new
+            ViewBag.Data = new OrderHistoryResponseModel();
+            ViewBag.StaticDomain = _configuration["API:StaticURL"];
+            try
             {
-                is_success = result != null,
-                data = result
-            });
+                ViewBag.Data = await _orderServices.Listing(request);
+            }
+            catch (Exception ex) { 
+            
+            }
+            return View();
         }
-        public async Task<IActionResult> GetDetail(OrdersGeneralRequestModel request)
+        public async Task<IActionResult> Detail(string id)
         {
-            var result = await _orderServices.GetDetail(request);
+            ViewBag.StaticDomain = _configuration["API:StaticURL"];
+            ViewBag.OrderStatusName = "Tạo mới";
 
-            return Ok(new
+            var data = await _orderServices.GetDetail(new OrdersGeneralRequestModel()
             {
-                is_success = result != null,
-                data = result
+                id=id
             });
+            if (data == null || data.data == null || data.data_order == null) {
+                return Redirect("/home/error");
+            }
+            switch (data.data_order.OrderStatus)
+            {
+                case (int)OrderStatusConstants.NEW:
+                    {
+                        ViewBag.OrderStatusName = "Tạo mới";
+                    }
+                    break;
+                case (int)OrderStatusConstants.PROCESS:
+                    {
+                        ViewBag.OrderStatusName = "Đang xử lý";
+                    }
+                    break;
+                case (int)OrderStatusConstants.ON_DELIVERY:
+                    {
+                        ViewBag.OrderStatusName = "Đang vận chuyển";
+                    }
+                    break;
+                case (int)OrderStatusConstants.DELIVERED:
+                    {
+                        ViewBag.OrderStatusName = "Giao hàng thành công";
+                    }
+                    break;
+                case (int)OrderStatusConstants.DONE:
+                    {
+                        ViewBag.OrderStatusName = "Hoàn thành";
+                    }
+                    break;
+                case (int)OrderStatusConstants.CANCELED:
+                    {
+                        ViewBag.OrderStatusName = "Trả hàng/Hoàn tiền";
+                    }
+                    break;
+            }
+            ViewBag.Id = id;
+            ViewBag.Data = data;
+            return View();
         }  
         public async Task<IActionResult> GetHistoryDetail(OrderHistoryDetailRequestModel request)
         {
