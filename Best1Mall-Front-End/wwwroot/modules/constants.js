@@ -124,7 +124,7 @@ var HTML_CONSTANTS = {
                                         <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
                                             <!-- Sale badge -->
                                             <a href="{url}">
-                                               <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 {discount_style}">
+                                               <div class="absolute -top-1  z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 {discount_style}">
                                                     {discount_text}
                                                 </div>
 

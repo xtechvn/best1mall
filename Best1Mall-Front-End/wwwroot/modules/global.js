@@ -562,17 +562,19 @@ var global_service = {
                 has_price = true
             }
             if (has_price) {
-                
-                
-                let showDiscount = item.old_price != null ;
+
+               
+                let discountRounded = Math.round(parseFloat(item.discount) || 0);
+                let showDiscount = discountRounded > 0;
+                debugger
                 html += template
                     .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
                     .replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}',  ${amount_number},
                     ${item.rating || 0},
                     ${item.review_count || 0},
                     ${item.old_price || 0},
-                    ${item.discount ||0})" href="`)
-                    .replaceAll('{discount_text}', showDiscount ? `-${item.discount}%` : '')
+                    ${discountRounded ||0})" href="`)
+                    .replaceAll('{discount_text}', `-${discountRounded}%` )
                     .replaceAll('{discount_style}', showDiscount ? '' : 'hidden')
 
 
@@ -583,7 +585,8 @@ var global_service = {
                     //.replaceAll('{review_point}', (item.star == null || item.star == undefined || item.star <= 0) ? '' : item.star.toFixed(1) +'<i class="icon icon-star"></i>')
                     .replaceAll('{review_count}', (item.review_count == null || item.review_count == undefined || item.review_count <= 0) ? '' : '(' + item.review_count.toFixed(0) + ')')
                     //.replaceAll('{review_count}', (item.total_sold == null || item.total_sold == undefined || item.total_sold <= 0) ? '' : '(' + item.total_sold.toFixed(0) + ')')
-                    .replaceAll('{old_price_style}', (item.amount_max <= amount_number ? 'display:none;' : ''))
+                    .replaceAll('{old_price_style}', (item.old_price && item.old_price > 0 ? '' : 'display:none;'))
+
                     //.replaceAll('{price_style}', (item.old_price && item.old_price > 0) ? '' : 'display:none;')
                     .replaceAll('{price}', (item.old_price && item.old_price > 0) ? (global_service.Comma(item.old_price) + ' đ') : '')
 
@@ -666,7 +669,7 @@ var global_service = {
             <div class="swiper-slide pt-3">
             <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
                 <a href="${p.url}">
-                   <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 ${showDiscount ? '' : 'hidden'}">
+                   <div class="absolute -top-1  z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 ${showDiscount ? '' : 'hidden'}">
                         -${p.discount}%
                     </div>
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
