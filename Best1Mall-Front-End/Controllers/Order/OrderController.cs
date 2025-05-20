@@ -134,5 +134,16 @@ namespace Best1Mall_Front_End.Controllers.Product
                 is_success = result,
             });
         }
+        public async Task<IActionResult> GetDetail(OrdersGeneralRequestModel request)
+        {
+            var result = await _orderServices.GetDetail(request);
+
+
+            return Ok(new
+            {
+                is_success = result != null,
+                data = result
+            });
+        }
     }
 }

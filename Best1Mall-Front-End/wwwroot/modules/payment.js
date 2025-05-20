@@ -28,7 +28,6 @@ var payment = {
         });
     },
     Detail: function () {
-        
         var usr = global_service.CheckLogin()
         if (usr) {
             var request = {
@@ -38,7 +37,7 @@ var payment = {
                 global_service.POST(API_URL.OrderDetail, request)
             ).done(function (result) {
                 if (result.is_success && result.data) {
-                    payment.RenderBankTransfer(result.data)
+                    payment.RenderBankTransfer(result.data.data)
                 }
                 else {
                     $('.box-payment-info').hide()
