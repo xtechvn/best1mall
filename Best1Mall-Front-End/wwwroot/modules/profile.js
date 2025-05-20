@@ -1,15 +1,15 @@
 ﻿$(document).ready(function () {
     if ($('#profile').length > 0) {
-        address_client.Initialization()
+        profile_client.Initialization()
 
     }
     
     //Update Pròile
    
 })
-var address_client = {
+var profile_client = {
     Initialization: function () {
-        address_client.GetProfile();
+        profile_client.GetProfile();
         $("#btnUpdate").click(function (e) {
             debugger
             e.preventDefault();
@@ -20,15 +20,15 @@ var address_client = {
                 return;
             }
 
-            const gender = $("input[name='gender']:checked").val() || null;
-            const year = $("#year").val();
-            const month = $("#month").val();
-            const day = $("#day").val();
-            let birthday = null;
+            //const gender = $("input[name='gender']:checked").val() || null;
+            //const year = $("#year").val();
+            //const month = $("#month").val();
+            //const day = $("#day").val();
+            //let birthday = null;
 
-            if (year && month && day) {
-                birthday = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-            }
+            //if (year && month && day) {
+            //    birthday = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+            //}
 
             
 
@@ -45,26 +45,44 @@ var address_client = {
             ).done(function (result) {
                 debugger;
                 if (result && result.is_success && result.data) {
-                    const data = result.data;
+                    
 
-                    $("#fullName").val(data.clientName || "");
-                    $("#email").val(data.email || "");
-                    $("#phone").val(data.phone || "");
+                    // ✅ Thông báo thành công với SweetAlert2
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Cập nhật thành công!',
+                        text: 'Thông tin của bạn đã được cập nhật rồi đó 💖',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                        toast: true,
+                        position: 'top-end'
+                    });
 
-                    // Giới tính (check nếu có)
-                    if (data.gender) {
-                        $("input[name='gender'][value='" + data.gender + "']").prop("checked", true);
-                    }
+                    
+                  
+                    // ✅ Cập nhật session
+                    usr.name = request.ClientName;
 
-                    // Ngày sinh (check nếu có)
-                    if (data.birthday) {
-                        const birthDate = new Date(data.birthday);
-                        $("#day").val(birthDate.getDate());
-                        $("#month").val(birthDate.getMonth() + 1);
-                        $("#year").val(birthDate.getFullYear());
-                    }
+
+                    sessionStorage.setItem(STORAGE_NAME.Login, JSON.stringify(usr))
+                    // ✅ Cập nhật UI trực tiếp
+                    $("#fullName").val(request.ClientName || "");
+                    $("#email").val(request.Email || "");
+                    $("#phone").val(request.Phone || "");
+                    
+                    
+
+                   
+                     setTimeout(() => {
+                         location.reload();
+                     }, 1500);
                 } else {
-                    alert("Không lấy được thông tin người dùng");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Cập nhật thất bại',
+                        text: 'Vui lòng thử lại sau 😥'
+                    });
                 }
             })
                 .fail(function () {

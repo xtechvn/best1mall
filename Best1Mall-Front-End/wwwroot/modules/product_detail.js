@@ -78,6 +78,9 @@ var product_detail = {
         });
     },
     Detail: function () {
+        debugger
+        $('#skeleton-loading').show();
+        $('.product-details-section').hide();
 
         var code = $('.section-details-product').attr('data-code')
         if (code == undefined || code.trim() == '')
@@ -100,7 +103,7 @@ var product_detail = {
         })
     },
     RenderDetail: function (product, product_sub) {
-
+        debugger
         var html2 = ''
         var html = ''
         var html_thumb = ''
@@ -230,6 +233,9 @@ var product_detail = {
         product_detail.RenderBuyNowButton(true)
         product_detail.RenderSavedProductDetailAttributeSelected()
         product_detail.RemoveLoading()
+        // 👇 Thêm vào ngay đây
+        $('#skeleton-loading').hide();
+        $('.product-details-section').show();
     },
     GetProductDetailSession: function () {
         var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)

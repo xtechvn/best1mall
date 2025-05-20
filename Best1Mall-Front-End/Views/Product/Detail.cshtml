@@ -10,8 +10,26 @@
     }
 
 </style>
+<!-- SKELETON LOADING -->
+<div id="skeleton-loading" class="animate-pulse grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+    <!-- Ảnh giả -->
+    <div class="bg-gray-200 rounded-xl h-[400px] w-full"></div>
+
+    <!-- Thông tin giả -->
+    <div class="space-y-4">
+        <div class="h-8 bg-gray-200 rounded w-3/4"></div>
+        <div class="h-6 bg-gray-200 rounded w-1/2"></div>
+        <div class="h-4 bg-gray-200 rounded w-full"></div>
+        <div class="h-4 bg-gray-200 rounded w-full"></div>
+        <div class="h-10 bg-gray-200 rounded w-1/3"></div>
+        <div class="h-10 bg-gray-300 rounded mt-4 w-full"></div>
+    </div>
+</div>
+
+
+
 <!-- DANH SACH SAN PHAM -->
-<section class="product-details-section">
+<section class="product-details-section hidden">
     <div class="max-w-[1230px] mx-auto px-[15px]">
         <div class="breadcrumb my-4 ">
             <ul class="flex items-center gap-3 font-normal">
@@ -19,7 +37,7 @@
                 <li><a href="" class="text-color-base">Chi tiết sản phẩm</a></li>
             </ul>
         </div>
-        <div class="details-box-images section-details-product" data-code="@product_code">
+        <div class="details-box-images section-details-product " data-code="@product_code">
             <div class=" border border-gray-300 bg-white md:rounded-3xl rounded-xl md:p-5 p-3">
                 <div class="flex flex-wrap md:flex-nowrap justify-between md:gap-8 gap-3">
                     <div class="w-full md:w-2/5 shrink-0">
