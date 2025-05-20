@@ -30,6 +30,7 @@ var API_URL = {
     CartDeleteByOrder: '/Cart/DeleteByOrder',
     CartConfirm: '/Order/Confirm',
     OrderDetail: '/Order/GetDetail',
+    OrderDetailView: '/Order/Detail',
     OrderHistoryDetail: '/Order/GetHistoryDetail',
     QRCode: '/Order/QRCode',
     StaticDomain: 'https://static-image.adavigo.com',
