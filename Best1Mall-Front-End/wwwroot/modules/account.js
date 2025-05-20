@@ -55,11 +55,17 @@ var account = {
     },
     DynamicBindChangePassword: function () {
         var notification_empty ='Vui lòng không để trống'
-        var notification_diffirent ='Mật khẩu và Xác nhận mật khẩu phải giống nhau'
+        var notification_diffirent = 'Mật khẩu và Xác nhận mật khẩu phải giống nhau'
+        var usr = global_service.CheckLogin()
+        var token = ''
+        if (usr) {
+            token = usr.token
+
+        }
         $("body").on('click', "#change-password-confirm", function () {
             $('#forgot-password-change .content .err-form').hide()
             var request = {
-                "token": $('#forgot-password-change').attr('data-token'),
+                "token": token,
                 "password": $('#forgot-password-change .new-password input').val(),
                 "confirm_password": $('#forgot-password-change .confirm-new-password input').val()
             }

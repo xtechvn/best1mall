@@ -222,33 +222,33 @@ namespace Best1Mall_Front_End.Controllers.Client
                 msg = "Email hướng dẫn đổi mật khẩu sẽ được gửi đến địa chỉ email mà bạn đã nhập. <br /> vui lòng kiểm tra hộp thư đến và làm theo hướng dẫn."
             });
         }
-        public async Task<ActionResult> ChangePassword(string token,int type)
+        public async Task<ActionResult> ChangePassword()
         {
             try
             {
-                if (string.IsNullOrEmpty(token) || token.Trim() == "")
-                {
-                    return Redirect("/Home/Notfound");
-                }
-                string forgot = EncodeHelpers.Decode(token.Replace("-", "+").Replace("_", "/"), _configuration["API:SecretKey"]);
-                if (forgot == null || forgot.Trim() == "")
-                {
-                    return Redirect("/Home/Notfound");
-                }
-                var model = JsonConvert.DeserializeObject<ClientForgotPasswordTokenModel>(forgot);
-                if (model == null || model.user_name == null)
-                {
-                    return Redirect("/Home/Notfound");
-                }
-
-                //var validate = await _addressClientServices.ValidateForgotPassword(new ClientForgotPasswordRequestModel() { name = token });
-                //if (!validate)
+                //if (string.IsNullOrEmpty(token) || token.Trim() == "")
                 //{
                 //    return Redirect("/Home/Notfound");
-
                 //}
-                ViewBag.Token = token;
-                ViewBag.type = type;
+                //string forgot = EncodeHelpers.Decode(token.Replace("-", "+").Replace("_", "/"), _configuration["API:SecretKey"]);
+                //if (forgot == null || forgot.Trim() == "")
+                //{
+                //    return Redirect("/Home/Notfound");
+                //}
+                //var model = JsonConvert.DeserializeObject<ClientForgotPasswordTokenModel>(forgot);
+                //if (model == null || model.user_name == null)
+                //{
+                //    return Redirect("/Home/Notfound");
+                //}
+
+                ////var validate = await _addressClientServices.ValidateForgotPassword(new ClientForgotPasswordRequestModel() { name = token });
+                ////if (!validate)
+                ////{
+                ////    return Redirect("/Home/Notfound");
+
+                ////}
+                //ViewBag.Token = token;
+                ViewBag.type = 2;
                 return View();
             }
             catch

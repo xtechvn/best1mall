@@ -20,7 +20,7 @@ var account_manage_global = {
         $('.box-quanlytaikhoan .box-name .name').html(usr.name)
         $('.box-quanlytaikhoan .menu-left-user').removeClass('placeholder')
 
-        $('.box-quanlytaikhoan .list-tab-menu .client-password').html('<a href="/account/change-password/' + usr.token +"/"+2+'">Đổi mật khẩu</a>')
+        $('.box-quanlytaikhoan .list-tab-menu .client-password').html('<a href="/account/change-password">Đổi mật khẩu</a>')
       
     },
 }
