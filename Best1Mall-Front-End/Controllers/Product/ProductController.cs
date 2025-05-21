@@ -108,7 +108,8 @@ namespace Best1Mall_Front_End.Controllers.Product
             return Ok(new
             {
                 is_success = result != null,
-                data = result
+                data = result,
+                cert = result?.cert
             });
         }
        

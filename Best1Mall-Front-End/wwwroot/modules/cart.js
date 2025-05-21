@@ -408,13 +408,18 @@ var cart = {
     },
 
     ConfirmCart: function () {
-        
+        // ✨ Show loading + disable button
+        const $btn = $('.btn-confirm-cart');
+        $btn.prop('disabled', true).addClass('opacity-60 cursor-not-allowed');
+        const originalText = $btn.text();
+        $btn.html('<i class="fas fa-spinner fa-spin mr-2"></i> Đang xử lý...'); // icon font-awesome hoặc bạn dùng loader khác cũng ok
         
         if ($('#address-receivername').attr('data-id') == null || $('#address-receivername').attr('data-id') == undefined || $('#address-receivername').attr('data-id').trim() == '') {
             $('#lightbox-cannot-add-cart .info-order .notification-content').html('Vui lòng thêm/chọn địa chỉ trước khi tiếp tục')
             $('#lightbox-cannot-add-cart .title-box').html('Chưa chọn địa chỉ giao hàng')
             $('#lightbox-cannot-add-cart').addClass('overlay-active')
             cart.HideNotification()
+            $btn.prop('disabled', false).removeClass('opacity-60 cursor-not-allowed').text(originalText); // 🔁 Revert button
             //return
             $('.mainheader .client-login').click()
         }
@@ -490,6 +495,8 @@ var cart = {
                         $('#lightbox-cannot-add-cart').addClass('overlay-active')
                         $('.btn-confirm-cart').removeClass('button-disabled')
                         cart.HideNotification()
+                        // 🔁 Revert button nếu lỗi
+                        $btn.prop('disabled', false).removeClass('opacity-60 cursor-not-allowed').text(originalText);
 
 
                     }

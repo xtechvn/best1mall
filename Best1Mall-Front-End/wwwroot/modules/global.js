@@ -147,7 +147,7 @@ var global_service = {
         });
     },
     LoadCartCount: function () {
-       
+       debugger
         var usr = global_service.CheckLogin()
         if (usr) {
             $.ajax({
@@ -174,7 +174,7 @@ var global_service = {
         else {
             // 🔴 Nếu chưa login → lấy giỏ hàng từ sessionStorage
             let cart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
-            let total = cart.reduce((sum, item) => sum + (item.quanity || 0), 0);
+            let total = cart.length; // Đếm số mặt hàng khác nhau
             $('#carts .badge').html(total);
         }
 

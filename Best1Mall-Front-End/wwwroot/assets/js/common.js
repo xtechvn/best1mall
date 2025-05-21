@@ -91,3 +91,36 @@ $(document).ready(function () {
         $(this).toggleClass('active');
     });
 });
+
+// js tài khoản
+$(document).ready(function () {
+    function isMobile() {
+        return window.innerWidth < 768;
+    }
+
+    // Xử lý toggle dropdown khi click trên mobile
+    $('#accountButton').on('click', function (e) {
+        if (isMobile()) {
+            e.preventDefault();
+            $('#accountDropdown').toggleClass('hidden');
+        }
+    });
+
+    // Ẩn dropdown khi click ngoài (chỉ mobile)
+    $(document).on('click touchstart', function (e) {
+        if (
+            isMobile() &&
+            !$(e.target).closest('#accountButton').length &&
+            !$(e.target).closest('#accountDropdown').length
+        ) {
+            $('#accountDropdown').addClass('hidden');
+        }
+    });
+
+    // Khi resize về PC, đảm bảo dropdown bị ẩn đi (vì hover sẽ lo hiển thị)
+    $(window).on('resize', function () {
+        if (!isMobile()) {
+            $('#accountDropdown').addClass('hidden');
+        }
+    });
+});

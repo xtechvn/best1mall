@@ -29,7 +29,10 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
 
                 if (status == (int)ResponseType.SUCCESS)
                 {
-                    return JsonConvert.DeserializeObject<ProductDetailResponseModel>(jsonData["data"].ToString());
+                    var detail = JsonConvert.DeserializeObject<ProductDetailResponseModel>(jsonData["data"].ToString());
+                    var cert = JsonConvert.DeserializeObject<ProductCertModel>(jsonData["cert"].ToString());
+                    detail.cert = cert;
+                    return detail;
                 }
             }
             catch
