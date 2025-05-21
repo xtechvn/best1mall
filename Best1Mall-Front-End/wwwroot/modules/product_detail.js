@@ -270,18 +270,27 @@ var product_detail = {
             $('#cert-supply').html(renderCertImages(cert.supply));
             $('#cert-confirm').html(renderCertImages(cert.confirm));
         }
-        // 🔹 Chèn Thành phần, Công dụng, Cách dùng nếu có
+        // Thành phần
         if (product.description_ingredients) {
             $('#thanh-phan ul').html(product.description_ingredients);
+        } else {
+            $('#thanh-phan').remove(); // Không có -> bay màu luôn
         }
 
+        // Công dụng
         if (product.description_effect) {
-            $('#cong-dung p').html(product.description_effect);
+            $('#cong-dung').append(`<p class="text-gray-700">${product.description_effect}</p>`);
+        } else {
+            $('#cong-dung').remove();
         }
 
+        // Cách dùng
         if (product.description_usepolicy) {
-            $('#cach-dung p').html(product.description_usepolicy);
+            $('#cach-dung').append(`<p class="text-gray-700">${product.description_usepolicy}</p>`);
+        } else {
+            $('#cach-dung').remove();
         }
+
 
 
         product_detail.RenderBuyNowButton(true)
