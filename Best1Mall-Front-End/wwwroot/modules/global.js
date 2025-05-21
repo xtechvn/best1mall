@@ -42,22 +42,27 @@ var global_service = {
             event.preventDefault()
             element.closest('.popup').addClass('hidden')
         });
-        $("body").on('keyup', ".global-search", function () {
-            if (!$('#global-search-loading').is(':hidden')) {
-                return
-            }
-            $('#global-search-loading').show()
-            var element = $(this)
-            //global_service.RenderSearchBoxLoading()
-            if (element.val() != undefined && element.val().trim() != '') {
-                $('.box-search-list').fadeIn()
-                global_service.RenderSearchBox()
-            } else {
-                $('.box-search-list').fadeOut()
-                $('#global-search-loading').hide()
+        let debounceTimeout = null;
 
+        $("body").on('keyup', ".global-search", function () {
+            clearTimeout(debounceTimeout); // Xoá timeout cũ nếu có
+
+            const element = $(this);
+
+            if (element.val() === undefined || element.val().trim() === '') {
+                $('.box-search-list').fadeOut();
+                $('#global-search-loading').hide();
+                return;
             }
+
+            $('#global-search-loading').show();
+            $('.box-search-list').fadeIn();
+
+            debounceTimeout = setTimeout(() => {
+                global_service.RenderSearchBox();
+            }, 250); // đợi 400ms sau khi gõ mới gọi API
         });
+
         $(document).on('click', function (event) {
             // Kiểm tra nếu click không nằm trong div.form-search
             if (!$(event.target).closest('.form-search').length) {
