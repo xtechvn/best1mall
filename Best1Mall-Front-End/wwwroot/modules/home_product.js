@@ -165,10 +165,10 @@ $(document).ready(function () {
             $('.xemthem').hide()
         },
         loadProductByGroup: function (group_id) {
-           ;
+           
 
             // Chỉ gán động cho #List-product, các phần khác vẫn gán cứng
-            global_service.LoadHomeProductGrid($('.list-product .swiper-wrapper'), group_id, GLOBAL_CONSTANTS.GridSize);
+            global_service.LoadHomeProductGrid($('.list-product .swiper-wrapper'), group_id, GLOBAL_CONSTANTS.GridSize, false);
 
         },
         skip: 1, // Biến để theo dõi trang hiện tại

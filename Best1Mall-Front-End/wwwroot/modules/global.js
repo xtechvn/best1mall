@@ -331,8 +331,11 @@ var global_service = {
         str = str.replace(/\s+/g, '-'); // Thay thế nhiều khoảng trắng thành 1 -
         return str.trim();
     },
-    LoadHomeProductGrid: function (element, group_id, size) {
-       
+    LoadHomeProductGrid: function (element, group_id, size, appendSeeAll = true) {
+        const excludedGroups = [
+            GLOBAL_CONSTANTS.GroupProduct.FlashSale,
+            //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
+        ]
         element.addClass('placeholder')
         element.addClass('box-placeholder')
         element.css('width', '100%')
@@ -349,6 +352,10 @@ var global_service = {
                 var products = result.data
                 
                     var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
+                // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
+                if (appendSeeAll && !excludedGroups.includes(group_id)) {
+                    html += HTML_CONSTANTS.Home.SeeAllSlideItem.replace('{group_id}', group_id)
+                }
                 element.html(html)
                 
 

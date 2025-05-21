@@ -148,9 +148,27 @@ var HTML_CONSTANTS = {
                                             </a>
                                         </div>
                                     </div>
+
                         
                         `,
-
+        SeeAllSlideItem: `
+                    <div class="swiper-slide pt-3">
+                      <div class="flex items-center justify-center w-full h-full">
+                        <a href="/san-pham?group_id={group_id}" 
+                           class="flex items-center gap-2 text-blue-500 justify-center">
+                          Xem tất cả
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                viewBox="0 0 18 18" fill="none">
+                                                <path
+                                                    d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z"
+                                                    fill="#773EFA" />
+                                            </svg>
+                        </a>
+                      </div>
+                    </div>
+                    `
+                    ,
+    
         GroupProductItem: ` 
       <div class="flex-shrink-0 w-27 text-center p-2 rounded-xl border border-blue-100">
                         <div class="rounded-xl bg-blue-50 mb-2 p-2 h-22 w-22 flex items-center justify-center">
