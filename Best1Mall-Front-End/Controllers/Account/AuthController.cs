@@ -59,8 +59,8 @@ public class AuthController : Controller
             string scheme = Request.Scheme; // Lấy giao thức (http hoặc https)
             string host = Request.Host.Value; // Lấy tên miền và cổng (ví dụ: localhost:2335)
             string fullDomain = $"{scheme}://{domain}{redirectUri}";
-            LogHelper.InsertLogTelegramByUrl(_configuration["BotSetting:bot_token"], _configuration["BotSetting:bot_group_id"], 
-                "GoogleSignInCallback - Authentication:" + fullDomain+"\nCode: "+code+ "\nClientId: " + clientId + "\nclientSecret: " + clientSecret);
+           // LogHelper.InsertLogTelegramByUrl(_configuration["BotSetting:bot_token"], _configuration["BotSetting:bot_group_id"], 
+            //    "GoogleSignInCallback - Authentication:" + fullDomain+"\nCode: "+code+ "\nClientId: " + clientId + "\nclientSecret: " + clientSecret);
 
             var tokenResponse = await flow.ExchangeCodeForTokenAsync("me", code, fullDomain, CancellationToken.None);
 
