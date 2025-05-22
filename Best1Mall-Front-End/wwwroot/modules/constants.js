@@ -27,6 +27,10 @@ var API_URL = {
     CartCount: '/Cart/CartCount',
     CartList: '/Cart/GetList',
     CartDelete: '/Cart/Delete',
+    AddToFavourite: '/Favourite/AddToFavourite',
+    FavouriteList: '/Favourite/GetList',
+    FavouriteDelete: '/Favourite/Delete',
+
     CartDeleteByOrder: '/Cart/DeleteByOrder',
     CartConfirm: '/Order/Confirm',
     OrderDetail: '/Order/GetDetail',

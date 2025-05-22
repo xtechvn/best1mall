@@ -34,7 +34,7 @@ namespace Best1Mall_Front_End.Controllers.Product
                 data = result
             });
         }
-        public async Task<IActionResult> AddToCart(AddToCartRequestModel request)
+        public async Task<IActionResult> AddToCart(FavouriteRequestModel request)
         {
             var result = await _cartServices.AddToCart(request);
 
@@ -64,7 +64,7 @@ namespace Best1Mall_Front_End.Controllers.Product
                 data = result
             });
         }
-        public async Task<IActionResult> ChangeQuanity(AddToCartRequestModel request)
+        public async Task<IActionResult> ChangeQuanity(FavouriteRequestModel request)
         {
             var result = await _cartServices.ChangeQuanity(request);
 

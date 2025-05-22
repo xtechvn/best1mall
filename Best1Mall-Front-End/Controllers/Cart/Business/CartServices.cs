@@ -17,7 +17,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
         }
        
        
-        public async Task<int> AddToCart(AddToCartRequestModel request)
+        public async Task<int> AddToCart(FavouriteRequestModel request)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return -1;
 
         } 
-        public async Task<string> ChangeQuanity(AddToCartRequestModel request)
+        public async Task<string> ChangeQuanity(FavouriteRequestModel request)
         {
             try
             {

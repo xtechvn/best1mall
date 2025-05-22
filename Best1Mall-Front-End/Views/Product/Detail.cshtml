@@ -88,12 +88,12 @@
                                 <a href=""><img src="/assets/images/icon/fb.png" alt="Facebook" /></a>
                                 <a href=""><img src="/assets/images/icon/zalo.png" alt="Zalo" /></a>
                             </div>
-                            <button id="heart" class="heart cursor-pointer rounded-full transition-colors">
+                            <button id="heart"
+                                    class=" btn-favorite-toggle heart cursor-pointer rounded-full transition-colors"
+                                    data-product-id="@product_code">
                                 <span class="icon icon-like"></span>
                             </button>
-                            <button id="heart" class="heart active cursor-pointer rounded-full transition-colors">
-                                <span class="icon icon-like"></span>
-                            </button>
+
                             <span class="ml-2">Đã thích (4.9k)</span>
                         </div>
                     </div>
@@ -810,7 +810,7 @@
 
 
         <!-- List Sản phẩm đã xem -->
-        <div class="my-6 md:my-10">
+        <div class="my-6 md:my-10" id="viewed-products-wrapper">
             <div class="flex justify-between flex-wrap gap-2 mb-3">
                 <h2 class="text-sky-900 font-medium uppercase"><a href="">Sản phẩm đã xem</a> </h2>
                 <a href="/san-pham?group_id=1" class="flex items-center gap-2 text-blue-500 text-sm">
@@ -851,6 +851,7 @@
 @section Scripts {
     <script type="text/javascript" src="/modules/product_detail.js"></script>
     <script type="text/javascript" src="/modules/product_raiting.js"></script>
+  
     <script>
 
 
@@ -890,5 +891,6 @@
             });
         });
     </script>
+
 
 }

@@ -152,7 +152,7 @@ var global_service = {
         });
     },
     LoadCartCount: function () {
-       debugger
+      
         var usr = global_service.CheckLogin()
         if (usr) {
             $.ajax({
