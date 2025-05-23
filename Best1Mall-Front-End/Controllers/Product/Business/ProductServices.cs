@@ -35,7 +35,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                     // ✅ lấy thêm `favourite`
                     if (jsonData["favourite"] != null)
                     {
-                        detail.favourite = jsonData["favourite"].ToObject<bool>();
+                        detail.favourite = jsonData["favourite"].ToObject<FavouriteStatusModel>();
                     }
                     return detail;
                 }

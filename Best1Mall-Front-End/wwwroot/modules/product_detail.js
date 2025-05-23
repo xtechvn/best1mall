@@ -125,18 +125,33 @@ var product_detail = {
         const apiUrl = isFavourite ? API_URL.FavouriteDelete : API_URL.AddToFavourite;
 
         $.when(global_service.POST(apiUrl, request)).done(function (result) {
-           
-
             if (result.is_success) {
-                // Nếu là trang danh sách yêu thích → xóa luôn phần tử
-                if ($el.closest('#favourite').length > 0) {
+                const isInFavouriteListPage = $el.closest('#favourite').length > 0;
+
+                if (isInFavouriteListPage) {
+                    // ✅ Nếu ở danh sách yêu thích → xóa DOM
                     $el.closest('.bg-white').remove();
 
                     if ($('#favourite .bg-white').length === 0) {
                         $('#favourite').html('<p class="text-gray-600 p-4">Bạn chưa có sản phẩm nào trong danh sách yêu thích.</p>');
                     }
                 } else {
+                    // ✅ Toggle trái tim
                     $el.toggleClass("active");
+
+                    // ✅ Nếu có khối hiển thị số lượt thích → cập nhật
+                    const $countText = $('.section-details-product .favourite-count');
+                    if ($countText.length > 0) {
+                        let current = parseInt(($countText.text().match(/\d+/) || [0])[0]);
+
+                        if (isFavourite) {
+                            current = Math.max(0, current - 1);
+                        } else {
+                            current += 1;
+                        }
+
+                        $countText.text(current > 0 ? `Đã thích (${global_service.Comma(current)})` : 'Đã thích');
+                    }
                 }
 
                 Swal.fire({
@@ -157,6 +172,7 @@ var product_detail = {
         });
     },
     Detail: function () {
+        
         const usr = global_service.CheckLogin(); // kiểm tra đăng nhập
         $('#skeleton-loading').show();
         $('.product-details-section').hide();
@@ -166,7 +182,7 @@ var product_detail = {
             window.location.href = '/error'
         var request = {
             "id": code,
-            "token": usr.token
+            "token": usr?.token || null // 👈 xử lý an toàn
         }
         $.when(
             global_service.POST(API_URL.ProductDetail, request)
@@ -175,14 +191,15 @@ var product_detail = {
             if (result.is_success && result.data && result.data.product_main) {
                 sessionStorage.setItem(STORAGE_NAME.ProductDetail, JSON.stringify(result.data))
                 sessionStorage.setItem(STORAGE_NAME.SubProduct, JSON.stringify(result.data.product_sub))
-                product_detail.RenderDetail(result.data.product_main, result.data.product_sub, result.cert, result.data.favourite)
+                product_detail.RenderDetail(result.data.product_main, result.data.product_sub, result.cert, result.favourite)
             }
             else {
                 window.location.href = '/Home/NotFound'
             }
         })
     },
-    RenderDetail: function (product, product_sub, cert, is_favourite) {
+    RenderDetail: function (product, product_sub, cert, favourite) {
+     
         this.RenderGallery(product);
         this.RenderTitle(product);
         this.RenderRating(product);
@@ -213,12 +230,16 @@ var product_detail = {
             }
         }, 100);
         // ✅ Hiển thị trái tim yêu thích
-        if (is_favourite) {
+        if (favourite?.is_favourite) {
             $('.btn-favorite-toggle').addClass('active');
         } else {
             $('.btn-favorite-toggle').removeClass('active');
         }
-
+        // ✅ Cập nhật số lượt thích (nếu có)
+        const count = favourite?.count || 0;
+        $('.section-details-product .favourite-count').text(
+            count > 0 ? `Đã thích (${global_service.Comma(count)})` : 'Đã thích'
+        );
 
         this.RenderCertImages(cert);
         this.RenderDescriptions(product);

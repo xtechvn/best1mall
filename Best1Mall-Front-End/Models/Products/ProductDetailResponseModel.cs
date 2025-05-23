@@ -7,8 +7,14 @@
 
         // ✅ Thêm cert vào đây
         public ProductCertModel cert { get; set; }
-        public bool favourite { get; set; } // ✅ THÊM DÒNG NÀY
+        public FavouriteStatusModel favourite { get; set; } // ✅ Thêm dòng này
     }
+    public class FavouriteStatusModel
+    {
+        public bool is_favourite { get; set; }
+        public int count { get; set; }
+    }
+
 
     public class ProductMainResponseModel : ProductMongoDbModel
     {

@@ -103,16 +103,18 @@ namespace Best1Mall_Front_End.Controllers.Product
         public async Task<IActionResult> ProductDetail(ProductDetailRequestModel request)
         {
             ProductDetailResponseModel result = await _productServices.GetProductDetail(request);
-           
+
 
             return Ok(new
             {
                 is_success = result != null,
                 data = result,
-                cert = result?.cert
+                cert = result?.cert,
+                favourite = result?.favourite // ✅ thêm dòng này
             });
+
         }
-       
+
         public async Task<IActionResult> GetList(ProductListRequestModel request)
         {
             ProductListResponseModel result = await _productServices.GetProductList(request);
