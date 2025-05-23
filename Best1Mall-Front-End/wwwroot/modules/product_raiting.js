@@ -254,9 +254,9 @@ var product_raiting = {
         //} else {
         //    $('.section-details-product .total-review').html(global_service.Comma(product.reviews_count) + ' Đánh giá')
         //}
-        $('.info-product .box-review .review').html(html)
-        $('.info-product .box-review .total-sold').html(global_service.Comma(result.data.total_sold) + ' Đã bán')
-        $('.info-product .box-review .total-review').html(global_service.Comma(result.data.total_count)+' Đánh giá')
+        //$('.info-product .box-review .review').html(html)
+        //$('.info-product .box-review .total-sold').html(global_service.Comma(result.data.total_sold) + ' Đã bán')
+        //$('.info-product .box-review .total-review').html(global_service.Comma(result.data.total_count)+' Đánh giá')
     },
     GetFilter: function (page) {
         var request = {

@@ -25,7 +25,7 @@
         });
     },
     ToggleFavorite: function ($el) {
-        debugger;
+       
 
         let productId = $el.data("product-id");
 
@@ -64,7 +64,7 @@
         const apiUrl = isFavourite ? API_URL.FavouriteDelete : API_URL.AddToFavourite;
 
         $.when(global_service.POST(apiUrl, request)).done(function (result) {
-            debugger;
+           
 
             if (result.is_success) {
                 // Nếu là trang danh sách yêu thích → xóa luôn phần tử
@@ -116,7 +116,7 @@
         const self = this;
 
         $.when(global_service.POST(API_URL.FavouriteList, request)).done(function (res) {
-            debugger
+           
             if (res.is_success && res.data && res.data.length > 0) {
                 const html = res.data.map(item => self.renderFavouriteItem(item.detail)).join('');
                 if (self.pageIndex === 1) {

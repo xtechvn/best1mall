@@ -213,8 +213,9 @@ var cart = {
             }
             $.when(
                 global_service.POST(API_URL.CartList, request)
+
             ).done(function (result) {
-                
+               
                 if (result.is_success && result.data && result.data.length > 0) {
                     cart.RenderCartItem(result.data)
                     cart.RenderBuyNowSelection()
@@ -243,7 +244,7 @@ var cart = {
 
     },
     RenderCartItem: function (list) {
-        
+       
         
         var html = ''
         var total_amount = 0
@@ -251,7 +252,7 @@ var cart = {
         //-- Table Product
         $(list).each(function (index, item) {
             
-            
+          
             var html_item = HTML_CONSTANTS.Cart.Product
                 .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.product.name)).replaceAll(' ', '-') + '--' + item.product._id)
                 .replaceAll('{id}', item._id || item.product._id)

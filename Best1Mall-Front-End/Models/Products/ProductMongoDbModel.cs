@@ -55,7 +55,17 @@ namespace Best1Mall_Front_End.Models.Products
         public string description_ingredients { get; set; }
         public string description_effect { get; set; }
         public string description_usepolicy { get; set; }
+       
 
+        public List<ProductMongoDbSpecification>? detail_specification { get; set; }
 
     }
+    public class ProductMongoDbSpecification
+    {
+        public string key { get; set; }
+        public string value { get; set; }
+    }
+
+
 }
+

@@ -24,6 +24,20 @@
     {
         return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "Giá liên hệ";
     }
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
 }
 
 
@@ -43,6 +57,7 @@
     string discountText = showDiscount ? $"-{discountRounded}%" : "";
 
     string discountClass = showDiscount ? "" : "hidden";
+    string imgSrc = GetFullImageUrl(item.avatar);
 
         <div class="swiper-slide pt-3">
             <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
@@ -52,7 +67,7 @@
                     @discountText
                 </div>
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                       <img src="https://static-image.adavigo.com@(@item.avatar)" alt="Sản phẩm"
+                    <img src="@imgSrc" alt="Sản phẩm"
                              class="absolute inset-0 w-full h-full object-cover" />
                     </div>
                     <p class="text-sm line-clamp-2 font-medium mt-2">@item.name</p>

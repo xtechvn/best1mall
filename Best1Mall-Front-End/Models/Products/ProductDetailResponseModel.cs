@@ -7,6 +7,7 @@
 
         // ✅ Thêm cert vào đây
         public ProductCertModel cert { get; set; }
+        public bool favourite { get; set; } // ✅ THÊM DÒNG NÀY
     }
 
     public class ProductMainResponseModel : ProductMongoDbModel

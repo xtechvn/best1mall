@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
 
     product_detail.Initialization()
-    
+
 })
 var product_detail = {
     Initialization: function () {
@@ -17,7 +17,7 @@ var product_detail = {
 
         sessionStorage.removeItem(STORAGE_NAME.SubProduct)
         product_detail.Detail()
-      
+
 
         product_detail.DynamicBind()
         global_service.LoadHomeProductGrid($('#combo-discount .list-product'), GLOBAL_CONSTANTS.GroupProduct.FlashSale, GLOBAL_CONSTANTS.Size)
@@ -71,7 +71,7 @@ var product_detail = {
 
         });
         $("body").on('click', ".btn-favorite-toggle", function () {
-            debugger
+           
             product_detail.ToggleFavorite($(this));
 
         });
@@ -86,7 +86,7 @@ var product_detail = {
         });
     },
     ToggleFavorite: function ($el) {
-        debugger;
+       
 
         let productId = $el.data("product-id");
 
@@ -125,7 +125,7 @@ var product_detail = {
         const apiUrl = isFavourite ? API_URL.FavouriteDelete : API_URL.AddToFavourite;
 
         $.when(global_service.POST(apiUrl, request)).done(function (result) {
-            debugger;
+           
 
             if (result.is_success) {
                 // Nếu là trang danh sách yêu thích → xóa luôn phần tử
@@ -157,7 +157,7 @@ var product_detail = {
         });
     },
     Detail: function () {
-       
+        const usr = global_service.CheckLogin(); // kiểm tra đăng nhập
         $('#skeleton-loading').show();
         $('.product-details-section').hide();
 
@@ -165,151 +165,30 @@ var product_detail = {
         if (code == undefined || code.trim() == '')
             window.location.href = '/error'
         var request = {
-            "id": code
+            "id": code,
+            "token": usr.token
         }
         $.when(
             global_service.POST(API_URL.ProductDetail, request)
         ).done(function (result) {
-            debugger
+           
             if (result.is_success && result.data && result.data.product_main) {
                 sessionStorage.setItem(STORAGE_NAME.ProductDetail, JSON.stringify(result.data))
                 sessionStorage.setItem(STORAGE_NAME.SubProduct, JSON.stringify(result.data.product_sub))
-                product_detail.RenderDetail(result.data.product_main, result.data.product_sub, result.cert)
+                product_detail.RenderDetail(result.data.product_main, result.data.product_sub, result.cert, result.data.favourite)
             }
             else {
                 window.location.href = '/Home/NotFound'
             }
         })
     },
-    RenderDetail: function (product, product_sub, cert) {
-        debugger
-        var html2 = ''
-        var html = ''
-        var html_thumb = ''
-        var img_src = product.avatar
-        $(product.videos).each(function (index, item) {
-            img_src = global_service.CorrectImage(item)
-            html += HTML_CONSTANTS.Detail.Videos
-                .replaceAll('{src}', img_src)
-            html_thumb += HTML_CONSTANTS.Detail.ThumbnailVideos
-                .replaceAll('{src}', img_src)
-        });
-
-        img_src = global_service.CorrectImage(product.avatar)
-        // gallery
-        html += HTML_CONSTANTS.Detail.Images
-            .replaceAll('{src}', img_src)
-        html_thumb += HTML_CONSTANTS.Detail.ThumbnailImages
-            .replaceAll('{src}', img_src)
-
-        $(product.images).each(function (index, item) {
-
-            img_src = global_service.CorrectImage(item)
-            html += HTML_CONSTANTS.Detail.Images
-                .replaceAll('{src}', img_src)
-            html_thumb += HTML_CONSTANTS.Detail.ThumbnailImages
-                .replaceAll('{src}', img_src)
-
-        });
-        $('.thumb-big .swiper-wrapper').html(html)
-        $('.thumb-small .swiper-wrapper').html(html_thumb)
-        swiperSmallThumb = new Swiper(".thumb-small", {
-            spaceBetween: 8,
-            slidesPerView: 4,
-            freeMode: true,
-            watchSlidesProgress: true,
-        });
-        swiperBigThumb = new Swiper(".thumb-big", {
-            spaceBetween: 15,
-            navigation: false,
-            thumbs: {
-                swiper: swiperSmallThumb,
-            },
-
-        });
-        lightGallery($('.thumb-big .swiper-wrapper')[0], {
-            plugins: [lgVideo],
-            videojs: true,
-            speed: 500,
-            thumbnail: true,
-        });
-
-
-        $('.section-details-product .name-product').html(product.name)
-
-        if (product_sub != undefined && product_sub.length > 0) {
-            const max_obj = product_sub.reduce(function (prev, current) {
-                return (prev && prev.amount > current.amount) ? prev : current
-            })
-            const min_obj = product_sub.reduce(function (prev, current) {
-                return (prev && prev.amount < current.amount) ? prev : current
-            })
-            if (max_obj.amount <= min_obj.amount)
-                $('.section-details-product .price').html(global_service.Comma(min_obj.amount))
-            else
-                $('.section-details-product .price').html(global_service.Comma(min_obj.amount) + ' - ' + global_service.Comma(max_obj.amount))
-        }
-        else {
-            $('.section-details-product .price').html(global_service.Comma(product.amount))
-
-        }
-        if (product.discount > 0) {
-            $('#price-old').html(global_service.Comma(product.amount + product.discount))
-        } else {
-            $('#price-old').closest('.price-old').hide()
-        }
-        var total_stock = product.quanity_of_stock
-
-        html = ''
-        //html += HTML_CONSTANTS.Detail.Tr_Voucher.replaceAll('{span}', '')
-        //html += HTML_CONSTANTS.Detail.Tr_Combo.replaceAll('{span}', '')
-        html += HTML_CONSTANTS.Detail.Tr_Shipping
-        //html += HTML_CONSTANTS.Detail.Tr_Combo.replaceAll('{span}', '')
-        if (product_sub != undefined && product_sub.length > 0) {
-            $(product.attributes).each(function (index, attribute) {
-                var attr_detail = product.attributes_detail.filter(obj => {
-                    return obj.attribute_id === attribute._id
-                })
-                var html_item = ''
-                if (attr_detail != undefined && attr_detail.length > 0) {
-                    $(attr_detail).each(function (index_detail, attribute_detail) {
-                        img_src = global_service.CorrectImage(attribute_detail.img)
-
-                        html_item += HTML_CONSTANTS.Detail.Tr_Attributes_Td_li
-                            .replaceAll('{active}', '')
-                            .replaceAll('{src}', attribute_detail.img != undefined && attribute_detail.img.trim() != '' ? '<img src="' + img_src + '" />' : '')
-                            .replaceAll('{name}', attribute_detail.name)
-                    })
-                }
-                html += HTML_CONSTANTS.Detail.Tr_Attributes
-                    .replaceAll('{level}', attribute._id)
-                    .replaceAll('{name}', attribute.name)
-                    .replaceAll('{li}', html_item)
-                html2 += HTML_CONSTANTS.Detail.Tr_Attributes
-                    .replaceAll('{level}', attribute._id)
-                    .replaceAll('{name}', attribute.name)
-                    .replaceAll('{li}', html_item)
-            });
-            total_stock = product_sub.reduce((n, { amount }) => n + amount, 0)
-        }
-        html += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock))
-
-        $('.box-info-details tbody').html(html)
-        $('.box-attribute').html(html2)
-
-
-
-        $('.section-description-product .box-des p').html(product.description.replaceAll('\n', '<br />'))
-
-        //--hide voucher (implement later):
-        $('#voucher').hide()
-        //$('#combo-discount').hide()
-        $('#combo-discount .list-product .item-product').each(function (index, item) {
-            var element = $(this)
-            if (index < 5) return true
-            else element.hide()
-        })
-
+    RenderDetail: function (product, product_sub, cert, is_favourite) {
+        this.RenderGallery(product);
+        this.RenderTitle(product);
+        this.RenderRating(product);
+        this.RenderPrice(product, product_sub);
+        this.RenderSpecification(product);
+        this.RenderAttributes(product, product_sub);
         // ✅ Tự động chọn thuộc tính đầu tiên nếu có
         setTimeout(function () {
             var product = product_detail.GetProductDetailSession();
@@ -333,52 +212,204 @@ var product_detail = {
                 product_detail.RenderBuyNowButton(false);
             }
         }, 100);
-        // 🔹 Hiển thị ảnh chứng nhận trong accordion
-        if (cert) {
-            const renderCertImages = (list) => {
-                if (!list || list.length === 0)
-                    return '<p class="text-slate-500 text-sm">Chưa có dữ liệu chứng nhận</p>';
-                return list.map(src => {
-                    const imgSrc = global_service.CorrectImage(src);
-                    return `<img src="${imgSrc}" alt="Chứng nhận" class="mt-2 object-contain max-w-2/3 w-full h-auto m-auto" />`;
-                }).join('');
-            };
-
-            $('#cert-root-product').html(renderCertImages(cert.root_product));
-            $('#cert-product').html(renderCertImages(cert.product));
-            $('#cert-supply').html(renderCertImages(cert.supply));
-            $('#cert-confirm').html(renderCertImages(cert.confirm));
-        }
-        // Thành phần
-        if (product.description_ingredients) {
-            $('#thanh-phan ul').html(product.description_ingredients);
+        // ✅ Hiển thị trái tim yêu thích
+        if (is_favourite) {
+            $('.btn-favorite-toggle').addClass('active');
         } else {
-            $('#thanh-phan').remove(); // Không có -> bay màu luôn
-        }
-
-        // Công dụng
-        if (product.description_effect) {
-            $('#cong-dung').append(`<p class="text-gray-700">${product.description_effect}</p>`);
-        } else {
-            $('#cong-dung').remove();
-        }
-
-        // Cách dùng
-        if (product.description_usepolicy) {
-            $('#cach-dung').append(`<p class="text-gray-700">${product.description_usepolicy}</p>`);
-        } else {
-            $('#cach-dung').remove();
+            $('.btn-favorite-toggle').removeClass('active');
         }
 
 
+        this.RenderCertImages(cert);
+        this.RenderDescriptions(product);
+        this.RenderBuyNowButton(true);
 
-        product_detail.RenderBuyNowButton(true)
-        product_detail.RenderSavedProductDetailAttributeSelected()
+        this.RenderSavedProductDetailAttributeSelected();
+        this.RemoveLoading();
 
-        product_detail.RemoveLoading()
-        // 👇 Thêm vào ngay đây
         $('#skeleton-loading').hide();
         $('.product-details-section').show();
+    },
+
+    RenderGallery: function (product) {
+        let html = '', html_thumb = '';
+
+        (product.videos || []).forEach(item => {
+            const img_src = global_service.CorrectImage(item);
+            html += HTML_CONSTANTS.Detail.Videos.replaceAll('{src}', img_src);
+            html_thumb += HTML_CONSTANTS.Detail.ThumbnailVideos.replaceAll('{src}', img_src);
+        });
+
+        const avatar = global_service.CorrectImage(product.avatar);
+        html += HTML_CONSTANTS.Detail.Images.replaceAll('{src}', avatar);
+        html_thumb += HTML_CONSTANTS.Detail.ThumbnailImages.replaceAll('{src}', avatar);
+
+        (product.images || []).forEach(item => {
+            const img_src = global_service.CorrectImage(item);
+            html += HTML_CONSTANTS.Detail.Images.replaceAll('{src}', img_src);
+            html_thumb += HTML_CONSTANTS.Detail.ThumbnailImages.replaceAll('{src}', img_src);
+        });
+
+        $('.thumb-big .swiper-wrapper').html(html);
+        $('.thumb-small .swiper-wrapper').html(html_thumb);
+
+        const swiperSmallThumb = new Swiper(".thumb-small", {
+            spaceBetween: 8,
+            slidesPerView: 4,
+            freeMode: true,
+            watchSlidesProgress: true,
+        });
+
+        new Swiper(".thumb-big", {
+            spaceBetween: 15,
+            navigation: false,
+            thumbs: {
+                swiper: swiperSmallThumb,
+            },
+        });
+
+        lightGallery($('.thumb-big .swiper-wrapper')[0], {
+            plugins: [lgVideo],
+            videojs: true,
+            speed: 500,
+            thumbnail: true,
+        });
+    },
+
+    RenderTitle: function (product) {
+        $('.section-details-product .name-product').html(product.name);
+    },
+
+    RenderRating: function (product) {
+        const rating = product.rating || 0;
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const maxStars = 5;
+        let starsHtml = '';
+
+        for (let i = 0; i < fullStars; i++) starsHtml += HTML_CONSTANTS.Detail.Star2.Full;
+        if (halfStar) starsHtml += HTML_CONSTANTS.Detail.Star2.Half;
+        for (let i = fullStars + (halfStar ? 1 : 0); i < maxStars; i++) starsHtml += HTML_CONSTANTS.Detail.Star2.Empty;
+
+        starsHtml += `<span class="text-red-500">${rating}</span>`;
+        $('.box-review .review').html(starsHtml);
+        $('.box-review .total-review').text(`${product.review_count || 0} đánh giá`);
+        $('.box-review .total-sold').text(`${product.total_sold || 0} đã bán`);
+    },
+
+    RenderPrice: function (product, product_sub) {
+        let priceHtml = '';
+
+        if (product_sub?.length > 0) {
+            const [minAmount, maxAmount] = product_sub.reduce(([min, max], p) => [
+                Math.min(min, p.amount),
+                Math.max(max, p.amount)
+            ], [Infinity, -Infinity]);
+
+            priceHtml = (minAmount === maxAmount)
+                ? global_service.Comma(minAmount)
+                : `${global_service.Comma(minAmount)} - ${global_service.Comma(maxAmount)}`;
+        } else {
+            priceHtml = global_service.Comma(product.amount);
+        }
+
+        $('.section-details-product .price').html(priceHtml);
+        if (product.discount > 0) {
+            $('#price-old').html(global_service.Comma(product.amount + product.discount));
+        } else {
+            $('#price-old').closest('.price-old').hide();
+        }
+    },
+
+    RenderSpecification: function (product) {
+        if (product.detail_specification?.length > 0) {
+            const rows = product.detail_specification.map(item =>
+                `<tr><td>${item.key}</td><td>${item.value}</td></tr>`
+            ).join('');
+            $('#thong-tin-san-pham tbody').html(rows);
+        } else {
+            $('#thong-tin-san-pham').remove();
+        }
+    },
+
+    RenderAttributes: function (product, product_sub) {
+        let html = '', html2 = '';
+        let total_stock = product.quanity_of_stock || 0;
+
+        if (product_sub?.length > 0) {
+            $(product.attributes).each((_, attribute) => {
+                const attr_detail = product.attributes_detail.filter(obj => obj.attribute_id === attribute._id);
+                let html_item = '';
+
+                attr_detail.forEach(attribute_detail => {
+                    const img_src = global_service.CorrectImage(attribute_detail.img);
+                    html_item += HTML_CONSTANTS.Detail.Tr_Attributes_Td_li
+                        .replaceAll('{active}', '')
+                        .replaceAll('{src}', attribute_detail.img ? `<img src="${img_src}" />` : '')
+                        .replaceAll('{name}', attribute_detail.name);
+                });
+
+                const block = HTML_CONSTANTS.Detail.Tr_Attributes
+                    .replaceAll('{level}', attribute._id)
+                    .replaceAll('{name}', attribute.name)
+                    .replaceAll('{li}', html_item);
+
+                html += block;
+                html2 += block;
+            });
+
+            total_stock = product_sub.reduce((n, { amount }) => n + amount, 0);
+        }
+
+        html += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock));
+        $('.box-info-details tbody').html(html);
+        $('.box-attribute').html(html2);
+    },
+
+    RenderCertImages: function (cert) {
+        const render = (list) => {
+            if (!list || list.length === 0) return '<p class="text-slate-500 text-sm">Chưa có dữ liệu chứng nhận</p>';
+            return list.map(src => `<img src="${global_service.CorrectImage(src)}" alt="Chứng nhận" class="mt-2 object-contain max-w-2/3 w-full h-auto m-auto" />`).join('');
+        };
+
+        $('#cert-root-product').html(render(cert?.root_product));
+        $('#cert-product').html(render(cert?.product));
+        $('#cert-supply').html(render(cert?.supply));
+        $('#cert-confirm').html(render(cert?.confirm));
+    },
+
+    RenderDescriptions: function (product) {
+        if (product.description) {
+            $('.section-description-product .box-des p').html(product.description.replaceAll('\n', '<br />'));
+            $('.mo-ta').show();
+        } else {
+            $('#mo-ta').remove();
+            $('.mo-ta').hide();
+        }
+
+        if (product.description_ingredients) {
+            $('#thanh-phan ul').html(product.description_ingredients);
+            $('.thanh-phan').show();
+        } else {
+            $('#thanh-phan').remove();
+            $('.thanh-phan').hide();
+        }
+
+        if (product.description_effect) {
+            $('#cong-dung').append(`<p class="text-gray-700">${product.description_effect}</p>`);
+            $('.cong-dung').show();
+        } else {
+            $('#cong-dung').remove();
+            $('.cong-dung').hide();
+        }
+
+        if (product.description_usepolicy) {
+            $('#cach-dung').append(`<p class="text-gray-700">${product.description_usepolicy}</p>`);
+            $('.cach-dung').show();
+        } else {
+            $('#cach-dung').remove();
+            $('.cach-dung').hide();
+        }
     },
     GetProductDetailSession: function () {
         var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
@@ -452,7 +483,7 @@ var product_detail = {
     },
 
     RenderBuyNowButton: function () {
-        
+
         var no_select_all = false
         if ($('.box-info-details tbody .attributes').length <= 0) {
 
@@ -570,11 +601,11 @@ var product_detail = {
         sessionStorage.setItem(STORAGE_NAME.Cart, JSON.stringify(cart));
     },
 
-  
-    
+
+
 
     BuyNow: function () {
-
+       
         var product = product_detail.GetSubProductSessionByAttributeSelected()
         if (product == undefined) {
             var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
@@ -598,6 +629,7 @@ var product_detail = {
             $.when(
                 global_service.POST(API_URL.AddToCart, request)
             ).done(function (result) {
+                
                 if (result.is_success && result.data) {
 
                     sessionStorage.setItem(STORAGE_NAME.BuyNowItem, JSON.stringify(request))

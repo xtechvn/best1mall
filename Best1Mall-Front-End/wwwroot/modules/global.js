@@ -480,7 +480,7 @@ var global_service = {
         $.when(
             global_service.POST(API_URL.GlobalSearch, request)
         ).done(function (result) {
-            debugger
+          
             if (result.is_success && result.data && result.data.items) {
                 if (result.data.items.length > 0) {
                     var html = `<ul class="divide-y divide-gray-100">` + global_service.RenderSearchProductItem(result.data.items) + `</ul>`
@@ -578,7 +578,7 @@ var global_service = {
                
                 let discountRounded = Math.round(parseFloat(item.discount) || 0);
                 let showDiscount = discountRounded > 0;
-                debugger
+               
                 html += template
                     .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
                     .replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}',  ${amount_number},

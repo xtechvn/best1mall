@@ -32,6 +32,11 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                     var detail = JsonConvert.DeserializeObject<ProductDetailResponseModel>(jsonData["data"].ToString());
                     var cert = JsonConvert.DeserializeObject<ProductCertModel>(jsonData["cert"].ToString());
                     detail.cert = cert;
+                    // ✅ lấy thêm `favourite`
+                    if (jsonData["favourite"] != null)
+                    {
+                        detail.favourite = jsonData["favourite"].ToObject<bool>();
+                    }
                     return detail;
                 }
             }

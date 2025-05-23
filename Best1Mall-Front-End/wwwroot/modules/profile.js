@@ -11,7 +11,7 @@ var profile_client = {
     Initialization: function () {
         profile_client.GetProfile();
         $("#btnUpdate").click(function (e) {
-            debugger
+           
             e.preventDefault();
 
             const usr = global_service.CheckLogin();
@@ -43,7 +43,7 @@ var profile_client = {
             $.when(
                 global_service.POST(API_URL.UpdateProfile, request)
             ).done(function (result) {
-                debugger;
+                
                 if (result && result.is_success && result.data) {
                     
 
@@ -91,7 +91,7 @@ var profile_client = {
         });
     },
     GetProfile: function () {
-        debugger
+        
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -103,7 +103,7 @@ var profile_client = {
         $.when(
             global_service.POST(API_URL.ProfileList, request)
         ).done(function (result) {
-            debugger;
+          
             if (result && result.is_success && result.data) {
                 const data = result.data;
                 sessionStorage.setItem(STORAGE_NAME.Profile, JSON.stringify(data))
