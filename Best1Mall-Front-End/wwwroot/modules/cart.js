@@ -409,6 +409,7 @@ var cart = {
     },
 
     ConfirmCart: function () {
+        debugger
         // ✨ Show loading + disable button
         const $btn = $('.btn-confirm-cart');
         $btn.prop('disabled', true).addClass('opacity-60 cursor-not-allowed');
@@ -481,7 +482,7 @@ var cart = {
                 $.when(
                     global_service.POST(API_URL.CartConfirm, request)
                 ).done(function (result) {
-                    
+                    debugger
                     if (result.is_success && result.data != undefined) {
                         request.result = result.data
                         sessionStorage.setItem(STORAGE_NAME.Order, JSON.stringify(request))

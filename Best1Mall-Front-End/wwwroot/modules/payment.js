@@ -28,6 +28,7 @@ var payment = {
         });
     },
     Detail: function () {
+        debugger
         var usr = global_service.CheckLogin()
         if (usr) {
             var request = {
@@ -52,7 +53,7 @@ var payment = {
 
     },
     RenderBankTransfer: function (order_detail) {
-        
+        debugger
         switch (order_detail.payment_type) {
             case 2:
             case 3: {
@@ -85,8 +86,13 @@ var payment = {
             case 1:
             case 4: {
                 $('.box-payment-sucess').show()
-                $('.box-payment-info').remove()
-                $('.box-payment-failed').remove()
+                $('.box-payment-info').hide()
+                $('.box-payment-failed').hide()
+                $('.order-no').html(order_detail.order_no)
+                var payment_type = GLOBAL_CONSTANTS.PaymentType.filter(obj => {
+                    return obj.id === order_detail.payment_type
+                })
+                $('.payment-type').html(payment_type[0].name)
             } break;
         }
 
