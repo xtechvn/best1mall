@@ -81,9 +81,9 @@
         @if (order.data_order.OrderStatus == OrderStatus.DELIVERED || order.data_order.OrderStatus == OrderStatus.DONE||
         order.data_order.OrderStatus == OrderStatus.CANCELED){
             <a href="javascript:;" class=" btn-buy-again border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Mua lại</a>
-            <a href="javascript:;" class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Đánh giá</a>
         }
-       
+        <a id="order-detail-raiting" href="javascript:;" class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Đánh giá</a>
+
     </div>
     <div class="box-order-detail">
         <div class="head-box">
@@ -151,10 +151,10 @@
                         </tr>
                     </tbody>
                 </table>
-                @* <div class="action"> *@
-                @*     <a href="javascript:;" class="btn btn-base btn-buy-again">Mua lại</a> *@
-                @*     <a href="javascript:;" class="btn btn-line btn-review">Đánh giá</a> *@
-                @* </div> *@
+                <div class="action"> 
+                @*     <a href="javascript:;" class="btn btn-base btn-buy-again">Mua lại</a>
+                    <a id="order-detail-raiting" href="javascript:;" class="btn btn-line btn-review">Đánh giá</a> *@
+                </div>
                 @* <div class="action"> *@
                 @*     <a href="javascript:;" class="btn btn-line">Liên hệ người bán</a> *@
                 @* </div> *@
@@ -163,8 +163,143 @@
         </div>
     </div>
 </div>
+<div id="danhgia-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999" style="display:none;">
+    <div class="flex justify-center md:items-center h-full">
+        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto overflow-y-auto relative">
 
+            <span class="closePopup absolute right-2 top-2 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                          fill="#2A3262" />
+                </svg>
+            </span>
+            <!-- header -->
+            <h4 class="text-center text-xl text-color-base mb-3">ĐÁNH GIÁ</h4>
+            <div class="space-y-4 scrollbar-hide overflow-y-auto md:max-h-[80vh]">
+                @if(order.data!=null && order.data.carts!=null && order.data.carts.Count > 0)
+                {
+                    foreach(var cart in order.data.carts)
+                    {
+                        if (cart.product == null) { continue; }
+                        string url_fixed = cart.product.avatar;
+                        @if (cart.product != null && cart.product.avatar != null && cart.product.avatar.Trim() != "")
+                        {
+                            if (!url_fixed.Contains(static_domain)
+                            && !url_fixed.Contains("base64")
+                            && !url_fixed.Contains("data:image"))
+                            {
+                                url_fixed = static_domain + cart.product.avatar;
+                            }
+                        }
+                        <div class="rounded-xl bg-gray-100 p-2 order-raiting" data-order-id="@order.data.order_id" data-product-id="@cart.product._id">
+                            <div class="flex gap-2 items-center">
+                                <div class="relative aspect-[1/1] w-12 overflow-hidden rounded-lg shrink-0">
+                                    <img src="@url_fixed" alt="Sản phẩm"
+                                         class="absolute inset-0 w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <p class="font-medium line-clamp-2 md:text-base text-sm">
+                                        @cart.product.name
+                                    </p>
+                                    <div class="text-slate-500">Phân loại hàng: @StringHelpers.RenderVariationDetail(cart.product.attributes, cart.product.attributes_detail, cart.product.variation_detail)</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 my-3">
+                                <span>Chất lượng sản phẩm</span>
+                                <div class="rating">
+                                    <input type="radio" name="rating" class="order-raiting-star" data-star="5" checked>
+                                    <label for="rating-5" class="order-raiting-star-label" data-star="5"></label>
+                                    <input type="radio" name="rating" class="order-raiting-star" data-star="4" >
+                                    <label for="rating-4" class="order-raiting-star-label" data-star="4"></label>
+                                    <input type="radio" name="rating" class="order-raiting-star" data-star="3" >
+                                    <label for="rating-3" class="order-raiting-star-label" data-star="3"></label>
+                                    <input type="radio" name="rating" class="order-raiting-star" data-star="2" >
+                                    <label for="rating-2" class="order-raiting-star-label" data-star="2"></label>
+                                    <input type="radio" name="rating" class="order-raiting-star" data-star="1">
+                                    <label for="rating-1" class="order-raiting-star-label" data-star="1"></label>
+                                </div>
+                                <span class="order-raiting-star-review-text text-yellow-500">Tuyệt vời</span>
+                            </div>
+                            <textarea placeholder="Hãy chia sẽ điều bạn thích về sản phẩm với những người mua khác nhé." class="w-full bg-white rounded-xl p-3 order-raiting-review" rows="3"></textarea>
+                            <div class="box-img flex gap-2 items-center flex-wrap my-3 order-raiting-upload-list">
+                             @*    <div class="relative aspect-[1/1] w-13 overflow-hidden rounded-lg shrink-0">
+                                    <img src="images/product1.jpg" alt="Sản phẩm"
+                                         class="absolute inset-0 w-full h-full object-cover">
+                                    <div class="del"></div>
+                                </div>
+                                <div class="relative aspect-[1/1] w-13 overflow-hidden rounded-lg shrink-0">
+                                    <img src="images/product1.jpg" alt="Sản phẩm"
+                                         class="absolute inset-0 w-full h-full object-cover">
+                                    <div class="del"></div>
+                                </div>
+                                <div class="relative aspect-[1/1] w-13 overflow-hidden rounded-lg shrink-0">
+                                    <img src="images/product1.jpg" alt="Sản phẩm"
+                                         class="absolute inset-0 w-full h-full object-cover">
+                                    <div class="del"></div>
+                                </div>
+                                <label for="img" class="relative border border-gray-200 rounded-xl p-1 text-center w-13 h-13 cursor-pointer">
+                                    <img src="images/icon/img-upload.svg" class="mx-auto" />
+                                    <span class="block text-xs text-gray-400">3/5</span>
+                                    <input type="file" name="img" class="opacity-0 absolute top-0 bottom-0 lef-0 right-0  cursor-pointer" />
+                                </label>
+                                <label for="img" class="relative border border-gray-200 rounded-xl p-1 text-center w-13 h-13 cursor-pointer">
+                                    <img src="images/icon/video-upload.svg" class="mx-auto" />
+                                    <span class="block text-xs text-gray-400">3/5</span>
+                                    <input type="file" name="img" class="opacity-0 absolute top-0 bottom-0 lef-0 right-0  cursor-pointer" />
+                                </label> *@
+                            </div>
+                            <div class="btn-upload flex gap-2 items-center flex-wrap my-3">
+                                <label class="relative flex gap-2 items-center border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 order-raiting-upload-img">
+                                    <img src="images/icon/img-upload-p.svg" class="mx-auto" />
+                                    <span class="block text-blue-500">Thêm hình ảnh (<nw class="count">0</nw>/5)</span>
+                                    <input style=" width: 100%; " type="file" name="img" class="opacity-0 absolute top-0 bottom-0 lef-0 right-0  cursor-pointer order-raiting-upload-img" />
+                                </label>
+                                <label class="relative flex gap-2 items-center border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 order-raiting-upload-vid">
+                                    <img src="images/icon/video-upload-p.svg" class="mx-auto" />
+                                    <span class="block text-blue-500">Thêm video (<nw class="count">0</nw>/1)</span>
+                                    <input style=" width: 100%; " type="file" name="vid" class="opacity-0 absolute top-0 bottom-0 lef-0 right-0  cursor-pointer order-raiting-upload-vid" />
+                                </label>
+                            </div>
+                        </div>
+
+                    }
+                }
+            </div>
+            <!-- Footer -->
+            <div class="flex justify-end items-center mt-4 gap-3">
+                <button class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80">
+                    Trở
+                    lại
+                </button>
+                <button class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80">
+                    Hoàn
+                    thành
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="thank-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
+    <div class="flex justify-center md:items-center h-full ">
+        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-sm w-full mx-auto  overflow-y-auto relative">
+
+            <span class="closePopup absolute right-2 top-2 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                          fill="#2A3262" />
+                </svg>
+            </span>
+            <!-- header -->
+            <div class="text-center">
+                <img src="/assets/images/success.svg" alt="" class="mx-auto" />
+                <h4 class="text-center text-xl text-color-base mt-3">Cảm ơn bạn đã đánh giá !</h4>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     <script type="text/javascript" src="/modules/order/detail.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/modules/order/order_raiting.js" asp-append-version="true"></script>
 
 }
