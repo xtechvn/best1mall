@@ -84,7 +84,7 @@
         }
     };
 
-   
+
 })
 
 var _support =
@@ -140,12 +140,12 @@ var _support =
         $.ajax({
             url: "/Support/GetListByCategoryID",
             type: 'post',
-            data: { id: id},
+            data: { id: id },
             success: function (data) {
                 var currentPath = window.location.href;
                 var PathNext = "/chinh-sach/" + global_service.convertVietnameseToUnsign(urlname) + "-" + id;
-                if (!currentPath.includes(PathNext) ) {
-                    window.history.pushState('string', '', "/chinh-sach/" + global_service.convertVietnameseToUnsign(urlname) + "-" + id) 
+                if (!currentPath.includes(PathNext)) {
+                    window.history.pushState('string', '', "/chinh-sach/" + global_service.convertVietnameseToUnsign(urlname) + "-" + id)
                 }
                 $(".content-policy").html('');
                 if (data.length > 0) {
@@ -190,8 +190,7 @@ var _support =
             success: function (data) {
                 var currentPath = window.location.href;
                 var PathNext = '/questions/' + global_service.convertVietnameseToUnsign(data.title) + '-' + id;
-                if (!currentPath.includes(PathNext))
-                {
+                if (!currentPath.includes(PathNext)) {
                     window.history.pushState('string', '', "/questions/" + global_service.convertVietnameseToUnsign(data.title) + "-" + id)
                 }
                 if (data != null) {
@@ -284,10 +283,8 @@ var _support =
         window.location.href = '/cham-soc-khach-hang';
     },
 
-    FocusOnSearch: function ()
-    {
-        if (localStorage.getItem("focus"))
-        {
+    FocusOnSearch: function () {
+        if (localStorage.getItem("focus")) {
             $("#search-input").focus();
             localStorage.removeItem("focus");
         }

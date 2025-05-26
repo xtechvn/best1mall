@@ -2,7 +2,7 @@
     global_service.Initialization();
     global_service.DynamicBind();
     global_service.LoadPolicy();
-    global_service.LoadAbouHulotoys();
+    //global_service.LoadAbouHulotoys();
     global_service.LoadCustomerSupport();
     global_service.LoadCartCount();
    
@@ -112,19 +112,19 @@ var global_service = {
             },
         });
     },
-    LoadAbouHulotoys: function () {
-        $.ajax({
-            url: "/Support/GetListAboutHulotoys",
-            type: 'post',
-            data: { idCate: 25 },
-            success: function (data) {
-                data.forEach(item => {
-                    let html = `<li><a class="li-Cursor hover:text-red-500" onclick="global_service.Naviga('/tin-tuc/','${item.id}','${item.title}-${item.id}')">${item.title}</a></li>`;
-                    $(".AboutHulotoy-footer").append(html);
-                });
-            },
-        });
-    },
+    //LoadAbouHulotoys: function () {
+    //    $.ajax({
+    //        url: "/Support/GetListAboutHulotoys",
+    //        type: 'post',
+    //        data: { idCate: 25 },
+    //        success: function (data) {
+    //            data.forEach(item => {
+    //                let html = `<li><a class="li-Cursor hover:text-red-500" onclick="global_service.Naviga('/tin-tuc/','${item.id}','${item.title}-${item.id}')">${item.title}</a></li>`;
+    //                $(".AboutHulotoy-footer").append(html);
+    //            });
+    //        },
+    //    });
+    //},
     LoadCustomerSupport: function () {
         $.ajax({
             url: "/Support/GetListCustomerSupport",
