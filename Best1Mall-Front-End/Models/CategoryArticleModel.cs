@@ -3,6 +3,7 @@
     public class CategoryArticleModel
     {
         public long id { get; set; }
+        public string? category_name { get; set; }
         public string title { get; set; }
         public string lead { get; set; }
         public int status { get; set; }
@@ -12,7 +13,9 @@
         public DateTime publish_date { get; set; }
         public int? pageview { get; set; }
         public int? position { get; set; }
-        public string list_category_id { get; set; }
-        public string list_category_name { get; set; }
+        public int? total_item { get; set; }
+        public int? total_page { get; set; }
+        public string? list_category_id { get; set; }
+        public string? list_category_name { get; set; }
     }
 }

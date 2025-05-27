@@ -4,7 +4,7 @@
     int category_id = ViewBag.category_id;
     int current_page = ViewBag.page;
     int page_size = ViewBag.page_size;
-    int total_items = ViewBag.total_items;// Tổng toàn bộ bản ghi theo 1 cate
+   /// int total_items = ViewBag.total_items;// Tổng toàn bộ bản ghi theo 1 cate
     ViewData["type"] = "news";
 }
 @* @section Styles { *@
@@ -62,7 +62,7 @@
                 <div class="list-news-home"></div>
 
                 @*Phân trang*@
-                @await Component.InvokeAsync("Pagination", new { page = current_page, total_items = total_items, page_size = page_size, view = "~/Views/Shared/Components/Pagination/Default.cshtml" })
+                @* @await Component.InvokeAsync("Pagination", new { page = current_page, total_items = total_items, page_size = page_size, view = "~/Views/Shared/Components/Pagination/Default.cshtml" }) *@
 
             </div>
             <div class="w-full">

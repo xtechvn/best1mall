@@ -38,7 +38,7 @@ namespace Best1Mall_Front_End.Controllers.News
             ViewBag.category_id = 22;// Convert.ToInt32(configuration["menu:news_parent_id"]);
             ViewBag.page = page;
             ViewBag.page_size = Convert.ToInt32(configuration["blognews:page_size"]);
-            ViewBag.total_items = await article_sv.getTotalNews(-1); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
+            ViewBag.total_items = await article_sv.getTotalNews(11); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
             return View();
         }
 
@@ -74,7 +74,7 @@ namespace Best1Mall_Front_End.Controllers.News
         /// <returns></returns>
         [Route("news/home/get-article-list.json")]
         [HttpPost]
-        public async Task<IActionResult> getArticleListByCategoryIdComponent(int category_id, string view_name, int page)
+        public async Task<IActionResult> getArticleListByCategoryIdComponent(int category_id, string view_name, int page, bool isPaging = false)
         {
             try
             {
@@ -85,10 +85,12 @@ namespace Best1Mall_Front_End.Controllers.News
 
                 var model = new CategoryConfigModel
                 {
+                    page = page,
                     category_id = category_id,
                     view_name = view_name,
                     skip = skip,
-                    take = page_size
+                    take = page_size,
+                    isPaging = isPaging
                 };
                 return ViewComponent("ArticleList", model);
             }

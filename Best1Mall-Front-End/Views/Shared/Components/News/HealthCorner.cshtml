@@ -1,57 +1,30 @@
 ﻿@using Best1Mall_Front_End.ViewModels;
 @using Best1Mall_Front_End.Utilities;
 @model ArticleViewModel
+
 @{
     int d = 0;
     int category_id = Model.category_id;
-}
 
+    // Main article: pinned position = 1
+    var mainArticles = Model.obj_article_pinned?.Where(x => x.position == 1).Take(1).ToList() ?? new List<CategoryArticleModel>();
 
-@{
-    var mainArticles = Model.obj_article_list
-        .Where(a => a.status == 0 && a.position == 1)
-        .OrderByDescending(a => a.publish_date)
-        .Take(1)
-        .ToList();
+    // Side pinned articles: position = 2 or 3
+    var sidePinned = Model.obj_article_pinned?.Where(x => x.position == 2 || x.position == 3)
+                      .OrderBy(x => x.position)
+                      .ToList() ?? new List<CategoryArticleModel>();
 
-    if (!mainArticles.Any())
-    {
-        mainArticles = Model.obj_article_list
-            .Where(a => a.status == 0 && a.position == 0)
-            .OrderByDescending(a => a.publish_date)
-            .Take(1)
-            .ToList();
-    }
+    // All remaining articles list
+    var remainingArticles = Model.obj_article_list ?? new List<CategoryArticleModel>();
 
-    var excludeIds = mainArticles.Select(x => x.id).ToList();
+    // Lấy 5 bài nối tiếp từ remainingArticles cho phần sideExtra
+    var sideExtra = remainingArticles.Take(5).ToList();
 
-    // Bắt đầu bằng việc lấy tối đa 7 bài position 2 hoặc 3
-    var sideArticles = Model.obj_article_list
-        .Where(a => a.status == 0 && (a.position == 2 || a.position == 3))
-        .OrderByDescending(a => a.publish_date)
-        .Take(7)
-        .ToList();
+    // Side articles = 2 bài pinned + 5 bài thường
+    var sideArticles = sidePinned.Concat(sideExtra).ToList();
 
-
-    // Nếu chưa đủ thì lấy thêm từ position == 0 cho đủ 5 bài
-    if (sideArticles.Count < 7)
-    {
-        excludeIds.AddRange(sideArticles.Select(x => x.id));
-        var additional = Model.obj_article_list
-            .Where(a => a.status == 0 && a.position == 0 && !excludeIds.Contains(a.id))
-            .OrderByDescending(a => a.publish_date)
-            .Take(7 - sideArticles.Count)
-            .ToList();
-
-        sideArticles.AddRange(additional);
-    }
-
-    // Optionally: giữ thứ tự ưu tiên hiển thị (position 2 → 3 → 0)
-    sideArticles = sideArticles
-        .OrderBy(a => a.position == 2 ? 0 : (a.position == 3 ? 1 : 2))
-        .ThenByDescending(a => a.publish_date)
-        .ToList();
-
+    // Loại bỏ 5 bài đã lấy cho sideExtra khỏi remainingArticles
+    remainingArticles = remainingArticles.Skip(5).ToList();
 }
 
 <div class="mt-3">
@@ -73,7 +46,7 @@
                                 <path d="M8 1.5C6.71442 1.5 5.45772 1.88122 4.3888 2.59545C3.31988 3.30968 2.48676 4.32484 1.99479 5.51256C1.50282 6.70028 1.37409 8.00721 1.6249 9.26809C1.8757 10.529 2.49477 11.6872 3.40381 12.5962C4.31285 13.5052 5.47104 14.1243 6.73192 14.3751C7.99279 14.6259 9.29973 14.4972 10.4874 14.0052C11.6752 13.5132 12.6903 12.6801 13.4046 11.6112C14.1188 10.5423 14.5 9.28558 14.5 8C14.4982 6.27665 13.8128 4.62441 12.5942 3.40582C11.3756 2.18722 9.72335 1.50182 8 1.5ZM8 13.5C6.91221 13.5 5.84884 13.1774 4.94437 12.5731C4.0399 11.9687 3.33495 11.1098 2.91867 10.1048C2.50238 9.09977 2.39347 7.9939 2.60568 6.927C2.8179 5.86011 3.34173 4.8801 4.11092 4.11091C4.8801 3.34172 5.86011 2.8179 6.92701 2.60568C7.9939 2.39346 9.09977 2.50238 10.1048 2.91866C11.1098 3.33494 11.9687 4.03989 12.5731 4.94436C13.1774 5.84883 13.5 6.9122 13.5 8C13.4983 9.45818 12.9184 10.8562 11.8873 11.8873C10.8562 12.9184 9.45819 13.4983 8 13.5ZM12 8C12 8.13261 11.9473 8.25979 11.8536 8.35355C11.7598 8.44732 11.6326 8.5 11.5 8.5H8C7.86739 8.5 7.74022 8.44732 7.64645 8.35355C7.55268 8.25979 7.5 8.13261 7.5 8V4.5C7.5 4.36739 7.55268 4.24021 7.64645 4.14645C7.74022 4.05268 7.86739 4 8 4C8.13261 4 8.25979 4.05268 8.35356 4.14645C8.44732 4.24021 8.5 4.36739 8.5 4.5V7.5H11.5C11.6326 7.5 11.7598 7.55268 11.8536 7.64645C11.9473 7.74021 12 7.86739 12 8Z"
                                       fill="#5C758E" />
                             </svg>
-                            <span>@item.publish_date.ToString("dd/MM/yyyy") | @item.list_category_name.Split(',').FirstOrDefault()</span>
+                            <span>@item.publish_date.ToString("dd/MM/yyyy") | @item.list_category_name?.Split(',').FirstOrDefault()</span>
                         </div>
                         <h2 class="text-xl font-semibold text-gray-800 mb-2">
                             @item.title
@@ -102,7 +75,7 @@
                                     <path d="M8 1.5C6.71442 1.5 5.45772 1.88122 4.3888 2.59545C3.31988 3.30968 2.48676 4.32484 1.99479 5.51256C1.50282 6.70028 1.37409 8.00721 1.6249 9.26809C1.8757 10.529 2.49477 11.6872 3.40381 12.5962C4.31285 13.5052 5.47104 14.1243 6.73192 14.3751C7.99279 14.6259 9.29973 14.4972 10.4874 14.0052C11.6752 13.5132 12.6903 12.6801 13.4046 11.6112C14.1188 10.5423 14.5 9.28558 14.5 8C14.4982 6.27665 13.8128 4.62441 12.5942 3.40582C11.3756 2.18722 9.72335 1.50182 8 1.5ZM8 13.5C6.91221 13.5 5.84884 13.1774 4.94437 12.5731C4.0399 11.9687 3.33495 11.1098 2.91867 10.1048C2.50238 9.09977 2.39347 7.9939 2.60568 6.927C2.8179 5.86011 3.34173 4.8801 4.11092 4.11091C4.8801 3.34172 5.86011 2.8179 6.92701 2.60568C7.9939 2.39346 9.09977 2.50238 10.1048 2.91866C11.1098 3.33494 11.9687 4.03989 12.5731 4.94436C13.1774 5.84883 13.5 6.9122 13.5 8C13.4983 9.45818 12.9184 10.8562 11.8873 11.8873C10.8562 12.9184 9.45819 13.4983 8 13.5ZM12 8C12 8.13261 11.9473 8.25979 11.8536 8.35355C11.7598 8.44732 11.6326 8.5 11.5 8.5H8C7.86739 8.5 7.74022 8.44732 7.64645 8.35355C7.55268 8.25979 7.5 8.13261 7.5 8V4.5C7.5 4.36739 7.55268 4.24021 7.64645 4.14645C7.74022 4.05268 7.86739 4 8 4C8.13261 4 8.25979 4.05268 8.35356 4.14645C8.44732 4.24021 8.5 4.36739 8.5 4.5V7.5H11.5C11.6326 7.5 11.7598 7.55268 11.8536 7.64645C11.9473 7.74021 12 7.86739 12 8Z"
                                           fill="#5C758E" />
                                 </svg>
-                                <span>@item.publish_date.ToString("dd/MM/yyyy") | @item.list_category_name.Split(',').FirstOrDefault()</span>
+                                <span>@item.publish_date.ToString("dd/MM/yyyy") | @item.list_category_name?.Split(',').FirstOrDefault()</span>
                             </div>
                             <p class="text-sm font-semibold text-gray-800 leading-snug">
                                 @item.title
@@ -114,3 +87,5 @@
         </div>
     </div>
 </div>
+
+

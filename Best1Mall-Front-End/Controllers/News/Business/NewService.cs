@@ -135,7 +135,7 @@ namespace Best1Mall_Front_End.Controllers.News.Business
 
 
                 // Lấy các tin được đăng gần nhất
-                response_api = await connect_api_us.CreateHttpRequest("/api/news/get-list-news.json", input_request);
+                response_api = await connect_api_us.CreateHttpRequest("/api/news/get-list-by-categoryid-order.json", input_request);
 
                 // Nhan ket qua tra ve                            
                 var JsonParent = JArray.Parse("[" + response_api + "]");
@@ -143,12 +143,21 @@ namespace Best1Mall_Front_End.Controllers.News.Business
 
                 if (status == ((int)ResponseType.SUCCESS))
                 {
-                    var _list_article = JsonConvert.DeserializeObject<List<CategoryArticleModel>>(JsonParent[0]["data"].ToString());
+                    var list_article = JsonConvert.DeserializeObject<List<CategoryArticleModel>>(JsonParent[0]["data_list"].ToString());
+                    var list_pinned = JsonConvert.DeserializeObject<List<CategoryArticleModel>>(JsonParent[0]["pinned"].ToString());
+
+                    int total = Convert.ToInt32(JsonParent[0]["total_item"]); // ✅ Lấy đúng key
+                    int total_page = Convert.ToInt32(JsonParent[0]["total_page"]);
+
                     var model = new ArticleViewModel
                     {
                         category_id = category_id,
-                        obj_article_list = _list_article
+                        obj_article_list = list_article,
+                        obj_article_pinned = list_pinned,
+                        total_items = total,
+                        total_page = total_page
                     };
+
                     return model;
                 }
                 else

@@ -1,93 +1,45 @@
-﻿@using Best1Mall_Front_End.ViewModels.Paginated;
+﻿@using Best1Mall_Front_End.ViewModels.Paginated
 @model PaginationNewsViewModel
 
 @if (Model.TotalPages > 1)
 {
-    <div class="flex justify-center mt-8">
+    <nav aria-label="Page navigation" class="flex justify-center mt-8">
         <ul class="inline-flex items-center space-x-1 text-sm">
+            <li>
+                <button class="pagination-btn px-3 py-2 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
+                @(Model.CurrentPage == 1 ? "disabled" : "")
+                        data-page="@(Model.CurrentPage - 1)">
+                    Prev
+                </button>
+            </li>
 
-            @* Nút Previous *@
-            @if (Model.CurrentPage > 1)
+            @for (int i = 1; i <= Model.TotalPages; i++)
             {
-                <li>
-                    <a href="@Url.Action("Index", new { page = Model.CurrentPage - 1 })"
-                       class="px-3 py-2 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </a>
-                </li>
-            }
-
-            @* Nút số đầu tiên và dấu ... nếu cần *@
-            @if (Model.CurrentPage > 3)
-            {
-                <li>
-                    <a href="@Url.Action("Index", new { page = 1 })"
-                       class="px-3 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
-                        1
-                    </a>
-                </li>
-                <li>
-                    <span class="px-3 py-2 text-gray-400">...</span>
-                </li>
-            }
-
-            @* Các trang lân cận *@
-            @for (int i = Model.CurrentPage - 2; i <= Model.CurrentPage + 2; i++)
-            {
-                if (i > 0 && i <= Model.TotalPages)
+                if (i == Model.CurrentPage)
                 {
-                    if (i == Model.CurrentPage)
-                    {
-                        <li>
-                            <span class="px-3 py-2 rounded-full bg-blue-500 text-white font-semibold shadow">
-                                @i
-                            </span>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a href="@Url.Action("Index", new { page = i })"
-                               class="px-3 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
-                                @i
-                            </a>
-                        </li>
-                    }
+                    <li>
+                        <span class="px-3 py-2 rounded-full bg-blue-500 text-white font-semibold shadow">@i</span>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <button class="pagination-btn px-3 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+                                data-page="@i">
+                            @i
+                        </button>
+                    </li>
                 }
             }
 
-            @* Dấu ... và số cuối *@
-            @if (Model.CurrentPage < Model.TotalPages - 2)
-            {
-                <li>
-                    <span class="px-3 py-2 text-gray-400">...</span>
-                </li>
-                <li>
-                    <a href="@Url.Action("Index", new { page = Model.TotalPages })"
-                       class="px-3 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
-                        @Model.TotalPages
-                    </a>
-                </li>
-            }
-
-            @* Nút Next *@
-            @if (Model.CurrentPage < Model.TotalPages)
-            {
-                <li>
-                    <a href="@Url.Action("Index", new { page = Model.CurrentPage + 1 })"
-                       class="px-3 py-2 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-                </li>
-            }
+            <li>
+                <button class="pagination-btn px-3 py-2 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
+                @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")
+                        data-page="@(Model.CurrentPage + 1)">
+                    Next
+                </button>
+            </li>
         </ul>
-    </div>
+    </nav>
 }
+
