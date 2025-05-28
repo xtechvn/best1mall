@@ -15,11 +15,11 @@
 
         public string name { get; set; } = null!;
 
-        public string? imagepath { get; set; }
+        public string? image_path { get; set; }
 
-        public int? orderno { get; set; }
+        public int? order_no { get; set; }
 
-        public string? path { get; set; }
+        public string? url_path { get; set; }
 
         public int? status { get; set; }
 

@@ -1,20 +1,201 @@
 ﻿@using Best1Mall_Front_End.Models;
 @using Best1Mall_Front_End.Utilities;
 @model List<CategoryModel>
-@{
-    if (Model != null)
+
+@functions{
+    string GetFullImageUrl(string avatar)
     {
- 
-        <ul class="p-4 space-y-2 bg-white">
-            @foreach (var item in Model)
-            {
-                <li>
-                    <a href="/san-pham?group_id=@item.id" class="block py-2 hover:text-red-400 rounded" data-id="@item.id">@item.name</a>
-                </li>
-            }
-            
-        </ul>
-        <div class="category_id" data-categoryid="0" style="display:none;"></div>
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/assets/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
     }
 }
+@if (Model != null)
+{
+    var firstId = Model.FirstOrDefault()?.id ?? 0;
+   
+        <!-- Menu bên trái -->
+        <ul class="p-4 gap-2 md:w-1/4 w-full grid grid-cols-2 md:grid-cols-1" id="categoryMenu">
+            @foreach (var item in Model)
+            {
+                var isFirst = item.id == firstId;
+                <li>
+                    <a href="/san-pham?group_id=@item.id" class="block py-2 hover:text-red-400 rounded menu-hover-item @(isFirst ? "first-active" : "")" data-id="@item.id">@item.name</a>
+                </li>
+            }
 
+        </ul>
+        <div class="category_id" data-categoryid="0" style="display:none;"></div>
+
+        <!-- Menu con sẽ hiển thị ở đây -->
+        <div id="categoryProducts" class="bg-white p-3 w-full md:rounded-lg">
+            @* <div class="text-center text-gray-400">Di chuột vào danh mục để xem nhóm con...</div> *@
+        
+        </div>
+  
+
+    <!-- Hidden container để chứa sẵn các nhóm con -->
+    <div id="categorySubData" class="hidden">
+        @foreach (var item in Model)
+        {
+            string imgSrc = GetFullImageUrl(item.image_path);
+            <div class="sub-category-box" data-parent-id="@item.id">
+                @if (item.group_product_child != null && item.group_product_child.Any())
+                {
+                    <div class="bg-white p-3 w-full md:rounded-lg">
+                        <div class="grid md:grid-cols-4 grid-cols-2 gap-3">
+                            @foreach (var child in item.group_product_child)
+                            {
+                                <a href="/san-pham?group_id=@child.id"
+                                   class="flex gap-2 items-center rounded-md border border-gray-100 p-2">
+                                    <div class="relative aspect-[1/1] w-15 overflow-hidden rounded-md">
+                                        <img src="@imgSrc"
+                                             alt="@child.name"
+                                             class="absolute inset-0 w-full h-full object-cover" />
+                                    </div>
+                                    <h4>@child.name</h4>
+                                </a>
+                            }
+                        </div>
+                        <div class="pt-3 mt-3 border-t border-gray-200">
+                            <div class="flex justify-between flex-wrap gap-2 mb-3">
+                                <h2 class="text-sky-900 font-medium uppercase">
+                                    <a href="">Bán chạy</a>
+                                </h2>
+                                <a href="#" class="flex items-center gap-2 text-blue-500 text-sm">
+                                    Xem
+                                    thêm
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                         viewBox="0 0 18 18" fill="none">
+                                        <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z"
+                                              fill="#773EFA" />
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="grid md:grid-cols-4 lg:grid-cols-6 grid-cols-2 gap-3">
+                                <a href="" class="space-y-2 rounded-md border border-gray-100 p-2">
+                                    <div class="relative aspect-[1/1] w-full overflow-hidden rounded-md">
+                                        <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                             class="absolute inset-0 w-full h-full object-cover" />
+                                    </div>
+                                    <h4>Vitamin tổng hợp</h4>
+                                    <div class="text-rose-600 font-medium">185.000 đ</div>
+                                </a>
+                                <a href="" class="space-y-2 rounded-md border border-gray-100 p-2">
+                                    <div class="relative aspect-[1/1] w-full overflow-hidden rounded-md">
+                                        <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                             class="absolute inset-0 w-full h-full object-cover" />
+                                    </div>
+                                    <h4>Vitamin tổng hợp</h4>
+                                    <div class="text-rose-600 font-medium">185.000 đ</div>
+                                </a>
+
+                            </div>
+                        </div>
+                      
+                    </div>
+                }
+                else
+                {
+                    <div class="grid md:grid-cols-4 grid-cols-2 gap-3">
+                        <a href=""
+                           class="flex gap-2 items-center rounded-md border border-gray-100 p-2">
+                            <div class="relative aspect-[1/1] w-15 overflow-hidden rounded-md">
+                                <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                     class="absolute inset-0 w-full h-full object-cover" />
+                            </div>
+                            <h4>Vitamin tổng hợp</h4>
+                        </a>
+                        <a href=""
+                           class="flex gap-2 items-center rounded-md border border-gray-100 p-2">
+                            <div class="relative aspect-[1/1] w-15 overflow-hidden rounded-md">
+                                <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                     class="absolute inset-0 w-full h-full object-cover" />
+                            </div>
+                            <h4>Vitamin tổng hợp</h4>
+                        </a>
+
+                    </div>
+                    <div class="pt-3 mt-3 border-t border-gray-200">
+                        <div class="flex justify-between flex-wrap gap-2 mb-3">
+                            <h2 class="text-sky-900 font-medium uppercase">
+                                <a href="">Bán chạy</a>
+                            </h2>
+                            <a href="#" class="flex items-center gap-2 text-blue-500 text-sm">
+                                Xem
+                                thêm
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                     viewBox="0 0 18 18" fill="none">
+                                    <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z"
+                                          fill="#773EFA" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="grid md:grid-cols-4 lg:grid-cols-6 grid-cols-2 gap-3">
+                            <a href="" class="space-y-2 rounded-md border border-gray-100 p-2">
+                                <div class="relative aspect-[1/1] w-full overflow-hidden rounded-md">
+                                    <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                         class="absolute inset-0 w-full h-full object-cover" />
+                                </div>
+                                <h4>Vitamin tổng hợp</h4>
+                                <div class="text-rose-600 font-medium">185.000 đ</div>
+                            </a>
+                            <a href="" class="space-y-2 rounded-md border border-gray-100 p-2">
+                                <div class="relative aspect-[1/1] w-full overflow-hidden rounded-md">
+                                    <img src="/assets/images/product1.jpg" alt="Sản phẩm"
+                                         class="absolute inset-0 w-full h-full object-cover" />
+                                </div>
+                                <h4>Vitamin tổng hợp</h4>
+                                <div class="text-rose-600 font-medium">185.000 đ</div>
+                            </a>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        
+    </div>
+
+}
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuItems = document.querySelectorAll(".menu-hover-item");
+        const productBox = document.getElementById("categoryProducts");
+
+        function handleHover(item) {
+            const id = item.dataset.id;
+            const target = document.querySelector(`#categorySubData .sub-category-box[data-parent-id='${id}']`);
+            if (target) {
+                productBox.innerHTML = target.innerHTML;
+            } else {
+                productBox.innerHTML = '<div class="text-center text-gray-400">Không có nhóm con</div>';
+            }
+
+            // Highlight menu đang hover
+            menuItems.forEach(i => i.classList.remove("text-purple-600", "font-semibold"));
+            item.classList.add("text-purple-600", "font-semibold");
+        }
+
+        // Gán sự kiện hover cho mỗi item
+        menuItems.forEach(item => {
+            item.addEventListener("mouseenter", () => handleHover(item));
+        });
+
+        // ✅ Tự động hover vào phần tử đầu tiên
+        const firstItem = document.querySelector(".menu-hover-item.first-active");
+        if (firstItem) {
+            setTimeout(() => handleHover(firstItem), 100); // delay nhẹ để đảm bảo DOM sẵn sàng
+        }
+    });
+</script>
