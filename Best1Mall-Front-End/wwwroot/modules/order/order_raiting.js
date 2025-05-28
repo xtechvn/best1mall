@@ -243,7 +243,7 @@ var order_raiting = {
         });
         $('#danhgia-popup').hide();
         $('#thank-popup').show();
-        reviewsToSubmit.each(function (index, item) {
+        $(reviewsToSubmit).each(function (index, item) {
             order_raiting.sendReviews(item)
         })
 
