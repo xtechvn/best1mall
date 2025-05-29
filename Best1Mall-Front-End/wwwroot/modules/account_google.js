@@ -27,7 +27,11 @@ var account_google = {
                         $(':input[type="submit"]').prop('disabled', false);
 
                         $('#login-general-err .err').show()
-                        $('#login-general-err .err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
+                        var msg = sessionStorage.getItem('msg')
+                        if (msg == null || msg == undefined || msg.trim() == '' || msg.trim() == 'null' || msg.trim() == 'undefined') {
+                            msg = NOTIFICATION_MESSAGE.LoginIncorrect
+                        }
+                        $('#login-general-err .err').html(msg)
                     } else {
 
                         window.location.reload();
@@ -53,12 +57,9 @@ var account_google = {
                         || token_local.trim() == 'undefined') {
                         $(':input[type="submit"]').prop('disabled', false);
 
+                       
                         $('#register-general-err .err').show()
-                        var msg = sessionStorage.getItem('msg')
-                        if (msg == null || msg == undefined || msg.trim() == '' || msg.trim() == 'null' || msg.trim() == 'undefined') {
-                            msg = NOTIFICATION_MESSAGE.LoginIncorrect
-                        }
-                        $('#register-general-err .err').html(msg)
+                        $('#register-general-err .err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
                     } else {
 
                         window.location.reload();
