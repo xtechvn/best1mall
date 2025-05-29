@@ -54,7 +54,11 @@ var account_google = {
                         $(':input[type="submit"]').prop('disabled', false);
 
                         $('#register-general-err .err').show()
-                        $('#register-general-err .err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
+                        var msg = sessionStorage.getItem('msg')
+                        if (msg == null || msg == undefined || msg.trim() == '' || msg.trim() == 'null' || msg.trim() == 'undefined') {
+                            msg = NOTIFICATION_MESSAGE.LoginIncorrect
+                        }
+                        $('#register-general-err .err').html(msg)
                     } else {
 
                         window.location.reload();
