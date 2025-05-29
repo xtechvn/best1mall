@@ -9,6 +9,7 @@
 var _feedback =
 {
     CreateFeedback: function () {
+        debugger
         sessionStorage.setItem("CreateFeedbackAction", 1);//Dùng để xác nhận hành động tạo feedback khi hành động đăng nhập chen ngang
         let comment = $('#comment-text').val();
         if (!comment) {
@@ -31,15 +32,22 @@ var _feedback =
                 type: 'post',
                 data: { obj: obj },
                 success: function (data) {
+                    debugger
                     document.getElementById("Comment_success").classList.add('overlay-active');
                     
                     sessionStorage.setItem("Saved_Input", '');
                     sessionStorage.setItem("CreateFeedbackAction", 0);
                     $('.btn-Send').removeClass('disabled');
                     $('#comment-text').val('');
-                    setTimeout(() => {
-                        document.getElementById("Comment_success").classList.remove('overlay-active');
-                    }, 3000);
+                    // 🟢 Hiện SweetAlert2
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Gửi góp ý thành công!',
+                        text: 'Cảm ơn bạn đã đóng góp ý kiến cho BestMall 💜',
+                        confirmButtonColor: '#773EFA',
+                        confirmButtonText: 'Đóng'
+                    });
+                   
                 },
                 error: function (xhr, status, error) {
                     sessionStorage.setItem("CreateFeedbackAction", 0);
@@ -78,9 +86,14 @@ var _feedback =
                     document.getElementById("Comment_success").classList.add('overlay-active');
                     sessionStorage.setItem("Saved_Input", '');
                     sessionStorage.setItem("CreateFeedbackAction", 0);
-                    setTimeout(() => {
-                        document.getElementById("Comment_success").classList.remove('overlay-active');
-                    }, 3000);
+                    // ✅ Hiện SweetAlert sau đăng nhập
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Gửi góp ý thành công!',
+                        text: 'Cảm ơn bạn đã quay lại gửi góp ý cho BestMall!',
+                        confirmButtonColor: '#773EFA',
+                        confirmButtonText: 'Đóng'
+                    });
                 },
                 error: function (xhr, status, error) {
                     sessionStorage.setItem("CreateFeedbackAction", 0);
