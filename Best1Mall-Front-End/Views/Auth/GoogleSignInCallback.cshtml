@@ -16,7 +16,7 @@
             if(data!=null && data.trim()!=''){
                 localStorage.setItem('account', '@Html.Raw(data)');
             }
-            var msg = '@msg'
+            var msg = '@(Html.Raw(msg))'
             if (msg != null && msg.trim() != '') {
                 localStorage.setItem('msg', msg);
             }
