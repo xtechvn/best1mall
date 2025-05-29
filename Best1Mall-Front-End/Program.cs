@@ -1,11 +1,13 @@
 ﻿using Best1Mall_Front_End.Service.Redis;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<HtmlHelperOptions>(); // ✅ Cái này fix lỗi của bạn
 builder.Services.AddResponseCaching(); // Cho phép sử dụng Response Caching
 builder.Services.AddMemoryCache(); // Đăng ký Memory Cache
 builder.Services.AddSingleton<RedisConn>();

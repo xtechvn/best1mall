@@ -11,7 +11,7 @@ var profile_client = {
     Initialization: function () {
         profile_client.GetProfile();
         $("#btnUpdate").click(function (e) {
-           
+            debugger
             e.preventDefault();
 
             const usr = global_service.CheckLogin();
@@ -20,15 +20,7 @@ var profile_client = {
                 return;
             }
 
-            //const gender = $("input[name='gender']:checked").val() || null;
-            //const year = $("#year").val();
-            //const month = $("#month").val();
-            //const day = $("#day").val();
-            //let birthday = null;
-
-            //if (year && month && day) {
-            //    birthday = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-            //}
+           
 
             
 
@@ -43,7 +35,7 @@ var profile_client = {
             $.when(
                 global_service.POST(API_URL.UpdateProfile, request)
             ).done(function (result) {
-                
+                debugger
                 if (result && result.is_success && result.data) {
                     
 
@@ -67,16 +59,19 @@ var profile_client = {
 
                     sessionStorage.setItem(STORAGE_NAME.Login, JSON.stringify(usr))
                     // ✅ Cập nhật UI trực tiếp
-                    $("#fullName").val(request.ClientName || "");
-                    $("#email").val(request.Email || "");
-                    $("#phone").val(request.Phone || "");
+                    //$("#fullName").val(request.ClientName || "");
+                    //$("#email").val(request.Email || "");
+                    //$("#phone").val(request.Phone || "");
+                    // 🔄 Gọi lại API lấy profile để chắc chắn đồng bộ UI
+                    profile_client.GetProfile();
                     
                     
 
                    
-                     setTimeout(() => {
-                         location.reload();
-                     }, 1500);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -91,7 +86,7 @@ var profile_client = {
         });
     },
     GetProfile: function () {
-        
+        debugger
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -103,11 +98,10 @@ var profile_client = {
         $.when(
             global_service.POST(API_URL.ProfileList, request)
         ).done(function (result) {
-          
+            debugger
             if (result && result.is_success && result.data) {
                 const data = result.data;
-                sessionStorage.setItem(STORAGE_NAME.Profile, JSON.stringify(data))
-
+                
                 $("#fullName").val(data.clientName || "");
                 $("#email").val(data.email || "");
                 $("#phone").val(data.phone || "");

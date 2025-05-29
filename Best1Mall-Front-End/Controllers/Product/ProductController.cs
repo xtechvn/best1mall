@@ -4,6 +4,7 @@ using Best1Mall_Front_End.Models;
 using Best1Mall_Front_End.Models.Products;
 using Best1Mall_Front_End.Models.Raiting;
 using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities;
 using Best1Mall_Front_End.Utilities.contants;
 using Best1Mall_Front_End.Utilities.Lib;
 using Best1Mall_Front_End.ViewModels;
@@ -18,7 +19,7 @@ namespace Best1Mall_Front_End.Controllers.Product
     public class ProductController : Controller
     {
         private readonly IConfiguration _configuration;
-
+        private readonly RedisConn redisService;
         private readonly ProductServices _productServices;
         private readonly IMemoryCache _cache;
 
@@ -26,6 +27,7 @@ namespace Best1Mall_Front_End.Controllers.Product
 
             _configuration= configuration;
             _productServices = new ProductServices(configuration, _redisService);
+            redisService = _redisService;
             _cache = cache;
 
         }
@@ -62,30 +64,41 @@ namespace Best1Mall_Front_End.Controllers.Product
         }
         // Load  sản phẩm 
         [HttpPost]
-        public IActionResult loadProductTopComponent(int group_id, int page_index, int page_size, string view_name , double? price_from, double? price_to , float? rating)
+        public async Task<IActionResult> loadProductTopComponent(int group_id, int page_index, int page_size, string view_name, double? price_from, double? price_to, float? rating)
         {
             try
             {
                 var model = new ProductListRequestModel
                 {
                     group_id = group_id,
-                    view_name= view_name,
+                    view_name = view_name,
                     page_index = page_index,
                     page_size = page_size,
                     price_from = price_from,
                     price_to = price_to,
                     rating = rating
                 };
-                // Gọi ViewComponent trực tiếp và trả về kết quả
-                return ViewComponent("ProductList", model);
+
+                // Gọi service để lấy danh sách sản phẩm + count
+                var productService = new ProductServices(_configuration, redisService);
+                var data = await productService.GetProductList(model);
+                var count = data?.count ?? 0;
+
+                // Render ViewComponent thành HTML string
+                var html = await this.RenderViewComponentToStringAsync("ProductList", model);
+
+                return Json(new
+                {
+                    html,
+                    count
+                });
             }
             catch (Exception ex)
             {
-                // Ghi log lỗi nếu cần
-               
-                return StatusCode(500); // Trả về lỗi 500 nếu có lỗi
+                return Json(new { html = "", count = 0 });
             }
         }
+
 
         public ActionResult Detail(string product_code, string title)
         {

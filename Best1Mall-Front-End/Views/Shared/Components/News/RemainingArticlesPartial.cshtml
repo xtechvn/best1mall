@@ -2,6 +2,7 @@
 @using Best1Mall_Front_End.ViewModels
 @model ArticleViewModel
 
+
 @if (Model?.obj_article_list == null || !Model.obj_article_list.Any())
 {
     <div class="text-center py-4 text-gray-500">Không có bài viết nào.</div>
@@ -41,7 +42,7 @@ else
             @if (d == 3)
             {
                 <div class="banner-ads-full mt-4">
-                    <a href="/"><img src="~/images/banner3.jpg" alt="Biolife" /></a>
+                    <a href="/"><img src="~/assets/images/banner.jpg" alt="Biolife" /></a>
                 </div>
             }
             d++;
