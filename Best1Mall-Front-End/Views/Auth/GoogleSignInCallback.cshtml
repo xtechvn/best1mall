@@ -16,9 +16,9 @@
             if(data!=null && data.trim()!=''){
                 localStorage.setItem('account', '@Html.Raw(data)');
             }
-            var msg = '@Html.Raw(msg)'
+            var msg = '@msg'
             if (msg != null && msg.trim() != '') {
-                sessionStorage.setItem('msg', '@Html.Raw(msg)');
+                sessionStorage.setItem('msg', msg);
             }
             window.close();
         });
