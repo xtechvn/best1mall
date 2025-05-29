@@ -7,71 +7,153 @@
     var MenuHelpers = (List<GetCategoryResponse>)ViewBag.MenuHelpers;
 }
 
-<style>
-    .content-policy
-    {
-        margin-left: 20px;
-    }
+<div class="max-w-[1230px] mx-auto px-[15px]">
+    <div class="breadcrumb my-4 ">
+        <ul class="flex items-center gap-3 font-normal">
+            <li><a href="/">Trang chủ</a></li>
+            <li><a href="" class="text-color-base">Hỗ trợ</a></li>
+        </ul>
+    </div>
+    <div class="banner">
+        <div class="rounded-3xl bg-gradient-to-r from-[#098EF7] via-[#BC61F8] to-[#FF4169] md:p-6 px-3 py-6 flex items-center justify-between flex-wrap md:flex-nowrap">
+            <!-- Ảnh cô gái - ẩn khi màn hình nhỏ -->
+            <div class="hidden md:block w-full md:w-1/3">
+                <img src="/assets/images/help.png" alt="Cô gái chào hỏi" class="max-h-[400px] object-contain mx-auto" />
+            </div>
 
-    .Option-load
-    {
-        cursor: pointer;
-    }
-
-    .Hide-ContentPolicy
-    {
-        display : block !important;
-    }
-</style>
-
-<section class="section-banner-search">
-    <div class="container">
-        <div class="flex-banner">
-            <div class="wrap-form">
-                <h2 class="title">Chào mừng quý khách !</h2>
-                <h3 class="sub-title">Best mall có thể giúp được gì cho quý khách ?</h3>
-                <div class="form-search">
+            <!-- Nội dung chào mừng -->
+            <div class="w-full md:w-2/3 text-white text-center md:text-left space-y-4">
+                <h1 class="text-2xl md:text-4xl font-medium">Chào mừng đến với Bestmall!</h1>
+                <p>Chúng tôi có thể giúp được gì cho quý khách ?</p>
+                <div class="relative">
                     <form onsubmit="return false">
-                        <input id="search-input" type="text" @* oninput="_support.OnchangeInput()" *@ placeholder="Câu hỏi, thắc mắc của quý khách...">
-                        <button onclick="_support.SearchQuestion()" type="button" class="btn-search"><i class="icon icon-search"></i></button>
+
+                        <input id="search-input" type="text" placeholder="Câu hỏi, thắc mắc của quý khách..."
+                               class="w-full outline-0 border bg-white text-slate-900 border-gray-300 rounded-full px-4 py-3 pr-26 focus:outline-none">
+                      
+                        <button onclick="_support.SearchQuestion()" type="button" class="btn-search py-[8px] px-[24px] bg-blue-100 absolute right-2 top-[5px] rounded-full cursor-pointer shadow">
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M21.5306 20.4694L16.8365 15.7763C18.1971 14.1429 18.8755 12.0478 18.7307 9.92697C18.5859 7.8061 17.629 5.82271 16.0591 4.38938C14.4892 2.95605 12.4271 2.18314 10.3019 2.23144C8.17663 2.27974 6.15181 3.14553 4.64864 4.6487C3.14547 6.15187 2.27968 8.17669 2.23138 10.3019C2.18308 12.4272 2.95599 14.4893 4.38932 16.0592C5.82265 17.6291 7.80604 18.586 9.92691 18.7308C12.0478 18.8756 14.1428 18.1971 15.7762 16.8366L20.4693 21.5307C20.539 21.6003 20.6218 21.6556 20.7128 21.6933C20.8038 21.731 20.9014 21.7505 21 21.7505C21.0985 21.7505 21.1961 21.731 21.2871 21.6933C21.3782 21.6556 21.4609 21.6003 21.5306 21.5307C21.6003 21.461 21.6556 21.3783 21.6933 21.2872C21.731 21.1962 21.7504 21.0986 21.7504 21C21.7504 20.9015 21.731 20.8039 21.6933 20.7129C21.6556 20.6218 21.6003 20.5391 21.5306 20.4694ZM3.74997 10.5C3.74997 9.16501 4.14585 7.85996 4.88755 6.74993C5.62925 5.6399 6.68346 4.77474 7.91686 4.26384C9.15026 3.75295 10.5075 3.61928 11.8168 3.87973C13.1262 4.14018 14.3289 4.78306 15.2729 5.72706C16.2169 6.67106 16.8598 7.8738 17.1203 9.18317C17.3807 10.4925 17.2471 11.8497 16.7362 13.0831C16.2253 14.3165 15.3601 15.3708 14.2501 16.1125C13.14 16.8542 11.835 17.25 10.5 17.25C8.71037 17.248 6.99463 16.5363 5.72919 15.2708C4.46375 14.0054 3.75196 12.2896 3.74997 10.5Z"
+                                          fill="#773EFA" />
+                                </svg>
+                           
+                        </button>
+
+                       
                     </form>
+                   
                 </div>
             </div>
-            <div class="image">
-                <img src="/assets/images/img-search.png" alt="">
-            </div>
         </div>
+
     </div>
-</section>
-<section class="section-help">
-    <div class="container">
+    <div class="box-result py-4">
+        @* <h2 class="text-2xl">Có “3 kết quả”</h2> *@
+        @* <ul class="space-y-2"> *@
+        @*     <li><a href="">Muốn đổi trả hàng thì làm thế nào?</a></li> *@
+        @*     <li><a href="">Muốn đổi trả hàng thì làm thế nào?</a></li> *@
+        @*     <li><a href="">Muốn đổi trả hàng thì làm thế nào?</a></li> *@
+        @* </ul> *@
         <!-- Kết quả tìm kiếm -->
         <div class="result-search">
-            
-            
         </div>
-        <!-- //Policy -->
-        <div class="flex-content">
-            <div class="left-content">
-                <ul class="list-faq" style="min-width:250px">
-                    @if (MenuHelpers != null)
-                    {
-                        <div id="IDdefaultOption" style="display:none">@MenuHelpers[0].id</div>
-                        <div id="NamedefaultOption" style="display:none">@MenuHelpers[0].name</div>
-                        @for (int i = 0; i < MenuHelpers.Count; i++)
-                        {
-                            <li class="Option-load" id="Selected-@MenuHelpers[i].id" onclick="_support.GetBodyArticle('@MenuHelpers[i].id','@MenuHelpers[i].name')">
-                                <a>@MenuHelpers[i].name</a>
-                            </li>
-                        }
 
-                    }
-                </ul>
-            </div>
-
-            <div class="content-policy list-faq-v2">
-                
-            </div>
-        </div>
     </div>
-</section>
+    <div class=" flex flex-col gap-3 md:gap-5 md:flex-row">
+        <!-- Sidebar -->
+        <div class="w-full md:w-1/3 bg-white rounded-[16px] shadow-md left-content">
+            <ul class="list-faq">
+                @if (MenuHelpers != null)
+                {
+                    <div id="IDdefaultOption" style="display:none">@MenuHelpers[0].id</div>
+                    <div id="NamedefaultOption" style="display:none">@MenuHelpers[0].name</div>
+                    @for (int i = 0; i < MenuHelpers.Count; i++)
+                    {
+                        <li class="Option-load p-3 md:px-6 hover:bg-gray-50 cursor-pointer" id="Selected-@MenuHelpers[i].id" onclick="_support.GetBodyArticle('@MenuHelpers[i].id','@MenuHelpers[i].name')">
+                            @MenuHelpers[i].name
+                        </li>
+                    }
+
+                }
+
+                @* <li class="p-3 md:px-6 hover:bg-gray-50 cursor-pointer">Trung tâm hỗ trợ</li> *@
+                @* <li class="p-3 md:px-6 hover:bg-gray-50 cursor-pointer">Chính sách khuyến mãi</li> *@
+                @* <li class="p-3 md:px-6 bg-[#F2E5FD] text-[#6C2BD9] font-medium cursor-pointer flex justify-between items-center"> *@
+                @*     Chính sách đổi trả 30 ngày *@
+                @*     <svg class="w-4 h-4 ml-2 text-[#6C2BD9]" fill="none" stroke="currentColor" stroke-width="2" *@
+                @*          viewBox="0 0 24 24"> *@
+                @*         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /> *@
+                @*     </svg> *@
+                @* </li> *@
+               
+            </ul>
+        </div>
+
+        <!-- Content -->
+        <div class="content-policy list-faq-v2 w-full md:w-2/3 bg-white rounded-[16px] shadow-md md:p-6 p-3">
+        </div>
+
+        @* <div class="w-full md:w-2/3 bg-white rounded-[16px] shadow-md md:p-6 p-3"> *@
+        @*     <h2 class="text-lg font-normal mb-4">Chính sách đổi trả 30 ngày</h2> *@
+        @*     <!-- Accordion Sections --> *@
+        @*     <div class="accordion-ship space-y-3" id="accordion"> *@
+        @*         <div class="group"> *@
+        @*             <div class="font-normal cursor-pointer toggle text-md flex gap-2 items-center"> *@
+        @*                 <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"> *@
+        @*                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /> *@
+        @*                 </svg> *@
+        @*                 Muốn đổi trả hàng thì làm thế nào? *@
+
+        @*             </div> *@
+        @*             <div class="panel mt-2 pl-5 space-y-3  text-gray-500"> *@
+        @*                 <p> *@
+        @*                     BestMall luôn muốn mang đến những điều tốt đẹp cho các cậu nên khi gặp vấn đề và sự cố liên *@
+        @*                     quan đến sản phẩm thì cậu liên hệ luôn với chúng tớ để chúng tớ hỗ trợ cậu ngay nhé. *@
+        @*                 </p> *@
+
+        @*                 <div> *@
+        @*                     <h3 class="text-base mb-2">ĐIỀU KIỆN ĐỔI TRẢ HÀNG:</h3> *@
+        @*                     <ul class="list-disc list-inside space-y-1"> *@
+        @*                         <li>Sản phẩm đã là sản phẩm được mua tại BestMall</li> *@
+        @*                         <li>Sản phẩm chưa được khui đóng gói như ban đầu.</li> *@
+        @*                         <li>Sản phẩm miễn tạp chất lạ như mốc, nát, vỡ lệch.</li> *@
+        @*                     </ul> *@
+        @*                 </div> *@
+
+        @*                 <div> *@
+        @*                     <h3 class="text-base mb-2">HÀNG ĐỔI TRẢ:</h3> *@
+        @*                     <ul class="list-disc list-inside space-y-1"> *@
+        @*                         <li> *@
+        @*                             Sau khi hoàn trả hàng, khách hàng có thể chọn thay thế bằng sản phẩm có giá trị bằng *@
+        @*                             hoặc lớn hơn sản phẩm đã mua. *@
+        @*                         </li> *@
+        @*                         <li> *@
+        @*                             Với sản phẩm giá trị cao hơn thì khách hàng sẽ phải thanh toán thêm tiền hàng chênh *@
+        @*                             lệch giữa 2 sản phẩm khi đổi trả. *@
+        @*                         </li> *@
+        @*                     </ul> *@
+        @*                 </div> *@
+
+        @*                 <div> *@
+        @*                     <h3 class="text-base mb-2">LƯU Ý :</h3> *@
+        @*                     <ul class="list-disc list-inside space-y-1"> *@
+        @*                         <li> *@
+        @*                             Do được kiểm hàng trước khi nhận nên khách hàng có thể hoàn trả trực tiếp cho tài xế *@
+        @*                             giao hàng và thanh toán tiền cước, dịch vụ. *@
+        @*                         </li> *@
+        @*                         <li> *@
+        @*                             Khi không thể trả tại chỗ, các cậu có thể được hỗ trợ qua hotline *@
+        @*                             <a href="tel:0365809306" class="text-blue-600 underline">036 5809 306</a> *@
+        @*                             cùng các hướng dẫn để đổi trả hàng. *@
+        @*                         </li> *@
+        @*                     </ul> *@
+        @*                 </div> *@
+        @*             </div> *@
+        @*         </div> *@
+
+        @*     </div> *@
+        @* </div> *@
+    </div>
+
+</div>
