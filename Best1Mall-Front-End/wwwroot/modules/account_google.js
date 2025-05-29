@@ -27,11 +27,12 @@ var account_google = {
                         $(':input[type="submit"]').prop('disabled', false);
 
                         $('#login-general-err .err').show()
-                        var msg = sessionStorage.getItem('msg')
+                        var msg = localStorage.getItem('msg')
                         if (msg == null || msg == undefined || msg.trim() == '' || msg.trim() == 'null' || msg.trim() == 'undefined') {
                             msg = NOTIFICATION_MESSAGE.LoginIncorrect
                         }
                         $('#login-general-err .err').html(msg)
+                        localStorage.removeItem('msg')
                     } else {
 
                         window.location.reload();
