@@ -91,7 +91,21 @@ public class AuthController : Controller
                 };
 
                 var result = await _clientServices.Login(request);
-                ViewBag.Data = Newtonsoft.Json.JsonConvert.SerializeObject(result);
+                ViewBag.Data = "";
+                ViewBag.msg = "";
+                if(result != null && result.msg != null && result.msg.Trim() != "")
+                {
+                    LogHelper.InsertLogTelegramByUrl(_configuration["BotSetting:bot_token"], _configuration["BotSetting:bot_group_id"], "GoogleSignInCallback - Authentication:" + result.msg);
+
+                    ViewBag.msg = result.msg;
+                }
+                if (result != null && result.token != null && result.token.Trim() != "")
+                {
+
+                    result.status = 0;
+                    result.msg = "";
+                    ViewBag.Data = Newtonsoft.Json.JsonConvert.SerializeObject(result);
+                }
                 return View();
             }
             else

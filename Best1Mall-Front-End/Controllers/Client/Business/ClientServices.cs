@@ -31,6 +31,14 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                 {
                     return JsonConvert.DeserializeObject<ClientLoginResponseModel>(jsonData["data"].ToString());
                 }
+                else {
+                    return new ClientLoginResponseModel()
+                    {
+                        status=status,
+                        msg = jsonData["msg"].ToString()
+                    };
+                
+                }
             }
             catch(Exception e)
             {
