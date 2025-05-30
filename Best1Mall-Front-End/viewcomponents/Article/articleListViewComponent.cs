@@ -65,7 +65,7 @@ namespace WEB.CMS.ViewComponents
                 if (_zone_info.isPaging)
                 {
                     // Trả partial view nhận nguyên model, partial xử lý phần remainingArticles
-                    return View("_RemainingArticlesPartial", model);
+                    return View("~/Views/Shared/Components/News/RemainingWithPaging.cshtml", model);
                 }
                 else
                 {

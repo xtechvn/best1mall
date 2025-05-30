@@ -35,7 +35,7 @@ namespace Best1Mall_Front_End.Controllers.News
             // Khởi tạo các param phân vào các ViewComponent
             var article_sv = new NewsService(configuration, redisService);
 
-            ViewBag.category_id = 22;// Convert.ToInt32(configuration["menu:news_parent_id"]);
+            ViewBag.category_id = category_id;// Convert.ToInt32(configuration["menu:news_parent_id"]);
             ViewBag.page = page;
             ViewBag.page_size = Convert.ToInt32(configuration["blognews:page_size"]);
             ViewBag.total_items = await article_sv.getTotalNews(11); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
@@ -79,7 +79,7 @@ namespace Best1Mall_Front_End.Controllers.News
             try
             {
                 // Tính phân trang load tin
-                int page_size = Convert.ToInt32(configuration["blognews:page_size"]);
+                int page_size = Convert.ToInt32(configuration["blognews:page_size"]); // page_size =15
                 page = page == 0 ? 1 : page;
                 int skip = (page - 1) * page_size;
 

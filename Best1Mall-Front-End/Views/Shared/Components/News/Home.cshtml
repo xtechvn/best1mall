@@ -54,17 +54,9 @@
 
 
 <!-- REMAINING ARTICLES -->
-@await Html.PartialAsync("~/Views/Shared/Components/News/RemainingArticlesPartial.cshtml", Model)
+@await Html.PartialAsync("~/Views/Shared/Components/News/RemainingWithPaging.cshtml", Model)
 
 
 
 
-<!-- PHÂN TRANG -->
-@await Component.InvokeAsync("Pagination", new 
-     { 
-        page = ViewBag.page, 
-        total_items = ViewBag.total_items, 
-        total_page = ViewBag.total_page,
-       page_size = ViewBag.page_size,
-      view = "~/Views/Shared/Components/Pagination/Default.cshtml" 
-     })
+

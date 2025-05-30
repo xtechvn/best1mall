@@ -129,7 +129,7 @@ namespace Best1Mall_Front_End.Controllers.News.Business
                 var input_request = new Dictionary<string, int>
               {
                    {"skip", skip},
-                   {"top", top},
+                   {"take", top},
                    {"category_id", category_id}
               };
 

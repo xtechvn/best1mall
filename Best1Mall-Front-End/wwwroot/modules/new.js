@@ -1,14 +1,18 @@
 ﻿$(document).ready(function () {
     // ✅ Mặc định load danh sách "Tất cả" (category_id = 0)
-    let category_id2 = parseInt($(".category_id").data("categoryid")) || 22;
+    let category_id2 = parseInt($(".category_id2").data("categoryid2")) || 22;
     // Biến toàn cục lưu category_id hiện tại (mặc định)
-    let currentCategoryId = parseInt($(".category_id").data("categoryid")) || 22;
+    let currentCategoryId = parseInt($(".category_id2").data("categoryid2")) || 22;
     const query_string = window.location.search;
     const url_params = new URLSearchParams(query_string);
     const page = url_params.get('page') == null ? 1 : url_params.get('page');
+    // Cập nhật active tab dựa trên categoryId
+    $('.cat-tag').removeClass('bg-blue-500 text-white border-blue-500');
+    $(`.cat-tag[data-id='${category_id2}']`).addClass('bg-blue-500 text-white border-blue-500');
 
     // ✅ Gọi load bài viết mặc định
     _new.loadNewsSection({
+        
         targetSelector: '.list-news-home',
         view_name: '~/Views/Shared/Components/News/Home.cshtml',
         category_id: category_id2,
@@ -165,13 +169,19 @@ var _new = {
     },
   
     GetFindArticleByTitle: function () {
-        
+        debugger
+        const keyword = $('#text_input').val().trim();
+        if (!keyword) {
+            // Nếu trống thì về lại trang Home
+            window.location.href = '/tin-tuc';
+            return;
+        }
         $('.list-news-top').hide();
         $('#section-article-paginate').hide();
         $('.pagination').hide();
 
         var requestObj = {
-            title: $('#text_input').val(),
+            title: keyword,
             parent_cate_faq_id: category_id
         };
         $.ajax({
@@ -179,6 +189,7 @@ var _new = {
             type: 'post',
             data: { requestObj: requestObj },
             success: function (data) {
+
                 $('#section-article-paginate').show();
                 $('.pagination').show();
                 $("#section-article-paginate").html(data);
