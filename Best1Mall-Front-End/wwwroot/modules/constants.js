@@ -461,7 +461,7 @@ var HTML_CONSTANTS = {
                               -
                             </button>
                            
-                            <input type="number" value="{quanity}" min="1" name="quantity"
+                            <input type="number" value="{quanity}" min="1" max="999"  name="quantity"
                                    class="h-8 w-10 text-center border-t border-b border-gray-100  text-sm quantity" />
                             <button type="button"
                                     class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 cursor-pointer"
@@ -551,7 +551,7 @@ var HTML_CONSTANTS = {
                                             <div class="p-3 flex gap-2 items-start ">
 
                                                <div class="relative">
-                                               <input type="radio" name="address" class="radio-custom mt-1" />
+                                               <input type="radio" name="address" class="radio-custom mt-1" {checked} />
                                                                                 </div>
                                             <div class="flex flex-col text-slate-500 item address-item {active}" data-id="{id}">
                                                     <span class="font-medium text-gray-900 mb-1 name">{name}</span>

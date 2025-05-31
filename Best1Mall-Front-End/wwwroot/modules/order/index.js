@@ -29,10 +29,16 @@ var order_index = {
             order_index.Search()
 
         });
-        $("body").on("click", ".buy-now", function () {
-            debugger
-            const productId = $(this).data("product-id");
-            const quantity = $(this).data("quanity") || 1;
+        $("body").on("click", ".rebuy-order-btn", function () {
+            const rebuyRaw = $(this).attr("data-rebuy");
+            let rebuyList = [];
+
+            try {
+                rebuyList = JSON.parse(rebuyRaw);
+            } catch (e) {
+                alert("Dữ liệu đơn hàng không hợp lệ.");
+                return;
+            }
 
             const usr = global_service.CheckLogin();
             if (!usr) {
@@ -40,21 +46,24 @@ var order_index = {
                 return;
             }
 
-            const request = {
-                product_id: productId,
-                quanity: quantity,
-                token: usr.token
-            };
+            const addPromises = rebuyList.map(item => {
+                return global_service.POST(API_URL.AddToCart, {
+                    product_id: item.product_id,
+                    quanity: 1, // giới hạn max
+                    token: usr.token
+                });
+            });
 
-            $.when(global_service.POST(API_URL.AddToCart, request)).done(function (result) {
-                if (result.is_success && result.data) {
-                    sessionStorage.setItem(STORAGE_NAME.BuyNowItem, JSON.stringify(request));
+            Promise.all(addPromises).then(results => {
+                const allOk = results.every(res => res.is_success);
+                if (allOk) {
                     window.location.href = "/cart";
                 } else {
-                    alert("Không thể thêm sản phẩm vào giỏ hàng.");
+                    alert("Có sản phẩm không thể thêm vào giỏ hàng.");
                 }
             });
         });
+
         $("body").on("click", ".order-index-repay", function () {
             debugger
             const orderId = $(this).data("order-id");
@@ -72,6 +81,7 @@ var order_index = {
 
     },
     Search: function () {
+        debugger
         var usr = global_service.CheckLogin(); // kiểm tra đăng nhập
         if (usr == null || usr == undefined || usr.token == null || usr.token == undefined) {
             $('#order-history').html('')

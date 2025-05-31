@@ -114,21 +114,23 @@
                             class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto order-index-received">Đã nhận được hàng</a>
                         }
                         @* Mua lại nếu đơn đã hoàn thành hoặc đã hủy *@
-                        @if (item.OrderStatus == OrderStatus.DONE || item.OrderStatus == OrderStatus.CANCELED)
+                        @if ((item.OrderStatus == OrderStatus.DONE || item.OrderStatus == OrderStatus.CANCELED)
+                       && data_order?.carts?.Count > 0)
                         {
-                            if (data_order != null && data_order.carts != null && data_order.carts.Count > 0)
+                            var rebuyData = Newtonsoft.Json.JsonConvert.SerializeObject(
+                            data_order.carts.Select(x => new
                             {
-                                foreach (var cart in data_order.carts)
-                                {
-                                    <button class=" buy-now border-blue-500 bg-blue-500 border px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full sm:w-auto" 
-                                    data-product-id="@cart.product._id"
-                                    data-quanity="@cart.quanity">
-                                        Mua lại
-                                    </button>
-                                }
-                            }
-                           
+                                product_id = x.product._id,
+                                quanity = x.quanity
+                            })
+                            );
+
+                            <button class="rebuy-order-btn border-blue-500 bg-blue-500 border px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full sm:w-auto"
+                                    data-rebuy='@Html.Raw(rebuyData)'>
+                                Mua lại
+                            </button>
                         }
+
                         @* Thanh toán lại nếu trạng thái thanh toán là Thanh toán thiếu *@
                         @if (item.PaymentStatus == (int)PaymentStatusConstants.PartiallyPaid)
                         {

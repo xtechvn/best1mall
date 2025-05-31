@@ -114,6 +114,7 @@ var cart = {
             cart.ConfirmCart()
         });
         $("body").on('keyup', ".product-quantity input", function () {
+            debugger
             $('.btn-confirm-cart').addClass('button-disabled')
             $('.btn-confirm-cart').addClass('placeholder')
 
@@ -515,32 +516,36 @@ var cart = {
 
     },
     ChangeCartQuanity: function (element) {
-
         var product_id = element.attr('data-product-id')
-        if (product_id == undefined || product_id.trim() == '') return
+        if (!product_id || product_id.trim() === '') return
+
         var usr = global_service.CheckLogin()
-        if (usr) {
-            var request = {
-                "product_id": product_id,
-                "quanity": parseInt(element.find('.product-quantity').find('input').val()),
-                "token": usr.token
-            }
-            $.when(
-                global_service.POST(API_URL.CartChangeQuanity, request)
-            ).done(function (result) {
-                $('.btn-confirm-cart').removeClass('placeholder')
-
-
-            })
-        }
-        else {
+        if (!usr) {
             $('.btn-confirm-cart').removeClass('placeholder')
-
-
             return
         }
 
+        var quantityInput = element.find('.product-quantity input')
+        var quantity = parseInt(quantityInput.val())
+
+        // ✅ Ép giới hạn về 999 nếu người dùng nhập quá
+        if (quantity > 999) {
+            quantity = 999
+            quantityInput.val(quantity) // Update lại UI cho đúng
+        }
+
+        var request = {
+            "product_id": product_id,
+            "quanity": quantity,
+            "token": usr.token
+        }
+
+        $.when(global_service.POST(API_URL.CartChangeQuanity, request))
+            .done(function (result) {
+                $('.btn-confirm-cart').removeClass('placeholder')
+            })
     },
+
     CheckCartProductDetail: function (carts) {
         var request = {
             "carts": carts
