@@ -534,6 +534,7 @@ var product_detail = {
     },
 
     AddToCart: function (buy_now = false) {
+        debugger
 
         var product = product_detail.GetSubProductSessionByAttributeSelected();
 
@@ -544,11 +545,13 @@ var product_detail = {
             }
         }
 
+       
+
+        var quantity = parseInt($('.box-detail-stock .quantity').val()) || 1;
+        quantity = Math.max(1, Math.min(999, quantity)); // Chặn từ JS
         if (!product) {
             window.location.reload(); // reload để tránh lỗi không có dữ liệu
         }
-
-        var quantity = parseInt($('.box-detail-stock .quantity').val()) || 1;
         var usr = global_service.CheckLogin(); // kiểm tra đăng nhập
 
         var cartItem = {
@@ -565,6 +568,7 @@ var product_detail = {
 
             $.when(global_service.POST(API_URL.AddToCart, request)).done(function (result) {
                 if (result.is_success && result.data) {
+                    debugger
                     sessionStorage.removeItem(STORAGE_NAME.BuyNowItem);
                     global_service.LoadCartCount();
                     //product_detail.SuccessAddToCart();
@@ -626,7 +630,7 @@ var product_detail = {
 
 
     BuyNow: function () {
-       
+       debugger
         var product = product_detail.GetSubProductSessionByAttributeSelected()
         if (product == undefined) {
             var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
@@ -640,17 +644,19 @@ var product_detail = {
         }
         var usr = global_service.CheckLogin()
         var token = ''
+        var quantity = parseInt($('.box-detail-stock .quantity').val()) || 1;
+        quantity = Math.max(1, Math.min(999, quantity)); // Cũng chặn ở đây luôn
         if (usr) {
             token = usr.token
             var request = {
                 "product_id": product._id,
-                "quanity": parseInt($('.box-detail-stock .quantity').val()),
+                "quanity": quantity,
                 "token": token
             }
             $.when(
                 global_service.POST(API_URL.AddToCart, request)
             ).done(function (result) {
-                
+                debugger
                 if (result.is_success && result.data) {
 
                     sessionStorage.setItem(STORAGE_NAME.BuyNowItem, JSON.stringify(request))

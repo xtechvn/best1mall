@@ -132,6 +132,24 @@ $(document).ready(function () {
 
     var home_product = {
         Initialization: function () {
+            // 👉 Nếu đang ở trang /san-pham thì load dữ liệu sản phẩm ngay lập tức
+            if (window.location.pathname.toLowerCase().includes("/san-pham")) {
+                debugger
+                const group_id = parseInt($('#group_id_from_url').val()) || 0;
+
+                const skip = 1;
+                const take = 12;
+                const view_name = "/Views/Shared/Components/Product/ProductListViewComponent.cshtml";
+
+                home_product.skip = skip;
+                home_product.take = take;
+
+                // Gọi loadListProduct để:
+                // - Render sản phẩm
+                // - Xử lý việc show/hide nút "Xem thêm"
+                home_product.loadListProduct(group_id, skip, take, view_name);
+            }
+           
            
             // Lấy group_id đầu tiên từ danh sách danh mục
             const firstCategoryId = parseInt($('.cat-tag2').first().data('id')) || 0;
@@ -166,7 +184,7 @@ $(document).ready(function () {
         },
         loadProductByGroup: function (group_id) {
            
-
+          
             // Chỉ gán động cho #List-product, các phần khác vẫn gán cứng
             global_service.LoadHomeProductGrid($('.list-product .swiper-wrapper'), group_id, GLOBAL_CONSTANTS.GridSize, false);
 
@@ -175,7 +193,7 @@ $(document).ready(function () {
         take: 12, // Số lượng sản phẩm mỗi trang
         loadListProduct: function (group_id, skip, take, view_name, priceFrom = 0, priceTo = 0, ratingFrom = 0) {
            
-            
+            debugger
             $.ajax({
                 url: '/product/loadProductTopComponent', // URL tới action loadProductTopComponent
                 type: 'POST',

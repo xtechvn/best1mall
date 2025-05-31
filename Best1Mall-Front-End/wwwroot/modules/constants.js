@@ -395,8 +395,9 @@ var HTML_CONSTANTS = {
                         onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                     -
                 </button>
-                <input id="quantity" name="quantity" type="number" value="1" min="1"
-                       class="h-8 w-16 text-center border-t border-b border-gray-100 quantity" />
+                <input id="quantity" name="quantity" type="number" value="1" min="1" max="999"
+                       class="h-8 w-16 text-center border-t border-b border-gray-100 quantity"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3); if (this.value < 1) this.value = 1; if (this.value > 999) this.value = 999;" />
                 <button type="button"
                         class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 border-gray-100 cursor-pointer"
                         onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
@@ -462,7 +463,9 @@ var HTML_CONSTANTS = {
                             </button>
                            
                             <input type="number" value="{quanity}" min="1" max="999"  name="quantity"
-                                   class="h-8 w-10 text-center border-t border-b border-gray-100  text-sm quantity" />
+                                   class="h-8 w-10 text-center border-t border-b border-gray-100  text-sm quantity"
+
+                                  oninput="this.value = Math.max(1, Math.min(999, parseInt(this.value) || 1))">
                             <button type="button"
                                     class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 cursor-pointer"
                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
