@@ -212,11 +212,13 @@ var _support =
 
 
     GetBodyQuestion: function (id) {
+        
         $.ajax({
             url: "/Support/GetBodyArticle",
             type: 'post',
             data: { id: id },
             success: function (data) {
+                debugger
                 var currentPath = window.location.href;
                 var PathNext = '/questions/' + global_service.convertVietnameseToUnsign(data.title) + '-' + id;
                 if (!currentPath.includes(PathNext)) {
@@ -255,15 +257,15 @@ var _support =
                         <div class="accordion-ship space-y-3" id="accordion">
                             <div class="group item">
                                 <div class="title-faq title font-normal toggle text-md flex gap-2 items-center cursor-pointer"
-                                     onclick="$(this).next('.panel').slideToggle(); $(this).find('svg').toggleClass('rotate-180')">
+                                    onclick="$(this).siblings('.panel').slideToggle(); $(this).find('svg').toggleClass('rotate-180')">
                                     <svg class="w-4 h-4 text-gray-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                     </svg>
                                     ${data.title}
                                 </div>
-                                ${data.lead ? `
+                               
                                     <div class="panel mt-2 pl-5 text-gray-500 hidden">${data.lead}</div>
-                                ` : ''}
+                                 
                                 <div class="panel mt-2 pl-5 space-y-3 text-gray-500 hidden">${data.body}</div>
                             </div>
                         </div>

@@ -384,6 +384,7 @@ var HTML_CONSTANTS = {
 </span>
 
         `,
+        
         Tr_Quanity: `<tr class="box-detail-stock">
     <td class="text-slate-500">Số lượng:</td>
     <td>
@@ -403,11 +404,11 @@ var HTML_CONSTANTS = {
                 </button>
             </div>
 
-            <span class="text-slate-500 font-light soluong">{stock} sản phẩm có sẵn</span>
+            
         </span>
     </td>
 </tr>
-`
+`//<span class= "text-slate-500 font-light soluong" > { stock } sản phẩm có sẵn</span>
     },
     Cart: {
         Product: `<div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product"
