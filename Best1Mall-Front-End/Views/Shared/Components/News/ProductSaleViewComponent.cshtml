@@ -22,6 +22,20 @@
     {
         return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "Giá liên hệ";
     }
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
 }
 <div class="my-5">
     <h2 class="text-sky-900 font-medium uppercase mb-2">
@@ -43,12 +57,13 @@
             string discountClass = showDiscount ? "" : "hidden";
             var discount = item.discount ?? 0;
             var hasDiscount = discount > 0;
+            string imgSrc = GetFullImageUrl(item.avatar);
 
             <div class="flex gap-2 items-start w-full">
                 <div class="aspect-[1/1] w-full max-w-[120px] shrink-0">
                     <a href="@seoUrl"
                        onclick="global_service.saveViewedProduct('@item._id', '@item.name.Replace("'", "\\'")', '@item.avatar', @price, @(item.rating ?? 0), @(item.review_count ?? 0), @(item.old_price ?? 0))">
-                        <img src="https://static-image.adavigo.com@(@item.avatar)" alt="@item.name"
+                        <img src="@imgSrc" alt="@item.name"
                              class="w-full h-full object-cover rounded-xl" />
                     </a>
                 </div>

@@ -32,6 +32,8 @@ namespace BIOLIFE.ViewComponents.Product
             {
                 // Lấy type từ ViewData nếu có
                 string contentType = (ViewData["type"]?.ToString() ?? "product").ToLower();
+                // 2. Check xem có chỉ định View cụ thể không?
+                string customViewName = ViewData["view_name"]?.ToString();
 
                 if (contentType == "news")
                 {
@@ -69,10 +71,22 @@ namespace BIOLIFE.ViewComponents.Product
                 {
                     return Content("");
                 }
+                // 5. Quyết định ViewPath
+                string viewPath;
 
-                string viewPath = contentType == "news"
-                    ? "~/Views/Shared/Components/News/ProductSaleViewComponent.cshtml"
-                    : "~/Views/Shared/Components/Product/ProductListViewComponent.cshtml";
+                if (!string.IsNullOrEmpty(customViewName))
+                {
+                    // Ưu tiên view custom nếu có
+                    viewPath = $"~/Views/Shared/Components/Home/ProductMenuViewComponent.cshtml";
+                }
+                else if (contentType == "news")
+                {
+                    viewPath = "~/Views/Shared/Components/News/ProductSaleViewComponent.cshtml";
+                }
+                else
+                {
+                    viewPath = "~/Views/Shared/Components/Product/ProductListViewComponent.cshtml";
+                }
 
                 return View(viewPath, cached_view);
             }

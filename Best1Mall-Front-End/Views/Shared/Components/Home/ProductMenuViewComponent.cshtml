@@ -1,0 +1,76 @@
+﻿@using Best1Mall_Front_End.Models.Products
+@model ProductListResponseModel
+
+@functions {
+    string ToSeoUrl(string name)
+    {
+        return RemoveUnicode(RemoveSpecialCharacters(name)).Replace(" ", "-").ToLower();
+    }
+
+    string RemoveUnicode(string text)
+    {
+        var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+        var chars = normalized.Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark);
+        return new string(chars.ToArray()).Normalize(System.Text.NormalizationForm.FormC);
+    }
+
+    string RemoveSpecialCharacters(string input)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(input, "[^a-zA-Z0-9\\s-]", "");
+    }
+
+    string FormatCurrency(double? amount)
+    {
+        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "Giá liên hệ";
+    }
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
+
+@if (Model?.items != null && Model.items.Any())
+{
+    <div class="grid md:grid-cols-4 lg:grid-cols-6 grid-cols-2 gap-3">
+        @foreach (var item in Model.items)
+        {
+            var price = item.amount_min ?? item.amount;
+            var oldPrice = item.old_price ?? 0;
+            var hasDiscount = item.discount.HasValue && item.discount > 0;
+            var discountText = hasDiscount ? $"-{item.discount}%" : "";
+            string seoUrl = $"/san-pham/{ToSeoUrl(item.name)}--{item._id}";
+            string imgSrc = GetFullImageUrl(item.avatar);
+
+            <a href="@seoUrl"
+               class="space-y-2 rounded-md border border-gray-100 p-2"
+               onclick="global_service.saveViewedProduct('@item._id', '@item.name.Replace("'", "\\'")', '@item.avatar', @price, @(item.rating ?? 0), @(item.review_count ?? 0), @(item.old_price ?? 0))">
+                <div class="relative aspect-[1/1] w-full overflow-hidden rounded-md">
+                    <img src="@imgSrc" alt="@item.name"
+                         class="absolute inset-0 w-full h-full object-cover" />
+                </div>
+                <h4 class="line-clamp-2 text-sm">@item.name</h4>
+                <div class="text-rose-600 font-medium text-sm">
+                    @FormatCurrency(price)
+                    @if (hasDiscount)
+                    {
+                        <span class="bg-red-100 text-xs px-1 rounded ml-1 inline-block">@discountText</span>
+                    }
+                </div>
+            </a>
+        }
+    </div>
+}
+else
+{
+    <div class="text-center text-gray-500 py-5">Không tìm thấy sản phẩm bán chạy.</div>
+}
