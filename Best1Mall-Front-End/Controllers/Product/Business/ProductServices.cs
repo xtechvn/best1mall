@@ -37,6 +37,11 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                     {
                         detail.favourite = jsonData["favourite"].ToObject<FavouriteStatusModel>();
                     }
+                    // ✅ Parse buywith
+                    if (jsonData["buywith"] != null)
+                    {
+                        detail.product_buy_with_output = jsonData["buywith"].ToObject<List<ProductDetailResponseModelProductBuyWith>>();
+                    }
                     return detail;
                 }
             }
@@ -100,6 +105,25 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             try
             {
                 var result = await POST(_configuration["API:product_search"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<ProductListResponseModel>(jsonData["data"].ToString());
+                }
+            }
+            catch
+            {
+            }
+            return null;
+
+        }
+        public async Task<ProductListResponseModel> SearchListing(ProductGlobalSearchRequestModel request)
+        {
+            try
+            {
+                var result = await POST("api/Product/search-listing", request);
                 var jsonData = JObject.Parse(result);
                 var status = int.Parse(jsonData["status"].ToString());
 

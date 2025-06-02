@@ -1,6 +1,8 @@
 ﻿$(document).ready(function () {
 
     product_detail.Initialization()
+    //buyTogether.init();
+
 
 })
 var product_detail = {
@@ -187,18 +189,18 @@ var product_detail = {
         $.when(
             global_service.POST(API_URL.ProductDetail, request)
         ).done(function (result) {
-           
+            debugger
             if (result.is_success && result.data && result.data.product_main) {
                 sessionStorage.setItem(STORAGE_NAME.ProductDetail, JSON.stringify(result.data))
                 sessionStorage.setItem(STORAGE_NAME.SubProduct, JSON.stringify(result.data.product_sub))
-                product_detail.RenderDetail(result.data.product_main, result.data.product_sub, result.cert, result.favourite)
+                product_detail.RenderDetail(result.data.product_main, result.data.product_sub, result.cert, result.favourite, result.buywith)
             }
             else {
                 window.location.href = '/Home/NotFound'
             }
         })
     },
-    RenderDetail: function (product, product_sub, cert, favourite) {
+    RenderDetail: function (product, product_sub, cert, favourite, buywith) {
      
         this.RenderGallery(product);
         this.RenderTitle(product);
@@ -206,6 +208,8 @@ var product_detail = {
         this.RenderPrice(product, product_sub);
         this.RenderSpecification(product);
         this.RenderAttributes(product, product_sub);
+        this.RenderBuyWithProducts(buywith);
+
         // ✅ Tự động chọn thuộc tính đầu tiên nếu có
         setTimeout(function () {
             var product = product_detail.GetProductDetailSession();
@@ -250,6 +254,81 @@ var product_detail = {
 
         $('#skeleton-loading').hide();
         $('.product-details-section').show();
+    },
+    RenderBuyWithProducts: function (buywith) {
+        debugger
+        const $container = $('.product-buywith-container');
+        $container.html('');
+
+        if (!buywith || buywith.length === 0) {
+            $('.section-buywith-products').hide();
+            return;
+        }
+
+        buywith.slice(0, 4).forEach((item, index) => {
+            const plusIcon = (index !== 0)
+                ? `<svg class="shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+                   <path d="M21 12C21 12.1989 20.921 12.3897 20.7803 12.5303C20.6397 12.671 20.4489 12.75 20.25 12.75H12.75V20.25C12.75 20.4489 12.671 20.6397 12.5303 20.7803C12.3897 20.921 12.1989 21 12 21C11.8011 21 11.6103 20.921 11.4697 20.7803C11.329 20.6397 11.25 20.4489 11.25 20.25V12.75H3.75C3.55109 12.75 3.36032 12.671 3.21967 12.5303C3.07902 12.3897 3 12.1989 3 12C3 11.8011 3.07902 11.6103 3.21967 11.4697C3.36032 11.329 3.55109 11.25 3.75 11.25H11.25V3.75C11.25 3.55109 11.329 3.36032 11.4697 3.21967C11.6103 3.07902 11.8011 3 12 3C12.1989 3 12.3897 3.07902 12.5303 3.21967C12.671 3.36032 12.75 3.55109 12.75 3.75V11.25H20.25C20.4489 11.25 20.6397 11.329 20.7803 11.4697C20.921 11.6103 21 11.8011 21 12Z"
+                       fill="#033256" />
+               </svg>`
+                : '';
+
+            const html = `
+            ${plusIcon}
+          <div class="w-full md:w-[200px] bg-white rounded p-2 flex flex-col justify-between min-h-[330px]">
+
+                <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                    <img src="${global_service.CorrectImage(item.avatar)}" alt="${item.name}"
+                         class="absolute inset-0 w-full h-full object-cover" />
+                </div>
+                <label class="inline-flex items-center cursor-pointer mt-2">
+                    <input type="checkbox" class="sr-only peer sp-muacung-checkbox"
+                           data-id="${item._id}" data-name="${item.name}" data-price="${item.amount}" />
+                    <div class="w-5 h-5 shrink-0 rounded-full bg-purple-200 peer-checked:bg-purple-600 relative transition-colors">
+                        <span class="absolute inset-0">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                         <path d="M14.2806 8.2806L9.0306 13.5306C8.961 13.6004 8.8783 13.6557 8.7872 13.6934C8.6962 13.7312 8.5986 13.7506 8.5 13.7506C8.4014 13.7506 8.3038 13.7312 8.2128 13.6934C8.1218 13.6557 8.039 13.6004 7.96938 13.5306L5.71938 11.2806C5.57865 11.1399 5.49959 10.949 5.49959 10.75C5.49959 10.551 5.57865 10.3601 5.71938 10.2194C5.86011 10.0786 6.05098 9.9996 6.25 9.9996C6.44903 9.9996 6.6399 10.0786 6.78063 10.2194L8.5 11.9397L13.2194 7.21937C13.2891 7.14969 13.3718 7.09442 13.4628 7.0567C13.5539 7.01899 13.6515 6.99958 13.75 6.99958C13.8486 6.99958 13.9461 7.01899 14.0372 7.0567C14.1282 7.09442 14.2109 7.14969 14.2806 7.21937C14.3503 7.28906 14.4056 7.37178 14.4433 7.46283C14.481 7.55387 14.5004 7.65145 14.5004 7.75C14.5004 7.84855 14.481 7.94613 14.4433 8.0372C14.4056 8.1282 14.3503 8.2109 14.2806 8.2806Z"
+                               fill="white" />
+                     </svg>
+
+                        </span>
+                    </div>
+                    <span class="ml-2 text-sm text-gray-700">${item.name}</span>
+                </label>
+                <p class="text-red-600 font-semibold mt-1 text-center">${global_service.Comma(item.amount)} đ</p>
+            </div>
+        `;
+
+            $container.append(html);
+        });
+
+        $('.section-buywith-products').fadeIn();
+
+        // ✅ Xử lý checkbox và tổng tiền sau khi render
+        buyTogether.selectedItems = [];
+        buyTogether.total = 0;
+
+        $container.find('.sp-muacung-checkbox').on('change', function () {
+            const id = $(this).data('id');
+            const price = parseInt($(this).data('price'));
+            const name = $(this).data('name');
+
+            if (this.checked) {
+                buyTogether.selectedItems.push({ id, name, price });
+            } else {
+                buyTogether.selectedItems = buyTogether.selectedItems.filter(p => p.id !== id);
+            }
+
+            buyTogether.total = buyTogether.selectedItems.reduce((sum, p) => sum + p.price, 0);
+            buyTogether.updateTotal();
+        });
+
+        // ✅ Nút chọn mua
+        $('.btn-buy-together').off('click').on('click', function () {
+            debugger
+            buyTogether.submit();
+        });
     },
 
     RenderGallery: function (product) {
@@ -319,6 +398,7 @@ var product_detail = {
     },
 
     RenderPrice: function (product, product_sub) {
+        debugger
         let priceHtml = '';
 
         if (product_sub?.length > 0) {
@@ -440,6 +520,7 @@ var product_detail = {
         return undefined
     },
     GetSubProductSessionByAttributeSelected: function () {
+       
 
         var json = sessionStorage.getItem(STORAGE_NAME.SubProduct)
         if (json != undefined && json.trim() != '') {
@@ -622,7 +703,7 @@ var product_detail = {
         } else {
             cart.push(cartItem);
         }
-
+        GetSubProductSessionByAttributeSelected
         sessionStorage.setItem(STORAGE_NAME.Cart, JSON.stringify(cart));
     },
 
@@ -779,4 +860,68 @@ var product_detail = {
         $('.review').removeClass('placeholder')
     }
 }
+
+var buyTogether = {
+    selectedItems: [],
+    total: 0,
+
+   
+
+    updateTotal: function () {
+        debugger
+        $('.sp-muacung-total').text(buyTogether.total.toLocaleString('vi-VN') + ' đ');
+    },
+
+    submit: function () {
+        debugger
+        var product = product_detail.GetSubProductSessionByAttributeSelected()
+        if (product == undefined) {
+            var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
+            if (json != undefined && json.trim() != '') {
+                product = JSON.parse(json).product_main
+
+            }
+        }
+        if (product == undefined) {
+            window.location.reload()
+        }
+
+        const usr = global_service.CheckLogin();
+        if (!usr) {
+            // Nếu chưa đăng nhập → mở form login + lưu trạng thái
+            $('.mainheader .client-login').click();
+            product_detail.SaveProductDetailAttributeSelected();
+            return;
+        }
+
+        const token = usr.token;
+        const quantity = parseInt($('.box-detail-stock .quantity').val()) || 1;
+
+        const requests = [];
+
+        // Gọi API thêm sản phẩm chính
+        requests.push(global_service.POST(API_URL.AddToCart, {
+            product_id: product._id,
+            quanity: quantity,
+            token: token
+        }));
+
+        // Gọi API thêm sản phẩm phụ
+        buyTogether.selectedItems.forEach(item => {
+            requests.push(global_service.POST(API_URL.AddToCart, {
+                product_id: item.id,
+                quanity: 1,
+                token: token
+            }));
+        });
+
+       // Khi gọi xong hết thì chuyển sang /cart
+        $.when(...requests).done(function () {
+            window.location.href = '/cart';
+        }).fail(function () {
+            alert("Có lỗi xảy ra, vui lòng thử lại!");
+        });
+    }
+};
+
 

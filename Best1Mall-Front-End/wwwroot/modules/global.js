@@ -62,6 +62,26 @@ var global_service = {
                 global_service.RenderSearchBox();
             }, 250); // đợi 400ms sau khi gõ mới gọi API
         });
+        $("body").on("click", "#search-button", function () {
+            debugger
+            var usr = global_service.CheckLogin()
+            var token = ''
+            if (usr) {
+                token = usr.token
+
+            }
+
+            var keyword = global_service.GetGlobalSearchKeyword();
+          
+           
+
+            if (keyword) {
+                const encodedKeyword = encodeURIComponent(keyword);
+                window.location.href = `/ListSearch/${encodedKeyword}`;
+            } else {
+                alert("Vui lòng nhập từ khóa tìm kiếm.");
+            }
+        });
 
         $(document).on('click', function (event) {
             // Kiểm tra nếu click không nằm trong div.form-search
