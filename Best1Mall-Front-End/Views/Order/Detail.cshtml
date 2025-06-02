@@ -82,7 +82,10 @@
         order.data_order.OrderStatus == OrderStatus.CANCELED){
             <a href="javascript:;" class=" btn-buy-again border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Mua lại</a>
         }
-        <a id="order-detail-raiting" href="javascript:;" class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Đánh giá</a>
+        @if (order.data_order.OrderStatus == OrderStatus.DELIVERED || order.data_order.OrderStatus == OrderStatus.DONE )
+        {
+            <a id="order-detail-raiting" href="javascript:;" class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Đánh giá</a>
+        }
 
     </div>
     <div class="box-order-detail">
