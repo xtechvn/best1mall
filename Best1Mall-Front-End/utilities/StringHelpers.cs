@@ -25,26 +25,29 @@ namespace Best1Mall_Front_End.Utilities
         public static string RenderVariationDetail(List<ProductAttributeMongoDbModel> attribute, List<ProductAttributeMongoDbModelItem> attributeDetail,
             List<ProductDetailVariationAttributesMongoDbModel> variation_detail)
         {
-            if (attribute==null || attributeDetail==null || attribute.Count == 0 || attributeDetail.Count == 0)
+            if (attribute == null || attributeDetail == null || attribute.Count == 0 || attributeDetail.Count == 0)
             {
                 return "";
             }
 
             StringBuilder variationValueBuilder = new StringBuilder();
-
-            foreach (var variationItem in variation_detail)
+            if (variation_detail != null&& variation_detail.Count>0)
             {
-                var selected_attribute = attribute.FirstOrDefault(attr => attr._id == variationItem.id);
-                var selected_attributeDetail = attributeDetail.FirstOrDefault(detail => detail.name == variationItem.name);
-                if (selected_attribute != null && selected_attributeDetail != null)
+                foreach (var variationItem in variation_detail)
                 {
-                    variationValueBuilder.Append($"{selected_attribute.name}:{selected_attributeDetail.name}");
-                    if (variation_detail.IndexOf(variationItem) < (variation_detail.Count - 1))
+                    var selected_attribute = attribute.FirstOrDefault(attr => attr._id == variationItem.id);
+                    var selected_attributeDetail = attributeDetail.FirstOrDefault(detail => detail.name == variationItem.name);
+                    if (selected_attribute != null && selected_attributeDetail != null)
                     {
-                        variationValueBuilder.Append(", ");
+                        variationValueBuilder.Append($"{selected_attribute.name}:{selected_attributeDetail.name}");
+                        if (variation_detail.IndexOf(variationItem) < (variation_detail.Count - 1))
+                        {
+                            variationValueBuilder.Append(", ");
+                        }
                     }
                 }
             }
+            
 
             return variationValueBuilder.ToString();
         }
