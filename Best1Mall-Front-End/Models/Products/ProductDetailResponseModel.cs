@@ -8,6 +8,8 @@
         // ✅ Thêm cert vào đây
         public ProductCertModel cert { get; set; }
         public FavouriteStatusModel favourite { get; set; } // ✅ Thêm dòng này
+                                                            // ✅ Thêm buywith vào đây
+        public List<ProductDetailResponseModelProductBuyWith> product_buy_with_output { get; set; }
     }
     public class FavouriteStatusModel
     {
@@ -29,5 +31,14 @@
         public List<string> product { get; set; }
         public List<string> supply { get; set; }
         public List<string> confirm { get; set; }
+    }
+    // ✅ Model cho buywith item
+    public class ProductDetailResponseModelProductBuyWith
+    {
+        public string _id { get; set; }
+        public string code { get; set; }
+        public double amount { get; set; }
+        public string name { get; set; }
+        public string avatar { get; set; }
     }
 }

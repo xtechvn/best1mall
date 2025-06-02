@@ -206,7 +206,7 @@ var cart = {
         }
     },
     CartItem: function () {
-        
+        debugger
         var usr = global_service.CheckLogin()
         if (usr) {
             var request = {
@@ -216,7 +216,7 @@ var cart = {
                 global_service.POST(API_URL.CartList, request)
 
             ).done(function (result) {
-               
+               debugger
                 if (result.is_success && result.data && result.data.length > 0) {
                     cart.RenderCartItem(result.data)
                     cart.RenderBuyNowSelection()
@@ -245,14 +245,14 @@ var cart = {
 
     },
     RenderCartItem: function (list) {
-       
+       debugger
         
         var html = ''
         var total_amount = 0
 
         //-- Table Product
         $(list).each(function (index, item) {
-            
+            debugger
           
             var html_item = HTML_CONSTANTS.Cart.Product
                 .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.product.name)).replaceAll(' ', '-') + '--' + item.product._id)

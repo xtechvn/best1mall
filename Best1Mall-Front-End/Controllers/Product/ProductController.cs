@@ -123,7 +123,8 @@ namespace Best1Mall_Front_End.Controllers.Product
                 is_success = result != null,
                 data = result,
                 cert = result?.cert,
-                favourite = result?.favourite // ✅ thêm dòng này
+                favourite = result?.favourite, // ✅ thêm dòng này
+                buywith = result?.product_buy_with_output // ✅ thêm dòng này nè
             });
 
         }
@@ -182,6 +183,19 @@ namespace Best1Mall_Front_End.Controllers.Product
                 data = result
             });
         }
+        [HttpGet("/ListSearch/{keyword}")]
+        public async Task<IActionResult> ListSearch(string keyword)
+        {
+            var result = await _productServices.SearchListing(new ProductGlobalSearchRequestModel
+            {
+                keyword = keyword,
+               
+            });
+
+            return View("ListSearch", result); // Trả về View với danh sách sản phẩm
+        }
+
+
         public async Task<IActionResult> RaitingPaging(PagingFeViewModel request)
         {
 

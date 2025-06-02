@@ -1,0 +1,56 @@
+﻿@using Best1Mall_Front_End.Models.Products
+@using Best1Mall_Front_End.ViewModels;
+@using Best1Mall_Front_End.Utilities;
+@model ProductListResponseModel
+@{
+    ViewData["Title"] = "product";
+    // int productid_id = ViewBag.group_id;
+    string keyword = ViewContext.RouteData.Values["keyword"]?.ToString() ?? "tìm kiếm";
+   
+}
+<!-- Phần tử ẩn lưu group_id từ URL -->
+@* <input type="hidden" id="group_id_from_url" value="@productid_id" /> *@
+
+<section class="product-section">
+    <div class="max-w-[1230px] mx-auto my-4 px-[15px]">
+       <div class="breadcrumb my-4 ">
+     <ul class="flex items-center gap-3 font-normal">
+         <li><a href="/">Trang chủ</a></li>
+         <li><a href="" class="text-color-base">Kết quả tìm kiếm “@keyword”</a></li>
+     </ul>
+ </div>
+      
+        <div class="my-6 md:my-10">
+            <div class="md:grid grid-cols-5 gap-3">
+                @* <div id="category" class="col-span-2"> *@
+                @*     <!-- Toggle Button on Mobile --> *@
+                @*     <button id="toggleSidebar" class="md:hidden mb-4"> *@
+                       
+                @*     </button> *@
+
+
+                  
+
+
+                @* </div> *@
+                @* ListProduct *@
+                <div class="col-span-4">
+                    <p class="text-slate-500 mb-6">Từ khóa <b>“@keyword”</b> có:@Model.count</p>
+                    <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-3 component-product-list">
+                        @Html.Partial("~/Views/Shared/Components/Product/ProductListViewComponent.cshtml", Model)
+                    </div>
+
+                    @* <div class="flex justify-center mt-5"> *@
+                    @*     <button class="text-color-base font-normal" id="load-more-btn" onclick="home_product.loadMore()"> *@
+                    @*         Xem thêm *@
+                    @*     </button> *@
+
+                    @* </div> *@
+                </div>
+                <!-- Nút Xem Thêm -->
+
+
+            </div>
+        </div>
+    </div>
+</section>
