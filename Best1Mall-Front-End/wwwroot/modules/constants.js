@@ -87,7 +87,7 @@ var GLOBAL_CONSTANTS = {
     GridSize: 10,
     ProductSize: 12,
     GroupProduct: {
-        FlashSale: 15,
+        FlashSale: -1,
         Discount: 16,
         BEAR_COLLECTION: 17,
         INTELLECTUAL_DEVELOPMENT: 18,
