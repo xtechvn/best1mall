@@ -32,7 +32,7 @@
             {
                 var isFirst = item.id == firstId;
                 <li>
-                    <a href="/san-pham?group_id=@item.id" class="block py-2 hover:text-red-400 rounded menu-hover-item @(isFirst ? "first-active" : "")" data-id="@item.id">@item.name</a>
+                <a href="javascript:;" class="block py-2 hover:text-red-400 rounded menu-hover-item @(isFirst ? "first-active" : "")" data-id="@item.id">@item.name</a>
                 </li>
             }
 

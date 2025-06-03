@@ -34,30 +34,62 @@ $(document).ready(function () {
         home_product.loadProductByGroup(categoryId);
     });
 
+    let previousCategoryId = null; // lưu group_id đang active
+
     $('body').on('click', '.menu_group_product', function (e) {
-       
+        debugger
         e.preventDefault();
 
         const $this = $(this);
         const categoryId = parseInt($this.data('id'));
-        var skip = 1; // Trang bắt đầu
-        var take = 12; // Số lượng sản phẩm mỗi trang (tùy chỉnh theo yêu cầu)
-        var view_name = "/Views/Shared/Components/Product/ProductListViewComponent.cshtml";
         if (isNaN(categoryId)) return;
-        // ✅ Reset giá và rating filter
+
+        // Nếu click vào thẻ đang active thì toggle bỏ active
+        if ($this.hasClass('active')) {
+            // Bỏ active
+            $this.removeClass('text-purple-500 font-medium active')
+                .addClass('text-gray-700');
+
+            // Đổi url về previousCategoryId (hoặc mặc định)
+            let idToSet = previousCategoryId && previousCategoryId !== categoryId ? previousCategoryId : 0;
+            history.pushState(null, null, "/san-pham?group_id=" + idToSet);
+
+            // Load lại sản phẩm cho idToSet
+            home_product.loadListProduct(idToSet, 1, 12, "/Views/Shared/Components/Product/ProductListViewComponent.cshtml");
+
+            // Cập nhật previousCategoryId nếu cần
+            if (idToSet !== categoryId) {
+                previousCategoryId = idToSet;
+            } else {
+                previousCategoryId = null;
+            }
+
+            return; // thoát hàm
+        }
+
+        // Nếu click vào thẻ mới, xóa active thẻ khác
+        $('.menu_group_product.active')
+            .removeClass('text-purple-500 font-medium active')
+            .addClass('text-gray-700');
+
+        // Thêm active class vào thẻ mới
+        $this.removeClass('text-gray-700')
+            .addClass('text-purple-500 font-medium active');
+
+        // Lưu lại previousCategoryId là categoryId trước khi đổi
+        previousCategoryId = $('.menu_group_product.active').data('id') || null;
+
+        // Reset filter giá, rating nếu có
         $('#priceFrom, #priceTo').val('');
         $('.rating-filter').removeClass('text-yellow-500 font-bold');
-        history.pushState(null, null, "/san-pham?group_id=" + categoryId); // Thay đổi đường dẫn mà không tải lại trang
-        // Reset skip
-        home_product.skip = skip;
-        // Load dữ liệu sản phẩm tương ứng theo group_id
-        home_product.loadListProduct(categoryId, skip, take, view_name);
-        // Thêm active class cho tab đang được chọn
-        $('.menu_group_product').removeClass('active'); // Xóa active từ tất cả các tab
-        $this.addClass('active'); // Thêm active vào tab đang được nhấn
 
+        // Thay đổi url
+        history.pushState(null, null, "/san-pham?group_id=" + categoryId);
 
+        // Load sản phẩm
+        home_product.loadListProduct(categoryId, 1, 12, "/Views/Shared/Components/Product/ProductListViewComponent.cshtml");
     });
+
    
     
     // Lắng nghe sự kiện khi thay đổi giá

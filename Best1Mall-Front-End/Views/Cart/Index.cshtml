@@ -460,7 +460,24 @@
         </div>
     </div>
 </div>
+<style>
+    .disabled-product {
+        opacity: 0.5;
+        pointer-events: none;
+    }
 
+        .disabled-product .product-removal {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
+
+        .disabled-product input,
+        .disabled-product button {
+            pointer-events: auto; /* vì có attr disabled rồi, nên bật lại */
+        }
+
+</style>
 @section Scripts {
     <script type="text/javascript" src="/modules/cart.js" asp-append-version="true"></script>
     <script type="text/javascript" src="/modules/order_address.js" asp-append-version="true"></script>

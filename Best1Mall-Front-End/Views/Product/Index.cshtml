@@ -2,10 +2,10 @@
 @using Best1Mall_Front_End.Models.Products
 @using Best1Mall_Front_End.ViewModels;
 @using Best1Mall_Front_End.Utilities;
-@model ProductListResponseModel
+@model ProductListPageViewModel
 @{
     ViewData["Title"] = "product";
-    int productid_id = ViewBag.group_id;
+    int productid_id = Model.SelectedGroupId;
    
 }
 <!-- Phần tử ẩn lưu group_id từ URL -->
@@ -130,8 +130,29 @@
                         </div>
 
                         <div class="">
-                            <!-- Danh mục -->
-                            @await Component.InvokeAsync("MenuNews", new { menuType = "listproduct" })
+                               
+                                    @if (Model.ChildCategories != null && Model.ChildCategories.Any())
+                                    {
+                                    <ul class="mt-2 space-y-1">
+                                            @foreach (var child in Model.ChildCategories)
+                                            {
+                                                <li>
+                                                    <a href="/san-pham?group_id=@child.id"
+                                                   class="menu_group_product flex my-2 items-center gap-2 text-gray-700 hover:text-purple-500" data-id="@child.id">
+                                                    <span>»</span>
+                                                        @child.name
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    <div class="category_id" data-categoryid="0" style="display:none;"></div>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-gray-400">Không có danh mục con</p>
+                                    }
+
+                                  
 
                             
 
@@ -341,7 +362,7 @@
                 @* ListProduct *@
                 <div class="col-span-4">
                         <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-3 component-product-list">
-                                 @Html.Partial("~/Views/Shared/Components/Product/ProductListViewComponent.cshtml", Model)
+                            @Html.Partial("~/Views/Shared/Components/Product/ProductListViewComponent.cshtml", Model.Products)
                         </div>
                     
                          <div class="flex justify-center mt-5">

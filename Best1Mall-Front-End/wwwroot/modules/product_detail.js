@@ -529,7 +529,7 @@ var product_detail = {
         return undefined
     },
     GetSubProductSessionByAttributeSelected: function () {
-       
+       debugger
 
         var json = sessionStorage.getItem(STORAGE_NAME.SubProduct)
         if (json != undefined && json.trim() != '') {
@@ -541,7 +541,7 @@ var product_detail = {
                 var value = element.find('.box-tag').find('.active').attr('data-id')
                 var level = element.attr('data-level')
                 options.push({
-                    id: level,
+                    _id: level,
                     name: value
                 })
 
@@ -549,7 +549,7 @@ var product_detail = {
             $(options).each(function (index, item) {
 
                 sub_list = sub_list.filter(({ variation_detail }) =>
-                    variation_detail.some(v => v.id == item.id && v.name == item.name)
+                    variation_detail.some(v => v._id == item._id && v.name == item.name)
                 )
 
 
@@ -572,7 +572,7 @@ var product_detail = {
             var level = element.data('level');
 
             if (value) {
-                options.push({ id: level, name: value });
+                options.push({ _id: level, name: value });
             }
         });
 
@@ -680,6 +680,8 @@ var product_detail = {
                 _id: product._id,
                 name: product.name,
                 amount: product.amount,
+                status: product.status,
+                supplier_status: product.supplier_status,
                 avatar: product.avatar,
                 variation_detail: product.variation_detail || [],
                 attributes: product.attributes || [],
@@ -703,7 +705,7 @@ var product_detail = {
 
     },
     SaveCartItemToSession: function (cartItem) {
-
+        debugger
         let cart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
         let index = cart.findIndex(x => x.product_id === cartItem.product_id);
 
@@ -712,7 +714,7 @@ var product_detail = {
         } else {
             cart.push(cartItem);
         }
-        GetSubProductSessionByAttributeSelected
+       
         sessionStorage.setItem(STORAGE_NAME.Cart, JSON.stringify(cart));
     },
 
@@ -819,7 +821,7 @@ var product_detail = {
 
         return arr1.every(item1 =>
             arr2.some(item2 =>
-                String(item1.id) === String(item2.id) &&
+                String(item1._id) === String(item2._id) &&
                 String(item1.name).toLowerCase().trim() === String(item2.name).toLowerCase().trim()
             )
         );

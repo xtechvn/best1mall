@@ -245,15 +245,24 @@ var cart = {
 
     },
     RenderCartItem: function (list) {
-       debugger
-        
+        debugger
+
         var html = ''
         var total_amount = 0
 
         //-- Table Product
         $(list).each(function (index, item) {
             debugger
-          
+            // Check điều kiện mới
+            var amountOk = item.product.amount > 0;
+            var statusOk = item.product.status === 1;
+            var supplierOk = item.product.supplier_status === 1;
+            var isEnabled = amountOk && statusOk && supplierOk;
+
+            var disabledClass = isEnabled ? '' : 'disabled-product';
+            var checkboxDisabled = isEnabled ? '' : 'disabled';
+            var btnDisabled = isEnabled ? '' : 'disabled';
+            var inputReadonly = isEnabled ? '' : 'readonly';
             var html_item = HTML_CONSTANTS.Cart.Product
                 .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.product.name)).replaceAll(' ', '-') + '--' + item.product._id)
                 .replaceAll('{id}', item._id || item.product._id)
@@ -263,10 +272,15 @@ var cart = {
                 .replaceAll('{amount_display}', global_service.Comma(item.product.amount))
                 .replaceAll('{quanity}', global_service.Comma(item.quanity))
                 .replaceAll('{total_amount}', global_service.Comma(item.total_amount))
+                .replaceAll('{disabledClass}', disabledClass)
+                .replaceAll('{checkboxDisabled}', checkboxDisabled)
+                .replaceAll('{btnDisabled}', btnDisabled)
+                .replaceAll('{inputReadonly}', inputReadonly);
             var variation_value = ''
             $(item.product.variation_detail).each(function (index_var, variation_item) {
+                debugger
                 var attribute = item.product.attributes.filter(obj => {
-                    return obj._id === variation_item.id
+                    return obj._id === variation_item._id
                 })
                 var attribute_detail = item.product.attributes_detail.filter(obj => {
                     return (obj.name === variation_item.name && obj.name === variation_item.name)
@@ -304,8 +318,10 @@ var cart = {
         if (buy_now_item) {
             var buy_now = JSON.parse(buy_now_item)
             $('.table-addtocart .product').each(function (index, item) {
-                var element = $(this)
-                if (element.attr('data-product-id') == buy_now.product_id) {
+                var element = $(this);
+                var checkbox = element.find('.checkbox-cart');
+                var isDisabled = checkbox.prop('disabled');
+                if (element.attr('data-product-id') == buy_now.product_id && !isDisabled) {
                     element.find('.checkbox-cart').prop('checked', true)
                     cart.ReRenderAmount()
                     return false

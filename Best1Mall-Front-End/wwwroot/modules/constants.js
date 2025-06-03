@@ -412,83 +412,80 @@ var HTML_CONSTANTS = {
 `//<span class= "text-slate-500 font-light soluong" > { stock } sản phẩm có sẵn</span>
     },
     Cart: {
-        Product: `<div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product"
-     data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
-  
-                          <!-- Checkbox -->
-                            <div class="product-checkall">
-                                <div class="box-checkbox">
-                                    
-                                    <input type="checkbox" id="checkbox12"  class="w-5 h-5 shrink-0 md:mt-0 mt-4 checkbox-cart" />
-                                    <label for="checkbox12" class="box-checkbox-label"></label>
-                                </div>
-                            </div>
-                         
+        Product: `<div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product {disabledClass}"
+data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
 
-                          <!-- Product Info -->
-                          <div class="md:grid grid-cols-12 w-full items-center relative">
+    <!-- Checkbox -->
+    <div class="product-checkall">
+        <div class="box-checkbox">        
+            <input type="checkbox" id="checkbox12" class="w-5 h-5 shrink-0 md:mt-0 mt-4 checkbox-cart" {checkboxDisabled} />
+            <label for="checkbox12" class="box-checkbox-label"></label>
+        </div>
+    </div>
 
-                            <!-- Image + Name -->
+    <!-- Product Info -->
+    <div class="md:grid grid-cols-12 w-full items-center relative">
 
-                            <div class="col-span-5">
-                            <a href="{url}">
-                              <div class="flex gap-2 items-center">
-                                <div class="relative aspect-[1/1] w-16 overflow-hidden rounded-lg shrink-0">
-                                  <img src="{src}" alt="{name}" class="absolute inset-0 w-full h-full object-cover" />
-                                </div>
-                                <div>
-                                  <p class="font-medium line-clamp-2 md:text-base text-sm">{name}</p>
-                                  <div class="text-sm text-slate-500">{attribute}</div>
-                                </div>
-                              </div>
-                               </a>
-                            </div>
-
-                            <!-- Price & Discount -->
-                            <div class="col-span-2 md:text-center md:pl-0 pl-17">
-                              <div class="flex flex-wrap md:flex-col gap-x-2 items-center">
-                                <div class="font-medium md:text-base text-sm">{amount_display}</div>
-                            
-                          </div>
-                          <span class="md:hidden block text-red-400 font-semibold">{total_amount} ₫</span>
-                        </div>
-
-                        <!-- Quantity -->
-                        <div class="col-span-2 md:text-center md:pl-0 pl-17 product-quantity">
-                          <div class="flex items-center number-input">
-                            <button type="button"
-                                    class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer"
-                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                              -
-                            </button>
-                           
-                            <input type="number" value="{quanity}" min="1" max="999"  name="quantity"
-                                   class="h-8 w-10 text-center border-t border-b border-gray-100  text-sm quantity"
-
-                                  oninput="this.value = Math.max(1, Math.min(999, parseInt(this.value) || 1))">
-                            <button type="button"
-                                    class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 cursor-pointer"
-                                   onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                            class="plus">
-                              +
-                            </button>
-                          </div>
-                        </div>
-
-                        <!-- Total (PC only) -->
-                        <div class="col-span-2 md:text-center md:pl-0 pl-17 hidden md:block">
-                          <span class=" product-line-price text-red-400 font-semibold">{total_amount} ₫</span>
-                        </div>
-
-                        <!-- Remove -->
-                        <div class="col-span-1 text-right md:relative absolute right-0 bottom-0 product-removal">
-                          <button class="text-sm text-blue-500 hover:underline cursor-pointer all-pop" data-id="#lightbox-delete-cart" data-cart-id="{id}">
-                            Xóa
-                          </button>
-                        </div>
-                      </div>
+        <!-- Image + Name -->
+        <div class="col-span-5">
+            <a href="{url}">
+                <div class="flex gap-2 items-center">
+                    <div class="relative aspect-[1/1] w-16 overflow-hidden rounded-lg shrink-0">
+                        <img src="{src}" alt="{name}" class="absolute inset-0 w-full h-full object-cover" />
                     </div>
-                    `,
+                    <div>
+                        <p class="font-medium line-clamp-2 md:text-base text-sm">{name}</p>
+                        <div class="text-sm text-slate-500">{attribute}</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Price & Discount -->
+        <div class="col-span-2 md:text-center md:pl-0 pl-17">
+            <div class="flex flex-wrap md:flex-col gap-x-2 items-center">
+                <div class="font-medium md:text-base text-sm">{amount_display}</div>
+            </div>
+            <span class="md:hidden block text-red-400 font-semibold">{total_amount} ₫</span>
+        </div>
+
+        <!-- Quantity -->
+        <div class="col-span-2 md:text-center md:pl-0 pl-17 product-quantity">
+            <div class="flex items-center number-input">
+                <button type="button"
+                        class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer"
+                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                        {btnDisabled}>
+                    -
+                </button>
+
+                <input type="number" value="{quanity}" min="1" max="999" name="quantity"
+                       class="h-8 w-10 text-center border-t border-b border-gray-100 text-sm quantity"
+                       oninput="this.value = Math.max(1, Math.min(999, parseInt(this.value) || 1))"
+                       {inputReadonly} />
+
+                <button type="button"
+                        class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 cursor-pointer"
+                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                        {btnDisabled}>
+                    +
+                </button>
+            </div>
+        </div>
+
+        <!-- Total (PC only) -->
+        <div class="col-span-2 md:text-center md:pl-0 pl-17 hidden md:block">
+            <span class="product-line-price text-red-400 font-semibold">{total_amount} ₫</span>
+        </div>
+
+        <!-- Remove -->
+        <div class="col-span-1 text-right md:relative absolute right-0 bottom-0 product-removal">
+            <button class="text-sm text-blue-500 hover:underline cursor-pointer all-pop" data-id="#lightbox-delete-cart" data-cart-id="{id}">
+                Xóa
+            </button>
+        </div>
+    </div>
+</div>`,
         Empty: `<section class="product-cart-section">
     <div class="max-w-[1230px] mx-auto px-[15px]">
         <div class="breadcrumb my-4 ">
