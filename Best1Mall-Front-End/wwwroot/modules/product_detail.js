@@ -258,12 +258,15 @@ var product_detail = {
     RenderBuyWithProducts: function (buywith) {
         debugger
         const $container = $('.product-buywith-container');
+        const $section = $('.buywidth');
         $container.html('');
 
-        if (!buywith || buywith.length === 0) {
-            $('.section-buywith-products').hide();
+        // Nếu dữ liệu trống → ẩn luôn section
+        if (!buywith || !Array.isArray(buywith) || buywith.length === 0) {
+            $section.hide(); // Ẩn nguyên khối
             return;
         }
+        $section.show(); // Có dữ liệu → show khối
 
         buywith.slice(0, 4).forEach((item, index) => {
             const plusIcon = (index !== 0)
@@ -308,7 +311,7 @@ var product_detail = {
         // ✅ Xử lý checkbox và tổng tiền sau khi render
         buyTogether.selectedItems = [];
         buyTogether.total = 0;
-
+        const $btnBuy = $('.btn-buy-together');
         $container.find('.sp-muacung-checkbox').on('change', function () {
             const id = $(this).data('id');
             const price = parseInt($(this).data('price'));
@@ -322,6 +325,12 @@ var product_detail = {
 
             buyTogether.total = buyTogether.selectedItems.reduce((sum, p) => sum + p.price, 0);
             buyTogether.updateTotal();
+            // 👉 Enable nút nếu có ít nhất 1 sản phẩm được chọn
+            if (buyTogether.selectedItems.length > 0) {
+                $btnBuy.prop('disabled', false);
+            } else {
+                $btnBuy.prop('disabled', true);
+            }
         });
 
         // ✅ Nút chọn mua

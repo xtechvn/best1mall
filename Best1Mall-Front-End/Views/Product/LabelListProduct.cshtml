@@ -4,8 +4,7 @@
 @model ProductListResponseModel
 @{
     ViewData["Title"] = "product";
-    // int productid_id = ViewBag.group_id;
-    string keyword = ViewContext.RouteData.Values["keyword"]?.ToString() ?? "tìm kiếm";
+   
 
 }
 <!-- Phần tử ẩn lưu group_id từ URL -->
@@ -16,24 +15,29 @@
         <div class="breadcrumb my-4 ">
             <ul class="flex items-center gap-3 font-normal">
                 <li><a href="/">Trang chủ</a></li>
-                <li><a href="" class="text-color-base">Kết quả tìm kiếm “@keyword”</a></li>
+                <li><a href="" class="text-color-base">Jpanwell</a></li>
             </ul>
         </div>
 
         <div class="my-6 md:my-10">
             <div class="md:grid grid-cols-5 gap-3">
+               
+
+
 
 
 
                 @* </div> *@
                 @* ListProduct *@
                 <div class="col-span-5">
-                    <p class="text-slate-500 mb-6">Từ khóa <b>“@keyword”</b> có:@Model.count</p>
+
                     <div class="grid lg:grid-cols-5 md:grid-cols-5 grid-cols-2 gap-3 component-product-list">
                         @Html.Partial("~/Views/Shared/Components/Product/ProductListViewComponent.cshtml", Model)
                     </div>
 
+                   
                 </div>
+                <!-- Nút Xem Thêm -->
 
 
             </div>

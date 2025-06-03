@@ -7,6 +7,7 @@ using Best1Mall_Front_End.Models.Raiting;
 using System.Reflection;
 using Best1Mall_Front_End.Utilities.Lib;
 using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Models.Labels;
 
 namespace Best1Mall_Front_End.Controllers.Client.Business
 {
@@ -96,6 +97,25 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             {
                 string error_msg = Assembly.GetExecutingAssembly().GetName().Name + "->" + MethodBase.GetCurrentMethod().Name + "=>" + ex.Message;
                 LogHelper.InsertLogTelegramByUrl(_configuration["telegram:log_try_catch:bot_token"], _configuration["telegram:log_try_catch:group_id"], error_msg);
+            }
+            return null;
+
+        }
+        public async Task<ProductListResponseModel> LabelListProduct(ProductListByLabelFERequest request)
+        {
+            try
+            {
+                var result = await POST("api/Product/list-by-label ", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<ProductListResponseModel>(jsonData["data"].ToString());
+                }
+            }
+            catch
+            {
             }
             return null;
 

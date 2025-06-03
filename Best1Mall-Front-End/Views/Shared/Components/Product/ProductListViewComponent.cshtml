@@ -41,7 +41,8 @@
 }
 
 
-   @if (Model.items != null && Model.items.Any())
+   @if (Model != null && Model.items != null && Model.items.Any())
+
 {
     foreach (var item in Model.items)
     {

@@ -1,6 +1,7 @@
 ﻿using Best1Mall_Front_End.Controllers.Client.Business;
 using Best1Mall_Front_End.Controllers.News.Business;
 using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Models.Labels;
 using Best1Mall_Front_End.Models.Products;
 using Best1Mall_Front_End.Models.Raiting;
 using Best1Mall_Front_End.Service.Redis;
@@ -172,6 +173,14 @@ namespace Best1Mall_Front_End.Controllers.Product
                 });
             }
 
+        }
+
+        [Route("thuong-hieu/{label_id}")]
+        public async Task<IActionResult> LabelListProduct(ProductListByLabelFERequest request)
+        {
+            var result = await _productServices.LabelListProduct(request);
+
+            return View("LabelListProduct", result);
         }
         public async Task<IActionResult> Search(ProductGlobalSearchRequestModel request)
         {
