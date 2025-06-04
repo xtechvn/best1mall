@@ -41,17 +41,17 @@ namespace Best1Mall_Front_End.Controllers.Product
         public async Task<IActionResult> Index(int group_id, int pageindex = 1, int pageize = 12, int? children_id = null)
         {
             // Tìm group cha
-            int parentGroupId = await _menuService.GetParentIdAsync(group_id);
-            if (parentGroupId == 0) parentGroupId = group_id; // Nếu group_id là cha rồi
+            //int parentGroupId = await _menuService.GetParentIdAsync(group_id);
+            //if (parentGroupId == 0) parentGroupId = group_id; // Nếu group_id là cha rồi
             // Lấy danh mục con theo group_id để hiển thị bộ lọc
-            var childCategories = await _menuService.getListMenu(parentGroupId);
+            var childCategories = await _menuService.getListMenu(group_id);
             // Nếu có group_id của con, lọc theo children_id
-            int groupToShow = children_id ?? group_id;
+            //int groupToShow = children_id ?? group_id;
 
             // Nếu không có trong cache, truy vấn dữ liệu
             var request = new ProductListRequestModel
             {
-                group_id = parentGroupId,
+                group_id = group_id,
                 page_index = pageindex,
                 page_size = pageize
             };
