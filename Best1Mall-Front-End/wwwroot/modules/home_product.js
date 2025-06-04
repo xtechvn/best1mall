@@ -33,8 +33,17 @@ $(document).ready(function () {
         // Load dữ liệu sản phẩm tương ứng theo group_id
         home_product.loadProductByGroup(categoryId);
     });
+    const parentGroupId = window.AppConfig?.parentGroupId ?? 0;
+    const childrenId = window.AppConfig?.childrenId ?? null;
+    // Kiểm tra nếu đang có children_id trong URL và loại bỏ nó khi reload
+    if (childrenId) {
+        history.replaceState(null, null, "/san-pham?group_id=" + parentGroupId); // Thay đổi URL và bỏ children_id khi reload
+    }
 
-    let previousCategoryId = null; // lưu group_id đang active
+    $('.menu_group_product').removeClass('text-purple-500 font-medium active').addClass('text-gray-700');
+
+    // Nếu có children_id trong URL, thêm lại trạng thái active cho nhóm con tương ứng
+   
 
     $('body').on('click', '.menu_group_product', function (e) {
         debugger
@@ -49,20 +58,19 @@ $(document).ready(function () {
             // Bỏ active
             $this.removeClass('text-purple-500 font-medium active')
                 .addClass('text-gray-700');
-
-            // Đổi url về previousCategoryId (hoặc mặc định)
-            let idToSet = previousCategoryId && previousCategoryId !== categoryId ? previousCategoryId : 0;
-            history.pushState(null, null, "/san-pham?group_id=" + idToSet);
+                
+            // Đổi url về group_id và children_id
+            history.pushState(null, null, "/san-pham?group_id=" + parentGroupId );
 
             // Load lại sản phẩm cho idToSet
-            home_product.loadListProduct(idToSet, 1, 12, "/Views/Shared/Components/Product/ProductListViewComponent.cshtml");
+            home_product.loadListProduct(parentGroupId, 1, 12, "/Views/Shared/Components/Product/ProductListViewComponent.cshtml");
 
-            // Cập nhật previousCategoryId nếu cần
-            if (idToSet !== categoryId) {
-                previousCategoryId = idToSet;
-            } else {
-                previousCategoryId = null;
-            }
+            //// Cập nhật previousCategoryId nếu cần
+            //if (idToSet !== categoryId) {
+            //    previousCategoryId = idToSet;
+            //} else {
+            //    previousCategoryId = null;
+            //}
 
             return; // thoát hàm
         }
@@ -75,7 +83,8 @@ $(document).ready(function () {
         // Thêm active class vào thẻ mới
         $this.removeClass('text-gray-700')
             .addClass('text-purple-500 font-medium active');
-
+        // Lưu lại childrenId nếu đang chọn một nhóm con
+        const newChildrenId = categoryId !== parentGroupId ? categoryId : null;
         // Lưu lại previousCategoryId là categoryId trước khi đổi
         previousCategoryId = $('.menu_group_product.active').data('id') || null;
 
@@ -83,8 +92,7 @@ $(document).ready(function () {
         $('#priceFrom, #priceTo').val('');
         $('.rating-filter').removeClass('text-yellow-500 font-bold');
 
-        // Thay đổi url
-        history.pushState(null, null, "/san-pham?group_id=" + categoryId);
+        history.pushState(null, null, "/san-pham?group_id=" + parentGroupId + (newChildrenId ? "&children_id=" + newChildrenId : ""));
 
         // Load sản phẩm
         home_product.loadListProduct(categoryId, 1, 12, "/Views/Shared/Components/Product/ProductListViewComponent.cshtml");
@@ -95,7 +103,7 @@ $(document).ready(function () {
     // Lắng nghe sự kiện khi thay đổi giá
     let debounceTimer;
     $('#priceFrom, #priceTo').on('input', function () {
-        
+        debugger
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             
