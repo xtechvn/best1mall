@@ -38,11 +38,15 @@ namespace Best1Mall_Front_End.Controllers.Product
         // Layout trang chủ news dùng chung với trang Category cấp 2
         [Route("san-pham")]
         [HttpGet]
-        public async Task<IActionResult> Index(int group_id, int pageindex = 1, int pageize = 12)
+        public async Task<IActionResult> Index(int group_id, int pageindex = 1, int pageize = 12, int? children_id = null)
         {
-
+            // Tìm group cha
+            //int parentGroupId = await _menuService.GetParentIdAsync(group_id);
+            //if (parentGroupId == 0) parentGroupId = group_id; // Nếu group_id là cha rồi
             // Lấy danh mục con theo group_id để hiển thị bộ lọc
             var childCategories = await _menuService.getListMenu(group_id);
+            // Nếu có group_id của con, lọc theo children_id
+            //int groupToShow = children_id ?? group_id;
 
             // Nếu không có trong cache, truy vấn dữ liệu
             var request = new ProductListRequestModel
@@ -60,7 +64,7 @@ namespace Best1Mall_Front_End.Controllers.Product
                 ChildCategories = childCategories,
                 SelectedGroupId = group_id
             };
-
+            ViewData["ChildrenId"] = children_id;  // Truyền children_id vào View   
 
             if (result != null && result.items != null && result.items.Count > 0)
             {

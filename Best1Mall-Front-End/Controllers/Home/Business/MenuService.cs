@@ -56,6 +56,39 @@ namespace Best1Mall_Front_End.Controllers.Home.Business
                 return null;
             }
         }
+        public async Task<int> GetParentIdAsync(int categoryId)
+        {
+            try
+            {
+                var connect_api_us = new ConnectApi(configuration, redisService);
+                var input_request = new Dictionary<string, string>
+        {
+            {"category_id", categoryId.ToString() }
+        };
+                var response_api = await connect_api_us.CreateHttpRequest("/api/news/get-parent-category.json", input_request);
+
+                // Giả sử API trả về thông tin category chi tiết
+                var json = JObject.Parse(response_api);
+                int status = json["status"].Value<int>();
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    
+                   
+                        // Lấy parent_id từ response
+                        int parentId = json["parent_id"]?.Value<int>() ?? 0;
+                        return parentId;
+                    
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Utilities.LogHelper.InsertLogTelegramByUrl(configuration["telegram_log_error_fe:Token"], configuration["telegram_log_error_fe:GroupId"], "GetParentIdAsync " + ex.Message);
+                return 0;
+            }
+        }
+
         public async Task<List<LabelListingModel>?> GetLabelList(int top)
         {
             try
