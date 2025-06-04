@@ -196,10 +196,11 @@ var _support =
     },
 
     DisplayHiddenContent: function (id) {
+        $('.title').removeAttr('style')
         let content = $('.content' + id);       // Nội dung cần đóng/mở
         let title = $('.title' + id);           // Tiêu đề được click
         let svgIcon = title.find('svg');        // Mũi tên bên trong tiêu đề
-
+        $('.title' + id).attr('style','color: #773EFA;')
         // Toggle nội dung mượt bằng jQuery slide
         content.stop(true, true).slideToggle(200);
 
