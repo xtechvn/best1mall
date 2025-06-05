@@ -151,42 +151,43 @@
                     </div>
 
                     <!-- Mã voucher -->
-                    @* <div class="bg-white md:rounded-3xl rounded-xl md:p-5 p-3 text-slate-500 mt-3"> *@
-                    @*     <p class="flex gap-2 items-center mb-1"><img src="images/icon/coupon.png" alt="" />Mã voucher : </p> *@
-                    @*     <a href="" class="text-red-400 cursor-pointer flex items-center justify-between"> *@
-                    @*         Mã Khuyễn mãi khác *@
-                    @*         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"> *@
-                    @*             <path d="M12.7729 9.39731L7.14792 15.0223C7.09565 15.0746 7.03361 15.116 6.96533 15.1443C6.89704 15.1726 6.82386 15.1872 6.74995 15.1872C6.67604 15.1872 6.60285 15.1726 6.53457 15.1443C6.46628 15.116 6.40424 15.0746 6.35198 15.0223C6.29972 14.97 6.25826 14.908 6.22998 14.8397C6.20169 14.7714 6.18713 14.6982 6.18713 14.6243C6.18713 14.5504 6.20169 14.4772 6.22998 14.409C6.25826 14.3407 6.29972 14.2786 6.35198 14.2264L11.5797 8.99934L6.35198 3.7723C6.24643 3.66676 6.18713 3.5236 6.18713 3.37434C6.18713 3.22507 6.24643 3.08192 6.35198 2.97637C6.45753 2.87082 6.60068 2.81152 6.74995 2.81152C6.89921 2.81152 7.04237 2.87082 7.14792 2.97637L12.7729 8.60137C12.8252 8.65361 12.8667 8.71565 12.895 8.78393C12.9233 8.85222 12.9379 8.92542 12.9379 8.99934C12.9379 9.07326 12.9233 9.14645 12.895 9.21474C12.8667 9.28303 12.8252 9.34506 12.7729 9.39731Z" *@
-                    @*                   fill="#FF4169" /> *@
-                    @*         </svg> *@
-                    @*     </a> *@
-                    @*     <div class="group rounded-xl p-[1px] bg-gradient-to-r from-cyan-400 to-green-300 hover:cursor-pointer transition-all"> *@
-                    @*         <div class="flex items-center gap-2 rounded-xl bg-white p-2"> *@
-                    @*             <!-- Icon Coupon --> *@
-                    @*             <div class="w-15 shrink-0"> *@
-                    @*                 <img src="~/assets/images/coupon.png" alt="Best Mall" /> *@
-                    @*             </div> *@
+                    <div class="bg-white md:rounded-3xl rounded-xl md:p-5 p-3 text-slate-500 mt-3">
+                        <p class="flex gap-2 items-center mb-1"><img src="images/icon/coupon.png" alt="" />Mã voucher : </p>
+                        <a href="" class="text-red-400 cursor-pointer flex items-center justify-between all-pop" data-id="#voucher-popup">
+                            Mã Khuyễn mãi khác
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M12.7729 9.39731L7.14792 15.0223C7.09565 15.0746 7.03361 15.116 6.96533 15.1443C6.89704 15.1726 6.82386 15.1872 6.74995 15.1872C6.67604 15.1872 6.60285 15.1726 6.53457 15.1443C6.46628 15.116 6.40424 15.0746 6.35198 15.0223C6.29972 14.97 6.25826 14.908 6.22998 14.8397C6.20169 14.7714 6.18713 14.6982 6.18713 14.6243C6.18713 14.5504 6.20169 14.4772 6.22998 14.409C6.25826 14.3407 6.29972 14.2786 6.35198 14.2264L11.5797 8.99934L6.35198 3.7723C6.24643 3.66676 6.18713 3.5236 6.18713 3.37434C6.18713 3.22507 6.24643 3.08192 6.35198 2.97637C6.45753 2.87082 6.60068 2.81152 6.74995 2.81152C6.89921 2.81152 7.04237 2.87082 7.14792 2.97637L12.7729 8.60137C12.8252 8.65361 12.8667 8.71565 12.895 8.78393C12.9233 8.85222 12.9379 8.92542 12.9379 8.99934C12.9379 9.07326 12.9233 9.14645 12.895 9.21474C12.8667 9.28303 12.8252 9.34506 12.7729 9.39731Z"
+                                      fill="#FF4169" />
+                            </svg>
+                        </a>
+                        <div id="discountCart" class="group rounded-xl p-[1px] bg-gradient-to-r from-cyan-400 to-green-300 hover:cursor-pointer transition-all hidden">
+                            <div class="flex items-center gap-2 rounded-xl bg-white p-2">
+                                <!-- Icon Coupon -->
+                                <div class="w-15 shrink-0">
+                                    <img src="~/assets/images/coupon.png" alt="Best Mall" />
+                                </div>
 
-                    @*             <!-- Nội dung --> *@
-                    @*             <div class="flex-1"> *@
-                    @*                 <p class=" font-medium text-sky-950 leading-snug line-clamp-3"> *@
-                    @*                     Giảm 20% trên tổng hóa đơn *@
-                    @*                 </p> *@
-                    @*             </div> *@
+                                <!-- Nội dung -->
+                                <div class="flex-1">
+                                    <p class="font-medium text-sky-950 leading-snug line-clamp-3">
+                                        Giảm 20% trên tổng hóa đơn
+                                    </p>
+                                </div>
 
-                    @*             <!-- Icon Info & Bỏ chọn --> *@
-                    @*             <div class="flex items-center space-x-1"> *@
-                    @*                 <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 text-xs"> *@
-                    @*                     i *@
-                    @*                 </div> *@
-                    @*                 <button class="bg-gray-100 text-purple-600 text-sm px-3 py-1 rounded-full"> *@
-                    @*                     Bỏ chọn *@
-                    @*                 </button> *@
-                    @*             </div> *@
-                    @*         </div> *@
-                    @*     </div> *@
+                                <!-- Icon Info & Bỏ chọn -->
+                                <div class="flex items-center space-x-1">
+                                    <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 text-xs">
+                                        i
+                                    </div>
+                                    <button class="bg-gray-100 text-purple-600 text-sm px-3 py-1 rounded-full">
+                                        Bỏ chọn
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
-                    @* </div> *@
+
+                    </div>
                     
                     <!-- Thanh toán -->
                     <div class="bg-white md:rounded-3xl rounded-xl md:p-5 p-3 text-slate-500 mt-3 pay">
@@ -204,23 +205,23 @@
                     <div class="bg-white md:rounded-3xl rounded-xl md:p-5 p-3 text-slate-500 mt-3 total-cart">
                         <div class="flex gap-2 flex-total total-amount justify-between items-center mb-1">
                             <p>Tiền hàng : </p>
-                            <p class="font-medium text-slate-700 pr">3.000.000đ</p>
+                            <p class="font-medium text-slate-700 pr total-before-discount">3.000.000đ</p>
                         </div>
                         <div class="flex gap-2 flex-total total-shipping-fee justify-between items-center mb-1">
                             <p>Phí vận chuyển:</p>
                             <p class="font-medium text-slate-700 pr">13.000đ</p>
                         </div>
-                        @* <div class="flex gap-2 flex-total total-discount justify-between items-center mb-1"> *@
-                        @*     <p>Giảm giá : </p> *@
-                        @*     <p class="font-medium text-slate-700 pr">-30.000đ</p> *@
-                        @* </div> *@
+                        <div class="flex gap-2 flex-total total-discount justify-between items-center mb-1 hidden" id="discountSection">
+                            <p>Giảm giá : </p> 
+                            <p class="font-medium text-slate-700 pr total-discount-amount">-30.000đ</p>
+                        </div> 
                         <div class="flex gap-2 flex-total justify-between items-center mt-3 pt-3 border-t border-gray-200 total-final-amount">
                             <div class="flex-total">
                                 <p>
                                     <span class="font-medium text-slate-700">TỔNG TIỀN</span>
                                     <br />(tạm tính)
                                 </p>
-                                <p class="text-xl text-red-400 font-medium pr">30.000.000đ</p>
+                                <p class="text-xl text-red-400 font-medium pr total-after-discount">30.000.000đ</p>
                             </div>
                            
                         </div>
@@ -457,6 +458,53 @@
         <div class="flex justify-between gap-4">
             <button class="bg-gray-200 px-4 py-2 rounded cancel-popup w-full btn-back">Huỷ</button>
             <button class="bg-red-500 text-white px-4 py-2 rounded confirm-delete btn-save w-full">Xoá</button>
+        </div>
+    </div>
+</div>
+
+<div id="voucher-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
+    <div class="flex justify-center md:items-center h-full">
+        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto  overflow-y-auto relative">
+
+            <span class="closePopup absolute right-2 top-2 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                          fill="#2A3262" />
+                </svg>
+            </span>
+            <!-- header -->
+            <h4 class="text-center text-xl text-color-base mb-3">Chọn voucher</h4>
+            <!-- Footer -->
+            <div class="flex mb-3 flex-col md:flex-row items-center justify-between whitespace-nowrap gap-3">
+                <span class="font-semibold">Mã Voucher</span>
+                <label class="relative w-full">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21.75 10.25C21.9489 10.25 22.1397 10.171 22.2803 10.0303C22.421 9.88968 22.5 9.69891 22.5 9.5V6.5C22.5 6.10218 22.342 5.72064 22.0607 5.43934C21.7794 5.15804 21.3978 5 21 5H3C2.60218 5 2.22064 5.15804 1.93934 5.43934C1.65804 5.72064 1.5 6.10218 1.5 6.5V9.5C1.5 9.69891 1.57902 9.88968 1.71967 10.0303C1.86032 10.171 2.05109 10.25 2.25 10.25C2.84674 10.25 3.41903 10.4871 3.84099 10.909C4.26295 11.331 4.5 11.9033 4.5 12.5C4.5 13.0967 4.26295 13.669 3.84099 14.091C3.41903 14.5129 2.84674 14.75 2.25 14.75C2.05109 14.75 1.86032 14.829 1.71967 14.9697C1.57902 15.1103 1.5 15.3011 1.5 15.5V18.5C1.5 18.8978 1.65804 19.2794 1.93934 19.5607C2.22064 19.842 2.60218 20 3 20H21C21.3978 20 21.7794 19.842 22.0607 19.5607C22.342 19.2794 22.5 18.8978 22.5 18.5V15.5C22.5 15.3011 22.421 15.1103 22.2803 14.9697C22.1397 14.829 21.9489 14.75 21.75 14.75C21.1533 14.75 20.581 14.5129 20.159 14.091C19.7371 13.669 19.5 13.0967 19.5 12.5C19.5 11.9033 19.7371 11.331 20.159 10.909C20.581 10.4871 21.1533 10.25 21.75 10.25ZM3 16.175C3.84772 16.0029 4.60986 15.543 5.15728 14.8732C5.70471 14.2034 6.00376 13.365 6.00376 12.5C6.00376 11.635 5.70471 10.7966 5.15728 10.1268C4.60986 9.45705 3.84772 8.99714 3 8.825V6.5H8.25V18.5H3V16.175ZM21 16.175V18.5H9.75V6.5H21V8.825C20.1523 8.99714 19.3901 9.45705 18.8427 10.1268C18.2953 10.7966 17.9962 11.635 17.9962 12.5C17.9962 13.365 18.2953 14.2034 18.8427 14.8732C19.3901 15.543 20.1523 16.0029 21 16.175Z"
+                                  fill="#773EFA" />
+                        </svg>
+                    </span>
+                    <input type="text" placeholder="Nhập mã Voucher"
+                           class="pl-10 w-full px-4 py-3 border-0 border-gray-200 outline-0">
+                </label>
+                <button class="border border-blue-500 md:px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80">
+                    Áp
+                    dụng
+                </button>
+            </div>
+            <div class="list-voucher space-y-3">
+              @* ......................... *@
+            </div>
+            <div class="flex justify-between items-center mt-4 gap-3">
+                <button class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full btn-back">
+                    Trở
+                    lại
+                </button>
+                <button class="border border-blue-500 bg-blue-500 px-1 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full btn-vorcher">
+                    OK
+                </button>
+            </div>
         </div>
     </div>
 </div>

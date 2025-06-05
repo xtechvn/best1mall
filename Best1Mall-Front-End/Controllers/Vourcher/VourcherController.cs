@@ -40,7 +40,12 @@ namespace Best1Mall_Front_End.Controllers.Vourcher
 
             if (result != null)
             {
-                return Ok(result);
+                return Ok(new
+                {
+                    is_success = result != null,
+                    data = result,
+
+                });
             }
 
             return BadRequest(new { status = ResponseType.FAILED, msg = "Áp dụng voucher thất bại!" });

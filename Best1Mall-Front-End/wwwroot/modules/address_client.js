@@ -188,10 +188,10 @@ var address_client = {
         $('.content-left-user').removeClass('placeholder')
     },
     RenderExistsAddress: function (list, selected_id = undefined) {
-        debugger
+        
         var html = ''
         $(list).each(function (index, item) {
-            debugger
+           
             html += HTML_CONSTANTS.Address.GridItem
                 .replaceAll('{active}', (selected_id != undefined && selected_id == item.id) ? 'active' : '')
                 .replaceAll('{checked}', (selected_id != undefined && selected_id == item.id) ? 'checked' : '')

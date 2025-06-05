@@ -10,13 +10,13 @@ var cart = {
         cart.CartItem()
         $('.select-delivery .list-option').fadeOut()
         $('.select-bank .list-option').fadeOut()
-        $('.voucher ').hide()
+       // $('.voucher ').hide()
         cart.OrderAddress()
 
     },
     DynamicBind: function () {
         $("body").on('click', ".all-pop", function (event) {
-            
+            debugger
             var cartId
             var element = $(this)
             event.preventDefault()
@@ -57,11 +57,17 @@ var cart = {
 
             cart.RenderSelectionDelivery()
         });
-         $("body").on('click', "#hinhthucgiaohang .btn-back", function () {
+        $("body").on('click', "#voucher-popup .btn-back", function () {
            // $('#hinhthucgiaohang').removeClass('overlay-active')
-            $('#hinhthucgiaohang').addClass('hidden')
+            $('#voucher-popup').addClass('hidden')
 
            
+         });
+        $("body").on('click', "#hinhthucgiaohang .btn-back", function () {
+            // $('#hinhthucgiaohang').removeClass('overlay-active')
+            $('#hinhthucgiaohang').addClass('hidden')
+
+
         });
         //$("body").on('click', ".section-cart .table-addtocart .remove-product", function () {
         //    
@@ -160,6 +166,47 @@ var cart = {
                
             });
 
+        //Vourcher
+        $('.btn-vorcher').on('click', function () {
+            debugger
+            const selectedVoucher = $('input[name="voucher"]:checked'); // Lấy voucher đã chọn
+            if (selectedVoucher.length > 0) {
+                const voucherCode = selectedVoucher.data('code');
+                const voucherId = selectedVoucher.data('id');
+                const usr = global_service.CheckLogin();
+                const token = usr ? usr.token : '';
+
+               // Lấy tổng giá trị đơn hàng từ giỏ hàng
+                const totalOrderAmount = cart.ReRenderAmount(false);  // Gọi hàm để lấy tổng tiền đơn hàng
+                // Kiểm tra nếu giỏ hàng không có sản phẩm hợp lệ
+                if (totalOrderAmount <= 0) {
+                    // Sử dụng SweetAlert2 để hiển thị thông báo
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Vui lòng chọn sản phẩm trước khi áp dụng voucher!',
+                    });
+                    return;  // Dừng thực hiện nếu giỏ hàng trống
+                }
+
+                const request = {
+                    voucher_name: voucherCode,        // Mã voucher
+                    token: token,              // Token người dùng
+                    total_order_amount_before: totalOrderAmount // Tổng tiền đơn hàng
+                };
+
+                // Gọi API ApplyVoucher
+                cart.ApplyVoucher(request);
+            } else {
+                // Sử dụng SweetAlert2 khi người dùng chưa chọn voucher
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Chưa chọn voucher!',
+                    text: 'Vui lòng chọn voucher trước khi áp dụng!',
+                });
+            }
+        });
+
        
     },
     OrderAddress: function () {
@@ -220,6 +267,8 @@ var cart = {
                 if (result.is_success && result.data && result.data.length > 0) {
                     cart.RenderCartItem(result.data)
                     cart.RenderBuyNowSelection()
+                    cart.GetListVoucherUser();
+
                 }
                 else {
                     $('#main').html(HTML_CONSTANTS.Cart.Empty)
@@ -335,7 +384,109 @@ var cart = {
         $('.total-sp').html('(' + $('.table-addtocart .product').length + ' sản phẩm) ')
 
     },
+    GetListVoucherUser: function () {
+        debugger
+        const usr = global_service.CheckLogin();
+        if (!usr) return;
+
+        const request = {
+            token: usr.token,
+            //product_id:"682551b6711071e30c18bae6"
+        };
+        $.when(
+            global_service.POST(API_URL.VourcherList, request)
+
+        ).done(function (result) {
+            debugger
+            if (result.is_success && result.data && result.data.length > 0) {
+                
+                cart.RenderVoucherList(result.data);
+               
+
+            }
+            
+
+        })
+
+      
+    },
+
+    RenderVoucherList: function (vouchers) {
+        debugger
+        let html = '';
+        vouchers.forEach((v, idx) => {
+            html += `
+                <label class="item flex gap-3 items-center relative w-full">
+                    <img src="${v.image || '/assets/images/Voucher.png'}" alt="" class="shrink-0 w-1/4" />
+                    <div class="space-y-3 w-full">
+                        <div class="item flex gap-3 items-center justify-between relative">
+                            <h5>${v.description}</h5>
+                            <div class="relative">
+                               <input type="radio" name="voucher" class="radio-custom mt-1" data-id="${v.id}" data-code="${v.code}" data-description="${v.description}" data-expire="${v.eDate}" data-discount="${v.price_sales}" />
+                            </div>
+                        </div>
+                        <div class="item flex gap-3 items-center justify-between relative w-full">
+                            <p class="text-slate-500">HSD: ${v.eDate}</p>
+                             <p class="text-red-500">Giảm: ${v.price_sales} ${v.unit === 'vnd' ? '₫' : '%'}</p>
+                            <p class="text-red-500">Điều kiện</p>
+                        </div>
+                    </div>
+                </label>
+            `;
+        });
+
+        $('.list-voucher').html(html);
+
+        
+    },
+    ApplyVoucher: function (request) {
+        debugger
+        $.when(
+            global_service.POST(API_URL.ApplyVoucher, request)
+        ).done(function (res) {
+            debugger
+            if (res && res.is_success === true) {
+                debugger
+                 // Nếu thành công, cập nhật giao diện với thông tin giảm giá
+                  cart.UpdateDiscountView(res.data);
+                   // Cập nhật voucher đã chọn vào phần ngoài popup
+                const selectedVoucher = $('input[name="voucher"]:checked');
+                const voucherCode = selectedVoucher.data('code');
+                const voucherDescription = selectedVoucher.data('description');
+                const voucherDiscount = selectedVoucher.data('discount');
+                const voucherExpire = selectedVoucher.data('expire');
+                
+                // Cập nhật phần hiển thị voucher ngoài popup
+                $('.group .font-medium').text(voucherDescription);
+              //  $('.group .text-red-500').text(`Giảm: ${voucherDiscount}₫`);
+                
+               $('#discountCart').removeClass('hidden')  // Loại bỏ class 'hidden' để hiện thị
+            }else {
+                  // Nếu thất bại, sử dụng SweetAlert2 để hiển thị thông báo thất bại
+            Swal.fire({
+                icon: 'error',
+                title: 'Áp dụng voucher thất bại',
+                text: 'Có lỗi xảy ra khi áp dụng voucher. Vui lòng thử lại!',
+            });
+                }
+
+
+        })
+      
+    },
+
+   UpdateDiscountView: function (data) {
+       debugger
+        $('#voucher-popup').addClass('hidden')
+        // Hiển thị phần tử giảm giá sau khi áp dụng voucher thành công
+    $('#discountSection').removeClass('hidden')  // Loại bỏ class 'hidden' để hiện thị
+    // Cập nhật giao diện với thông tin giảm giá
+    $('.total-before-discount').text(global_service.Comma(data.total_order_amount_before) + ' đ');  // Tiền hàng trước khi giảm giá
+    $('.total-discount-amount').text('-' + global_service.Comma(data.discount) + ' đ');  // Giảm giá
+    $('.total-after-discount').text(global_service.Comma(data.total_order_amount_after) + ' đ');  // Tổng tiền sau khi giảm giá
+},
     ReRenderAmount: function (loading_shipping = true) {
+        debugger
         var total_amount_cart = 0
         var hasPricedItem = false;
         $('.table-addtocart .product').each(function (index, item) {
@@ -370,6 +521,7 @@ var cart = {
             $('.btn-confirm-cart').addClass('button-disabled')
 
         }
+         return total_amount_cart;  // Trả lại tổng giá trị đơn hàng
     },
     //RemoveCartItem: function (data_id) {
     //    
