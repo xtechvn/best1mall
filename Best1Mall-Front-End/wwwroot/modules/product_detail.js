@@ -880,8 +880,19 @@ var buyTogether = {
 
     updateTotal: function () {
         debugger
+        // Lấy giá của sản phẩm chính từ phần tử .price
+        const mainProductPrice = parseInt($('.info-product .box-price .price').text().replace(/[^0-9]/g, '')) || 0; // Lấy giá và loại bỏ ký tự không phải số
+
+        // Cộng giá sản phẩm chính vào tổng
+        buyTogether.total = mainProductPrice;
+
+        // Cộng giá của các sản phẩm mua cùng vào tổng
+        buyTogether.total += buyTogether.selectedItems.reduce((sum, p) => sum + p.price, 0);
+
+        // Cập nhật tổng giá vào UI
         $('.sp-muacung-total').text(buyTogether.total.toLocaleString('vi-VN') + ' đ');
     },
+
 
     submit: function () {
         debugger

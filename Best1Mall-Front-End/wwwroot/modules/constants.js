@@ -21,11 +21,16 @@ var API_URL = {
     Register: '/Client/Register',
     ProductDetail: '/Product/ProductDetail',
     ProductList: '/Product/GetList',
+    LabelListProduct: '/Product/GetListLabel',
+
     GroupProduct: '/Product/GetGroupProduct',
 
     AddToCart: '/Cart/AddToCart',
     CartCount: '/Cart/CartCount',
     CartList: '/Cart/GetList',
+    VourcherList: '/Vourcher/GetList',
+    ApplyVoucher: '/Vourcher/ApplyVoucher',
+
     CartDelete: '/Cart/Delete',
     AddToFavourite: '/Favourite/AddToFavourite',
     FavouriteList: '/Favourite/GetList',
@@ -88,9 +93,9 @@ var GLOBAL_CONSTANTS = {
     ProductSize: 12,
     GroupProduct: {
         FlashSale: -1,
-        Discount: 16,
-        BEAR_COLLECTION: 17,
-        INTELLECTUAL_DEVELOPMENT: 18,
+        Discount: 19,
+        BEAR_COLLECTION:11,
+        INTELLECTUAL_DEVELOPMENT: 12,
         GROUP_PRODUCT: 1
     },
     PaymentType: [
@@ -158,7 +163,7 @@ var HTML_CONSTANTS = {
         SeeAllSlideItem: `
                     <div class="swiper-slide pt-3">
                       <div class="flex items-center justify-center w-full h-full">
-                        <a href="/san-pham?group_id={group_id}" 
+                        <a href="/thuong-hieu/{group_id}"
                            class="flex items-center gap-2 text-blue-500 justify-center">
                           Xem tất cả
                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"

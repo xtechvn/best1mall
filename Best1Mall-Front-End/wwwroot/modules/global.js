@@ -387,6 +387,42 @@ var global_service = {
             element.css('height', 'auto')
         })
     },
+    LoadHomeLabelGrid: function (element, group_id, size, appendSeeAll = true) {
+        const excludedGroups = [
+            GLOBAL_CONSTANTS.GroupProduct.FlashSale,
+            //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
+        ]
+        element.addClass('placeholder')
+        element.addClass('box-placeholder')
+        element.css('width', '100%')
+        element.css('height', '255px')
+        var request = {
+            "label_id": group_id,
+            "page_index": 1,
+            "page_size": size
+        }
+        $.when(
+            global_service.POST(API_URL.LabelListProduct, request)
+        ).done(function (result) {
+            if (result.is_success) {
+                var products = result.data
+
+                var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
+                // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
+                if (appendSeeAll && !excludedGroups.includes(group_id)) {
+                    html += HTML_CONSTANTS.Home.SeeAllSlideItem.replace('{group_id}', group_id)
+                }
+                element.html(html)
+
+
+            } else {
+                element.html('')
+            }
+            element.removeClass('placeholder')
+            element.removeClass('box-placeholder')
+            element.css('height', 'auto')
+        })
+    },
    
     LoadGroupProduct: function (element, group_id, size) {
        

@@ -66,16 +66,16 @@ namespace Best1Mall_Front_End.Controllers.Product
             };
             ViewData["ChildrenId"] = children_id;  // Truyền children_id vào View   
 
-            if (result != null && result.items != null && result.items.Count > 0)
-            {
+            //if (result != null && result.items != null && result.items.Count > 0)
+            //{
                 // Lưu vào cache
                 //_cache.Set(cacheKey, result.items, TimeSpan.FromMinutes(10)); // Lưu trong 10 phút
                 return View(model);
-            }
-            else
-            {
-                return View("NoProductsFound");
-            }
+            //}
+            //else
+            //{
+            //    return View("NoProductsFound");
+            //}
 
         }
         // Load  sản phẩm 
@@ -156,6 +156,28 @@ namespace Best1Mall_Front_End.Controllers.Product
                     is_success = true,
                     data = result.items,
                     count=result.count
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    is_success = false
+                });
+            }
+
+        }
+        public async Task<IActionResult> GetListLabel(ProductListByLabelFERequest request)
+        {
+            ProductListResponseModel result = await _productServices.LabelListProduct(request);
+
+            if (result != null && result.items != null && result.items.Count > 0)
+            {
+                return Ok(new
+                {
+                    is_success = true,
+                    data = result.items,
+                    count = result.count
                 });
             }
             else

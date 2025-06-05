@@ -188,9 +188,19 @@
                 </div>
                 @* ListProduct *@
                 <div class="col-span-4">
+                        @if(Model.Products != null){
                         <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-3 component-product-list">
                             @Html.Partial("~/Views/Shared/Components/Product/ProductListViewComponent.cshtml", Model.Products)
                         </div>
+                        }
+                        else
+                        {
+                            <!-- ✅ Không có sản phẩm nào -->
+                            <div class="w-full flex items-center justify-center py-10 text-gray-500 text-center text-lg" id="no-products-message">
+                                Không tìm thấy sản phẩm nào 🥲
+                            </div>
+                        } 
+                       
                     
                          <div class="flex justify-center mt-5">
                             <button class="text-color-base font-normal" id="load-more-btn" onclick="home_product.loadMore()">

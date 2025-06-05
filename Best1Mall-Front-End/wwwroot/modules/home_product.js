@@ -204,11 +204,11 @@ $(document).ready(function () {
                 //--Product Sale Slide:
                 global_service.LoadHomeProductGrid($('.list-product-sale .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.FlashSale, GLOBAL_CONSTANTS.Size)
                 //-- Discount Grid:
-                global_service.LoadHomeProductGrid($('#product-discount .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.Discount, GLOBAL_CONSTANTS.GridSize)
+                global_service.LoadHomeLabelGrid($('#product-discount .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.Discount, GLOBAL_CONSTANTS.GridSize)
                 //-- Bear Grid:
-                global_service.LoadHomeProductGrid($('#bear-collection .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.BEAR_COLLECTION, GLOBAL_CONSTANTS.GridSize)
+                global_service.LoadHomeLabelGrid($('#bear-collection .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.BEAR_COLLECTION, GLOBAL_CONSTANTS.GridSize)
                 //-- Intelligence Grid:
-                global_service.LoadHomeProductGrid($('#intelligence-collection .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT, GLOBAL_CONSTANTS.GridSize)
+                global_service.LoadHomeLabelGrid($('#intelligence-collection .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT, GLOBAL_CONSTANTS.GridSize)
                 // Load sản phẩm theo group_id đầu tiên
                 home_product.loadProductByGroup(firstCategoryId);
 
