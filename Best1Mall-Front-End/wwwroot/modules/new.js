@@ -105,7 +105,7 @@ var _new = {
 
 
     loadNewsSection: function ({ targetSelector, category_id, page = 1, view_name, isPaging = false }) {
-        debugger
+        
         const $container = $(targetSelector);
         const loading = `<div class="py-6 text-center text-blue-500">Đang tải dữ liệu...</div>`;
         // Nếu là phân trang chỉ tải lại phần remaining
@@ -126,7 +126,7 @@ var _new = {
                 isPaging: isPaging // gửi param phân trang
             },
             success: function (html) {
-                debugger
+                
 
                 if (isPaging) {
                     // Chỉ cập nhật lại phần remainingArticles

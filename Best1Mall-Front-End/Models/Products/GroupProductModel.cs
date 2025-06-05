@@ -2,21 +2,26 @@
 {
     public class GroupProductModel
     {
-        public int Id { get; set; }
-        public int ParentId { get; set; }
-        public int PositionId { get; set; }
-        public string Name { get; set; }
-        public string ImagePath { get; set; }
-        public int OrderNo { get; set; }
-        public string Path { get; set; }
-        public int Status { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }
-        public int? Priority { get; set; }
-        public string Description { get; set; }
-        public bool IsShowHeader { get; set; }
-        public bool IsShowFooter { get; set; }
-        public string Code { get; set; }
-        public object GroupProductChild { get; set; } // có thể tạo class nếu cần
+        public long? id { get; set; }
+        public int parentid { get; set; }
+        public int? positionid { get; set; }
+
+        public string name { get; set; }
+        public string image_path { get; set; }
+        public string url_path { get; set; }
+        public int order_no { get; set; }
+        public int? status { get; set; }
+
+        public DateTime? createdon { get; set; }
+
+        public DateTime? modifiedon { get; set; }
+
+
+        public string? description { get; set; }
+
+        public bool isshowheader { get; set; }
+        public bool isshowfooter { get; set; }
+
+        public object group_product_child { get; set; }
     }
 }

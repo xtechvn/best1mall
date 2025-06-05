@@ -425,6 +425,7 @@ var global_service = {
     },
    
     LoadGroupProduct: function (element, group_id, size) {
+        debugger
        
         element.addClass('placeholder')
         element.addClass('box-placeholder')
@@ -438,7 +439,7 @@ var global_service = {
         $.when(
             global_service.POST(API_URL.GroupProduct, request)
         ).done(function (result) {
-           
+            debugger
             if (result.is_success) {
                
                 var products = result.data
@@ -583,10 +584,10 @@ var global_service = {
     },
 
     RenderGroupProductItem: function (list, template) {
-       
+        debugger
         var html = '';
         $(list).each(function (index, item) {
-            var img_src = item.imagePath;
+            var img_src = item.image_path;
             if (!img_src.includes(API_URL.StaticDomain)
                 && !img_src.includes("data:image")
                 && !img_src.includes("http")) {
@@ -594,7 +595,7 @@ var global_service = {
             }
 
             html += template
-                .replaceAll('{url}', '/' + item.path)
+                .replaceAll('{url}', '/' + item.url_path)
                 .replaceAll('{avt}', img_src)
                 .replaceAll('{id}', item.id)
                 .replaceAll('{name}', item.name);
