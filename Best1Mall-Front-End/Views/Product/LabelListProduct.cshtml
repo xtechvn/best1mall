@@ -15,8 +15,22 @@
         <div class="breadcrumb my-4 ">
             <ul class="flex items-center gap-3 font-normal">
                 <li><a href="/">Trang chủ</a></li>
-                <li><a href="" class="text-color-base">Jpanwell</a></li>
+                <li><a href="" class="text-color-base">@Model.label_detail.labelName</a></li>
             </ul>
+        </div>
+        <div class="relative">
+            <img src="@Model.label_detail.banner" alt="@Model.label_detail.labelName"
+                 class="h-[307px] object-cover rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl w-full" />
+
+            <div class="about-ncc -mt-15 z-10 flex flex-wrap md:flex-nowrap gap-3 items-start px-3 mb-6">
+                <img src="@Model.label_detail.icon" alt="" class="rounded-full w-35 h-35 bg-white shrink-0">
+                <p class="md:mt-15">
+                    Ocavill là thương hiệu chuyên cung cấp các sản phẩm chăm sóc sức khỏe có xuất xứ từ Bulgaria và được
+                    Phytex Farma chịu trách nhiệm về chất lượng sản phẩm tại Việt Nam. Phytex Farma là một trong các đơn
+                    vị dược phẩm tiên phong trong việc đưa những sản phẩm chất lượng từ Châu Âu về Việt Nam nhằm góp
+                    phần tăng cường sức khỏe và cải thiện chất lượng cuộc sống cho cộng đồng.
+                </p>
+            </div>
         </div>
 
         <div class="my-6 md:my-10">
