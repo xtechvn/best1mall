@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     flashsale.Initialization();
-    startCountdown();
 });
 
 var flashsale = {
@@ -33,6 +32,7 @@ var flashsale = {
         $.when(global_service.POST(API_URL.FlashSaleGetList, request)).done(function (res) {
             if (res && res.is_success && res.data && res.data.items && res.data.items.length > 0) {
                 flashsale.LoadProducts(res.data.items[0].flashsale_id, res.data.items[0].name);
+                flashsale.StartCountdown(res.data.items[0].fromdate, res.data.items[0].todate);  // Start countdown for the first FlashSale
             } else {
                 console.warn("No flash sale items found 😢");
             }
@@ -65,13 +65,15 @@ var flashsale = {
     },
 
     RenderProductItem: function (p) {
+        // Xây dựng seoUrl cho sản phẩm
+        let seoUrl = `/san-pham/${encodeURIComponent(p.name.replace(/\s+/g, '-').toLowerCase())}--${p._id}`;
         return `
         <div class="swiper-slide pt-3">
             <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                <a href="#">
-                    <div class="absolute -top-1 z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                        Siêu sale
-                    </div>
+                <a href="${seoUrl}">
+                   <div class="absolute -top-1 z-10 left-1 bg-[url('assets/images/icon/tag1.png')] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
+                    -${p.discountvalue}%
+                </div>
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                         <img src="${p.avatar}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover" />
                     </div>
@@ -114,30 +116,55 @@ var flashsale = {
                 prevEl: '.swiper-button-prev',
             },
         });
-    }
-};
+    },
 
-// Countdown Timer
-function startCountdown() {
-    var endDate = new Date(); // Chỉnh sửa ngày kết thúc của flashsale
-    endDate.setHours(endDate.getHours() + 2); // Ví dụ: 2 giờ nữa
+    // Countdown logic
+    StartCountdown: function (fromdate, todate) {
+        var fromDate = new Date(fromdate); // Thời gian bắt đầu
+        var toDate = new Date(todate); // Thời gian kết thúc
 
-    function updateTimer() {
-        var now = new Date();
-        var timeDiff = endDate - now;
-        if (timeDiff <= 0) {
-            document.getElementById("countdown").innerHTML = "Flashsale kết thúc!";
-            return;
+        // Nếu thời gian hiện tại nhỏ hơn từ thời gian bắt đầu và chưa đến ngày kết thúc
+        if (new Date() < toDate) {
+            this.UpdateCountdown(toDate); // Cập nhật thời gian còn lại
         }
+    },
 
-        var hours = Math.floor(timeDiff / 1000 / 60 / 60);
-        var minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+    // Update countdown
+    UpdateCountdown: function (toDate) {
+        var previousHours = -1, previousMinutes = -1, previousSeconds = -1; // Lưu trữ giá trị trước để tránh cập nhật khi không thay đổi.
 
-        document.getElementById("hours").innerHTML = (hours < 10 ? "0" + hours : hours);
-        document.getElementById("minutes").innerHTML = (minutes < 10 ? "0" + minutes : minutes);
-        document.getElementById("seconds").innerHTML = (seconds < 10 ? "0" + seconds : seconds);
+        var countdown = setInterval(function () {
+            var now = new Date().getTime();
+            var distance = toDate - now;
+
+            // Calculate time left (Ensure no floating-point errors)
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Only update if the value has changed
+            if (previousHours !== hours) {
+                document.getElementById("hours").innerHTML = ("0" + hours).slice(-2);
+                previousHours = hours;
+            }
+
+            if (previousMinutes !== minutes) {
+                document.getElementById("minutes").innerHTML = ("0" + minutes).slice(-2);
+                previousMinutes = minutes;
+            }
+
+            if (previousSeconds !== seconds) {
+                document.getElementById("seconds").innerHTML = ("0" + seconds).slice(-2);
+                previousSeconds = seconds;
+            }
+
+            // If the countdown is over
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.getElementById("countdown").innerHTML = "Flash Sale đã kết thúc!";
+            }
+        }, 1000);
     }
 
-    setInterval(updateTimer, 1000);
-}
+
+};
