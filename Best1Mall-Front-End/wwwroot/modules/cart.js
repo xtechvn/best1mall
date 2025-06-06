@@ -1,11 +1,16 @@
 ﻿$(document).ready(function () {
     cart.Initialization()
+
 })
+var appliedVoucher = null; // Lưu voucher đang áp dụng (nếu có)
 var cart = {
+
     Data: {
         cancel_token: false
     },
     Initialization: function () {
+        var appliedVoucher = null; // ví dụ: { code: 'ABC123', id: 3 }
+       
         cart.DynamicBind()
         cart.CartItem()
         $('.select-delivery .list-option').fadeOut()
@@ -14,6 +19,7 @@ var cart = {
         cart.OrderAddress()
 
     },
+
     DynamicBind: function () {
         $("body").on('click', ".all-pop", function (event) {
             debugger
@@ -178,6 +184,7 @@ var cart = {
 
                // Lấy tổng giá trị đơn hàng từ giỏ hàng
                 const totalOrderAmount = cart.ReRenderAmount(false);  // Gọi hàm để lấy tổng tiền đơn hàng
+                appliedVoucher = { code: voucherCode, id: voucherId };
                 // Kiểm tra nếu giỏ hàng không có sản phẩm hợp lệ
                 if (totalOrderAmount <= 0) {
                     // Sử dụng SweetAlert2 để hiển thị thông báo
@@ -206,9 +213,53 @@ var cart = {
                 });
             }
         });
+        $('.btn-remove-voucher').on('click', function () {
+            debugger
+            appliedVoucher = null;
+
+            // 1. Reset biến voucher
+            appliedVoucher = null;
+
+            // 2. Ẩn UI hiển thị voucher
+            $('#discountSection').addClass('hidden');
+            $('#discountCart').addClass('hidden');
+
+            // 3. Bỏ chọn input radio
+            $('input[name="voucher"]:checked').prop('checked', false);
+
+            // 4. Reset text hiển thị giảm giá
+            //$('.total-discount-amount').text('0 đ');
+            //$('.total-after-discount').text(global_service.Comma(cart.ReRenderAmount()) + ' đ');
+
+            cart.ReRenderAmount(); // render lại mà không dùng voucher
+        });
+        // Gắn toggle bằng cách nhớ trạng thái đã click
+        let lastCheckedVoucher = null;
+
+        $('body').on('click', 'input[name="voucher"]', function (e) {
+            const $this = $(this);
+
+            // Nếu click vào chính voucher đang được chọn → uncheck thủ công
+            if ($this[0] === lastCheckedVoucher) {
+                $this.prop('checked', false);
+                lastCheckedVoucher = null;
+                appliedVoucher = null;
+
+                // Ẩn UI giảm giá nếu có
+                $('#discountCart').addClass('hidden');
+                $('#discountSection').addClass('hidden');
+                $('.total-discount-amount').text('0 đ');
+                $('.total-after-discount').text(global_service.Comma(cart.ReRenderAmount()) + ' đ');
+            } else {
+                lastCheckedVoucher = $this[0];
+            }
+        });
+
+
 
        
     },
+
     OrderAddress: function () {
         cart.RenderDefaultAddress();
         var request = {
@@ -511,6 +562,19 @@ var cart = {
             if (!isNaN(shipping_fee_number) && shipping_fee_number > 0) total_amount_cart += shipping_fee_number
         }
         $('.total-final-amount .pr').html(global_service.Comma(total_amount_cart) + ' đ')
+        // Nếu có voucher đang được áp dụng → gọi lại API ApplyVoucher
+        if (appliedVoucher !== null) {
+            const usr = global_service.CheckLogin();
+            const token = usr ? usr.token : '';
+
+            const request = {
+                voucher_name: appliedVoucher.code,
+                token: token,
+                total_order_amount_before: total_amount_cart
+            };
+
+            cart.ApplyVoucher(request);
+        }
         if (total_amount_cart > 0 && hasPricedItem) {
             if (loading_shipping) {
                 cart.LoadShippingFee()
@@ -681,7 +745,7 @@ var cart = {
 
             if (carts.length > 0) {
                 // ✅ Chặn confirm nếu toàn sản phẩm 0đ hoặc quantity = 0
-                
+                debugger
                
                 var request = {
                     "carts": carts,
@@ -689,7 +753,9 @@ var cart = {
                     "payment_type": $('input[name="payment_type"]:checked').val(),
                     "address": JSON.parse(sessionStorage.getItem(STORAGE_NAME.CartAddress)),
                     "address_id": $('#address-receivername').attr('data-id'),
-                    "delivery_detail": delivery_detail
+                    "delivery_detail": delivery_detail,
+                    // 🆕 Thêm dòng này:
+                    "voucher_code": appliedVoucher?.code || null
                 }
                 $.when(
                     global_service.POST(API_URL.CartConfirm, request)
