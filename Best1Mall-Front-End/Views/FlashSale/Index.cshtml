@@ -49,21 +49,22 @@
                 <li><a href="" class="text-color-base">Flashsale</a></li>
             </ul>
         </div>
-        <div class="flex items-center gap-2 justify-center">
-            <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
-            <img src="images/flashsale-p.png" alt="" />
-            <span class="md:block hidden font-normal">Kết thúc trong</span>
-            <div id="countdown" class="flex gap-1 font-bold text-white">
-                <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span> <span class="text-[#FF4169]">:</span>
-                <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span> <span class="text-[#FF4169]"> :</span>
-                <span class="bg-[#FF4169] px-2 py-1 rounded" id="seconds">00</span>
-            </div>
-            <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
-        </div>
+        
 
         <!-- Flash sale đầu tiên không có swiper -->
         @if (Model.Any())
         {
+            <div class="flex items-center gap-2 justify-center">
+                <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
+                <img src="images/flashsale-p.png" alt="" />
+                <span class="md:block hidden font-normal">Kết thúc trong</span>
+                <div id="countdown" class="flex gap-1 font-bold text-white">
+                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span> <span class="text-[#FF4169]">:</span>
+                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span> <span class="text-[#FF4169]"> :</span>
+                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="seconds">00</span>
+                </div>
+                <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
+            </div>
             var firstFlashSale = Model.First(); // Lấy cái đầu tiên
 
             <div class="flashsale-box my-3 md:rounded-3xl rounded-xl bg-[#FF4169]">
@@ -80,10 +81,11 @@
                 @foreach (var product in firstFlashSale.Products)
                 {
                     string seoUrl = $"/san-pham/{ToSeoUrl(product.name)}--{product._id}";
+                    string discountText =  $"-{product.discountvalue}%" ;
                     <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
                         <a href="@seoUrl">
-                            <div class="absolute -top-1 z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                                Siêu sale
+                            <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
+                                @discountText
                             </div>
                             <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                                 <img src="@product.avatar" alt="@product.name" class="absolute inset-0 w-full h-full object-cover" />
@@ -124,20 +126,21 @@
                                         @foreach (var product in flashsale.Products)
                                         {
                                             string seoUrl = $"/san-pham/{ToSeoUrl(product.name)}--{product._id}";
+                                            string discountText = $"-{product.discountvalue}%";
                                             <div class="swiper-slide pt-3">
                                                 <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
                                                     <a href="@seoUrl">
-                                                        <div class="absolute -top-1 z-10 left-1 bg-[url(images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
-                                                            -50%
+                                                        <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
+                                                            @discountText
                                                         </div>
                                                         <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                                                             <img src="@product.avatar" alt="@product.name" class="absolute inset-0 w-full h-full object-cover" />
                                                         </div>
                                                         <p class="text-sm line-clamp-2 font-medium mt-2">@product.name</p>
                                                         <div class="absolute bottom-2 w-full px-2 left-0">
-                                                            <div class="text-rose-600 font-bold mt-1">@product.amount_after_flashsale đ</div>
+                                                            <div class="text-rose-600 font-bold mt-1">@String.Format("{0:N0}", product.amount_after_flashsale) đ</div>
                                                             <div class="flex items-center justify-between">
-                                                                <div class="text-xs line-through text-slate-400">@product.amount đ</div>
+                                                                <div class="text-xs line-through text-slate-400">@String.Format("{0:N0}", product.amount) đ</div>
                                                                 <div class="text-xs text-yellow-500 mt-1">
                                                                     ★ 4.9 <span class="text-color-base">(180)</span>
                                                                 </div>

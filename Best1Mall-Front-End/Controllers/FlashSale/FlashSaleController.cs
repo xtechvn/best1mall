@@ -33,6 +33,8 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
                     viewModel.Add(new FlashSaleViewModel
                     {
                         flashsale_id = item.flashsale_id,
+                        fromdate = item.fromdate,
+                        todate = item.todate,
                         name = item.name,
                         banner = item.banner,
                         Products = products,
@@ -46,17 +48,25 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
         [Route("flashsale/products/{flashsaleId}")]
         public async Task<IActionResult> Products(int flashsaleId)
         {
-            // Lấy thông tin sản phẩm từ FlashSaleId
-            var result = await _flashsaleServices.GetById(new FlashsaleListingRequestModel { id = flashsaleId });
+            // Lấy các sản phẩm theo flashsaleId
+            var products = await _flashsaleServices.GetById(new FlashsaleListingRequestModel { id = flashsaleId });
 
-            if (result != null)
+            if (products != null)
             {
-                // Trả về View với danh sách sản phẩm
-                return View(result);
+                // Lấy thông tin FlashSale từ viewModel (Thông tin như banner, name, thời gian, v.v)
+                var flashSaleInfo = await _flashsaleServices.GetList();
+                var flashSale = flashSaleInfo?.Items?.FirstOrDefault(f => f.flashsale_id == flashsaleId);
+
+                return View(new FlashSaleProductsViewModel
+                {
+                    FlashSaleInfo = flashSale,
+                    Products = products
+                });
             }
 
             return RedirectToAction("Index", "Home"); // Nếu không tìm thấy sản phẩm, chuyển về trang chủ
         }
+
 
 
         [HttpPost]
