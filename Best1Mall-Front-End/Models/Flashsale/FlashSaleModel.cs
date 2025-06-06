@@ -1,5 +1,13 @@
 ﻿namespace Best1Mall_Front_End.Models.Flashsale
 {
+
+    public class FlashSaleListResponse
+    {
+        public List<FlashSaleModel> Items { get; set; }
+        public int Count { get; set; }
+    }
+
+
     public class FlashSaleModel
     {
         public long id { get; set; } // ID ElasticSearch

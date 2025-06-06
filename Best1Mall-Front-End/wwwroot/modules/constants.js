@@ -22,6 +22,10 @@ var API_URL = {
     ProductDetail: '/Product/ProductDetail',
     ProductList: '/Product/GetList',
     LabelListProduct: '/Product/GetListLabel',
+    FlashSaleGetList: '/FlashSale/GetList',
+    FlashSaleGetById: '/FlashSale/GetById',
+
+
 
     GroupProduct: '/Product/GetGroupProduct',
 
@@ -160,6 +164,34 @@ var HTML_CONSTANTS = {
 
                         
                         `,
+        FlashSaleItem: `
+            <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                                            <!-- Sale badge -->
+                                            <a href="{url}">
+                                               <div class="absolute -top-1  z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 {discount_style}">
+                                                    {discount_text}
+                                                </div>
+
+                                                <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                                    <img src="{avt}" alt="Sản phẩm"
+                                                         class="absolute inset-0 w-full h-full object-cover" />
+
+                                                </div>
+                                                <p class="text-sm line-clamp-2 font-medium mt-2">
+                                                   {name}
+                                                </p>
+                                                <div class="absolute bottom-2 w-full px-2 left-0">
+                                                    <div class="text-rose-600 font-bold mt-1">{amount}</div>
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="text-xs line-through text-slate-400 " style="{old_price_style}">{price}</div>
+                                                        <div class="text-xs text-yellow-500 mt-1">
+                                                            {review_point} <span class="text-color-base">{review_count}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+        ` ,
         SeeAllSlideItem: `
                     <div class="swiper-slide pt-3">
                       <div class="flex items-center justify-center w-full h-full">

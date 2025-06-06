@@ -1,4 +1,47 @@
-﻿<section class="homepage">
+﻿@using Best1Mall_Front_End.Models.Flashsale
+@model List<FlashSaleViewModel>
+<!-- Thêm Swiper CSS -->
+@* <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"> *@
+
+@functions {
+    string ToSeoUrl(string name)
+    {
+        return RemoveUnicode(RemoveSpecialCharacters(name)).Replace(" ", "-").ToLower();
+    }
+
+    string RemoveUnicode(string text)
+    {
+        var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+        var chars = normalized.Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark);
+        return new string(chars.ToArray()).Normalize(System.Text.NormalizationForm.FormC);
+    }
+
+    string RemoveSpecialCharacters(string input)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(input, "[^a-zA-Z0-9\\s-]", "");
+    }
+
+    string FormatCurrency(double? amount)
+    {
+        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "Giá liên hệ";
+    }
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
+
+<section class="homepage">
     <div class="max-w-[1230px] mx-auto my-4 px-[15px]">
         <div class="breadcrumb my-4 ">
             <ul class="flex items-center gap-3 font-normal">
@@ -11,375 +54,176 @@
             <img src="images/flashsale-p.png" alt="" />
             <span class="md:block hidden font-normal">Kết thúc trong</span>
             <div id="countdown" class="flex gap-1 font-bold text-white">
-                <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span> <span class="text-[#FF4169]"> :</span>
+                <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span> <span class="text-[#FF4169]">:</span>
                 <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span> <span class="text-[#FF4169]"> :</span>
                 <span class="bg-[#FF4169] px-2 py-1 rounded" id="seconds">00</span>
             </div>
             <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
         </div>
-        <!-- Flash sale  -->
-        <div class="flashsale-box my-3 md:rounded-3xl rounded-xl bg-[#FF4169]">
-            <div class="bg-box md:px-6 md:py-10 py-4 md:rounded-3xl rounded-xl px-3 pb-0 text-white relative md:min-h-[320px]">
-                <h2 class="md:text-4xl text-2xl my-3">Chăm cơ thể – giữ tinh thần – <br />tiết kiệm tối đa!</h2>
-                <h3 class="md:text-5xl text-3xl md:my-4 my-3">Giảm 50%</h3>
-                <p>cho các dòng vitamin, collagen, men tiêu hóa,...</p>
-                <img src="images/imageads.png" alt="" class="md:absolute right-0 bottom-0 md:max-w-2/3 ml-auto">
-            </div>
-        </div>
-        <!-- List sản phẩm 5 cột -->
-        <div class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-3">
-            <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                <!-- Sale badge -->
-                <a href="">
-                    <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                        Siêu sale
-                    </div>
-                    <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                        <img src="images/product1.jpg" alt="Sản phẩm"
-                             class="absolute inset-0 w-full h-full object-cover" />
 
-                    </div>
-                    <p class="text-sm line-clamp-2 font-medium mt-2">
-                        Doppel hers - Ginkgo +
-                        B-vitamin
-                        +
-                        Cholin
-                    </p>
-                    <div class="absolute bottom-2 w-full px-2 left-0">
-                        <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                        <div class="flex items-center justify-between">
-                            <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                            <div class="text-xs text-yellow-500 mt-1">
-                                ★ 4.9 <span class="text-color-base">(180)</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                <!-- Sale badge -->
-                <a href="">
-                    <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                        Siêu sale
-                    </div>
-                    <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                        <img src="images/product1.jpg" alt="Sản phẩm"
-                             class="absolute inset-0 w-full h-full object-cover" />
+        <!-- Flash sale đầu tiên không có swiper -->
+        @if (Model.Any())
+        {
+            var firstFlashSale = Model.First(); // Lấy cái đầu tiên
 
-                    </div>
-                    <p class="text-sm line-clamp-2 font-medium mt-2">
-                        Doppel hers - Ginkgo +
-                        B-vitamin
-                        +
-                        Cholin
-                    </p>
-                    <div class="absolute bottom-2 w-full px-2 left-0">
-                        <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                        <div class="flex items-center justify-between">
-                            <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                            <div class="text-xs text-yellow-500 mt-1">
-                                ★ 4.9 <span class="text-color-base">(180)</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                <!-- Sale badge -->
-                <a href="">
-                    <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                        Siêu sale
-                    </div>
-                    <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                        <img src="images/product1.jpg" alt="Sản phẩm"
-                             class="absolute inset-0 w-full h-full object-cover" />
-
-                    </div>
-                    <p class="text-sm line-clamp-2 font-medium mt-2">
-                        Doppel hers - Ginkgo +
-                        B-vitamin
-                        +
-                        Cholin
-                    </p>
-                    <div class="absolute bottom-2 w-full px-2 left-0">
-                        <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                        <div class="flex items-center justify-between">
-                            <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                            <div class="text-xs text-yellow-500 mt-1">
-                                ★ 4.9 <span class="text-color-base">(180)</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                <!-- Sale badge -->
-                <a href="">
-                    <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                        Siêu sale
-                    </div>
-                    <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                        <img src="images/product1.jpg" alt="Sản phẩm"
-                             class="absolute inset-0 w-full h-full object-cover" />
-
-                    </div>
-                    <p class="text-sm line-clamp-2 font-medium mt-2">
-                        Doppel hers - Ginkgo +
-                        B-vitamin
-                        +
-                        Cholin
-                    </p>
-                    <div class="absolute bottom-2 w-full px-2 left-0">
-                        <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                        <div class="flex items-center justify-between">
-                            <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                            <div class="text-xs text-yellow-500 mt-1">
-                                ★ 4.9 <span class="text-color-base">(180)</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                <!-- Sale badge -->
-                <a href="">
-                    <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                        Siêu sale
-                    </div>
-                    <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                        <img src="images/product1.jpg" alt="Sản phẩm"
-                             class="absolute inset-0 w-full h-full object-cover" />
-
-                    </div>
-                    <p class="text-sm line-clamp-2 font-medium mt-2">
-                        Doppel hers - Ginkgo +
-                        B-vitamin
-                        +
-                        Cholin
-                    </p>
-                    <div class="absolute bottom-2 w-full px-2 left-0">
-                        <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                        <div class="flex items-center justify-between">
-                            <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                            <div class="text-xs text-yellow-500 mt-1">
-                                ★ 4.9 <span class="text-color-base">(180)</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                <!-- Sale badge -->
-                <a href="">
-                    <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                        Siêu sale
-                    </div>
-                    <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                        <img src="images/product1.jpg" alt="Sản phẩm"
-                             class="absolute inset-0 w-full h-full object-cover" />
-
-                    </div>
-                    <p class="text-sm line-clamp-2 font-medium mt-2">
-                        Doppel hers - Ginkgo +
-                        B-vitamin
-                        +
-                        Cholin
-                    </p>
-                    <div class="absolute bottom-2 w-full px-2 left-0">
-                        <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                        <div class="flex items-center justify-between">
-                            <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                            <div class="text-xs text-yellow-500 mt-1">
-                                ★ 4.9 <span class="text-color-base">(180)</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <!-- List Thương hiệu được yêu thích -->
-        <div class="my-6 md:my-10">
-            <div class="flex justify-between flex-wrap gap-2 mb-3">
-                <h2 class="text-sky-900 font-medium uppercase"><a href="">Blackmores</a> </h2>
-              
+            <div class="flashsale-box my-3 md:rounded-3xl rounded-xl bg-[#FF4169]">
+                <div class="bg-box md:px-6 md:py-10 py-4 md:rounded-3xl rounded-xl px-3 pb-0 text-white relative md:min-h-[320px]">
+                    <h2 class="md:text-4xl text-2xl my-3">Chăm cơ thể – giữ tinh thần – <br />tiết kiệm tối đa!</h2>
+                    <h3 class="md:text-5xl text-3xl md:my-4 my-3">Giảm 50%</h3>
+                    <p>cho các dòng vitamin, collagen, men tiêu hóa,...</p>
+                    <img src="~/assets/images/imageads.png" alt="" class="md:absolute right-0 bottom-0 md:max-w-2/3 ml-auto">
+                </div>
             </div>
 
-            <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
-            <img src="~/assets/images/banner.jpg" alt=""
-                 class="rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl w-full">
-            <!-- List sản phẩm 5 cột -->
+            <!-- List sản phẩm 5 cột cho Flash Sale đầu tiên -->
             <div class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-3">
-                <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                    <!-- Sale badge -->
-                    <a href="">
-                        <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                            Siêu sale
-                        </div>
-                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                            <img src="images/product1.jpg" alt="Sản phẩm"
-                                 class="absolute inset-0 w-full h-full object-cover" />
-
-                        </div>
-                        <p class="text-sm line-clamp-2 font-medium mt-2">
-                            Doppel hers - Ginkgo +
-                            B-vitamin
-                            +
-                            Cholin
-                        </p>
-                        <div class="absolute bottom-2 w-full px-2 left-0">
-                            <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                            <div class="flex items-center justify-between">
-                                <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                                <div class="text-xs text-yellow-500 mt-1">
-                                    ★ 4.9 <span class="text-color-base">(180)</span>
+                @foreach (var product in firstFlashSale.Products)
+                {
+                    string seoUrl = $"/san-pham/{ToSeoUrl(product.name)}--{product._id}";
+                    <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
+                        <a href="@seoUrl">
+                            <div class="absolute -top-1 z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
+                                Siêu sale
+                            </div>
+                            <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                <img src="@product.avatar" alt="@product.name" class="absolute inset-0 w-full h-full object-cover" />
+                            </div>
+                            <p class="text-sm line-clamp-2 font-medium mt-2">@product.name</p>
+                            <div class="absolute bottom-2 w-full px-2 left-0">
+                                <div class="text-rose-600 font-bold mt-1">@String.Format("{0:N0}", product.amount_after_flashsale) đ</div>
+                                <div class="flex items-center justify-between">
+                                    <div class="text-xs line-through text-slate-400">@String.Format("{0:N0}", product.amount) đ</div>
+                                    <div class="text-xs text-yellow-500 mt-1">★ 4.9 <span class="text-color-base">(100)</span></div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+
+        @foreach (var flashsale in Model.Skip(1)) // Lặp qua tất cả Flash Sale sau cái đầu tiên
+        {
+
+            <div class="my-6 md:my-10">
+                <div class="flex justify-between flex-wrap gap-2 mb-3">
+                    <h2 class="text-sky-900 font-medium uppercase"><a href="#">@flashsale.name</a></h2>
                 </div>
-                <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                    <!-- Sale badge -->
-                    <a href="">
-                        <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                            Siêu sale
-                        </div>
-                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                            <img src="images/product1.jpg" alt="Sản phẩm"
-                                 class="absolute inset-0 w-full h-full object-cover" />
 
-                        </div>
-                        <p class="text-sm line-clamp-2 font-medium mt-2">
-                            Doppel hers - Ginkgo +
-                            B-vitamin
-                            +
-                            Cholin
-                        </p>
-                        <div class="absolute bottom-2 w-full px-2 left-0">
-                            <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                            <div class="flex items-center justify-between">
-                                <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                                <div class="text-xs text-yellow-500 mt-1">
-                                    ★ 4.9 <span class="text-color-base">(180)</span>
+                <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+
+                <div style="margin-top:20px">
+                    <div class="md:rounded-3xl rounded-xl bg-white p-3 mb-6">
+                        <img src="@flashsale.banner" alt="@flashsale.name"
+                             class="rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl w-full">
+                        <!-- Swiper -->
+                        <div class="relative mt-3">
+                            <div class="flash-sale-swiper">
+                                <div class="swiper">
+                                    <div class="swiper-wrapper">
+                                        @foreach (var product in flashsale.Products)
+                                        {
+                                            string seoUrl = $"/san-pham/{ToSeoUrl(product.name)}--{product._id}";
+                                            <div class="swiper-slide pt-3">
+                                                <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
+                                                    <a href="@seoUrl">
+                                                        <div class="absolute -top-1 z-10 left-1 bg-[url(images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
+                                                            -50%
+                                                        </div>
+                                                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                                            <img src="@product.avatar" alt="@product.name" class="absolute inset-0 w-full h-full object-cover" />
+                                                        </div>
+                                                        <p class="text-sm line-clamp-2 font-medium mt-2">@product.name</p>
+                                                        <div class="absolute bottom-2 w-full px-2 left-0">
+                                                            <div class="text-rose-600 font-bold mt-1">@product.amount_after_flashsale đ</div>
+                                                            <div class="flex items-center justify-between">
+                                                                <div class="text-xs line-through text-slate-400">@product.amount đ</div>
+                                                                <div class="text-xs text-yellow-500 mt-1">
+                                                                    ★ 4.9 <span class="text-color-base">(180)</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="swiper-slide pt-3">
+                                            <div class="flex items-center justify-center w-full h-full">
+                                                <a href="/flashsale/products/@flashsale.flashsale_id" class="flex items-center gap-2 text-blue-500 justify-center">
+                                                    Xem tất cả
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                                        <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z" fill="#773EFA" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- Navigation -->
+                                <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                                    <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                                <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                                    <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M15 19l-7-7 7-7" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
-                <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                    <!-- Sale badge -->
-                    <a href="">
-                        <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                            Siêu sale
-                        </div>
-                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                            <img src="images/product1.jpg" alt="Sản phẩm"
-                                 class="absolute inset-0 w-full h-full object-cover" />
+            </div>
+        }
 
-                        </div>
-                        <p class="text-sm line-clamp-2 font-medium mt-2">
-                            Doppel hers - Ginkgo +
-                            B-vitamin
-                            +
-                            Cholin
-                        </p>
-                        <div class="absolute bottom-2 w-full px-2 left-0">
-                            <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                            <div class="flex items-center justify-between">
-                                <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                                <div class="text-xs text-yellow-500 mt-1">
-                                    ★ 4.9 <span class="text-color-base">(180)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                    <!-- Sale badge -->
-                    <a href="">
-                        <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                            Siêu sale
-                        </div>
-                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                            <img src="images/product1.jpg" alt="Sản phẩm"
-                                 class="absolute inset-0 w-full h-full object-cover" />
 
+        <!-- Sản phẩm theo Nhà cung cấp -->
+        <div class="my-6 md:my-10">
+            <h2 class="text-sky-900 mb-3 font-medium uppercase"><a href="#">HOT DEAL</a> </h2>
+            <ul class="flex flex-wrap gap-2">
+                @foreach (var flashSale in Model)
+                {
+                    <li>
+                        <a href="javascript:void(0);" class="px-5 py-1 border border-gray-300 rounded-full inline-block supplier-filter" data-flashsale-id="@flashSale.flashsale_id">
+                            @flashSale.name
+                        </a>
+                    </li>
+                }
+            </ul>
+            <!-- Swiper -->
+            <div class="relative mt-3">
+                <div class="flash-sale-swiper">
+                    <div class="swiper">
+                        <div class="swiper-wrapper" id="swiper-wrapper">
+                            <!-- Các sản phẩm sẽ được render ở đây -->
                         </div>
-                        <p class="text-sm line-clamp-2 font-medium mt-2">
-                            Doppel hers - Ginkgo +
-                            B-vitamin
-                            +
-                            Cholin
-                        </p>
-                        <div class="absolute bottom-2 w-full px-2 left-0">
-                            <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                            <div class="flex items-center justify-between">
-                                <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                                <div class="text-xs text-yellow-500 mt-1">
-                                    ★ 4.9 <span class="text-color-base">(180)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                    <!-- Sale badge -->
-                    <a href="">
-                        <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                            Siêu sale
-                        </div>
-                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                            <img src="images/product1.jpg" alt="Sản phẩm"
-                                 class="absolute inset-0 w-full h-full object-cover" />
-
-                        </div>
-                        <p class="text-sm line-clamp-2 font-medium mt-2">
-                            Doppel hers - Ginkgo +
-                            B-vitamin
-                            +
-                            Cholin
-                        </p>
-                        <div class="absolute bottom-2 w-full px-2 left-0">
-                            <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                            <div class="flex items-center justify-between">
-                                <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                                <div class="text-xs text-yellow-500 mt-1">
-                                    ★ 4.9 <span class="text-color-base">(180)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
-                    <!-- Sale badge -->
-                    <a href="">
-                        <div class="absolute -top-1  z-10 left-1 bg-[url(images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
-                            Siêu sale
-                        </div>
-                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                            <img src="images/product1.jpg" alt="Sản phẩm"
-                                 class="absolute inset-0 w-full h-full object-cover" />
-
-                        </div>
-                        <p class="text-sm line-clamp-2 font-medium mt-2">
-                            Doppel hers - Ginkgo +
-                            B-vitamin
-                            +
-                            Cholin
-                        </p>
-                        <div class="absolute bottom-2 w-full px-2 left-0">
-                            <div class="text-rose-600 font-bold mt-1">185.000 đ</div>
-                            <div class="flex items-center justify-between">
-                                <div class="text-xs line-through text-slate-400">215.000 đ</div>
-                                <div class="text-xs text-yellow-500 mt-1">
-                                    ★ 4.9 <span class="text-color-base">(180)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+                    </div>
+                    <!-- Navigation -->
+                    <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                        <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                    <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                        <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </div>
                 </div>
             </div>
         </div>
-     
+
     </div>
 
 </section>
+
+@section scripts {
+    <script asp-append-version="true" type="text/javascript" src="~/modules/flashsale.js"></script>
+    <!-- Thêm Swiper JS -->
+    @* <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> *@
+}

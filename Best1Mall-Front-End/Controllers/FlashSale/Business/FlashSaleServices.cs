@@ -14,7 +14,7 @@ namespace Best1Mall_Front_End.Controllers.FlashSale.Business
         {
             _configuration = configuration;
         }
-        public async Task<List<FlashSaleModel>> GetList()
+        public async Task<FlashSaleListResponse> GetList()
         {
             try
             {
@@ -26,7 +26,8 @@ namespace Best1Mall_Front_End.Controllers.FlashSale.Business
 
                 if (status == (int)ResponseType.SUCCESS)
                 {
-                    return JsonConvert.DeserializeObject<List<FlashSaleModel>>(jsonData["data"]["items"].ToString());
+                    var dataObj = jsonData["data"]?.ToString();
+                    return JsonConvert.DeserializeObject<FlashSaleListResponse>(dataObj);
                 }
             }
             catch
@@ -35,12 +36,12 @@ namespace Best1Mall_Front_End.Controllers.FlashSale.Business
             return null;
         }
 
-        public async Task<List<FlashSaleProductResposeModel>> GetById(int id)
+        public async Task<List<FlashSaleProductResposeModel>> GetById(FlashsaleListingRequestModel request)
         {
             try
             {
                
-                var result = await POST("api/flashsale/get-by-id", id);
+                var result = await POST("api/flashsale/get-by-id", request);
 
                 var jsonData = JObject.Parse(result);
                 var status = int.Parse(jsonData["status"]?.ToString() ?? "0");

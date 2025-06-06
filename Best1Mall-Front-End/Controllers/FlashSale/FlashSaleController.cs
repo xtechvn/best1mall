@@ -1,6 +1,6 @@
 ﻿using Best1Mall_Front_End.Controllers.Client.Business;
 using Best1Mall_Front_End.Controllers.FlashSale.Business;
-
+using Best1Mall_Front_End.Models.Flashsale;
 using Best1Mall_Front_End.Utilities.Contants;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,10 +19,46 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
 
         }
         [Route("flashSale")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var listFlashSales = await _flashsaleServices.GetList();
+
+            var viewModel = new List<FlashSaleViewModel>();
+            if (listFlashSales != null)
+            {
+                foreach (var item in listFlashSales.Items)
+                {
+                    var products = await _flashsaleServices.GetById(new FlashsaleListingRequestModel { id = item.flashsale_id });
+
+                    viewModel.Add(new FlashSaleViewModel
+                    {
+                        flashsale_id = item.flashsale_id,
+                        name = item.name,
+                        banner = item.banner,
+                        Products = products,
+                       // IsSwiperRequired = item.flashsale_id != 1 // Điều kiện kiểm tra (ví dụ, không cho swiper với id=1)
+                    });
+                }
+            }
+
+            return View(viewModel);
         }
+        [Route("flashsale/products/{flashsaleId}")]
+        public async Task<IActionResult> Products(int flashsaleId)
+        {
+            // Lấy thông tin sản phẩm từ FlashSaleId
+            var result = await _flashsaleServices.GetById(new FlashsaleListingRequestModel { id = flashsaleId });
+
+            if (result != null)
+            {
+                // Trả về View với danh sách sản phẩm
+                return View(result);
+            }
+
+            return RedirectToAction("Index", "Home"); // Nếu không tìm thấy sản phẩm, chuyển về trang chủ
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> GetList()
         {
@@ -36,9 +72,9 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(FlashsaleListingRequestModel request)
         {
-            var result = await _flashsaleServices.GetById(id);
+            var result = await _flashsaleServices.GetById(request);
 
             if (result != null)
             {
