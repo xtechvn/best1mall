@@ -177,7 +177,8 @@ namespace Best1Mall_Front_End.Controllers.Product
                 {
                     is_success = true,
                     data = result.items,
-                    count = result.count
+                    count = result.count,
+                    label_detail= result.label_detail
                 });
             }
             else
