@@ -99,6 +99,7 @@
  
 
     loadFavouriteList: function () {
+        debugger
 
         const usr = global_service.CheckLogin();
         if (!usr) {
@@ -140,8 +141,10 @@
         });
     },
 
-    renderFavouriteItem: function (item) {
-        const product = item; // alias
+    renderFavouriteItem: function (product) {
+        debugger
+        // ✅ Điều kiện Flash Sale còn hiệu lực
+        if (!product.flash_sale_todate || new Date(product.flash_sale_todate) <= new Date()) return '';
 
         let img_src = product.avatar || '';
         if (
@@ -152,51 +155,56 @@
             img_src = API_URL.StaticDomain + img_src;
         }
 
+        // ✅ Ưu tiên giá Flash Sale
         let amount_html = 'Giá liên hệ';
         let amount_number = 0;
         let has_price = false;
 
-        if (product.amount_min && product.amount_min > 0) {
+        if (product.amount_after_flashsale != null && product.amount_after_flashsale > 0) {
+            amount_html = global_service.Comma(product.amount_after_flashsale) + ' đ';
+            amount_number = product.amount_after_flashsale;
+            has_price = true;
+        } else if (product.amount_min != null && product.amount_min > 0) {
             amount_html = global_service.Comma(product.amount_min) + ' đ';
             amount_number = product.amount_min;
             has_price = true;
-        } else if (product.amount && product.amount > 0) {
+        } else if (product.amount != null && product.amount > 0) {
             amount_html = global_service.Comma(product.amount) + ' đ';
             amount_number = product.amount;
             has_price = true;
         }
 
-        if (!has_price) return '';
+        if (!has_price) return ''; // ❌ Không hiển thị nếu không có giá hợp lệ
 
         let discountRounded = Math.round(parseFloat(product.discount) || 0);
         let showDiscount = discountRounded > 0;
 
         const template = `
-    <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
-        <a href="{url}">
-            <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 {discount_style}">
-                {discount_text}
-            </div>
+<div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+    <a href="{url}">
+        <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 {discount_style}">
+            {discount_text}
+        </div>
 
-            <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                <img src="{avt}" alt="{name}" class="absolute inset-0 w-full h-full object-cover" />
-            </div>
+        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+            <img src="{avt}" alt="{name}" class="absolute inset-0 w-full h-full object-cover" />
+        </div>
 
-            <p class="text-sm line-clamp-2 font-medium mt-2">{name}</p>
+        <p class="text-sm line-clamp-2 font-medium mt-2">{name}</p>
 
-            <div class="absolute bottom-2 w-full px-2 left-0">
-                <div class="text-rose-600 font-bold mt-1">{amount}</div>
-                <div class="flex items-center justify-between">
-                    <div class="text-xs line-through text-slate-400" style="{old_price_style}">{price}</div>
-                    <div class="text-xs text-yellow-500 mt-1">
-                        {review_point} <span class="text-color-base">{review_count}</span>
-                    </div>
+        <div class="absolute bottom-2 w-full px-2 left-0">
+            <div class="text-rose-600 font-bold mt-1">{amount}</div>
+            <div class="flex items-center justify-between">
+                <div class="text-xs line-through text-slate-400" style="{old_price_style}">{price}</div>
+                <div class="text-xs text-yellow-500 mt-1">
+                    {review_point} <span class="text-color-base">{review_count}</span>
                 </div>
             </div>
-        </a>
-        <button  class="btn-favorite-toggle absolute top-2 right-2 active cursor-pointer " data-product-id="${product._id}" title="Xóa khỏi yêu thích">❤️</button>
-    </div>
-    `;
+        </div>
+    </a>
+    <button class="btn-favorite-toggle absolute top-2 right-2 active cursor-pointer" data-product-id="${product._id}" title="Xóa khỏi yêu thích">❤️</button>
+</div>
+`;
 
         return template
             .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(product.name)).replaceAll(' ', '-') + '--' + product._id)
@@ -210,6 +218,7 @@
             .replaceAll('{old_price_style}', product.old_price && product.old_price > 0 ? '' : 'display:none;')
             .replaceAll('{price}', product.old_price ? global_service.Comma(product.old_price) + ' đ' : '');
     }
+
 
 };
 

@@ -174,7 +174,7 @@ var product_detail = {
         });
     },
     Detail: function () {
-        
+        debugger
         const usr = global_service.CheckLogin(); // kiểm tra đăng nhập
         $('#skeleton-loading').show();
         $('.product-details-section').hide();
@@ -201,7 +201,7 @@ var product_detail = {
         })
     },
     RenderDetail: function (product, product_sub, cert, favourite, buywith) {
-     
+        debugger
         this.RenderGallery(product);
         this.RenderTitle(product);
         this.RenderRating(product);

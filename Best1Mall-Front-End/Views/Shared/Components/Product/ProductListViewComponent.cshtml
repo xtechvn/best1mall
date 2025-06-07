@@ -22,8 +22,10 @@
 
     string FormatCurrency(double? amount)
     {
-        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "Giá liên hệ";
+        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "";
     }
+
+
     string GetFullImageUrl(string avatar)
     {
         if (string.IsNullOrEmpty(avatar))
@@ -44,47 +46,57 @@
    @if (Model != null && Model.items != null && Model.items.Any())
 
 {
-    foreach (var item in Model.items)
+    @foreach (var item in Model.items)
     {
-        double price = item.amount_min ?? item.amount;
-        bool hasPrice = price > 0;
-        double oldPrice = item.old_price ?? 0;
-        double discount = item.discount ?? 0;
-        bool showOldPrice = oldPrice > price;
-        bool showDiscount = discount > 0;
-        string seoUrl = $"/san-pham/{ToSeoUrl(item.name)}--{item._id}";
-        string ratingDisplay = (item.rating.HasValue && item.rating > 0) ? item.rating.Value.ToString("0.0") + "★" : "";
-        string reviewCountDisplay = (item.review_count.HasValue && item.review_count > 0) ? $"({item.review_count})" : "";
-        int discountRounded = (int)Math.Round(discount);
-        string discountText = showDiscount ? $"-{discountRounded}%" : "";
-        string discountClass = showDiscount ? "" : "hidden";
-        string imgSrc = GetFullImageUrl(item.avatar);
+        // ✅ Điều kiện Flash Sale còn hiệu lực
+        if (item.flash_sale_todate > DateTime.Now)
+        {
+            double price = (item.amount_after_flashsale.HasValue && item.amount_after_flashsale > 0)
+    ? item.amount_after_flashsale.Value
+    : (item.amount_min ?? item.amount);
 
-        <div class="swiper-slide pt-3">
-            <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
-                <a href="@seoUrl"
-                   onclick="global_service.saveViewedProduct('@item._id', '@item.name.Replace("'", "\\'")', '@item.avatar', @price, @(item.rating ?? 0), @(item.review_count ?? 0), @(item.old_price ?? 0))">
-                    <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 @discountClass">
-                        @discountText
-                    </div>
-                    <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                        <img src="@imgSrc" alt="Sản phẩm"
-                             class="absolute inset-0 w-full h-full object-cover" />
-                    </div>
-                    <p class="text-sm line-clamp-2 font-medium mt-2">@item.name</p>
-                    <div class="absolute bottom-2 w-full px-2 left-0">
-                        <div class="text-rose-600 font-bold mt-1">@FormatCurrency(price)</div>
-                        <div class="flex items-center justify-between">
-                            <div class="text-xs line-through text-slate-400" style="@(showOldPrice ? "" : "display:none;")">@FormatCurrency(oldPrice)</div>
-                            <div class="text-xs text-yellow-500 mt-1">
-                                @Html.Raw(ratingDisplay) <span class="text-slate-400">@Html.Raw(reviewCountDisplay)</span>
+            bool hasPrice = price > 0;
+            if (!hasPrice) continue; // ❌ Bỏ qua nếu không có giá để hiển thị
+
+            double oldPrice = item.old_price ?? 0;
+            double discount = item.discount ?? 0;
+            bool showOldPrice = oldPrice > price;
+            bool showDiscount = discount > 0;
+            string seoUrl = $"/san-pham/{ToSeoUrl(item.name)}--{item._id}";
+            string ratingDisplay = (item.rating.HasValue && item.rating > 0) ? item.rating.Value.ToString("0.0") + "★" : "";
+            string reviewCountDisplay = (item.review_count.HasValue && item.review_count > 0) ? $"({item.review_count})" : "";
+            int discountRounded = (int)Math.Round(discount);
+            string discountText = showDiscount ? $"-{discountRounded}%" : "";
+            string discountClass = showDiscount ? "" : "hidden";
+            string imgSrc = GetFullImageUrl(item.avatar);
+
+            <div class="swiper-slide pt-3">
+                <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                    <a href="@seoUrl"
+                       onclick="global_service.saveViewedProduct('@item._id', '@item.name.Replace("'", "\\'")', '@item.avatar', @price, @(item.rating ?? 0), @(item.review_count ?? 0), @(item.old_price ?? 0))">
+                        <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 @discountClass">
+                            @discountText
+                        </div>
+                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                            <img src="@imgSrc" alt="Sản phẩm"
+                                 class="absolute inset-0 w-full h-full object-cover" />
+                        </div>
+                        <p class="text-sm line-clamp-2 font-medium mt-2">@item.name</p>
+                        <div class="absolute bottom-2 w-full px-2 left-0">
+                            <div class="text-rose-600 font-bold mt-1">@FormatCurrency(price)</div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-xs line-through text-slate-400" style="@(showOldPrice ? "" : "display:none;")">@FormatCurrency(oldPrice)</div>
+                                <div class="text-xs text-yellow-500 mt-1">
+                                    @Html.Raw(ratingDisplay) <span class="text-slate-400">@Html.Raw(reviewCountDisplay)</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
-        </div>
+        }
     }
+
 }
 else
 {

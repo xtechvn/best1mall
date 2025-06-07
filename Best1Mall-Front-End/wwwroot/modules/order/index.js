@@ -99,6 +99,7 @@ var order_index = {
         $.when(
             global_service.POST(API_URL.OrderSearch, request)
         ).done(function (result) {
+            debugger
             if (result != null && result != undefined) {
                 $('#order-history').html(result)
             }

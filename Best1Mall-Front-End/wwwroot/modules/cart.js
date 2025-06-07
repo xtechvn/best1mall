@@ -304,6 +304,7 @@ var cart = {
         }
     },
     CartItem: function () {
+
         debugger
         var usr = global_service.CheckLogin()
         if (usr) {
@@ -350,69 +351,85 @@ var cart = {
         var html = ''
         var total_amount = 0
 
-        //-- Table Product
         $(list).each(function (index, item) {
             debugger
-            // Check điều kiện mới
-            var amountOk = item.product.amount > 0;
-            var statusOk = item.product.status === 1;
-            var supplierOk = item.product.supplier_status === 1;
+            const product = item.product;
+
+            // ✅ 1. Check thời gian flash sale còn hiệu lực
+           // const flashSaleValid = product.flash_sale_todate && new Date(product.flash_sale_todate) > new Date();
+            const flashSaleValid =  new Date(product.flash_sale_todate) > new Date();
+
+
+            // ✅ 2. Ưu tiên lấy giá flash sale nếu hợp lệ
+            let price = 0;
+            if (flashSaleValid && product.amount_after_flashsale && product.amount_after_flashsale > 0) {
+                price = product.amount_after_flashsale;
+            } else if (product.amount_min && product.amount_min > 0) {
+                price = product.amount_min;
+            } else if (product.amount && product.amount > 0) {
+                price = product.amount;
+            }
+
+            // ❌ Không render nếu không có giá hợp lệ
+            if (!price || price <= 0) return;
+
+            // ✅ Các điều kiện khác
+            var amountOk = price > 0;
+            var statusOk = product.status === 1;
+            var supplierOk = product.supplier_status === 1;
             var isEnabled = amountOk && statusOk && supplierOk;
 
             var disabledClass = isEnabled ? '' : 'disabled-product';
             var checkboxDisabled = isEnabled ? '' : 'disabled';
             var btnDisabled = isEnabled ? '' : 'disabled';
             var inputReadonly = isEnabled ? '' : 'readonly';
+
             var html_item = HTML_CONSTANTS.Cart.Product
-                .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.product.name)).replaceAll(' ', '-') + '--' + item.product._id)
-                .replaceAll('{id}', item._id || item.product._id)
-                .replaceAll('{product_id}', item.product._id)
-                .replaceAll('{amount}', item.product.amount)
-                .replaceAll('{name}', item.product.name)
-                .replaceAll('{amount_display}', global_service.Comma(item.product.amount))
+                .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(product.name)).replaceAll(' ', '-') + '--' + product._id)
+                .replaceAll('{id}', item._id || product._id)
+                .replaceAll('{product_id}', product._id)
+                .replaceAll('{amount}', price)
+                .replaceAll('{name}', product.name)
+                .replaceAll('{amount_display}', global_service.Comma(price))
                 .replaceAll('{quanity}', global_service.Comma(item.quanity))
                 .replaceAll('{total_amount}', global_service.Comma(item.total_amount))
                 .replaceAll('{disabledClass}', disabledClass)
                 .replaceAll('{checkboxDisabled}', checkboxDisabled)
                 .replaceAll('{btnDisabled}', btnDisabled)
                 .replaceAll('{inputReadonly}', inputReadonly);
-            var variation_value = ''
-            $(item.product.variation_detail).each(function (index_var, variation_item) {
-                debugger
-                var attribute = item.product.attributes.filter(obj => {
-                    return obj._id === variation_item._id
-                })
-                var attribute_detail = item.product.attributes_detail.filter(obj => {
-                    return (obj.name === variation_item.name && obj.name === variation_item.name)
-                })
-                variation_value += attribute[0].name + ':' + attribute_detail[0].name
-                if (index_var < ($(item.product.variation_detail).length - 1)) {
-                    variation_value += ', <br />'
+
+            // 👉 Render variation
+            var variation_value = '';
+            $(product.variation_detail).each(function (index_var, variation_item) {
+                var attribute = product.attributes.filter(obj => obj._id === variation_item._id);
+                var attribute_detail = product.attributes_detail.filter(obj => obj.name === variation_item.name);
+                if (attribute.length > 0 && attribute_detail.length > 0) {
+                    variation_value += attribute[0].name + ':' + attribute_detail[0].name;
+                    if (index_var < (product.variation_detail.length - 1)) {
+                        variation_value += ', <br />';
+                    }
                 }
-            })
-            var img_src = item.product.avatar
-            if (!img_src.includes(API_URL.StaticDomain)
-                && !img_src.includes("data:image")
-                && !img_src.includes("http"))
-                img_src = API_URL.StaticDomain + item.product.avatar
+            });
+
+            var img_src = product.avatar;
+            if (!img_src.includes(API_URL.StaticDomain) && !img_src.includes("data:image") && !img_src.includes("http"))
+                img_src = API_URL.StaticDomain + product.avatar;
 
             html_item = html_item
                 .replaceAll('{attribute}', variation_value)
-                .replaceAll('{src}', img_src)
+                .replaceAll('{src}', img_src);
 
-            html += html_item
-            total_amount += item.total_amount
+            html += html_item;
+            total_amount += item.total_amount;
         });
-        $('.section-cart .table-addtocart').html(html)
-        //$('.total-shipping-fee').hide()
 
+        $('.section-cart .table-addtocart').html(html);
 
-        //-- Remove placeholder:
-        $('.section-cart').removeClass('placeholder')
-        //--Render Amount:
-        cart.ReRenderAmount()
-        cart.RenderCartNumberOfProduct()
+        $('.section-cart').removeClass('placeholder');
+        cart.ReRenderAmount();
+        cart.RenderCartNumberOfProduct();
     },
+
     RenderBuyNowSelection: function () {
         var buy_now_item = sessionStorage.getItem(STORAGE_NAME.BuyNowItem)
         if (buy_now_item) {

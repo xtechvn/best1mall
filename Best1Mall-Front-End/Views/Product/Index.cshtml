@@ -6,11 +6,13 @@
 @{
     ViewData["Title"] = "product";
     int productid_id = Model.SelectedGroupId;
+    int productid_id2 = ViewBag.group_id;
+
     int? childrenId = ViewData["ChildrenId"] as int?; // Lấy children_id từ ViewData
    
 }
 <!-- Phần tử ẩn lưu group_id từ URL -->
-<input type="hidden" id="group_id_from_url" value="@productid_id" />
+<input type="hidden" id="group_id_from_url" value="@productid_id2" />
 
 <main class="min-h-[40vh]">
 
