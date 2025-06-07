@@ -54,12 +54,15 @@
             <img src="~/assets/images/flashsale-p.png" alt="" />
             <span class="md:block hidden font-normal">Kết thúc trong</span>
             <div id="countdown" class="flex gap-1 font-bold text-white">
-                <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span> <span class="text-[#FF4169]">:</span>
-                <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span> <span class="text-[#FF4169]"> :</span>
+                <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span>
+                <span class="text-[#FF4169]">:</span>
+                <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span>
+                <span class="text-[#FF4169]">:</span>
                 <span class="bg-[#FF4169] px-2 py-1 rounded" id="seconds">00</span>
             </div>
             <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
         </div>
+
 
         
         
@@ -99,26 +102,21 @@
     </div>
 </section>
 
-@section Scripts {
+
+@section scripts {
     <script>
-        // Đếm ngược thời gian cho Flash Sale
-        var endTime = new Date("@Model.FlashSaleInfo?.todate").getTime();
-        var countdownInterval = setInterval(function () {
-            var now = new Date().getTime();
-            var timeLeft = endTime - now;
+        const fromDate = '@(Model.FlashSaleInfo?.fromdate.ToString("yyyy-MM-ddTHH:mm:ss"))';
+        const toDate = '@(Model.FlashSaleInfo?.todate.ToString("yyyy-MM-ddTHH:mm:ss"))';
 
-            var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        $(document).ready(function () {
+            debugger
+            if (fromDate && toDate) {
 
-            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
-
-            if (timeLeft < 0) {
-                clearInterval(countdownInterval);
-                document.getElementById("countdown").innerHTML = "Flash sale đã kết thúc";
+                flashsale.StartCountdown(fromDate, toDate);
             }
-        }, 1000);
+        });
     </script>
+     <script asp-append-version="true" type="text/javascript" src="~/modules/flashsale.js"></script> 
+   
 }
+

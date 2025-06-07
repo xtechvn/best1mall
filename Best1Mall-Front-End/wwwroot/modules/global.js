@@ -356,10 +356,7 @@ var global_service = {
             GLOBAL_CONSTANTS.GroupProduct.FlashSale,
             //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
         ]
-        element.addClass('placeholder')
-        element.addClass('box-placeholder')
-        element.css('width', '100%')
-        element.css('height', '255px')
+        
         var request = {
             "group_id": group_id,
             "page_index": 1,
@@ -382,16 +379,55 @@ var global_service = {
             } else {
                 element.html('')
             }
+           
+        })
+    },
+
+    LoadHomeFlashSaleGrid: function (element, group_id, size, appendSeeAll = true) {
+        debugger
+        const excludedGroups = [
+            GLOBAL_CONSTANTS.GroupProduct.FlashSale,
+            //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
+        ]
+        element.addClass('placeholder')
+        element.addClass('box-placeholder')
+        element.css('width', '100%')
+        element.css('height', '255px')
+        var request = {
+            "id": group_id,
+            //"page_index": 1,
+            //"page_size": size
+        }
+        $.when(
+            global_service.POST(API_URL.FlashSaleGetById, request)
+        ).done(function (result) {
+            if (result.is_success) {
+                debugger
+                var products = result.data
+
+                var html = global_service.RenderSlideSaleProductItem(products, HTML_CONSTANTS.Home.FlashSaleItem)
+                //// Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
+                //if (appendSeeAll && !excludedGroups.includes(group_id)) {
+                //    html += HTML_CONSTANTS.Home.SeeAllSlideItem.replace('{group_id}', group_id)
+                //}
+                element.html(html)
+
+
+            } else {
+                element.html('')
+            }
             element.removeClass('placeholder')
             element.removeClass('box-placeholder')
             element.css('height', 'auto')
         })
     },
-    LoadHomeLabelGrid: function (element, group_id, size, appendSeeAll = true) {
+    
+    LoadHomeLabelGrid: function (element, group_id, size, bannerSelector, appendSeeAll = true) {
         const excludedGroups = [
             GLOBAL_CONSTANTS.GroupProduct.FlashSale,
             //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
         ]
+        const defaultBanner = $(bannerSelector).attr('src'); // Lưu banner mặc định từ HTML
         element.addClass('placeholder')
         element.addClass('box-placeholder')
         element.css('width', '100%')
@@ -404,8 +440,10 @@ var global_service = {
         $.when(
             global_service.POST(API_URL.LabelListProduct, request)
         ).done(function (result) {
+            debugger
             if (result.is_success) {
                 var products = result.data
+                var labelDetail = result.label_detail;
 
                 var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                 // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
@@ -413,6 +451,17 @@ var global_service = {
                     html += HTML_CONSTANTS.Home.SeeAllSlideItem.replace('{group_id}', group_id)
                 }
                 element.html(html)
+                // Set banner riêng
+                if (labelDetail && labelDetail.banner && labelDetail.banner.trim() !== '') {
+                    $(bannerSelector).attr('src', labelDetail.banner);
+                } else {
+                    $(bannerSelector).attr('src', defaultBanner); // fallback
+                }
+
+                // fallback nếu hình fail
+                $(bannerSelector).on('error', function () {
+                    $(this).attr('src', defaultBanner);
+                });
 
 
             } else {
@@ -658,6 +707,56 @@ var global_service = {
 
                     //.replaceAll('{price_style}', (item.old_price && item.old_price > 0) ? '' : 'display:none;')
                     .replaceAll('{price}', (item.old_price && item.old_price > 0) ? (global_service.Comma(item.old_price) + ' đ') : '')
+
+
+            }
+        });
+
+        return html
+    },
+    RenderSlideSaleProductItem: function (list, template) {
+
+        var html = ''
+
+        $(list).each(function (index, item) {
+
+            var img_src = item.avatar
+            if (!img_src.includes(API_URL.StaticDomain)
+                && !img_src.includes("data:image")
+                && !img_src.includes("http"))
+                img_src = API_URL.StaticDomain + item.avatar
+            var amount_html = 'Giá liên hệ'
+            var amount_number = 0
+            
+
+            if (item.amount) {
+
+
+
+                html += template
+                    .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
+                    //.replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}',  ${amount_number},
+                    //${item.rating || 0},
+                    //${item.review_count || 0},
+                    //${item.old_price || 0},
+                    //${discountRounded || 0})" href="`)
+                    .replaceAll('{discount_text}', `-${item.discountvalue}%`)
+                    
+
+
+                    .replaceAll('{avt}', img_src)
+                    .replaceAll('{name}', item.name)
+                    .replaceAll('{amount}', global_service.Comma(item.amount) + ' đ')
+                    .replaceAll('{review_point}', (item.rating == null || item.rating == undefined || item.rating <= 0) ? '' : item.rating.toFixed(1) + '★')
+                    //.replaceAll('{review_point}', (item.star == null || item.star == undefined || item.star <= 0) ? '' : item.star.toFixed(1) +'<i class="icon icon-star"></i>')
+                    .replaceAll('{review_count}', (item.review_count == null || item.review_count == undefined || item.review_count <= 0) ? '' : '(' + item.review_count.toFixed(0) + ')')
+                    //.replaceAll('{review_count}', (item.total_sold == null || item.total_sold == undefined || item.total_sold <= 0) ? '' : '(' + item.total_sold.toFixed(0) + ')')
+                 //   .replaceAll('{old_price_style}', (item.old_price && item.old_price > 0 ? '' : 'display:none;'))
+
+                    //.replaceAll('{price_style}', (item.old_price && item.old_price > 0) ? '' : 'display:none;')
+                    //.replaceAll('{price}', (item.old_price && item.old_price > 0) ? (global_service.Comma(item.old_price) + ' đ') : '')
+                    .replaceAll('{price}', global_service.Comma(item.amount_after_flashsale) + ' đ'  )
+
 
 
             }
