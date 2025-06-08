@@ -22,6 +22,20 @@ namespace Best1Mall_Front_End.Utilities
 
             return image;
         }
+        public static double GetProductPrice(ProductMongoDbModel product)
+        {
+            if (product.flash_sale_todate.HasValue && product.flash_sale_todate > DateTime.Now)
+            {
+                if (product.amount_after_flashsale.HasValue && product.amount_after_flashsale > 0)
+                    return product.amount_after_flashsale.Value;
+            }
+
+            if (product.amount_min.HasValue && product.amount_min > 0)
+                return product.amount_min.Value;
+
+            return product.amount > 0 ? product.amount : 0;
+        }
+
         public static string RenderVariationDetail(List<ProductAttributeMongoDbModel> attribute, List<ProductAttributeMongoDbModelItem> attributeDetail,
             List<ProductDetailVariationAttributesMongoDbModel> variation_detail)
         {

@@ -69,30 +69,39 @@
                 </div>
                 <div class="list-product-order">
                     @{
-                        if (data_order != null && data_order.carts != null && data_order.carts.Count>0)
+                        if (data_order?.carts?.Count > 0)
                         {
                             foreach (var cart in data_order.carts)
                             {
+                                var price = StringHelpers.GetProductPrice(cart.product);
+                                if (price <= 0) continue;
+
+                                var total = price * cart.quanity;
+
                                 <div class="item">
                                     <div class="img">
-                                        <img src="@StringHelpers.CorrectImage(cart.product.avatar,static_domain)" alt="" />
+                                        <img src="@StringHelpers.CorrectImage(cart.product.avatar, static_domain)" alt="" />
                                     </div>
                                     <div class="info">
                                         <h3 class="name-product">
                                             @cart.product.name
                                         </h3>
-                                        <div class="cat">Phân loại hàng: @StringHelpers.RenderVariationDetail(cart.product.attributes, cart.product.attributes_detail, cart.product.variation_detail)</div>
-                                        <div class="flex-quantity">
-                                            <span>Giá: @(cart.product.amount.ToString("N0")) đ</span>
-                                            <span>Số lượng:@(cart.quanity.ToString("N0")) </span>
+                                        <div class="cat">
+                                            Phân loại hàng:
+                                            @StringHelpers.RenderVariationDetail(cart.product.attributes, cart.product.attributes_detail, cart.product.variation_detail)
                                         </div>
-                                        <p class="price">@(cart.total_amount.ToString("N0")) đ</p>
+                                        <div class="flex-quantity">
+                                            <span>Giá: @price.ToString("N0") đ</span>
+                                            <span>Số lượng: @cart.quanity.ToString("N0")</span>
+                                        </div>
+                                        <p class="price">@total.ToString("N0") đ</p>
                                     </div>
                                 </div>
                             }
                         }
                     }
                 </div>
+
                 <div class="bottom-box">
                     <div class="total-price">Tổng tiền: <span class="number-price text-red-400">@(item.Amount==null?"0":((double)item.Amount).ToString("N0")) đ</span> </div>
                     <div class="flex flex-wrap md:justify-end justify-center text-center items-center gap-3">
