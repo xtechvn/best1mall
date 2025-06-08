@@ -71,11 +71,14 @@
                     @{
                         if (data_order?.carts?.Count > 0)
                         {
-                            foreach (var cart in data_order.carts)
+                            @foreach (var cart in data_order.carts)
                             {
-                                var price = StringHelpers.GetProductPrice(cart.product);
-                                if (price <= 0) continue;
+                                var isFlashSale = cart.product.amount_after_flashsale != null
+                                && cart.product.amount_after_flashsale > 0
+                                && cart.product.flash_sale_todate != null
+                                && cart.product.flash_sale_todate > DateTime.Now;
 
+                                var price = isFlashSale ? cart.product.amount_after_flashsale.Value : cart.product.amount;
                                 var total = price * cart.quanity;
 
                                 <div class="item">
@@ -83,13 +86,8 @@
                                         <img src="@StringHelpers.CorrectImage(cart.product.avatar, static_domain)" alt="" />
                                     </div>
                                     <div class="info">
-                                        <h3 class="name-product">
-                                            @cart.product.name
-                                        </h3>
-                                        <div class="cat">
-                                            Phân loại hàng:
-                                            @StringHelpers.RenderVariationDetail(cart.product.attributes, cart.product.attributes_detail, cart.product.variation_detail)
-                                        </div>
+                                        <h3 class="name-product">@cart.product.name</h3>
+                                        <div class="cat">Phân loại hàng: @StringHelpers.RenderVariationDetail(cart.product.attributes, cart.product.attributes_detail, cart.product.variation_detail)</div>
                                         <div class="flex-quantity">
                                             <span>Giá: @price.ToString("N0") đ</span>
                                             <span>Số lượng: @cart.quanity.ToString("N0")</span>
@@ -98,6 +96,7 @@
                                     </div>
                                 </div>
                             }
+
                         }
                     }
                 </div>

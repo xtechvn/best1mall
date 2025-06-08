@@ -346,35 +346,23 @@ var cart = {
 
     },
     RenderCartItem: function (list) {
-        debugger
-
         var html = ''
         var total_amount = 0
 
         $(list).each(function (index, item) {
-            debugger
-            const product = item.product;
+            var product = item.product;
 
-            // ✅ 1. Check thời gian flash sale còn hiệu lực
-           // const flashSaleValid = product.flash_sale_todate && new Date(product.flash_sale_todate) > new Date();
-            const flashSaleValid =  new Date(product.flash_sale_todate) > new Date();
+            // --- Điều kiện Flash Sale ---
+            var isFlashSale = product.amount_after_flashsale != null &&
+                product.amount_after_flashsale > 0 &&
+                product.flash_sale_todate != null &&
+                new Date(product.flash_sale_todate) > new Date();
 
+            var display_price = isFlashSale ? product.amount_after_flashsale : product.amount;
+            var total_price = display_price * item.quanity;
 
-            // ✅ 2. Ưu tiên lấy giá flash sale nếu hợp lệ
-            let price = 0;
-            if (flashSaleValid && product.amount_after_flashsale && product.amount_after_flashsale > 0) {
-                price = product.amount_after_flashsale;
-            } else if (product.amount_min && product.amount_min > 0) {
-                price = product.amount_min;
-            } else if (product.amount && product.amount > 0) {
-                price = product.amount;
-            }
-
-            // ❌ Không render nếu không có giá hợp lệ
-            if (!price || price <= 0) return;
-
-            // ✅ Các điều kiện khác
-            var amountOk = price > 0;
+            // --- Điều kiện hiển thị sản phẩm trong giỏ ---
+            var amountOk = display_price > 0;
             var statusOk = product.status === 1;
             var supplierOk = product.supplier_status === 1;
             var isEnabled = amountOk && statusOk && supplierOk;
@@ -388,31 +376,33 @@ var cart = {
                 .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(product.name)).replaceAll(' ', '-') + '--' + product._id)
                 .replaceAll('{id}', item._id || product._id)
                 .replaceAll('{product_id}', product._id)
-                .replaceAll('{amount}', price)
+                .replaceAll('{amount}', display_price)
                 .replaceAll('{name}', product.name)
-                .replaceAll('{amount_display}', global_service.Comma(price))
+                .replaceAll('{amount_display}', global_service.Comma(display_price))
                 .replaceAll('{quanity}', global_service.Comma(item.quanity))
-                .replaceAll('{total_amount}', global_service.Comma(item.total_amount))
+                .replaceAll('{total_amount}', global_service.Comma(total_price))
                 .replaceAll('{disabledClass}', disabledClass)
                 .replaceAll('{checkboxDisabled}', checkboxDisabled)
                 .replaceAll('{btnDisabled}', btnDisabled)
                 .replaceAll('{inputReadonly}', inputReadonly);
 
-            // 👉 Render variation
+            // --- Variation / attribute ---
             var variation_value = '';
             $(product.variation_detail).each(function (index_var, variation_item) {
-                var attribute = product.attributes.filter(obj => obj._id === variation_item._id);
-                var attribute_detail = product.attributes_detail.filter(obj => obj.name === variation_item.name);
-                if (attribute.length > 0 && attribute_detail.length > 0) {
-                    variation_value += attribute[0].name + ':' + attribute_detail[0].name;
-                    if (index_var < (product.variation_detail.length - 1)) {
+                var attribute = product.attributes.find(obj => obj._id === variation_item._id);
+                var attribute_detail = product.attributes_detail.find(obj => obj.name === variation_item.name);
+                if (attribute && attribute_detail) {
+                    variation_value += attribute.name + ':' + attribute_detail.name;
+                    if (index_var < product.variation_detail.length - 1) {
                         variation_value += ', <br />';
                     }
                 }
             });
 
             var img_src = product.avatar;
-            if (!img_src.includes(API_URL.StaticDomain) && !img_src.includes("data:image") && !img_src.includes("http"))
+            if (!img_src.includes(API_URL.StaticDomain)
+                && !img_src.includes("data:image")
+                && !img_src.includes("http"))
                 img_src = API_URL.StaticDomain + product.avatar;
 
             html_item = html_item
@@ -420,15 +410,15 @@ var cart = {
                 .replaceAll('{src}', img_src);
 
             html += html_item;
-            total_amount += item.total_amount;
+            total_amount += total_price;
         });
 
         $('.section-cart .table-addtocart').html(html);
-
         $('.section-cart').removeClass('placeholder');
         cart.ReRenderAmount();
         cart.RenderCartNumberOfProduct();
     },
+
 
     RenderBuyNowSelection: function () {
         var buy_now_item = sessionStorage.getItem(STORAGE_NAME.BuyNowItem)

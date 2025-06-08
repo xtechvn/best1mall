@@ -44,42 +44,34 @@
     <div class="grid md:grid-cols-4 lg:grid-cols-6 grid-cols-2 gap-3">
         @foreach (var item in Model.items)
         {
-            // ✅ 1. Check thời gian flash sale còn hiệu lực
-            if (item.flash_sale_todate.HasValue && item.flash_sale_todate > DateTime.Now)
-            {
-                // ✅ 2. Ưu tiên giá Flash Sale
-                double? price = (item.amount_after_flashsale.HasValue && item.amount_after_flashsale > 0)
-                ? item.amount_after_flashsale
-                : (item.amount_min ?? item.amount);
+            bool hasFlashSale = item.amount_after_flashsale != null &&
+            item.amount_after_flashsale > 0 &&
+            item.flash_sale_todate != null &&
+            item.flash_sale_todate > DateTime.Now;
 
-                if (!price.HasValue || price <= 0)
-                {
-                    continue; // ❌ Không có giá hợp lệ → bỏ qua
-                }
+            var price = hasFlashSale ? item.amount_after_flashsale.Value : (item.amount_min ?? item.amount);
+            var oldPrice = item.old_price ?? 0;
+            var hasDiscount = item.discount.HasValue && item.discount > 0;
+            var discountText = hasDiscount ? $"-{item.discount}%" : "";
+            string seoUrl = $"/san-pham/{ToSeoUrl(item.name)}--{item._id}";
+            string imgSrc = GetFullImageUrl(item.avatar);
 
-                var oldPrice = item.old_price ?? 0;
-                var hasDiscount = item.discount.HasValue && item.discount > 0;
-                var discountText = hasDiscount ? $"-{item.discount}%" : "";
-                string seoUrl = $"/san-pham/{ToSeoUrl(item.name)}--{item._id}";
-                string imgSrc = GetFullImageUrl(item.avatar);
-
-                <a href="@seoUrl"
-                   class="space-y-2 rounded-md border border-gray-100 p-2"
-                   onclick="global_service.saveViewedProduct('@item._id', '@item.name.Replace("'", "\\'")', '@item.avatar', @price, @(item.rating ?? 0), @(item.review_count ?? 0), @(item.old_price ?? 0))">
-                    <div class="relative aspect-[1/1] w-full overflow-hidden rounded-md">
-                        <img src="@imgSrc" alt="@item.name"
-                             class="absolute inset-0 w-full h-full object-cover" />
-                    </div>
-                    <h4 class="line-clamp-2 text-sm">@item.name</h4>
-                    <div class="text-rose-600 font-medium text-sm">
-                        @FormatCurrency(price)
-                        @if (hasDiscount)
-                        {
-                            <span class="bg-red-100 text-xs px-1 rounded ml-1 inline-block">@discountText</span>
-                        }
-                    </div>
-                </a>
-            }
+            <a href="@seoUrl"
+               class="space-y-2 rounded-md border border-gray-100 p-2"
+               onclick="global_service.saveViewedProduct('@item._id', '@item.name.Replace("'", "\\'")', '@item.avatar', @price, @(item.rating ?? 0), @(item.review_count ?? 0), @(item.old_price ?? 0))">
+                <div class="relative aspect-[1/1] w-full overflow-hidden rounded-md">
+                    <img src="@imgSrc" alt="@item.name"
+                         class="absolute inset-0 w-full h-full object-cover" />
+                </div>
+                <h4 class="line-clamp-2 text-sm">@item.name</h4>
+                <div class="text-rose-600 font-medium text-sm">
+                    @FormatCurrency(price)
+                    @if (hasDiscount)
+                    {
+                        <span class="bg-red-100 text-xs px-1 rounded ml-1 inline-block">@discountText</span>
+                    }
+                </div>
+            </a>
         }
     </div>
 }
