@@ -346,10 +346,12 @@ var cart = {
 
     },
     RenderCartItem: function (list) {
+       
         var html = ''
         var total_amount = 0
 
         $(list).each(function (index, item) {
+            debugger
             var product = item.product;
 
             // --- Điều kiện Flash Sale ---
@@ -359,7 +361,9 @@ var cart = {
                 new Date(product.flash_sale_todate) > new Date();
 
             var display_price = isFlashSale ? product.amount_after_flashsale : product.amount;
-            var total_price = display_price * item.quanity;
+            var quanity = item.quanity > 999 ? 999 : item.quanity; // ✅ Giới hạn tối đa 999
+            var total_price = display_price * quanity;
+            //var total_price = display_price * item.quanity;
 
             // --- Điều kiện hiển thị sản phẩm trong giỏ ---
             var amountOk = display_price > 0;
@@ -373,13 +377,13 @@ var cart = {
             var inputReadonly = isEnabled ? '' : 'readonly';
 
             var html_item = HTML_CONSTANTS.Cart.Product
-                .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(product.name)).replaceAll(' ', '-') + '--' + product._id)
+                .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(product.name)).replaceAll(' ', '-') + '--' + product.parent_product_id)
                 .replaceAll('{id}', item._id || product._id)
                 .replaceAll('{product_id}', product._id)
                 .replaceAll('{amount}', display_price)
                 .replaceAll('{name}', product.name)
                 .replaceAll('{amount_display}', global_service.Comma(display_price))
-                .replaceAll('{quanity}', global_service.Comma(item.quanity))
+                .replaceAll('{quanity}', global_service.Comma(quanity))
                 .replaceAll('{total_amount}', global_service.Comma(total_price))
                 .replaceAll('{disabledClass}', disabledClass)
                 .replaceAll('{checkboxDisabled}', checkboxDisabled)
@@ -471,6 +475,7 @@ var cart = {
 
     RenderVoucherList: function (vouchers) {
         debugger
+        
         let html = '';
         vouchers.forEach((v, idx) => {
             html += `
@@ -485,7 +490,7 @@ var cart = {
                         </div>
                         <div class="item flex gap-3 items-center justify-between relative w-full">
                             <p class="text-slate-500">HSD: ${v.eDate}</p>
-                             <p class="text-red-500">Giảm: ${v.price_sales} ${v.unit === 'vnd' ? '₫' : '%'}</p>
+                             <p class="text-red-500">Giảm: ${global_service.Comma(v.price_sales)} ${v.unit === 'vnd' ? '₫' : '%'}</p>
                             <p class="text-red-500">Điều kiện</p>
                         </div>
                     </div>
@@ -688,6 +693,7 @@ var cart = {
             $('.table-addtocart .product').each(function (index, item) {
                 var element = $(this)
                 if (element.find('.checkbox-cart').is(':checked')) {
+
                     var cart = {
                         "id": element.attr('data-cart-id'),
                         "quanity": parseInt(element.find('.quantity').val())
@@ -696,7 +702,7 @@ var cart = {
                 }
             })
             // ❌ Nếu có sp được chọn nhưng số lượng <= 0
-            const invalidItem = carts.find(item => parseInt(item.quanity) <= 0);
+            const invalidItem = carts.find(item => isNaN(item.quanity) || item.quanity <= 0);
             if (invalidItem) {
                 Swal.fire({
                     icon: 'error',

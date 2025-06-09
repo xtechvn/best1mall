@@ -442,7 +442,6 @@ var HTML_CONSTANTS = {
                         onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                     +
                 </button>
-                <span class= "text-slate-500 font-light soluong" > { stock } sản phẩm có sẵn</span>
             </div>
 
             
@@ -510,7 +509,6 @@ data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
                         {btnDisabled}>
                     +
                 </button>
-
             </div>
         </div>
 

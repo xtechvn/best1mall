@@ -37,8 +37,17 @@
     {
         public string _id { get; set; }
         public string code { get; set; }
+
         public double amount { get; set; }
+
         public string name { get; set; }
+
         public string avatar { get; set; }
+        public string variation_detail { get; set; }
+        public int? exists_flashsale_id { get; set; }
+        public string exists_flashsale_name { get; set; }
+        public double? amount_after_flashsale { get; set; }
+        public DateTime? flash_sale_fromdate { get; set; }
+        public DateTime? flash_sale_todate { get; set; }
     }
 }
