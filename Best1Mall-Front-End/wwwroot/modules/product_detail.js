@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
 
     product_detail.Initialization()
-    //buyTogether.init();
+   
 
 
 })
@@ -255,6 +255,39 @@ var product_detail = {
         $('#skeleton-loading').hide();
         $('.product-details-section').show();
     },
+    RenderAttributes: function (product, product_sub) {
+        let html = '', html2 = '';
+        let total_stock = product.quanity_of_stock || 0;
+
+        if (product_sub?.length > 0) {
+            $(product.attributes).each((_, attribute) => {
+                const attr_detail = product.attributes_detail.filter(obj => obj.attribute_id === attribute._id);
+                let html_item = '';
+
+                attr_detail.forEach(attribute_detail => {
+                    const img_src = global_service.CorrectImage(attribute_detail.img);
+                    html_item += HTML_CONSTANTS.Detail.Tr_Attributes_Td_li
+                        .replaceAll('{active}', '')
+                        .replaceAll('{src}', attribute_detail.img ? `<img src="${img_src}" />` : '')
+                        .replaceAll('{name}', attribute_detail.name);
+                });
+
+                const block = HTML_CONSTANTS.Detail.Tr_Attributes
+                    .replaceAll('{level}', attribute._id)
+                    .replaceAll('{name}', attribute.name)
+                    .replaceAll('{li}', html_item);
+
+                html += block;
+                html2 += block;
+            });
+
+            total_stock = product_sub.reduce((n, { amount }) => n + amount, 0);
+        }
+
+        html += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock));
+        $('.box-info-details tbody').html(html);
+        $('.box-attribute').html(html2);
+    },
     RenderBuyWithProducts: function (buywith) {
         debugger
         const $container = $('.product-buywith-container');
@@ -339,6 +372,51 @@ var product_detail = {
             buyTogether.submit();
         });
     },
+    RenderPrice: function (product, product_sub) {
+        debugger
+        let priceHtml = '';
+        let isFlashSale = product.amount_after_flashsale != null &&
+            product.amount_after_flashsale > 0 &&
+            product.flash_sale_todate != null &&
+            new Date(product.flash_sale_todate) > new Date();
+
+        let finalPrice = product.amount; // default fallback
+
+        // ⚡ Nếu có Flash Sale → hiển thị giá Flash Sale
+        if (isFlashSale) {
+            finalPrice = product.amount_after_flashsale;
+            priceHtml = `<span class="text-red-600 font-bold">${global_service.Comma(finalPrice)} đ</span>`;
+            $('#price-old').html(global_service.Comma(product.amount)).closest('.price-old').show(); // show giá cũ gạch ngang
+        }
+        // 👕 Nếu có product_sub (nhiều phân loại) → hiển thị khoảng giá
+        else if (product_sub?.length > 0) {
+            const [minAmount, maxAmount] = product_sub.reduce(([min, max], p) => [
+                Math.min(min, p.amount),
+                Math.max(max, p.amount)
+            ], [Infinity, -Infinity]);
+
+            finalPrice = minAmount;
+            priceHtml = (minAmount === maxAmount)
+                ? global_service.Comma(minAmount) + ' đ'
+                : `${global_service.Comma(minAmount)} đ - ${global_service.Comma(maxAmount)} đ`;
+
+            $('#price-old').closest('.price-old').hide(); // không hiển thị giá cũ
+        }
+        // ✅ Không Flash Sale, không phân loại → giá đơn
+        else {
+            finalPrice = product.amount;
+            priceHtml = global_service.Comma(finalPrice) + ' đ';
+
+            if (product.discount > 0) {
+                $('#price-old').html(global_service.Comma(product.amount + product.discount)).closest('.price-old').show();
+            } else {
+                $('#price-old').closest('.price-old').hide();
+            }
+        }
+
+        $('.section-details-product .price').html(priceHtml);
+    },
+
 
     RenderGallery: function (product) {
         let html = '', html_thumb = '';
@@ -406,30 +484,7 @@ var product_detail = {
         $('.box-review .total-sold').text(`${product.total_sold || 0} đã bán`);
     },
 
-    RenderPrice: function (product, product_sub) {
-        debugger
-        let priceHtml = '';
-
-        if (product_sub?.length > 0) {
-            const [minAmount, maxAmount] = product_sub.reduce(([min, max], p) => [
-                Math.min(min, p.amount),
-                Math.max(max, p.amount)
-            ], [Infinity, -Infinity]);
-
-            priceHtml = (minAmount === maxAmount)
-                ? global_service.Comma(minAmount)
-                : `${global_service.Comma(minAmount)} - ${global_service.Comma(maxAmount)}`;
-        } else {
-            priceHtml = global_service.Comma(product.amount);
-        }
-
-        $('.section-details-product .price').html(priceHtml);
-        if (product.discount > 0) {
-            $('#price-old').html(global_service.Comma(product.amount + product.discount));
-        } else {
-            $('#price-old').closest('.price-old').hide();
-        }
-    },
+   
 
     RenderSpecification: function (product) {
         if (product.detail_specification?.length > 0) {
@@ -442,39 +497,7 @@ var product_detail = {
         }
     },
 
-    RenderAttributes: function (product, product_sub) {
-        let html = '', html2 = '';
-        let total_stock = product.quanity_of_stock || 0;
-
-        if (product_sub?.length > 0) {
-            $(product.attributes).each((_, attribute) => {
-                const attr_detail = product.attributes_detail.filter(obj => obj.attribute_id === attribute._id);
-                let html_item = '';
-
-                attr_detail.forEach(attribute_detail => {
-                    const img_src = global_service.CorrectImage(attribute_detail.img);
-                    html_item += HTML_CONSTANTS.Detail.Tr_Attributes_Td_li
-                        .replaceAll('{active}', '')
-                        .replaceAll('{src}', attribute_detail.img ? `<img src="${img_src}" />` : '')
-                        .replaceAll('{name}', attribute_detail.name);
-                });
-
-                const block = HTML_CONSTANTS.Detail.Tr_Attributes
-                    .replaceAll('{level}', attribute._id)
-                    .replaceAll('{name}', attribute.name)
-                    .replaceAll('{li}', html_item);
-
-                html += block;
-                html2 += block;
-            });
-
-            total_stock = product_sub.reduce((n, { amount }) => n + amount, 0);
-        }
-
-        html += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock));
-        $('.box-info-details tbody').html(html);
-        $('.box-attribute').html(html2);
-    },
+    
 
     RenderCertImages: function (cert) {
         const render = (list) => {
@@ -559,10 +582,8 @@ var product_detail = {
         return undefined
     },
     RenderChangedAttributeSelected: function (product, clickedElement) {
-
         var options = [];
 
-        // ⚠️ Lấy options theo 1 block duy nhất (dùng closest là an toàn)
         var wrapper = clickedElement.closest('.box-info-details');
 
         wrapper.find('.attributes').each(function () {
@@ -584,14 +605,35 @@ var product_detail = {
             );
 
             if (variation && variation.length > 0) {
-                // ✅ Cập nhật cho tất cả các block
+                const selected = variation[0];
+
+                // ✅ Flash Sale check
+                const now = new Date();
+                const flashSaleToDate = selected.flash_sale_todate ? new Date(selected.flash_sale_todate) : null;
+                const isFlashSale = selected.amount_after_flashsale &&
+                    selected.amount_after_flashsale > 0 &&
+                    flashSaleToDate &&
+                    flashSaleToDate > now;
+
+                const displayPrice = isFlashSale ? selected.amount_after_flashsale : selected.amount;
+
+                // ✅ Cập nhật UI
                 $('.box-info-details').each(function () {
-                    $('.section-details-product .price').html(global_service.Comma(variation[0].amount));
-                    $('.box-info-details .box-detail-stock .soluong').html(global_service.Comma(variation[0].quanity_of_stock) + ' sản phẩm có sẵn');
+                    $('.section-details-product .price').html(global_service.Comma(displayPrice));
+                    $('.box-info-details .box-detail-stock .soluong').html(global_service.Comma(selected.quanity_of_stock) + ' sản phẩm có sẵn');
+
+                    // ✅ Gạch giá cũ nếu Flash Sale
+                    if (isFlashSale) {
+                        $('#price-old').html(global_service.Comma(selected.amount));
+                        $('#price-old').closest('.price-old').show();
+                    } else {
+                        $('#price-old').closest('.price-old').hide();
+                    }
                 });
             }
         }
     },
+
 
     RenderBuyNowButton: function () {
 
