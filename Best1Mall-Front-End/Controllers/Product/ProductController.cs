@@ -36,7 +36,7 @@ namespace Best1Mall_Front_End.Controllers.Product
 
         }
         // Layout trang chủ news dùng chung với trang Category cấp 2
-        [Route("san-pham")]
+        //[Route("san-pham/{url_path}")]
         [HttpGet]
         public async Task<IActionResult> Index(int group_id, int pageindex = 1, int pageize = 12, int? children_id = null)
         {
@@ -213,7 +213,7 @@ namespace Best1Mall_Front_End.Controllers.Product
 
         }
 
-        [Route("thuong-hieu/{label_id}")]
+        [Route("thuong-hieu/{slug}")]
         public async Task<IActionResult> LabelListProduct(ProductListByLabelFERequest request)
         {
             var result = await _productServices.LabelListProduct(request);

@@ -367,7 +367,7 @@ var global_service = {
         ).done(function (result) {
             if (result.is_success) {
                 var products = result.data
-                
+                    debugger
                     var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                 // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
                 if (appendSeeAll && !excludedGroups.includes(group_id)) {
@@ -450,7 +450,10 @@ var global_service = {
                 var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                 // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
                 if (appendSeeAll && !excludedGroups.includes(group_id)) {
-                    html += HTML_CONSTANTS.Home.SeeAllSlideItem.replace('{group_id}', group_id)
+                    const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelName || 'thuong-hieu'))
+                    html += HTML_CONSTANTS.Home.SeeAllSlideItem
+                        .replace('{group_id}', group_id)
+                        .replace('{label_slug}', labelSlug);
                 }
                 element.html(html)
                 // Set banner riêng
@@ -646,7 +649,7 @@ var global_service = {
             }
 
             html += template
-                .replaceAll('{url}', '/' + item.url_path)
+                .replaceAll('{url}',item.url_path)
                 .replaceAll('{avt}', img_src)
                 .replaceAll('{id}', item.id)
                 .replaceAll('{name}', item.name);

@@ -213,12 +213,17 @@ var cart = {
                 });
             }
         });
+        // Gắn toggle bằng cách nhớ trạng thái đã click
+        let lastCheckedVoucher = null;
+
         $('.btn-remove-voucher').on('click', function () {
             debugger
-            appliedVoucher = null;
+          
 
             // 1. Reset biến voucher
             appliedVoucher = null;
+            // 💥 Reset biến track radio đang chọn
+            lastCheckedVoucher = null;
 
             // 2. Ẩn UI hiển thị voucher
             $('#discountSection').addClass('hidden');
@@ -233,10 +238,10 @@ var cart = {
 
             cart.ReRenderAmount(); // render lại mà không dùng voucher
         });
-        // Gắn toggle bằng cách nhớ trạng thái đã click
-        let lastCheckedVoucher = null;
+      
 
         $('body').on('click', 'input[name="voucher"]', function (e) {
+            debugger
             const $this = $(this);
 
             // Nếu click vào chính voucher đang được chọn → uncheck thủ công
@@ -250,6 +255,8 @@ var cart = {
                 $('#discountSection').addClass('hidden');
                 $('.total-discount-amount').text('0 đ');
                 $('.total-after-discount').text(global_service.Comma(cart.ReRenderAmount()) + ' đ');
+                // Bắt buộc: trigger change để browser hiểu radio đã reset
+                $this.blur(); // trick nhỏ giúp unbind hover/focus
             } else {
                 lastCheckedVoucher = $this[0];
             }

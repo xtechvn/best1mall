@@ -80,6 +80,10 @@ app.MapControllerRoute(
     pattern: "/san-pham/{title}--{product_code}",
     defaults: new { controller = "Product", action = "Detail" });
 app.MapControllerRoute(
+    name: "category",
+    pattern: "/san-pham/{url_path}",
+    defaults: new { controller = "Product", action = "Index" });
+app.MapControllerRoute(
     name: "thanh-toan",
     pattern: "/order/payment/{id}",
     defaults: new { controller = "Order", action = "Payment" });

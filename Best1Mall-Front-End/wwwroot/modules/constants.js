@@ -197,8 +197,7 @@ var HTML_CONSTANTS = {
         SeeAllSlideItem: `
                     <div class="swiper-slide pt-3">
                       <div class="flex items-center justify-center w-full h-full">
-                        <a href="/thuong-hieu/{group_id}"
-                           class="flex items-center gap-2 text-blue-500 justify-center">
+                        <a href="/thuong-hieu/{label_slug}?label_id={group_id}" class="flex items-center gap-2 text-blue-500 justify-center">
                           Xem tất cả
                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                                 viewBox="0 0 18 18" fill="none">
@@ -215,11 +214,11 @@ var HTML_CONSTANTS = {
         GroupProductItem: ` 
       <div class="flex-shrink-0 w-27 text-center p-2 rounded-xl border border-blue-100">
                         <div class="rounded-full bg-blue-50 mb-2 p-2 h-22 w-22 flex items-center justify-center">
-                            <a href="/san-pham?group_id={id}">
+                            <a href="/san-pham/{url}?group_id={id}">
                                 <img src="{avt}" alt="{name}" class="mx-auto h-15">
                             </a>
                         </div>
-                        <a href="/san-pham?group_id={id}" class="text-[13px] text-slate-700 ">{name}</a>
+                        <a href="/san-pham/{url}?group_id={id}" class="text-[13px] text-slate-700 ">{name}</a>
                     </div>
 
     `,

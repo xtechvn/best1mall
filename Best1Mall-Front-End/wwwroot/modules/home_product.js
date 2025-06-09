@@ -33,11 +33,23 @@ $(document).ready(function () {
         // Load dữ liệu sản phẩm tương ứng theo group_id
         home_product.loadProductByGroup(categoryId);
     });
+    const urlParams = new URLSearchParams(window.location.search);
     const parentGroupId = window.AppConfig?.parentGroupId ?? 0;
     const childrenId = window.AppConfig?.childrenId ?? null;
-    // Kiểm tra nếu đang có children_id trong URL và loại bỏ nó khi reload
+    // Nếu có children_id trong URL thì loại bỏ nó khi load trang
     if (childrenId) {
-        history.replaceState(null, null, "/san-pham?group_id=" + parentGroupId); // Thay đổi URL và bỏ children_id khi reload
+        urlParams.delete('children_id');
+
+        // Giữ url_path nếu có
+        const urlPath = window.location.pathname;
+
+        // Cập nhật URL: giữ lại group_id, bỏ children_id
+        const newUrl = urlPath + '?' + urlParams.toString();
+        history.replaceState(null, null, newUrl);
+
+        // Bỏ active các menu group product
+        $('.menu_group_product').removeClass('text-purple-500 font-medium active')
+            .addClass('text-gray-700');
     }
 
     $('.menu_group_product').removeClass('text-purple-500 font-medium active').addClass('text-gray-700');
@@ -53,50 +65,45 @@ $(document).ready(function () {
         const categoryId = parseInt($this.data('id'));
         if (isNaN(categoryId)) return;
 
-        // Nếu click vào thẻ đang active thì toggle bỏ active
-        if ($this.hasClass('active')) {
-            // Bỏ active
+       
+        const urlPath = window.location.pathname.split('/')[2] || ''; // lấy url_path từ URL
+        const isActive = $this.hasClass('active');
+
+        // Toggle: nếu đang active thì bỏ chọn
+        if (isActive) {
             $this.removeClass('text-purple-500 font-medium active')
                 .addClass('text-gray-700');
-                
-            // Đổi url về group_id và children_id
-            history.pushState(null, null, "/san-pham?group_id=" + parentGroupId );
 
-            // Load lại sản phẩm cho idToSet
+            history.pushState(null, null, `/san-pham/${urlPath}?group_id=${parentGroupId}`);
+
             home_product.loadListProduct(parentGroupId, 1, 12, "/Views/Shared/Components/Product/ProductListViewComponent.cshtml");
-
-            //// Cập nhật previousCategoryId nếu cần
-            //if (idToSet !== categoryId) {
-            //    previousCategoryId = idToSet;
-            //} else {
-            //    previousCategoryId = null;
-            //}
-
-            return; // thoát hàm
+            return;
         }
 
-        // Nếu click vào thẻ mới, xóa active thẻ khác
+        // Bỏ active ở thẻ khác
         $('.menu_group_product.active')
             .removeClass('text-purple-500 font-medium active')
             .addClass('text-gray-700');
 
-        // Thêm active class vào thẻ mới
+        // Set active thẻ mới
         $this.removeClass('text-gray-700')
             .addClass('text-purple-500 font-medium active');
-        // Lưu lại childrenId nếu đang chọn một nhóm con
-        const newChildrenId = categoryId !== parentGroupId ? categoryId : null;
-        // Lưu lại previousCategoryId là categoryId trước khi đổi
-        previousCategoryId = $('.menu_group_product.active').data('id') || null;
 
-        // Reset filter giá, rating nếu có
+        const newChildrenId = categoryId !== parentGroupId ? categoryId : null;
+
+        // Reset filter nếu có
         $('#priceFrom, #priceTo').val('');
         $('.rating-filter').removeClass('text-yellow-500 font-bold');
 
-        history.pushState(null, null, "/san-pham?group_id=" + parentGroupId + (newChildrenId ? "&children_id=" + newChildrenId : ""));
+        // Cập nhật URL
+        const newUrl = `/san-pham/${urlPath}?group_id=${parentGroupId}` +
+            (newChildrenId ? `&children_id=${newChildrenId}` : '');
+        history.pushState(null, null, newUrl);
 
         // Load sản phẩm
         home_product.loadListProduct(categoryId, 1, 12, "/Views/Shared/Components/Product/ProductListViewComponent.cshtml");
     });
+
 
    
     

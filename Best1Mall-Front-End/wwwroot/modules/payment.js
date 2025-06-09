@@ -105,7 +105,7 @@ var payment = {
             $('.box-payment-sucess').show()
             return
         }
-        $('.box-payment-info .btn').html('Xác nhận đã chuyển khoản ( <nw class="second-count">' + count + '</nw>s )')
+        $('.box-payment-info .btn').html('Xác nhận thông tin ( <nw class="second-count">' + count + '</nw>s )')
         setTimeout(function () {
             payment.LoadingSuccess(--count);
         }, 1000);
