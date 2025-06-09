@@ -156,7 +156,9 @@
                         </tr> *@
                         <tr>
                             <td>Giảm giá:</td>
-                            <td class="discount-fee">-@((order.data_order.Discount==null?"0":(double)order.data_order.Discount).ToString("N0")) đ</td>
+                            <td class="discount-fee">
+                                @(order==null||order.data_order==null|| order.data_order.Discount == null ? "" : "- " + ((double)order.data_order.Discount).ToString("N0") + " đ")
+                            </td>
                         </tr>
                         <tr>
                             <td>Tổng tiền</td>
