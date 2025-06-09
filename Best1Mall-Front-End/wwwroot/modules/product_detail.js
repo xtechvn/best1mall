@@ -5,6 +5,29 @@
 
 
 })
+// Hàm này nằm ngoài các object, và có thể truy cập từ bất kỳ đâu
+function handleQuantityInput(maxStock) {
+    debugger
+    const input = document.getElementById('quantity');
+
+    // Bôi đen khi focus
+    input.addEventListener('focus', function () {
+        this.select();
+    });
+
+    input.addEventListener('input', function () {
+        let value = this.value.replace(/[^0-9]/g, ''); // Chỉ số
+        if (value === '' || value === '0') value = 1;
+
+        value = parseInt(value, 10);
+        if (value > maxStock) {
+            value = maxStock;
+        }
+
+        this.value = value;
+    });
+}
+
 var product_detail = {
     Initialization: function () {
         //--Init:
@@ -86,6 +109,8 @@ var product_detail = {
             window.location.href = '/cart'
 
         });
+
+
     },
     ToggleFavorite: function ($el) {
        
@@ -256,6 +281,7 @@ var product_detail = {
         $('.product-details-section').show();
     },
     RenderAttributes: function (product, product_sub) {
+        debugger
         let html = '', html2 = '';
         let total_stock = product.quanity_of_stock || 0;
 
@@ -289,7 +315,7 @@ var product_detail = {
         $('.box-attribute').html(html2);
     },
     RenderBuyWithProducts: function (buywith) {
-        debugger
+      
         const $container = $('.product-buywith-container');
         const $section = $('.buywidth');
         $container.html('');
@@ -368,12 +394,12 @@ var product_detail = {
 
         // ✅ Nút chọn mua
         $('.btn-buy-together').off('click').on('click', function () {
-            debugger
+          
             buyTogether.submit();
         });
     },
     RenderPrice: function (product, product_sub) {
-        debugger
+       
         let priceHtml = '';
         let isFlashSale = product.amount_after_flashsale != null &&
             product.amount_after_flashsale > 0 &&
@@ -552,7 +578,7 @@ var product_detail = {
         return undefined
     },
     GetSubProductSessionByAttributeSelected: function () {
-       debugger
+    
 
         var json = sessionStorage.getItem(STORAGE_NAME.SubProduct)
         if (!json || json.trim() === '' || json === 'null') return undefined;
@@ -621,7 +647,9 @@ var product_detail = {
                 // ✅ Cập nhật UI
                 $('.box-info-details').each(function () {
                     $('.section-details-product .price').html(global_service.Comma(displayPrice));
-                    $('.box-info-details .box-detail-stock .soluong').html(global_service.Comma(selected.quanity_of_stock) + ' sản phẩm có sẵn');
+                    $('.box-info-details .box-detail-stock .soluong').html(global_service.Comma(selected.c) + ' sản phẩm có sẵn');
+                    // 👉 Gọi hàm này
+                    handleQuantityInput(selected.quanity_of_stock);
 
                     // ✅ Gạch giá cũ nếu Flash Sale
                     if (isFlashSale) {
@@ -667,7 +695,7 @@ var product_detail = {
     },
 
     AddToCart: function (buy_now = false) {
-        debugger
+       
 
         var product = product_detail.GetSubProductSessionByAttributeSelected();
 
@@ -748,7 +776,7 @@ var product_detail = {
 
     },
     SaveCartItemToSession: function (cartItem) {
-        debugger
+       
         let cart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
         let index = cart.findIndex(x => x.product_id === cartItem.product_id);
 
