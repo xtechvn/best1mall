@@ -555,6 +555,7 @@ var product_detail = {
        debugger
 
         var json = sessionStorage.getItem(STORAGE_NAME.SubProduct)
+        if (!json || json.trim() === '' || json === 'null') return undefined;
         if (json != undefined && json.trim() != '') {
             var list = JSON.parse(json)
             var sub_list = list
