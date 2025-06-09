@@ -47,7 +47,7 @@
                     <span class="date-time">@(((DateTime)order.data_order.CreatedDate).ToString("dd/MM/yyyy HH:mm"))</span>
                 </div>
             </div>
-            <div class="item @(order.data_order.OrderStatus >= OrderStatus.ON_DELIVERY &&order.data_order.PaymentStatus == 1 ?"active":"") progress-payment">
+            <div class="item @(order.data_order.OrderStatus >= OrderStatus.PROCESS) progress-payment">
                 <div class="process-step-cont  ">
                     <div class="process-step step-2">
                         <i class="icon icon-cashback"></i>
@@ -154,6 +154,12 @@
                             <td>Giảm giá:</td>
                             <td class="discount-fee">-120.0000 đ</td>
                         </tr> *@
+                        <tr>
+                            <td>Giảm giá:</td>
+                            <td class="discount-fee">
+                                @(order==null||order.data_order==null|| order.data_order.Discount == null ? "" : "- " + ((double)order.data_order.Discount).ToString("N0") + " đ")
+                            </td>
+                        </tr>
                         <tr>
                             <td>Tổng tiền</td>
                             <td class="price total-amount">@(((double)order.data_order.Amount).ToString("N0")) đ</td>
