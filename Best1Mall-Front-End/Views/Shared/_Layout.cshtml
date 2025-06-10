@@ -97,7 +97,8 @@
             },
         });
         // js slide sản phẩm 5 cột
-        const flashSaleSwiper = new Swiper(".flash-sale-swiper .swiper", {
+                const flashSaleSwiper = new Swiper(".flash-sale-swiper .swiper", {
+            loop: false,  // Tắt chế độ loop
             slidesPerView: 2,
             spaceBetween: 15,
             navigation: {
@@ -112,10 +113,11 @@
                     slidesPerView: 3.5,
                 },
                 1024: {
-                    slidesPerView: 5,
+                    slidesPerView: 5, // Điều chỉnh số lượng sản phẩm hiển thị tối đa.
                 },
             },
         });
+
         const brandsSwiper = new Swiper(".brands-swiper .swiper", {
             slidesPerView: 2,
             spaceBetween: 15,

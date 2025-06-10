@@ -10,13 +10,14 @@
     {
         public int? supplier_id { get; set; }
         public int? label_id { get; set; }
-        public int PageIndex { get; set; } = 1;
-        public int PageSize { get; set; } = 20;
-        public string Keyword { get; set; } = "";
-        public double? PriceFrom { get; set; } = 0;
-        public double? PriceTo { get; set; } = double.MaxValue;
-        public float? Rating { get; set; } = 0;
-        public int GroupId { get; set; } = 0;
+        public string keyword { get; set; } = "";
+        public int group_id { get; set; }
+        public int page_index { get; set; }
+        public int page_size { get; set; }
+        public double? price_from { get; set; } = 0;  // Giá bắt đầu
+        public double? price_to { get; set; } = double.MaxValue;  // Giá kết thúc
+        public float? rating { get; set; } = 0;     // Sắp xếp
+       
     }
 
 }
