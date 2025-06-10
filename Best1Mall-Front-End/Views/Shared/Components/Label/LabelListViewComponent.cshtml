@@ -65,7 +65,8 @@
         {
             string imgSrc = GetFullImageUrl(label.Icon);
             <div class="flex-shrink-0 w-full text-center p-3 rounded-xl bg-white shadow hover:shadow-md transition">
-                <a href="/thuong-hieu/{ToSeoUrl(@label.LabelName)}?label_id=@label.Id" class="block">
+                <a href="/thuong-hieu/@ToSeoUrl(label.LabelName)?label_id=@label.Id" class="block">
+
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg mb-2">
                         <!-- Image for label (you can replace with the actual icon from the model) -->
                         <img src="@label.Icon" alt="@label.LabelName"
