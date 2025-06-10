@@ -450,7 +450,10 @@ var global_service = {
                 var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                 // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
                 if (appendSeeAll && !excludedGroups.includes(group_id)) {
-                    const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelName || 'thuong-hieu'))
+                    //const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu'))
+                    const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu')).replace(" ", "-").toLowerCase();
+
+
                     html += HTML_CONSTANTS.Home.SeeAllSlideItem
                         .replace('{group_id}', group_id)
                         .replace('{label_slug}', labelSlug);
