@@ -2,13 +2,49 @@
 @using Best1Mall_Front_End.ViewModels;
 @using Best1Mall_Front_End.Utilities;
 @model ProductListResponseModel
-@{
-     ViewData["Title"] = "product";
-   
 
-}
 <!-- Phần tử ẩn lưu group_id từ URL -->
 @* <input type="hidden" id="group_id_from_url" value="@productid_id" /> *@
+
+@functions {
+    string ToSeoUrl(string name)
+    {
+        return RemoveUnicode(RemoveSpecialCharacters(name)).Replace(" ", "-").ToLower();
+    }
+
+    string RemoveUnicode(string text)
+    {
+        var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+        var chars = normalized.Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark);
+        return new string(chars.ToArray()).Normalize(System.Text.NormalizationForm.FormC);
+    }
+
+    string RemoveSpecialCharacters(string input)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(input, "[^a-zA-Z0-9\\s-]", "");
+    }
+
+    string FormatCurrency(double? amount)
+    {
+        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "";
+    }
+
+
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
 
 <section class="product-section">
     <div class="max-w-[1230px] mx-auto my-4 px-[15px]">
@@ -19,7 +55,7 @@
             </ul>
         </div>
         <div class="relative">
-            <img src="@Model.label_detail.banner" alt="@Model.label_detail.labelName"
+            <img src="@GetFullImageUrl(Model.label_detail.banner)" alt="@Model.label_detail.labelName"
                  class="h-[307px] object-cover rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl w-full" />
 
             <div class="about-ncc -mt-15 z-10 flex flex-wrap md:flex-nowrap gap-3 items-start px-3 mb-6">
@@ -42,13 +78,25 @@
                 @* ListProduct *@
                 <div class="col-span-5">
 
-                    <div class="grid lg:grid-cols-5 md:grid-cols-5 grid-cols-2 gap-3 component-product-list">
-                        @Html.Partial("~/Views/Shared/Components/Product/ProductListViewComponent.cshtml", Model)
-                    </div>
+                    @* Kiểm tra nếu không có sản phẩm nào *@
+                    @if (Model?.items == null || !Model.items.Any())
+                    {
+                        <div class="w-full flex items-center justify-center py-10 text-gray-500 text-center text-lg" id="no-products-message">
+                            Không tìm thấy sản phẩm nào 🥲
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-span-5">
+                            <div class="grid lg:grid-cols-5 md:grid-cols-5 grid-cols-2 gap-3 component-product-list">
+                                @Html.Partial("~/Views/Shared/Components/Product/ProductListViewComponent.cshtml", Model)
+                            </div>
+                        </div>
+                    }
 
                    
                 </div>
-                <!-- Nút Xem Thêm -->
+               
 
 
             </div>

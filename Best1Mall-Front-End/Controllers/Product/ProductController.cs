@@ -217,6 +217,25 @@ namespace Best1Mall_Front_End.Controllers.Product
         public async Task<IActionResult> LabelListProduct(ProductListByLabelFERequest request)
         {
             var result = await _productServices.LabelListProduct(request);
+            // Kiểm tra nếu result là null, gán model mặc định
+            if (result == null)
+            {
+                result = new ProductListResponseModel
+                {
+                    items = new List<ProductMongoDbModel>(),
+                    count = 0,
+                    label_detail = new LabelDetail
+                    {
+                        id = 0,
+                        labelName = string.Empty,
+                        labelCode = string.Empty,
+                        icon = string.Empty,
+                        banner = string.Empty,
+                        description = string.Empty
+                    }
+                };
+            }
+
 
             return View("LabelListProduct", result);
         }

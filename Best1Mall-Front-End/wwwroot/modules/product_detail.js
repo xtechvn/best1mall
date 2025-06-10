@@ -95,6 +95,8 @@ var product_detail = {
             product_detail.AddToCart()
 
         });
+
+        
         $("body").on('click', ".btn-favorite-toggle", function () {
 
             product_detail.ToggleFavorite($(this));
@@ -112,6 +114,8 @@ var product_detail = {
 
 
     },
+
+    
     ToggleFavorite: function ($el) {
 
 
@@ -152,6 +156,7 @@ var product_detail = {
         const apiUrl = isFavourite ? API_URL.FavouriteDelete : API_URL.AddToFavourite;
 
         $.when(global_service.POST(apiUrl, request)).done(function (result) {
+            debugger
             if (result.is_success) {
                 const isInFavouriteListPage = $el.closest('#favourite').length > 0;
 
@@ -433,7 +438,7 @@ var product_detail = {
         // ⚡ Nếu có Flash Sale → hiển thị giá Flash Sale
         if (isFlashSale) {
             finalPrice = product.amount_after_flashsale;
-            priceHtml = `<span class="text-red-600 font-bold">${global_service.Comma(finalPrice)} đ</span>`;
+            priceHtml = global_service.Comma(finalPrice);
             $('#price-old').html(global_service.Comma(product.amount)).closest('.price-old').show(); // show giá cũ gạch ngang
         }
         // 👕 Nếu có product_sub (nhiều phân loại) → hiển thị khoảng giá
