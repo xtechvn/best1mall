@@ -147,7 +147,7 @@ var address_client = {
 
     },
     Detail: function (selected_id = undefined) {
-        
+        debugger
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -159,7 +159,7 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressList, request)
         ).done(function (result) {
-            
+            debugger
             var html = ''
             if (result.is_success) {
                 sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(result.data.list))
@@ -188,10 +188,19 @@ var address_client = {
         $('.content-left-user').removeClass('placeholder')
     },
     RenderExistsAddress: function (list, selected_id = undefined) {
-        
+        debugger
         var html = ''
+        let hasActive = list.some(item => item.isActive === true);
         $(list).each(function (index, item) {
-           
+            // Đánh dấu label "Địa chỉ mặc định"
+            let defaultLabel = '';
+            if (item.isActive === true || (!hasActive && index === 0)) {
+                defaultLabel = `<span class="text-[13px] italic leading-[1.5] text-[#773EFA] ">
+    Địa chỉ mặc định
+</span>
+`;
+            }
+
             html += HTML_CONSTANTS.Address.GridItem
                 .replaceAll('{active}', (selected_id != undefined && selected_id == item.id) ? 'active' : '')
                 .replaceAll('{checked}', (selected_id != undefined && selected_id == item.id) ? 'checked' : '')
@@ -200,6 +209,7 @@ var address_client = {
                 .replaceAll('{name}', item.receiverName)
                 .replaceAll('{address}', address_client.RenderDetailAddress(item))
                 .replaceAll('{tel}', item.phone.trim())
+                .replaceAll('{defaultLabel}', defaultLabel);
         });
         $('#address-book .list-add').html(html)
         

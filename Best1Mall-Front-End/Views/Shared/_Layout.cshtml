@@ -32,6 +32,21 @@
         .bg-orange-500 {
             background-color: #FF4169 !important;
         }
+
+        .swiper-button-next[aria-disabled="true"],
+        .swiper-button-prev[aria-disabled="true"] {
+            display: flex !important;
+            opacity: 0.5; /* hoặc 1 tùy ý */
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .swiper-button-disabled {
+            opacity: 0.4 !important;
+            pointer-events: auto !important;
+            filter: grayscale(1);
+        }
+
     </style>
 </head>
 <body class="text-sky-900 bg-[#F9FBFC]">
@@ -97,9 +112,11 @@
             },
         });
         // js slide sản phẩm 5 cột
-                const flashSaleSwiper = new Swiper(".flash-sale-swiper .swiper", {
-            loop: false,  // Tắt chế độ loop
-            slidesPerView: 2,
+                       const flashSaleSwiper = new Swiper(".flash-sale-swiper .swiper", {
+            loop: false,
+            watchOverflow: false,
+            allowTouchMove: true,
+            slidesPerView: 5,
             spaceBetween: 15,
             navigation: {
                 nextEl: ".flash-sale-swiper .swiper-button-next",
@@ -113,13 +130,17 @@
                     slidesPerView: 3.5,
                 },
                 1024: {
-                    slidesPerView: 5, // Điều chỉnh số lượng sản phẩm hiển thị tối đa.
+                    slidesPerView: 5,
                 },
             },
         });
 
+
         const brandsSwiper = new Swiper(".brands-swiper .swiper", {
-            slidesPerView: 2,
+            loop: false,
+            watchOverflow: false,
+            allowTouchMove: true,
+            slidesPerView: 5,
             spaceBetween: 15,
             navigation: {
                 nextEl: ".brands-swiper .swiper-button-next",
@@ -139,7 +160,10 @@
         });
         // js slide sản phẩm 4 cột
         const productSwiper = new Swiper(".product-swiper .swiper", {
-            slidesPerView: 2,
+           loop: false,
+            watchOverflow: false,
+            allowTouchMove: true,
+            slidesPerView: 5,
             spaceBetween: 15,
             navigation: {
                 nextEl: ".product-swiper .swiper-button-next",
@@ -147,13 +171,13 @@
             },
             breakpoints: {
                 640: {
-                    slidesPerView: 2.5,
+                    slidesPerView: 5,
                 },
                 768: {
-                    slidesPerView: 3.5,
+                    slidesPerView: 7,
                 },
                 1024: {
-                    slidesPerView: 4,
+                    slidesPerView: 10,
                 },
             },
         });

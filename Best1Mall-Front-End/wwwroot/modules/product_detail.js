@@ -723,7 +723,7 @@ var product_detail = {
 
     AddToCart: function (buy_now = false) {
 
-
+        debugger
         var product = product_detail.GetSubProductSessionByAttributeSelected();
 
         if (product == undefined) {
@@ -778,6 +778,8 @@ var product_detail = {
                 _id: product._id,
                 name: product.name,
                 amount: product.amount,
+                amount_after_flashsale: product.amount_after_flashsale,
+                flash_sale_todate: product.flash_sale_todate,
                 status: product.status,
                 supplier_status: product.supplier_status,
                 avatar: product.avatar,
@@ -803,7 +805,7 @@ var product_detail = {
 
     },
     SaveCartItemToSession: function (cartItem) {
-
+        debugger
         let cart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
         let index = cart.findIndex(x => x.product_id === cartItem.product_id);
 
