@@ -19,8 +19,7 @@ body {
   font-family: "Kanit", sans-serif;
   font-weight: 300;
   color: #000000;
-  overflow-x: hidden;
-  background: var(--BG, linear-gradient(180deg, #FFF 0%, #F1F5F9 25.96%)) !important;
+  background: linear-gradient(180deg, #FFF 0%, #F1F5F9 25.96%) !important;
 }
 main{
   min-height: 40vh;
