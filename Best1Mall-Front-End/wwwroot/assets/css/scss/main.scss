@@ -114,39 +114,15 @@ $color-base: #773EFA;
 
 @media (min-width:1300px){
 
-    .flash-sale-swiper, .bear-collection, .product-discount, .intelligence-collection {
-        .swiper-button-next {
-            right: -20px;
-        }
-
-        .swiper-button-prev {
-            left: -20px;
-        }
+  .flash-sale-swiper {
+    .swiper-button-next {
+      right: -20px;
     }
-
-    .bear-collection .swiper-button-next {
-        right: -20px
+  
+    .swiper-button-prev {
+      left: -20px;
     }
-
-    .bear-collection .swiper-button-prev {
-        left: -20px
-    }
-
-    .product-discount .swiper-button-next {
-        right: -20px
-    }
-
-    .product-discount .swiper-button-prev {
-        left: -20px
-    }
-
-    .intelligence-collection .swiper-button-next {
-        right: -20px
-    }
-
-    .intelligence-collection .swiper-button-prev {
-        left: -20px
-    }
+  }
   
   .product-swiper,
   .brands-swiper {
