@@ -1,4 +1,6 @@
-﻿namespace Best1Mall_Front_End.Models.Products
+﻿using Best1Mall_Front_End.Models.Labels;
+
+namespace Best1Mall_Front_End.Models.Products
 {
     public class ProductDetailResponseModel
     {
@@ -10,6 +12,10 @@
         public FavouriteStatusModel favourite { get; set; } // ✅ Thêm dòng này
                                                             // ✅ Thêm buywith vào đây
         public List<ProductDetailResponseModelProductBuyWith> product_buy_with_output { get; set; }
+        public Label label_detail { get; set; }
+        public List<GroupProductESModel> groups { get; set; }
+
+
     }
     public class FavouriteStatusModel
     {

@@ -43,6 +43,14 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                     {
                         detail.product_buy_with_output = jsonData["buywith"].ToObject<List<ProductDetailResponseModelProductBuyWith>>();
                     }
+                    if (jsonData["label_detail"] != null)
+                    {
+                        detail.label_detail = jsonData["label_detail"].ToObject<Label>();
+                    }
+                    if (jsonData["groups"] != null)
+                    {
+                        detail.groups = jsonData["groups"].ToObject<List<GroupProductESModel>>();
+                    }
                     return detail;
                 }
             }
