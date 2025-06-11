@@ -45,7 +45,7 @@ namespace Best1Mall_Front_End.Controllers.News.Business
                   {"article_id",article_id }
               };
 
-                response_api = await connect_api_us.CreateHttpRequest("/api/news/get-article-detail.json", input_request);
+                response_api = await connect_api_us.CreateHttpRequest("/api/news/get-detail.json", input_request);
 
                 // Nhan ket qua tra ve                            
                 var JsonParent = JArray.Parse("[" + response_api + "]");

@@ -592,10 +592,15 @@ data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
                                                <input type="radio" name="address" class="radio-custom mt-1" {checked} />
                                                                                 </div>
                                             <div class="flex flex-col text-slate-500 item address-item {active}" data-id="{id}">
-                                                    <span class="font-medium text-gray-900 mb-1 name">{name}</span>
+                                                   <div class="flex items-center justify-between gap-2">
+                                                        <span class="font-medium text-gray-900 name">{name}</span>
+                                                        {defaultLabel}
+                                                    </div>
+
                                                     <p class="add">{address}</p>
                                                     <div class="flex justify-between items-center mt-2 gap-3">
                                                         <p class="text-sm tel">Điện thoại: {tel}</p>
+                                                        
                                                         <button class="border border-purple-500 text-purple-600 px-3 py-1 rounded-full mt-2 self-end text-sm hover:bg-purple-100 btn btn-update btn-update-address">
                                                 Sửa
                                             </button>
