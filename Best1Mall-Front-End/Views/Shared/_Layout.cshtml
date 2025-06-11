@@ -112,7 +112,7 @@
             },
         });
         // js slide sản phẩm 5 cột
-                       const flashSaleSwiper = new Swiper(".flash-sale-swiper .swiper", {
+           const flashSaleSwiper = new Swiper(".flash-sale-swiper .swiper", {
             loop: false,
             watchOverflow: false,
             allowTouchMove: true,
@@ -181,6 +181,46 @@
                 },
             },
         });
+                // Sản phẩm nổi bật - Bear
+        new Swiper("#bear-collection .swiper", {
+            loop: false,
+            slidesPerView: 5,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: "#bear-collection .swiper-button-next",
+                prevEl: "#bear-collection .swiper-button-prev",
+            },
+            allowTouchMove: true,
+            watchOverflow: false,
+
+        });
+
+        // Sản phẩm giảm giá - Discount
+        new Swiper("#product-discount .swiper", {
+            loop: false,
+            slidesPerView: 5,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: "#product-discount .swiper-button-next",
+                prevEl: "#product-discount .swiper-button-prev",
+            },
+            allowTouchMove: true,
+            watchOverflow: false,
+        });
+
+        // Phát triển trí tuệ - Intelligence
+        new Swiper("#intelligence-collection .swiper", {
+            loop: false,
+            slidesPerView: 5,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: "#intelligence-collection .swiper-button-next",
+                prevEl: "#intelligence-collection .swiper-button-prev",
+            },
+            allowTouchMove: true,
+            watchOverflow: false,
+        });
+
     </script>
     <script>
         // Thiết lập thời gian kết thúc - ví dụ hôm nay lúc 23:59:59
