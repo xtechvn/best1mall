@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace Best1Mall_Front_End.Controllers.Product
 {
@@ -140,7 +141,9 @@ namespace Best1Mall_Front_End.Controllers.Product
                 data = result,
                 cert = result?.cert,
                 favourite = result?.favourite, // ✅ thêm dòng này
-                buywith = result?.product_buy_with_output // ✅ thêm dòng này nè
+                buywith = result?.product_buy_with_output, // ✅ thêm dòng này nè
+                label_detail = result?.label_detail, // ✅ thêm dòng này nè
+                groups=result?.groups
             });
 
         }

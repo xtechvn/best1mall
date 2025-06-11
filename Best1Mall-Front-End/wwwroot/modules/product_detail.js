@@ -223,14 +223,14 @@ var product_detail = {
             if (result.is_success && result.data && result.data.product_main) {
                 sessionStorage.setItem(STORAGE_NAME.ProductDetail, JSON.stringify(result.data))
                 sessionStorage.setItem(STORAGE_NAME.SubProduct, JSON.stringify(result.data.product_sub))
-                product_detail.RenderDetail(result.data.product_main, result.data.product_sub, result.cert, result.favourite, result.buywith)
+                product_detail.RenderDetail(result.data.product_main, result.data.product_sub, result.cert, result.favourite, result.buywith, result.label_detail, result.groups)
             }
             else {
                 window.location.href = '/Home/NotFound'
             }
         })
     },
-    RenderDetail: function (product, product_sub, cert, favourite, buywith) {
+    RenderDetail: function (product, product_sub, cert, favourite, buywith ,label ,group) {
         debugger
         this.RenderGallery(product);
         this.RenderTitle(product);
@@ -239,7 +239,8 @@ var product_detail = {
         this.RenderSpecification(product);
         this.RenderAttributes(product, product_sub);
         this.RenderBuyWithProducts(buywith);
-
+        this.RenderLabel(label);
+        this.RenderBreadcrumb(group)
         // ✅ Tự động chọn thuộc tính đầu tiên nếu có
         setTimeout(function () {
             var product = product_detail.GetProductDetailSession();
@@ -319,6 +320,49 @@ var product_detail = {
         $('.box-info-details tbody').html(html);
         $('.box-attribute').html(html2);
     },
+    RenderLabel: function (label) {
+        debugger
+        if (!label || !label.labelCode || !label.id) {
+            $('.section-label').hide(); // Nếu không có label → ẩn
+            return;
+        }
+
+        
+        const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(label.labelCode || 'thuong-hieu')).replace(" ", "-").toLowerCase();
+        const labelUrl = `/thuong-hieu/${labelSlug}?label_id=${label.id}`;
+        const html = `
+        <p class="text-base text-gray-600 mb-2">
+            Thương hiệu:
+            <a href="${labelUrl}" class="text-blue-600 hover:underline font-semibold">
+                ${label.labelCode}
+            </a>
+        </p>
+    `;
+
+        $('.section-label').html(html).show();
+    },
+    RenderBreadcrumb: function (groups) {
+        if (!Array.isArray(groups) || groups.length === 0) return;
+
+        let html = `<li><a href="/" >Trang chủ</a></li>`;
+
+        groups.forEach((item, index) => {
+            const isLast = index === groups.length - 1;
+           
+
+            html += `
+            <li>
+               <span class="text-color-base">
+                    ${item.name}
+                </span>
+            </li>
+        `;
+        });
+
+        $('.breadcrumb ul').html(html);
+    },
+
+
     RenderBuyWithProducts: function (buywith) {
 
         const $container = $('.product-buywith-container');
