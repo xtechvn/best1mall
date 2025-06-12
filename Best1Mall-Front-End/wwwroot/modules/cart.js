@@ -22,7 +22,7 @@ var cart = {
 
     DynamicBind: function () {
         $("body").on('click', ".all-pop", function (event) {
-            debugger
+            
             var cartId
             var element = $(this)
             event.preventDefault()
@@ -126,7 +126,7 @@ var cart = {
             cart.ConfirmCart()
         });
         $("body").on('keyup', ".product-quantity input", function () {
-            debugger
+            
             $('.btn-confirm-cart').addClass('button-disabled')
             $('.btn-confirm-cart').addClass('placeholder')
 
@@ -174,7 +174,7 @@ var cart = {
 
         //Vourcher
         $('.btn-vorcher').on('click', function () {
-            debugger
+            
             const selectedVoucher = $('input[name="voucher"]:checked'); // Lấy voucher đã chọn
             if (selectedVoucher.length > 0) {
                 const voucherCode = selectedVoucher.data('code');
@@ -217,7 +217,7 @@ var cart = {
         let lastCheckedVoucher = null;
 
         $('.btn-remove-voucher').on('click', function () {
-            debugger
+            
           
 
             // 1. Reset biến voucher
@@ -241,7 +241,7 @@ var cart = {
       
 
         $('body').on('click', 'input[name="voucher"]', function (e) {
-            debugger
+            
             const $this = $(this);
 
             // Nếu click vào chính voucher đang được chọn → uncheck thủ công
@@ -312,7 +312,7 @@ var cart = {
     },
     CartItem: function () {
 
-        debugger
+        
         var usr = global_service.CheckLogin()
         if (usr) {
             var request = {
@@ -322,7 +322,7 @@ var cart = {
                 global_service.POST(API_URL.CartList, request)
 
             ).done(function (result) {
-               debugger
+               
                 if (result.is_success && result.data && result.data.length > 0) {
                     cart.RenderCartItem(result.data)
                     cart.RenderBuyNowSelection()
@@ -358,7 +358,7 @@ var cart = {
         var total_amount = 0
 
         $(list).each(function (index, item) {
-            debugger
+            
             var product = item.product;
 
             // --- Điều kiện Flash Sale ---
@@ -454,7 +454,7 @@ var cart = {
 
     },
     GetListVoucherUser: function () {
-        debugger
+        
         const usr = global_service.CheckLogin();
         if (!usr) return;
 
@@ -466,7 +466,7 @@ var cart = {
             global_service.POST(API_URL.VourcherList, request)
 
         ).done(function (result) {
-            debugger
+            
             if (result.is_success && result.data && result.data.length > 0) {
                 
                 cart.RenderVoucherList(result.data);
@@ -481,7 +481,7 @@ var cart = {
     },
 
     RenderVoucherList: function (vouchers) {
-        debugger
+        
         
         let html = '';
         vouchers.forEach((v, idx) => {
@@ -510,13 +510,13 @@ var cart = {
         
     },
     ApplyVoucher: function (request) {
-        debugger
+        
         $.when(
             global_service.POST(API_URL.ApplyVoucher, request)
         ).done(function (res) {
-            debugger
+            
             if (res && res.is_success === true) {
-                debugger
+                
                  // Nếu thành công, cập nhật giao diện với thông tin giảm giá
                   cart.UpdateDiscountView(res.data);
                    // Cập nhật voucher đã chọn vào phần ngoài popup
@@ -546,7 +546,7 @@ var cart = {
     },
 
    UpdateDiscountView: function (data) {
-       debugger
+       
         $('#voucher-popup').addClass('hidden')
         // Hiển thị phần tử giảm giá sau khi áp dụng voucher thành công
     $('#discountSection').removeClass('hidden')  // Loại bỏ class 'hidden' để hiện thị
@@ -556,7 +556,7 @@ var cart = {
     $('.total-after-discount').text(global_service.Comma(data.total_order_amount_after) + ' đ');  // Tổng tiền sau khi giảm giá
 },
     ReRenderAmount: function (loading_shipping = true) {
-        debugger
+        
         var total_amount_cart = 0
         var hasPricedItem = false;
         $('.table-addtocart .product').each(function (index, item) {
@@ -665,7 +665,7 @@ var cart = {
     },
 
     ConfirmCart: function () {
-        debugger
+        
         // ✨ Show loading + disable button
         const $btn = $('.btn-confirm-cart');
         $btn.prop('disabled', true).addClass('opacity-60 cursor-not-allowed');
@@ -765,7 +765,7 @@ var cart = {
 
             if (carts.length > 0) {
                 // ✅ Chặn confirm nếu toàn sản phẩm 0đ hoặc quantity = 0
-                debugger
+                
                
                 var request = {
                     "carts": carts,
@@ -780,7 +780,7 @@ var cart = {
                 $.when(
                     global_service.POST(API_URL.CartConfirm, request)
                 ).done(function (result) {
-                    debugger
+                    
                     if (result.is_success && result.data != undefined) {
                         request.result = result.data
                         sessionStorage.setItem(STORAGE_NAME.Order, JSON.stringify(request))

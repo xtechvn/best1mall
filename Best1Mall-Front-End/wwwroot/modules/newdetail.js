@@ -1,7 +1,7 @@
 ﻿$(document).ready(function() {
     _newdetail.Initialization()
     $('body').on('click', '.cat-tag-detail', function (e) {
-        debugger
+        
         e.preventDefault();
         const categoryId = parseInt($(this).data('id'));
         if (isNaN(categoryId)) return;
@@ -23,7 +23,7 @@ var _newdetail = {
         $('.tag_' + id).addClass('active');
         // Gắn event tìm kiếm enter
         $("#text_input").on('keyup', function (e) {
-            debugger
+            
             if (e.key === 'Enter' || e.keyCode === 13) {
                 _newdetail.GetFindArticleByTitle();
             }
@@ -31,7 +31,7 @@ var _newdetail = {
 
         // Gắn nút search click
         $('.btn-search').on('click', function () {
-            debugger
+            
             _newdetail.GetFindArticleByTitle();
         });
     
@@ -69,7 +69,7 @@ var _newdetail = {
     //    });
     //},
     GetFindArticleByTitle: function () {
-        debugger
+        
         const keyword = $('#text_input').val().trim();
         if (!keyword) {
             // Nếu trống thì về lại trang Home
@@ -88,7 +88,7 @@ var _newdetail = {
             type: 'post',
             data: { requestObj: requestObj },
             success: function (data) {
-                debugger
+                
                 $("#search-results").html(data);
             },
         });

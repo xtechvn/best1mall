@@ -9,7 +9,7 @@
 var _feedback =
 {
     CreateFeedback: function () {
-        debugger
+        
         sessionStorage.setItem("CreateFeedbackAction", 1);//Dùng để xác nhận hành động tạo feedback khi hành động đăng nhập chen ngang
         let comment = $('#comment-text').val();
         if (!comment) {
@@ -32,7 +32,7 @@ var _feedback =
                 type: 'post',
                 data: { obj: obj },
                 success: function (data) {
-                    debugger
+                    
                     document.getElementById("Comment_success").classList.add('overlay-active');
                     
                     sessionStorage.setItem("Saved_Input", '');

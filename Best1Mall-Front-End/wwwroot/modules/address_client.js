@@ -48,7 +48,7 @@ var address_client = {
 
         });
         $("body").on('click', ".update-address-order", function () {
-            debugger
+            
             var list = sessionStorage.getItem(STORAGE_NAME.AddressClient)
             const selectedId = $('#address-receivername').attr('data-id'); // Lấy data-id đã gán ở ConfirmCartAddress
             if (list) {
@@ -63,7 +63,7 @@ var address_client = {
         });
 
         $("body").on('click', "#update-address .btn-save", function () {
-            debugger
+            
             if (!address_client.ValidateAddressForm()) {
                 return; // Dừng nếu không hợp lệ
             }
@@ -147,7 +147,7 @@ var address_client = {
 
     },
     Detail: function (selected_id = undefined) {
-        debugger
+        
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -159,7 +159,7 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressList, request)
         ).done(function (result) {
-            debugger
+            
             var html = ''
             if (result.is_success) {
                 sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(result.data.list))
@@ -188,7 +188,7 @@ var address_client = {
         $('.content-left-user').removeClass('placeholder')
     },
     RenderExistsAddress: function (list, selected_id = undefined) {
-        debugger
+        
         var html = ''
         let hasActive = list.some(item => item.isActive === true);
         $(list).each(function (index, item) {
@@ -429,7 +429,7 @@ var address_client = {
 
     },
     Confirm: function () {
-        debugger
+        
         // 🚨 Validate form trước
         if (!address_client.ValidateAddressForm()) {
             return; // Dừng không gửi request, không update gì hết
@@ -493,7 +493,7 @@ var address_client = {
                 name: $('#update-address .wards select option:selected').text()
             }
         };
-        debugger
+        
         // 6. Cập nhật vào sessionStorage
         var list = sessionStorage.getItem(STORAGE_NAME.AddressClient);
         var data = list ? JSON.parse(list) : [];

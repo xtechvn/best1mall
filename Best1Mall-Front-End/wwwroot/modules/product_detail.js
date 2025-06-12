@@ -7,7 +7,7 @@
 })
 // Hàm này nằm ngoài các object, và có thể truy cập từ bất kỳ đâu
 function handleQuantityInput(maxStock) {
-    debugger
+    
     const input = document.getElementById('quantity');
 
     // Bôi đen khi focus
@@ -156,7 +156,7 @@ var product_detail = {
         const apiUrl = isFavourite ? API_URL.FavouriteDelete : API_URL.AddToFavourite;
 
         $.when(global_service.POST(apiUrl, request)).done(function (result) {
-            debugger
+            
             if (result.is_success) {
                 const isInFavouriteListPage = $el.closest('#favourite').length > 0;
 
@@ -204,7 +204,7 @@ var product_detail = {
         });
     },
     Detail: function () {
-        debugger
+        
         const usr = global_service.CheckLogin(); // kiểm tra đăng nhập
         $('#skeleton-loading').show();
         $('.product-details-section').hide();
@@ -219,7 +219,7 @@ var product_detail = {
         $.when(
             global_service.POST(API_URL.ProductDetail, request)
         ).done(function (result) {
-            debugger
+            
             if (result.is_success && result.data && result.data.product_main) {
                 sessionStorage.setItem(STORAGE_NAME.ProductDetail, JSON.stringify(result.data))
                 sessionStorage.setItem(STORAGE_NAME.SubProduct, JSON.stringify(result.data.product_sub))
@@ -231,7 +231,7 @@ var product_detail = {
         })
     },
     RenderDetail: function (product, product_sub, cert, favourite, buywith ,label ,group) {
-        debugger
+        
         this.RenderGallery(product);
         this.RenderTitle(product);
         this.RenderRating(product);
@@ -287,7 +287,7 @@ var product_detail = {
         $('.product-details-section').show();
     },
     RenderAttributes: function (product, product_sub) {
-        debugger
+        
         let html = '', html2 = '';
         let total_stock = product.quanity_of_stock || 0;
 
@@ -321,7 +321,7 @@ var product_detail = {
         $('.box-attribute').html(html2);
     },
     RenderLabel: function (label) {
-        debugger
+        
         if (!label || !label.labelCode || !label.id) {
             $('.section-label').hide(); // Nếu không có label → ẩn
             return;
@@ -342,25 +342,26 @@ var product_detail = {
         $('.section-label').html(html).show();
     },
     RenderBreadcrumb: function (groups) {
-        if (!Array.isArray(groups) || groups.length === 0) return;
-
+        debugger
         let html = `<li><a href="/" >Trang chủ</a></li>`;
 
-        groups.forEach((item, index) => {
-            const isLast = index === groups.length - 1;
-           
+        if (!Array.isArray(groups) || groups.length === 0) {
+            // Nếu không có groups, hiển thị breadcrumb mặc định
+            html += `<li><span class="text-color-base">Chi tiết Sản Phẩm</span></li>`;
+        } else {
+            // Nếu có groups, render từng nhóm
+            groups.forEach((item, index) => {
+                const isLast = index === groups.length - 1;
+                html += `
+                <li><span class="text-color-base">${item.name}</span></li>
+            `;
+            });
+        }
 
-            html += `
-            <li>
-               <span class="text-color-base">
-                    ${item.name}
-                </span>
-            </li>
-        `;
-        });
-
+        // Cập nhật HTML breadcrumb
         $('.breadcrumb ul').html(html);
     },
+
 
 
     RenderBuyWithProducts: function (buywith) {
@@ -775,7 +776,7 @@ var product_detail = {
 
     AddToCart: function (buy_now = false) {
 
-        debugger
+        
         var product = product_detail.GetSubProductSessionByAttributeSelected();
 
         if (product == undefined) {
@@ -808,7 +809,7 @@ var product_detail = {
 
             $.when(global_service.POST(API_URL.AddToCart, request)).done(function (result) {
                 if (result.is_success && result.data) {
-                    debugger
+                    
                     sessionStorage.removeItem(STORAGE_NAME.BuyNowItem);
                     global_service.LoadCartCount();
                     //product_detail.SuccessAddToCart();
@@ -857,7 +858,7 @@ var product_detail = {
 
     },
     SaveCartItemToSession: function (cartItem) {
-        debugger
+        
         let cart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
         let index = cart.findIndex(x => x.product_id === cartItem.product_id);
 
@@ -874,7 +875,7 @@ var product_detail = {
 
 
     BuyNow: function () {
-        debugger
+        
         var product = product_detail.GetSubProductSessionByAttributeSelected()
         if (product == undefined) {
             var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
@@ -900,7 +901,7 @@ var product_detail = {
             $.when(
                 global_service.POST(API_URL.AddToCart, request)
             ).done(function (result) {
-                debugger
+                
                 if (result.is_success && result.data) {
 
                     sessionStorage.setItem(STORAGE_NAME.BuyNowItem, JSON.stringify(request))
@@ -1031,7 +1032,7 @@ var buyTogether = {
 
 
     updateTotal: function () {
-        debugger
+        
         // Lấy giá của sản phẩm chính từ phần tử .price
         const mainProductPrice = parseInt($('.info-product .box-price .price').text().replace(/[^0-9]/g, '')) || 0; // Lấy giá và loại bỏ ký tự không phải số
 
@@ -1047,7 +1048,7 @@ var buyTogether = {
 
 
     submit: function () {
-        debugger
+        
         var product = product_detail.GetSubProductSessionByAttributeSelected()
         if (product == undefined) {
             var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)

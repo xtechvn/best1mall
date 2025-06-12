@@ -65,7 +65,7 @@ var order_index = {
         });
 
         $("body").on("click", ".order-index-repay", function () {
-            debugger
+            
             const orderId = $(this).data("order-id");
 
             const usr = global_service.CheckLogin();
@@ -81,7 +81,7 @@ var order_index = {
 
     },
     Search: function () {
-        debugger
+        
         var usr = global_service.CheckLogin(); // kiểm tra đăng nhập
         if (usr == null || usr == undefined || usr.token == null || usr.token == undefined) {
             $('#order-history').html('')
@@ -99,7 +99,7 @@ var order_index = {
         $.when(
             global_service.POST(API_URL.OrderSearch, request)
         ).done(function (result) {
-            debugger
+            
             if (result != null && result != undefined) {
                 $('#order-history').html(result)
             }

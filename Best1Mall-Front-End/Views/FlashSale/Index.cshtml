@@ -116,6 +116,7 @@
             <!-- Hiển thị Flash Sale còn lại trong Swiper -->
             @foreach (var flashsale in validFlashSales.Skip(1)) // Bắt đầu từ Flash Sale thứ hai hợp lệ
             {
+                string imgSrc = GetFullImageUrl(flashsale.banner);
                 <div class="my-6 md:my-10">
                     <div class="flex justify-between flex-wrap gap-2 mb-3">
                         <h2 class="text-sky-900 font-medium uppercase"><a href="#">@flashsale.name</a></h2>
@@ -125,7 +126,7 @@
 
                     <div style="margin-top:20px">
                         <div class="md:rounded-3xl rounded-xl bg-white p-3 mb-6">
-                            <img src="@flashsale.banner" alt="@flashsale.name"
+                            <img src="@imgSrc" alt="@flashsale.name"
                                  class="rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl w-full">
                             <!-- Swiper -->
                             <div class="relative mt-3">

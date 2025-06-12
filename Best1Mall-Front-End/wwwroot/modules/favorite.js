@@ -99,7 +99,7 @@
  
 
     loadFavouriteList: function () {
-        debugger
+        
 
         const usr = global_service.CheckLogin();
         if (!usr) {
