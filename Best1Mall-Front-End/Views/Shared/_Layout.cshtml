@@ -47,6 +47,11 @@
             filter: grayscale(1);
         }
 
+        .flashsale-box {
+            visibility: hidden;
+        }
+
+
     </style>
 </head>
 <body class="text-sky-900 bg-[#F9FBFC]">
@@ -111,29 +116,33 @@
                 prevEl: ".banner-slide .swiper-button-prev",
             },
         });
-        // js slide sản phẩm 5 cột
-           const flashSaleSwiper = new Swiper(".flash-sale-swiper .swiper", {
-            loop: false,
-            watchOverflow: false,
-            allowTouchMove: true,
-            slidesPerView: 5,
-            spaceBetween: 15,
-            navigation: {
-                nextEl: ".flash-sale-swiper .swiper-button-next",
-                prevEl: ".flash-sale-swiper .swiper-button-prev",
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 2.5,
+               window.addEventListener('load', function () {
+            const flashSaleSwiper = new Swiper(".flash-sale-swiper .swiper", {
+                loop: false,
+                watchOverflow: false,
+                allowTouchMove: true,
+                slidesPerView: 5,
+                spaceBetween: 15,
+                navigation: {
+                    nextEl: ".flash-sale-swiper .swiper-button-next",
+                    prevEl: ".flash-sale-swiper .swiper-button-prev",
                 },
-                768: {
-                    slidesPerView: 3.5,
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2.5,
+                    },
+                    768: {
+                        slidesPerView: 3.5,
+                    },
+                    1024: {
+                        slidesPerView: 5,
+                    },
                 },
-                1024: {
-                    slidesPerView: 5,
-                },
-            },
+            });
+            // Hiển thị Swiper khi Swiper đã được khởi tạo xong
+            document.querySelector('.flashsale-box').style.visibility = 'visible';
         });
+
 
 
         const brandsSwiper = new Swiper(".brands-swiper .swiper", {

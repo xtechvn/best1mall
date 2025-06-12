@@ -245,16 +245,18 @@ var HTML_CONSTANTS = {
                 </div>
             </a>
         </div>`,
-        GlobalSearchByKeyword: ` 
-        <li class="p-2 hover:bg-red-50 hover:text-red-500 cursor-pointer flex items-center gap-2 text-xs">
+        GlobalSearchByKeyword: `
+    <li class="p-2 hover:bg-red-50 hover:text-red-500 cursor-pointer flex items-center gap-2 text-xs">
+        <a href="{url}" class="flex w-full items-center gap-2"> <!-- Bao bọc toàn bộ nội dung bằng thẻ <a> -->
             <img src="{avatar}" alt="Sản phẩm" class="w-14 h-14 object-cover rounded">
             <div>
-                <a href="{url}">{name}</a>
+                <span>{name}</span> <!-- Thay vì <a> ở đây, chỉ cần span để không tạo thẻ <a> lồng nhau -->
                 <div class="text-red-400 mt-1">{amount} đ</div>
             </div>
-        </li>
-
-        `,
+        </a>
+    </li>
+`
+,
         GlobalSearchBoxLoading: ` <div class="list-product-recomment">
         <div class="item-product">
             <a href="">

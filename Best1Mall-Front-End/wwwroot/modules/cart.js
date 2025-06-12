@@ -22,7 +22,8 @@ var cart = {
 
     DynamicBind: function () {
         $("body").on('click', ".all-pop", function (event) {
-            
+            // Đảm bảo thông báo lỗi được ẩn khi người dùng chọn voucher
+            $('#voucher-popup .voucher-error').remove();  // Xóa thông báo lỗi cũ nếu có
             var cartId
             var element = $(this)
             event.preventDefault()
@@ -176,6 +177,8 @@ var cart = {
         $('.btn-vorcher').on('click', function () {
             
             const selectedVoucher = $('input[name="voucher"]:checked'); // Lấy voucher đã chọn
+            // Đảm bảo thông báo lỗi được ẩn khi người dùng chọn voucher
+            $('#voucher-popup .voucher-error').remove();  // Xóa thông báo lỗi cũ nếu có
             if (selectedVoucher.length > 0) {
                 const voucherCode = selectedVoucher.data('code');
                 const voucherId = selectedVoucher.data('id');
@@ -187,12 +190,9 @@ var cart = {
                 appliedVoucher = { code: voucherCode, id: voucherId };
                 // Kiểm tra nếu giỏ hàng không có sản phẩm hợp lệ
                 if (totalOrderAmount <= 0) {
-                    // Sử dụng SweetAlert2 để hiển thị thông báo
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi!',
-                        text: 'Vui lòng chọn sản phẩm trước khi áp dụng voucher!',
-                    });
+                    // Nếu giỏ hàng trống, hiển thị thông báo lỗi ngay dưới mã voucher
+                    $('#voucher-popup .popup-content').append('<p class="voucher-error text-red-500 mt-4">Vui lòng chọn sản phẩm trước khi áp dụng voucher!</p>');
+                    $('#voucher-popup').removeClass('hidden');  // Hiển thị popup voucher
                     return;  // Dừng thực hiện nếu giỏ hàng trống
                 }
 
@@ -205,12 +205,13 @@ var cart = {
                 // Gọi API ApplyVoucher
                 cart.ApplyVoucher(request);
             } else {
+                $('#voucher-popup').addClass('hidden')
                 // Sử dụng SweetAlert2 khi người dùng chưa chọn voucher
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Chưa chọn voucher!',
-                    text: 'Vui lòng chọn voucher trước khi áp dụng!',
-                });
+                //Swal.fire({
+                //    icon: 'warning',
+                //    title: 'Chưa chọn voucher!',
+                //    text: 'Vui lòng chọn voucher trước khi áp dụng!',
+                //});
             }
         });
         // Gắn toggle bằng cách nhớ trạng thái đã click
@@ -314,6 +315,7 @@ var cart = {
 
         
         var usr = global_service.CheckLogin()
+        $('#skeleton-loading').show();
         if (usr) {
             var request = {
                 "token": usr.token
@@ -425,9 +427,11 @@ var cart = {
         });
 
         $('.section-cart .table-addtocart').html(html);
-        $('.section-cart').removeClass('placeholder');
+        $('#skeleton-loading').hide();
+        $('.section-cart').removeClass('hidden');
         cart.ReRenderAmount();
         cart.RenderCartNumberOfProduct();
+        
     },
 
 
@@ -501,6 +505,7 @@ var cart = {
                             <p class="text-red-500">Điều kiện</p>
                         </div>
                     </div>
+
                 </label>
             `;
         });

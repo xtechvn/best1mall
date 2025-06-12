@@ -196,20 +196,28 @@ var _support =
     },
 
     DisplayHiddenContent: function (id) {
-        $('.title').removeAttr('style')
+        // Lấy phần tử tiêu đề và nội dung
         let content = $('.content' + id);       // Nội dung cần đóng/mở
         let title = $('.title' + id);           // Tiêu đề được click
         let svgIcon = title.find('svg');        // Mũi tên bên trong tiêu đề
-        $('.title' + id).attr('style','color: #773EFA;')
+
+        // Nếu nội dung đang ẩn (đóng lại), thay đổi màu về màu mặc định
+        if (content.is(':hidden')) {
+            title.css('color', '#773EFA');  // Màu khi mở
+        } else {
+            title.css('color', '');  // Trả lại màu mặc định khi đóng
+        }
+
         // Toggle nội dung mượt bằng jQuery slide
         content.stop(true, true).slideToggle(200);
 
-        // Toggle class active
+        // Toggle class active để hiển thị hoặc ẩn nội dung
         title.toggleClass('active');
 
         // Xoay icon 180 độ nếu đang mở
         svgIcon.toggleClass('rotate-180');
     },
+
 
 
     GetBodyQuestion: function (id) {
