@@ -537,16 +537,24 @@ var product_detail = {
         $('.thumb-big .swiper-wrapper').html(html);
         $('.thumb-small .swiper-wrapper').html(html_thumb);
 
-        const swiperSmallThumb = new Swiper(".thumb-small", {
-            spaceBetween: 8,
-            slidesPerView: 4,
+        const swiperSmallThumb = new Swiper(".thumbSwiper .swiper", {
+            slidesPerView: 3.5,
+            spaceBetween: 10,
             freeMode: true,
             watchSlidesProgress: true,
+            watchSlidesVisibility: true,
+            breakpoints: {
+                640: { slidesPerView: 4 },
+                992: { slidesPerView: 5 }
+            },
+            navigation: {
+                nextEl: ".thumbSwiper .swiper-button-next",
+                prevEl: ".thumbSwiper .swiper-button-prev",
+            },
         });
 
         new Swiper(".thumb-big", {
-            spaceBetween: 15,
-            navigation: false,
+            spaceBetween: 10,
             thumbs: {
                 swiper: swiperSmallThumb,
             },
