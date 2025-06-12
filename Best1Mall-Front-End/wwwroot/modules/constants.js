@@ -352,9 +352,14 @@ var HTML_CONSTANTS = {
     },
     Detail: {
         Images: `
-                              <a  class="swiper-slide" href="{src}" data-lg-id="3e1fbec2-9c35-461a-b9cc-79fd1d885438">
-                                <img src="{src}" width="500" height="300">
+                            
+                            <a class="swiper-slide" href="{src}" data-lg-id="3e1fbec2-9c35-461a-b9cc-79fd1d885438">
+                            <div class="w-full aspect-square bg-white flex items-center justify-center">
+                                <img src="{src}"class="object-contain w-full h-full">
+                                 </div>
                             </a>
+                              
+                            
 
                             `,
         Videos: `
@@ -369,9 +374,10 @@ var HTML_CONSTANTS = {
 
 
                             `,
-        ThumbnailImages: `<div class="swiper-slide">
-                            <img src="{src}" alt="" />
-                            </div > `,
+        ThumbnailImages: ` <div class="swiper-slide w-20 h-20 small">
+                                         <img src="{src}" alt="" 
+                                              class="w-full h-full object-contain border border-gray-300 rounded-md" /> 
+                                    </div> `,
         ThumbnailVideos: `<div class="swiper-slide">
                                 <video>
                                       <source src="{src}" type="video/mp4">
