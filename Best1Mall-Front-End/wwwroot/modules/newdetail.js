@@ -54,20 +54,20 @@ var _newdetail = {
 
         });
     },
-    NewsCategory: function () {
-        var requestObj = {
+    //NewsCategory: function () {
+    //    var requestObj = {
 
-        };
-        $.ajax({
-            url: "/News/NewsCategory",
-            type: 'post',
-            data: { requestObj: requestObj },
-            success: function (data) {
-                $("#news-category").html(data);
-            },
+    //    };
+    //    $.ajax({
+    //        url: "/News/NewsCategory",
+    //        type: 'post',
+    //        data: { requestObj: requestObj },
+    //        success: function (data) {
+    //            $("#news-category").html(data);
+    //        },
 
-        });
-    },
+    //    });
+    //},
     GetFindArticleByTitle: function () {
         debugger
         const keyword = $('#text_input').val().trim();
@@ -93,8 +93,8 @@ var _newdetail = {
             },
         });
     },
-    getNewsByTag: function (id, url) {
-        sessionStorage.setItem('NewsCategoryId', Number(id));
-        window.location.href = "/" + url;
-    },
+    //getNewsByTag: function (id, url) {
+    //    sessionStorage.setItem('NewsCategoryId', Number(id));
+    //    window.location.href = "/" + url;
+    //},
 }

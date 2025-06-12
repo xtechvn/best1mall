@@ -58,7 +58,7 @@ namespace Best1Mall_Front_End.Controllers.News
 
         [Route("{title}-{article_id}.html")]
         [HttpGet]
-        public async Task<IActionResult> ArticleDetail(string title, long article_id)
+        public async Task<IActionResult> ArticleDetail( long article_id)
         {
             var article_sv = new NewsService(configuration, redisService);
             var article = await article_sv.getArticleDetailById(article_id);
