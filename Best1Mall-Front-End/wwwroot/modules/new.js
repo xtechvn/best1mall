@@ -29,7 +29,7 @@
 
     // ✅ Gắn sự kiện click cho từng danh mục
     $('body').on('click', '.cat-tag', function (e) {
-        debugger
+        
         e.preventDefault();
 
         const $this = $(this);
@@ -62,7 +62,7 @@
         });
     });
     $('body').on('click', '.pagination-btn', function (e) {
-        debugger
+        
         e.preventDefault();
         if ($(this).is(':disabled')) return;
 
@@ -137,7 +137,7 @@ var _new = {
                 }
             },
             error: function (xhr, status, error) {
-                debugger
+                
                 if (isPaging) {
                     $container.find('#section-article-paginate').html(`<div class="text-red-500 text-center">Tải thất bại: ${error}</div>`);
                 } else {
@@ -147,7 +147,7 @@ var _new = {
         });
     },
     loadPage: function (targetSelector, category_id, view_name, page) {
-        debugger
+        
         this.loadNewsSection({ targetSelector, category_id, view_name, page });
     },
 
@@ -169,7 +169,7 @@ var _new = {
     },
   
     GetFindArticleByTitle: function () {
-        debugger
+        
         const keyword = $('#text_input').val().trim();
         if (!keyword) {
             // Nếu trống thì về lại trang Home

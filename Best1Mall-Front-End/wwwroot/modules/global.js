@@ -63,7 +63,7 @@ var global_service = {
             }, 250); // đợi 400ms sau khi gõ mới gọi API
         });
         $("body").on("click", "#search-button", function () {
-            debugger
+            
             var usr = global_service.CheckLogin()
             var token = ''
             if (usr) {
@@ -367,7 +367,7 @@ var global_service = {
         ).done(function (result) {
             if (result.is_success) {
                 var products = result.data
-                    debugger
+                    
                     var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                 // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
                 if (appendSeeAll && !excludedGroups.includes(group_id)) {
@@ -384,7 +384,7 @@ var global_service = {
     },
 
     LoadHomeFlashSaleGrid: function (element, group_id, size, appendSeeAll = true) {
-        debugger
+        
         const excludedGroups = [
             GLOBAL_CONSTANTS.GroupProduct.FlashSale,
             //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
@@ -402,7 +402,7 @@ var global_service = {
             global_service.POST(API_URL.FlashSaleGetById, request)
         ).done(function (result) {
             if (result.is_success) {
-                debugger
+                
                 var products = result.data
 
                 var html = global_service.RenderSlideSaleProductItem(products, HTML_CONSTANTS.Home.FlashSaleItem)
@@ -423,7 +423,7 @@ var global_service = {
     },
     
     LoadHomeLabelGrid: function (element, group_id, size, bannerSelector, appendSeeAll = true) {
-        debugger
+        
         const excludedGroups = [
             GLOBAL_CONSTANTS.GroupProduct.FlashSale,
             //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
@@ -442,7 +442,7 @@ var global_service = {
         $.when(
             global_service.POST(API_URL.LabelListProduct, request)
         ).done(function (result) {
-            debugger
+            
             if (result.is_success && result.data) {
                 var products = result.data
                 var labelDetail = result.label_detail;
@@ -482,7 +482,7 @@ var global_service = {
     },
    
     LoadGroupProduct: function (element, group_id, size) {
-        debugger
+        
        
         element.addClass('placeholder')
         element.addClass('box-placeholder')
@@ -496,7 +496,7 @@ var global_service = {
         $.when(
             global_service.POST(API_URL.GroupProduct, request)
         ).done(function (result) {
-            debugger
+            
             if (result.is_success) {
                
                 var products = result.data
@@ -641,7 +641,7 @@ var global_service = {
     },
 
     RenderGroupProductItem: function (list, template) {
-        debugger
+        
         var html = '';
         $(list).each(function (index, item) {
             var img_src = item.image_path;

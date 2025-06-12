@@ -219,7 +219,7 @@ var _support =
             type: 'post',
             data: { id: id },
             success: function (data) {
-                debugger
+                
                 var currentPath = window.location.href;
                 var PathNext = '/questions/' + global_service.convertVietnameseToUnsign(data.title) + '-' + id;
                 if (!currentPath.includes(PathNext)) {
@@ -279,7 +279,7 @@ var _support =
 
 
     SearchQuestion: function () {
-        debugger
+        
         // Reset kết quả hiển thị ban đầu
         $('.result-search').removeClass('hidden').html('<h2>Đang tìm kiếm...</h2>');
         var lst_Id = sessionStorage.getItem("list_idCate");
@@ -301,7 +301,7 @@ var _support =
                 type: 'post',
                 data: { requestObj: obj },
                 success: function (data) {
-                    debugger
+                    
                     // Reset kết quả tìm kiếm
                     $('.result-search').removeClass('hidden').html('');
                     // 👇 CHỖ NÀY NÈ: Hiện lại result section

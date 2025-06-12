@@ -34,7 +34,7 @@ namespace Best1Mall_Front_End.Controllers.Support
             ViewBag.MenuHelpers = ListMenuHelpers;
             return View();
         }
-
+        //header
         public async Task<List<GetCategoryResponse>> GetCategories() 
         {
             GetListByCategoryIdRequest requestObj = new GetListByCategoryIdRequest()
@@ -79,7 +79,7 @@ namespace Best1Mall_Front_End.Controllers.Support
             await _supportServices.EmailPromotion(obj);
             return Ok();
         }
-
+        // footer
         public async Task<IActionResult> GetListPolicy(int idTypePolicy)
         {
             try

@@ -1,0 +1,157 @@
+﻿@using Best1Mall_Front_End.Models.Flashsale
+@model List<FlashSaleViewModel>
+<!-- Thêm Swiper CSS -->
+@* <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"> *@
+
+@functions {
+    string ToSeoUrl(string name)
+    {
+        return RemoveUnicode(RemoveSpecialCharacters(name)).Replace(" ", "-").ToLower();
+    }
+
+    string RemoveUnicode(string text)
+    {
+        var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+        var chars = normalized.Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark);
+        return new string(chars.ToArray()).Normalize(System.Text.NormalizationForm.FormC);
+    }
+
+    string RemoveSpecialCharacters(string input)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(input, "[^a-zA-Z0-9\\s-]", "");
+    }
+
+    string FormatCurrency(double? amount)
+    {
+        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "Giá liên hệ";
+    }
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
+
+
+
+<div class="flashsale-box my-6 md:my-10 md:rounded-3xl rounded-xl bg-[#FF4169]">
+    <div class="bg-box md:px-6 md:py-10 py-4 px-3 pb-0 text-white md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl relative md:min-h-[320px]">
+        <h2 class="md:text-4xl text-2xl my-3">Chăm cơ thể – giữ tinh thần – <br />tiết kiệm tối đa!</h2>
+        <h3 class="md:text-5xl text-3xl md:my-4 my-3">Giảm 50%</h3>
+        <p>cho các dòng vitamin, collagen, men tiêu hóa,...</p>
+        <img src="assets/images/imageads.png" alt="" class="md:absolute right-0 bottom-0 max-w-2/3 ml-auto">
+    </div>
+    @if (Model.Any())
+    {
+        var now = DateTime.UtcNow; // Lấy thời gian hiện tại (UTC)
+        var validFlashSales = Model.Where(f => f.fromdate <= now && f.todate >= now).ToList(); // Lọc tất cả Flash Sale hợp lệ
+        var firstValidFlashSale = validFlashSales.FirstOrDefault(); // Lấy Flash Sale hợp lệ đầu tiên
+
+        if (firstValidFlashSale != null)
+        {
+            <div class="bg-[#FF4169] md:rounded-3xl rounded-xl p-3 text-white relative component-flashsale-list">
+                <!-- Hiển thị Flash Sale đầu tiên hợp lệ -->
+                <div class="flex justify-between flex-wrap items-center mb-3">
+                    <div class="flex items-center gap-2">
+                        <img src="assets/images/flashsale.png" alt="" />
+                        <span class="md:block hidden ">Kết thúc trong</span>
+                        <div id="countdown" class="flex gap-1 font-bold text-[#FF4169]">
+                            <span class="bg-white px-2 py-1 rounded" id="hours">00</span> <span class="text-[#FF4169]">:</span>
+                            <span class="bg-white px-2 py-1 rounded" id="minutes">00</span> <span class="text-[#FF4169]">:</span>
+                            <span class="bg-white px-2 py-1 rounded" id="seconds">00</span>
+                        </div>
+                    </div>
+                    <a href="/flashSale" class="flex items-center gap-2 text-sm">
+                        Xem thêm
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M12.773 9.39792L7.14804 15.0229C7.09578 15.0752 7.03373 15.1166 6.96545 15.1449C6.89716 15.1732 6.82398 15.1878 6.75007 15.1878C6.67616 15.1878 6.60297 15.1732 6.53469 15.1449C6.46641 15.1166 6.40436 15.0752 6.3521 15.0229C6.29984 14.9707 6.25838 14.9086 6.2301 14.8403C6.20181 14.772 6.18726 14.6989 6.18726 14.6249C6.18726 14.551 6.20181 14.4779 6.2301 14.4096C6.25838 14.3413 6.29984 14.2792 6.3521 14.227L11.5798 8.99995L6.3521 3.77292C6.24655 3.66737 6.18726 3.52421 6.18726 3.37495C6.18726 3.22568 6.24655 3.08253 6.3521 2.97698C6.45765 2.87143 6.6008 2.81213 6.75007 2.81213C6.89934 2.81213 7.04249 2.87143 7.14804 2.97698L12.773 8.60198C12.8253 8.65422 12.8668 8.71626 12.8951 8.78454C12.9234 8.85283 12.938 8.92603 12.938 8.99995C12.938 9.07387 12.9234 9.14706 12.8951 9.21535C12.8668 9.28364 12.8253 9.34567 12.773 9.39792Z"
+                                  fill="#FCFCFC" />
+                        </svg>
+                    </a>
+
+
+                </div>
+
+                <!-- Swiper -->
+                <div class="relative ">
+                    <div class="flash-sale-swiper">
+                        <div class="swiper">
+                            <div class="swiper-wrapper">
+                                @foreach (var product in firstValidFlashSale.Products)
+                                {
+                                    string seoUrl = $"/san-pham/{ToSeoUrl(product.name)}--{product._id}";
+                                    string discountText = $"-{product.discountvalue}%";
+                                    string ratingDisplay = (product.rating.HasValue && product.rating > 0) ? product.rating.Value.ToString("0.0") + "★" : "";
+                                    string reviewCountDisplay = (product.review_count.HasValue && product.review_count > 0) ? $"({product.review_count})" : "";
+                                    <div class="swiper-slide pt-3">
+                                        <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
+                                            <a href="@seoUrl">
+                                                <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
+                                                    @discountText
+                                                </div>
+                                                <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                                    <img src="@product.avatar" alt="@product.name" class="absolute inset-0 w-full h-full object-cover" />
+                                                </div>
+                                                <p class="text-sm line-clamp-2 font-medium mt-2">@product.name</p>
+                                                <div class="absolute bottom-2 w-full px-2 left-0">
+                                                    <div class="text-rose-600 font-bold mt-1">@String.Format("{0:N0}", product.amount_after_flashsale) đ</div>
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="text-xs line-through text-slate-400">@String.Format("{0:N0}", product.amount) đ</div>
+                                                        <div class="text-xs text-yellow-500 mt-1">
+                                                            @Html.Raw(ratingDisplay) <span class="text-slate-400">@Html.Raw(reviewCountDisplay)</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                        <!-- Navigation -->
+                        <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                            <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                            <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        }
+
+
+    }
+</div>
+
+
+
+
+
+
+
+@section scripts {
+    <script asp-append-version="true" type="text/javascript" src="~/modules/flashsale.js"></script>
+    <!-- Thêm Swiper JS -->
+    @* <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> *@
+
+}

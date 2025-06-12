@@ -30,7 +30,7 @@ var flashsale = {
         var request = {};
 
         $.when(global_service.POST(API_URL.FlashSaleGetList, request)).done(function (res) {
-            debugger
+            
             if (res && res.is_success && res.data && res.data.items && res.data.items.length > 0) {
                 // Lọc các Flash Sale hợp lệ
                 var validFlashSales = res.data.items.filter(function (flashsale) {
@@ -61,13 +61,13 @@ var flashsale = {
 
 
     LoadProducts: function (flashsale_id, supplierName) {
-        debugger
+        
         var request = {
             id: flashsale_id
         };
 
         $.when(global_service.POST(API_URL.FlashSaleGetById, request)).done(function (res) {
-            debugger
+            
             const container = $('#swiper-wrapper');
             container.empty();
             if (res.is_success && res.data && res.data.length > 0) {
@@ -147,7 +147,7 @@ var flashsale = {
 
     // Countdown logic
     StartCountdown: function (fromdate, todate) {
-        debugger
+        
         var fromDate = new Date(fromdate); // Thời gian bắt đầu
         var toDate = new Date(todate); // Thời gian kết thúc
 
@@ -170,7 +170,7 @@ var flashsale = {
     },
 
     UpdateCountdown: function (toDate) {
-        debugger
+        
         let previousHours = -1, previousMinutes = -1, previousSeconds = -1;
 
         const countdown = setInterval(function () {

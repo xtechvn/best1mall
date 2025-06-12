@@ -58,7 +58,7 @@ $(document).ready(function () {
    
 
     $('body').on('click', '.menu_group_product', function (e) {
-        debugger
+        
         e.preventDefault();
 
         const $this = $(this);
@@ -110,7 +110,7 @@ $(document).ready(function () {
     // Lắng nghe sự kiện khi thay đổi giá
     let debounceTimer;
     $('#priceFrom, #priceTo').on('input', function () {
-        debugger
+        
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             
@@ -179,9 +179,10 @@ $(document).ready(function () {
 
     var home_product = {
         Initialization: function () {
+            
             // 👉 Nếu đang ở trang /san-pham thì load dữ liệu sản phẩm ngay lập tức
             if (window.location.pathname.toLowerCase().includes("/san-pham")) {
-                debugger
+                
                 const group_id = parseInt($('#group_id_from_url').val()) || 0;
 
                 const skip = 1;
@@ -206,10 +207,10 @@ $(document).ready(function () {
             $('.cat-tag2[data-id="' + firstCategoryId + '"]').addClass('bg-blue-500 text-white border-blue-500'); // Thêm active cho tab đầu tiên
 
 
-            if ($('.list-product-sale .swiper-wrapper').length > 0) {
+            
                 global_service.LoadGroupProduct($('.list-category'), GLOBAL_CONSTANTS.GroupProduct.GROUP_PRODUCT, GLOBAL_CONSTANTS.GridSize)
                 //--Product Sale Slide:
-                global_service.LoadHomeFlashSaleGrid($('.list-product-sale .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.FlashSale, GLOBAL_CONSTANTS.Size)
+              //  global_service.LoadHomeFlashSaleGrid($('.list-product-sale .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.FlashSale, GLOBAL_CONSTANTS.Size)
                 // Bear Collection
                 global_service.LoadHomeLabelGrid(
                     $('#bear-collection .swiper-wrapper'),
@@ -237,15 +238,15 @@ $(document).ready(function () {
                 // Load sản phẩm theo group_id đầu tiên
                 home_product.loadProductByGroup(firstCategoryId);
 
-                //global_service.LoadLabelList();
+                global_service.LoadFlashSaleList();
 
 
 
 
 
 
-            }
-            $('.xemthem').hide()
+            
+            //$('.xemthem').hide()
         },
         loadProductByGroup: function (group_id) {
            
@@ -258,7 +259,7 @@ $(document).ready(function () {
         take: 12, // Số lượng sản phẩm mỗi trang
         loadListProduct: function (group_id, skip, take, view_name, priceFrom = 0, priceTo = 0, ratingFrom = 0) {
            
-            debugger
+            
             $.ajax({
                 url: '/product/loadProductTopComponent', // URL tới action loadProductTopComponent
                 type: 'POST',
@@ -273,7 +274,7 @@ $(document).ready(function () {
                     rating: ratingFrom // Truyền ratingFrom
                 },
                 success: function (res) {
-                    debugger
+                    
                     const html = res.html || '';
                     const total = res.count || 0;
                     const isEmptyResponse = !html || html.trim() === "";
@@ -314,7 +315,7 @@ $(document).ready(function () {
         },
         // Hàm gọi Ajax để load thêm sản phẩm
         loadMore: function () {
-           debugger
+           
             var group_id;
 
             // Kiểm tra xem đã chọn tab hay chưa
