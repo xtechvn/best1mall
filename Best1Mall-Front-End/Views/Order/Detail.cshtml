@@ -8,7 +8,6 @@
     string data_id = (string)ViewBag.Id;
     var static_domain = (string)ViewBag.StaticDomain;
     var OrderStatusName = (string)ViewBag.OrderStatusName;
-
 }
 @Html.AntiForgeryToken()
 <input id="order-detail" style="display:none;" value="@data_id" />
@@ -56,7 +55,7 @@
                     <span class="date-time"></span>
                 </div>
             </div>
-            <div class="item @(new List<int>(){OrderStatus.DELIVERY}.Contains(order.data_order.OrderStatus)?"active":"")  progress-delivering">
+            <div class="item @(new List<int>() { OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY, OrderStatus.FINISHED }.Contains(order.data_order.OrderStatus) ? "active" : "")  progress-delivering">
                 <div class="process-step-cont">
                     <div class="process-step step-3 ">
                         <i class="icon icon-ship"></i>
@@ -65,7 +64,7 @@
                     <span class="date-time"></span>
                 </div>
             </div>
-            <div class="item @(new List<int>(){OrderStatus.FINISHED_DELIVERY}.Contains(order.data_order.OrderStatus)?"active":"") progress-received">
+            <div class="item @(new List<int>() { OrderStatus.FINISHED_DELIVERY, OrderStatus.FINISHED }.Contains(order.data_order.OrderStatus) ? "active" : "") progress-received">
                 <div class="process-step-cont">
                     <div class="process-step step-4  ">
                         <i class="icon icon-box"></i>
@@ -104,7 +103,7 @@
                     && cart.product.flash_sale_todate != null
                     && cart.product.flash_sale_todate > DateTime.Now;
 
-                    var price = isFlashSale ? cart.product.amount_after_flashsale.Value : cart.product.amount;
+                    var price = isFlashSale && cart!=null && cart.product.amount_after_flashsale!=null ? cart.product.amount_after_flashsale.Value : cart.product.amount;
                     var total = price * cart.quanity;
 
                     <div class="item">
