@@ -665,7 +665,8 @@ var product_detail = {
         debugger
         // Mô tả sản phẩm
         if (product.description) {
-            $('.content-mo-ta').html(product.description);
+            const cleanDescription = DOMPurify.sanitize(product.description);
+            $('.content-mo-ta').html(cleanDescription);
             $('.mo-ta').show();
         } else {
             $('#mo-ta').remove();
@@ -673,7 +674,8 @@ var product_detail = {
 
         // Thành phần
         if (product.description_ingredients) {
-            $('.content-thanh-phan').html(product.description_ingredients);
+            const cleanIngredients = DOMPurify.sanitize(product.description_ingredients);
+            $('.content-thanh-phan').html(cleanIngredients);
             $('.thanh-phan').show();
         } else {
             $('#thanh-phan').remove();
@@ -681,7 +683,8 @@ var product_detail = {
 
         // Công dụng
         if (product.description_effect) {
-            $('.content-cong-dung').html(product.description_effect);
+            const cleanEffect = DOMPurify.sanitize(product.description_effect);
+            $('.content-cong-dung').html(cleanEffect);
             $('.cong-dung').show();
         } else {
             $('#cong-dung').remove();
@@ -689,12 +692,14 @@ var product_detail = {
 
         // Cách dùng
         if (product.description_usepolicy) {
-            $('.content-cach-dung').html(product.description_usepolicy);
+            const cleanUse = DOMPurify.sanitize(product.description_usepolicy);
+            $('.content-cach-dung').html(cleanUse);
             $('.cach-dung').show();
         } else {
             $('#cach-dung').remove();
         }
     },
+
 
     GetListVoucherUser: function () {
         debugger
