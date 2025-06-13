@@ -43,6 +43,9 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
                 }
             }
 
+            // 🧠 Gọi thêm API lấy SuperFlashSale và truyền vào ViewBag
+            var superSaleProducts = await _flashsaleServices.ListingSuperSale();
+            ViewBag.SuperSaleProducts = superSaleProducts;
             return View(viewModel);
         }
         [Route("flashsale/products/{flashsaleId}")]
@@ -80,17 +83,13 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
                 data = result
             });
         }
-        [HttpPost]
-        public async Task<IActionResult> ListingSuperSale()
-        {
-            var result = await _flashsaleServices.ListingSuperSale();
+        //[HttpGet]
+        //public async Task<IActionResult> SuperFlashSale()
+        //{
+        //    var result = await _flashsaleServices.ListingSuperSale();
+        //    return PartialView("_SuperFlashSale", result);
+        //}
 
-            return Ok(new
-            {
-                is_success = result != null,
-                data = result
-            });
-        }
 
         [HttpPost]
         public async Task<IActionResult> GetById(FlashsaleListingRequestModel request)

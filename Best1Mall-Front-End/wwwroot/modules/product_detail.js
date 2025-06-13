@@ -323,6 +323,10 @@ var product_detail = {
     RenderAttributes: function (product, product_sub) {
         let htmlMain = '', htmlSidebar = '';
         let total_stock = product.quanity_of_stock || 0;
+        // 👉 Chỉ product-main mới có shipping và policy
+        htmlMain += HTML_CONSTANTS.Detail.Tr_Voucher;
+        htmlMain += HTML_CONSTANTS.Detail.Tr_Shipping;
+        htmlMain += HTML_CONSTANTS.Detail.Tr_policy;
 
         if (product_sub?.length > 0) {
             $(product.attributes).each((_, attribute) => {
@@ -349,10 +353,7 @@ var product_detail = {
             total_stock = product_sub.reduce((n, { amount }) => n + amount, 0);
         }
 
-        // 👉 Chỉ product-main mới có shipping và policy
-        htmlMain += HTML_CONSTANTS.Detail.Tr_Voucher;
-        htmlMain += HTML_CONSTANTS.Detail.Tr_Shipping;
-        htmlMain += HTML_CONSTANTS.Detail.Tr_policy;
+       
         htmlMain += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock));
 
         htmlSidebar += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock));
@@ -661,48 +662,40 @@ var product_detail = {
     },
 
     RenderDescriptions: function (product) {
+        debugger
+        // Mô tả sản phẩm
         if (product.description) {
-            $('.section-description-product .box-des p').html(product.description.replaceAll('\n', '<br />'));
+            $('.content-mo-ta').html(product.description);
             $('.mo-ta').show();
         } else {
             $('#mo-ta').remove();
-            $('.mo-ta').hide();
         }
 
+        // Thành phần
         if (product.description_ingredients) {
-            $('#thanh-phan ul').html(product.description_ingredients);
+            $('.content-thanh-phan').html(product.description_ingredients);
             $('.thanh-phan').show();
         } else {
             $('#thanh-phan').remove();
-            $('.thanh-phan').hide();
         }
 
+        // Công dụng
         if (product.description_effect) {
-            $('#cong-dung').append(`
-             <div class="md:p-5 p-3 mb-4">
-                <p class="text-gray-700">${product.description_effect}</p>
-             </div>
-            
-
-            `);
+            $('.content-cong-dung').html(product.description_effect);
             $('.cong-dung').show();
         } else {
             $('#cong-dung').remove();
-            $('.cong-dung').hide();
         }
 
+        // Cách dùng
         if (product.description_usepolicy) {
-            $('#cach-dung').append(`
-                 <div class="md:p-5 p-3 mb-4"> <p class="text-gray-700">${product.description_usepolicy}</p></div>
-           
-
-            `);
+            $('.content-cach-dung').html(product.description_usepolicy);
             $('.cach-dung').show();
         } else {
             $('#cach-dung').remove();
-            $('.cach-dung').hide();
         }
     },
+
     GetListVoucherUser: function () {
         debugger
         const usr = global_service.CheckLogin();
