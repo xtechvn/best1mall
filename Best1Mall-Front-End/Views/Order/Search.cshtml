@@ -104,20 +104,20 @@
                 <div class="bottom-box">
                     <div class="total-price">Tổng tiền: <span class="number-price text-red-400">@(item.Amount==null?"0":((double)item.Amount).ToString("N0")) đ</span> </div>
                     <div class="flex flex-wrap md:justify-end justify-center text-center items-center gap-3">
-                        @if ( item.OrderStatus==OrderStatus.PROCESS|| item.OrderStatus == OrderStatus.ON_DELIVERY)
+                        @if ( item.OrderStatus==OrderStatus.CREATED_ORDER|| item.OrderStatus == OrderStatus.PAID)
                         {
                             <a href="javascript;"
                             class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto order-index-refund">
                                 Trả hàng/Hoàn tiền
                             </a>
                         }
-                        @if (item.OrderStatus == OrderStatus.ON_DELIVERY)
+                        @if (item.OrderStatus == OrderStatus.DELIVERY)
                         {
                             <a href="javascript;"
                             class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto order-index-received">Đã nhận được hàng</a>
                         }
                         @* Mua lại nếu đơn đã hoàn thành hoặc đã hủy *@
-                        @if ((item.OrderStatus == OrderStatus.DONE || item.OrderStatus == OrderStatus.CANCELED)
+                        @if ((item.OrderStatus == OrderStatus.FINISHED || item.OrderStatus == OrderStatus.CANCELED)
                        && data_order?.carts?.Count > 0)
                         {
                             var rebuyData = Newtonsoft.Json.JsonConvert.SerializeObject(

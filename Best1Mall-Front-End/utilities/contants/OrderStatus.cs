@@ -2,12 +2,13 @@
 {
     public static class OrderStatus
     {
-        public static int NEW = 0;
-        public static int PROCESS = 1;
-        public static int ON_DELIVERY = 2;
-        public static int DONE = 3;
+        public static int CREATED_ORDER = 0;
+        public static int PAID = 6;
+        public static int PROCESSING = 1;
+        public static int DELIVERY = 2;
+        public static int FINISHED_DELIVERY = 5;
+        public static int FINISHED = 3;
         public static int CANCELED = 4;
-        public static int DELIVERED = 5;
     }
     public enum OrderStatusConstants
     {
