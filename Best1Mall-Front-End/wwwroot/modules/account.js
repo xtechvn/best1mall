@@ -130,7 +130,7 @@ var account = {
             $('#client-account-name').closest('a').removeClass('client-login')
             // Thêm dropdown vào DOM
             const dropdownHTML = `
-             <div id="accountDropdown "
+             <div id="accountDropdown"
                          class=" absolute top-full right-0  w-56 bg-white text-slate-900 shadow-lg border border-gray-200 rounded-xl p-4 z-50  hidden md:group-hover:block">
                         <a href="/Client/Profile" class="flex items-center gap-2 text-sm py-1 hover:text-purple-600">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"

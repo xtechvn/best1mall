@@ -110,6 +110,38 @@ var product_detail = {
             window.location.href = '/cart'
 
         });
+        $("body").on('click', ".vorcher-pop", function (event) {
+            // Đảm bảo thông báo lỗi được ẩn khi người dùng chọn voucher
+            const usr = global_service.CheckLogin(); // kiểm tra đăng nhập
+            if (!usr) {
+                $('.mainheader .client-login').click();
+                return;
+            }
+            $('#voucher-popup .voucher-error').remove();  // Xóa thông báo lỗi cũ nếu có
+            var cartId
+            var element = $(this)
+            event.preventDefault()
+            var box_id = element.attr('data-id')
+            // Nếu là nút xoá, truyền data-cart-id
+            if (box_id === "#lightbox-delete-cart") {
+                cartId = element.attr('data-cart-id');
+
+            } else {
+                cartId = element.closest('.product').attr('data-cart-id');
+            }
+            $(box_id).attr("data-cart-id", cartId);
+            $('.popup').addClass('hidden')
+            $('' + box_id).removeClass('hidden')
+            $('' + box_id).show()
+            // 👉 Nếu là popup địa chỉ, gọi render địa chỉ
+            if (box_id === "#address-book") {
+                var list = sessionStorage.getItem(STORAGE_NAME.AddressClient);
+                if (list) {
+                    var data = JSON.parse(list);
+                    address_client.RenderExistsAddress(data, $('#address-receivername').attr('data-id'));
+                }
+            }
+        });
 
 
     },
@@ -222,7 +254,9 @@ var product_detail = {
             if (result.is_success && result.data && result.data.product_main) {
                 sessionStorage.setItem(STORAGE_NAME.ProductDetail, JSON.stringify(result.data))
                 sessionStorage.setItem(STORAGE_NAME.SubProduct, JSON.stringify(result.data.product_sub))
+               
                 product_detail.RenderDetail(result.data.product_main, result.data.product_sub, result.cert, result.favourite, result.buywith, result.label_detail, result.groups)
+                product_detail.GetListVoucherUser();
             }
             else {
                 window.location.href = '/Home/NotFound'
@@ -351,7 +385,7 @@ var product_detail = {
         $('.section-label').html(html).show();
     },
     RenderBreadcrumb: function (groups) {
-        debugger
+     
         let html = `<li><a href="/" >Trang chủ</a></li>`;
 
         if (!Array.isArray(groups) || groups.length === 0) {
@@ -658,6 +692,61 @@ var product_detail = {
             $('#cach-dung').remove();
             $('.cach-dung').hide();
         }
+    },
+    GetListVoucherUser: function () {
+        debugger
+        const usr = global_service.CheckLogin();
+       
+
+        const request = {
+            token: usr.token,
+            //product_id:"682551b6711071e30c18bae6"
+        };
+        $.when(
+            global_service.POST(API_URL.VourcherList, request)
+
+        ).done(function (result) {
+            debugger
+            if (result.is_success && result.data && result.data.length > 0) {
+
+                product_detail.RenderVoucherList(result.data);
+
+
+            }
+
+
+        })
+
+
+    },
+
+    RenderVoucherList: function (vouchers) {
+        debugger
+
+        let html = '';
+        vouchers.forEach((v, idx) => {
+            html += `
+                <label class="item flex gap-3 items-center relative w-full">
+                    <img src="${v.image || '/assets/images/Voucher.png'}" alt="" class="shrink-0 w-1/4" />
+                    <div class="space-y-3 w-full">
+                        <div class="item flex gap-3 items-center justify-between relative">
+                            <h5>${v.description}</h5>
+                            
+                        </div>
+                        <div class="item flex gap-3 items-center justify-between relative w-full">
+                            <p class="text-slate-500">HSD: ${v.eDate}</p>
+                             <p class="text-red-500">Giảm: ${global_service.Comma(v.price_sales)} ${v.unit === 'vnd' ? '₫' : '%'}</p>
+                            
+                        </div>
+                    </div>
+
+                </label>
+            `;
+        });
+
+        $('.list-voucher').html(html);
+
+
     },
     GetProductDetailSession: function () {
         var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
