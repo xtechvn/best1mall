@@ -8,7 +8,6 @@
     string data_id = (string)ViewBag.Id;
     var static_domain = (string)ViewBag.StaticDomain;
     var OrderStatusName = (string)ViewBag.OrderStatusName;
-
 }
 @Html.AntiForgeryToken()
 <input id="order-detail" style="display:none;" value="@data_id" />
@@ -38,7 +37,7 @@
     </div>
     <div id="process-step-order" class="process-wrap process-wrap-4">
         <div class="process-main">
-            <div class="item @(order.data_order.OrderStatus >= OrderStatus.NEW ?"active":"") progress-confirmed">
+            <div class="item @(order.data_order.OrderStatus != OrderStatus.CANCELED ?"active":"") progress-confirmed">
                 <div class="process-step-cont">
                     <div class="process-step step-1">
                         <i class="icon icon-text"></i>
@@ -47,7 +46,7 @@
                     <span class="date-time">@(((DateTime)order.data_order.CreatedDate).ToString("dd/MM/yyyy HH:mm"))</span>
                 </div>
             </div>
-            <div class="item @(order.data_order.OrderStatus >= OrderStatus.PROCESS) progress-payment">
+            <div class="item @(!new List<int>(){OrderStatus.CANCELED,OrderStatus.CREATED_ORDER}.Contains(order.data_order.OrderStatus)?"active":"" ) progress-payment">
                 <div class="process-step-cont  ">
                     <div class="process-step step-2">
                         <i class="icon icon-cashback"></i>
@@ -56,7 +55,7 @@
                     <span class="date-time"></span>
                 </div>
             </div>
-            <div class="item @(order.data_order.OrderStatus >= OrderStatus.ON_DELIVERY ?"active":"")  progress-delivering">
+            <div class="item @(new List<int>() { OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY, OrderStatus.FINISHED }.Contains(order.data_order.OrderStatus) ? "active" : "")  progress-delivering">
                 <div class="process-step-cont">
                     <div class="process-step step-3 ">
                         <i class="icon icon-ship"></i>
@@ -65,7 +64,7 @@
                     <span class="date-time"></span>
                 </div>
             </div>
-            <div class="item @(order.data_order.OrderStatus >= OrderStatus.DELIVERED ?"active":"") progress-received">
+            <div class="item @(new List<int>() { OrderStatus.FINISHED_DELIVERY, OrderStatus.FINISHED }.Contains(order.data_order.OrderStatus) ? "active" : "") progress-received">
                 <div class="process-step-cont">
                     <div class="process-step step-4  ">
                         <i class="icon icon-box"></i>
@@ -78,11 +77,11 @@
     </div>
 
     <div class=" md:grid flex justify-center md:justify-end text-center items-center my-4 gap-3">
-        @if (order.data_order.OrderStatus == OrderStatus.DELIVERED || order.data_order.OrderStatus == OrderStatus.DONE||
+        @if (order.data_order.OrderStatus == OrderStatus.FINISHED_DELIVERY || order.data_order.OrderStatus == OrderStatus.FINISHED ||
         order.data_order.OrderStatus == OrderStatus.CANCELED){
             <a href="javascript:;" class=" btn-buy-again border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Mua lại</a>
         }
-        @if (order.data_order.OrderStatus == OrderStatus.DELIVERED || order.data_order.OrderStatus == OrderStatus.DONE )
+        @if (order.data_order.OrderStatus == OrderStatus.FINISHED_DELIVERY || order.data_order.OrderStatus == OrderStatus.FINISHED)
         {
             <a id="order-detail-raiting" href="javascript:;" class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Đánh giá</a>
         }
@@ -104,7 +103,7 @@
                     && cart.product.flash_sale_todate != null
                     && cart.product.flash_sale_todate > DateTime.Now;
 
-                    var price = isFlashSale ? cart.product.amount_after_flashsale.Value : cart.product.amount;
+                    var price = isFlashSale && cart!=null && cart.product.amount_after_flashsale!=null ? cart.product.amount_after_flashsale.Value : cart.product.amount;
                     var total = price * cart.quanity;
 
                     <div class="item">
