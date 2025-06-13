@@ -22,7 +22,7 @@
 
 
     <title>@ViewData["Title"]</title>
-    <link type="image/x-icon" href="~/images/img-search.png" rel="shortcut icon" />
+    <link type="image/x-icon" href="~/assets/images/logo.svg" rel="shortcut icon" />
     <!-- CSS-->
     @RenderSection("Styles", required: false)
     <style>
@@ -81,7 +81,8 @@
     <script src="/modules/constants.js" asp-append-version="true"></script>
     <script src="/modules/services.js" asp-append-version="true"></script>
     <script src="/modules/global.js" asp-append-version="true"></script>
-    
+    <script asp-append-version="true" src="https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.min.js"></script>
+
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />

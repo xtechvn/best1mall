@@ -1,0 +1,106 @@
+﻿@using Best1Mall_Front_End.Models.Flashsale
+@model List<FlashSaleProductResposeModel>
+ 
+@functions {
+    string ToSeoUrl(string name)
+    {
+        return RemoveUnicode(RemoveSpecialCharacters(name)).Replace(" ", "-").ToLower();
+    }
+
+    string RemoveUnicode(string text)
+    {
+        var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+        var chars = normalized.Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark);
+        return new string(chars.ToArray()).Normalize(System.Text.NormalizationForm.FormC);
+    }
+
+    string RemoveSpecialCharacters(string input)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(input, "[^a-zA-Z0-9\\s-]", "");
+    }
+
+    string FormatCurrency(double? amount)
+    {
+        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "Giá liên hệ";
+    }
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
+
+@if (Model != null && Model.Any())
+{
+   
+<!-- Hiển thị Flash Sale đầu tiên hợp lệ -->
+<div class="flex items-center gap-2 justify-center">
+    <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
+    <img src="images/flashsale-p.png" alt="" />
+    <span class="md:block hidden font-normal">Kết thúc trong</span>
+    <div id="countdown" class="flex gap-1 font-bold text-white">
+        <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span> <span class="text-[#FF4169]">:</span>
+        <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span> <span class="text-[#FF4169]">:</span>
+        <span class="bg-[#FF4169] px-2 py-1 rounded" id="seconds">00</span>
+    </div>
+    <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
+</div>
+
+<div class="flashsale-box my-3 md:rounded-3xl rounded-xl bg-[#FF4169]">
+    <div class="bg-box md:px-6 md:py-10 py-4 md:rounded-3xl rounded-xl px-3 pb-0 text-white relative md:min-h-[320px]">
+        <h2 class="md:text-4xl text-2xl my-3">Chăm cơ thể – giữ tinh thần – <br />tiết kiệm tối đa!</h2>
+        <h3 class="md:text-5xl text-3xl md:my-4 my-3">Giảm 50%</h3>
+        <p>cho các dòng vitamin, collagen, men tiêu hóa,...</p>
+        <img src="~/assets/images/imageads.png" alt="" class="md:absolute right-0 bottom-0 md:max-w-2/3 ml-auto">
+    </div>
+</div>
+
+<!-- List sản phẩm 5 cột cho Flash Sale đầu tiên -->
+<div class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-3">
+        @foreach (var product in Model)
+    {
+        string seoUrl = $"/san-pham/{ToSeoUrl(product.name)}--{product._id}";
+        string discountText = $"-{product.discountvalue}%";
+        string ratingDisplay = (product.rating.HasValue && product.rating > 0) ? product.rating.Value.ToString("0.0") + "★" : "";
+        string reviewCountDisplay = (product.review_count.HasValue && product.review_count > 0) ? $"({product.review_count})" : "";
+        string imgSrc = GetFullImageUrl(product.avatar);
+        <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
+            <a href="@seoUrl">
+                    <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
+                    Siêu Sale
+                </div>
+                   
+                <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                    <img src="@imgSrc" alt="@product.name" class="absolute inset-0 w-full h-full object-cover" />
+                </div>
+                <p class="text-sm line-clamp-2 font-medium mt-2">@product.name</p>
+                <div class="absolute bottom-2 w-full px-2 left-0">
+                    <div class="text-rose-600 font-bold mt-1">@String.Format("{0:N0}", product.amount_after_flashsale) đ</div>
+                    <div class="flex items-center justify-between">
+                        <div class="text-xs line-through text-slate-400">@String.Format("{0:N0}", product.amount) đ</div>
+                        <div class="text-xs text-yellow-500 mt-1">
+                            @Html.Raw(ratingDisplay) <span class="text-slate-400">@Html.Raw(reviewCountDisplay)</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    }
+</div>
+}
+else
+{
+    <div class="text-center py-6 text-slate-500">
+        Hiện tại chưa có Siêu Flash Sale nào đang diễn ra 😢
+    </div>
+}
+            

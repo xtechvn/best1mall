@@ -238,7 +238,7 @@ $(document).ready(function () {
                 // Load sản phẩm theo group_id đầu tiên
                 home_product.loadProductByGroup(firstCategoryId);
 
-                global_service.LoadFlashSaleList();
+                
 
 
 
