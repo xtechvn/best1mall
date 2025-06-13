@@ -678,7 +678,13 @@ var product_detail = {
         }
 
         if (product.description_effect) {
-            $('#cong-dung').append(`<p class="text-gray-700">${product.description_effect}</p>`);
+            $('#cong-dung').append(`
+             <div class="md:p-5 p-3 mb-4">
+                <p class="text-gray-700">${product.description_effect}</p>
+             </div>
+            
+
+            `);
             $('.cong-dung').show();
         } else {
             $('#cong-dung').remove();
@@ -686,7 +692,11 @@ var product_detail = {
         }
 
         if (product.description_usepolicy) {
-            $('#cach-dung').append(`<p class="text-gray-700">${product.description_usepolicy}</p>`);
+            $('#cach-dung').append(`
+                 <div class="md:p-5 p-3 mb-4"> <p class="text-gray-700">${product.description_usepolicy}</p></div>
+           
+
+            `);
             $('.cach-dung').show();
         } else {
             $('#cach-dung').remove();

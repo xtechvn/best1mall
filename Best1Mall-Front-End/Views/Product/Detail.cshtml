@@ -486,43 +486,49 @@
                                 </div>
                             </div>
                             <!-- Nội dung -->
-                            <div class="space-y-10 section-description-product">
+                            <div class="space-y-3 section-description-product">
                                 <section id="mo-ta"
-                                         class=" box-des section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
-                                    <h2 class="font-semibold mb-2">Mô tả sản phẩm</h2>
-                                    <p class="text-gray-700">
+                                         class=" box-des section-tab md:rounded-3xl rounded-xl bg-white overflow-hidden">
+                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-50">Mô tả sản phẩm</h2>
+                                    <div class="md:p-5 p-3 mb-4">
+                                        <p class="text-gray-700">
 
-                                    </p>
+                                        </p>
+                                    </div>
+                                    
 
 
                                 </section>
 
                                 <section id="thanh-phan"
-                                         class="section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
-                                    <h2 class="font-semibold mb-2">Thành phần</h2>
-                                    <ul class="list-disc list-inside text-gray-700">
-                                        @* description_ingredients *@
+                                         class="section-tab md:rounded-3xl rounded-xl bg-white overflow-hidden">
+                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-50">Thành phần</h2>
+                                    <div class="md:p-5 p-3 mb-4">
+                                        <ul class="list-disc list-inside text-gray-700">
+                                            @* description_ingredients *@
 
-                                    </ul>
+                                        </ul>
+                                    </div>
+                                   
                                 </section>
 
                                 <section id="cong-dung"
-                                         class="section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
-                                    <h2 class="font-semibold mb-2">Công dụng</h2>
+                                         class="section-tab md:rounded-3xl rounded-xl bg-white overflow-hidden">
+                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-50">Công dụng</h2>
                                     @* description_effect *@
                                     @* <p class="text-gray-700">Giúp tăng đàn hồi, làm mịn da, móng tóc khỏe mạnh...</p> *@
                                 </section>
 
                                 <section id="cach-dung"
-                                         class="section-tab md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
-                                    <h2 class="font-semibold mb-2">Cách dùng</h2>
+                                         class="section-tab md:rounded-3xl rounded-xl bg-white overflow-hidden">
+                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-50">Cách dùng</h2>
                                     @* description_usepolicy *@
                                     @* <p class="text-gray-700">Ngày uống 1-2 viên sau ăn...</p> *@
                                 </section>
                             </div>
                         </div>
 
-                        <div class="md:rounded-3xl rounded-xl bg-white md:p-5 p-3 mb-4">
+                        <div class="md:rounded-3xl rounded-xl  bg-white md:p-5 p-3 md:mb-0 mb-4 mt-4">
                             <h2 class="font-semibold mb-2 uppercase">Đánh giá sản phẩm</h2>
 
                             <!-- Rating Summary + Filters -->
@@ -594,13 +600,13 @@
                                         </div>
 
                                         <!-- Shop Reply -->
-                                        <div class="bg-gray-50 mt-2 border-l-4 border-blue-300 p-3 rounded-md text-sm text-gray-700">
-                                            <p class="text-gray-500 mb-1">2024-03-29 21:12</p>
-                                            <p>
-                                                <span class="font-bold">BEST MALL</span><br />
-                                                Hulo Toys cảm ơn cậu đã tin tưởng và ủng hộ ạ ^^ cậu nhớ áp dụng mã giảm giá chúng tớ đã gửi kèm cho lần mua sau nhé ❤️
-                                            </p>
-                                        </div>
+                                        @* <div class="bg-gray-50 mt-2 border-l-4 border-blue-300 p-3 rounded-md text-sm text-gray-700"> *@
+                                        @*     <p class="text-gray-500 mb-1">2024-03-29 21:12</p> *@
+                                        @*     <p> *@
+                                        @*         <span class="font-bold">BEST MALL</span><br /> *@
+                                        @*         Hulo Toys cảm ơn cậu đã tin tưởng và ủng hộ ạ ^^ cậu nhớ áp dụng mã giảm giá chúng tớ đã gửi kèm cho lần mua sau nhé ❤️ *@
+                                        @*     </p> *@
+                                        @* </div> *@
                                     </div>
 
                                 </div>
@@ -765,18 +771,7 @@
             <div class="list-voucher space-y-3">
                 @* ......................... *@
             </div>
-            <!-- Hiển thị thông báo lỗi nếu giỏ hàng trống -->
-            @* <p class="voucher-error text-red-500 mt-4" style="display:none;">Vui lòng chọn sản phẩm trước khi áp dụng voucher!</p> *@
-
-            @* <div class="flex justify-between items-center mt-4 gap-3"> *@
-            @*     <button class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full btn-back"> *@
-            @*         Trở *@
-            @*         lại *@
-            @*     </button> *@
-            @*     <button class="border border-blue-500 bg-blue-500 px-1 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full btn-vorcher"> *@
-            @*         OK *@
-            @*     </button> *@
-            @* </div> *@
+           
         </div>
     </div>
 </div>

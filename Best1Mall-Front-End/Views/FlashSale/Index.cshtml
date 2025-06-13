@@ -115,7 +115,7 @@
             }
 
             <!-- Hiển thị Flash Sale còn lại trong Swiper -->
-            @foreach (var flashsale in validFlashSales.Skip(1)) // Bắt đầu từ Flash Sale thứ hai hợp lệ
+            @foreach (var flashsale in validFlashSales) // Bắt đầu từ Flash Sale thứ hai hợp lệ
             {
                 string imgSrc = GetFullImageUrl(flashsale.banner);
                 <div class="my-6 md:my-10">
