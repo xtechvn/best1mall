@@ -92,7 +92,7 @@ var product_detail = {
         //});
         $("body").on('click', ".add-cart", function () {
 
-            product_detail.AddToCart()
+            product_detail.AddToCart(this)
 
         });
 
@@ -103,10 +103,9 @@ var product_detail = {
 
         });
         $("body").on('click', ".buy-now", function () {
-
-            product_detail.BuyNow()
-
+            product_detail.BuyNow(this); // truyền DOM button vào
         });
+
         $("body").on('click', ".btn-go-to-cart", function () {
             window.location.href = '/cart'
 
@@ -207,7 +206,7 @@ var product_detail = {
         
         const usr = global_service.CheckLogin(); // kiểm tra đăng nhập
         $('#skeleton-loading').show();
-        $('.product-details-section').hide();
+       // $('.product-details-section').hide();
 
         var code = $('.section-details-product').attr('data-code')
         if (code == undefined || code.trim() == '')
@@ -284,11 +283,11 @@ var product_detail = {
         this.RemoveLoading();
 
         $('#skeleton-loading').hide();
-        $('.product-details-section').show();
+        $('.product-details-section').removeClass('hidden');
+       // $('.product-details-section').show();
     },
     RenderAttributes: function (product, product_sub) {
-        
-        let html = '', html2 = '';
+        let htmlMain = '', htmlSidebar = '';
         let total_stock = product.quanity_of_stock || 0;
 
         if (product_sub?.length > 0) {
@@ -309,17 +308,27 @@ var product_detail = {
                     .replaceAll('{name}', attribute.name)
                     .replaceAll('{li}', html_item);
 
-                html += block;
-                html2 += block;
+                htmlMain += block;
+                htmlSidebar += block;
             });
 
             total_stock = product_sub.reduce((n, { amount }) => n + amount, 0);
         }
 
-        html += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock));
-        $('.box-info-details tbody').html(html);
-        $('.box-attribute').html(html2);
+        // 👉 Chỉ product-main mới có shipping và policy
+        htmlMain += HTML_CONSTANTS.Detail.Tr_Voucher;
+        htmlMain += HTML_CONSTANTS.Detail.Tr_Shipping;
+        htmlMain += HTML_CONSTANTS.Detail.Tr_policy;
+        htmlMain += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock));
+
+        htmlSidebar += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock));
+
+        // ⛳ Gán chính xác vào từng vùng
+        $('.box-info-details.product-main tbody').html(htmlMain);       // đầy đủ
+        $('.box-info-details.product-sidebar .body2').html(htmlSidebar); // rút gọn
+        $('.box-attribute').html(htmlSidebar);                          // rút gọn (nếu cần)
     },
+
     RenderLabel: function (label) {
         
         if (!label || !label.labelCode || !label.id) {
@@ -658,7 +667,7 @@ var product_detail = {
         return undefined
     },
     GetSubProductSessionByAttributeSelected: function () {
-
+        debugger
 
         var json = sessionStorage.getItem(STORAGE_NAME.SubProduct)
         if (!json || json.trim() === '' || json === 'null') return undefined;
@@ -774,8 +783,10 @@ var product_detail = {
         }
     },
 
-    AddToCart: function (buy_now = false) {
-
+    AddToCart: function (btn) {
+        debugger
+        const $btn = $(btn);
+        const target = $btn.attr("data-target"); // main hoặc sidebar
         
         var product = product_detail.GetSubProductSessionByAttributeSelected();
 
@@ -788,7 +799,13 @@ var product_detail = {
 
 
 
-        var quantity = parseInt($('.box-detail-stock .quantity').val()) || 1;
+        // 🎯 Lấy số lượng theo từng vùng
+        let quantity = 1;
+        if (target === "main") {
+            quantity = parseInt($(".product-main").find(".quantity").val()) || 1;
+        } else if (target === "sidebar") {
+            quantity = parseInt($(".product-sidebar").find(".quantity").val()) || 1;
+        }
         quantity = Math.max(1, Math.min(999, quantity)); // Chặn từ JS
         if (!product) {
             window.location.reload(); // reload để tránh lỗi không có dữ liệu
@@ -874,8 +891,8 @@ var product_detail = {
 
 
 
-    BuyNow: function () {
-        
+    BuyNow: function (btn) {
+        debugger
         var product = product_detail.GetSubProductSessionByAttributeSelected()
         if (product == undefined) {
             var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
@@ -889,7 +906,15 @@ var product_detail = {
         }
         var usr = global_service.CheckLogin()
         var token = ''
-        var quantity = parseInt($('.box-detail-stock .quantity').val()) || 1;
+        const $btn = $(btn);
+        const target = $btn.attr("data-target"); // ❗ dùng attr, không data
+       
+        let quantity = 1;
+        if (target === "main") {
+            quantity = parseInt($(".product-main").find(".quantity").val()) || 1;
+        } else if (target === "sidebar") {
+            quantity = parseInt($(".product-sidebar").find(".quantity").val()) || 1;
+        }
         quantity = Math.max(1, Math.min(999, quantity)); // Cũng chặn ở đây luôn
         if (usr) {
             token = usr.token
