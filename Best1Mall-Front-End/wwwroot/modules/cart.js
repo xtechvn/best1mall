@@ -269,6 +269,7 @@ var cart = {
     },
 
     OrderAddress: function () {
+        debugger
         cart.RenderDefaultAddress();
         var request = {
 
@@ -276,6 +277,7 @@ var cart = {
         $.when(
             global_service.POST(API_URL.AddressPopup, request)
         ).done(function (result) {
+            debugger
             $('body').append(result)
             address_client.Initialization()
             address_client.DynamicConfirmAddress(function (data) {
@@ -285,6 +287,7 @@ var cart = {
         })
     },
     RenderDefaultAddress: function () {
+        
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -295,6 +298,7 @@ var cart = {
         $.when(
             global_service.POST(API_URL.DefaultAddress, request)
         ).done(function (result) {
+            debugger
             if (result.is_success) {
                 cart.ConfirmCartAddress(result.data)
 
@@ -302,6 +306,7 @@ var cart = {
         })
     },
     ConfirmCartAddress: function (data) {
+        debugger
         if (data != undefined && data.id != undefined) {
             $('#address-receivername').attr('data-id', (data.id == null || data.id == undefined || data.id == '' ? '-1' : data.id))
             $('#address-receivername').html(data.receiverName)
@@ -386,7 +391,11 @@ var cart = {
             var inputReadonly = isEnabled ? '' : 'readonly';
 
             var html_item = HTML_CONSTANTS.Cart.Product
-                .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(product.name)).replaceAll(' ', '-') + '--' + product.parent_product_id)
+                .replaceAll('{url}', '/san-pham/' +
+                    global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(product.name)).replaceAll(' ', '-') +
+                    '--' + (product.parent_product_id || product._id)
+                )
+
                 .replaceAll('{id}', item._id || product._id)
                 .replaceAll('{product_id}', product._id)
                 .replaceAll('{amount}', display_price)
