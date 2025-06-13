@@ -378,7 +378,10 @@ var HTML_CONSTANTS = {
                             `,
         ThumbnailImages: ` <div class="swiper-slide w-20 h-20 small">
                                          <img src="{src}" alt="" 
-                                              class="w-full h-full object-contain border border-gray-300 rounded-md" /> 
+                                              class="w-full h-full object-contain border border-gray-300 rounded-md" style="
+    width: 100px;
+    height: 100px;
+" />
                                     </div> `,
         ThumbnailVideos: `<div class="swiper-slide">
                                 <video>

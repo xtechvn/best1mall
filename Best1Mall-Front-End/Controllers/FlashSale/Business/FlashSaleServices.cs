@@ -36,6 +36,28 @@ namespace Best1Mall_Front_End.Controllers.FlashSale.Business
             return null;
         }
 
+        public async Task<FlashSaleListResponse> ListingSuperSale()
+        {
+            try
+            {
+
+                var result = await POST("api/flashsale/supersale", 0);
+
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"]?.ToString() ?? "0");
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    var dataObj = jsonData["data"]?.ToString();
+                    return JsonConvert.DeserializeObject<FlashSaleListResponse>(dataObj);
+                }
+            }
+            catch
+            {
+            }
+            return null;
+        }
+
         public async Task<List<FlashSaleProductResposeModel>> GetById(FlashsaleListingRequestModel request)
         {
             try

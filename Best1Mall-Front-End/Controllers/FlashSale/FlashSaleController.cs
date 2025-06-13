@@ -80,6 +80,17 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
                 data = result
             });
         }
+        [HttpPost]
+        public async Task<IActionResult> ListingSuperSale()
+        {
+            var result = await _flashsaleServices.ListingSuperSale();
+
+            return Ok(new
+            {
+                is_success = result != null,
+                data = result
+            });
+        }
 
         [HttpPost]
         public async Task<IActionResult> GetById(FlashsaleListingRequestModel request)

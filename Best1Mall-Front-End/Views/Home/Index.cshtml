@@ -505,9 +505,51 @@
 
     </section>
 
+    <div id="popup-banner" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-[999]">
+        <div class="flex justify-center md:items-center h-full">
+            <div class="popup-content relative bg-transparent max-w-[400px] w-full mx-auto p-0 rounded-xl">
+
+                <!-- Nút đóng -->
+                <span class="closePopup absolute right-2 top-2 z-10 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                        <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z" fill="#2A3262" />
+                    </svg>
+                </span>
+
+                <!-- Ảnh Shopee style -->
+                <img src="/assets/images/Home_sale.png" alt="Popup" class="w-full rounded-xl" />
+            </div>
+        </div>
+    </div>
+
+
+
+
     <!-- END HOME -->
 
 </main>
 @section scripts {
+    <script>
+              (function () {
+            const key = 'popup_last_closed';
+            const now = Date.now();
+            const showDelay = 2 * 60 * 1000; // 2 phút
+
+            const isHomePage = window.location.pathname === "/" || window.location.pathname === "/index.html";
+            if (!isHomePage) return;
+
+            const lastClosed = localStorage.getItem(key);
+            if (!lastClosed || now - parseInt(lastClosed) > showDelay) {
+                $('#popup-banner').removeClass('hidden');
+            }
+
+            $('body').on('click', '.closePopup', function () {
+                $('#popup-banner').addClass('hidden');
+                localStorage.setItem(key, Date.now());
+            });
+        })();
+
+
+    </script>
     <script asp-append-version="true" type="text/javascript" src="~/modules/new.js"></script>
 }
