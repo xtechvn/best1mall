@@ -403,14 +403,11 @@ var HTML_CONSTANTS = {
                                         <td class="text-slate-500">Mã giảm giá:</td>
                                         <td>
                                             <span class="flex gap-2 items-center">
-                                                <span class="rounded bg-red-100 text-red-400 px-2 text-sm cursor-pointer">
-                                                    30%
-                                                    giảm
+                                                <span class="rounded bg-red-100 text-red-400 px-2 text-sm cursor-pointer vorcher-pop" data-id="#voucher-popup">
+                                                    Giảm: 50,000 ₫
+                                                    
                                                 </span>
-                                                <span class="rounded bg-red-100 text-red-400 px-2 text-sm cursor-pointer">
-                                                    30%
-                                                    giảm
-                                                </span>
+                                                
                                             </span>
                                         </td>
                                     </tr>`,

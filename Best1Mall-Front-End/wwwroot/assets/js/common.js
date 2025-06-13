@@ -100,9 +100,10 @@ $(document).ready(function () {
 
     // Xử lý toggle dropdown khi click trên mobile
     $('#accountButton').on('click', function (e) {
+        debugger
         if (isMobile()) {
             e.preventDefault();
-            $('#accountDropdown').toggleClass('hidden');
+            $('#accountDropdown').removeClass('hidden');
         }
     });
 
