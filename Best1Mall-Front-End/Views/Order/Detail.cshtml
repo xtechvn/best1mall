@@ -111,7 +111,11 @@
                             <img id="product-avt" src="@StringHelpers.CorrectImage(cart.product.avatar, static_domain)" alt="" />
                         </div>
                         <div class="info">
-                            <h1 class="name-product">@cart.product.name</h1>
+                            <h1 class="name-product">
+                                <a href="/san-pham/@(Best1Mall_Front_End.Utilities.Lib.StringHelpers.ConvertNewsUrlToNoSymbol(cart.product.name))--@cart.product._id">
+                                    @cart.product.name
+                                </a>
+                           </h1>
                             <div class="cat">Phân loại hàng: @StringHelpers.RenderVariationDetail(cart.product.attributes, cart.product.attributes_detail, cart.product.variation_detail)</div>
                             <div class="flex-quantity">
                                 <span>Giá: @price.ToString("N0") đ</span>
