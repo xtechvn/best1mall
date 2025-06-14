@@ -147,7 +147,7 @@ var address_client = {
 
     },
     Detail: function (selected_id = undefined) {
-        debugger
+        
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -188,7 +188,7 @@ var address_client = {
         $('.content-left-user').removeClass('placeholder')
     },
     RenderExistsAddress: function (list, selected_id = undefined) {
-        debugger
+        
         var html = ''
         let hasActive = list.some(item => item.isActive === true);
         $(list).each(function (index, item) {
@@ -215,7 +215,7 @@ var address_client = {
         
     },
     RenderDetailAddress: function (data) {
-        debugger
+        
         var address_select = ''
         if (data.ward_detail != null && data.ward_detail != undefined) {
             address_select += data.ward_detail.name

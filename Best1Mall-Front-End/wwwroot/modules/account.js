@@ -123,11 +123,18 @@ var account = {
             if (usr.token == null || usr.token == undefined) {
                 account.Logout()
             }
-            $('#client-account-name').html('Xin chào, '+usr.name )
-            $('#client-account-name').closest('a').attr('href', '/order')
-            $('#client-account-name').closest('a').removeAttr('data-id')
-            $('#client-account-name').closest('a').addClass('client-logged')
-            $('#client-account-name').closest('a').removeClass('client-login')
+            $('#client-account-name').html('Xin chào, ' + usr.name);
+            //$('#client-account-name').closest('a').attr('href', '/order')
+            //$('#client-account-name').closest('a').removeAttr('data-id')
+            //$('#client-account-name').closest('a').addClass('client-logged')
+            //$('#client-account-name').closest('a').removeClass('client-login')
+            // Gỡ class login và data-id
+            $('#accountButton .client-login')
+                .removeAttr('data-id')
+                .removeClass('client-login')
+                .addClass('client-logged');
+                // Xoá dropdown cũ nếu có
+            $('#accountDropdown').remove();
             // Thêm dropdown vào DOM
             const dropdownHTML = `
              <div id="accountDropdown"
