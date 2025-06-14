@@ -97,15 +97,31 @@ $(document).ready(function () {
     function isMobile() {
         return window.innerWidth < 768;
     }
-
-    // Xử lý toggle dropdown khi click trên mobile
+    // Toggle dropdown khi bấm vào #accountButton trên mobile
     $('#accountButton').on('click', function (e) {
-        debugger
+        
         if (isMobile()) {
-            e.preventDefault();
-            $('#accountDropdown').removeClass('hidden');
+            const $dropdown = $('#accountDropdown');
+
+            // Ngăn sự kiện lan ra gây lỗi
+            e.stopPropagation();
+
+            // Nếu chưa render dropdown thì không làm gì hết
+            if (!$dropdown.length) return;
+
+            // Nếu click vào bên trong link/dropdown thì bỏ qua toggle
+            const isInnerClick = $(e.target).closest('#accountDropdown a, #accountDropdown button').length;
+            if (!isInnerClick) {
+                e.preventDefault();
+                $dropdown.toggleClass('hidden');
+            }
         }
     });
+
+    
+
+
+
 
     // Ẩn dropdown khi click ngoài (chỉ mobile)
     $(document).on('click touchstart', function (e) {
@@ -121,6 +137,12 @@ $(document).ready(function () {
     // Khi resize về PC, đảm bảo dropdown bị ẩn đi (vì hover sẽ lo hiển thị)
     $(window).on('resize', function () {
         if (!isMobile()) {
+            $('#accountDropdown').addClass('hidden');
+        }
+    });
+    // Auto đóng dropdown khi bấm link hoặc logout trong menu
+    $(document).on('click', '#accountDropdown a, #accountDropdown button', function () {
+        if (isMobile()) {
             $('#accountDropdown').addClass('hidden');
         }
     });

@@ -72,6 +72,11 @@ namespace Best1Mall_Front_End.Controllers.Home
         {
             return View();
         }
+        [Route("About")]
+        public IActionResult About()
+        {
+            return View();
+        }
         [HttpGet]
         public IActionResult GetGoogleClientId(int top)
         {

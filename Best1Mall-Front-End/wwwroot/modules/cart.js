@@ -269,7 +269,7 @@ var cart = {
     },
 
     OrderAddress: function () {
-        debugger
+        
         cart.RenderDefaultAddress();
         var request = {
 
@@ -277,7 +277,7 @@ var cart = {
         $.when(
             global_service.POST(API_URL.AddressPopup, request)
         ).done(function (result) {
-            debugger
+            
             $('body').append(result)
             address_client.Initialization()
             address_client.DynamicConfirmAddress(function (data) {
@@ -298,7 +298,7 @@ var cart = {
         $.when(
             global_service.POST(API_URL.DefaultAddress, request)
         ).done(function (result) {
-            debugger
+            
             if (result.is_success) {
                 cart.ConfirmCartAddress(result.data)
 
@@ -306,7 +306,7 @@ var cart = {
         })
     },
     ConfirmCartAddress: function (data) {
-        debugger
+        
         if (data != undefined && data.id != undefined) {
             $('#address-receivername').attr('data-id', (data.id == null || data.id == undefined || data.id == '' ? '-1' : data.id))
             $('#address-receivername').html(data.receiverName)

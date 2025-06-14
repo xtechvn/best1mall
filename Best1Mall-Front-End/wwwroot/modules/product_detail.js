@@ -662,7 +662,7 @@ var product_detail = {
     },
 
     RenderDescriptions: function (product) {
-        debugger
+        
         // Mô tả sản phẩm
         if (product.description) {
             const cleanDescription = DOMPurify.sanitize(product.description);
@@ -702,7 +702,7 @@ var product_detail = {
 
 
     GetListVoucherUser: function () {
-        debugger
+        
         const usr = global_service.CheckLogin();
        
 
@@ -714,7 +714,7 @@ var product_detail = {
             global_service.POST(API_URL.VourcherList, request)
 
         ).done(function (result) {
-            debugger
+            
             if (result.is_success && result.data && result.data.length > 0) {
 
                 product_detail.RenderVoucherList(result.data);
@@ -729,7 +729,7 @@ var product_detail = {
     },
 
     RenderVoucherList: function (vouchers) {
-        debugger
+        
 
         let html = '';
         vouchers.forEach((v, idx) => {
@@ -764,7 +764,7 @@ var product_detail = {
         return undefined
     },
     GetSubProductSessionByAttributeSelected: function () {
-        debugger
+        
 
         var json = sessionStorage.getItem(STORAGE_NAME.SubProduct)
         if (!json || json.trim() === '' || json === 'null') return undefined;
@@ -881,7 +881,7 @@ var product_detail = {
     },
 
     AddToCart: function (btn) {
-        debugger
+        
         const $btn = $(btn);
         const target = $btn.attr("data-target"); // main hoặc sidebar
         
@@ -989,7 +989,7 @@ var product_detail = {
 
 
     BuyNow: function (btn) {
-        debugger
+        
         var product = product_detail.GetSubProductSessionByAttributeSelected()
         if (product == undefined) {
             var json = sessionStorage.getItem(STORAGE_NAME.ProductDetail)
