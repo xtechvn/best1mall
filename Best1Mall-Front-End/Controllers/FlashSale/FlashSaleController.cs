@@ -37,8 +37,9 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
                         todate = item.todate,
                         name = item.name,
                         banner = item.banner,
-                        Products = products,
-                       // IsSwiperRequired = item.flashsale_id != 1 // Điều kiện kiểm tra (ví dụ, không cho swiper với id=1)
+                        Products = products ?? new List<FlashSaleProductResposeModel>(),
+
+                        // IsSwiperRequired = item.flashsale_id != 1 // Điều kiện kiểm tra (ví dụ, không cho swiper với id=1)
                     });
                 }
             }
