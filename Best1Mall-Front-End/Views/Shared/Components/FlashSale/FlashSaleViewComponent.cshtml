@@ -97,9 +97,19 @@
                                     <div class="swiper-slide pt-3">
                                         <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
                                             <a href="@seoUrl">
-                                                <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
-                                                    @discountText
-                                                </div>
+                                                @* 👇 Đây là phần phân nhánh hiển thị tag: *@
+                                                @if (product.super_sale == true)
+                                                {
+                                                    <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag-sieusale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[70px] h-[30px] py-1">
+                                                        Siêu Sale
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
+                                                        @discountText
+                                                    </div>
+                                                }
                                                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                                                     <img src="@imgSrc" alt="@product.name" class="absolute inset-0 w-full h-full object-cover" />
                                                 </div>
@@ -134,6 +144,7 @@
                         </div>
                     </div>
                 </div>
+               
 
             </div>
 

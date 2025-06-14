@@ -63,16 +63,18 @@
         <!-- Item -->
         @foreach (var label in Model.Take(6))
         {
-            string imgSrc = GetFullImageUrl(label.Icon);
+            string imgSrc = GetFullImageUrl(label.Avatar);
+            string imgSrc2 = GetFullImageUrl(label.Icon);
+
             <div class="flex-shrink-0 w-full text-center p-3 rounded-xl bg-white shadow hover:shadow-md transition">
                 <a href="/thuong-hieu/@ToSeoUrl(label.LabelCode)?label_id=@label.Id" class="block">
 
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg mb-2">
                         <!-- Image for label (you can replace with the actual icon from the model) -->
-                        <img src="@label.Icon" alt="@label.LabelName"
+                        <img src="@imgSrc" alt="@label.LabelName"
                              class="absolute inset-0 w-full h-full object-cover" />
                     </div>
-                    <img src="@imgSrc" alt="@label.LabelName"
+                    <img src="@imgSrc2" alt="@label.LabelName"
                          class="rounded-full border border-blue-100 w-2/3 h-10 object-contain bg-white mx-auto" />
                     <p class="font-medium text-red-400 mt-3">@label.LabelName</p>
                 </a>
