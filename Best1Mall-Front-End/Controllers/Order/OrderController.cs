@@ -72,6 +72,11 @@ namespace Best1Mall_Front_End.Controllers
                         ViewBag.OrderStatusName = "Tạo mới";
                     }
                     break;
+                case (int)OrderStatusConstants.PAID:
+                    {
+                        ViewBag.OrderStatusName = "Đã thanh toán";
+                    }
+                    break;
                 case (int)OrderStatusConstants.PROCESS:
                     {
                         ViewBag.OrderStatusName = "Đang xử lý";
