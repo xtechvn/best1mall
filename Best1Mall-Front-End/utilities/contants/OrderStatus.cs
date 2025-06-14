@@ -18,5 +18,6 @@
          DONE = 3,
          CANCELED = 4,
          DELIVERED = 5,
+        PAID = 6
     }
 }
