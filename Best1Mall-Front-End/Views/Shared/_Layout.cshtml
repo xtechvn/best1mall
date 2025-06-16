@@ -280,6 +280,50 @@
         const timer = setInterval(updateCountdown, 1000);
         updateCountdown(); // chạy lần đầu
     </script>
+    <script>
+        // js qc
+        new Swiper(".banner-ads", {
+            loop: false,
+            slidesPerView: 1.3,
+            spaceBetween: 10,
+            pagination: {
+                el: ".banner-ads .swiper-pagination",
+                clickable: true,
+            },
+            navigation: false,
+            breakpoints: {
+                768: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+        //js ban điều hành
+        var swipers = {};
+
+        $(".swiperCEO").each(function (index, element) {
+            var group = $(element).data("group");
+            swipers[group] = new Swiper(element, {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: false,
+            });
+        });
+
+        // Click avatar để điều khiển swiper theo group
+        $(".swiper-pagination-avatar img").click(function () {
+            var index = $(this).data("slide");
+            var group = $(this).data("group");
+
+            if (swipers[group]) {
+                swipers[group].slideToLoop(index);
+                updateActiveAvatar(group, index);
+            }
+            function updateActiveAvatar(group, index) {
+                $(`.swiper-pagination-avatar img[data-group='${group}']`).removeClass("active-avatar");
+                $(`.swiper-pagination-avatar img[data-group='${group}'][data-slide='${index}']`).addClass("active-avatar");
+            }
+        });
+    </script>
 
 
     <script>
