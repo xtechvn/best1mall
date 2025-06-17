@@ -697,18 +697,19 @@ var cart = {
             $('.mainheader .client-login').click()
         }
         // ❌ Nếu chưa chọn địa chỉ
-        //if (!$('#address-receivername').attr('data-id')?.trim()) {
-        //    Swal.fire({
-        //        icon: 'warning',
-        //        title: 'Chưa chọn địa chỉ giao hàng',
-        //        text: 'Vui lòng thêm hoặc chọn địa chỉ trước khi tiếp tục.',
-        //        confirmButtonText: 'OK'
-        //    }).then(() => {
-        //        $btn.prop('disabled', false).removeClass('opacity-60 cursor-not-allowed').text(originalText);
-        //        $('.mainheader .client-login').click();
-        //    });
-        //    return;
-        //}
+        if (!$('#address-receivername').attr('data-id')?.trim()) {
+            //Swal.fire({
+            //    icon: 'warning',
+            //    title: 'Chưa chọn địa chỉ giao hàng',
+            //    text: 'Vui lòng thêm hoặc chọn địa chỉ trước khi tiếp tục.',
+            //    confirmButtonText: 'OK'
+            //}).then(() => {
+            //    $btn.prop('disabled', false).removeClass('opacity-60 cursor-not-allowed').text(originalText);
+            //    $('.mainheader .client-login').click();
+            //});
+            address_client.CreateOrUpdateAddress('')
+            return;
+        }
         var usr = global_service.CheckLogin()
         if (usr) {
             var carts = []
