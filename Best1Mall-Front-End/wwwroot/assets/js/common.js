@@ -99,17 +99,23 @@ $(document).ready(function () {
     }
     // Toggle dropdown khi bấm vào #accountButton trên mobile
     $('#accountButton').on('click', function (e) {
-        
         if (isMobile()) {
             const $dropdown = $('#accountDropdown');
 
             // Ngăn sự kiện lan ra gây lỗi
-            e.stopPropagation();
+            //e.stopPropagation();
 
-            // Nếu chưa render dropdown thì không làm gì hết
+            const $target = $(e.currentTarget).find('.client-login');
+            if ($target.length && $target.attr('data-id')) {
+                // Nếu là chưa đăng nhập thì mở popup
+                const popupTarget = $target.attr('data-id');
+                $(popupTarget).fadeIn(); // Hoặc dùng logic mở popup của bạn
+                return;
+            }
+
+            // Nếu đã đăng nhập mới xử lý dropdown toggle
             if (!$dropdown.length) return;
 
-            // Nếu click vào bên trong link/dropdown thì bỏ qua toggle
             const isInnerClick = $(e.target).closest('#accountDropdown a, #accountDropdown button').length;
             if (!isInnerClick) {
                 e.preventDefault();
@@ -117,6 +123,7 @@ $(document).ready(function () {
             }
         }
     });
+
 
     
 

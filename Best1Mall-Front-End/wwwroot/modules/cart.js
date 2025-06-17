@@ -578,7 +578,8 @@ var cart = {
             var amount = parseFloat(element.attr('data-amount'))
             var quanity = parseInt(element.find('.quantity').val())
             var total_amount_product = amount * quanity
-            element.find('.product-line-price').html(global_service.Comma(total_amount_product) + ' đ')
+            element.find('.product-line-price, .product-line-price-mobile').html(global_service.Comma(total_amount_product) + ' đ')
+
             if (element.find('.checkbox-cart').is(":checked")) {
                 total_amount_cart += total_amount_product
                 // 👇 Check đúng chuẩn yêu cầu: giá > 0 và số lượng > 0

@@ -138,7 +138,7 @@ namespace Best1Mall_Front_End.Controllers.News.Business
                 response_api = await connect_api_us.CreateHttpRequest("/api/news/get-list-by-categoryid-order.json", input_request);
 
                 // Nhan ket qua tra ve                            
-                var JsonParent = JArray.Parse("[" + response_api + "]");
+               var JsonParent = JArray.Parse("[" + response_api + "]");
                 int status = Convert.ToInt32(JsonParent[0]["status"]);
 
                 if (status == ((int)ResponseType.SUCCESS))

@@ -508,7 +508,8 @@ data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
             <div class="flex flex-wrap md:flex-col gap-x-2 items-center">
                 <div class="font-medium md:text-base text-sm">{amount_display}</div>
             </div>
-            <span class="md:hidden block text-red-400 font-semibold">{total_amount} ₫</span>
+           <span class="product-line-price-mobile md:hidden block text-red-400 font-semibold">{total_amount} ₫</span>
+
         </div>
 
         <!-- Quantity -->

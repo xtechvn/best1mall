@@ -383,7 +383,8 @@ var global_service = {
             GLOBAL_CONSTANTS.GroupProduct.FlashSale,
             //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
         ]
-        
+        // 👇 Hiện loading trước
+        //element.html('<div class="loading-spinner w-full text-center py-5">Đang tải...</div>');
         var request = {
             "group_id": group_id,
             "page_index": 1,
@@ -400,7 +401,10 @@ var global_service = {
                 if (appendSeeAll && !excludedGroups.includes(group_id)) {
                     html += HTML_CONSTANTS.Home.SeeAllSlideItem.replace('{group_id}', group_id)
                 }
-                element.html(html)
+                element.fadeOut(50, function () {
+                    element.html(html).fadeIn(100);
+                });
+
                 
 
             } else {

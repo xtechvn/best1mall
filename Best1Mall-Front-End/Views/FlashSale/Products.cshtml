@@ -42,7 +42,7 @@
     <div class="max-w-[1230px] mx-auto my-4 px-[15px]">
         <!-- Breadcrumb -->
         <div class="breadcrumb my-4">
-            <ul class="flex items-center gap-3 font-normal">
+            <ul class="flex items-center gap-3 font-normal overflow-y-auto scrollbar-hide whitespace-nowrap">
                 <li><a href="/">Trang chủ</a></li>
                 <li><a href="/flashsale" class="text-color-base">Flashsale</a></li>
                 <li><a href="" class="text-color-base">@Model.FlashSaleInfo?.name</a></li>
@@ -72,10 +72,10 @@
                     </div>
                     <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
                 </div>
-
+                string imgSrcBanner = GetFullImageUrl(Model.FlashSaleInfo?.banner);
                 <!-- Banner Flash Sale -->
                 <div class="relative">
-                    <img src="@Model.FlashSaleInfo?.banner" alt=""
+                    <img src="@imgSrcBanner" alt=""
                          class="rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl w-full">
                 </div>
 
