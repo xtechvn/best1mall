@@ -111,7 +111,7 @@ var product_detail = {
             }
         });
         $('body').on('click', '.btn-quantity-increase', function () {
-            debugger
+            
             const $input = $(this).siblings('.quantity');
             let val = parseInt($input.val()) || 0;
             if (val < 999) val++;
@@ -119,7 +119,7 @@ var product_detail = {
         });
 
         $('body').on('click', '.btn-quantity-decrease', function () {
-            debugger
+            
             const $input = $(this).siblings('.quantity');
             let val = parseInt($input.val()) || 0;
             if (val > 1) val--;
@@ -706,7 +706,7 @@ var product_detail = {
     },
 
     RenderDescriptions: function (product) {
-        debugger
+        
         // Mô tả sản phẩm
         if (product.description) {
             const cleanDescription = DOMPurify.sanitize(product.description);
