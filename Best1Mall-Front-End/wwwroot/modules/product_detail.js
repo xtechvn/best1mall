@@ -87,44 +87,56 @@ var product_detail = {
                 window.location.reload();
             }
         });
+        // Xử lý khi người dùng nhập tay
         $('body').on('input', '.quantity', function () {
-            let raw = $(this).val();
+            let val = $(this).val();
 
-            // Chặn ký tự không phải số
-            raw = raw.replace(/\D/g, '');
+            // Chặn nhập chữ và ký tự đặc biệt
+            val = val.replace(/[^0-9]/g, '');
 
-            // Không cho nhập số 0 ở đầu
-            if (raw.startsWith('0')) raw = raw.replace(/^0+/, '');
+            // Xóa số 0 ở đầu
+            if (val.length > 1 && val.startsWith('0')) {
+                val = val.replace(/^0+/, '');
+            }
 
-            // Giới hạn max 999
-            if (parseInt(raw) > 999) raw = '999';
+            // Nếu rỗng sau khi xoá → không set gì cả, để người dùng xóa toàn bộ
+            if (val === '') {
+                $(this).val('');
+                return;
+            }
 
-            $(this).val(raw);
+            // Giới hạn tối đa 999
+            if (parseInt(val) > 999) {
+                val = '999';
+            }
+
+            $(this).val(val);
         });
+
+        // Khi blur ra ngoài mà rỗng hoặc 0 → set về 1
         $('body').on('blur', '.quantity', function () {
             let val = parseInt($(this).val());
-
             if (isNaN(val) || val <= 0) {
-                $(this).val('');
-            } else {
-                $(this).val(val); // giữ lại số đúng
+                $(this).val(1);
             }
         });
+
+        // Khi ấn +
         $('body').on('click', '.btn-quantity-increase', function () {
-            
-            const $input = $(this).siblings('.quantity');
+            const $input = $(this).closest('.number-input').find('.quantity');
             let val = parseInt($input.val()) || 0;
             if (val < 999) val++;
             $input.val(val);
         });
 
+        // Khi ấn -
         $('body').on('click', '.btn-quantity-decrease', function () {
-            
-            const $input = $(this).siblings('.quantity');
+            const $input = $(this).closest('.number-input').find('.quantity');
             let val = parseInt($input.val()) || 0;
             if (val > 1) val--;
             $input.val(val);
         });
+
 
 
 
