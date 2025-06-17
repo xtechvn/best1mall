@@ -77,11 +77,12 @@ var global_service = {
             const element = $(this);
 
             if (element.val() === undefined || element.val().trim() === '') {
+                $('#clear-search').hide();
                 $('.box-search-list').fadeOut();
                 $('#global-search-loading').hide();
                 return;
             }
-
+            $('#clear-search').show();
             $('#global-search-loading').show();
             $('.box-search-list').fadeIn();
 
