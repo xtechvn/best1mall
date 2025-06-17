@@ -509,24 +509,15 @@ data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
         <!-- Quantity -->
         <div class="col-span-2 md:text-center md:pl-0 pl-17 product-quantity">
             <div class="flex items-center number-input">
-                <button type="button"
-                        class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                        {btnDisabled}>
-                    -
-                </button>
+               <button type="button" class="btn-quantity-decrease h-8 w-8 border border-gray-100 text-gray-700 rounded-l hover:bg-gray-100 cursor-pointer">-</button>
 
-                <input type="number" value="{quanity}" min="1" max="999" name="quantity"
+
+                <input type="text" value="{quanity}" min="1" max="999" name="quantity"
                        class="h-8 w-10 text-center border-t border-b border-gray-100 text-sm quantity"
-                       oninput="this.value = Math.max(1, Math.min(999, parseInt(this.value) || 1))"
-                       {inputReadonly} />
+                        />
 
-                <button type="button"
-                        class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 cursor-pointer"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                        {btnDisabled}>
-                    +
-                </button>
+                <button type="button" class="btn-quantity-increase h-8 w-8 border border-gray-100 text-gray-700 rounded-r hover:bg-gray-100 cursor-pointer">+</button>
+
             </div>
         </div>
 
