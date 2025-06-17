@@ -452,19 +452,13 @@ var HTML_CONSTANTS = {
     <td>
         <span class="flex gap-2 items-center">
             <div class="flex items-center number-input">
-                <button type="button"
-                        class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                    -
-                </button>
-                <input id="quantity" name="quantity" type="number" value="1" min="1" max="999"
-                       class="h-8 w-16 text-center border-t border-b border-gray-100 quantity"
-                       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3); if (this.value < 1) this.value = 1; if (this.value > 999) this.value = 999;" />
-                <button type="button"
-                        class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 border-gray-100 cursor-pointer"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                    +
-                </button>
+                <button type="button" class="btn-quantity-decrease h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer">-</button>
+
+            <input id="quantity" name="quantity" type="text" value="1" min="1" max="999"
+                   class="quantity h-8 w-16 text-center border-t border-b border-gray-100" />
+
+            <button type="button" class="btn-quantity-increase h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer">+</button>
+
             </div>
 
             

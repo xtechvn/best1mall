@@ -6,27 +6,28 @@
 
 })
 // Hàm này nằm ngoài các object, và có thể truy cập từ bất kỳ đâu
-function handleQuantityInput(maxStock) {
+//function handleQuantityInput(maxStock) {
     
-    const input = document.getElementById('quantity');
+//    const input = document.getElementById('quantity');
 
-    // Bôi đen khi focus
-    input.addEventListener('focus', function () {
-        this.select();
-    });
+//    // Bôi đen khi focus
+//    input.addEventListener('focus', function () {
+//        this.select();
+//    });
 
-    //input.addEventListener('input', function () {
-    //    let value = this.value.replace(/[^0-9]/g, ''); // Chỉ số
-    //    if (value === '' || value === '0') value = 1;
+//    //input.addEventListener('input', function () {
+//    //    let value = this.value.replace(/[^0-9]/g, ''); // Chỉ số
+//    //    if (value === '' || value === '0') value = 1;
 
-    //    value = parseInt(value, 10);
-    //    if (value > maxStock) {
-    //        value = maxStock;
-    //    }
+//    //    value = parseInt(value, 10);
+//    //    if (value > maxStock) {
+//    //        value = maxStock;
+//    //    }
 
-    //    this.value = value;
-    //});
-}
+//    //    this.value = value;
+//    //});
+//}
+
 
 var product_detail = {
     Initialization: function () {
@@ -86,6 +87,49 @@ var product_detail = {
                 window.location.reload();
             }
         });
+        $('body').on('input', '.quantity', function () {
+            let raw = $(this).val();
+
+            // Chặn ký tự không phải số
+            raw = raw.replace(/\D/g, '');
+
+            // Không cho nhập số 0 ở đầu
+            if (raw.startsWith('0')) raw = raw.replace(/^0+/, '');
+
+            // Giới hạn max 999
+            if (parseInt(raw) > 999) raw = '999';
+
+            $(this).val(raw);
+        });
+        $('body').on('blur', '.quantity', function () {
+            let val = parseInt($(this).val());
+
+            if (isNaN(val) || val <= 0) {
+                $(this).val('');
+            } else {
+                $(this).val(val); // giữ lại số đúng
+            }
+        });
+        $('body').on('click', '.btn-quantity-increase', function () {
+            debugger
+            const $input = $(this).siblings('.quantity');
+            let val = parseInt($input.val()) || 0;
+            if (val < 999) val++;
+            $input.val(val);
+        });
+
+        $('body').on('click', '.btn-quantity-decrease', function () {
+            debugger
+            const $input = $(this).siblings('.quantity');
+            let val = parseInt($input.val()) || 0;
+            if (val > 1) val--;
+            $input.val(val);
+        });
+
+
+
+
+
 
         //$("body").on('click', ".attribute-detail", function () {
         //    product_detail.RenderBuyNowButton()
@@ -662,14 +706,14 @@ var product_detail = {
     },
 
     RenderDescriptions: function (product) {
-        
+        debugger
         // Mô tả sản phẩm
         if (product.description) {
             const cleanDescription = DOMPurify.sanitize(product.description);
             $('.content-mo-ta').html(cleanDescription);
             $('.mo-ta').show();
         } else {
-            $('#mo-ta').remove();
+            $('.mo-ta').remove();
         }
 
         // Thành phần
@@ -678,7 +722,7 @@ var product_detail = {
             $('.content-thanh-phan').html(cleanIngredients);
             $('.thanh-phan').show();
         } else {
-            $('#thanh-phan').remove();
+            $('.thanh-phan').remove();
         }
 
         // Công dụng
@@ -687,7 +731,7 @@ var product_detail = {
             $('.content-cong-dung').html(cleanEffect);
             $('.cong-dung').show();
         } else {
-            $('#cong-dung').remove();
+            $('.cong-dung').remove();
         }
 
         // Cách dùng
@@ -696,7 +740,7 @@ var product_detail = {
             $('.content-cach-dung').html(cleanUse);
             $('.cach-dung').show();
         } else {
-            $('#cach-dung').remove();
+            $('.cach-dung').remove();
         }
     },
 
@@ -835,7 +879,7 @@ var product_detail = {
                     $('.section-details-product .price').html(global_service.Comma(displayPrice));
                     $('.box-info-details .box-detail-stock .soluong').html(global_service.Comma(selected.c) + ' sản phẩm có sẵn');
                     // 👉 Gọi hàm này
-                    handleQuantityInput(selected.quanity_of_stock);
+                    //handleQuantityInput(selected.quanity_of_stock);
 
                     // ✅ Gạch giá cũ nếu Flash Sale
                     if (isFlashSale) {
