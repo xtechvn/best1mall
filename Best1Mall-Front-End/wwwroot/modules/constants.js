@@ -24,7 +24,7 @@ var API_URL = {
     LabelListProduct: '/Product/GetListLabel',
     FlashSaleGetList: '/FlashSale/GetList',
     FlashSaleGetById: '/FlashSale/GetById',
-
+    AddContract: '/Home/AddContract',
 
 
     GroupProduct: '/Product/GetGroupProduct',

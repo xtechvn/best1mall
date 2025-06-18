@@ -1,5 +1,8 @@
-﻿using Best1Mall_Front_End.Controllers.FlashSale.Business;
+﻿using Best1Mall_Front_End.Controllers.Favourite.Business;
+using Best1Mall_Front_End.Controllers.FlashSale.Business;
+using Best1Mall_Front_End.Controllers.Home.Business;
 using Best1Mall_Front_End.Controllers.News.Business;
+using Best1Mall_Front_End.Models;
 using Best1Mall_Front_End.Models.Flashsale;
 using Best1Mall_Front_End.Models.Labels;
 using Best1Mall_Front_End.Models.Products;
@@ -61,6 +64,20 @@ namespace Best1Mall_Front_End.Controllers.Home
 
                 return StatusCode(500); // Trả về lỗi 500 nếu có lỗi
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddContract (ClientContactMongoDbModel request)
+        {
+            // Khởi tạo các param phân vào các ViewComponent
+            var contract = new FavouriteService(configuration);
+            var result = await contract.AddContract(request);
+
+            return Ok(new
+            {
+                is_success = result != null,
+                data = result
+            });
         }
 
         // Action để trả về ViewComponent

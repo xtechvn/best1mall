@@ -500,20 +500,25 @@
                                         Liên hệ với
                                         chúng tôi
                                     </h2>
-                                    <form class="space-y-4">
-                                        <input type="email" placeholder="Nhập email của bạn"
-                                               class="w-full bg-white/60 px-4 py-3 rounded-full focus:outline-none">
-                                        <input type="text" placeholder="Họ tên của bạn"
-                                               class="w-full bg-white/60 px-4 py-3 rounded-full focus:outline-none">
-                                        <textarea rows="4" placeholder="Lời nhắn"
-                                                  class="w-full bg-white/60 px-4 py-3 rounded-xl resize-none focus:outline-none"></textarea>
+                                    <form id="contactForm" class="space-y-4">
+                                        <input type="email" id="email" placeholder="Nhập email của bạn"
+                                               class="w-full bg-white/60 px-4 py-3 rounded-full focus:outline-none " maxlength="80">
+                                        <span id="email-error" class="text-red-500 text-sm py-2 px-4"></span> <!-- Error message -->
+
+                                        <input type="text" id="phone" placeholder="Họ tên của bạn"
+                                               class="w-full bg-white/60 px-4 py-3 rounded-full focus:outline-none " maxlength="40">
+                                        <span id="phone-error" class="text-red-500 text-sm py-2 px-4"></span> <!-- Error message -->
+
+                                        <textarea rows="4" id="message" placeholder="Lời nhắn"
+                                                  class="w-full bg-white/60 px-4 py-3 rounded-xl resize-none focus:outline-none " maxlength="400"></textarea>
+                                        <span id="message-error" class="text-red-500 text-sm py-2 px-4"></span> <!-- Error message -->
+
                                         <div class="text-center">
                                             <button type="submit"
                                                     class="bg-white text-purple-600 cursor-pointer px-6 py-2 rounded-full hover:bg-gray-100 transition">
                                                 Liên hệ ngay
                                             </button>
                                         </div>
-
                                     </form>
                                 </div>
                             </div>
@@ -527,3 +532,92 @@
     <!-- END HOME -->
 
 </main>
+
+@section scripts {
+    <script>
+        // Lắng nghe sự kiện submit từ form liên hệ
+        $("body").on('submit', "#contactForm", function (e) {
+            debugger
+            e.preventDefault();  // Ngừng hành động mặc định (không reload trang)
+
+            const email = $('#email').val();
+            const phone = $('#phone').val();
+            const message = $('#message').val();
+
+               // Xóa các lỗi cũ nếu có
+        $('#email-error').text('');
+        $('#phone-error').text('');
+        $('#message-error').text('');
+
+        let hasError = false;
+
+            // Kiểm tra email
+        if (!email) {
+            $('#email-error').text('Vui lòng nhập email.');
+            $('#email').addClass('m-0'); // Thêm m-0 vào input khi có lỗi
+            hasError = true;
+        } else {
+            $('#email').removeClass('m-0'); // Xóa m-0 nếu không có lỗi
+        }
+
+        // Kiểm tra họ tên
+        if (!phone) {
+            $('#phone-error').text('Vui lòng nhập họ tên.');
+            $('#phone').addClass('m-0'); // Thêm m-0 vào input khi có lỗi
+            hasError = true;
+        } else {
+            $('#phone').removeClass('m-0'); // Xóa m-0 nếu không có lỗi
+        }
+
+        // Kiểm tra tin nhắn
+        if (!message) {
+            $('#message-error').text('Vui lòng nhập lời nhắn.');
+            $('#message').addClass('m-0'); // Thêm m-0 vào input khi có lỗi
+            hasError = true;
+        } else {
+            $('#message').removeClass('m-0'); // Xóa m-0 nếu không có lỗi
+        }
+
+        // Nếu có lỗi, dừng lại
+        if (hasError) {
+            return;
+        }
+
+            const requestData = {
+                email: email,
+                phone: phone,
+                message: message
+            };
+            $.when(
+            // Gửi yêu cầu POST qua AJAX
+            global_service.POST(API_URL.AddContract, requestData))
+                .done(function (result) {
+                    debugger
+                    if (result.is_success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Cảm ơn!',
+                            text: 'Chúng tôi đã nhận được thông tin liên hệ của bạn.',
+                        });
+                        $('#contactForm')[0].reset(); // Reset form
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: result.msg || 'Có lỗi xảy ra. Vui lòng thử lại sau.',
+                        });
+                    }
+                })
+                .fail(function () {
+                    // Xử lý khi AJAX gặp lỗi (nếu cần)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Có lỗi xảy ra khi gửi yêu cầu, vui lòng thử lại.',
+                    });
+                });
+        });
+    </script>
+
+   
+}
