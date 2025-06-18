@@ -1,4 +1,5 @@
-﻿using Best1Mall_Front_End.Models.Cart;
+﻿using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Models.Cart;
 using Best1Mall_Front_End.Models.Favourite;
 using Best1Mall_Front_End.Utilities.Contants;
 using Best1Mall_Front_End.Utilities.Lib;
@@ -35,6 +36,32 @@ namespace Best1Mall_Front_End.Controllers.Favourite.Business
             return -1;
 
         }
+        public async Task<string> AddContract(ClientContactMongoDbModel request)
+        {
+            try
+            {
+                // Gửi yêu cầu POST đến API /ClientContact/add
+                var result = await POST("api/ClientContact/add", request);
+
+                // Phân tích kết quả trả về từ API
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                // Kiểm tra nếu status là SUCCESS
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    // Trả về _id từ API dưới dạng string
+                    return jsonData["data"].ToString();
+                }
+            }
+            catch
+            {
+                // Nếu có lỗi thì trả về -1
+            }
+
+            return null; // Trả về null nếu không thành công
+        }
+
         public async Task<FavouriteListResponseModel> GetList(FavouriteGeneralRequestModel request)
         {
             try
