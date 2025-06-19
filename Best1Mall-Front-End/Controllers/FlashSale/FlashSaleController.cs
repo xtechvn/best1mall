@@ -54,6 +54,7 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
             };
             var superSaleProducts = await _flashsaleServices.ListingSuperSale(firstPageRequest);
             ViewBag.SuperSaleProducts = superSaleProducts.Data;
+            ViewBag.TotalSuperSaleCount = superSaleProducts.TotalCount;
             return View(viewModel);
         }
         [HttpPost]
