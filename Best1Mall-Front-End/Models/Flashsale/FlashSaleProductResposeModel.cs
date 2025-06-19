@@ -1,5 +1,12 @@
 ﻿namespace Best1Mall_Front_End.Models.Flashsale
 {
+
+    public class SuperSaleResultModel
+    {
+        public List<FlashSaleProductResposeModel> Data { get; set; }
+        public int TotalCount { get; set; }
+    }
+
     public class FlashSaleProductResposeModel
     {
         public string _id { get; set; }

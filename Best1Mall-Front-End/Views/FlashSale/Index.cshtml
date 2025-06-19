@@ -1,6 +1,10 @@
 ﻿@using Best1Mall_Front_End.Models.Flashsale
 @model List<FlashSaleViewModel>
-
+@{
+    // ViewData["Title"] = product.name +" | Hulotoys";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
 <!-- Thêm Swiper CSS -->
 @* <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"> *@
 
@@ -57,8 +61,43 @@
             var now = DateTime.UtcNow; // Lấy thời gian hiện tại (UTC)
             var validFlashSales = Model.Where(f => f.fromdate <= now && f.todate >= now).ToList(); // Lọc tất cả Flash Sale hợp lệ
             var firstValidFlashSale = validFlashSales.FirstOrDefault(); // Lấy Flash Sale hợp lệ đầu tiên
+            <!-- Hiển thị Flash Sale đầu tiên hợp lệ -->
+            <div class="flex items-center gap-2 justify-center">
+                <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
+                <img src="/assets/images/flashsale-p.png" alt="" />
+                <span class="md:block hidden font-normal">Kết thúc trong</span>
+                <div id="countdown" class="flex gap-1 font-bold text-white">
+                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span> <span class="text-[#FF4169]">:</span>
+                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span> <span class="text-[#FF4169]">:</span>
+                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="seconds">00</span>
+                </div>
+                <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
+            </div>
 
-            @await Html.PartialAsync("_SuperFlashSale", ViewBag.SuperSaleProducts as List<FlashSaleProductResposeModel>)
+            <div class="flashsale-box my-3 md:rounded-3xl rounded-xl bg-[#FF4169]">
+                <div class="bg-box md:px-6 md:py-10 py-4 md:rounded-3xl rounded-xl px-3 pb-0 text-white relative md:min-h-[320px]">
+                    <h2 class="md:text-4xl text-2xl my-3">Chăm cơ thể – giữ tinh thần – <br />tiết kiệm tối đa!</h2>
+                    <h3 class="md:text-5xl text-3xl md:my-4 my-3">Giảm 50%</h3>
+                    <p>cho các dòng vitamin, collagen, men tiêu hóa,...</p>
+                    <img src="~/assets/images/imageads.png" alt="" class="md:absolute right-0 bottom-0 md:max-w-2/3 ml-auto">
+                </div>
+            </div>
+            
+            @* @await Html.PartialAsync("_SuperFlashSale", ViewBag.SuperSaleProducts as List<FlashSaleProductResposeModel>) *@
+                <div class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-3" id="super-sale-container"
+                 data-url="/FlashSale/LoadMoreSuperFlashSale"
+                 data-page="1"
+                 data-pagesize="10">
+                @await Html.PartialAsync("_SuperFlashSale", ViewBag.SuperSaleProducts as List<FlashSaleProductResposeModel>)
+            </div>
+
+          
+            <div class="flex justify-center mt-5">
+                <button class="text-color-base font-normal load-more-btn" id="btn-load-superflashsale">
+                    Xem thêm
+                </button>
+            </div>
+
 
 
 

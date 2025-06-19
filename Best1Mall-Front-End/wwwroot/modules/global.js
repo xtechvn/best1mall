@@ -8,6 +8,8 @@
    
     // 👉 GỌI THÊM:
     global_service.renderViewedProducts(); // gọi hàm load sản phẩm đã xem
+   
+
 })
 var global_service = {
     Initialization: function () {
@@ -26,7 +28,70 @@ var global_service = {
         if (!localStorage.getItem('viewedProducts')) {
             localStorage.setItem('viewedProducts', JSON.stringify([]));
         }
+        global_service.LoadMorePaginated({
+            buttonSelector: '#btn-load-superflashsale',
+            containerSelector: '#super-sale-container',
+            getRequestData: function (page, pageSize) {
+                return {
+                    page_index: page,
+                    page_size: pageSize
+                };
+            },
+            onSuccess: function () {
+                console.log("Đã tải thêm sản phẩm thành công");
+            }
+        });
+
+       
     },
+    LoadMorePaginated: function (config) {
+        debugger
+        const btn = $(config.buttonSelector);
+        const container = $(config.containerSelector);
+
+        if (!btn.length || !container.length) return;
+
+        btn.off('click').on("click", function () {
+            debugger
+            let currentPage = parseInt(container.data("page")) || 1;
+            const pageSize = parseInt(container.data("pagesize")) || 10;
+            const url = container.data("url");
+
+            currentPage++;
+
+            const requestData = config.getRequestData
+                ? config.getRequestData(currentPage, pageSize)
+                : { page_index: currentPage, page_size: pageSize };
+            // Disable nút để tránh spam
+            btn.prop("disabled", true).text("Đang tải...");
+
+            $.when($.post(url, requestData)).done(function (res) {
+                debugger;
+
+                if (res.html) {
+                    container.append(res.html);
+                    container.data("page", currentPage);
+                }
+
+                if (res.isLastPage) {
+                    btn.hide();
+                } else {
+                    btn.prop("disabled", false).text("Xem thêm");
+                }
+
+                if (config.onSuccess) {
+                    config.onSuccess(res);
+                }
+            }).fail(function (err) {
+                console.error("LoadMorePaginated error:", err);
+                if (config.onError) {
+                    config.onError(err);
+                }
+            });
+
+        });
+    },
+
     DynamicBind: function () {
         $("body").on('click', ".all-pop", function (event) {
             // Đảm bảo thông báo lỗi được ẩn khi người dùng chọn voucher
@@ -107,7 +172,15 @@ var global_service = {
                 const encodedKeyword = encodeURIComponent(keyword);
                 window.location.href = `/ListSearch/${encodedKeyword}`;
             } else {
-                alert("Vui lòng nhập từ khóa tìm kiếm.");
+                // Hiển thị thông báo bằng SweetAlert2
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Thiếu từ khóa tìm kiếm',
+                    text: 'Vui lòng nhập từ khóa để tiếp tục tra cứu thông tin.',
+                    confirmButtonText: 'Đóng',
+                    allowOutsideClick: false,
+                    allowEscapeKey: true
+                });
             }
         });
 
