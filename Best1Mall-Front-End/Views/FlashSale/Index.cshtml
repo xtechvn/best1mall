@@ -91,12 +91,16 @@
                 @await Html.PartialAsync("_SuperFlashSale", ViewBag.SuperSaleProducts as List<FlashSaleProductResposeModel>)
             </div>
 
-          
-            <div class="flex justify-center mt-5">
-                <button class="text-color-base font-normal load-more-btn" id="btn-load-superflashsale">
-                    Xem thêm
-                </button>
-            </div>
+
+            @if ((ViewBag.TotalSuperSaleCount ?? 0) > 10)
+            {
+                <div class="flex justify-center mt-5">
+                    <button class="text-color-base font-normal load-more-btn" id="btn-load-superflashsale">
+                        Xem thêm
+                    </button>
+                </div>
+            }
+
 
 
 
