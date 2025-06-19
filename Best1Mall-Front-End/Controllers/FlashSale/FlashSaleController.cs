@@ -1,8 +1,10 @@
 ﻿using Best1Mall_Front_End.Controllers.Client.Business;
 using Best1Mall_Front_End.Controllers.FlashSale.Business;
 using Best1Mall_Front_End.Models.Flashsale;
+using Best1Mall_Front_End.Utilities;
 using Best1Mall_Front_End.Utilities.Contants;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Best1Mall_Front_End.Controllers.FlashSale
 {
@@ -44,11 +46,35 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
                 }
             }
 
-            // 🧠 Gọi thêm API lấy SuperFlashSale và truyền vào ViewBag
-            var superSaleProducts = await _flashsaleServices.ListingSuperSale();
-            ViewBag.SuperSaleProducts = superSaleProducts;
+            // ❗ CHỈ tải trang đầu tiên của SuperFlashSale
+            var firstPageRequest = new ProductFavouritesListRequestModel
+            {
+                page_index = 1,
+                page_size = 10
+            };
+            var superSaleProducts = await _flashsaleServices.ListingSuperSale(firstPageRequest);
+            ViewBag.SuperSaleProducts = superSaleProducts.Data;
             return View(viewModel);
         }
+        [HttpPost]
+        public async Task<IActionResult> LoadMoreSuperFlashSale(ProductFavouritesListRequestModel request)
+        {
+           
+
+            var result = await _flashsaleServices.ListingSuperSale(request);
+
+            bool isLastPage = (request.page_index * request.page_size) >= result.TotalCount;
+
+
+            var html = await this.RenderViewAsync("_SuperFlashSale", result.Data ?? new List<FlashSaleProductResposeModel>(), true);
+
+            return Json(new
+            {
+                isLastPage,
+                html
+            });
+        }
+
         [Route("flashsale/products/{flashsaleId}")]
         public async Task<IActionResult> Products(int flashsaleId)
         {

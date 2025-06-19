@@ -36,27 +36,36 @@ namespace Best1Mall_Front_End.Controllers.FlashSale.Business
             return null;
         }
 
-        public async Task<List<FlashSaleProductResposeModel>> ListingSuperSale()
+        public async Task<SuperSaleResultModel> ListingSuperSale(ProductFavouritesListRequestModel request)
         {
             try
             {
-
-                var result = await POST("api/flashsale/supersale", 0);
-
+                var result = await POST("api/flashsale/supersale", request);
                 var jsonData = JObject.Parse(result);
+
                 var status = int.Parse(jsonData["status"]?.ToString() ?? "0");
 
                 if (status == (int)ResponseType.SUCCESS)
                 {
-                    var dataObj = jsonData["data"]?.ToString();
-                    return JsonConvert.DeserializeObject<List<FlashSaleProductResposeModel>>(jsonData["data"].ToString());
+                    var list = JsonConvert.DeserializeObject<List<FlashSaleProductResposeModel>>(jsonData["data"]?.ToString());
+                    var total = int.Parse(jsonData["count"]?.ToString() ?? "0");
+
+                    return new SuperSaleResultModel
+                    {
+                        Data = list,
+                        TotalCount = total
+                    };
                 }
             }
-            catch
+            catch { }
+
+            return new SuperSaleResultModel
             {
-            }
-            return null;
+                Data = new List<FlashSaleProductResposeModel>(),
+                TotalCount = 0
+            };
         }
+
 
         public async Task<List<FlashSaleProductResposeModel>> GetById(FlashsaleListingRequestModel request)
         {
