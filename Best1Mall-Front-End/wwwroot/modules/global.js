@@ -45,14 +45,14 @@ var global_service = {
        
     },
     LoadMorePaginated: function (config) {
-        debugger
+        
         const btn = $(config.buttonSelector);
         const container = $(config.containerSelector);
 
         if (!btn.length || !container.length) return;
 
         btn.off('click').on("click", function () {
-            debugger
+            
             let currentPage = parseInt(container.data("page")) || 1;
             const pageSize = parseInt(container.data("pagesize")) || 10;
             const url = container.data("url");
@@ -66,7 +66,7 @@ var global_service = {
             btn.prop("disabled", true).text("Đang tải...");
 
             $.when($.post(url, requestData)).done(function (res) {
-                debugger;
+                ;
 
                 if (res.html) {
                     container.append(res.html);

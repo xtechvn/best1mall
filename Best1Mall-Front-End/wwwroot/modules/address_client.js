@@ -3,8 +3,8 @@
         address_client.Initialization()
 
     }
-   
-   
+
+
 })
 var address_client = {
     Initialization: function () {
@@ -21,16 +21,17 @@ var address_client = {
 
         }
         address_client.Detail()
-       
+
 
         address_client.RenderProvinces()
         address_client.DynamicBind()
         $('#update-address .err').hide()
     },
     DynamicBind: function () {
-        
+
 
         $("body").on('click', "#address-book .btn-update-address", function () {
+            
             var element = $(this)
             var id = element.closest('.address-item').attr('data-id')
             address_client.CreateOrUpdateAddress(id)
@@ -43,12 +44,13 @@ var address_client = {
             element.hide()
         });
         $("body").on('click', "#address-book .btn-add-address", function () {
+            
             var element = $(this)
             address_client.CreateOrUpdateAddress('')
 
         });
         $("body").on('click', ".update-address-order", function () {
-            
+
             var list = sessionStorage.getItem(STORAGE_NAME.AddressClient)
             const selectedId = $('#address-receivername').attr('data-id'); // Lấy data-id đã gán ở ConfirmCartAddress
             if (list) {
@@ -107,7 +109,7 @@ var address_client = {
 
     },
     DynamicConfirmAddress: function (callback) {
-        
+
         //$("body").on('click', "#update-address .btn-save", function () {
         //    var element = $(this)
         //    var selected_item = address_client.GetUpdatedAddress()
@@ -116,9 +118,9 @@ var address_client = {
 
         //});
         $("body").on('click', "#address-book .btn-save", function () {
-            
+
             var element = $(this)
-            var id=undefined
+            var id = undefined
             $('#address-book .box-address .item').each(function (index, item) {
                 var div = $(this)
                 if (div.hasClass('active')) {
@@ -135,7 +137,7 @@ var address_client = {
 
         });
         $("body").on('click', "#address-book .btn-close", function () {
-              $('#address-book').addClass('hidden')
+            $('#address-book').addClass('hidden')
 
         });
         //$("body").on('click', "#address-book .list-add .item", function () {
@@ -147,7 +149,7 @@ var address_client = {
 
     },
     Detail: function (selected_id = undefined) {
-        
+
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -159,23 +161,23 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressList, request)
         ).done(function (result) {
-            
+
             var html = ''
             if (result.is_success) {
                 sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(result.data.list))
                 address_client.RenderExistsAddress(result.data.list, selected_id)
             }
-            
+
             address_client.RemoveLoading()
 
         }).fail(function (jqXHR, textStatus) {
             $('#address-book .list-add').html('')
-           address_client.RemoveLoading()
+            address_client.RemoveLoading()
         })
 
     },
-    
-   
+
+
 
     AddLoading: function () {
         $('#address-book .box-address').addClass('placeholder')
@@ -188,17 +190,22 @@ var address_client = {
         $('.content-left-user').removeClass('placeholder')
     },
     RenderExistsAddress: function (list, selected_id = undefined) {
-        
-        var html = ''
-        let hasActive = list.some(item => item.isActive === true);
+        ;
+
+        // ✅ Sort: Địa chỉ mặc định lên đầu
+        list.sort(function (a, b) {
+            return (b.isActive === true ? 1 : 0) - (a.isActive === true ? 1 : 0);
+        });
+
+        var html = '';
+
         $(list).each(function (index, item) {
-            // Đánh dấu label "Địa chỉ mặc định"
             let defaultLabel = '';
-            if (item.isActive === true || (!hasActive && index === 0)) {
+
+            if (item.isActive === true) {
                 defaultLabel = `<span class="text-[13px] italic leading-[1.5] text-[#773EFA] ">
-    Địa chỉ mặc định
-</span>
-`;
+                Địa chỉ mặc định
+            </span>`;
             }
 
             html += HTML_CONSTANTS.Address.GridItem
@@ -211,11 +218,12 @@ var address_client = {
                 .replaceAll('{tel}', item.phone.trim())
                 .replaceAll('{defaultLabel}', defaultLabel);
         });
-        $('#address-book .list-add').html(html)
-        
+
+        $('#address-book .list-add').html(html);
     },
+
     RenderDetailAddress: function (data) {
-        
+
         var address_select = ''
         if (data.ward_detail != null && data.ward_detail != undefined) {
             address_select += data.ward_detail.name
@@ -249,6 +257,7 @@ var address_client = {
         address_client.ResetAddressForm();
         $('#update-address').attr('data-id', id)
         if (id != undefined && id.trim() != '') {
+
             var json = sessionStorage.getItem(STORAGE_NAME.AddressClient)
             if (json) {
                 var address_list = JSON.parse(json)
@@ -259,6 +268,8 @@ var address_client = {
                 $('#update-address').addClass('overlay-active')
                 $('#update-address .user input').val(item.receiverName)
                 $('#update-address .tel input').val(item.phone)
+                if (item.IsActive == true)
+                    $("#IsActive").prop("checked", true);
 
                 $('#update-address .address input').val(item.address)
                 address_client.RenderProvinces(item.provinceId)
@@ -298,12 +309,12 @@ var address_client = {
         $('.popup').addClass('hidden'); // ẩn các popup khác nếu có
         $('#update-address').removeClass('hidden').show();
     },
-    ResetAddressForm : function () {
+    ResetAddressForm: function () {
         $('#update-address').attr('data-id', '');
         $('#update-address .user input').val('');
         $('#update-address .tel input').val('');
         $('#update-address .address input').val('');
-
+        $("#IsActive").prop("checked", false);
         // ✅ Fix: đúng class là ".wards" chứ không phải ".ward"
         $('#update-address .province select').val('');
         $('#update-address .district select').html('<option value="">--Chọn quận/huyện--</option>');
@@ -312,6 +323,7 @@ var address_client = {
         $('#update-address .err').hide();
     },
     RenderProvinces: function (selected_value = undefined) {
+        
         var request = {
             "id": '-1'
         }
@@ -458,7 +470,7 @@ var address_client = {
             "WardId": $('#update-address .wards select').val(),
             "Address": $('#update-address .address input').val(),
             "Status": 0,
-            "IsActive": 0
+            "IsActive": $('#IsActive').is(":checked") ? true : false
         };
 
         // 4. Gửi request đến BE
@@ -483,7 +495,7 @@ var address_client = {
             "wardId": request.WardId,
             "address": request.Address,
             "status": 0,
-            "isactive": 0,
+            "isActive": request.IsActive, // ✅ Dùng request.IsActive để đồng bộ
             "province_detail": {
                 name: $('#update-address .province select option:selected').text()
             },
@@ -494,31 +506,40 @@ var address_client = {
                 name: $('#update-address .wards select option:selected').text()
             }
         };
+
         
         // 6. Cập nhật vào sessionStorage
         var list = sessionStorage.getItem(STORAGE_NAME.AddressClient);
         var data = list ? JSON.parse(list) : [];
-
         if (!Array.isArray(data)) data = [];
 
-        var index = data.findIndex(obj => obj.id == sessionItem.id);
-        if (index >= 0) {
-            data[index] = sessionItem; // Update
-        } else {
-            data.push(sessionItem); // Create
+        // 🆕 Remove phiên bản cũ của địa chỉ đang cập nhật (tránh giữ lại dữ liệu cũ)
+        data = data.filter(item => item.id != sessionItem.id);
+
+        // ✅ Nếu địa chỉ này là mặc định, xoá cờ mặc định ở tất cả địa chỉ còn lại
+        if (sessionItem.isActive) {
+            data.forEach(item => item.isActive = false);
         }
 
+        // ➕ Push địa chỉ mới vào danh sách
+        data.push(sessionItem);
+
+        // 💾 Lưu lại vào sessionStorage
         sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(data));
+
         // ✅ Chỉ render UI nếu thành công
         cart.ConfirmCartAddress(sessionItem);
 
-        // 7. UI handling
+
+        // 8. UI handling
         $('#update-address').addClass('hidden');
         address_client.AddLoading();
         address_client.RenderExistsAddress(data, sessionItem.id);
         address_client.RemoveLoading();
-    }, 
-    ValidateAddressForm :function () {
+        
+
+    },
+    ValidateAddressForm: function () {
         let isValid = true;
 
         const popup = $('#update-address');
@@ -573,7 +594,7 @@ var address_client = {
 
     },
     GetUpdatedAddress: function () {
-        
+
         var usr = global_service.CheckLogin()
         var request = {
             "id": $('#update-address').attr('data-id'),
