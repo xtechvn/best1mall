@@ -1938,8 +1938,14 @@ input[type="checkbox"]:checked::after {
   }
 }
 
-
-
+.trietly, .banchay{
+  img{
+     transform: scale(1) !important;
+  }
+}
+.popup-content{
+  height: fit-content;
+}
 @media (min-width:768px){
   img{
     transition: all 0.2s ease-in-out;
