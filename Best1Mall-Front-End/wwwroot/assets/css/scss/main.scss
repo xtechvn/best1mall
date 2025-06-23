@@ -1938,23 +1938,20 @@ input[type="checkbox"]:checked::after {
   }
 }
 
-.trietly, .banchay{
-  img{
-     transform: scale(1) !important;
-  }
-}
+
 .popup-content{
   height: fit-content;
 }
 @media (min-width:768px){
-  img{
-    transition: all 0.2s ease-in-out;
-    &:hover{
-      transform: scale(1.05);
-   }
-  }
-  .aspect-\[5\/3\]{
+ 
+  .aspect-\[5\/3\], .aspect-\[1\/1\], .giatricotloi {
     overflow: hidden;
+     img{
+      transition: all 0.2s ease-in-out;
+      &:hover{
+        transform: scale(1.05);
+    }
+    }
   }
   button{
     transition: all 0.2s ease-in-out;
