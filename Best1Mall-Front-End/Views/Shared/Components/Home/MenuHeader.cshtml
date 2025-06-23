@@ -125,8 +125,8 @@
                     const id = item.dataset.id;
 
                     // Bỏ active cũ
-                    menuItems.forEach(i => i.classList.remove("text-purple-600", "font-semibold"));
-                    item.classList.add("text-purple-600", "font-semibold");
+                    menuItems.forEach(i => i.classList.remove("text-purple-600"));
+                    item.classList.add("text-purple-600");
 
                     showSubCategoryById(id);
                 });
@@ -138,8 +138,8 @@
                 showSubCategoryById(id);
 
                 // Highlight menu đang hover
-                menuItems.forEach(i => i.classList.remove("text-purple-600", "font-semibold"));
-                item.classList.add("text-purple-600", "font-semibold");
+                menuItems.forEach(i => i.classList.remove("text-purple-600"));
+                item.classList.add("text-purple-600");
             }
 
             menuItems.forEach(item => {
