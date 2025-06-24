@@ -63,11 +63,20 @@ var account = {
 
         }
         $("body").on('click', "#change-password-confirm", function () {
+            debugger
             $('#forgot-password-change .content .err-form').hide()
             var request = {
                 "token": token,
+                "old_password": $('#forgot-password-change .old-password input').val(),
                 "password": $('#forgot-password-change .new-password input').val(),
                 "confirm_password": $('#forgot-password-change .confirm-new-password input').val()
+            }
+            // Validate mật khẩu cũ
+            if (!request.old_password || request.old_password.trim() === '') {
+                $('.old-password .err').html(notification_empty).show()
+                isValid = false;
+            } else {
+                $('.old-password .err').hide()
             }
             if (request.password == null || request.password.trim() == '') {
                 $('.new-password .err').html(notification_empty)
@@ -95,18 +104,26 @@ var account = {
             $.when(
                 global_service.POST(API_URL.ChangePassword, request)
             ).done(function (res) {
-                if (res.is_success == true) {
-                    $('#forgot-password-change .content .err-form').html(res.msg)
-                    $('#forgot-password-change .content .err-form').show()
-                    $('#change-password-confirm input').val('')
-                    setTimeout(() => {
-                        window.location.href = '/'
-                    }, 3000);
+                debugger
+                if (res.is_success === true) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: res.msg,
+                        showConfirmButton: false,
+                        timer: 3000
+                    }).then(() => {
+                        window.location.href = '/';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Thất bại',
+                        text: res.msg,
+                        confirmButtonText: 'OK'
+                    });
                 }
-                else {
-                    $('#forgot-password-change .content .err-form').html(res.msg)
-                    $('#forgot-password-change .content .err-form').show()
-                }
+
             })
         });
         $("body").on('keyup', "#change-password-confirm input", function () {

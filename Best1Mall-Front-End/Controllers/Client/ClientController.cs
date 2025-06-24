@@ -312,7 +312,7 @@ namespace Best1Mall_Front_End.Controllers.Client
             return Ok(new
             {
                 is_success = result,
-                msg = "Đổi mật khẩu thành công"
+                msg = msg
             });
         }
     }
