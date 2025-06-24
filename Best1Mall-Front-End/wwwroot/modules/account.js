@@ -63,7 +63,7 @@ var account = {
 
         }
         $("body").on('click', "#change-password-confirm", function () {
-            debugger
+           
             $('#forgot-password-change .content .err-form').hide()
             var request = {
                 "token": token,
@@ -104,17 +104,20 @@ var account = {
             $.when(
                 global_service.POST(API_URL.ChangePassword, request)
             ).done(function (res) {
-                debugger
+                
                 if (res.is_success === true) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Thành công',
+                        title: 'Thành công 🎉',
                         text: res.msg,
                         showConfirmButton: false,
-                        timer: 3000
+                        timer: 2000  // 👉 Chuyển sang 5 giây
                     }).then(() => {
-                        window.location.href = '/';
+                        setTimeout(() => {
+                            window.location.href = '/';
+                        }, 800); // 👉 Delay thêm 1.5s sau khi popup tắt
                     });
+
                 } else {
                     Swal.fire({
                         icon: 'error',
