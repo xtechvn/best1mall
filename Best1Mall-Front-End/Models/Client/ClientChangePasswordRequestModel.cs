@@ -11,6 +11,8 @@ namespace Best1Mall_Front_End.Models.Client
         public long id { get; set; }
         public string password { get; set; }
         public string confirm_password { get; set; }
+        public string old_password { get; set; }
+
         public string token { get; set; }
     }
 }
