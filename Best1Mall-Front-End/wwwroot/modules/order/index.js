@@ -123,11 +123,11 @@ var order_index = {
             global_service.POST(API_URL.OrderCount, request)
         ).done(function (result) {
             if (result != null && result != undefined) {
-                $('.order-tab-all .tab-count').html(result.all != undefined && result.all >0 ? result.all : '0');
-                $('.order-tab-waiting .tab-count').html(result.waiting_payment != undefined && result.waiting_payment > 0 ? result.waiting_payment : '0');
-                $('.order-tab-delvering .tab-count').html(result.on_delivery != undefined && result.on_delivery > 0 ? result.on_delivery : '0');
-                $('.order-tab-finish .tab-count').html(result.success != undefined && result.success > 0 ? result.success : '0');
-                $('.order-tab-cancel .tab-count').html(result.cancel != undefined && result.cancel > 0 ? result.cancel : '0');
+                $('.order-tab-all .tab-count').html('(' + (result.all != undefined && result.all > 0 ? result.all : '0') +')');
+                $('.order-tab-waiting .tab-count').html('(' + (result.waiting_payment != undefined && result.waiting_payment > 0 ? result.waiting_payment : '0') + ')');
+                $('.order-tab-delvering .tab-count').html('(' + (result.on_delivery != undefined && result.on_delivery > 0 ? result.on_delivery : '0') + ')');
+                $('.order-tab-finish .tab-count').html('(' + (result.success != undefined && result.success > 0 ? result.success : '0') + ')');
+                $('.order-tab-cancel .tab-count').html('(' + (result.cancel != undefined && result.cancel > 0 ? result.cancel : '0') + ')');
             }
            
         })
