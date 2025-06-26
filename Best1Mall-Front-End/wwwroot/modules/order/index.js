@@ -8,11 +8,12 @@ var order_index = {
     },
     Initialization: function () {
         order_index.Search()
+        order_index.OrderCount()
         order_index.DynamicBind()
     },
     DynamicBind: function () {
         $("body").on('click', "#order-keyword-clear", function () {
-            var element=$(this)
+            var element = $(this)
             element.hide()
             $('#order-keyword').val(null).trigger('change')
         });
@@ -65,7 +66,7 @@ var order_index = {
         });
 
         $("body").on("click", ".order-index-repay", function () {
-            
+
             const orderId = $(this).data("order-id");
 
             const usr = global_service.CheckLogin();
@@ -81,7 +82,7 @@ var order_index = {
 
     },
     Search: function () {
-        
+
         var usr = global_service.CheckLogin(); // kiểm tra đăng nhập
         if (usr == null || usr == undefined || usr.token == null || usr.token == undefined) {
             $('#order-history').html('')
@@ -99,7 +100,7 @@ var order_index = {
         $.when(
             global_service.POST(API_URL.OrderSearch, request)
         ).done(function (result) {
-            
+
             if (result != null && result != undefined) {
                 $('#order-history').html(result)
             }
@@ -107,6 +108,28 @@ var order_index = {
                 $('#order-history').html('')
             }
             $('#order-history').removeClass('placeholder')
+        })
+    },
+    OrderCount: function () {
+        var usr = global_service.CheckLogin(); // kiểm tra đăng nhập
+        if (usr == null || usr == undefined || usr.token == null || usr.token == undefined) {
+         
+            return
+        }
+        var request = {
+            token: usr.token
+        };
+        $.when(
+            global_service.POST(API_URL.OrderCount, request)
+        ).done(function (result) {
+            if (result != null && result != undefined) {
+                $('.order-tab-all').html(result.all != undefined && result.all >0 ? result.all : '0');
+                $('.order-tab-waiting').html(result.waiting_payment != undefined && result.waiting_payment > 0 ? result.waiting_payment : '0');
+                $('.order-tab-delvering').html(result.on_delivery != undefined && result.on_delivery > 0 ? result.on_delivery : '0');
+                $('.order-tab-finish').html(result.success != undefined && result.success > 0 ? result.success : '0');
+                $('.order-tab-cancel').html(result.cancel != undefined && result.cancel > 0 ? result.cancel : '0');
+            }
+           
         })
     }
 
