@@ -159,8 +159,11 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                 }
 
             }
-            catch
+            catch (Exception ex)
             {
+                LogHelper.InsertLogTelegramByUrl(_configuration["BotSetting:bot_token"], _configuration["BotSetting:bot_group_id"],
+                    "Count - OrderServices " +(_configuration["API:order_history_count"] ?? "NULL")+" ["+JsonConvert.SerializeObject(request) +"] : " + ex.ToString());
+
             }
             return new OrderHistoryCountResponseModel()
             {
