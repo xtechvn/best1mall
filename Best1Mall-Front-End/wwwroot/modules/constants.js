@@ -48,6 +48,7 @@ var API_URL = {
     QRCode: '/Order/QRCode',
     StaticDomain: 'https://static-image.adavigo.com',
     OrderSearch: '/Order/Search',
+    OrderCount: '/Order/Count',
     AddressList: '/Client/AddressList',
     AddressDetail: '/Client/AddressDetail',
     AddressPopup: '/Client/AddressPopup',

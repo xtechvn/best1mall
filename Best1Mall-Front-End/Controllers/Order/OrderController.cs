@@ -226,5 +226,10 @@ namespace Best1Mall_Front_End.Controllers
                 data = result
             });
         }
+        [HttpPost]
+        public async Task<IActionResult> Count(CartGeneralRequestModel request)
+        {
+            return Ok(await _orderServices.Count(request));
+        }
     }
 }

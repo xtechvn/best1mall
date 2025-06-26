@@ -6,6 +6,7 @@ using Models.MongoDb;
 using Models.APIRequest;
 using Best1Mall_Front_End.Models.Orders;
 using Best1Mall_Front_End.Models.Raiting;
+using Best1Mall_Front_End.Models.Cart;
 
 namespace Best1Mall_Front_End.Controllers.Client.Business
 {
@@ -142,6 +143,34 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             {
             }
             return false;
+
+        }
+        public async Task<OrderHistoryCountResponseModel> Count(CartGeneralRequestModel request)
+        {
+            try
+            {
+                var result = await POST(_configuration["API:order_history_count"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<OrderHistoryCountResponseModel>(jsonData["data"].ToString());
+
+                }
+
+            }
+            catch
+            {
+            }
+            return new OrderHistoryCountResponseModel()
+            {
+                all=0,
+                cancel=0,
+                on_delivery=0,
+               success=0,
+               waiting_payment = 0
+
+            };
 
         }
     }
