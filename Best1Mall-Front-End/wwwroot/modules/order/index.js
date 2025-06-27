@@ -25,7 +25,7 @@ var order_index = {
         });
         $("body").on('click', ".order-tab", function () {
             var element = $(this)
-            $('.order-tab li').removeClass('active')
+            $('.order-tab').closest('li').removeClass('active')
             element.closest('li').addClass('active')
             order_index.Search()
 
@@ -93,7 +93,7 @@ var order_index = {
         var request = {
             token: usr.token,
             order_no: (order_no == null || order_no == undefined) ? '' : order_no,
-            status: $('.order-tab .active a').attr('data-id'),
+            status: $('.tab-status .list-tab .active a').attr('data-id'),
             page_index: order_index.Data.Index,
             page_size: order_index.Data.Size
         };
