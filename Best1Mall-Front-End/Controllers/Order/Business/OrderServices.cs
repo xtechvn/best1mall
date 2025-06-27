@@ -7,6 +7,7 @@ using Models.APIRequest;
 using Best1Mall_Front_End.Models.Orders;
 using Best1Mall_Front_End.Models.Raiting;
 using Best1Mall_Front_End.Models.Cart;
+using HuloToys_Service.Models.Orders;
 
 namespace Best1Mall_Front_End.Controllers.Client.Business
 {
@@ -174,6 +175,26 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                waiting_payment = 0
 
             };
+
+        }
+        public async Task<bool> UpdateAddress(OrdersUpdateAddressRequestModel request)
+        {
+            try
+            {
+                var result = await POST(_configuration["API:order_update_address"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return true;
+
+                }
+
+            }
+            catch
+            {
+            }
+            return false;
 
         }
     }
