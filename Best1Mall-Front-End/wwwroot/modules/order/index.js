@@ -17,7 +17,8 @@ var order_index = {
             element.hide()
             $('#order-keyword').val(null).trigger('change')
         });
-        $("body").on('keyup', "#order-keyword", function (event) { 
+        $("body").on('keyup', "#order-keyword", function (event) {
+            event.preventDefault()
             var element = $(this);
             if (element.val() != null && element.val() != undefined && element.val().trim() != '') {
                 $('#order-keyword-clear').show();
