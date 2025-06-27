@@ -21,8 +21,6 @@ var address_client = {
 
         }
         address_client.Detail()
-
-
         address_client.RenderProvinces()
         address_client.DynamicBind()
         $('#update-address .err').hide()
@@ -35,6 +33,9 @@ var address_client = {
             var element = $(this)
             var id = element.closest('.address-item').attr('data-id')
             address_client.CreateOrUpdateAddress(id)
+            $('#address-book').removeClass('overlay-active')
+            $('#address-book').addClass('hidden')
+            $('#address-book').hide()
         });
         $("body").on('click', "#address-book .list-add .item .defauld", function () {
             var element = $(this)
@@ -60,12 +61,14 @@ var address_client = {
             }
             if ($('#address-book').hasClass('overlay')) {
                 $('#address-book').addClass('overlay-active')
+
             }
+            $('#address-book').show()
 
         });
 
-        $("body").on('click', "#update-address .btn-save", function () {
-            
+        $("body").on('click', "#update-address .btn-save", function (e) {
+            e.preventDefault()
             if (!address_client.ValidateAddressForm()) {
                 return; // Dừng nếu không hợp lệ
             }
@@ -100,7 +103,8 @@ var address_client = {
             address_client.RenderWards()
 
         });
-        $("body").on('click', "#update-address .btn-close", function () {
+        $("body").on('click', "#update-address .btn-close", function (e) {
+            e.preventDefault()
             if ($('#address-book').hasClass('overlay')) {
                 $('#address-book').addClass('overlay-active')
             }
@@ -117,7 +121,8 @@ var address_client = {
         //    callback(selected_item)
 
         //});
-        $("body").on('click', "#address-book .btn-save", function () {
+        $("body").on('click', "#address-book .btn-save", function (e) {
+            e.preventDefault()
 
             var element = $(this)
             var id = undefined
@@ -133,11 +138,20 @@ var address_client = {
                 var item = address_client.GetSelectedAddress(id)
                 callback(item)
             }
+            $('#address-book').removeClass('overlay-active')
             $('#address-book').addClass('hidden')
+            $('#address-book').hide()
+            $('#update-address').removeClass('overlay-active')
+            $('#update-address').addClass('hidden')
+            $('#update-address').hide()
 
         });
-        $("body").on('click', "#address-book .btn-close", function () {
+        $("body").on('click', "#address-book .btn-close", function (e) {
+            e.preventDefault()
+            $('#address-book').removeClass('overlay-active')
             $('#address-book').addClass('hidden')
+            $('#address-book').hide()
+
 
         });
         //$("body").on('click', "#address-book .list-add .item", function () {
@@ -526,9 +540,11 @@ var address_client = {
 
         // 💾 Lưu lại vào sessionStorage
         sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(data));
-
-        // ✅ Chỉ render UI nếu thành công
-        cart.ConfirmCartAddress(sessionItem);
+        if (typeof cart !== 'undefined') {
+            // ✅ Chỉ render UI nếu thành công
+            cart.ConfirmCartAddress(sessionItem);
+        }
+       
 
 
         // 8. UI handling
@@ -536,8 +552,12 @@ var address_client = {
         address_client.AddLoading();
         address_client.RenderExistsAddress(data, sessionItem.id);
         address_client.RemoveLoading();
-        
-
+        $('#update-address').removeClass('overlay-active')
+        $('#update-address').addClass('hidden')
+        $('#update-address').hide()
+        $('#address-book').addClass('overlay-active')
+        $('#address-book').addClass('show')
+        $('#address-book').show()
     },
     ValidateAddressForm: function () {
         let isValid = true;

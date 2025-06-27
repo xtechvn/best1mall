@@ -9,6 +9,7 @@ using Best1Mall_Front_End.Utilities.contants;
 using Best1Mall_Front_End.Models.Files;
 using Best1Mall_Front_End.Service;
 using System;
+using HuloToys_Service.Models.Orders;
 
 namespace Best1Mall_Front_End.Controllers
 {
@@ -230,6 +231,14 @@ namespace Best1Mall_Front_End.Controllers
         public async Task<IActionResult> Count(CartGeneralRequestModel request)
         {
             return Ok(await _orderServices.Count(request));
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateAddress(OrdersUpdateAddressRequestModel request)
+        {
+            return Ok(new
+            {
+                is_success= await _orderServices.UpdateAddress(request)
+            });
         }
     }
 }

@@ -129,14 +129,25 @@
             }
 
         </div>
-        <div class="box-info-address">
+        <div  data-order="1" class="box-info-address">
             <div class="user">
-                <h3 class="name-user">@order.data.receivername</h3>
+                <h3 id="address-receivername" class="name-user">@order.data.receivername</h3>
                 <p class="add">
-                    Địa chỉ: @order.data.address , @order.data.provinceid
+                    Địa chỉ: <nw id="address">@order.data.address</nw> <br />
+                    <nw id="address-province">@(order.ward == null ? "" : order.ward.Name)</nw> <br />
+                    <nw id="address-district">@(order.district == null ? "" : order.district.Name)</nw> <br />
+                    <nw id="address-ward">@(order.province == null ? "" : order.province.Name)</nw> <br />
                 </p>
-                <p class="tel">Điện thoại:@order.data.phone</p>
-                <a href="javascript:;" data-id="@data_id" class="update-add update-address-order">Cập nhật</a>
+                <p id="address-phone" class="tel">Điện thoại:<nw>@order.data.phone</nw></p>
+                @{
+                    if(order!=null && order.data_order!=null && order.data.order_id > 0
+
+                    && (order.data_order.OrderStatus == OrderStatus.CREATED_ORDER || order.data_order.OrderStatus == OrderStatus.PAID|| order.data_order.OrderStatus == OrderStatus.PROCESSING))
+                    {
+                        <a href="javascript:;" data-id="@data_id" data-orderid="@order.data_order.OrderId" class="update-add update-address-order">Cập nhật</a>
+
+                    }
+                }
             </div>
             <div class="table-order">
                 <table>
@@ -160,7 +171,7 @@
                         <tr>
                             <td>Giảm giá:</td>
                             <td class="discount-fee">
-                                @(order==null||order.data_order==null|| order.data_order.Discount == null ? "" : "- " + ((double)order.data_order.Discount).ToString("N0") + " đ")
+                                @(order==null||order.data_order==null|| order.data_order.Discount == null|| order.data_order.Discount <=0? "" : "- " + ((double)order.data_order.Discount).ToString("N0") + " đ")
                             </td>
                         </tr>
                         <tr>
@@ -319,5 +330,6 @@
 @section Scripts {
     <script type="text/javascript" src="/modules/order/detail.js" asp-append-version="true"></script>
     <script type="text/javascript" src="/modules/order/order_raiting.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/modules/address_client.js" asp-append-version="true"></script>
 
 }

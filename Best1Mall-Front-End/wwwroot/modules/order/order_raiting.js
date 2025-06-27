@@ -39,7 +39,7 @@ var order_raiting = {
                     element_compare.removeProp('checked')
                 }
             });
-            var color_text ='text-yellow-500'
+            var color_text = 'text-yellow-500'
             switch (star_value) {
                 case 1:
                     ratingText = 'Rất tệ';
@@ -75,7 +75,7 @@ var order_raiting = {
             //order_raiting.Data.uploadedVideosTemp = {};
         });
 
-      
+
         // Event listener for image upload (.order-raiting-upload-img)
         $(document).on('change', '.order-raiting-upload-img input', function (event) {
             var $this = $(this);
@@ -96,7 +96,7 @@ var order_raiting = {
                 if (currentImagesCount + i < maxImages) {
                     formData.append('files', files[i]);
                 } else {
-                   // alert('Bạn chỉ có thể tải lên tối đa ' + maxImages + ' hình ảnh.');
+                    // alert('Bạn chỉ có thể tải lên tối đa ' + maxImages + ' hình ảnh.');
                     break;
                 }
             }
@@ -142,7 +142,7 @@ var order_raiting = {
             //}
             var currentVideosCount = $this.closest('.order-raiting').find('.order-raiting-upload-list').find('.order-raiting-upload-list-vid').length;
 
-           // var currentVideosCount = order_raiting.Data.uploadedVideosTemp[productId].length;
+            // var currentVideosCount = order_raiting.Data.uploadedVideosTemp[productId].length;
             var maxVideos = 1;
 
             // Prepare FormData for immediate upload
@@ -175,12 +175,12 @@ var order_raiting = {
                             order_raiting.RenderSelectedAttachVideo(response.data, $this)
                             $this.val('');
                         } else {
-                           // alert('Tải video lên thất bại: ' + response.msg + (response.errors ? '\n' + response.errors.join('\n') : '')); // Display error message [cite: 33]
+                            // alert('Tải video lên thất bại: ' + response.msg + (response.errors ? '\n' + response.errors.join('\n') : '')); // Display error message [cite: 33]
                         }
                     },
                     error: function (xhr, status, error) {
                         //console.error("Upload Video Error:", status, error);
-                       // alert('Đã xảy ra lỗi khi tải video lên. Vui lòng thử lại.');
+                        // alert('Đã xảy ra lỗi khi tải video lên. Vui lòng thử lại.');
                     }
                 });
             }
@@ -188,6 +188,11 @@ var order_raiting = {
 
         // Event listener for the "Hoàn thành" (Complete) button [cite: 121]
         $(document).on('click', '.popup-content button:last-child', function () {
+            var element = $(this)
+            if ((element.closest('#address-book') != undefined && element.closest('#address-book').length > 0) ||
+                (element.closest('#update-address') != undefined && element.closest('#update-address').length > 0)) {
+                return;
+            }
             order_raiting.confirmAndSubmitReviews();
         });
 

@@ -106,9 +106,9 @@
                 <div class="bottom-box">
                     <div class="total-price">Tổng tiền: <span class="number-price text-red-400">@(item.Amount==null?"0":((double)item.Amount).ToString("N0")) đ</span> </div>
                     <div class="flex flex-wrap md:justify-end justify-center text-center items-center gap-3">
-                        @if ( item.OrderStatus==OrderStatus.CREATED_ORDER|| item.OrderStatus == OrderStatus.PAID)
+                        @if (item.OrderStatus == OrderStatus.PAID || item.PaymentStatus == PaymentStatus.PAID|| item.PaymentStatus == PaymentStatus.PARTIALLY_PAID)
                         {
-                            <a href="javascript;"
+                            <a href="javascript;" data-order-id="@item.OrderId"
                             class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto order-index-refund">
                                 Trả hàng/Hoàn tiền
                             </a>
@@ -137,7 +137,7 @@
                         }
 
                         @* Thanh toán lại nếu trạng thái thanh toán là Thanh toán thiếu *@
-                        @if (item.PaymentStatus == (int)PaymentStatusConstants.PartiallyPaid)
+                        @if (item.PaymentStatus != (int)PaymentStatusConstants.Paid )
                         {
                             <a href="javascript:;"
                                class="border border-yellow-500 bg-yellow-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto order-index-repay"
