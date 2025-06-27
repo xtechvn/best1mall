@@ -17,10 +17,14 @@ var order_index = {
             element.hide()
             $('#order-keyword').val(null).trigger('change')
         });
-        $("body").on('keyup', "#order-keyword", function () {
-            var element = $(this)
+        $("body").on('keyup', "#order-keyword", function (event) { 
+            var element = $(this);
             if (element.val() != null && element.val() != undefined && element.val().trim() != '') {
-                $('#order-keyword-clear').show()
+                $('#order-keyword-clear').show();
+            }
+
+            if (event.keyCode === 13) {
+                order_index.Search();
             }
         });
         $("body").on('click', "#order-keyword-search", function () {
