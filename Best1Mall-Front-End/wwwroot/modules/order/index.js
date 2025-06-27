@@ -23,10 +23,29 @@ var order_index = {
                 $('#order-keyword-clear').show()
             }
         });
+        $("body").on('click', "#order-keyword-search", function () {
+            order_index.Search()
+
+        });
+        $("body").on('click', "#order-keyword-clear", function () {
+            $('#order-keyword').val('').trigger('change')
+            $('#order-keyword-clear').hide()
+            order_index.Search()
+        });
+        $("body").on('keyup', "#order-keyword", function () {
+            var element = $(this)
+            if (element.val() != undefined || element.val() != null && element.val().trim() != '') {
+                $('#order-keyword-clear').show()
+            } else {
+                $('#order-keyword-clear').hide()
+            }
+        });
         $("body").on('click', ".order-tab", function () {
             var element = $(this)
             $('.order-tab').closest('li').removeClass('active')
             element.closest('li').addClass('active')
+            $('#order-keyword').val('').trigger('change')
+            $('#order-keyword-clear').hide()
             order_index.Search()
 
         });
