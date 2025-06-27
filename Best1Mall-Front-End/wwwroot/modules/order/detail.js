@@ -60,10 +60,14 @@ var order_detail = {
                 "province_id": data.provinceId,
                 "district_id": data.districtId,
                 "ward_id": data.wardId,
+                "receiver_name": data.receiverName,
                 "token": token,
                 "address": data.address,
                 "phone": data.phone,
-                order_id: $('.update-address-order').attr('data-orderid')
+
+                "id": $('.update-address-order').attr('data-id'),
+                order_id: $('.update-address-order').attr('data-orderid'),
+                address_id: data.id
             }
             $.when(
                 global_service.POST('/Order/UpdateAddress', request)
