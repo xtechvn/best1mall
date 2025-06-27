@@ -21,6 +21,8 @@ var order_index = {
             var element = $(this);
             if (element.val() != null && element.val() != undefined && element.val().trim() != '') {
                 $('#order-keyword-clear').show();
+            } else {
+                $('#order-keyword-clear').hide();
             }
 
             if (event.keyCode === 13) {
