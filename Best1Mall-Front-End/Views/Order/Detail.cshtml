@@ -131,14 +131,14 @@
         </div>
         <div  data-order="1" class="box-info-address">
             <div class="user">
-                <h3 id="address-receivername" class="name-user">@order.data.receivername</h3>
+                <h3 id="address-receivername" class="name-user">@order.data_order.ReceiverName</h3>
                 <p class="add">
                     Địa chỉ: <nw id="address">@order.data.address</nw> <br />
                     <nw id="address-province">@(order.ward == null ? "" : order.ward.Name)</nw> <br />
                     <nw id="address-district">@(order.district == null ? "" : order.district.Name)</nw> <br />
                     <nw id="address-ward">@(order.province == null ? "" : order.province.Name)</nw> <br />
                 </p>
-                <p id="address-phone" class="tel">Điện thoại:<nw>@order.data.phone</nw></p>
+                <p id="address-phone" class="tel">Điện thoại:<nw>@order.data_order.Phone</nw></p>
                 @{
                     if(order!=null && order.data_order!=null && order.data.order_id > 0
 
