@@ -105,7 +105,9 @@ var order_index = {
             window.location.href = '/order/payment/' + orderId;
         });
 
+        $(document).on('click', '.order-index-refund', function () {
 
+        });
     },
     Search: function () {
 
