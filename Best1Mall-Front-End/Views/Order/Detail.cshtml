@@ -13,28 +13,7 @@
 <input id="order-detail" style="display:none;" value="@data_id" />
 <div class="wrap-order-details">
     <a href="/order" class="link-back">Quay lại đơn hàng của tôi</a>
-    <div id="process-step-refund" class="process-wrap process-wrap-2" style="@(order.data_order.RefundStatus!=null && order.data_order.RefundStatus>0?"":"display:none;")">
-        <div class="process-main">
-            <div class="item active progress-start-refund">
-                <div class="process-step-cont">
-                    <div class="process-step step-1">
-                        <i class="icon icon-dolar"></i>
-                    </div>
-                    <span class="process-label">Yêu cầu hoàn tiền</span>
-                    <span class="date-time">@(order.data_order.RefundDate == null ? "" : ((DateTime)order.data_order.UpdateLast).ToString("dd/MM/yyyy HH:mm"))</span>
-                </div>
-            </div>
-            <div class="item progress-refunded">
-                <div class="process-step-cont">
-                    <div class="process-step step-2">
-                        <i class="icon icon-cashback"></i>
-                    </div>
-                    <span class="process-label">Hoàn tiền</span>
-                    <span class="date-time"></span>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <div id="process-step-order" class="process-wrap process-wrap-4">
         <div class="process-main">
             <div class="item @(order.data_order.OrderStatus != OrderStatus.CANCELED ?"active":"") progress-confirmed">
@@ -75,7 +54,28 @@
             </div>
         </div>
     </div>
-
+    <div id="process-step-refund" class="process-wrap process-wrap-2" style="@(order.data_order.RefundStatus!=null && order.data_order.RefundStatus>0?"":"display:none;")">
+        <div class="process-main">
+            <div class="item @(order.data_order.RefundStatus!=null && order.data_order.RefundStatus==1?"active":"")  progress-start-refund">
+                <div class="process-step-cont">
+                    <div class="process-step step-1">
+                        <i class="icon icon-dolar"></i>
+                    </div>
+                    <span class="process-label">Yêu cầu hoàn tiền</span>
+                    <span class="date-time">@(order.data_order.RefundDate == null ? "" : ((DateTime)order.data_order.UpdateLast).ToString("dd/MM/yyyy HH:mm"))</span>
+                </div>
+            </div>
+            <div class="item progress-refunded  @(order.data_order.RefundStatus!=null && order.data_order.RefundStatus==2?"active":"")">
+                <div class="process-step-cont">
+                    <div class="process-step step-2">
+                        <i class="icon icon-cashback"></i>
+                    </div>
+                    <span class="process-label">Hoàn tiền</span>
+                    <span class="date-time"></span>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class=" md:grid flex justify-center md:justify-end text-center items-center my-4 gap-3">
         @if (order.data_order.OrderStatus == OrderStatus.FINISHED_DELIVERY || order.data_order.OrderStatus == OrderStatus.FINISHED ||
         order.data_order.OrderStatus == OrderStatus.CANCELED){
