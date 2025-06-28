@@ -20,24 +20,28 @@ var account_google = {
             const popupInterval = setInterval(() => {
                 if (popupWindow && popupWindow.closed) {
                     clearInterval(popupInterval);
-                    // Kiểm tra xem dữ liệu đã được truyền từ popup chưa
-                    var token_local = localStorage.getItem(STORAGE_NAME.Login);
-                    if (token_local == null || token_local == undefined || token_local.trim() == '' || token_local.trim() == 'null'
-                        || token_local.trim() == 'undefined') {
-                        $(':input[type="submit"]').prop('disabled', false);
+                    setTimeout(function () {
+                        // Kiểm tra xem dữ liệu đã được truyền từ popup chưa
+                        var token_local = localStorage.getItem(STORAGE_NAME.Login);
+                        if (token_local == null || token_local == undefined || token_local.trim() == '' || token_local.trim() == 'null'
+                            || token_local.trim() == 'undefined') {
+                            $(':input[type="submit"]').prop('disabled', false);
 
-                        $('#login-general-err .err').show()
-                        var msg = localStorage.getItem('msg')
-                        if (msg == null || msg == undefined || msg.trim() == '' || msg.trim() == 'null' || msg.trim() == 'undefined') {
-                            msg = NOTIFICATION_MESSAGE.LoginIncorrect
+                            $('#login-general-err .err').show()
+                            var msg = localStorage.getItem('msg')
+                            if (msg == null || msg == undefined || msg.trim() == '' || msg.trim() == 'null' || msg.trim() == 'undefined') {
+                                msg = NOTIFICATION_MESSAGE.LoginIncorrect
+                            }
+                            $('#login-general-err .err').html(msg)
+                            localStorage.removeItem('msg')
+                        } else {
+
+                            window.location.reload();
+
                         }
-                        $('#login-general-err .err').html(msg)
-                        localStorage.removeItem('msg')
-                    } else {
 
-                        window.location.reload();
-
-                    }
+                    }, 300);
+                   
                 }
             }, 500);
         });
@@ -52,20 +56,22 @@ var account_google = {
             const popupInterval = setInterval(() => {
                 if (popupWindow && popupWindow.closed) {
                     clearInterval(popupInterval);
-                    // Kiểm tra xem dữ liệu đã được truyền từ popup chưa
-                    var token_local = localStorage.getItem(STORAGE_NAME.Login);
-                    if (token_local == null || token_local == undefined || token_local.trim() == '' || token_local.trim() == 'null'
-                        || token_local.trim() == 'undefined') {
-                        $(':input[type="submit"]').prop('disabled', false);
+                    setTimeout(function () {
+                        // Kiểm tra xem dữ liệu đã được truyền từ popup chưa
+                        var token_local = localStorage.getItem(STORAGE_NAME.Login);
+                        if (token_local == null || token_local == undefined || token_local.trim() == '' || token_local.trim() == 'null'
+                            || token_local.trim() == 'undefined') {
+                            $(':input[type="submit"]').prop('disabled', false);
 
                        
-                        $('#register-general-err .err').show()
-                        $('#register-general-err .err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
-                    } else {
+                            $('#register-general-err .err').show()
+                            $('#register-general-err .err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
+                        } else {
 
-                        window.location.reload();
+                            window.location.reload();
 
-                    }
+                            }
+                    }, 300);
                 }
             }, 500);
         });
