@@ -29,6 +29,7 @@ var order_detail = {
         $('body').on('click', '.order-index-refund', function () {
             var element=$(this)
             $('#refund-popup').attr('data-order-id', element.attr('data-order-id'))
+            $('#refund-popup-orderno').html(element.attr('data-order-no').toUpperCase())
             $('#refund-popup').show()
         });
         $('body').on('click', '#refund-popup-cancel', function () {
