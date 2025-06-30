@@ -81,11 +81,21 @@
         order.data_order.OrderStatus == OrderStatus.CANCELED){
             <a href="javascript:;" class=" btn-buy-again border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Mua lại</a>
         }
+       
         @if (order.data_order.OrderStatus == OrderStatus.FINISHED_DELIVERY || order.data_order.OrderStatus == OrderStatus.FINISHED)
         {
             <a id="order-detail-raiting" href="javascript:;" class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Đánh giá</a>
         }
 
+        @if (new List<int>() { OrderStatus.PAID, OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY }.Contains(order.data_order.OrderStatus)
+        )
+        {
+            <a href="javascript;" data-order-id="@order.data_order.OrderId"
+               class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px] order-index-refund"
+            >
+                Trả hàng/Hoàn tiền
+            </a>
+        }
     </div>
     <div class="box-order-detail">
         <div class="head-box">
@@ -342,16 +352,16 @@
                     <div class="flex items-center gap-2 my-3">
                         <span>Lý do Trả hàng / Hoàn tiền</span>
                     </div>
-                    <textarea placeholder="Nhập lý do bạn muốn Trả hàng / Hoàn tiền (Tối đa 500 ký tự)" class="w-full bg-white rounded-xl p-3 order-refund-reason" rows="3"></textarea>
+                    <textarea id="order-refund-reason" placeholder="Nhập lý do bạn muốn Trả hàng / Hoàn tiền (Tối đa 500 ký tự)" class="w-full bg-white rounded-xl p-3 order-refund-reason" rows="3"></textarea>
                  
                 </div>
             </div>
             <div class="flex justify-end items-center mt-4 gap-3">
-                <button class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80">
+                <button id="refund-popup-confirm" class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80">
                     Trở
                     lại
                 </button>
-                <button class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80">
+                <button id="refund-popup-cancel" class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80">
                     Gửi yêu cầu
                 </button>
 
