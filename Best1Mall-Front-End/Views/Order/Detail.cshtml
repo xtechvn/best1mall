@@ -70,7 +70,34 @@
                     <div class="process-step step-2">
                         <i class="icon icon-cashback"></i>
                     </div>
-                    <span class="process-label">Hoàn tiền</span>
+                    @switch (order.data_order.RefundStatus)
+                    {
+                        default:
+                            {
+                                <span class="process-label">
+                                    Hoàn tiền
+
+
+                                </span>
+                            }
+                            break;
+                        case (int)(OrderRefundStatus.CONFIRM):
+                            {
+                                <span class="process-label">
+                                    Xác nhận Trả hàng/Hoàn tiền
+                                </span>
+                            }
+                            break;
+                        case (int)(OrderRefundStatus.DONE):
+                            {
+                                <span class="process-label">
+                                    Hoàn tiền thành công
+                                </span>
+                                <span class="status-green">Hoàn tiền thành công </span>
+                            }
+                            break;
+                    }
+                  
                     <span class="date-time"></span>
                 </div>
             </div>
