@@ -162,7 +162,7 @@
                         }
 
                         @* Thanh toán lại nếu trạng thái thanh toán là Thanh toán thiếu *@
-                        @if (item.PaymentStatus == (int)PaymentStatusConstants.Paid || item.PaymentStatus == (int)PaymentStatusConstants.PartiallyPaid)
+                        @if (item.PaymentStatus != (int)PaymentStatusConstants.Paid )
 
                         {
                             <a href="javascript:;"
