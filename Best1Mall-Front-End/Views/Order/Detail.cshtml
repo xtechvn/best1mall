@@ -93,7 +93,6 @@
                                 <span class="process-label">
                                     Hoàn tiền thành công
                                 </span>
-                                <span class="status-green">Hoàn tiền thành công </span>
                             }
                             break;
                     }
@@ -117,11 +116,39 @@
         @if (new List<int>() { OrderStatus.PAID, OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY }.Contains(order.data_order.OrderStatus)
         )
         {
-            <a href="javascript:;" data-order-id="@order.data_order.OrderId"
-               class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px] order-index-refund"
-            >
-                Trả hàng/Hoàn tiền
-            </a>
+            if (order.data_order.RefundStatus!=null && order.data_order.RefundStatus > 0)
+            {
+                <a href="javascript:;" style="pointer-events: none; cursor: default; background-color:lightgray;"
+                   class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">
+                    @switch (order.data_order.RefundStatus)
+                    {
+                        default:
+                            {
+                                <nw>Yêu cầu Hoàn tiền</nw>
+
+                            }
+                            break;
+                        case (int)(OrderRefundStatus.CONFIRM):
+                            {
+                                <nw>Xác nhận Trả hàng/Hoàn tiền</nw>
+                            }
+                            break;
+                        case (int)(OrderRefundStatus.DONE):
+                            {
+                                <nw>Hoàn tiền thành công</nw>
+                            }
+                            break;
+                    }
+                </a>
+            }
+            else
+            {
+                <a href="javascript:;" data-order-id="@order.data_order.OrderId" data-order-no="@order.data_order.OrderNo"
+                   class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px] order-index-refund">
+                    Trả hàng/Hoàn tiền
+                </a>
+            }
+           
         }
     </div>
     <div class="box-order-detail">
