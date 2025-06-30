@@ -131,7 +131,7 @@
                                 }
                             </a>
                         }
-                        else
+                        else if (new List<int>() { OrderStatus.PAID, OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY }.Contains(item.OrderStatus))
                         {
                             <a href="javascript:;" data-order-id="@item.OrderId" data-order-no="@item.OrderNo"
                                class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px] order-index-refund">
