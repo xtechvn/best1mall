@@ -197,5 +197,25 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return false;
 
         }
+        public async Task<bool> Refund(OrdersRefundRequestModel request)
+        {
+            try
+            {
+                var result = await POST(_configuration["API:order_refund"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return true;
+
+                }
+
+            }
+            catch
+            {
+            }
+            return false;
+
+        }
     }
 }

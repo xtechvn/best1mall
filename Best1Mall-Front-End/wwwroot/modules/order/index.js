@@ -105,8 +105,16 @@ var order_index = {
             window.location.href = '/order/payment/' + orderId;
         });
 
-        $(document).on('click', '.order-index-refund', function () {
-
+        $('body').on('click', '.order-index-refund', function () {
+            var element = $(this)
+            $('#refund-popup').attr('data-order-id', element.attr('data-order-id'))
+            $('#refund-popup').show()
+        });
+        $('body').on('click', '#refund-popup-cancel', function () {
+            $('#refund-popup').hide()
+        });
+        $('body').on('click', '#refund-popup-confirm', function () {
+            order_index.Refund()
         });
     },
     Search: function () {
@@ -158,6 +166,46 @@ var order_index = {
                 $('.order-tab-cancel .tab-count').html('(' + (result.cancel != undefined && result.cancel > 0 ? result.cancel : '0') + ')');
             }
            
+        })
+    },
+    Refund: function () {
+        var reason = $('#order-refund-reason').val()
+        if (reason == null || reason == undefined || reason.trim() == '') {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: 'Vui lòng nhập lý do trả hàng / hoàn tiền',
+                showConfirmButton: false,
+                timer: 2000
+            });
+            return
+        }
+        var usr = global_service.CheckLogin()
+        var token = ''
+        if (usr) {
+            token = usr.token
+
+        }
+        var request = {
+            "reason": reason,
+            "id": $('#refund-popup').attr('data-order-id'),
+            "token": token
+        }
+        $.when(
+            global_service.POST('/Order/Refund', request)
+        ).done(function (result) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'Gửi yêu cầu hoàn tiền thành công!',
+                showConfirmButton: false,
+                timer: 2000
+            });
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000);
         })
     }
 
