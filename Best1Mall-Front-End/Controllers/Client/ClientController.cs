@@ -11,6 +11,8 @@ using LIB.Models.APIRequest;
 using Utilities.Contants;
 using System.Reflection.Emit;
 using Best1Mall_Front_End.Models.Profile;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using HuloToys_Service.Models.Client;
 
 namespace Best1Mall_Front_End.Controllers.Client
 {
@@ -302,12 +304,103 @@ namespace Best1Mall_Front_End.Controllers.Client
             //    });
 
             //}
-            request.id = model.account_client_id;
             result = await _addressClientServices.ChangePassword(request);
             var msg = "Đổi mật khẩu thành công";
             if (result != true)
             {
                 msg= "Đổi mật khẩu không thành công";
+            }
+            return Ok(new
+            {
+                is_success = result,
+                msg = msg
+            });
+        }
+        public async Task<ActionResult> ForgotPasswordChangePassword(string token)
+        {
+            ViewBag.Token = token;
+            try
+            {
+                if(token==null || token.Trim() == "")
+                {
+                    return Redirect("/Home/Notfound");
+
+                }
+                var result = await _addressClientServices.ValidateForgotPassword(new ClientForgotPasswordRequestModel()
+                {
+                    name=token
+                });
+                if (!result)
+                {
+                    return Redirect("/Home/Notfound");
+                }
+                return View();
+            }
+            catch
+            {
+
+            }
+            return Redirect("/Home/Notfound");
+
+
+        }
+        public async Task<IActionResult> ClientForgotChangePasswordRequestModel(ClientForgotChangePasswordRequestModel request)
+        {
+            bool result = false;
+            if (string.IsNullOrEmpty(request.token_forgot_password) || request.token_forgot_password.Trim() == "")
+            {
+                return Ok(new
+                {
+                    is_success = result,
+                    msg = "Đổi mật khẩu thất bại, vui lòng kiểm tra lại thông tin hoặc liên hệ với bộ phận CSKH"
+
+                });
+            }
+            string forgot = EncodeHelpers.Decode(request.token_forgot_password.Replace("-", "+").Replace("_", "/"), _configuration["API:SecretKey"]);
+            if (forgot == null || forgot.Trim() == "")
+            {
+                return Ok(new
+                {
+                    is_success = result,
+                    msg = "Đổi mật khẩu thất bại, vui lòng kiểm tra lại thông tin hoặc liên hệ với bộ phận CSKH"
+
+                });
+            }
+            if (request.password == null ||request.password.Trim() == ""
+                || request.confirm_password == null || request.confirm_password.Trim() == ""
+                || request.confirm_password != request.password
+                )
+            {
+                return Ok(new
+                {
+                    is_success = result,
+                    msg = "Mật khẩu và xác nhận mật khẩu không được để trống và phải giống nhau"
+
+                });
+            }
+            var model = JsonConvert.DeserializeObject<ClientForgotPasswordTokenModel>(forgot);
+            if (model == null || model.user_name == null)
+            {
+                return Ok(new
+                {
+                    is_success = result,
+                    msg = "Đổi mật khẩu thất bại, vui lòng kiểm tra lại thông tin hoặc liên hệ với bộ phận CSKH"
+
+                });
+            }
+            ClientForgotChangePasswordRequestModel model_change_password = new ClientForgotChangePasswordRequestModel()
+            {
+                confirm_password=request.confirm_password,
+                password=request.password,
+                account_client_id=model.account_client_id,
+                client_id=model.client_id,
+                token_forgot_password= request.token_forgot_password.Replace("-", "+").Replace("_", "/")
+            };
+            result = await _addressClientServices.ForgotChangePassword(model_change_password);
+            var msg = "Đổi mật khẩu thành công";
+            if (result != true)
+            {
+                msg = "Đổi mật khẩu không thành công";
             }
             return Ok(new
             {

@@ -107,4 +107,8 @@ app.MapControllerRoute(
     name: "error",
     pattern: "/error",
     defaults: new { controller = "Home", action = "NotFound" });
+app.MapControllerRoute(
+    name: "quen-mat-khau",
+    pattern: "/tai-khoan/doi-mat-khau/{token}",
+    defaults: new { controller = "Client", action = "ForgotPasswordChangePassword" });
 app.Run();

@@ -271,17 +271,17 @@ var account = {
 
         //    });
         //});
-        $("body").on('keyup', "#forgot-password-email", function () {
-            $("#forgot-password-email").closest('.box-email').find('.err').hide()
+        //$("body").on('keyup', "#forgot-password-email", function () {
+        //    $("#forgot-password-email").closest('.box-email').find('.err').hide()
 
-        });
-        $("body").on('click', ".forgot-pass", function () {
-            $('#quenmk').addClass('overlay-active')
-        });
-        $("body").on('click', "#forgot-password-btn", function () {
-            account.ConfirmForgotPassword()
+        //});
+        //$("body").on('click', ".forgot-pass", function () {
+        //    $('#quenmk').addClass('overlay-active')
+        //});
+        //$("body").on('click', "#forgot-password-btn", function () {
+        //    account.ConfirmForgotPassword()
 
-        });
+        //});
         $("body").on('click', "#tab-login", function () {
             $('#tab-login').addClass('text-purple-500')
             $('#tab-login').addClass('border-b-3')
@@ -309,6 +309,37 @@ var account = {
 
             account.RegisterEmailSendCode()
 
+        });
+        $("body").on('click', "#login-forgot", function (e) {
+            $('#login-popup').fadeOut()
+            $('#forgot-popup').fadeIn()
+
+        });
+        $("body").on('click', "#forgot-popup .closePopup", function (e) {
+            $('#login-popup').fadeIn()
+
+        });
+        $("body").on('keyup', "#forgot-usr", function () {
+            var element=$(this)
+            if (element.val() != undefined && element.val().trim() != '') {
+                var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+                if (!pattern.test(element.val())) {
+                    element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmailInCorrect)
+                    element.closest('.mb-4').find('.err').show() 
+                } else {
+                    $('#btn-client-forgot').prop('disabled', false)
+                    $('#btn-client-forgot').css('background-color', '')
+                    element.closest('.mb-4').find('.err').hide() 
+                    return
+                }
+            }
+            $('#btn-client-forgot').prop('disabled', true)
+            $('#btn-client-forgot').css('background-color', 'lightgray')
+        });
+        $("body").on('click', "#btn-client-forgot", function (e) {
+            var element=$(this)
+            e.preventDefault()
+            account.ConfirmForgotPassword(element)
         });
     },
     Login: function () {
@@ -646,31 +677,44 @@ var account = {
 
     //    })
     //},
-    ConfirmForgotPassword: function () {
+    ConfirmForgotPassword: function (element) {
+        element.html('Vui lòng chờ ....')
+        element.prop("disabled", true);
+        element.css('background-color', 'lightgray');
         var validate = account.ValidateForgotPassword()
         if (validate) {
             var request = {
-                "name": $("#forgot-password-email").val()
+                "name": $("#forgot-usr").val()
             }
             $.when(
                 global_service.POST(API_URL.ClientForgotPassword, request)
             ).done(function (res) {
-                $('#quenmk').removeClass('overlay-active')
-                $('#login-form').removeClass('overlay-active')
-                $('#success h4').html(res.msg)
-                $('#success').addClass('overlay-active')
-                $('#forgot-password-email').val('')
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: res.msg,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                setTimeout(() => {
+                    $('#forgot-popup').fadeOut()
+                }, 1000);
+                
 
             })
         }
     },
     ValidateForgotPassword: function () {
         var validate=true
-        var email = $("#forgot-password-email").val();
+        var email = $("#forgot-usr").val();
         var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         validate = emailPattern.test(email)
         if (!validate) {
-            $("#forgot-password-email").closest('.box-email').find('.err').show()
+            $("#forgot-usr").closest('.mb-4').find('.err').show()
+        }
+        else {
+            $("#forgot-usr").closest('.mb-4').find('.err').hide()
         }
         return validate
     },
