@@ -191,5 +191,24 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return false;
 
         }
+        public async Task<bool> ForgotChangePassword(ClientForgotChangePasswordRequestModel request)
+        {
+            try
+            {
+                var result = await POST(_configuration["API:client_forgot_change_password"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+            return false;
+
+        }
     }
 }
