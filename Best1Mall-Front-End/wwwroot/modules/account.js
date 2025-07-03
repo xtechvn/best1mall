@@ -64,7 +64,8 @@ var account = {
         }
         $("body").on('click', "#change-password-confirm", function () {
            
-            $('#forgot-password-change .content .err-form').hide()
+            $('#forgot-password-change .content .err-form').hide();
+            let isValid = true;
             var request = {
                 "token": token,
                 "old_password": $('#forgot-password-change .old-password input').val(),
@@ -73,34 +74,35 @@ var account = {
             }
             // Validate mật khẩu cũ
             if (!request.old_password || request.old_password.trim() === '') {
-                $('.old-password .err').html(notification_empty).show()
+                $('.old-password .err').html(notification_empty).show();
                 isValid = false;
             } else {
-                $('.old-password .err').hide()
+                $('.old-password .err').hide();
             }
-            if (request.password == null || request.password.trim() == '') {
-                $('.new-password .err').html(notification_empty)
-                $('.new-password .err').show()
-                return
+
+            // Validate mật khẩu mới
+            if (!request.password || request.password.trim() === '') {
+                $('.new-password .err').html(notification_empty).show();
+                isValid = false;
+            } else if (request.password === request.old_password) {
+                $('.new-password .err').html("Mật khẩu mới không được trùng với mật khẩu hiện tại").show();
+                isValid = false;
             } else {
-                $('.new-password .err').hide()
+                $('.new-password .err').hide();
             }
-            if (request.confirm_password == null || request.confirm_password.trim() == '') {
-                $('.confirm-new-password .err').html(notification_empty)
-                $('.confirm-new-password .err').show()
-                return
+
+            // Validate xác nhận mật khẩu
+            if (!request.confirm_password || request.confirm_password.trim() === '') {
+                $('.confirm-new-password .err').html(notification_empty).show();
+                isValid = false;
+            } else if (request.password !== request.confirm_password) {
+                $('.confirm-new-password .err').html(notification_diffirent).show();
+                isValid = false;
+            } else {
+                $('.confirm-new-password .err').hide();
             }
-            else {
-                $('.confirm-new-password .err').hide()
-            }
-            if (request.password != request.confirm_password) {
-                $('.confirm-new-password .err').html(notification_diffirent)
-                $('.confirm-new-password .err').show()
-                return
-            }
-            else {
-                $('.confirm-new-password .err').hide()
-            }
+
+            if (!isValid) return;
             $.when(
                 global_service.POST(API_URL.ChangePassword, request)
             ).done(function (res) {
