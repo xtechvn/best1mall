@@ -1,11 +1,11 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     if ($('#profile').length > 0) {
         profile_client.Initialization()
 
     }
-    
+
     //Update Pròile
-   
+
 })
 var profile_client = {
     Initialization: function () {
@@ -69,6 +69,17 @@ var profile_client = {
             $.when(global_service.POST(API_URL.UpdateProfile, request))
                 .done(function (result) {
                     if (result && result.is_success && result.data) {
+                        // ✅ Thông báo thành công với SweetAlert2
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Cập nhật thành công!',
+                            text: 'Thông tin của bạn đã được cập nhật rồi đó 💖',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            timerProgressBar: true,
+                            toast: true,
+                            position: 'top-end'
+                        });
                         // Có thể hiện toast nhỏ nếu cần
                         usr.name = request.ClientName;
                         sessionStorage.setItem(STORAGE_NAME.Login, JSON.stringify(usr));
@@ -78,7 +89,11 @@ var profile_client = {
                             location.reload();
                         }, 1500);
                     } else {
-                        alert("Cập nhật thất bại. Vui lòng thử lại.");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Cập nhật thất bại',
+                            text: 'Vui lòng thử lại sau '
+                        });
                     }
                 })
                 .fail(function () {
@@ -88,7 +103,7 @@ var profile_client = {
 
     },
     GetProfile: function () {
-        
+
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -100,10 +115,10 @@ var profile_client = {
         $.when(
             global_service.POST(API_URL.ProfileList, request)
         ).done(function (result) {
-            
+
             if (result && result.is_success && result.data) {
                 const data = result.data;
-                
+
                 $("#fullName").val(data.clientName || "");
                 $("#email").val(data.email || "");
                 $("#phone").val(data.phone || "");
