@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     if ($('#profile').length > 0) {
         profile_client.Initialization()
 
