@@ -105,6 +105,28 @@
     @* <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v20.0" nonce="P6zkdA3O"></script> *@
 
     <script>
+            // js tiêu chí
+        new Swiper(".tieuchi-slide", {
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 15,
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                },
+                768: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 4,
+                },
+            },
+            pagination: {
+                el: ".tieuchi-slide .swiper-pagination",
+                clickable: true,
+            },
+            navigation: false,
+        });
         // js banner
         new Swiper(".banner-slide", {
             loop: true,

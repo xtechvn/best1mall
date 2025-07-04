@@ -1961,3 +1961,66 @@ input[type="checkbox"]:checked::after {
     }
   }
  }
+ .product-item{
+  position: relative;
+  overflow: hidden;
+  .tag-banchay{
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    z-index: 1;
+  }
+  .tag-sale{
+    padding-top: 7px;
+  }
+ }
+.head-flashsale{
+  .xemthem{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    &::after{
+      line-height: 10px;
+      content: url('data:image/svg+xml,<svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg"><rect y="0.318359" width="26" height="26" rx="13" fill="white"/><path d="M16.7733 13.7157L11.1483 19.3407C11.096 19.3929 11.034 19.4344 10.9657 19.4627C10.8974 19.491 10.8242 19.5055 10.7503 19.5055C10.6764 19.5055 10.6032 19.491 10.5349 19.4627C10.4666 19.4344 10.4046 19.3929 10.3523 19.3407C10.3001 19.2884 10.2586 19.2264 10.2303 19.1581C10.2021 19.0898 10.1875 19.0166 10.1875 18.9427C10.1875 18.8688 10.2021 18.7956 10.2303 18.7273C10.2586 18.659 10.3001 18.597 10.3523 18.5447L15.5801 13.3177L10.3523 8.09066C10.2468 7.98512 10.1875 7.84196 10.1875 7.6927C10.1875 7.54343 10.2468 7.40027 10.3523 7.29473C10.4579 7.18918 10.601 7.12988 10.7503 7.12988C10.8996 7.12988 11.0427 7.18918 11.1483 7.29473L16.7733 12.9197C16.8256 12.972 16.8671 13.034 16.8954 13.1023C16.9237 13.1706 16.9383 13.2438 16.9383 13.3177C16.9383 13.3916 16.9237 13.4648 16.8954 13.5331C16.8671 13.6014 16.8256 13.6634 16.7733 13.7157Z" fill="%23FF4169"/></svg>');
+    }
+  }
+}
+.tab-bestchoice{
+  .title{
+    position: relative;
+     position: relative;
+      border-radius: 16px 16px 0px 0px;
+      background: #65C37E;  
+      display: inline-block;
+      padding: 16px 24px;
+      width: 240px;
+      color: #fff;
+      text-align: center;
+  }
+  
+  .hot-trend{
+    padding: 2px 18px;
+    background: #FF4169;
+    font-size: 13px;
+    position: absolute;
+    right: 0;
+    top: -13px;
+    transform: translateX(50%);
+  }
+}
+.box-xuhuong{
+  .title{
+    width: 100%;
+    text-align: center;
+    color: #fff;
+  }
+  img{
+    flex-shrink: 0;
+    width: 130px;
+    height: 160px;
+    @media (max-width:768px){
+      width: 80px;
+      height: 80px;
+    }
+  }
+}
