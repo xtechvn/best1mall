@@ -44,12 +44,14 @@
 
 
 <div class="flashsale-box my-6 md:my-10 md:rounded-3xl rounded-xl bg-[#FF4169]">
-    <div class="bg-box md:px-6 md:py-10 py-4 px-3 pb-0 text-white md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl relative md:min-h-[320px]">
-        <h2 class="md:text-4xl text-2xl my-3">Chăm cơ thể – giữ tinh thần – <br />tiết kiệm tối đa!</h2>
-        <h3 class="md:text-5xl text-3xl md:my-4 my-3">Giảm 50%</h3>
-        <p>cho các dòng vitamin, collagen, men tiêu hóa,...</p>
-        <img src="assets/images/banner-flashsale.jpg" alt="" class="md:absolute right-0 bottom-0 max-w-2/3 ml-auto">
-    </div>
+    @* <div class="bg-box md:px-6 md:py-10 py-4 px-3 pb-0 text-white md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl relative md:min-h-[320px]"> *@
+    @*     <h2 class="md:text-4xl text-2xl my-3">Chăm cơ thể – giữ tinh thần – <br />tiết kiệm tối đa!</h2> *@
+    @*     <h3 class="md:text-5xl text-3xl md:my-4 my-3">Giảm 50%</h3> *@
+    @*     <p>cho các dòng vitamin, collagen, men tiêu hóa,...</p> *@
+    @*     <img src="assets/images/banner-flashsale.jpg" alt="" class="md:absolute right-0 bottom-0 max-w-2/3 ml-auto"> *@
+    @* </div> *@
+    <img class=" md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl"
+         src="assets/images/banner-flashsale.jpg" alt="" />
     @if (Model.Any())
     {
         var now = DateTime.UtcNow; // Lấy thời gian hiện tại (UTC)
