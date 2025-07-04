@@ -191,14 +191,17 @@ var global_service = {
                 $('#global-search-loading').hide()
             }
         });
-        // Xử lý click vào item mẫu tìm kiếm
         $("body").on("click", ".search-sample", function (e) {
             e.preventDefault();
             var keyword = $(this).text().trim();
-            var $input = $(".global-search");
 
-            $input.val(keyword).trigger("input").trigger("keyup"); // Thêm trigger input ở đây nè
+            // Encode keyword để tránh lỗi URL nếu có dấu cách, ký tự đặc biệt
+            var encodedKeyword = encodeURIComponent(keyword);
+
+            // Chuyển trang tới kết quả tìm kiếm
+            window.location.href = "/ListSearch/" + encodedKeyword;
         });
+
 
         // Xử lý hiển thị nút clear khi có text
         $("body").on("input", ".global-search", function () {
