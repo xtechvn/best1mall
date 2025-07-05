@@ -42,6 +42,8 @@ namespace Best1Mall_Front_End.Controllers.Home
             ViewBag.page = page;
             ViewBag.page_size = Convert.ToInt32(configuration["blognews:page_size"]);
             ViewBag.total_items = await article_sv.getTotalNews(-1); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
+                                                                     // Gọi ViewComponent trực tiếp và trả về kết quả
+           
             return View();
         }
         // Load label( Thương Hiệu) 
@@ -55,12 +57,14 @@ namespace Best1Mall_Front_End.Controllers.Home
                     top = top,
                     
                 };
-                // Gọi ViewComponent trực tiếp và trả về kết quả
+               
+
                 return ViewComponent("LabelList", model);
             }
             catch (Exception ex)
             {
                 // Ghi log lỗi nếu cần
+                LoggerDiscord.Sendlog(ex.Message);
 
                 return StatusCode(500); // Trả về lỗi 500 nếu có lỗi
             }
@@ -107,6 +111,7 @@ namespace Best1Mall_Front_End.Controllers.Home
             }
             catch (Exception ex)
             {
+                LoggerDiscord.Sendlog(ex.Message);
                 LogHelper.InsertLogTelegramByUrl(configuration["BotSetting:bot_token"], configuration["BotSetting:bot_group_id"], "GetGoogleClientId - HomeController:" + ex.ToString());
 
             }

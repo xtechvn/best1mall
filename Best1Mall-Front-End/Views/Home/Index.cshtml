@@ -321,6 +321,14 @@
             </div>
 
 
+            @* Best Choice *@
+            <div class="tab-bestchoice">
+                <h2 class="title">BEST CHOICE<span class="hot-trend">Hot trend</span></h2>
+                <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+            </div>
+            @await Component.InvokeAsync("MenuNews", new { menuType = "bestchoice_menu" })
+            
+
             <!-- List XU HƯỚNG MUA SẮM -->
             <div class="my-6 md:my-10">
                 <div class="flex justify-between flex-wrap gap-2 mb-3">
@@ -336,54 +344,17 @@
 
                 <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
                 <div class="box-xuhuong mt-4 grid md:grid-cols-4 grid-cols-2 md:gap-6 gap-2">
-                    <div class="item rounded-full bg-stone-800">
-                        <a href="" class="search-sample">
-                            <div class="flex gap-2 items-center">
-                                <h3 class="title">Canxi</h3>
-                                <img src="assets/images/imgxh.png" alt="" width="130" height="160" class="rounded-full" />
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item rounded-full bg-stone-800">
-                        <a href="" class="search-sample">
-                            <div class="flex gap-2 items-center">
-                                <h3 class="title">
-                                    Kẽm
-                                </h3>
-                                <img src="assets/images/imgxh.png" alt="" width="130" height="160" class="rounded-full" />
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item rounded-full bg-stone-800">
-                        <a href="" class="search-sample">
-                            <div class="flex gap-2 items-center">
-                                <h3 class="title">
-                                    Lợi khuẩn
-                                </h3>
-                                <img src="assets/images/imgxh.png" alt="" width="130" height="160" class="rounded-full" />
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item rounded-full bg-stone-800">
-                        <a href="" class="search-sample">
-                            <div class="flex gap-2 items-center">
-                                <h3 class="title">
-                                    Rối loạn tiêu hoá
-                                </h3>
-                                <img src="assets/images/imgxh.png" alt="" width="130" height="160" class="rounded-full" />
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item rounded-full bg-stone-800">
-                        <a href="" class="search-sample">
-                            <div class="flex gap-2 items-center">
-                                <h3 class="title">
-                                    Tiêu chảy
-                                </h3>
-                                <img src="assets/images/imgxh.png" alt="" width="130" height="160" class="rounded-full" />
-                            </div>
-                        </a>
-                    </div>
+                    @await Component.InvokeAsync("MenuNews", new { menuType = "trend_menu" })
+                   
+                        
+                        @* <a href="" class="search-sample"> *@
+                        @*     <div class="flex gap-2 items-center"> *@
+                        @*         <h3 class="title">Canxi</h3> *@
+                        @*         <img src="assets/images/imgxh.png" alt="" width="130" height="160" class="rounded-full" /> *@
+                        @*     </div> *@
+                        @* </a> *@
+                  
+                   
                 </div>
             </div>
 

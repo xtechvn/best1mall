@@ -1,0 +1,99 @@
+﻿@using Best1Mall_Front_End.Models;
+@using Best1Mall_Front_End.Utilities;
+@using Best1Mall_Front_End.Models.Products
+@model List<CategoryModel>
+@{
+    ViewData["view_name"] = "MenuBestChoice_BestSeller"; // 👈 Chỉ định view riêng
+}
+
+@functions{
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/assets/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
+@if (Model != null)
+{
+
+    @foreach (var item in Model)
+    {
+        string imgSrc = GetFullImageUrl(item.image_path);
+        <div class="my-6 list_product" data-groupid_best="@item.id">
+            <h2 class="mb-3 uppercase"><a href="">@item.name</a> </h2>
+
+            <!-- Swiper -->
+            <div class="relative mt-3">
+                <div class="flash-sale-swiper">
+                    <div class="swiper">
+                        <div class="swiper-wrapper home-product-grid" id="home-grid-@item.id">
+                            <!-- Slide Item -->
+                            @* <div class="swiper-slide"> *@
+                            @*     <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14"> *@
+                            @*         <!-- tag --> *@
+                            @*         <img class="tag-banchay" src="images/tag-banchay.png" alt="" /> *@
+                            @*         <!-- Sale badge --> *@
+                            @*         <a href=""> *@
+
+                            @*             <div class="relative aspect-[1/1] overflow-hidden rounded-lg"> *@
+                            @*                 <img src="images/product1.jpg" alt="Sản phẩm" *@
+                            @*                      class="absolute inset-0 w-full h-full object-cover" /> *@
+                            @*                 <div class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1"> *@
+                            @*                     -50% *@
+                            @*                 </div> *@
+                            @*             </div> *@
+                            @*             <p class="text-sm line-clamp-2 font-medium mt-2"> *@
+                            @*                 Doppel hers - Ginkgo + *@
+                            @*                 B-vitamin *@
+                            @*                 + *@
+                            @*                 Cholin *@
+                            @*             </p> *@
+                            @*             <div class="absolute bottom-2 w-full px-2 left-0"> *@
+                            @*                 <div class="text-rose-600 font-bold mt-1">185.000 đ</div> *@
+                            @*                 <div class="flex items-center justify-between"> *@
+                            @*                     <div class="text-xs line-through text-slate-400">215.000 đ</div> *@
+                            @*                     <div class="text-xs text-yellow-500 mt-1"> *@
+                            @*                         ★ 4.9 <span class="text-color-base">(180)</span> *@
+                            @*                     </div> *@
+                            @*                 </div> *@
+                            @*             </div> *@
+                            @*         </a> *@
+                            @*     </div> *@
+                            @* </div> *@
+
+
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                        <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                    <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                        <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    }
+    
+       
+
+}
+
+
+

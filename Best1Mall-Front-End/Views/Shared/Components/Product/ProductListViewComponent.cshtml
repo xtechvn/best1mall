@@ -40,6 +40,19 @@
 
         return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
     }
+    string GetBadgeImageByType(int? badgeType)
+    {
+        if (!badgeType.HasValue) return "";
+
+        switch (badgeType.Value)
+        {
+            case 6: return "/assets/images/tag-sieusale.png"; // SupperSale
+            case -1: return "/assets/images/tag-banchay.png"; // Sale
+            case 3: return "/assets/images/tag-hottrend.png"; // Bestchoice
+            case 1: return "/assets/images/tag-noibat.png"; // Featuredproduct
+            default: return "/assets/images/tag-banchay.png"; // fallback
+        }
+    }
 }
 
 
@@ -68,17 +81,34 @@
         string ratingDisplay = (item.rating.HasValue && item.rating > 0) ? item.rating.Value.ToString("0.0") + "★" : "";
         string reviewCountDisplay = (item.review_count.HasValue && item.review_count > 0) ? $"({item.review_count})" : "";
         string imgSrc = GetFullImageUrl(item.avatar);
+        string badgeImg = GetBadgeImageByType(item.flashsale_badge_type);
 
         <div class="swiper-slide pt-3">
             <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                <!-- tag -->
+                <!-- ✅ badge image -->
+                @if (!string.IsNullOrEmpty(badgeImg))
+                {
+                    <img class="tag-banchay" src="@badgeImg" alt="badge" />
+                }
                 <a href="@seoUrl"
-                   onclick="global_service.saveViewedProduct('@item._id', '@item.name.Replace("'", "\\'")', '@item.avatar', @price, @(item.rating ?? 0), @(item.review_count ?? 0), @(item.old_price ?? 0))">
-                    <div class="absolute -top-1 z-10 left-1 bg-[url(/assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 @discountClass">
-                        @discountText
-                    </div>
+                   onclick="global_service.saveViewedProduct(
+                       '@item._id',
+                       '@item.name.Replace("'", "\\'")',
+                       '@item.avatar',
+                       @price,
+                       @(item.rating ?? 0),
+                       @(item.review_count ?? 0),
+                       @(item.old_price ?? 0),
+                       @(item.discount ?? 0),
+                       '@badgeImg')">
+                    
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                         <img src="@imgSrc" alt="Sản phẩm"
                              class="absolute inset-0 w-full h-full object-cover" />
+                        <div class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(/assets/images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1 @discountClass">
+                            @discountText
+                        </div>
                     </div>
                     <p class="text-sm line-clamp-2 font-medium mt-2">@item.name</p>
                     <div class="absolute bottom-2 w-full px-2 left-0">

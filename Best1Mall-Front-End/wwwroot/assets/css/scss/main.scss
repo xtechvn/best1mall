@@ -2024,3 +2024,23 @@ input[type="checkbox"]:checked::after {
     }
   }
 }
+.list-category{
+    .active{
+          border: #773efa 1px solid;
+    }
+    @media (min-width:768px){
+      a:hover{
+        border: #773efa 1px solid;
+      }
+    }
+}
+.list-topic{
+   .active{
+          background: #773efa;
+    }
+    @media (min-width:768px){
+      a:hover{
+      background: #773efa;
+      }
+    }
+}

@@ -65,6 +65,7 @@ namespace Best1Mall_Front_End.Models.Products
         public double? amount_after_flashsale { get; set; }
         public DateTime? flash_sale_fromdate { get; set; }
         public DateTime? flash_sale_todate { get; set; }
+        public int? flashsale_badge_type { get; set; }
 
     }
     public class ProductMongoDbSpecification

@@ -36,7 +36,11 @@ namespace WEB.CMS.ViewComponents
             { "newsdetail", ("menu_newdetails", "config:category_id", "~/Views/Shared/Components/News/MenuNewDetail.cshtml") },
 
             { "listproduct", ("menu_listproduct", "config:group_id", "~/Views/Shared/Components/Product/MenuListProduct.cshtml") },
-            { "header_menu", ("menu_header", "config:group_id", "~/Views/Shared/Components/Home/MenuHeader.cshtml") }
+            { "header_menu", ("menu_header", "config:group_id", "~/Views/Shared/Components/Home/MenuHeader.cshtml") },
+            { "trend_menu", ("menu_trend", "config:trend", "~/Views/Shared/Components/Home/MenuTrend.cshtml") },
+            { "bestchoice_menu", ("menu_bestchoice", "config:bestchoice", "~/Views/Shared/Components/Home/MenuBestchoice.cshtml") }
+
+
         };
 
                 // Check nếu không map được menuType thì trả về rỗng
