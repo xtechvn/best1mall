@@ -126,6 +126,21 @@ var GLOBAL_CONSTANTS = {
         MaxVideoSize: 52428800
     }
 }
+var FLASH_SALE_TYPE = {
+    SupperSale: 6, // Siêu Sale
+    Sale: -1, // Bán Chạy
+    Bestchoice: 3, // Hot Trend
+    Featuredproduct: 1 // Nổi bật
+};
+
+var FLASH_SALE_IMAGES = {
+    [FLASH_SALE_TYPE.SupperSale]: 'assets/images/tag-sieusale.png',
+    [FLASH_SALE_TYPE.Sale]: 'assets/images/tag-banchay.png',
+    [FLASH_SALE_TYPE.Bestchoice]: 'assets/images/tag-hottrend.png',
+    [FLASH_SALE_TYPE.Featuredproduct]: 'assets/images/tag-noibat.png',
+    'default': 'assets/images/tag-banchay.png'
+};
+
 var HTML_CONSTANTS = {
     GoogleAccountNotRegistered: '<span class="err err-gg-account" style=" width: 100%; text-align: -webkit-center; ">Tài khoản Google chưa được đăng ký, vui lòng điền đầy đủ thông tin và nhấn tạo tài khoản</span>',
     Global: {
@@ -134,18 +149,22 @@ var HTML_CONSTANTS = {
     Home: {
         SlideProductItem: ` 
 
-                         <div class="swiper-slide pt-3">
-                                        <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                         <div class="swiper-slide">
+                                        <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                                         <!-- tag -->
+                                      
+                                            {badge_img}
                                             <!-- Sale badge -->
                                             <a href="{url}">
-                                               <div class="absolute -top-1  z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 {discount_style}">
-                                                    {discount_text}
-                                                </div>
+                                              
 
                                                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                                                     <img src="{avt}" alt="Sản phẩm"
                                                          class="absolute inset-0 w-full h-full object-cover" />
-
+                                                    <div
+                                                    class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(assets/images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1 {discount_style}">
+                                                    {discount_text}
+                                                    </div>
                                                 </div>
                                                 <p class="text-sm line-clamp-2 font-medium mt-2">
                                                    {name}

@@ -210,6 +210,7 @@ namespace Best1Mall_Front_End.Controllers.News.Business
             {
                 string error_msg = Assembly.GetExecutingAssembly().GetName().Name + "->" + MethodBase.GetCurrentMethod().Name + "=>" + ex.Message;
                 Utilities.LogHelper.InsertLogTelegramByUrl(configuration["log_telegram:token"], configuration["log_telegram:group_id"], error_msg);
+                LoggerDiscord.Sendlog(error_msg);
                 return 0;
             }
         }
@@ -240,6 +241,7 @@ namespace Best1Mall_Front_End.Controllers.News.Business
             catch (Exception ex)
             {
                 Utilities.LogHelper.InsertLogTelegramByUrl(configuration["BotSetting:bot_token"], configuration["BotSetting:bot_group_id"], "GetMostViewedArticles-NewServices:" + ex.ToString());
+                LoggerDiscord.Sendlog(ex.Message);
             }
             return null;
         }

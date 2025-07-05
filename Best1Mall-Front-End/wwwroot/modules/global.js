@@ -41,6 +41,12 @@ var global_service = {
                 console.log("Đã tải thêm sản phẩm thành công");
             }
         });
+        $('.list_product').each(function () {
+            debugger
+            const groupId = $(this).data('groupid_best');
+            const element = $(this).find('.home-product-grid');
+            global_service.LoadHomeLabelGrid(element, groupId, 10);
+        });
 
        
     },
@@ -552,6 +558,7 @@ var global_service = {
         ).done(function (result) {
             
             if (result.is_success && result.data) {
+                debugger
                 var products = result.data
                 var labelDetail = result.label_detail;
 
@@ -779,6 +786,14 @@ var global_service = {
                 !img_src.includes("http")) {
                 img_src = API_URL.StaticDomain + item.avatar;
             }
+            var badgeType = item.flashsale_badge_type;
+            var badge_img = '';
+
+            if (badgeType != null) {
+                var tagImage = FLASH_SALE_IMAGES[badgeType] || 'assets/images/tag-banchay.png';
+                badge_img = `<img class="tag-banchay" src="${tagImage}" alt="" />`;
+            }
+
 
             // --- XỬ LÝ GIÁ ---
             var amount_html = 'Giá liên hệ';
@@ -818,6 +833,8 @@ var global_service = {
                     ${item.review_count || 0},
                     ${item.old_price || 0},
                     ${discountRounded || 0})" href="`)
+
+                    .replaceAll('{badge_img}', badge_img)
                     .replaceAll('{discount_text}', `-${discountRounded}%`)
                     .replaceAll('{discount_style}', showDiscount ? '' : 'hidden')
                     .replaceAll('{avt}', img_src)
@@ -884,7 +901,7 @@ var global_service = {
         return html
     },
 
-    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, old_price = 0, discount = 0) {
+    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, old_price = 0, discount = 0, badge_img = '') {
         
         var img_src = image
         if (!img_src.includes(API_URL.StaticDomain)
@@ -908,6 +925,7 @@ var global_service = {
             review_count,
             old_price,
             discount,
+            badge_img, // ✅ thêm dòng này
             url: `/san-pham/${global_service.toSlug(name)}--${id}`
         });
 
@@ -953,14 +971,20 @@ var global_service = {
             
 
             html += `
-            <div class="swiper-slide pt-3">
-            <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+            <div class="swiper-slide ">
+            <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+            <!-- tag -->
+            <!-- tag -->
+                ${p.badge_img || ''}
+
                 <a href="${p.url}">
-                   <div class="absolute -top-1  z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 ${showDiscount ? '' : 'hidden'}">
-                        -${p.discount}%
-                    </div>
+                   
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                         <img src="${p.img_src}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover" />
+                         <div
+                             class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(assets/images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1 ${showDiscount ? '' : 'hidden'}">
+                              -${p.discount}%
+                         </div>
                     </div>
                     <p class="text-sm line-clamp-2 font-medium mt-2">${p.name}</p>
                     <div class="absolute bottom-2 w-full px-2 left-0">
