@@ -135,5 +135,21 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
 
             return BadRequest(new { is_success = false, msg = "Không tìm thấy FlashSale hoặc dữ liệu không hợp lệ." });
         }
+        [HttpPost]
+        public async Task<IActionResult> GetByType(TypeRequestModel request)
+        {
+            var result = await _flashsaleServices.GetByType(request);
+
+            if (result != null)
+            {
+                return Ok(new
+                {
+                    is_success = true,
+                    data = result
+                });
+            }
+
+            return BadRequest(new { is_success = false, msg = "Không tìm thấy FlashSale hoặc dữ liệu không hợp lệ." });
+        }
     }
 }

@@ -537,7 +537,7 @@
     <script>
         // Lắng nghe sự kiện submit từ form liên hệ
         $("body").on('submit', "#contactForm", function (e) {
-            debugger
+            
             e.preventDefault();  // Ngừng hành động mặc định (không reload trang)
 
             const email = $('#email').val();
@@ -592,7 +592,7 @@
             // Gửi yêu cầu POST qua AJAX
             global_service.POST(API_URL.AddContract, requestData))
                 .done(function (result) {
-                    debugger
+                    
                     if (result.is_success) {
                         Swal.fire({
                             icon: 'success',

@@ -11,7 +11,7 @@ var profile_client = {
     Initialization: function () {
         profile_client.GetProfile();
         $("#btnUpdate").click(function (e) {
-            debugger
+            
             e.preventDefault();
 
             // Clear tất cả lỗi cũ

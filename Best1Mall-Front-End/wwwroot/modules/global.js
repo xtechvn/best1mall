@@ -502,6 +502,32 @@ var global_service = {
         })
     },
 
+    //FllashSale
+    LoadFlashSalGrid: function (element, group_id, badge_type, size, appendSeeAll = true) {
+        debugger
+        var request = {
+            "type": badge_type,
+            "group_id": group_id,
+            "page_index": 1,
+            "page_size": size
+        };
+
+        $.when(global_service.POST(API_URL.SaleType, request)).done(function (result) {
+            debugger
+            if (result.is_success) {
+                var products = result.data;
+                var html = global_service.RenderSlideSaleProductItem(products, HTML_CONSTANTS.Home.FlashTypeItem);
+
+                element.fadeOut(50, function () {
+                    element.html(html).fadeIn(100);
+                });
+            } else {
+                element.html('');
+            }
+        });
+    },
+
+
     LoadHomeFlashSaleGrid: function (element, group_id, size, appendSeeAll = true) {
         
         const excludedGroups = [
@@ -563,7 +589,7 @@ var global_service = {
         ).done(function (result) {
             
             if (result.is_success && result.data) {
-                debugger
+               
                 var products = result.data
                 var labelDetail = result.label_detail;
 
@@ -856,11 +882,11 @@ var global_service = {
     },
 
     RenderSlideSaleProductItem: function (list, template) {
-
+        
         var html = ''
 
         $(list).each(function (index, item) {
-
+            debugger
             var img_src = item.avatar
             if (!img_src.includes(API_URL.StaticDomain)
                 && !img_src.includes("data:image")
@@ -868,6 +894,13 @@ var global_service = {
                 img_src = API_URL.StaticDomain + item.avatar
             var amount_html = 'Giá liên hệ'
             var amount_number = 0
+            var badgeType = item.badge_type;
+            var badge_img = '';
+
+            if (badgeType != null) {
+                var tagImage = FLASH_SALE_IMAGES[badgeType] || 'assets/images/tag-banchay.png';
+                badge_img = `<img class="tag-banchay" src="${tagImage}" alt="" />`;
+            }
             
 
             if (item.amount) {
@@ -882,6 +915,7 @@ var global_service = {
                     //${item.old_price || 0},
                     //${discountRounded || 0})" href="`)
                     .replaceAll('{discount_text}', `-${item.discountvalue}%`)
+                    .replaceAll('{badge_img}', badge_img)
                     
 
 

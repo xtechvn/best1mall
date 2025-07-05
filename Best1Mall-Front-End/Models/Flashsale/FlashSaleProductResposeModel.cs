@@ -23,5 +23,6 @@
         public double? review_count { get; set; }
         public long? total_sold { get; set; }
         public bool? super_sale { get; set; }
+        public int? badge_type { get; set; }
     }
 }
