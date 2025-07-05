@@ -41,11 +41,16 @@ var global_service = {
                 console.log("Đã tải thêm sản phẩm thành công");
             }
         });
+        // 👉 Load sản phẩm theo từng block group-id-best
         $('.list_product').each(function () {
-            debugger
-            const groupId = $(this).data('groupid_best');
-            const element = $(this).find('.home-product-grid');
-            global_service.LoadHomeLabelGrid(element, groupId, 10);
+            const $el = $(this);
+            const groupId = $el.data('groupIdBest'); // jQuery tự lấy từ data-group-id-best
+
+            if (typeof groupId === 'number' && groupId > 0) {
+                const container = $el.find('.home-product-grid');
+               
+                global_service.LoadHomeProductGrid(container, groupId, 10);
+            } 
         });
 
        
@@ -481,9 +486,9 @@ var global_service = {
                     
                     var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
                 // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
-                if (appendSeeAll && !excludedGroups.includes(group_id)) {
-                    html += HTML_CONSTANTS.Home.SeeAllSlideItem.replace('{group_id}', group_id)
-                }
+                //if (appendSeeAll && !excludedGroups.includes(group_id)) {
+                //    html += HTML_CONSTANTS.Home.SeeAllSlideItem.replace('{group_id}', group_id)
+                //}
                 element.fadeOut(50, function () {
                     element.html(html).fadeIn(100);
                 });
