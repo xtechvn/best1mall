@@ -1,0 +1,22 @@
+﻿@using Best1Mall_Front_End.Models;
+@using Best1Mall_Front_End.Utilities;
+@model List<CategoryModel>
+@{
+    if (Model != null)
+    {
+       
+        //MenuGroup
+            @foreach (var item in Model)
+            {
+
+            <a href="javascript:void(0)" class="tag-flashsale p-2 text-center bg-white w-full rounded-3xl border border-gray-200 " data-id="@item.id" data-flash-type="group">@item.name</a>
+           
+               
+            }
+        
+        <div class="category_id" data-categoryid="0" style="display:none;"></div>
+        
+
+    }
+}
+

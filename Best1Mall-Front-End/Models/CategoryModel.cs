@@ -29,6 +29,9 @@
         public bool isshowheader { get; set; }
 
         public bool isshowfooter { get; set; }
+        public bool isflashsale { get; set; }
+
+
         public long? product_count { get; set; }
         public List<CategoryModel> group_product_child { get; set; }
 

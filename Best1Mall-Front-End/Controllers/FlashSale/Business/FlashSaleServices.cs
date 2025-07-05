@@ -88,5 +88,26 @@ namespace Best1Mall_Front_End.Controllers.FlashSale.Business
 
             return null;
         }
+        public async Task<List<FlashSaleProductResposeModel>> GetByType(TypeRequestModel request)
+        {
+            try
+            {
+
+                var result = await POST("api/flashsale/get-by-type", request);
+
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"]?.ToString() ?? "0");
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<List<FlashSaleProductResposeModel>>(jsonData["data"].ToString());
+                }
+            }
+            catch
+            {
+            }
+
+            return null;
+        }
     }
 }

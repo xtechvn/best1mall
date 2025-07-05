@@ -33,6 +33,42 @@ $(document).ready(function () {
         // Load dữ liệu sản phẩm tương ứng theo group_id
         home_product.loadProductByGroup(categoryId);
     });
+
+    $('body').on('click', '.tag-flashsale', function (e) {
+        
+        e.preventDefault();
+
+        const $this = $(this);
+        const categoryId = parseInt($this.data('id'));
+        const flashType = $this.data('flash-type'); // "type" hoặc "group"
+
+        if (isNaN(categoryId) || !flashType) return;
+
+        let type = -1;
+        let group_id = -1;
+
+        if (flashType === 'type') {
+            type = categoryId;
+            group_id = -1;
+        } else if (flashType === 'group') {
+            group_id = categoryId;
+            type = -1;
+        }
+        // 👉 Gán active: loại bỏ ở tất cả, chỉ giữ lại mục hiện tại
+        $('.tag-flashsale').removeClass('active');
+        $this.addClass('active');
+
+        // Gọi API Flash Sale
+        global_service.LoadFlashSalGrid(
+            $('#super-sale-container'),
+            group_id,
+            type,
+            GLOBAL_CONSTANTS.GridSize,
+            false
+        );
+    });
+
+
     const urlParams = new URLSearchParams(window.location.search);
     const parentGroupId = window.AppConfig?.parentGroupId ?? 0;
     const childrenId = window.AppConfig?.childrenId ?? null;
@@ -255,6 +291,9 @@ $(document).ready(function () {
             global_service.LoadHomeProductGrid($('.list-product .swiper-wrapper'), group_id, GLOBAL_CONSTANTS.GridSize, false);
 
         },
+
+       
+
         skip: 1, // Biến để theo dõi trang hiện tại
         take: 12, // Số lượng sản phẩm mỗi trang
         loadListProduct: function (group_id, skip, take, view_name, priceFrom = 0, priceTo = 0, ratingFrom = 0) {
