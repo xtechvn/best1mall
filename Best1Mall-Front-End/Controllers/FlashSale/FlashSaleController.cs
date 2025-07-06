@@ -57,6 +57,21 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
             ViewBag.TotalSuperSaleCount = superSaleProducts.TotalCount;
             return View(viewModel);
         }
+        [HttpGet]
+        public IActionResult LoadDefaultFlashSale()
+        {
+            // 👇 Đây là data bạn gán ban đầu bằng ViewBag.SuperSaleProducts
+            var firstPageRequest = new ProductFavouritesListRequestModel
+            {
+                page_index = 1,
+                page_size = 10
+            };
+
+            var superSaleProducts = _flashsaleServices.ListingSuperSale(firstPageRequest).Result;
+
+            return PartialView("_SuperFlashSale", superSaleProducts.Data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> LoadMoreSuperFlashSale(ProductFavouritesListRequestModel request)
         {

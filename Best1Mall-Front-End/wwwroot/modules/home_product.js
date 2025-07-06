@@ -34,31 +34,48 @@ $(document).ready(function () {
         home_product.loadProductByGroup(categoryId);
     });
 
+    let currentSelectedFlash = {
+        id: null,
+        flashType: null
+    };
+
     $('body').on('click', '.tag-flashsale', function (e) {
-        
+        debugger
         e.preventDefault();
 
         const $this = $(this);
         const categoryId = parseInt($this.data('id'));
-        const flashType = $this.data('flash-type'); // "type" hoặc "group"
+        const flashType = $this.data('flash-type'); // "type" | "group"
 
         if (isNaN(categoryId) || !flashType) return;
 
-        let type = -1;
-        let group_id = -1;
+        // 👉 Nếu người dùng click lại chính menu đang active => reset
+        const isSameSelection = currentSelectedFlash.id === categoryId && currentSelectedFlash.flashType === flashType;
 
-        if (flashType === 'type') {
-            type = categoryId;
-            group_id = -1;
-        } else if (flashType === 'group') {
-            group_id = categoryId;
-            type = -1;
+        if (isSameSelection) {
+            // ✅ Reset: xoá active + gọi lại danh sách mặc định
+            currentSelectedFlash = { id: null, flashType: null };
+            $('.tag-flashsale').removeClass('active');
+
+            // 👇 Gọi lại PartialView "_SuperFlashSale" ban đầu từ server
+            $.get('/FlashSale/LoadDefaultFlashSale', function (html) {
+                $('#super-sale-container').fadeOut(50, function () {
+                    $(this).html(html).fadeIn(100);
+                });
+            });
+
+            return;
         }
-        // 👉 Gán active: loại bỏ ở tất cả, chỉ giữ lại mục hiện tại
+
+        // ✅ Click menu mới → cập nhật current
+        currentSelectedFlash = { id: categoryId, flashType: flashType };
         $('.tag-flashsale').removeClass('active');
         $this.addClass('active');
 
-        // Gọi API Flash Sale
+        let type = -1, group_id = -1;
+        if (flashType === 'type') type = categoryId;
+        if (flashType === 'group') group_id = categoryId;
+
         global_service.LoadFlashSalGrid(
             $('#super-sale-container'),
             group_id,
@@ -67,6 +84,7 @@ $(document).ready(function () {
             false
         );
     });
+
 
 
     const urlParams = new URLSearchParams(window.location.search);

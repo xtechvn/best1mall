@@ -5,6 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     
 }
+<style>
+    .list-category1 .active {
+        border: #773efa 1px solid;
+    }
+</style>
 <!-- Thêm Swiper CSS -->
 @* <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"> *@
 
@@ -92,7 +97,7 @@
                 @* </a> *@
                
             </div>
-            <div class=" grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-3 mt-6">
+            <div class=" list-category1  grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-3 mt-6">
                 @await Component.InvokeAsync("MenuFlashSale", new { menuType = "groupflash_menu" })
                 @* <a href="" class="p-2 text-center bg-white w-full rounded-3xl border border-gray-200 active"> *@
                 @*     Dụng cụ massge *@
