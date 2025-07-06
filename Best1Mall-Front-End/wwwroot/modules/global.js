@@ -31,12 +31,7 @@ var global_service = {
         global_service.LoadMorePaginated({
             buttonSelector: '#btn-load-superflashsale',
             containerSelector: '#super-sale-container',
-            getRequestData: function (page, pageSize) {
-                return {
-                    page_index: page,
-                    page_size: pageSize
-                };
-            },
+            getRequestData: null, // Không cần vì đã xử lý ở bên trong rồi
             onSuccess: function () {
                 console.log("Đã tải thêm sản phẩm thành công");
             }
@@ -56,29 +51,40 @@ var global_service = {
        
     },
     LoadMorePaginated: function (config) {
-        
         const btn = $(config.buttonSelector);
         const container = $(config.containerSelector);
 
         if (!btn.length || !container.length) return;
 
         btn.off('click').on("click", function () {
-            
             let currentPage = parseInt(container.data("page")) || 1;
             const pageSize = parseInt(container.data("pagesize")) || 10;
-            const url = container.data("url");
+            const mode = container.data("mode") || 'default'; // "default" | "filtered"
+            const defaultUrl = container.data("url") || '/FlashSale/LoadMoreSuperFlashSale';
+
+            const groupId = parseInt(container.data("group-id")) || -1;
+            const type = parseInt(container.data("type")) || -1;
 
             currentPage++;
 
-            const requestData = config.getRequestData
-                ? config.getRequestData(currentPage, pageSize)
-                : { page_index: currentPage, page_size: pageSize };
-            // Disable nút để tránh spam
+            const isFiltered = mode === 'filtered';
+            const requestUrl = isFiltered ? '/FlashSale/LoadMoreFilteredFlashSale' : defaultUrl;
+
+            const requestData = isFiltered
+                ? {
+                    type: type,
+                    group_id: groupId,
+                    page_index: currentPage,
+                    page_size: pageSize
+                }
+                : {
+                    page_index: currentPage,
+                    page_size: pageSize
+                };
+
             btn.prop("disabled", true).text("Đang tải...");
 
-            $.when($.post(url, requestData)).done(function (res) {
-                ;
-
+            $.post(requestUrl, requestData).done(function (res) {
                 if (res.html) {
                     container.append(res.html);
                     container.data("page", currentPage);
@@ -90,18 +96,14 @@ var global_service = {
                     btn.prop("disabled", false).text("Xem thêm");
                 }
 
-                if (config.onSuccess) {
-                    config.onSuccess(res);
-                }
+                if (config.onSuccess) config.onSuccess(res);
             }).fail(function (err) {
                 console.error("LoadMorePaginated error:", err);
-                if (config.onError) {
-                    config.onError(err);
-                }
+                if (config.onError) config.onError(err);
             });
-
         });
     },
+
 
     DynamicBind: function () {
         $("body").on('click', ".all-pop", function (event) {
@@ -504,7 +506,7 @@ var global_service = {
 
     //FllashSale
     LoadFlashSalGrid: function (element, group_id, badge_type, size, appendSeeAll = true) {
-        debugger
+        
         var request = {
             "type": badge_type,
             "group_id": group_id,
@@ -512,17 +514,21 @@ var global_service = {
             "page_size": size
         };
 
-        $.when(global_service.POST(API_URL.SaleType, request)).done(function (result) {
-            debugger
-            if (result.is_success) {
-                var products = result.data;
-                var html = global_service.RenderSlideSaleProductItem(products, HTML_CONSTANTS.Home.FlashTypeItem);
+        $.when(global_service.POST(API_URL.SaleTypePage, request)).done(function (res) {
+            
+            const $btn = $('#btn-load-superflashsale');
 
+            if (res && res.html != null) {
                 element.fadeOut(50, function () {
-                    element.html(html).fadeIn(100);
+                    element.html(res.html).fadeIn(100);
+                    element.data("page", 1); // reset lại page về 1
+
+                    if (res.isLastPage) {
+                        $btn.hide();
+                    } else {
+                        $btn.show().prop("disabled", false).text("Xem thêm");
+                    }
                 });
-            } else {
-                element.html('');
             }
         });
     },
@@ -886,7 +892,7 @@ var global_service = {
         var html = ''
 
         $(list).each(function (index, item) {
-            debugger
+            
             var img_src = item.avatar
             if (!img_src.includes(API_URL.StaticDomain)
                 && !img_src.includes("data:image")

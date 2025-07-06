@@ -5,6 +5,7 @@ using Best1Mall_Front_End.Utilities;
 using Best1Mall_Front_End.Utilities.Contants;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Best1Mall_Front_End.Controllers.FlashSale
 {
@@ -90,6 +91,40 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
                 html
             });
         }
+    
+        [HttpPost]
+        public async Task<IActionResult> LoadMoreFilteredFlashSale(TypeRequestModel request)
+        {
+            var result = await _flashsaleServices.GetByType(request);
+
+            bool isLastPage = (request.page_index * request.page_size) >= result.TotalCount;
+
+            var html = await this.RenderViewAsync("_SuperFlashSale", result.Data ?? new List<FlashSaleProductResposeModel>(), true);
+
+            return Json(new
+            {
+                isLastPage,
+                html
+            });
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> GetByType(TypeRequestModel request)
+        {
+            var result = await _flashsaleServices.GetByType(request);
+
+            if (result != null)
+            {
+                return Ok(new
+                {
+                    is_success = true,
+                    data = result.Data
+                });
+            }
+
+            return BadRequest(new { is_success = false, msg = "Không tìm thấy FlashSale hoặc dữ liệu không hợp lệ." });
+        }
 
         [Route("flashsale/products/{flashsaleId}")]
         public async Task<IActionResult> Products(int flashsaleId)
@@ -150,21 +185,6 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
 
             return BadRequest(new { is_success = false, msg = "Không tìm thấy FlashSale hoặc dữ liệu không hợp lệ." });
         }
-        [HttpPost]
-        public async Task<IActionResult> GetByType(TypeRequestModel request)
-        {
-            var result = await _flashsaleServices.GetByType(request);
-
-            if (result != null)
-            {
-                return Ok(new
-                {
-                    is_success = true,
-                    data = result
-                });
-            }
-
-            return BadRequest(new { is_success = false, msg = "Không tìm thấy FlashSale hoặc dữ liệu không hợp lệ." });
-        }
+       
     }
 }

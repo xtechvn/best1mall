@@ -35,40 +35,57 @@ $(document).ready(function () {
     });
 
     let currentSelectedFlash = {
-        id: null,
-        flashType: null
+        id: -1,
+        flashType: 'all'
     };
 
     $('body').on('click', '.tag-flashsale', function (e) {
-        debugger
         e.preventDefault();
 
         const $this = $(this);
         const categoryId = parseInt($this.data('id'));
-        const flashType = $this.data('flash-type'); // "type" | "group"
+        const flashType = $this.data('flash-type'); // "all" | "type" | "group"
 
         if (isNaN(categoryId) || !flashType) return;
 
-        // 👉 Nếu người dùng click lại chính menu đang active => reset
+        const $container = $('#super-sale-container');
+        const $btn = $('#btn-load-superflashsale');
+
         const isSameSelection = currentSelectedFlash.id === categoryId && currentSelectedFlash.flashType === flashType;
 
         if (isSameSelection) {
-            // ✅ Reset: xoá active + gọi lại danh sách mặc định
-            currentSelectedFlash = { id: null, flashType: null };
-            $('.tag-flashsale').removeClass('active');
+            // 👉 Nếu click lại cùng 1 filter đang active (type/group) → reset về mặc định
+            if (flashType !== 'all') {
+                currentSelectedFlash = { id: -1, flashType: 'all' };
 
-            // 👇 Gọi lại PartialView "_SuperFlashSale" ban đầu từ server
-            $.get('/FlashSale/LoadDefaultFlashSale', function (html) {
-                $('#super-sale-container').fadeOut(50, function () {
-                    $(this).html(html).fadeIn(100);
+                // Cập nhật phân trang về mặc định
+                $container.data('mode', 'default');
+                $container.data('type', -1);
+                $container.data('group-id', -1);
+                $container.data('page', 1);
+                $container.data('url', '/FlashSale/LoadMoreSuperFlashSale');
+
+                $('.tag-flashsale').removeClass('active');
+                $('.tag-flashsale-default').addClass('active'); // luôn active lại nút "Xem tất cả"
+
+                // Tải lại view mặc định
+                $.get('/FlashSale/LoadDefaultFlashSale', function (html) {
+                    $container.fadeOut(50, function () {
+                        $(this).html(html).fadeIn(100);
+                        $btn.show().prop('disabled', false).text("Xem thêm");
+                    });
                 });
-            });
 
+                return;
+            }
+
+            // Nếu là "Xem tất cả" thì không làm gì cả (vì nó luôn là mặc định)
             return;
         }
 
-        // ✅ Click menu mới → cập nhật current
+        // 👉 Nếu chọn filter mới
         currentSelectedFlash = { id: categoryId, flashType: flashType };
+
         $('.tag-flashsale').removeClass('active');
         $this.addClass('active');
 
@@ -76,14 +93,22 @@ $(document).ready(function () {
         if (flashType === 'type') type = categoryId;
         if (flashType === 'group') group_id = categoryId;
 
+        $container.data('mode', 'filtered');
+        $container.data('type', type);
+        $container.data('group-id', group_id);
+        $container.data('page', 1);
+        $container.data('url', '/FlashSale/LoadMoreFilteredFlashSale');
+
         global_service.LoadFlashSalGrid(
-            $('#super-sale-container'),
+            $container,
             group_id,
             type,
             GLOBAL_CONSTANTS.GridSize,
             false
         );
     });
+
+
 
 
 

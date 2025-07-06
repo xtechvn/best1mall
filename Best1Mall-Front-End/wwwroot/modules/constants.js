@@ -21,7 +21,7 @@ var API_URL = {
     Register: '/Client/Register',
     ProductDetail: '/Product/ProductDetail',
     ProductList: '/Product/GetList',
-    SaleType:'/FlashSale/GetByType',
+    SaleTypePage:'/FlashSale/LoadMoreFilteredFlashSale',
     LabelListProduct: '/Product/GetListLabel',
     FlashSaleGetList: '/FlashSale/GetList',
     FlashSaleGetById: '/FlashSale/GetById',
