@@ -525,7 +525,8 @@ var account = {
 
         var element = $('#register-form .user input')
         if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.mb-4').find('.err').show()
+            element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
+            element.closest('.mb-4').find('.err-user').show()
             success = false
 
         }
@@ -549,16 +550,16 @@ var account = {
 
         element = $('#register-form .tel input')
         if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.relative').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
-            element.closest('.relative').find('.err').show()
+            element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
+            element.closest('.mb-4').find('.err-tel').show()
             success = false
 
         }
         else if (element.val() != undefined && element.val().trim() != '') {
             var pattern = /^(0|\+84|84)?(2[0-9]|3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])([0-9]{7})$/;
             if (!pattern.test(element.val())) {
-                element.closest('.relative').find('.err').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
-                element.closest('.relative').find('.err').show()
+                element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
+                element.closest('.mb-4').find('.err-tel').show()
                 success = false
             }
         }
@@ -606,6 +607,8 @@ var account = {
         var password_length = account.Data.PasswordLength
         var element = $('#register-form .user input')
         if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
+            element.closest('.mb-4').find('.err-user').show()
             return success
         }
         //if (!success) return success
@@ -624,16 +627,16 @@ var account = {
 
         element = $('#register-form .tel input')
         if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.relative').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
-            element.closest('.relative').find('.err').show()
+            element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
+            element.closest('.mb-4').find('.err-tel').show()
             success = false
 
         }
         else if (element.val() != undefined && element.val().trim() != '') {
             var pattern = /^(0|\+84|84)?(2[0-9]|3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])([0-9]{7})$/;
             if (!pattern.test(element.val())) {
-                element.closest('.relative').find('.err').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
-                element.closest('.relative').find('.err').show()
+                element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
+                element.closest('.mb-4').find('.err-tel').show()
                 success = false
             }
         }
@@ -830,17 +833,46 @@ var account = {
             case 'password': {
                 account.ValidatePasswordInput(element)
             } break;
+            case 'register-user': {
+               
+            } break;
+            case 'register-tel': {
+               
+            } break;
             default: {
-                if ((element.val() == undefined || element.val().trim() == '')) {
+                if (element.closest('.relative').hasClass('user')) {
+                    if (element.val() == undefined || element.val().trim() == '') {
+                        element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
+                        element.closest('.mb-4').find('.err-user').show()
+                        return
+                    }
+                    element.closest('.mb-4').find('.err-user').hide()
+                    element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
+                }
+                else if (element.closest('.relative').hasClass('tel')) {
+                    if (element.val() == undefined || element.val().trim() == '') {
+                        element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
+                        element.closest('.mb-4').find('.err-tel').show()
+                        return
+                    }
+                    else if (element.val() != undefined && element.val().trim() != '') {
+                        var pattern = /^(0|\+84|84)?(2[0-9]|3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])([0-9]{7})$/;
+                        if (!pattern.test(element.val())) {
+                            element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
+                            element.closest('.mb-4').find('.err-tel').show()
+                            return
+                        }
+                    }
+                    element.closest('.mb-4').find('.err-tel').hide()
+                    element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
+                }
+                else if ((element.val() == undefined || element.val().trim() == '')) {
                     element.closest('.mb-4').find('.err').show()
                     return
                 } else {
                     element.closest('.mb-4').find('.err').hide()
                     element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
-                    if (element.closest('.relative').find('.err') != undefined && element.closest('.relative').find('.err').length > 0) {
-                        element.closest('.relative').find('.err').hide()
-                        element.closest('.relative').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
-                    }
+                   
                     return
                 }
             }
