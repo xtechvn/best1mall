@@ -1,4 +1,5 @@
 ﻿@using Best1Mall_Front_End.Models.Products
+@using Best1Mall_Front_End.Utilities.Helper
 @using Best1Mall_Front_End.ViewModels
 @model ProductListResponseModel
 
@@ -40,19 +41,7 @@
 
         return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
     }
-    string GetBadgeImageByType(int? badgeType)
-    {
-        if (!badgeType.HasValue) return "";
-
-        switch (badgeType.Value)
-        {
-            case 6: return "/assets/images/tag-sieusale.png"; // SupperSale
-            case -1: return "/assets/images/tag-banchay.png"; // Sale
-            case 3: return "/assets/images/tag-hottrend.png"; // Bestchoice
-            case 1: return "/assets/images/tag-noibat.png"; // Featuredproduct
-            default: return "/assets/images/tag-banchay.png"; // fallback
-        }
-    }
+    
 }
 
 
@@ -81,7 +70,8 @@
         string ratingDisplay = (item.rating.HasValue && item.rating > 0) ? item.rating.Value.ToString("0.0") + "★" : "";
         string reviewCountDisplay = (item.review_count.HasValue && item.review_count > 0) ? $"({item.review_count})" : "";
         string imgSrc = GetFullImageUrl(item.avatar);
-        string badgeImg = GetBadgeImageByType(item.flashsale_badge_type);
+        string badgeImg = BadgeHelper.GetBadgeImageByType(item.flashsale_badge_type);
+
 
         <div class="swiper-slide pt-3">
             <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
@@ -101,7 +91,7 @@
                        @(item.review_count ?? 0),
                        @(item.old_price ?? 0),
                        @(item.discount ?? 0),
-                       '@badgeImg')">
+                        @(item.flashsale_badge_type ?? 0)">
                     
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                         <img src="@imgSrc" alt="Sản phẩm"

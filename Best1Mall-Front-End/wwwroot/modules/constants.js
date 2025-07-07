@@ -129,7 +129,7 @@ var GLOBAL_CONSTANTS = {
 }
 var FLASH_SALE_TYPE = {
     SupperSale: 117, // Siêu Sale
-    Sale: -1, // Bán Chạy
+    Sale: 130, // Bán Chạy
     Bestchoice: 114, // Hot Trend
     Featuredproduct: 112 // Nổi bật
 };
@@ -139,7 +139,7 @@ var FLASH_SALE_IMAGES = {
     [FLASH_SALE_TYPE.Sale]: 'assets/images/tag-banchay.png',
     [FLASH_SALE_TYPE.Bestchoice]: 'assets/images/tag-hottrend.png',
     [FLASH_SALE_TYPE.Featuredproduct]: 'assets/images/tag-noibat.png',
-    'default': 'assets/images/tag-banchay.png'
+   
 };
 
 var HTML_CONSTANTS = {
@@ -188,7 +188,7 @@ var HTML_CONSTANTS = {
         FlashTypeItem: ` 
 
                         
-                                        <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
+                                        <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
                                          <!-- tag -->
                                       
                                             {badge_img}
