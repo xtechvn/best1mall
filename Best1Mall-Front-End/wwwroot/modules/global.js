@@ -817,19 +817,23 @@ var global_service = {
         var now = new Date();
 
         $(list).each(function (index, item) {
+           
             var img_src = item.avatar;
             if (!img_src.includes(API_URL.StaticDomain) &&
                 !img_src.includes("data:image") &&
                 !img_src.includes("http")) {
                 img_src = API_URL.StaticDomain + item.avatar;
             }
+           
+
             var badgeType = item.flashsale_badge_type;
             var badge_img = '';
 
-            if (badgeType != null) {
-                var tagImage = FLASH_SALE_IMAGES[badgeType] || 'assets/images/tag-banchay.png';
+            if (badgeType != null && FLASH_SALE_IMAGES[badgeType]) {
+                var tagImage = FLASH_SALE_IMAGES[badgeType];
                 badge_img = `<img class="tag-banchay" src="${tagImage}" alt="" />`;
             }
+
 
 
             // --- XỬ LÝ GIÁ ---
@@ -869,7 +873,9 @@ var global_service = {
                     ${item.rating || 0},
                     ${item.review_count || 0},
                     ${item.old_price || 0},
-                    ${discountRounded || 0})" href="`)
+                    ${discountRounded || 0},
+                    ${badgeType || 'null'})" href="`)
+
 
                     .replaceAll('{badge_img}', badge_img)
                     .replaceAll('{discount_text}', `-${discountRounded}%`)
@@ -888,11 +894,11 @@ var global_service = {
     },
 
     RenderSlideSaleProductItem: function (list, template) {
-        
+    
         var html = ''
 
         $(list).each(function (index, item) {
-            
+           
             var img_src = item.avatar
             if (!img_src.includes(API_URL.StaticDomain)
                 && !img_src.includes("data:image")
@@ -903,8 +909,8 @@ var global_service = {
             var badgeType = item.badge_type;
             var badge_img = '';
 
-            if (badgeType != null) {
-                var tagImage = FLASH_SALE_IMAGES[badgeType] || 'assets/images/tag-banchay.png';
+            if (badgeType != null && FLASH_SALE_IMAGES[badgeType]) {
+                var tagImage = FLASH_SALE_IMAGES[badgeType];
                 badge_img = `<img class="tag-banchay" src="${tagImage}" alt="" />`;
             }
             
@@ -946,14 +952,19 @@ var global_service = {
         return html
     },
 
-    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, old_price = 0, discount = 0, badge_img = '') {
-        
+    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, old_price = 0, discount = 0, badge_type = null) {
+       
         var img_src = image
         if (!img_src.includes(API_URL.StaticDomain)
             && !img_src.includes("data:image")
             && !img_src.includes("http"))
             img_src = API_URL.StaticDomain + image
-       
+
+
+        let badge_img = '';
+        if (badge_type != null && FLASH_SALE_IMAGES[badge_type]) {
+            badge_img = `<img class="tag-banchay" src="${FLASH_SALE_IMAGES[badge_type]}" alt="" />`;
+        }
         const key = 'viewedProducts';
         let list = JSON.parse(localStorage.getItem(key)) || [];
 

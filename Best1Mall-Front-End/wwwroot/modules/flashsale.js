@@ -94,7 +94,7 @@ var flashsale = {
 
         return `
         <div class="swiper-slide pt-3">
-            <div class="bg-white rounded-xl p-2 text-slate-800 relative border border-gray-100 h-full pb-14">
+            <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
                 <a href="${seoUrl}">
                    <div class="absolute -top-1 z-10 left-1 bg-[url('assets/images/icon/tag1.png')] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1">
                     -${p.discountvalue}%
