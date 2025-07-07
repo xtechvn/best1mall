@@ -34,8 +34,8 @@ var address_client = {
             var id = element.closest('.address-item').attr('data-id')
             address_client.CreateOrUpdateAddress(id)
             $('#address-book').removeClass('overlay-active')
-            $('#address-book').addClass('hidden')
-            $('#address-book').hide()
+            //$('#address-book').addClass('hidden')
+            //$('#address-book').hide()
         });
         $("body").on('click', "#address-book .list-add .item .defauld", function () {
             var element = $(this)
@@ -204,7 +204,9 @@ var address_client = {
         $('.content-left-user').removeClass('placeholder')
     },
     RenderExistsAddress: function (list, selected_id = undefined) {
-        ;
+        // Kiểm tra xem đang ở trang "address" hay không
+        const page = $('#address-book').data('page') || '';
+        const isAddressPage = page === 'address';
 
         // ✅ Sort: Địa chỉ mặc định lên đầu
         list.sort(function (a, b) {
@@ -221,16 +223,19 @@ var address_client = {
                 Địa chỉ mặc định
             </span>`;
             }
+            // Nếu ở trang Address thì không render input radio
+            const radioHtml = isAddressPage ? '' :
+                `<input type="radio" name="address" class="radio-custom mt-1" ${selected_id == item.id ? 'checked' : ''} />`;
 
             html += HTML_CONSTANTS.Address.GridItem
                 .replaceAll('{active}', (selected_id != undefined && selected_id == item.id) ? 'active' : '')
-                .replaceAll('{checked}', (selected_id != undefined && selected_id == item.id) ? 'checked' : '')
                 .replaceAll('{id}', item.id)
                 .replaceAll('{default-address-style}', item.districtId == true ? 'display:none;' : '')
                 .replaceAll('{name}', item.receiverName)
                 .replaceAll('{address}', address_client.RenderDetailAddress(item))
                 .replaceAll('{tel}', item.phone.trim())
-                .replaceAll('{defaultLabel}', defaultLabel);
+                .replaceAll('{defaultLabel}', defaultLabel)
+                .replaceAll('{radio}', radioHtml); // 👈 thay thế radio động
         });
 
         $('#address-book .list-add').html(html);
