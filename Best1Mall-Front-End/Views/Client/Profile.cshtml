@@ -8,6 +8,8 @@
         /* font-size: 0.875rem; */
         margin-top: 4px;
     }
+
+   
 </style>
 
 <div class="box-info" id="profile">
@@ -36,12 +38,16 @@
 
 
         <div class="flex justify-center text-center items-center mt-4 gap-3">
-            @* <a href="javascript:;" class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full w-full"> *@
-            @*     Hủy bỏ *@
-            @* </a> *@
-            <a href="javascript:;" id="btnUpdate" class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full w-full">
+            <button id="btnUpdate"
+                    type="button"
+                    class="border border-blue-500 px-6 py-2 text-white rounded-full w-full
+               bg-gray-300 text-white cursor-not-allowed opacity-70 transition duration-200"
+                    disabled>
                 Cập nhật
-            </a>
+            </button>
+
+
+
         </div>
     </form>
 </div>
