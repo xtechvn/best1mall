@@ -507,7 +507,7 @@ var account = {
             return success
         }
         else if (element.val().length > max_password_length) {
-            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooLong.replace('{count}', password_length))
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooLong.replace('{count}', max_password_length))
             element.closest('.mb-4').find('.err').show()
             return success
         }
