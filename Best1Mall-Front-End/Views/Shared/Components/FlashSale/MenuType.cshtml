@@ -1,6 +1,23 @@
 ﻿@using Best1Mall_Front_End.Models;
+@using Best1Mall_Front_End.Models.Flashsale
 @using Best1Mall_Front_End.Utilities;
-@model List<CategoryModel>
+@model List<CategorySaleModel>
+@functions{
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
 @{
     if (Model != null)
     {
@@ -8,14 +25,12 @@
 
             @foreach (var item in Model)
             {
+            string imgSrc = GetFullImageUrl(item.ImagePath);
                 
                 <a href=""
-               class=" tag-flashsale flex items-center gap-1 justify-center py-3 text-center bg-stone-800 text-white w-full rounded-md " data-id="@item.id" data-flash-type="type">
-                @item.name
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-                        <path d="M20.7991 11.7617L10.2991 23.0117C10.1878 23.1305 10.041 23.2098 9.88065 23.2377C9.72034 23.2657 9.55528 23.2407 9.41039 23.1667C9.2655 23.0926 9.14863 22.9734 9.07743 22.827C9.00623 22.6807 8.98455 22.5152 9.01568 22.3555L10.39 15.4808L4.98724 13.452C4.87121 13.4086 4.76773 13.3372 4.68606 13.244C4.60439 13.1508 4.54706 13.0389 4.51921 12.9182C4.49135 12.7975 4.49383 12.6718 4.52642 12.5522C4.55902 12.4327 4.62071 12.3231 4.70599 12.2333L15.206 0.983274C15.3173 0.864526 15.4641 0.785191 15.6244 0.75724C15.7848 0.729289 15.9498 0.75424 16.0947 0.828326C16.2396 0.902412 16.3565 1.02161 16.4277 1.16794C16.4989 1.31428 16.5205 1.47979 16.4894 1.63952L15.1113 8.52171L20.5141 10.5476C20.6293 10.5913 20.7319 10.6627 20.813 10.7555C20.894 10.8483 20.9509 10.9596 20.9787 11.0796C21.0065 11.1996 21.0044 11.3246 20.9724 11.4436C20.9404 11.5626 20.8796 11.6718 20.7954 11.7617H20.7991Z"
-                              fill="white" />
-                    </svg>
+               class=" tag-flashsale flex items-center gap-1 justify-center py-3 text-center bg-stone-800 text-white w-full rounded-md " data-id="@item.Id" data-flash-type="type">
+                @item.Name
+                <img src="@imgSrc" alt="@item.Name" class="w-5 h-5 object-contain" />
                
                 </a>
             }

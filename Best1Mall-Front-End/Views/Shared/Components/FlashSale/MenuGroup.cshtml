@@ -1,6 +1,7 @@
 ﻿@using Best1Mall_Front_End.Models;
+@using Best1Mall_Front_End.Models.Flashsale
 @using Best1Mall_Front_End.Utilities;
-@model List<CategoryModel>
+@model List<CategorySaleModel>
 @{
     if (Model != null)
     {
@@ -9,7 +10,7 @@
             @foreach (var item in Model)
             {
 
-            <a href="javascript:void(0)" class="tag-flashsale p-2 text-center bg-white w-full rounded-3xl border border-gray-200 " data-id="@item.id" data-flash-type="group">@item.name</a>
+            <a href="javascript:void(0)" class="tag-flashsale p-2 text-center bg-white w-full rounded-3xl border border-gray-200 " data-id="@item.Id" data-flash-type="group">@item.Name</a>
            
                
             }
