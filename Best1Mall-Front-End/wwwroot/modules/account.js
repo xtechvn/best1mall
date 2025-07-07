@@ -344,6 +344,10 @@ var account = {
             $('#login-popup').fadeIn()
 
         });
+        $("body").on('click', "#login-popup .closePopup", function (e) {
+            $('#register-form input').val('').trigger('change')
+
+        });
         $("body").on('keyup', "#forgot-usr", function () {
             var element=$(this)
             if (element.val() != undefined && element.val().trim() != '') {
@@ -517,6 +521,8 @@ var account = {
     ValidateRegister: function () {
         var success = true
         var password_length = account.Data.PasswordLength
+        var max_password_length = account.Data.MaxPasswordLength
+
         var element = $('#register-form .user input')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err').show()
@@ -538,22 +544,22 @@ var account = {
                 success = false
             }
         }
-        //if (!success) return success
+        if (!success) return success
 
-        //element = $('#register-form .tel input')
-        //if (element.val() == undefined || element.val().trim() == '') {
-        //    element.closest('.mb-4').find('.err').show()
-        //    success = false
+        element = $('#register-form .tel input')
+        if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err').show()
+            success = false
 
-        //}
-        //else if (element.val() != undefined && element.val().trim() != '') {
-        //    var pattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
-        //    if (!pattern.test(element.val())) {
-        //        element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
-        //        element.closest('.mb-4').find('.err').show()
-        //        success = false
-        //    }
-        //}
+        }
+        else if (element.val() != undefined && element.val().trim() != '') {
+            var pattern = /^(0|\+84|84)?(2[0-9]|3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])([0-9]{7})$/;
+            if (!pattern.test(element.val())) {
+                element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
+                element.closest('.mb-4').find('.err').show()
+                success = false
+            }
+        }
         //if (!success) return success
 
         element = $('#register-form .register-password input')
@@ -563,6 +569,11 @@ var account = {
         }
         else if (element.val().length < password_length) {
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
+            element.closest('.mb-4').find('.err').show()
+            success = false
+        }
+        else if (element.val().length > max_password_length) {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooLong.replace('{count}', max_password_length))
             element.closest('.mb-4').find('.err').show()
             success = false
         }
