@@ -619,17 +619,20 @@ var account = {
         }
         //if (!success) return success
 
-        //element = $('#register-form .tel input')
-        //if (element.val() == undefined || element.val().trim() == '') {
-        //    return success
+        element = $('#register-form .tel input')
+        if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err').show()
+            success = false
 
-        //}
-        //else if (element.val() != undefined && element.val().trim() != '') {
-        //    var pattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
-        //    if (!pattern.test(element.val())) {
-        //        return success
-        //    }
-        //}
+        }
+        else if (element.val() != undefined && element.val().trim() != '') {
+            var pattern = /^(0|\+84|84)?(2[0-9]|3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])([0-9]{7})$/;
+            if (!pattern.test(element.val())) {
+                element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
+                element.closest('.mb-4').find('.err').show()
+                success = false
+            }
+        }
         //if (!success) return success
 
         element = $('#register-form .register-password input')
