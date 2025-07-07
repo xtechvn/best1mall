@@ -1,5 +1,6 @@
 ﻿
 using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Models.Flashsale;
 using Best1Mall_Front_End.Models.Labels;
 using Best1Mall_Front_End.Service.Redis;
 using Best1Mall_Front_End.Utilities;
@@ -56,7 +57,7 @@ namespace Best1Mall_Front_End.Controllers.Home.Business
                 return null;
             }
         }
-        public async Task<List<CategoryModel>?> getListMenuSale(int parent_id)
+        public async Task<List<CategorySaleModel>?> getListMenuSale(int parent_id)
         {
             try
             {
@@ -74,7 +75,7 @@ namespace Best1Mall_Front_End.Controllers.Home.Business
                 if (status == ((int)ResponseType.SUCCESS))
                 {
                     string data = JsonParent[0]["data"].ToString();
-                    return JsonConvert.DeserializeObject<List<CategoryModel>>(data);
+                    return JsonConvert.DeserializeObject<List<CategorySaleModel>>(data);
                 }
                 else
                 {
