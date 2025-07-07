@@ -38,6 +38,7 @@ var account = {
     Data: {
         SendCodeTimeout: false,
         PasswordLength: 6,
+        MaxPasswordLength: 32,
     },
     Initialization: function () {
         if ($('#forgot-password-change').length > 0) {
@@ -383,8 +384,8 @@ var account = {
             $.when(
                 global_service.POST(API_URL.Login, request)
             ).done(function (res) {
-                
-                if (res.is_success) {
+
+                if (res.is_success && res.status != null && res.status != undefined && res.status==0) {
                     if ($('#login-remember').is(":checked")) {
                         localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
                     } else {
@@ -476,10 +477,12 @@ var account = {
     },
     ValidateLogin: function () {
         var password_length = account.Data.PasswordLength
+        var max_password_length = account.Data.MaxPasswordLength
 
         var success = false
         var element = $('#login-usr')
         if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err').show()
             return success
 
@@ -492,18 +495,22 @@ var account = {
                 return success
             }
         }
-        //if (!success) return success
         element = $('#login-pwd')
         if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err').show()
-            success = false
+            return success
         }
         else if (element.val().length < password_length) {
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
             element.closest('.mb-4').find('.err').show()
-            success = false
+            return success
         }
-        //if (!success) return success
+        else if (element.val().length > max_password_length) {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooLong.replace('{count}', password_length))
+            element.closest('.mb-4').find('.err').show()
+            return success
+        }
 
         return true
     },
