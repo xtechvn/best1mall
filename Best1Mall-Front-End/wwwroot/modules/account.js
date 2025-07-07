@@ -920,6 +920,7 @@ var account = {
     ValidatePasswordInput: function (element) {
         var success = true
         var password_length = account.Data.PasswordLength
+        var max_password_length = account.Data.MaxPasswordLength
 
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err').show()
@@ -930,7 +931,13 @@ var account = {
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
             element.closest('.mb-4').find('.err').show()
             success = false
-        } else {
+        }
+        else if (element.val().length > max_password_length) {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooLong.replace('{count}', max_password_length))
+            element.closest('.mb-4').find('.err').show()
+            success = false
+        }
+        else {
             element.closest('.mb-4').find('.err').hide()
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
         }
