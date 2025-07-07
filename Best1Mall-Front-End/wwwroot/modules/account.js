@@ -38,6 +38,7 @@ var account = {
     Data: {
         SendCodeTimeout: false,
         PasswordLength: 6,
+        MaxPasswordLength: 32,
     },
     Initialization: function () {
         if ($('#forgot-password-change').length > 0) {
@@ -343,6 +344,10 @@ var account = {
             $('#login-popup').fadeIn()
 
         });
+        $("body").on('click', "#login-popup .closePopup", function (e) {
+            $('#register-form input').val('').trigger('change')
+
+        });
         $("body").on('keyup', "#forgot-usr", function () {
             var element=$(this)
             if (element.val() != undefined && element.val().trim() != '') {
@@ -383,8 +388,8 @@ var account = {
             $.when(
                 global_service.POST(API_URL.Login, request)
             ).done(function (res) {
-                
-                if (res.is_success) {
+
+                if (res.is_success && res.status != null && res.status != undefined && res.status==0) {
                     if ($('#login-remember').is(":checked")) {
                         localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
                     } else {
@@ -476,10 +481,12 @@ var account = {
     },
     ValidateLogin: function () {
         var password_length = account.Data.PasswordLength
+        var max_password_length = account.Data.MaxPasswordLength
 
         var success = false
         var element = $('#login-usr')
         if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err').show()
             return success
 
@@ -492,33 +499,41 @@ var account = {
                 return success
             }
         }
-        //if (!success) return success
         element = $('#login-pwd')
         if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err').show()
-            success = false
+            return success
         }
         else if (element.val().length < password_length) {
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
             element.closest('.mb-4').find('.err').show()
-            success = false
+            return success
         }
-        //if (!success) return success
+        else if (element.val().length > max_password_length) {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooLong.replace('{count}', max_password_length))
+            element.closest('.mb-4').find('.err').show()
+            return success
+        }
 
         return true
     },
     ValidateRegister: function () {
         var success = true
         var password_length = account.Data.PasswordLength
+        var max_password_length = account.Data.MaxPasswordLength
+
         var element = $('#register-form .user input')
         if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.mb-4').find('.err').show()
+            element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
+            element.closest('.mb-4').find('.err-user').show()
             success = false
 
         }
         //if (!success) return success
         element = $('#register-form .email input')
         if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err').show()
             success = false
 
@@ -531,31 +546,38 @@ var account = {
                 success = false
             }
         }
-        //if (!success) return success
+        if (!success) return success
 
-        //element = $('#register-form .tel input')
-        //if (element.val() == undefined || element.val().trim() == '') {
-        //    element.closest('.mb-4').find('.err').show()
-        //    success = false
+        element = $('#register-form .tel input')
+        if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
+            element.closest('.mb-4').find('.err-tel').show()
+            success = false
 
-        //}
-        //else if (element.val() != undefined && element.val().trim() != '') {
-        //    var pattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
-        //    if (!pattern.test(element.val())) {
-        //        element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
-        //        element.closest('.mb-4').find('.err').show()
-        //        success = false
-        //    }
-        //}
+        }
+        else if (element.val() != undefined && element.val().trim() != '') {
+            var pattern = /^(0|\+84|84)?(2[0-9]|3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])([0-9]{7})$/;
+            if (!pattern.test(element.val())) {
+                element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
+                element.closest('.mb-4').find('.err-tel').show()
+                success = false
+            }
+        }
         //if (!success) return success
 
         element = $('#register-form .register-password input')
         if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err').show()
             success = false
         }
         else if (element.val().length < password_length) {
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
+            element.closest('.mb-4').find('.err').show()
+            success = false
+        }
+        else if (element.val().length > max_password_length) {
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooLong.replace('{count}', max_password_length))
             element.closest('.mb-4').find('.err').show()
             success = false
         }
@@ -585,6 +607,8 @@ var account = {
         var password_length = account.Data.PasswordLength
         var element = $('#register-form .user input')
         if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
+            element.closest('.mb-4').find('.err-user').show()
             return success
         }
         //if (!success) return success
@@ -601,17 +625,21 @@ var account = {
         }
         //if (!success) return success
 
-        //element = $('#register-form .tel input')
-        //if (element.val() == undefined || element.val().trim() == '') {
-        //    return success
+        element = $('#register-form .tel input')
+        if (element.val() == undefined || element.val().trim() == '') {
+            element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
+            element.closest('.mb-4').find('.err-tel').show()
+            success = false
 
-        //}
-        //else if (element.val() != undefined && element.val().trim() != '') {
-        //    var pattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
-        //    if (!pattern.test(element.val())) {
-        //        return success
-        //    }
-        //}
+        }
+        else if (element.val() != undefined && element.val().trim() != '') {
+            var pattern = /^(0|\+84|84)?(2[0-9]|3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])([0-9]{7})$/;
+            if (!pattern.test(element.val())) {
+                element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
+                element.closest('.mb-4').find('.err-tel').show()
+                success = false
+            }
+        }
         //if (!success) return success
 
         element = $('#register-form .register-password input')
@@ -805,13 +833,46 @@ var account = {
             case 'password': {
                 account.ValidatePasswordInput(element)
             } break;
+            case 'register-user': {
+               
+            } break;
+            case 'register-tel': {
+               
+            } break;
             default: {
-                if ((element.val() == undefined || element.val().trim() == '')) {
+                if (element.closest('.relative').hasClass('user')) {
+                    if (element.val() == undefined || element.val().trim() == '') {
+                        element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
+                        element.closest('.mb-4').find('.err-user').show()
+                        return
+                    }
+                    element.closest('.mb-4').find('.err-user').hide()
+                    element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
+                }
+                else if (element.closest('.relative').hasClass('tel')) {
+                    if (element.val() == undefined || element.val().trim() == '') {
+                        element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
+                        element.closest('.mb-4').find('.err-tel').show()
+                        return
+                    }
+                    else if (element.val() != undefined && element.val().trim() != '') {
+                        var pattern = /^(0|\+84|84)?(2[0-9]|3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])([0-9]{7})$/;
+                        if (!pattern.test(element.val())) {
+                            element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
+                            element.closest('.mb-4').find('.err-tel').show()
+                            return
+                        }
+                    }
+                    element.closest('.mb-4').find('.err-tel').hide()
+                    element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
+                }
+                else if ((element.val() == undefined || element.val().trim() == '')) {
                     element.closest('.mb-4').find('.err').show()
                     return
                 } else {
                     element.closest('.mb-4').find('.err').hide()
                     element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
+                   
                     return
                 }
             }

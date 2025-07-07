@@ -81,6 +81,7 @@ var NOTIFICATION_MESSAGE = {
     EmailInCorrect: 'Vui lòng nhập đúng địa chỉ Email',
     PhoneNotCorrect: 'Vui lòng nhập đúng số điện thoại',
     PasswordTooShort: 'Vui lòng nhập mật khẩu trên {count} ký tự',
+    PasswordTooLong: 'Mật khẩu tối đa {count} ký tự',
     PasswordConfirmNotEqual: 'Xác nhận mật khẩu và mật khẩu không khớp',
     EmptyField: 'Vui lòng không để trống'
 }
