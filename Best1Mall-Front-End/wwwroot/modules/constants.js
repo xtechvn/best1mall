@@ -136,10 +136,10 @@ var FLASH_SALE_TYPE = {
 };
 
 var FLASH_SALE_IMAGES = {
-    [FLASH_SALE_TYPE.SupperSale]: 'assets/images/tag-sieusale.png',
-    [FLASH_SALE_TYPE.Sale]: 'assets/images/tag-banchay.png',
-    [FLASH_SALE_TYPE.Bestchoice]: 'assets/images/tag-hottrend.png',
-    [FLASH_SALE_TYPE.Featuredproduct]: 'assets/images/tag-noibat.png',
+    [FLASH_SALE_TYPE.SupperSale]: '/assets/images/tag-sieusale.png',
+    [FLASH_SALE_TYPE.Sale]: '/assets/images/tag-banchay.png',
+    [FLASH_SALE_TYPE.Bestchoice]: '/assets/images/tag-hottrend.png',
+    [FLASH_SALE_TYPE.Featuredproduct]: '/assets/images/tag-noibat.png',
    
 };
 
@@ -492,7 +492,7 @@ var HTML_CONSTANTS = {
 
        
         Tr_Attributes: `<tr class="attributes" data-level="{level}">
-                    <td class="text-slate-500">{name}:</td>
+                    <td class="text-slate-500">Phân loại:</td>
                     <td>
                         <span class="flex flex-wrap gap-2 items-center box-tag">
                             {li}
@@ -500,7 +500,7 @@ var HTML_CONSTANTS = {
                     </td>
                 </tr>`,
         Tr_Attributes_Td_li: `
-            <span class=" attribute-detail rounded border border-gray-200 hover:border-red-500 hover:bg-red-100 p-2 text-sm cursor-pointer {active}" data-id="{name}">
+            <span class=" attribute-detail rounded hover:bg-purple-100 border border-gray-200 hover:border-purple-500 p-2 text-sm cursor-pointer {active}" data-id="{name}">
     {src}{name}
 </span>
 

@@ -25,7 +25,7 @@
         });
     },
     ToggleFavorite: function ($el) {
-       
+
 
         let productId = $el.data("product-id");
 
@@ -64,7 +64,7 @@
         const apiUrl = isFavourite ? API_URL.FavouriteDelete : API_URL.AddToFavourite;
 
         $.when(global_service.POST(apiUrl, request)).done(function (result) {
-           
+
 
             if (result.is_success) {
                 // Nếu là trang danh sách yêu thích → xóa luôn phần tử
@@ -96,10 +96,10 @@
         });
     },
 
- 
+
 
     loadFavouriteList: function () {
-        
+
 
         const usr = global_service.CheckLogin();
         if (!usr) {
@@ -117,7 +117,7 @@
         const self = this;
 
         $.when(global_service.POST(API_URL.FavouriteList, request)).done(function (res) {
-           
+            
             if (res.is_success && res.data && res.data.length > 0) {
                 const html = res.data.map(item => self.renderFavouriteItem(item.detail)).join('');
                 if (self.pageIndex === 1) {
@@ -142,6 +142,7 @@
     },
 
     renderFavouriteItem: function (product) {
+        
         if (!product) return '';
 
         let now = new Date();
@@ -179,18 +180,28 @@
         ) {
             img_src = API_URL.StaticDomain + img_src;
         }
+        var badgeType = product.flashsale_badge_type;
+        var badge_img = '';
+
+        if (badgeType != null && FLASH_SALE_IMAGES[badgeType]) {
+            var tagImage = FLASH_SALE_IMAGES[badgeType];
+            badge_img = `<img class="tag-banchay" src="${tagImage}" alt="" />`;
+        }
 
         let discountRounded = Math.round(parseFloat(product.discount) || 0);
         let showDiscount = discountRounded > 0;
 
         const template = `
-<div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+<div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+        {badge_img}
     <a href="{url}">
-        <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 {discount_style}">
-            {discount_text}
-        </div>
+       
         <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
             <img src="{avt}" alt="{name}" class="absolute inset-0 w-full h-full object-cover" />
+            <div
+                 class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(assets/images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1 {discount_style}">
+                 {discount_text}
+            </div>
         </div>
         <p class="text-sm line-clamp-2 font-medium mt-2">{name}</p>
         <div class="absolute bottom-2 w-full px-2 left-0">
@@ -210,6 +221,7 @@
         return template
             .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(product.name)).replaceAll(' ', '-') + '--' + product._id)
             .replaceAll('{discount_text}', `-${discountRounded}%`)
+            .replaceAll('{badge_img}', badge_img)
             .replaceAll('{discount_style}', showDiscount ? '' : 'hidden')
             .replaceAll('{avt}', img_src)
             .replaceAll('{name}', product.name)

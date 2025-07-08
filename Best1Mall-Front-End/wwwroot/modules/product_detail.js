@@ -325,6 +325,18 @@ var product_detail = {
         this.RenderTitle(product);
         this.RenderRating(product);
         this.RenderPrice(product, product_sub);
+        // ✅ Hiển thị countdown Flash Sale nếu có chương trình
+        if (
+            product.amount_after_flashsale &&
+            product.flash_sale_todate &&
+            new Date(product.flash_sale_todate) > new Date()
+        ) {
+            $('.flash-sale-box').show();
+           // product_detail.StartFlashSaleCountdown(product.flash_sale_todate);
+        } else {
+            $('.flash-sale-box').hide();
+        }
+
         this.RenderSpecification(product);
         this.RenderAttributes(product, product_sub);
         this.RenderBuyWithProducts(buywith);
@@ -376,6 +388,37 @@ var product_detail = {
         $('.product-details-section').removeClass('hidden');
        // $('.product-details-section').show();
     },
+    //StartFlashSaleCountdown: function (flashSaleToDate) {
+    //    if (product_detail._flashSaleTimer) {
+    //        clearInterval(product_detail._flashSaleTimer);
+    //    }
+
+    //    function updateCountdown() {
+    //        const now = new Date();
+    //        const endTime = new Date(flashSaleToDate);
+    //        const diff = endTime - now;
+
+    //        if (diff <= 0) {
+    //            $('#hours').text('00');
+    //            $('#minutes').text('00');
+    //            $('#seconds').text('00');
+    //            clearInterval(product_detail._flashSaleTimer);
+    //            return;
+    //        }
+
+    //        const hours = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, '0');
+    //        const minutes = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+    //        const seconds = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+
+    //        $('#hours').text(hours);
+    //        $('#minutes').text(minutes);
+    //        $('#seconds').text(seconds);
+    //    }
+
+    //    updateCountdown(); // chạy lần đầu
+    //    product_detail._flashSaleTimer = setInterval(updateCountdown, 1000);
+    //},
+
     RenderAttributes: function (product, product_sub) {
         let htmlMain = '', htmlSidebar = '';
         let total_stock = product.quanity_of_stock || 0;
@@ -431,12 +474,8 @@ var product_detail = {
         const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(label.labelCode || 'thuong-hieu')).replace(" ", "-").toLowerCase();
         const labelUrl = `/thuong-hieu/${labelSlug}?label_id=${label.id}`;
         const html = `
-        <p class="text-base text-gray-600 mb-2">
-            Thương hiệu:
-            <a href="${labelUrl}" class="text-blue-600 hover:underline font-semibold">
-                ${label.labelCode}
-            </a>
-        </p>
+       
+        <h6 class="">Thương hiệu: <a href="${labelUrl}" class="text-color-base">${label.labelCode}</a></h6>
     `;
 
         $('.section-label').html(html).show();
@@ -571,7 +610,7 @@ var product_detail = {
         });
     },
     RenderPrice: function (product, product_sub) {
-
+        
         let priceHtml = '';
         let isFlashSale = product.amount_after_flashsale != null &&
             product.amount_after_flashsale > 0 &&
@@ -612,7 +651,20 @@ var product_detail = {
             }
         }
 
-        $('.section-details-product .price').html(priceHtml);
+        $('.section-details-product .price').html(`
+    <div class="flex gap-2 items-center">
+        <div class="text-2xl md:text-3xl text-red-400 font-normal">${priceHtml}</div>
+        ${isFlashSale ? `
+            <div class="text-gray-400"><strike>${global_service.Comma(product.amount)} đ</strike></div>
+            <div class="text-red-400 flex gap-1 items-center">
+                ${Math.round((1 - finalPrice / product.amount) * 100)}%
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" viewBox="0 0 10 20" fill="none">
+                    <path d="M2.84029 0H8.70628L6.16098 7.41677H9.32153L0.809102 20L3.09313 10.4509H0L2.84029 0Z" fill="#F9CA6B"/>
+                </svg>
+            </div>` : ''}
+    </div>
+`);
+
     },
 
 
@@ -876,7 +928,6 @@ var product_detail = {
             if (variation && variation.length > 0) {
                 const selected = variation[0];
 
-                // ✅ Flash Sale check
                 const now = new Date();
                 const flashSaleToDate = selected.flash_sale_todate ? new Date(selected.flash_sale_todate) : null;
                 const isFlashSale = selected.amount_after_flashsale &&
@@ -885,25 +936,38 @@ var product_detail = {
                     flashSaleToDate > now;
 
                 const displayPrice = isFlashSale ? selected.amount_after_flashsale : selected.amount;
+                const oldPrice = selected.amount;
+                const discountPercent = isFlashSale && oldPrice
+                    ? Math.round((1 - displayPrice / oldPrice) * 100)
+                    : 0;
 
-                // ✅ Cập nhật UI
-                $('.box-info-details').each(function () {
-                    $('.section-details-product .price').html(global_service.Comma(displayPrice));
-                    $('.box-info-details .box-detail-stock .soluong').html(global_service.Comma(selected.c) + ' sản phẩm có sẵn');
-                    // 👉 Gọi hàm này
-                    //handleQuantityInput(selected.quanity_of_stock);
+                // ✅ HTML hiển thị giá
+                const htmlPrice = `
+                <div class="flex gap-2 items-center">
+                    <div class="text-2xl md:text-3xl text-red-400 font-normal">${global_service.Comma(displayPrice)}</div>
+                    ${isFlashSale ? `<div class="text-gray-400"><strike>${global_service.Comma(oldPrice)}</strike></div>` : ''}
+                    ${isFlashSale ? `
+                        <div class="text-red-400 flex gap-1 items-center">
+                            ${discountPercent}%
+                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" viewBox="0 0 10 20" fill="none">
+                                <path d="M2.84029 0H8.70628L6.16098 7.41677H9.32153L0.809102 20L3.09313 10.4509H0L2.84029 0Z"
+                                      fill="#F9CA6B" />
+                            </svg>
+                        </div>` : ''}
+                </div>
+            `;
 
-                    // ✅ Gạch giá cũ nếu Flash Sale
-                    if (isFlashSale) {
-                        $('#price-old').html(global_service.Comma(selected.amount));
-                        $('#price-old').closest('.price-old').show();
-                    } else {
-                        $('#price-old').closest('.price-old').hide();
-                    }
-                });
+                // ✅ Gán vào tất cả vùng hiển thị giá
+                $('.section-details-product .price').html(htmlPrice);
+
+                // ✅ Hiển thị số lượng tồn kho
+                $('.box-info-details .box-detail-stock .soluong').html(
+                    global_service.Comma(selected.c) + ' sản phẩm có sẵn'
+                );
             }
         }
     },
+
 
 
     RenderBuyNowButton: function () {

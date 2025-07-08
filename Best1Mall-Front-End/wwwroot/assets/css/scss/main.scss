@@ -23,7 +23,9 @@ body {
   color: #000000;
   background: linear-gradient(180deg, #FFF 0%, #F1F5F9 25.96%) !important;
 }
-
+p {
+   font-family: "Arial", sans-serif;
+}
 main {
   min-height: 40vh;
 }
@@ -127,7 +129,11 @@ $color-base: #773EFA;
 .bg-box {
   background: linear-gradient(90deg, #098EF7 0%, #BC61F8 41%, #FF4169 97%);
 }
-
+.brands-swiper{
+  img{
+    border-radius: 16px;
+  }
+}
 @media (min-width:1300px) {
 
   .flash-sale-swiper {
@@ -152,7 +158,27 @@ $color-base: #773EFA;
   }
 
 }
-
+.section-tab{
+  font-size: 14px;
+  h2{
+    font-size: 16px;
+  }
+}
+.details-news{
+  font-size: 14px;
+}
+.tab-link:not(:last-child){
+  position: relative;
+  &::after{
+    content: '';
+    width: 1px;
+    height: 30px;
+    background: #e5e5e5;
+    position: absolute;
+    right: -8px;
+    top: 5px;
+  }
+}
 .swiper-slide {
   height: initial;
 }
@@ -1964,6 +1990,9 @@ input[type="checkbox"]:checked::after {
  .product-item{
   position: relative;
   overflow: hidden;
+  p{
+    font-family: "Kanit", sans-serif;
+  }
   .tag-banchay{
     position: absolute;
     left: 8px;

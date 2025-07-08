@@ -1038,7 +1038,7 @@ var global_service = {
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                         <img src="${p.img_src}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover" />
                          <div
-                             class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(assets/images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1 ${showDiscount ? '' : 'hidden'}">
+                             class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(/assets/images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1 ${showDiscount ? '' : 'hidden'}">
                               -${p.discount}%
                          </div>
                     </div>
