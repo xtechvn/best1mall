@@ -256,11 +256,21 @@ var account = {
             }
         });
         $("body").on('focusin', "#login-form input, #register-form input", function () {
-            var element = $(this)
             $('#register-general-err .err').hide()
             $('#register-general-err .err').html(NOTIFICATION_MESSAGE.EmptyField)
             $('#login-general-err .err').hide()
             $('#login-general-err .err').html(NOTIFICATION_MESSAGE.EmptyField)
+            var element = $(this)
+            if (element.closest('.relative').hasClass('user')) {
+                element.closest('.mb-4').find('.err-user').hide()
+                element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
+                return
+            }
+            if (element.closest('.relative').hasClass('tel')) {
+                element.closest('.mb-4').find('.err-tel').hide()
+                element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
+                return
+            }
             element.closest('.mb-4').find('.err').hide()
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
         });
@@ -545,7 +555,7 @@ var account = {
             if (!nameRegex.test(fullName)) {
                 fullNameElement.closest('.mb-4').find('.err-user').html('Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu câu thông thường, dấu nháy đơn, và dấu gạch nối.');
                 fullNameElement.closest('.mb-4').find('.err-user').show();
-                return success;
+                success = false
             }
         }
         //if (!success) return success
@@ -621,14 +631,14 @@ var account = {
         return success
     },
     ValidateRegisterNoNotify: function () {
-        var success = false
         var password_length = account.Data.PasswordLength
         var element = $('#register-form .user input');
+        var max_password_length = account.Data.MaxPasswordLength
 
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField);
             element.closest('.mb-4').find('.err-user').show();
-            return success;
+            return false;
         }
         var fullNameElement = $('#register-form .user input');
         if (fullNameElement.val() !== undefined && fullNameElement.val().trim() !== '') {
@@ -637,19 +647,19 @@ var account = {
             if (!nameRegex.test(fullName)) {
                 fullNameElement.closest('.mb-4').find('.err-user').html('Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu câu thông thường, dấu nháy đơn, và dấu gạch nối.');
                 fullNameElement.closest('.mb-4').find('.err-user').show();
-                return success;
+                return false;
             }
         }
         //if (!success) return success
         element = $('#register-form .email input')
         if (element.val() == undefined || element.val().trim() == '') {
-            return success
+            return false;
 
         }
         else if (element.val() != undefined && element.val().trim() != '') {
             var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
             if (!pattern.test(element.val())) {
-                return success
+                return false;
             }
         }
         //if (!success) return success
@@ -658,7 +668,7 @@ var account = {
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err-tel').show()
-            success = false
+            return false;
 
         }
         else if (element.val() != undefined && element.val().trim() != '') {
@@ -666,7 +676,7 @@ var account = {
             if (!pattern.test(element.val())) {
                 element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
                 element.closest('.mb-4').find('.err-tel').show()
-                success = false
+                return false;
             }
         }
         //if (!success) return success
@@ -675,17 +685,17 @@ var account = {
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err').show()
-            success = false
+            return false;
         }
         else if (element.val().length < password_length) {
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
             element.closest('.mb-4').find('.err').show()
-            success = false
+            return false;
         }
         else if (element.val().length > max_password_length) {
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooLong.replace('{count}', max_password_length))
             element.closest('.mb-4').find('.err').show()
-            success = false
+            return false;
         }
 
         //if (!success) return success
@@ -693,18 +703,18 @@ var account = {
         element = $('#register-form .confirm-password input')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err').show()
-            success = false
+            return false;
         }
         else if (element.val() != $('#register-form .register-password input').val()) {
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordConfirmNotEqual)
             element.closest('.mb-4').find('.err').show()
-            success = false
+            return false;
         }
 
         element = $('#register-form .otp-code input')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err').show()
-            success = false
+            return false;
 
         }
         return true
@@ -879,60 +889,8 @@ var account = {
             case 'password': {
                 account.ValidatePasswordInput(element)
             } break;
-            case 'register-user': {
-               
-            } break;
-            case 'register-tel': {
-               
-            } break;
             default: {
-                if (element.closest('.relative').hasClass('user')) {
-                    if (element.val() == undefined || element.val().trim() == '') {
-                        element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
-                        element.closest('.mb-4').find('.err-user').show()
-                        return
-                    }
-                    else {
-                        var fullNameElement = element;
-                        if (fullNameElement.val() !== undefined && fullNameElement.val().trim() !== '') {
-                            var fullName = fullNameElement.val().trim();
-                            var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
-                            if (!nameRegex.test(fullName)) {
-                                fullNameElement.closest('.mb-4').find('.err-user').html('Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu câu thông thường, dấu nháy đơn, và dấu gạch nối.');
-                                fullNameElement.closest('.mb-4').find('.err-user').show();
-                                return;
-                            }
-                        }
-                    }
-                    element.closest('.mb-4').find('.err-user').hide()
-                    element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
-                }
-                else if (element.closest('.relative').hasClass('tel')) {
-                    if (element.val() == undefined || element.val().trim() == '') {
-                        element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
-                        element.closest('.mb-4').find('.err-tel').show()
-                        return
-                    }
-                    else if (element.val() != undefined && element.val().trim() != '') {
-                        var pattern = /^(0|\+84|84)?(2[0-9]|3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])([0-9]{7})$/;
-                        if (!pattern.test(element.val())) {
-                            element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
-                            element.closest('.mb-4').find('.err-tel').show()
-                            return
-                        }
-                    }
-                    element.closest('.mb-4').find('.err-tel').hide()
-                    element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
-                }
-                else if ((element.val() == undefined || element.val().trim() == '')) {
-                    element.closest('.mb-4').find('.err').show()
-                    return
-                } else {
-                    element.closest('.mb-4').find('.err').hide()
-                    element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
-                   
-                    return
-                }
+                account.ValidateGeneralInput(element)
             }
         }
     },
@@ -984,6 +942,56 @@ var account = {
         }
         return success
     },
+    ValidateGeneralInput: function (element) {
+        if (element.closest('.relative').hasClass('user')) {
+            if (element.val() == undefined || element.val().trim() == '') {
+                element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
+                element.closest('.mb-4').find('.err-user').show()
+                return
+            }
+            else {
+                var fullNameElement = element;
+                if (fullNameElement.val() !== undefined && fullNameElement.val().trim() !== '') {
+                    var fullName = fullNameElement.val().trim();
+                    var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
+                    if (!nameRegex.test(fullName)) {
+                        fullNameElement.closest('.mb-4').find('.err-user').html('Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu câu thông thường, dấu nháy đơn, và dấu gạch nối.');
+                        fullNameElement.closest('.mb-4').find('.err-user').show();
+                        return
+                    }
+                }
+            }
+            element.closest('.mb-4').find('.err-user').hide()
+            element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
+            return
+        }
+        if (element.closest('.relative').hasClass('tel')) {
+            if (element.val() == undefined || element.val().trim() == '') {
+                element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
+                element.closest('.mb-4').find('.err-tel').show()
+                return
+            }
+            else if (element.val() != undefined && element.val().trim() != '') {
+                var pattern = /^(0|\+84|84)?(2[0-9]|3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])([0-9]{7})$/;
+                if (!pattern.test(element.val())) {
+                    element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.PhoneNotCorrect)
+                    element.closest('.mb-4').find('.err-tel').show()
+                    return
+                }
+            }
+            element.closest('.mb-4').find('.err-tel').hide()
+            element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
+            return
+        }
+        if ((element.val() == undefined || element.val().trim() == '')) {
+            element.closest('.mb-4').find('.err').show()
+            return
+        } else {
+            element.closest('.mb-4').find('.err').hide()
+            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
+            return
+        }
+    }
 
 }
 
