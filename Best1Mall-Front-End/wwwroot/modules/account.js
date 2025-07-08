@@ -279,16 +279,24 @@ var account = {
 
             account.Register()
         });
-        $("body").on('click', ".ghinho .text-sm", function () {
-            var element = $(this)
-            if (element.find('input').is(':checked')) {
-                element.find('input').prop('checked', false);
-            } else {
-                element.find('input').prop('checked', true);
-            }
-        });
+        //$("body").on('click', ".ghinho .text-sm", function () {
+        //    var element = $(this)
+        //    var parent = element.closest('.ghinho')
+        //    if (parent.find('input').is(':checked')) {
+        //        parent.find('input').prop('checked', false);
+        //    } else {
+        //        parent.find('input').prop('checked', true);
+        //    }
+        //});
         $("body").on('click', "#logout-action", function () {
             $('#dangxuat').addClass('overlay-active')
+        });
+        $("body").on('click', "#client-account-name", function () {
+            $('#tab-login').trigger('click')
+            $('#register-form input').val('').trigger('change')
+            $('#login-form input').val('').trigger('change')
+            $('#login-form .err').hide()
+            $('#register-form .err').hide()
         });
         //$("body").on('click', ".btn-login-fb", function () {
         //    FB.getLoginStatus(function (response) {
@@ -530,6 +538,16 @@ var account = {
             success = false
 
         }
+        var fullNameElement = $('#register-form .user input');
+        if (fullNameElement.val() !== undefined && fullNameElement.val().trim() !== '') {
+            var fullName = fullNameElement.val().trim();
+            var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
+            if (!nameRegex.test(fullName)) {
+                fullNameElement.closest('.mb-4').find('.err-user').html('Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu câu thông thường, dấu nháy đơn, và dấu gạch nối.');
+                fullNameElement.closest('.mb-4').find('.err-user').show();
+                return success;
+            }
+        }
         //if (!success) return success
         element = $('#register-form .email input')
         if (element.val() == undefined || element.val().trim() == '') {
@@ -605,11 +623,22 @@ var account = {
     ValidateRegisterNoNotify: function () {
         var success = false
         var password_length = account.Data.PasswordLength
-        var element = $('#register-form .user input')
+        var element = $('#register-form .user input');
+
         if (element.val() == undefined || element.val().trim() == '') {
-            element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
-            element.closest('.mb-4').find('.err-user').show()
-            return success
+            element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField);
+            element.closest('.mb-4').find('.err-user').show();
+            return success;
+        }
+        var fullNameElement = $('#register-form .user input');
+        if (fullNameElement.val() !== undefined && fullNameElement.val().trim() !== '') {
+            var fullName = fullNameElement.val().trim();
+            var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
+            if (!nameRegex.test(fullName)) {
+                fullNameElement.closest('.mb-4').find('.err-user').html('Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu câu thông thường, dấu nháy đơn, và dấu gạch nối.');
+                fullNameElement.closest('.mb-4').find('.err-user').show();
+                return success;
+            }
         }
         //if (!success) return success
         element = $('#register-form .email input')
@@ -862,6 +891,18 @@ var account = {
                         element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
                         element.closest('.mb-4').find('.err-user').show()
                         return
+                    }
+                    else {
+                        var fullNameElement = element;
+                        if (fullNameElement.val() !== undefined && fullNameElement.val().trim() !== '') {
+                            var fullName = fullNameElement.val().trim();
+                            var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
+                            if (!nameRegex.test(fullName)) {
+                                fullNameElement.closest('.mb-4').find('.err-user').html('Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu câu thông thường, dấu nháy đơn, và dấu gạch nối.');
+                                fullNameElement.closest('.mb-4').find('.err-user').show();
+                                return;
+                            }
+                        }
                     }
                     element.closest('.mb-4').find('.err-user').hide()
                     element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
