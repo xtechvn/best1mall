@@ -5,8 +5,8 @@
 }
 <style>
     .attribute-detail.active {
-        background-color: var(--color-red-100);
-        border-color: var(--color-red-500);
+        color: var(--color-purple-500);
+        border-color: var(--color-purple-400);
     }
 
 </style>
@@ -83,21 +83,53 @@
                         </div>
 
                         <!-- Share & Like -->
-                        <div class="flex items-center text-sm justify-center Icon ">
-                            <span class="mr-3">Chia sẻ:</span>
-                            <div class="flex space-x-2 pr-3 mr-3 border-r border-gray-300">
-                                <a href=""><img src="/assets/images/icon/mess.png" alt="Messenger" /></a>
-                                <a href=""><img src="/assets/images/icon/fb.png" alt="Facebook" /></a>
-                                <a href=""><img src="/assets/images/icon/zalo.png" alt="Zalo" /></a>
+                       
+                        <div class="flex items-center text-sm justify-between ">
+                            <div class="flex items-center gap-2">
+                                <span class="">Chia sẻ:</span>
+                                <div class="flex space-x-2 ">
+                                    <a href="">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                             viewBox="0 0 18 18" fill="none">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M8.75 0.480469C13.58 0.480469 17.5 4.40047 17.5 9.23047C17.5 14.0605 13.58 17.9805 8.75 17.9805C3.92 17.9805 0 14.0605 0 9.23047C0 4.40047 3.92 0.480469 8.75 0.480469Z"
+                                                  fill="black" />
+                                            <path d="M9.89156 17.9002V11.1402H11.8016L12.0516 8.76023H9.89156V7.57023C9.89156 6.95023 9.95156 6.62023 10.8416 6.62023H12.0316V4.24023H10.1216C7.83156 4.24023 7.03156 5.39023 7.03156 7.33023V8.76023H5.60156V11.1402H7.03156V17.8002C7.59156 17.9102 8.16156 17.9702 8.75156 17.9702C9.13156 17.9702 9.51156 17.9502 9.89156 17.9002Z"
+                                                  fill="white" />
+                                        </svg>
+                                    </a>
+                                    <a href="">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                             viewBox="0 0 19 19" fill="none">
+                                            <path d="M4.13844 15.36V18.52L7.09844 16.84C7.91844 17.08 8.79844 17.21 9.70844 17.21C14.5784 17.21 18.5184 13.53 18.5184 8.99C18.5184 4.45 14.5784 0.75 9.70844 0.75C4.83844 0.75 0.898438 4.43 0.898438 8.97C0.898438 11.54 2.16844 13.84 4.14844 15.35L4.13844 15.36Z"
+                                                  fill="black" />
+                                            <path d="M8.76953 6.73047L4.01953 11.7605L8.34953 9.39047L10.6095 11.7605L15.3395 6.73047L11.0595 9.06047L8.77953 6.73047H8.76953Z"
+                                                  fill="white" />
+                                        </svg>
+                                    </a>
+                                    <a href="">
+                                        <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.2711 0.970703C6.9211 0.970703 6.6211 0.970703 5.7011 1.0207C4.7811 1.0607 4.15109 1.2107 3.60109 1.4207C3.02109 1.6407 2.50109 1.9807 2.07109 2.4207C1.63109 2.8507 1.29109 3.3807 1.07109 3.9507C0.861095 4.5007 0.711093 5.1307 0.671093 6.0507C0.631093 6.9707 0.621094 7.2707 0.621094 9.6207C0.621094 11.9707 0.621093 12.2707 0.671093 13.1907C0.711093 14.1107 0.861095 14.7407 1.07109 15.2907C1.29109 15.8707 1.63109 16.3907 2.07109 16.8207C2.50109 17.2607 3.03109 17.6007 3.60109 17.8207C4.15109 18.0307 4.7811 18.1807 5.7011 18.2207C6.6211 18.2607 6.9211 18.2707 9.2711 18.2707C11.6211 18.2707 11.9211 18.2707 12.8411 18.2207C13.7611 18.1807 14.3911 18.0307 14.9411 17.8207C16.1011 17.3707 17.0211 16.4507 17.4711 15.2907C17.6811 14.7407 17.8311 14.1107 17.8711 13.1907C17.9111 12.2707 17.9211 11.9707 17.9211 9.6207C17.9211 7.2707 17.9211 6.9707 17.8711 6.0507C17.8311 5.1307 17.6811 4.5007 17.4711 3.9507C17.2511 3.3707 16.9111 2.8507 16.4711 2.4207C16.0411 1.9807 15.5111 1.6407 14.9411 1.4207C14.3911 1.2107 13.7611 1.0607 12.8411 1.0207C11.9211 0.980703 11.6211 0.970703 9.2711 0.970703Z"
+                                                  fill="black" />
+                                            <path d="M2.28021 12V11.4396L5.62801 7.2069H2.40557V6.62436H6.47602V7.17741L3.1356 11.4175H6.5645V12H2.28021ZM8.57639 12.0664C8.32568 12.0664 8.09954 12.027 7.89799 11.9484C7.69643 11.8648 7.52437 11.7493 7.38181 11.6018C7.24416 11.4494 7.13601 11.27 7.05735 11.0635C6.9787 10.8521 6.93937 10.6211 6.93937 10.3703V9.77305C6.93937 9.42893 7.00573 9.12906 7.13847 8.87343C7.27611 8.61779 7.46538 8.4187 7.70626 8.27613C7.95206 8.13357 8.24211 8.06229 8.57639 8.06229C8.86644 8.06229 9.12944 8.12374 9.36541 8.24664C9.60138 8.36462 9.7759 8.52931 9.88897 8.74069H9.92584L9.97008 8.12865H10.5747V12H9.97008L9.91846 11.3806H9.88897C9.7759 11.5969 9.60138 11.7665 9.36541 11.8894C9.12944 12.0074 8.86644 12.0664 8.57639 12.0664ZM8.77549 11.5428C9.04587 11.5428 9.28184 11.4789 9.4834 11.3511C9.68495 11.2184 9.83243 11.034 9.92584 10.798V9.33061C9.83243 9.09956 9.68495 8.92013 9.4834 8.79231C9.28184 8.65958 9.04587 8.59321 8.77549 8.59321C8.54444 8.59321 8.34288 8.635 8.17082 8.71857C7.99876 8.80214 7.86357 8.92259 7.76525 9.0799C7.66693 9.23721 7.61777 9.42893 7.61777 9.65507V10.481C7.61777 10.6973 7.66693 10.8865 7.76525 11.0488C7.86357 11.211 7.99876 11.3339 8.17082 11.4175C8.34288 11.501 8.54444 11.5428 8.77549 11.5428ZM11.4146 12V6.62436H12.0635V12H11.4146ZM14.6307 12.0664C14.3456 12.0664 14.0875 12.027 13.8565 11.9484C13.6254 11.8648 13.4288 11.7468 13.2665 11.5944C13.1043 11.442 12.979 11.2577 12.8905 11.0414C12.802 10.8202 12.7577 10.5744 12.7577 10.304V9.8173C12.7577 9.45843 12.8339 9.14872 12.9863 8.88817C13.1387 8.62271 13.355 8.4187 13.6352 8.27613C13.9204 8.13357 14.2522 8.06229 14.6307 8.06229C14.9208 8.06229 15.1813 8.10407 15.4124 8.18764C15.6434 8.27122 15.8401 8.3892 16.0023 8.5416C16.1645 8.69399 16.2899 8.87834 16.3784 9.09465C16.4669 9.31095 16.5111 9.55183 16.5111 9.8173V10.304C16.5111 10.6628 16.4349 10.975 16.2825 11.2405C16.1301 11.5059 15.9138 11.71 15.6336 11.8525C15.3534 11.9951 15.0191 12.0664 14.6307 12.0664ZM14.6307 11.5428C14.8765 11.5428 15.0904 11.4986 15.2723 11.4101C15.4542 11.3216 15.5918 11.1987 15.6852 11.0414C15.7835 10.8792 15.8327 10.6948 15.8327 10.4883V9.64032C15.8327 9.42893 15.7835 9.24458 15.6852 9.08727C15.5918 8.92996 15.4542 8.80706 15.2723 8.71857C15.0953 8.63008 14.8839 8.58584 14.6381 8.58584C14.3923 8.58584 14.1785 8.63008 13.9966 8.71857C13.8147 8.80706 13.6746 8.92996 13.5763 9.08727C13.4828 9.24458 13.4361 9.42893 13.4361 9.64032V10.4883C13.4361 10.6948 13.4828 10.8792 13.5763 11.0414C13.6746 11.1987 13.8147 11.3216 13.9966 11.4101C14.1785 11.4986 14.3898 11.5428 14.6307 11.5428Z"
+                                                  fill="white" />
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
-                            <button id="heart"
-                                    class=" btn-favorite-toggle heart cursor-pointer rounded-full transition-colors"
-                                    data-product-id="@product_code">
-                                <span class="icon icon-like"></span>
-                            </button>
+                            <div class="flex items-center gap-2">
+                                <button id="heart"
+                                        class=" btn-favorite-toggle heart cursor-pointer rounded-full transition-colors"
+                                        data-product-id="@product_code">
+                                    <span class="icon icon-like"></span>
+                                </button>
 
-                            <span class="ml-2 favourite-count">Đã thích (4.9k)</span>
+                                <span class="favourite-count"></span>
+                            </div>
+
                         </div>
+
                     </div>
                     <div class="w-full info-product">
                         <!-- Thương hiệu -->
@@ -110,7 +142,7 @@
                         <div class="section-label mb-2 hidden"></div>
 
 
-                        <h1 class="md:text-3xl text-xl font-normal mb-4 name-product">
+                        <h1 class="md:text-2xl text-xl font-normal mb-4 name-product">
                             @* Viên Uống Healthy Care Glucosamine HCL 1500mg, *@
                             @* Hộp *@
                             @* 400 Viên *@
@@ -153,20 +185,15 @@
                             <span class="pl-2 border-l border-gray-300 leading-none total-review"></span>
                         </div>
                         <a href="#check-popup"
-                           class="open-popup text-sm bg-red-400 text-white flex w-fit gap-2 items-center px-3 py-1 rounded-full hover:bg-red-500 transition mb-4">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                           class="open-popup text-sm bg-purple-100 text-color-base flex w-fit gap-2 items-center px-3 py-1 rounded-full hover:bg-purple-200 transition mb-4">
+                            Check giấy tờ hàng hoá và nhà cung cấp
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_580_5329)">
-                                    <path d="M12.3484 8.06625L9.12461 6.875L7.93711 3.64875C7.86679 3.45771 7.73956 3.29283 7.57259 3.17637C7.40561 3.0599 7.20694 2.99746 7.00336 2.99746C6.79979 2.99746 6.60111 3.0599 6.43414 3.17637C6.26716 3.29283 6.13993 3.45771 6.06961 3.64875L4.87461 6.875L1.64836 8.0625C1.45732 8.13282 1.29244 8.26005 1.17598 8.42702C1.05951 8.594 0.99707 8.79267 0.99707 8.99625C0.99707 9.19983 1.05951 9.3985 1.17598 9.56548C1.29244 9.73245 1.45732 9.85968 1.64836 9.93L4.87461 11.125L6.06211 14.3512C6.13243 14.5423 6.25966 14.7072 6.42664 14.8236C6.59361 14.9401 6.79229 15.0025 6.99586 15.0025C7.19944 15.0025 7.39811 14.9401 7.56509 14.8236C7.73206 14.7072 7.85929 14.5423 7.92961 14.3512L9.12461 11.125L12.3509 9.9375C12.5419 9.86718 12.7068 9.73995 12.8232 9.57298C12.9397 9.406 13.0022 9.20733 13.0022 9.00375C13.0022 8.80017 12.9397 8.6015 12.8232 8.43452C12.7068 8.26755 12.5419 8.14032 12.3509 8.07L12.3484 8.06625ZM8.56211 10.2638C8.49424 10.2888 8.43261 10.3282 8.38146 10.3793C8.33031 10.4305 8.29087 10.4921 8.26586 10.56L6.99961 13.9906L5.73586 10.5625C5.71089 10.4939 5.6712 10.4316 5.61959 10.38C5.56798 10.3284 5.5057 10.2887 5.43711 10.2638L2.00899 9L5.43711 7.73625C5.5057 7.71128 5.56798 7.67159 5.61959 7.61998C5.6712 7.56837 5.71089 7.50608 5.73586 7.4375L6.99961 4.00938L8.26336 7.4375C8.28837 7.50537 8.32781 7.567 8.37896 7.61815C8.43011 7.6693 8.49174 7.70874 8.55961 7.73375L11.9902 9L8.56211 10.2638ZM8.99961 2.5C8.99961 2.36739 9.05229 2.24021 9.14606 2.14645C9.23983 2.05268 9.367 2 9.49961 2H10.4996V1C10.4996 0.867392 10.5523 0.740215 10.6461 0.646447C10.7398 0.552678 10.867 0.5 10.9996 0.5C11.1322 0.5 11.2594 0.552678 11.3532 0.646447C11.4469 0.740215 11.4996 0.867392 11.4996 1V2H12.4996C12.6322 2 12.7594 2.05268 12.8532 2.14645C12.9469 2.24021 12.9996 2.36739 12.9996 2.5C12.9996 2.63261 12.9469 2.75979 12.8532 2.85355C12.7594 2.94732 12.6322 3 12.4996 3H11.4996V4C11.4996 4.13261 11.4469 4.25979 11.3532 4.35355C11.2594 4.44732 11.1322 4.5 10.9996 4.5C10.867 4.5 10.7398 4.44732 10.6461 4.35355C10.5523 4.25979 10.4996 4.13261 10.4996 4V3H9.49961C9.367 3 9.23983 2.94732 9.14606 2.85355C9.05229 2.75979 8.99961 2.63261 8.99961 2.5ZM15.4996 5.5C15.4996 5.63261 15.4469 5.75979 15.3532 5.85355C15.2594 5.94732 15.1322 6 14.9996 6H14.4996V6.5C14.4996 6.63261 14.4469 6.75979 14.3532 6.85355C14.2594 6.94732 14.1322 7 13.9996 7C13.867 7 13.7398 6.94732 13.6461 6.85355C13.5523 6.75979 13.4996 6.63261 13.4996 6.5V6H12.9996C12.867 6 12.7398 5.94732 12.6461 5.85355C12.5523 5.75979 12.4996 5.63261 12.4996 5.5C12.4996 5.36739 12.5523 5.24021 12.6461 5.14645C12.7398 5.05268 12.867 5 12.9996 5H13.4996V4.5C13.4996 4.36739 13.5523 4.24021 13.6461 4.14645C13.7398 4.05268 13.867 4 13.9996 4C14.1322 4 14.2594 4.05268 14.3532 4.14645C14.4469 4.24021 14.4996 4.36739 14.4996 4.5V5H14.9996C15.1322 5 15.2594 5.05268 15.3532 5.14645C15.4469 5.24021 15.4996 5.36739 15.4996 5.5Z"
-                                          fill="white" />
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_580_5329">
-                                        <rect width="16" height="16" fill="white" />
-                                    </clipPath>
-                                </defs>
+                                <rect width="24" height="24" rx="12" fill="white" />
+                                <path d="M18.354 8.85403L10.354 16.854C10.3076 16.9005 10.2524 16.9374 10.1917 16.9626C10.131 16.9877 10.066 17.0007 10.0003 17.0007C9.93457 17.0007 9.86951 16.9877 9.80881 16.9626C9.74811 16.9374 9.69296 16.9005 9.64653 16.854L6.14653 13.354C6.05271 13.2602 6 13.133 6 13.0003C6 12.8676 6.05271 12.7403 6.14653 12.6465C6.24035 12.5527 6.3676 12.5 6.50028 12.5C6.63296 12.5 6.76021 12.5527 6.85403 12.6465L10.0003 15.7934L17.6465 8.14653C17.7403 8.05271 17.8676 8 18.0003 8C18.133 8 18.2602 8.05271 18.354 8.14653C18.4478 8.24035 18.5006 8.3676 18.5006 8.50028C18.5006 8.63296 18.4478 8.76021 18.354 8.85403Z"
+                                      fill="#773EFA" />
                             </svg>
-                            Check hàng chính hãng
+
                         </a>
                         <!-- Popup 1 -->
                         <div id="check-popup"
@@ -266,9 +293,23 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="flex items-center gap-2 justify-between mb-3 flash-sale-box" style="display: none;">
+                            <img src="/assets/images/flash-sale.png" alt="" />
+                            <div class="flex items-center gap-2">
+                                <span class="md:block hidden font-normal uppercase">Kết thúc trong</span>
+                                <div id="countdown" class="flex gap-1 font-bold text-white">
+                                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span>
+                                    <span class="text-[#FF4169]">:</span>
+                                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span>
+                                    <span class="text-[#FF4169]">:</span>
+                                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="seconds">00</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="box-price">
-                            <div class="rounded-2xl bg-blue-50 p-4 md:px-6 md:text-4xl text-2xl text-red-400 font-normal mb-4 price">
-                                55.000 - 169.000
+                            <div class="rounded-2xl bg-blue-50 p-4 md:px-6 mb-4 price">
+                               
                             </div>
                         </div>
 
@@ -356,7 +397,7 @@
                         </div>
 
 
-                        <div class=" flex items-center flex-wrap gap-3 mb-4 box-action">
+                        <div class=" flex items-center flex-wrap gap-3 mb-4 justify-center box-action">
                             <button class="btn add-cart border-blue-500 border px-6 py-2 text-color-base rounded-full cursor-pointer hover:opacity-80 flex items-center justify-center gap-2 w-full sm:w-auto" data-target="main">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                      fill="none">
@@ -489,25 +530,25 @@
                             <div class="space-y-3 section-description-product">
                                 <!-- Mô tả sản phẩm -->
                                 <section id="mo-ta" class="mo-ta box-des section-tab md:rounded-3xl rounded-xl bg-white overflow-hidden">
-                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-50">Mô tả sản phẩm</h2>
+                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-100">Mô tả sản phẩm</h2>
                                     <div class="md:p-5 p-3 mb-4 content-mo-ta"></div>
                                 </section>
 
                                 <!-- Thành phần -->
                                 <section id="thanh-phan" class="thanh-phan section-tab md:rounded-3xl rounded-xl bg-white overflow-hidden">
-                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-50">Thành phần</h2>
+                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-100">Thành phần</h2>
                                     <div class="md:p-5 p-3 mb-4 content-thanh-phan"></div>
                                 </section>
 
                                 <!-- Công dụng -->
                                 <section id="cong-dung" class="cong-dung section-tab md:rounded-3xl rounded-xl bg-white overflow-hidden">
-                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-50">Công dụng</h2>
+                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-100">Công dụng</h2>
                                     <div class="md:p-5 p-3 mb-4 content-cong-dung"></div>
                                 </section>
 
                                 <!-- Cách dùng -->
                                 <section id="cach-dung" class="cach-dung section-tab md:rounded-3xl rounded-xl bg-white overflow-hidden">
-                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-50">Cách dùng</h2>
+                                    <h2 class="font-semibold md:p-5 p-3 !py-3 bg-purple-100">Cách dùng</h2>
                                     <div class="md:p-5 p-3 mb-4 content-cach-dung"></div>
                                 </section>
 
@@ -600,82 +641,104 @@
                         </div>
 
                     </div>
-                    <div class="hidden md:block relative">
-                        <div class="sticky top-0 z-50 md:rounded-3xl rounded-xl bg-white md:p-5 p-3 ">
-                            <h1 class="md:text-2xl text-xl font-normal mb-4 name-product">
-                                Viên Uống Healthy Care Glucosamine HCL 1500mg,
-                                Hộp 400 Viên
-                            </h1>
-                            <div class="box-price">
-                                <div class="rounded-2xl bg-blue-50 p-4 md:px-6 md:text-3xl text-2xl text-red-400 font-normal mt-4 price">
-                                    55.000 - 169.000
+                    <div class="space-y-3">
+                        <div class="hidden md:block relative">
+                            <div class="sticky top-0 z-50 md:rounded-3xl rounded-xl bg-white md:p-5 p-3 ">
+                                <h1 class="md:text-2xl text-xl font-normal mb-4 name-product">
+                                    Viên Uống Healthy Care Glucosamine HCL 1500mg,
+                                    Hộp 400 Viên
+                                </h1>
+                                <div class="box-price">
+                                    <div class="rounded-2xl bg-blue-50 p-4 md:px-6 md:text-3xl text-2xl text-red-400 font-normal mt-4 price">
+                                        55.000 - 169.000
+                                    </div>
+                                </div>
+                                <div class="box-info-details product-sidebar " data-product-type="sidebar">
+                                    <table class="font-normal table-product mb-4 w-full mb-4">
+                                        <tbody class="body2">
+
+
+                                            <tr>
+                                                <td class="text-slate-500">Phân loại: </td>
+                                                <td>
+                                                    <span class="flex gap-2 items-center">
+                                                        <span class="rounded hover:bg-red-100 border border-gray-200 hover:border-red-500 p-2 text-sm cursor-pointer">
+                                                            nguyên
+                                                            hộp
+                                                        </span>
+                                                        <span class="rounded hover:bg-red-100 border border-gray-200 hover:border-red-500 p-2 text-sm cursor-pointer">
+                                                            nguyên
+                                                            hộp
+                                                        </span>
+                                                    </span>
+                                                </td>
+                                                @* </tr> *@
+                                                @* <tr> *@
+                                                @*     <td class="text-slate-500">Số lượng:</td> *@
+                                                @*     <td> *@
+                                                @*         <span class="flex gap-2 items-center"> *@
+                                                @*             <div class="flex items-center number-input"> *@
+                                                @*                 <button type="button" *@
+                                                @*                         class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer" *@
+                                                @*                         onclick="this.parentNode.querySelector('input[type=number]').stepDown()"> *@
+                                                @*                     - *@
+                                                @*                 </button> *@
+                                                @*                 <input id="quantity" type="number" value="1" min="1" *@
+                                                @*                        class="h-8 w-15 text-center border-t border-b border-gray-100 quantity" /> *@
+                                                @*                 <button type="button" *@
+                                                @*                         class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 border-gray-100  cursor-pointer" *@
+                                                @*                         onclick="this.parentNode.querySelector('input[type=number]').stepUp()"> *@
+                                                @*                     + *@
+                                                @*                 </button> *@
+                                                @*             </div> *@
+
+                                                @*             <span class="text-slate-500 font-light"> 138 sản phẩm có sẵn</span> *@
+                                                @*         </span> *@
+                                                @*     </td> *@
+                                                @* </tr> *@
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="flex items-center flex-wrap gap-3 mb-4 mt-4 box-action">
+                                    <button class="add-cart border-blue-500 border px-6 py-2 text-color-base rounded-full cursor-pointer hover:opacity-80 flex items-center justify-center gap-2 w-full sm:w-auto" data-target="sidebar">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                             fill="none">
+                                            <path d="M9.75 20.25C9.75 20.5467 9.66203 20.8367 9.4972 21.0834C9.33238 21.33 9.09811 21.5223 8.82403 21.6358C8.54994 21.7494 8.24834 21.7791 7.95736 21.7212C7.66639 21.6633 7.39912 21.5204 7.18934 21.3107C6.97956 21.1009 6.8367 20.8336 6.77882 20.5426C6.72094 20.2517 6.75065 19.9501 6.86418 19.676C6.97771 19.4019 7.16997 19.1676 7.41665 19.0028C7.66332 18.838 7.95333 18.75 8.25 18.75C8.64782 18.75 9.02936 18.908 9.31066 19.1893C9.59196 19.4706 9.75 19.8522 9.75 20.25ZM18 18.75C17.7033 18.75 17.4133 18.838 17.1666 19.0028C16.92 19.1676 16.7277 19.4019 16.6142 19.676C16.5006 19.9501 16.4709 20.2517 16.5288 20.5426C16.5867 20.8336 16.7296 21.1009 16.9393 21.3107C17.1491 21.5204 17.4164 21.6633 17.7074 21.7212C17.9983 21.7791 18.2999 21.7494 18.574 21.6358C18.8481 21.5223 19.0824 21.33 19.2472 21.0834C19.412 20.8367 19.5 20.5467 19.5 20.25C19.5 19.8522 19.342 19.4706 19.0607 19.1893C18.7794 18.908 18.3978 18.75 18 18.75ZM22.4728 6.95062L20.0691 15.6019C19.9369 16.0745 19.6542 16.4911 19.2639 16.7885C18.8736 17.0859 18.397 17.2479 17.9062 17.25H8.64C8.14784 17.2498 7.66926 17.0886 7.27725 16.791C6.88523 16.4935 6.6013 16.0758 6.46875 15.6019L3.18 3.75H1.5C1.30109 3.75 1.11032 3.67098 0.96967 3.53033C0.829018 3.38968 0.75 3.19891 0.75 3C0.75 2.80109 0.829018 2.61032 0.96967 2.46967C1.11032 2.32902 1.30109 2.25 1.5 2.25H3.75C3.91397 2.24997 4.07343 2.30367 4.20398 2.40289C4.33452 2.50211 4.42895 2.64138 4.47281 2.79938L5.36156 6H21.75C21.8656 5.99998 21.9797 6.02669 22.0833 6.07805C22.1869 6.1294 22.2772 6.20401 22.3472 6.29605C22.4171 6.38809 22.4649 6.49506 22.4867 6.60861C22.5085 6.72216 22.5037 6.83922 22.4728 6.95062ZM20.7628 7.5H5.77875L7.91719 15.2006C7.96105 15.3586 8.05548 15.4979 8.18602 15.5971C8.31657 15.6963 8.47603 15.75 8.64 15.75H17.9062C18.0702 15.75 18.2297 15.6963 18.3602 15.5971C18.4908 15.4979 18.5852 15.3586 18.6291 15.2006L20.7628 7.5Z"
+                                                  fill="#773EFA" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M13.125 8.625C13.5392 8.625 13.875 8.96079 13.875 9.375V10.5H15C15.4142 10.5 15.75 10.8358 15.75 11.25C15.75 11.6642 15.4142 12 15 12H13.875V13.125C13.875 13.5392 13.5392 13.875 13.125 13.875C12.7108 13.875 12.375 13.5392 12.375 13.125V12H11.25C10.8358 12 10.5 11.6642 10.5 11.25C10.5 10.8358 10.8358 10.5 11.25 10.5H12.375V9.375C12.375 8.96079 12.7108 8.625 13.125 8.625Z"
+                                                  fill="#773EFA" />
+                                        </svg>Thêm vào giỏ hàng
+                                    </button>
+                                    <button class="buy-now border-blue-500 bg-blue-500 border px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full sm:w-auto" data-target="sidebar">
+                                        Mua
+                                        ngay
+                                    </button>
                                 </div>
                             </div>
-                            <div class="box-info-details product-sidebar " data-product-type="sidebar">
-                                <table class="font-normal table-product mb-4 w-full mb-4">
-                                    <tbody class="body2">
-
-
-                                        <tr>
-                                            <td class="text-slate-500">Phân loại: </td>
-                                            <td>
-                                                <span class="flex gap-2 items-center">
-                                                    <span class="rounded hover:bg-red-100 border border-gray-200 hover:border-red-500 p-2 text-sm cursor-pointer">
-                                                        nguyên
-                                                        hộp
-                                                    </span>
-                                                    <span class="rounded hover:bg-red-100 border border-gray-200 hover:border-red-500 p-2 text-sm cursor-pointer">
-                                                        nguyên
-                                                        hộp
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        @* </tr> *@
-                                        @* <tr> *@
-                                        @*     <td class="text-slate-500">Số lượng:</td> *@
-                                        @*     <td> *@
-                                        @*         <span class="flex gap-2 items-center"> *@
-                                        @*             <div class="flex items-center number-input"> *@
-                                        @*                 <button type="button" *@
-                                        @*                         class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer" *@
-                                        @*                         onclick="this.parentNode.querySelector('input[type=number]').stepDown()"> *@
-                                        @*                     - *@
-                                        @*                 </button> *@
-                                        @*                 <input id="quantity" type="number" value="1" min="1" *@
-                                        @*                        class="h-8 w-15 text-center border-t border-b border-gray-100 quantity" /> *@
-                                        @*                 <button type="button" *@
-                                        @*                         class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 border-gray-100  cursor-pointer" *@
-                                        @*                         onclick="this.parentNode.querySelector('input[type=number]').stepUp()"> *@
-                                        @*                     + *@
-                                        @*                 </button> *@
-                                        @*             </div> *@
-
-                                        @*             <span class="text-slate-500 font-light"> 138 sản phẩm có sẵn</span> *@
-                                        @*         </span> *@
-                                        @*     </td> *@
-                                        @* </tr> *@
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div class="flex items-center flex-wrap gap-3 mb-4 mt-4 box-action">
-                                <button class="add-cart border-blue-500 border px-6 py-2 text-color-base rounded-full cursor-pointer hover:opacity-80 flex items-center justify-center gap-2 w-full sm:w-auto" data-target="sidebar">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none">
-                                        <path d="M9.75 20.25C9.75 20.5467 9.66203 20.8367 9.4972 21.0834C9.33238 21.33 9.09811 21.5223 8.82403 21.6358C8.54994 21.7494 8.24834 21.7791 7.95736 21.7212C7.66639 21.6633 7.39912 21.5204 7.18934 21.3107C6.97956 21.1009 6.8367 20.8336 6.77882 20.5426C6.72094 20.2517 6.75065 19.9501 6.86418 19.676C6.97771 19.4019 7.16997 19.1676 7.41665 19.0028C7.66332 18.838 7.95333 18.75 8.25 18.75C8.64782 18.75 9.02936 18.908 9.31066 19.1893C9.59196 19.4706 9.75 19.8522 9.75 20.25ZM18 18.75C17.7033 18.75 17.4133 18.838 17.1666 19.0028C16.92 19.1676 16.7277 19.4019 16.6142 19.676C16.5006 19.9501 16.4709 20.2517 16.5288 20.5426C16.5867 20.8336 16.7296 21.1009 16.9393 21.3107C17.1491 21.5204 17.4164 21.6633 17.7074 21.7212C17.9983 21.7791 18.2999 21.7494 18.574 21.6358C18.8481 21.5223 19.0824 21.33 19.2472 21.0834C19.412 20.8367 19.5 20.5467 19.5 20.25C19.5 19.8522 19.342 19.4706 19.0607 19.1893C18.7794 18.908 18.3978 18.75 18 18.75ZM22.4728 6.95062L20.0691 15.6019C19.9369 16.0745 19.6542 16.4911 19.2639 16.7885C18.8736 17.0859 18.397 17.2479 17.9062 17.25H8.64C8.14784 17.2498 7.66926 17.0886 7.27725 16.791C6.88523 16.4935 6.6013 16.0758 6.46875 15.6019L3.18 3.75H1.5C1.30109 3.75 1.11032 3.67098 0.96967 3.53033C0.829018 3.38968 0.75 3.19891 0.75 3C0.75 2.80109 0.829018 2.61032 0.96967 2.46967C1.11032 2.32902 1.30109 2.25 1.5 2.25H3.75C3.91397 2.24997 4.07343 2.30367 4.20398 2.40289C4.33452 2.50211 4.42895 2.64138 4.47281 2.79938L5.36156 6H21.75C21.8656 5.99998 21.9797 6.02669 22.0833 6.07805C22.1869 6.1294 22.2772 6.20401 22.3472 6.29605C22.4171 6.38809 22.4649 6.49506 22.4867 6.60861C22.5085 6.72216 22.5037 6.83922 22.4728 6.95062ZM20.7628 7.5H5.77875L7.91719 15.2006C7.96105 15.3586 8.05548 15.4979 8.18602 15.5971C8.31657 15.6963 8.47603 15.75 8.64 15.75H17.9062C18.0702 15.75 18.2297 15.6963 18.3602 15.5971C18.4908 15.4979 18.5852 15.3586 18.6291 15.2006L20.7628 7.5Z"
-                                              fill="#773EFA" />
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                              d="M13.125 8.625C13.5392 8.625 13.875 8.96079 13.875 9.375V10.5H15C15.4142 10.5 15.75 10.8358 15.75 11.25C15.75 11.6642 15.4142 12 15 12H13.875V13.125C13.875 13.5392 13.5392 13.875 13.125 13.875C12.7108 13.875 12.375 13.5392 12.375 13.125V12H11.25C10.8358 12 10.5 11.6642 10.5 11.25C10.5 10.8358 10.8358 10.5 11.25 10.5H12.375V9.375C12.375 8.96079 12.7108 8.625 13.125 8.625Z"
-                                              fill="#773EFA" />
-                                    </svg>Thêm vào giỏ hàng
-                                </button>
-                                <button class="buy-now border-blue-500 bg-blue-500 border px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full sm:w-auto" data-target="sidebar">
-                                    Mua
-                                    ngay
-                                </button>
-                            </div>
+                        </div>
+                        <div class="bg-green-100 p-3 md:p-5 rounded-3xl">
+                            <h4 class="text-green-400 mb-2">Làm sao để phân biệt hàng có trộn hay không ?</h4>
+                            <p class="text-gray-700 text-sm">
+                                Hàng trộn sẽ không thể xuất hoá đơn GTGT (VAT) 100% được do
+                                có hàng không nguồn gốc trong đó.
+                                <br />
+                                Tại Best Mall, 100% hàng bán ra sẽ được xuất hoá đơn GTGT cho dù khách hàng có lấy hay
+                                không.
+                                <br />
+                                Nếu có nhu cầu lấy hoá đơn GTGT, quý khách vui lòng cung cấp thông tin xuất hóa đơn
+                                trong vòng 2 giờ sau khi nhận hàng và trước 22h30 cùng ngày. 2 giờ sau khi giao hàng
+                                thành công, hệ thống Hasaki sẽ tự động xuất hết hoá đơn cho những hàng hoá mà khách hàng
+                                không đăng kí lấy hoá đơn.
+                                <br />
+                                Do 100% hàng hóa bán ra đều được xuất hết hóa đơn GTGT trong ngày nên đảm bảo 100% hàng
+                                tại Best Mall là hàng chính hãng có nguồn gốc rõ ràng và có đầy đủ giấy tờ xác minh, đối
+                                chiếu cho khách hàng xem trực tiếp trong lúc mua hàng.
+                            </p>
                         </div>
                     </div>
+                    
 
                 </div>
 
