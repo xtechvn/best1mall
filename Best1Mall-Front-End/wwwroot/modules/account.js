@@ -407,7 +407,7 @@ var account = {
                 global_service.POST(API_URL.Login, request)
             ).done(function (res) {
 
-                if (res.is_success && res.status != null && res.status != undefined && res.status==0) {
+                if (res.is_success && res.data != null && res.data != undefined && res.data.status != undefined && res.data.status == 0) {
                     if ($('#login-remember').is(":checked")) {
                         localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
                     } else {
