@@ -279,7 +279,7 @@ var account = {
 
             account.Register()
         });
-        $("body").on('click', ".ghinho", function () {
+        $("body").on('click', ".ghinho .text-sm", function () {
             var element = $(this)
             if (element.find('input').is(':checked')) {
                 element.find('input').prop('checked', false);
