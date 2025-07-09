@@ -269,7 +269,7 @@ var product_detail = {
                             current += 1;
                         }
 
-                        $countText.text(current > 0 ? `Đã thích (${global_service.Comma(current)})` : 'Đã thích');
+                        $countText.text(current > 0 ? `Thêm vào yêu thích (${global_service.Comma(current)})` : 'Thêm vào yêu thích');
                     }
                 }
 
@@ -374,7 +374,7 @@ var product_detail = {
         // ✅ Cập nhật số lượt thích (nếu có)
         const count = favourite?.count || 0;
         $('.section-details-product .favourite-count').text(
-            count > 0 ? `Đã thích (${global_service.Comma(count)})` : 'Đã thích'
+            count > 0 ? `Thêm vào yêu thích (${global_service.Comma(count)})` : 'Thêm vào yêu thích'
         );
 
         this.RenderCertImages(cert);
