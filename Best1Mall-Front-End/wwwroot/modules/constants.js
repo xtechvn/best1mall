@@ -132,7 +132,7 @@ var FLASH_SALE_TYPE = {
     SupperSale: 117, // Siêu Sale
     Sale: 130, // Bán Chạy
     Bestchoice: 114, // Hot Trend
-    Featuredproduct: 112 // Nổi bật
+    Featuredproduct: 113 // Nổi bật
 };
 
 var FLASH_SALE_IMAGES = {

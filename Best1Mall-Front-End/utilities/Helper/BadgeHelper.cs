@@ -11,7 +11,7 @@
                 case 117: return "/assets/images/tag-sieusale.png"; // SupperSale
                 case 130: return "/assets/images/tag-banchay.png"; // Sale
                 case 114: return "/assets/images/tag-hottrend.png"; // Bestchoice
-                case 112: return "/assets/images/tag-noibat.png"; // Featuredproduct
+                case 113: return "/assets/images/tag-noibat.png"; // Featuredproduct
                 default: return ""; // Không hợp lệ => không render ảnh
             }
         }

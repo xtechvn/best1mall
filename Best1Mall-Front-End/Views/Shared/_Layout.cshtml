@@ -163,6 +163,33 @@
             // Hiển thị Swiper khi Swiper đã được khởi tạo xong
             document.querySelector('.flashsale-box').style.visibility = 'visible';
         });
+                $('.best-choice-swiper').each(function () {
+            const $this = $(this);
+            const swiperContainer = $this.find('.swiper')[0];
+            const nextBtn = $this.find('.swiper-button-next')[0];
+            const prevBtn = $this.find('.swiper-button-prev')[0];
+
+            new Swiper(swiperContainer, {
+                slidesPerView: 2,
+                spaceBetween: 15,
+                navigation: {
+                    nextEl: nextBtn,
+                    prevEl: prevBtn,
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2.5,
+                    },
+                    768: {
+                        slidesPerView: 3.5,
+                    },
+                    1024: {
+                        slidesPerView: 5,
+                    },
+                }
+            });
+        });
+
 
 
 
