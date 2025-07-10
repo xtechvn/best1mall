@@ -319,7 +319,8 @@ var product_detail = {
             }
         })
     },
-    RenderDetail: function (product, product_sub, cert, favourite, buywith ,label ,group) {
+    RenderDetail: function (product, product_sub, cert, favourite, buywith, label, group) {
+        
         
         this.RenderGallery(product);
         this.RenderTitle(product);
@@ -657,7 +658,7 @@ var product_detail = {
         ${isFlashSale ? `
             <div class="text-gray-400"><strike>${global_service.Comma(product.amount)} đ</strike></div>
             <div class="text-red-400 flex gap-1 items-center">
-                ${Math.round((1 - finalPrice / product.amount) * 100)}%
+                ${product.discount}%
                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" viewBox="0 0 10 20" fill="none">
                     <path d="M2.84029 0H8.70628L6.16098 7.41677H9.32153L0.809102 20L3.09313 10.4509H0L2.84029 0Z" fill="#F9CA6B"/>
                 </svg>
@@ -903,6 +904,7 @@ var product_detail = {
         return undefined
     },
     RenderChangedAttributeSelected: function (product, clickedElement) {
+        
         var options = [];
 
         var wrapper = clickedElement.closest('.box-info-details');
@@ -938,7 +940,7 @@ var product_detail = {
                 const displayPrice = isFlashSale ? selected.amount_after_flashsale : selected.amount;
                 const oldPrice = selected.amount;
                 const discountPercent = isFlashSale && oldPrice
-                    ? Math.round((1 - displayPrice / oldPrice) * 100)
+                    ? selected.discount
                     : 0;
 
                 // ✅ HTML hiển thị giá
