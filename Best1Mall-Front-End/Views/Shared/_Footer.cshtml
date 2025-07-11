@@ -14,82 +14,88 @@
 <!-- Footer Start-->
 <footer class="footer border-t border-transparent font-normal mt-8">
     <!-- Border top gradient -->
-    <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+    @* <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div> *@
 
     <!-- Footer content -->
-    <div class="max-w-[1230px] mx-auto px-[15px] grid grid-cols-1 lg:grid-cols-3 gap-8  py-10">
-        <!-- BÊN TRÁI: Logo + Thông tin -->
-        <div class="space-y-4 md:col-span-2">
+    <div class="max-w-[1230px] mx-auto px-[15px]  py-10">
+        <div class="col-span-3 md:mb-5 mb-3">
             <img src="/assets/images/Logo2.png" alt="Logo" class="h-[50px]">
-            <div class="bg-blue-50 rounded-3xl p-5">
-                Best Mall là nền tảng thương mại điện tử kết nối các sản phẩm chính hãng đến với khách hàng, cho
-                phép khách hàng check chi tiết đầy đủ giấy tờ của doanh nghiệp và sản phẩm. Chúng tôi cam kết chỉ
-                hợp tác với những thương hiệu, nhà sản xuất uy tín - có nguồn gốc rõ ràng, được công bố đầy đủ theo
-                tiêu chuẩn nhằm mang đến trải nghiệm mua sắm minh bạch, an toàn và chất lượng cho người tiêu dùng.
-                <br />
-                <br />
-
-                Đến với Best Mall, bạn hoàn toàn yên tâm thỏa sức mua sắm những sản phẩm đầy đủ chứng nhận kiểm
-                định, an toàn và chất lượng từ các nhãn hàng uy tín trên toàn thế giới.
-            </div>
-          
-            <!-- 3 CỘT NHỎ: Về Best Mall, Chính sách, Kết nối -->
-            <div class="grid md:flex md:justify-between gap-4 font-light md:mt-10 mt-5">
-                <div>
-                    <h4 class="font-semibold mb-3">DỊCH VỤ KHÁCH HÀNG</h4>
-                    <ul class="space-y-3">
-                        <li><a style="cursor:pointer" onclick="_support.GotoSearchBox()" class="hover:text-red-500"> FAQs</a></li>
-                        <li><a href="#" class="hover:text-red-500">Về chúng tôi</a></li>
-                        <li><a href="#" class="hover:text-red-500">Câu chuyện thương hiệu</a></li>
-                        <li><a href="#" class="hover:text-red-500">Liên hệ</a></li>
-                    </ul>
-                </div>
-                <!-- Về Best Mall -->
-                <div>
-                    <h4 class="font-semibold mb-2">VỀ BEST MALL</h4>
-                    
-                    <ul class="space-y-3">
-                        <li><a href="/About" class="hover:text-red-500">Về chúng tôi</a></li>
-                        <li><a href="/About" class="hover:text-red-500">Câu chuyện thương hiệu</a></li>
-                        <li><a href="/About" class="hover:text-red-500">Liên hệ</a></li>
-                    </ul>
-
-                </div>
-
-                <!-- Chính sách -->
-                <div class="md:col-span-2">
-                    <h4 class="font-semibold mb-3">CHÍNH SÁCH</h4>
-                    @* <ul class="space-y-1 grid md:grid-cols-2"> *@
-                    @*     <li><a href="#" class="hover:text-red-500">Chính sách & giao nhận</a></li> *@
-                    @*     <li><a href="#" class="hover:text-red-500">Chính sách bảo mật</a></li> *@
-                    @*     <li><a href="#" class="hover:text-red-500">Điều khoản sử dụng</a></li> *@
-                    @*     <li><a href="#" class="hover:text-red-500">Chính sách vận chuyển</a></li> *@
-                    @* </ul> *@
-                    <ul class="policy-footer space-y-3">
-                    </ul>
-
-                </div>
-
-            </div>
-            <div class="flex flex-wrap items-end gap-2 mb-5">
-                <div class="md:w-2/5">
-                    <h4 class="font-semibold mb-2">PHƯƠNG THỨC THANH TOÁN</h4>
-                    <div class="flex flex-wrap items-center gap-2">
-                        <img src="/assets/images/mastercard.png" class="h-8" />
-                        <img src="/assets/images/visa.png" class="h-8" />
-                        <img src="/assets/images/jcb.png" class="h-8" />
-                    </div>
-                </div>
-                <div>
-                    <img src="/assets/images/dangky.png" />
-                </div>
-                <div></div>
-            </div>
-            <h4 class="font-semibold mb-2 uppercase">Đơn vị vận chuyển</h4>
-            <div class="flex flex-wrap items-center gap-2">
-                <img src="/assets/images/dvvc.png" />
-            </div>
         </div>
+        <div class=" grid grid-cols-1 lg:grid-cols-3 gap-8 ">
+            <!-- BÊN TRÁI: Logo + Thông tin -->
+            <div class="space-y-4 md:col-span-2">
+                @* <img src="/assets/images/Logo2.png" alt="Logo" class="h-[50px]"> *@
+                <div class="bg-blue-50 rounded-3xl p-5">
+                    Best Mall là nền tảng thương mại điện tử kết nối các sản phẩm chính hãng đến với khách hàng, cho
+                    phép khách hàng check chi tiết đầy đủ giấy tờ của doanh nghiệp và sản phẩm. Chúng tôi cam kết chỉ
+                    hợp tác với những thương hiệu, nhà sản xuất uy tín - có nguồn gốc rõ ràng, được công bố đầy đủ theo
+                    tiêu chuẩn nhằm mang đến trải nghiệm mua sắm minh bạch, an toàn và chất lượng cho người tiêu dùng.
+                    <br />
+                    <br />
+
+                    Đến với Best Mall, bạn hoàn toàn yên tâm thỏa sức mua sắm những sản phẩm đầy đủ chứng nhận kiểm
+                    định, an toàn và chất lượng từ các nhãn hàng uy tín trên toàn thế giới.
+                </div>
+
+                <!-- 3 CỘT NHỎ: Về Best Mall, Chính sách, Kết nối -->
+                <div class="grid md:flex md:justify-between gap-4 font-light md:mt-10 mt-5">
+                    <div>
+                        <h4 class="font-semibold mb-3">DỊCH VỤ KHÁCH HÀNG</h4>
+                        <ul class="space-y-3">
+                            <li><a style="cursor:pointer" onclick="_support.GotoSearchBox()" class="hover:text-red-500"> FAQs</a></li>
+                            <li><a href="#" class="hover:text-red-500">Về chúng tôi</a></li>
+                            <li><a href="#" class="hover:text-red-500">Câu chuyện thương hiệu</a></li>
+                            <li><a href="#" class="hover:text-red-500">Liên hệ</a></li>
+                        </ul>
+                    </div>
+                    <!-- Về Best Mall -->
+                    <div>
+                        <h4 class="font-semibold mb-3">VỀ BEST MALL</h4>
+
+                        <ul class="space-y-3">
+                            <li><a href="/About" class="hover:text-red-500">Về chúng tôi</a></li>
+                            <li><a href="/About" class="hover:text-red-500">Câu chuyện thương hiệu</a></li>
+                            <li><a href="/About" class="hover:text-red-500">Liên hệ</a></li>
+                        </ul>
+
+                    </div>
+
+                    <!-- Chính sách -->
+                    <div class="md:col-span-2">
+                        <h4 class="font-semibold mb-3">CHÍNH SÁCH</h4>
+                        @* <ul class="space-y-1 grid md:grid-cols-2"> *@
+                        @*     <li><a href="#" class="hover:text-red-500">Chính sách & giao nhận</a></li> *@
+                        @*     <li><a href="#" class="hover:text-red-500">Chính sách bảo mật</a></li> *@
+                        @*     <li><a href="#" class="hover:text-red-500">Điều khoản sử dụng</a></li> *@
+                        @*     <li><a href="#" class="hover:text-red-500">Chính sách vận chuyển</a></li> *@
+                        @* </ul> *@
+                        <ul class="policy-footer space-y-3">
+                        </ul>
+
+                    </div>
+
+                </div>
+                <div class="flex flex-wrap items-end gap-2 mb-5">
+                    <div class="md:w-2/5">
+                        <h4 class="font-semibold mb-2">PHƯƠNG THỨC THANH TOÁN</h4>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <img src="/assets/images/mastercard.png" class="h-8" />
+                            <img src="/assets/images/visa.png" class="h-8" />
+                            <img src="/assets/images/jcb.png" class="h-8" />
+                        </div>
+                    </div>
+                    <div>
+                        <img src="/assets/images/dangky.png" />
+                    </div>
+                    <div></div>
+                </div>
+                <h4 class="font-semibold mb-2 uppercase">Đơn vị vận chuyển</h4>
+                <div class="flex flex-wrap items-center gap-2">
+                    <img src="/assets/images/dvvc.png" />
+                </div>
+            </div>
+       
+       
 
         <!-- BÊN PHẢI: Form + Facebook + 3 cột nhỏ -->
         <div class="space-y-6">
@@ -184,6 +190,7 @@
 
                 </a>
             </div>
+        </div>
         </div>
     </div>
 </footer>
