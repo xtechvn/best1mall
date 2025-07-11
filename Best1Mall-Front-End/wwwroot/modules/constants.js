@@ -271,7 +271,7 @@ var HTML_CONSTANTS = {
                     ,
     
         GroupProductItem: ` 
-      <div class="flex-shrink-0 w-27 text-center p-2 rounded-xl border border-blue-100">
+      <div class="flex-shrink-0 w-27 text-center p-2 rounded-xl border border-blue-100 bg-white">
                         <div class="rounded-full bg-blue-50 mb-2 p-2 h-22 w-22 flex items-center justify-center">
                             <a href="/san-pham/{url}?group_id={id}">
                                 <img src="{avt}" alt="{name}" class="mx-auto h-15">
