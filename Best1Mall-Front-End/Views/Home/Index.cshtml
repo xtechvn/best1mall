@@ -107,57 +107,64 @@
             </div>
             <!--  Tiêu chí -->
             <div class="my-6 md:my-10">
-                <img src="assets/images/Banner_h.png" alt="">
-                @* <div class="swiper h-full tieuchi-slide md:rounded-3xl rounded-xl overflow-hidden"> *@
-                @*     <div class="swiper-wrapper"> *@
-                @*         <div class="swiper-slide"> *@
-                @*             <div class="flex items-center justify-center gap-3 w-full"> *@
-                @*                 <img src="assets/images/chinhhang.svg" alt=""> *@
-                @*                 <div> *@
-                @*                     <h4 class="font-medium text-xl">Hàng chính hãng</h4> *@
-                @*                     <p>Đảm bảo hàng chính hãng<br />hoặc hoàn tiền gấp 10</p> *@
-                @*                 </div> *@
-                @*             </div> *@
-                @*         </div> *@
-                @*         <div class="swiper-slide"> *@
-                @*             <div class=" flex items-center justify-center gap-3 w-full"> *@
-                @*                 <img src="assets/images/checkdaydu.svg" alt=""> *@
-                @*             </div> *@
-                @*         </div> *@
-                @*         <div class="swiper-slide"> *@
-                @*             <div class=" flex items-center justify-center gap-3 w-full"> *@
-                @*                 <img src="assets/images/doitra.svg" alt=""> *@
-                @*                 <div> *@
-                @*                     <h4 class="font-medium text-xl">Đổi trả</h4> *@
-                @*                     <p> *@
-                @*                         Đổi trả hàng nếu sản phẩm <br /> *@
-                @*                         không đúng cam kết *@
-                @*                     </p> *@
-                @*                 </div> *@
-                @*             </div> *@
-                @*         </div> *@
-                @*         <div class="swiper-slide"> *@
-                @*             <div class=" flex items-center justify-center gap-3 w-full"> *@
-                @*                 <img src="assets/images/tienloi.svg" alt=""> *@
-                @*                 <div> *@
-                @*                     <h4 class="font-medium text-xl">Tiện lợi - An toàn</h4> *@
-                @*                     <p>Mua sắm dễ dàng<br />An tâm giao dịch</p> *@
-                @*                 </div> *@
-                @*             </div> *@
-                @*         </div> *@
-                @*     </div> *@
+                @* <img src="assets/images/Banner_h.png" alt=""> *@
+                <div class="swiper h-full tieuchi-slide md:rounded-3xl rounded-xl overflow-hidden">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img src="assets/images/chinhhang.svg" alt="">
+                                <div>
+                                    <h4 class="font-medium text-xl">Hàng chính hãng</h4>
+                                    <p>Đảm bảo hàng chính hãng<br />hoặc hoàn tiền gấp 10</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img src="assets/images/checkdaydu.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img src="assets/images/doitra.svg" alt="">
+                                <div>
+                                    <h4 class="font-medium text-xl">Đổi trả</h4>
+                                    <p>
+                                        Đổi trả hàng nếu sản phẩm <br />
+                                        không đúng cam kết
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img src="assets/images/tienloi.svg" alt="">
+                                <div>
+                                    <h4 class="font-medium text-xl">Tiện lợi - An toàn</h4>
+                                    <p>Mua sắm dễ dàng<br />An tâm giao dịch</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                @*     <!-- Pagination (on top of slide) --> *@
-                @*     <div class="swiper-pagination mt-3 !text-white !static"></div> *@
+                    <!-- Pagination (on top of slide) -->
+                    <div class="swiper-pagination mt-3 !text-white !static"></div>
+                </div>
 
-                @* </div> *@
             </div>
             <!-- DANH MỤC SẢN PHẨM -->
 
-            <div class=" my-6 md:my-10 p-3 pb-2 md:rounded-3xl rounded-xl border border-gray-200 bg-[#E6E1F4]">
-                <h2 class="text-sky-900 border-b pb-2 mb-3 font-medium">DANH MỤC SẢN PHẨM</h2>
+            <div class="box-danhmuc bg-white my-6 md:my-10 p-3 pb-2 md:rounded-3xl rounded-xl border border-gray-200">
+                <a href="">
+                    <h2 class="head-title">
+                        <span class="title">DANH MỤC SẢN PHẨM</span>
+                        <span class="hottrend">HOT TREND</span>
+                        <span class="line"></span>
+                        <span class="trusted">TRUSTED BRAND</span>
+                    </h2>
+                </a>
 
-                <div class="flex lg:justify-between gap-2 overflow-x-auto scrollbar-hide pb-2 list-category ">
+                <div class="list-danhmuc flex lg:justify-between gap-2 overflow-x-auto scrollbar-hide pb-2 list-category ">
                 </div>
             </div>
             <!-- Flash sale  -->
@@ -330,7 +337,6 @@
             @* Best Choice *@
             <div class="tab-bestchoice">
                 <h2 class="title">BEST CHOICE<span class="hot-trend">Hot trend</span></h2>
-                <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
             </div>
             @await Component.InvokeAsync("MenuNews", new { menuType = "bestchoice_menu" })
             
@@ -348,7 +354,7 @@
                     @* </a> *@
                 </div>
 
-                <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+                @* <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div> *@
                 <div class="box-xuhuong mt-4 grid md:grid-cols-4 grid-cols-2 md:gap-6 gap-2">
                     @await Component.InvokeAsync("MenuNews", new { menuType = "trend_menu" })
                    
@@ -460,7 +466,7 @@
             <!-- List Sản phẩm đã xem -->
             <div class="my-6 md:my-10 " id="viewed-products-wrapper">
                 <div class="flex justify-between flex-wrap gap-2 mb-3">
-                    <h2 class="text-sky-900 font-medium uppercase"><a href="">Sản phẩm đã xem</a> </h2>
+                    <h2 class="uppercase"><a href="">Sản phẩm đã xem</a> </h2>
                     @* <a href="/san-pham/tat-ca?group_id=@ViewBag.GLOBAL_CONSTANTS.GroupProduct.ListProduct" class="flex items-center gap-2 text-blue-500 text-sm"> *@
                     @*     Xem thêm *@
                     @*     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"> *@
@@ -470,7 +476,7 @@
                     @* </a> *@
                 </div>
 
-                <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+                @* <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div> *@
                 <!-- Swiper -->
                 <div class="relative mt-3">
                     <div class="flash-sale-swiper">
