@@ -19,22 +19,25 @@ var cart = {
        // $('.voucher ').hide()
         cart.OrderAddress()
         /* ================== BỔ SUNG: xử-lý khi quay lại từ trang payment ================== */
-        const $btn = $('.btn-confirm-cart');
-        $btn.prop('disabled', false)
-            .removeClass('opacity-60 cursor-not-allowed')
-            .html('Xác nhận thanh toán');               // 👈 text gốc của nút
+        debugger
+        // ✅ Nếu vừa tạo đơn xong và quay lại cart
+        if (localStorage.getItem('just_created_order') === 'true') {
+            // ❌ Xóa flag để không reset lần sau nữa
+            localStorage.removeItem('just_created_order');
 
-        const orderData = sessionStorage.getItem(STORAGE_NAME.Order);
-        if (orderData) {
-            // 👉 Người dùng vừa confirm đơn xong nhưng bấm Back
-            sessionStorage.removeItem(STORAGE_NAME.Order);
+            // 🔁 Reset trạng thái cart
+            $('.btn-confirm-cart').prop('disabled', false)
+                .removeClass('opacity-60 cursor-not-allowed')
+                .html('Xác nhận thanh toán');
+
+            // 🧹 Xóa các cache cũ (nếu còn)
             sessionStorage.removeItem(STORAGE_NAME.CartAddress);
             sessionStorage.removeItem(STORAGE_NAME.CartCount);
 
-            // Nếu bạn đã có API lấy cart => gọi lại
-            location.reload();                 // ⬅️ tùy bạn, xem khối B
-            // Hoặc đơn giản: location.reload();
+            
+             location.reload();
         }
+
         /* ================================================================================ */
 
 
@@ -841,10 +844,13 @@ var cart = {
                 ).done(function (result) {
                     
                     if (result.is_success && result.data != undefined) {
+                        debugger
                         request.result = result.data
                         sessionStorage.setItem(STORAGE_NAME.Order, JSON.stringify(request))
                         sessionStorage.removeItem(STORAGE_NAME.CartCount)
                         global_service.LoadCartCount()
+                        // ✅ Ghi dấu hiệu đã tạo đơn
+                        localStorage.setItem('just_created_order', 'true');
 
                         window.location.href = '/order/payment/' + result.data.id
 
