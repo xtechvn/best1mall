@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     cart.Initialization()
+  
 
 })
 var appliedVoucher = null; // Lưu voucher đang áp dụng (nếu có)
@@ -17,37 +18,30 @@ var cart = {
         $('.select-bank .list-option').fadeOut()
        // $('.voucher ').hide()
         cart.OrderAddress()
+        /* ================== BỔ SUNG: xử-lý khi quay lại từ trang payment ================== */
+        const $btn = $('.btn-confirm-cart');
+        $btn.prop('disabled', false)
+            .removeClass('opacity-60 cursor-not-allowed')
+            .html('Xác nhận thanh toán');               // 👈 text gốc của nút
+
+        const orderData = sessionStorage.getItem(STORAGE_NAME.Order);
+        if (orderData) {
+            // 👉 Người dùng vừa confirm đơn xong nhưng bấm Back
+            sessionStorage.removeItem(STORAGE_NAME.Order);
+            sessionStorage.removeItem(STORAGE_NAME.CartAddress);
+            sessionStorage.removeItem(STORAGE_NAME.CartCount);
+
+            // Nếu bạn đã có API lấy cart => gọi lại
+            location.reload();                 // ⬅️ tùy bạn, xem khối B
+            // Hoặc đơn giản: location.reload();
+        }
+        /* ================================================================================ */
+
 
     },
 
     DynamicBind: function () {
-        //$("body").on('click', ".all-pop", function (event) {
-        //    // Đảm bảo thông báo lỗi được ẩn khi người dùng chọn voucher
-        //    $('#voucher-popup .voucher-error').remove();  // Xóa thông báo lỗi cũ nếu có
-        //    var cartId
-        //    var element = $(this)
-        //    event.preventDefault()
-        //    var box_id = element.attr('data-id')
-        //    // Nếu là nút xoá, truyền data-cart-id
-        //    if (box_id === "#lightbox-delete-cart") {
-        //        cartId = element.attr('data-cart-id');
-                
-        //    } else {
-        //        cartId = element.closest('.product').attr('data-cart-id');
-        //    }
-        //    $(box_id).attr("data-cart-id", cartId);
-        //    $('.popup').addClass('hidden')
-        //    $('' + box_id).removeClass('hidden')
-        //    $('' + box_id).show()
-        //    // 👉 Nếu là popup địa chỉ, gọi render địa chỉ
-        //    if (box_id === "#address-book") {
-        //        var list = sessionStorage.getItem(STORAGE_NAME.AddressClient);
-        //        if (list) {
-        //            var data = JSON.parse(list);
-        //            address_client.RenderExistsAddress(data, $('#address-receivername').attr('data-id'));
-        //        }
-        //    }
-        //});
+       
         $("body").on('click', "#hinhthucgiaohang .item li", function () {
             var element = $(this)
             if (element.hasClass('disabled')) {
