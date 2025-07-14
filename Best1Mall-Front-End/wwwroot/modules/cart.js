@@ -1,6 +1,14 @@
 ﻿$(document).ready(function () {
     cart.Initialization()
-  
+    debugger
+    // 🔁 Reload lại trang nếu người dùng quay lại bằng Back/Forward
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted || window.performance.navigation.type === 2) {
+            // Đây là trạng thái được phục hồi từ bộ nhớ (bfcache)
+            location.reload();
+        }
+    });
+
 
 })
 var appliedVoucher = null; // Lưu voucher đang áp dụng (nếu có)
@@ -18,26 +26,8 @@ var cart = {
         $('.select-bank .list-option').fadeOut()
        // $('.voucher ').hide()
         cart.OrderAddress()
-        /* ================== BỔ SUNG: xử-lý khi quay lại từ trang payment ================== */
-        debugger
-        // ✅ Nếu vừa tạo đơn xong và quay lại cart
-        if (localStorage.getItem('just_created_order') === 'true') {
-            // ❌ Xóa flag để không reset lần sau nữa
-            localStorage.removeItem('just_created_order');
-
-            // 🔁 Reset trạng thái cart
-            $('.btn-confirm-cart').prop('disabled', false)
-                .removeClass('opacity-60 cursor-not-allowed')
-                .html('Xác nhận thanh toán');
-
-            // 🧹 Xóa các cache cũ (nếu còn)
-            sessionStorage.removeItem(STORAGE_NAME.CartAddress);
-            sessionStorage.removeItem(STORAGE_NAME.CartCount);
-
-            
-             location.reload();
-        }
-
+      
+        
         /* ================================================================================ */
 
 
