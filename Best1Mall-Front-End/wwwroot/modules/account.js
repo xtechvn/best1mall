@@ -551,7 +551,10 @@ var account = {
         var fullNameElement = $('#register-form .user input');
         if (fullNameElement.val() !== undefined && fullNameElement.val().trim() !== '') {
             var fullName = fullNameElement.val().trim();
-            var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
+            //var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
+            var nameRegex = /^[a-zA-Z0-9À-Ỹà-ỹĐđ'\-\s]+$/u;
+
+
             if (!nameRegex.test(fullName)) {
                 fullNameElement.closest('.mb-4').find('.err-user').html('Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu câu thông thường, dấu nháy đơn, và dấu gạch nối.');
                 fullNameElement.closest('.mb-4').find('.err-user').show();
@@ -643,7 +646,10 @@ var account = {
         var fullNameElement = $('#register-form .user input');
         if (fullNameElement.val() !== undefined && fullNameElement.val().trim() !== '') {
             var fullName = fullNameElement.val().trim();
-            var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
+            //var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
+            var nameRegex = /^[a-zA-Z0-9À-Ỹà-ỹĐđ'\-\s]+$/u;
+
+
             if (!nameRegex.test(fullName)) {
                 fullNameElement.closest('.mb-4').find('.err-user').html('Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu câu thông thường, dấu nháy đơn, và dấu gạch nối.');
                 fullNameElement.closest('.mb-4').find('.err-user').show();
@@ -953,7 +959,10 @@ var account = {
                 var fullNameElement = element;
                 if (fullNameElement.val() !== undefined && fullNameElement.val().trim() !== '') {
                     var fullName = fullNameElement.val().trim();
-                    var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
+                    //var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
+                    var nameRegex = /^[a-zA-Z0-9À-Ỹà-ỹĐđ'\-\s]+$/u;
+
+
                     if (!nameRegex.test(fullName)) {
                         fullNameElement.closest('.mb-4').find('.err-user').html('Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu câu thông thường, dấu nháy đơn, và dấu gạch nối.');
                         fullNameElement.closest('.mb-4').find('.err-user').show();
