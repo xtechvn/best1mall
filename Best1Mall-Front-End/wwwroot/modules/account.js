@@ -64,37 +64,18 @@ var account = {
 
         }
         $("body").on('click', "#change-password-confirm", function () {
-            
+            debugger
            
             $('#forgot-password-change .content .err-form').hide();
             let isValid = true;
             var request = {
                 "token": token,
-                "old_password": $('#forgot-password-change .old-password input').val(),
+                
                 "password": $('#forgot-password-change .new-password input').val(),
                 "confirm_password": $('#forgot-password-change .confirm-new-password input').val()
             }
-            // ✅ Nếu không thay đổi gì
-            if (
-                request.old_password &&
-                request.old_password === request.password &&
-                request.password === request.confirm_password
-            ) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Không có thay đổi',
-                    text: 'Bạn chưa thay đổi mật khẩu.',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
-            // Validate mật khẩu cũ
-            if (!request.old_password || request.old_password.trim() === '') {
-                $('.old-password .err').html(notification_empty).show();
-                isValid = false;
-            } else {
-                $('.old-password .err').hide();
-            }
+            
+          
 
             // Validate mật khẩu mới
             if (!request.password || request.password.trim() === '') {
@@ -103,12 +84,7 @@ var account = {
             } else if (request.password.length < 6) {
                 $('.new-password .err').html("Mật khẩu mới phải có ít nhất 6 ký tự").show();
                 isValid = false;
-            //} else if (!/[A-Z]/.test(request.password)) {
-            //    $('.new-password .err').html("Mật khẩu mới phải chứa ít nhất 1 chữ cái viết hoa").show();
-            //    isValid = false;
-            } else if (request.password === request.old_password) {
-                $('.new-password .err').html("Mật khẩu mới không được trùng với mật khẩu hiện tại").show();
-                isValid = false;
+           
             } else {
                 $('.new-password .err').hide();
             }
@@ -129,7 +105,7 @@ var account = {
             $.when(
                 global_service.POST(API_URL.ChangePassword, request)
             ).done(function (res) {
-                
+                debugger
                 if (res.is_success === true) {
                     Swal.fire({
                         icon: 'success',
