@@ -831,6 +831,8 @@ var account = {
                         $thisButton.removeProp('disabled').text('Gửi mã xác thực');
                         $thisButton.removeAttr('disabled')
                         $thisButton.css('background-color', '');
+                        account.Data.SendCodeTimeout = false;
+
                         Swal.fire({
                             toast: true,
                             position: 'top-end',
