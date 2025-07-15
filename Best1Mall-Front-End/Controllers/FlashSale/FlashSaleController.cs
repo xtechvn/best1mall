@@ -32,6 +32,9 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
                 foreach (var item in listFlashSales.Items)
                 {
                     var products = await _flashsaleServices.GetById(new FlashsaleListingRequestModel { id = item.flashsale_id });
+                    // 💥 BỎ QUA nếu KHÔNG CÓ sản phẩm
+                    if (products == null || !products.Any())
+                        continue;
 
                     viewModel.Add(new FlashSaleViewModel
                     {
@@ -48,12 +51,14 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
             }
 
             // ❗ CHỈ tải trang đầu tiên của SuperFlashSale
-            var firstPageRequest = new ProductFavouritesListRequestModel
+            var firstPageRequest = new TypeRequestModel
             {
+                type = -1,
+                group_id = -1,
                 page_index = 1,
                 page_size = 10
             };
-            var superSaleProducts = await _flashsaleServices.ListingSuperSale(firstPageRequest);
+            var superSaleProducts = await _flashsaleServices.GetByType(firstPageRequest);
             ViewBag.SuperSaleProducts = superSaleProducts.Data;
             ViewBag.TotalSuperSaleCount = superSaleProducts.TotalCount;
             return View(viewModel);
@@ -62,35 +67,37 @@ namespace Best1Mall_Front_End.Controllers.FlashSale
         public IActionResult LoadDefaultFlashSale()
         {
             // 👇 Đây là data bạn gán ban đầu bằng ViewBag.SuperSaleProducts
-            var firstPageRequest = new ProductFavouritesListRequestModel
+            var firstPageRequest = new TypeRequestModel
             {
+                type = -1,
+                group_id = -1,
                 page_index = 1,
                 page_size = 10
             };
 
-            var superSaleProducts = _flashsaleServices.ListingSuperSale(firstPageRequest).Result;
+            var superSaleProducts = _flashsaleServices.GetByType(firstPageRequest).Result;
 
             return PartialView("_SuperFlashSale", superSaleProducts.Data);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> LoadMoreSuperFlashSale(ProductFavouritesListRequestModel request)
-        {
+        //[HttpPost]
+        //public async Task<IActionResult> LoadMoreSuperFlashSale(ProductFavouritesListRequestModel request)
+        //{
            
 
-            var result = await _flashsaleServices.ListingSuperSale(request);
+        //    var result = await _flashsaleServices.ListingSuperSale(request);
 
-            bool isLastPage = (request.page_index * request.page_size) >= result.TotalCount;
+        //    bool isLastPage = (request.page_index * request.page_size) >= result.TotalCount;
 
 
-            var html = await this.RenderViewAsync("_SuperFlashSale", result.Data ?? new List<FlashSaleProductResposeModel>(), true);
+        //    var html = await this.RenderViewAsync("_SuperFlashSale", result.Data ?? new List<FlashSaleProductResposeModel>(), true);
 
-            return Json(new
-            {
-                isLastPage,
-                html
-            });
-        }
+        //    return Json(new
+        //    {
+        //        isLastPage,
+        //        html
+        //    });
+        //}
     
         [HttpPost]
         public async Task<IActionResult> LoadMoreFilteredFlashSale(TypeRequestModel request)

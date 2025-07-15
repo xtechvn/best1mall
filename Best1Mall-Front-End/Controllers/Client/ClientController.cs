@@ -225,33 +225,23 @@ namespace Best1Mall_Front_End.Controllers.Client
                 msg = "Email hướng dẫn đổi mật khẩu sẽ được gửi đến địa chỉ email mà bạn đã nhập. <br /> vui lòng kiểm tra hộp thư đến và làm theo hướng dẫn."
             });
         }
+        public async Task<IActionResult> SendChangePassword(CientSendGmailRequestModel request)
+        {
+            var result = await _addressClientServices.SendChangePassword(request);
+
+            return Ok(new
+            {
+                is_success = result,
+                msg = "Email hướng dẫn đổi mật khẩu sẽ được gửi đến địa chỉ email mà bạn đã nhập. <br /> vui lòng kiểm tra hộp thư đến và làm theo hướng dẫn."
+            });
+        }
         public async Task<ActionResult> ChangePassword()
         {
             try
             {
-                //if (string.IsNullOrEmpty(token) || token.Trim() == "")
-                //{
-                //    return Redirect("/Home/Notfound");
-                //}
-                //string forgot = EncodeHelpers.Decode(token.Replace("-", "+").Replace("_", "/"), _configuration["API:SecretKey"]);
-                //if (forgot == null || forgot.Trim() == "")
-                //{
-                //    return Redirect("/Home/Notfound");
-                //}
-                //var model = JsonConvert.DeserializeObject<ClientForgotPasswordTokenModel>(forgot);
-                //if (model == null || model.user_name == null)
-                //{
-                //    return Redirect("/Home/Notfound");
-                //}
-
-                ////var validate = await _addressClientServices.ValidateForgotPassword(new ClientForgotPasswordRequestModel() { name = token });
-                ////if (!validate)
-                ////{
-                ////    return Redirect("/Home/Notfound");
-
-                ////}
-                //ViewBag.Token = token;
+               
                 ViewBag.type = 2;
+                ViewBag.Uuid = Guid.NewGuid().ToString();
                 return View();
             }
             catch
@@ -261,6 +251,22 @@ namespace Best1Mall_Front_End.Controllers.Client
             return Redirect("/Home/Notfound");
 
 
+        }
+        [HttpGet("/account/change-password/{token}")]
+        public IActionResult ChangePasswordConfirm(string token)
+        {
+            ViewBag.Token = token;
+            return View("ChangePasswordConfirm");
+        }
+        public async Task<IActionResult> ValidateChangePasswordToken(ValidateChangePasswordTokenRequest request)
+        {
+            var result = await _addressClientServices.ValidateChangePasswordToken(request);
+
+            return Ok(new
+            {
+                is_success = result,
+                //msg = "Email hướng dẫn đổi mật khẩu sẽ được gửi đến địa chỉ email mà bạn đã nhập. <br /> vui lòng kiểm tra hộp thư đến và làm theo hướng dẫn."
+            });
         }
         public async Task<IActionResult> ConfirmChangePassword(ClientChangePasswordRequestModel request)
         {

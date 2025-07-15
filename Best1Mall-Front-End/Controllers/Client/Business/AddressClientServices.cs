@@ -153,6 +153,44 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return false;
 
         }
+        public async Task<bool> SendChangePassword(CientSendGmailRequestModel request)
+        {
+            try
+            {
+                var result = await POST("/api/client/change-password-sendemail-validate", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+            return false;
+
+        }
+        public async Task<bool> ValidateChangePasswordToken(ValidateChangePasswordTokenRequest request)
+        {
+            try
+            {
+                var result = await POST("/api/client/change-password-validate-token", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+            return false;
+
+        }
         public async Task<bool> ChangePassword(ClientChangePasswordRequestModel request)
         {
             try
