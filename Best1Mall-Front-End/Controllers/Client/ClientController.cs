@@ -251,7 +251,7 @@ namespace Best1Mall_Front_End.Controllers.Client
 
 
         }
-        [HttpGet("/account/change-password/{token}")]
+        [HttpGet("/doi-mat-khau/{token}")]
         public IActionResult ChangePasswordConfirm(string token)
         {
             ViewBag.Token = token;
