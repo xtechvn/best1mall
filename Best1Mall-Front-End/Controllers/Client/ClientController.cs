@@ -233,7 +233,7 @@ namespace Best1Mall_Front_End.Controllers.Client
             return Ok(new
             {
                 is_success = result,
-                msg = "Email hướng dẫn đổi mật khẩu sẽ được gửi đến địa chỉ email mà bạn đã nhập. <br /> vui lòng kiểm tra hộp thư đến và làm theo hướng dẫn."
+                msg = "Email hướng dẫn đổi mật khẩu đã được gửi đến địa chỉ email"
             });
         }
         public async Task<ActionResult> ChangePassword()
@@ -266,7 +266,7 @@ namespace Best1Mall_Front_End.Controllers.Client
             return Ok(new
             {
                 is_success = result,
-                //msg = "Email hướng dẫn đổi mật khẩu sẽ được gửi đến địa chỉ email mà bạn đã nhập. <br /> vui lòng kiểm tra hộp thư đến và làm theo hướng dẫn."
+                msg = "Xác thực người dùng không đúng !!!"
             });
         }
         public async Task<IActionResult> ConfirmChangePassword(ClientChangePasswordRequestModel request)
