@@ -828,9 +828,8 @@ var account = {
                 success: function (data) {
                     if (data != undefined && data.is_success == false) {
                         clearInterval(account.Data.countdownInterval);
-                        $thisButton.html('Gửi mã xác thực')
-                        $thisButton.removeProp('disabled').text(originalText);
-                        $thisButton.removeAttr('disabled', 'disabled')
+                        $thisButton.removeProp('disabled').text('Gửi mã xác thực');
+                        $thisButton.removeAttr('disabled')
                         $thisButton.css('background-color', '');
                         Swal.fire({
                             toast: true,
