@@ -68,6 +68,8 @@ var API_URL = {
     OrderRaitingUploadVideo: '/Files/SummitVideo',
     OrderRaitingSubmmit: '/Order/InsertRaiting',
     ClientForgotPassword: '/Client/ForgotPassword',
+    SendChangePassword: '/Client/SendChangePassword',
+    ValidateChangePasswordToken:'/Client/ValidateChangePasswordToken',
     ProductSearchListingPaging: '/Product/SearchListingPaging',
     CartGetShippingFee: '/Cart/GetShippingFee',
     ProfileList: '/Client/ProfileList',

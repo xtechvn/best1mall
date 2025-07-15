@@ -60,7 +60,7 @@ var global_service = {
             let currentPage = parseInt(container.data("page")) || 1;
             const pageSize = parseInt(container.data("pagesize")) || 10;
             const mode = container.data("mode") || 'default'; // "default" | "filtered"
-            const defaultUrl = container.data("url") || '/FlashSale/LoadMoreSuperFlashSale';
+            const defaultUrl = container.data("url") || '/FlashSale/LoadMoreFilteredFlashSale';
 
             const groupId = parseInt(container.data("group-id")) || -1;
             const type = parseInt(container.data("type")) || -1;
@@ -78,6 +78,8 @@ var global_service = {
                     page_size: pageSize
                 }
                 : {
+                    type: type,
+                    group_id: groupId,
                     page_index: currentPage,
                     page_size: pageSize
                 };

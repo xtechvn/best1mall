@@ -63,7 +63,7 @@ $(document).ready(function () {
                 $container.data('type', -1);
                 $container.data('group-id', -1);
                 $container.data('page', 1);
-                $container.data('url', '/FlashSale/LoadMoreSuperFlashSale');
+                $container.data('url', '/FlashSale/LoadMoreFilteredFlashSale');
 
                 $('.tag-flashsale').removeClass('active');
                 $('.tag-flashsale-default').addClass('active'); // luôn active lại nút "Xem tất cả"
