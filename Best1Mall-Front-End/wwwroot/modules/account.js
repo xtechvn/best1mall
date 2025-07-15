@@ -39,6 +39,7 @@ var account = {
         SendCodeTimeout: false,
         PasswordLength: 6,
         MaxPasswordLength: 32,
+        countdownInterval: undefined
     },
     Initialization: function () {
         if ($('#forgot-password-change').length > 0) {
@@ -850,7 +851,8 @@ var account = {
                 data: model,
                 success: function (data) {
                     if (data != undefined && data.is_success == false) {
-                        account.DisableSendButtonBySecond(0)
+                        clearInterval(account.Data.countdownInterval);
+                        $('#register-send-code').html('Gửi mã xác thực')
                         Swal.fire({
                             toast: true,
                             position: 'top-end',
@@ -880,13 +882,13 @@ var account = {
         $thisButton.css('background-color', 'lightgray');
         account.Data.SendCodeTimeout = true;
         // Cập nhật bộ đếm thời gian mỗi giây
-        var countdownInterval = setInterval(function () {
+        account.Data.countdownInterval = setInterval(function () {
             countdownTime--;
             $thisButton.text('Vui lòng đợi (' + countdownTime + 's)');
 
             // Khi bộ đếm thời gian về 0, kích hoạt lại nút
             if (countdownTime <= 0) {
-                clearInterval(countdownInterval);
+                clearInterval(account.Data.countdownInterval);
                 $thisButton.removeProp('disabled').text(originalText);
                 $thisButton.removeAttr('disabled', 'disabled')
                 $thisButton.css('background-color', '');
