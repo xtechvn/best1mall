@@ -111,8 +111,4 @@ app.MapControllerRoute(
     name: "quen-mat-khau",
     pattern: "/doi-mat-khau/{token}",
     defaults: new { controller = "Client", action = "ForgotPasswordChangePassword" });
-app.MapControllerRoute(
-    name: "quen-mat-khau",
-    pattern: "/Client/ForgotPasswordChangePassword/{token}",
-    defaults: new { controller = "Client", action = "ForgotPasswordChangePassword" });
 app.Run();

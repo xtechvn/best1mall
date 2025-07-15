@@ -210,7 +210,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return false;
 
         }
-        public async Task<bool> ValidateForgotPassword(ClientForgotPasswordRequestModel request)
+        public async Task<string> ValidateForgotPassword(ClientForgotPasswordRequestModel request)
         {
             try
             {
@@ -220,13 +220,13 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
 
                 if (status == (int)ResponseType.SUCCESS)
                 {
-                    return true;
+                    return jsonData["data"].ToString();
                 }
             }
             catch
             {
             }
-            return false;
+            return null;
 
         }  
         public async Task<bool> ValidateRegisterEmail(ClientRegisterRequestModel request)

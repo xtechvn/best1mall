@@ -341,10 +341,11 @@ namespace Best1Mall_Front_End.Controllers.Client
                 {
                     name=token
                 });
-                if (!result)
+                if (result==null ||result.Trim()=="")
                 {
                     return Redirect("/Home/Notfound");
                 }
+                ViewBag.Token = result;
                 return View();
             }
             catch
