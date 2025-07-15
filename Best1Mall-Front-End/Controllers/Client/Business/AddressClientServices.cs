@@ -228,6 +228,25 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             }
             return false;
 
+        }  
+        public async Task<bool> ValidateRegisterEmail(ClientRegisterRequestModel request)
+        {
+            try
+            {
+                var result = await POST(_configuration["API:client_register_validate_email"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+            return false;
+
         }
         public async Task<bool> ForgotChangePassword(ClientForgotChangePasswordRequestModel request)
         {

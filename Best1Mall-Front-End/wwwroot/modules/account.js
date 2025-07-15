@@ -803,6 +803,7 @@ var account = {
             $.when(
                 global_service.POST(API_URL.ClientForgotPassword, request)
             ).done(function (res) {
+               
                 Swal.fire({
                     toast: true,
                     position: 'top-end',
@@ -814,7 +815,6 @@ var account = {
                 setTimeout(() => {
                     $('#forgot-popup').fadeOut()
                 }, 1000);
-                
 
             })
         }
@@ -849,7 +849,17 @@ var account = {
                 type: 'post',
                 data: model,
                 success: function (data) {
-
+                    if (data != undefined && data.is_success == false) {
+                        account.DisableSendButtonBySecond(0)
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'error',
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    }
                 },
             });
         }
