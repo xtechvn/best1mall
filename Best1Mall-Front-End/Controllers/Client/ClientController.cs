@@ -324,7 +324,9 @@ namespace Best1Mall_Front_End.Controllers.Client
                 msg = msg
             });
         }
-        [HttpGet("/tai-khoan/doi-mat-khau/{token}")]
+        [HttpGet]
+        [Route("/doi-mat-khau/{token}")]
+
         public async Task<ActionResult> ForgotPasswordChangePassword(string token)
         {
             ViewBag.Token = token;
