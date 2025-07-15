@@ -855,7 +855,7 @@ var account = {
                             toast: true,
                             position: 'top-end',
                             icon: 'error',
-                            title: res.msg,
+                            title: data.msg,
                             showConfirmButton: false,
                             timer: 3000
                         });
