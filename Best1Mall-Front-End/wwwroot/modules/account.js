@@ -334,7 +334,7 @@ var account = {
             $('#tab-register').removeClass('border-purple-500')
             $('#login-form').removeClass('hidden')
             $('#register-form').addClass('hidden')
-
+            $('#register-form input').val('').trigger('change')
         });
         $("body").on('click', "#tab-register", function () {
             $('#tab-login').removeClass('text-purple-500')

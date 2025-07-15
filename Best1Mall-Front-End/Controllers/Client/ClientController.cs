@@ -101,6 +101,7 @@ namespace Best1Mall_Front_End.Controllers.Client
                     }
                 });
             }
+            request.user_name = StringHelpers.CleanName(request.user_name);
             var result = await _clientServices.Register(request);
             try { _cache.Remove(cacheKey); } catch { }
             return Ok(new
