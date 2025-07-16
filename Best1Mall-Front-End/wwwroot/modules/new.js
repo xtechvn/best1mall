@@ -7,8 +7,8 @@
     const url_params = new URLSearchParams(query_string);
     const page = url_params.get('page') == null ? 1 : url_params.get('page');
     // Cập nhật active tab dựa trên categoryId
-    $('.cat-tag').removeClass('bg-blue-500 text-white border-blue-500');
-    $(`.cat-tag[data-id='${category_id2}']`).addClass('bg-blue-500 text-white border-blue-500');
+    $('.cat-tag').removeClass('active');
+    $(`.cat-tag[data-id='${category_id2}']`).addClass('item active');
 
     // ✅ Gọi load bài viết mặc định
     _new.loadNewsSection({
@@ -39,12 +39,12 @@
         currentPage = 1;                  // Reset page về 1 khi đổi tab
         // Xóa active tab "Tất cả" khi chọn danh mục khác
         if (categoryId !== 0) {
-            $('.cat-tag[data-id="0"]').removeClass('bg-blue-500 text-white border-blue-500');
+            $('.cat-tag[data-id="0"]').removeClass('active');
         }
 
         // Thêm active cho tab được chọn
-        $('.cat-tag').removeClass('bg-blue-500 text-white border-blue-500');  // Xóa active tất cả
-        $this.addClass('bg-blue-500 text-white border-blue-500');  // Thêm active cho thẻ <a> đang click
+        $('.cat-tag').removeClass('active');  // Xóa active tất cả
+        $this.addClass('active');  // Thêm active cho thẻ <a> đang click
 
         // Load bài viết tương ứng
         _new.loadNewsSection({

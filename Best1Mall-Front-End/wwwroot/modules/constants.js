@@ -570,14 +570,14 @@ data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
         <!-- Quantity -->
         <div class="col-span-2 md:text-center md:pl-0 pl-17 product-quantity">
             <div class="flex items-center number-input">
-               <button type="button" class="btn-quantity-decrease h-8 w-8 border border-gray-100 text-gray-700 rounded-l hover:bg-gray-100 cursor-pointer">-</button>
+               <button type="button" class="btn-quantity-decrease h-8 w-8 border border-gray-100 text-gray-700 rounded-l hover:bg-gray-100 cursor-pointer" {btnDisabled}>-</button>
 
 
                 <input type="text" value="{quanity}" min="1" max="999" name="quantity"
-                       class="h-8 w-10 text-center border-t border-b border-gray-100 text-sm quantity"
+                       class="h-8 w-10 text-center border-t border-b border-gray-100 text-sm quantity" {inputReadonly}
                         />
 
-                <button type="button" class="btn-quantity-increase h-8 w-8 border border-gray-100 text-gray-700 rounded-r hover:bg-gray-100 cursor-pointer">+</button>
+                <button type="button" class="btn-quantity-increase h-8 w-8 border border-gray-100 text-gray-700 rounded-r hover:bg-gray-100 cursor-pointer" {btnDisabled}>+</button>
 
             </div>
         </div>

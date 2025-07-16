@@ -164,7 +164,7 @@
                     </h2>
                 </a>
 
-                <div class="list-danhmuc flex lg:justify-between gap-2 overflow-x-auto scrollbar-hide pb-2 list-category ">
+                <div class="list-danhmuc flex lg:justify-between gap-2 overflow-x-auto scrollbar-hide pb-2 ">
                 </div>
             </div>
             <!-- Flash sale  -->
@@ -229,8 +229,8 @@
             <!-- List Thương hiệu được yêu thích -->
           
             <!-- List sp -->
-            <div class="my-6 md:my-10">
-                <h2 class="text-xl md:text-3xl md:mb-5 mb-3">SHOP MALL NỔI BẬT</h2>
+            <div class="my-6 md:my-10 shop-noubat">
+                <h2 class="title md:mb-5 mb-3">SHOP MALL NỔI BẬT</h2>
                 <!--  -->
                 <div class="md:rounded-3xl rounded-xl bg-[#E6E1F4] mb-6 list_product">
                     <img id="banner-bear-collection" src="assets/images/product_1.webp" alt=""
@@ -342,9 +342,11 @@
             
 
             <!-- List XU HƯỚNG MUA SẮM -->
-            <div class="my-6 md:my-10">
-                <div class="flex justify-between flex-wrap gap-2 mb-3">
-                    <h2 class="uppercase"><a href="">XU HƯỚNG MUA SẮM</a> </h2>
+            <div class="my-6 md:my-10 block-xuhuong">
+                
+                    <div class="tab-xuhuong">
+                        <h2 class="title">XU HƯỚNG MUA SẮM</h2>
+                    </div>
                     @* <a href="#" class="flex items-center gap-2 text-blue-500 text-sm"> *@
                     @*     Xem thêm *@
                     @*     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"> *@
@@ -352,7 +354,7 @@
                     @*               fill="#773EFA" /> *@
                     @*     </svg> *@
                     @* </a> *@
-                </div>
+            
 
                 @* <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div> *@
                 <div class="box-xuhuong mt-4 grid md:grid-cols-4 grid-cols-2 md:gap-6 gap-2">
@@ -465,8 +467,8 @@
             @* </div> *@
             <!-- List Sản phẩm đã xem -->
             <div class="my-6 md:my-10 " id="viewed-products-wrapper">
-                <div class="flex justify-between flex-wrap gap-2 mb-3">
-                    <h2 class="uppercase"><a href="">Sản phẩm đã xem</a> </h2>
+                <div class="flex justify-between flex-wrap gap-2 mb-8">
+                    <h2 class="uppercase font-bold"><a href="">Sản phẩm đã xem</a> </h2>
                     @* <a href="/san-pham/tat-ca?group_id=@ViewBag.GLOBAL_CONSTANTS.GroupProduct.ListProduct" class="flex items-center gap-2 text-blue-500 text-sm"> *@
                     @*     Xem thêm *@
                     @*     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"> *@
@@ -502,7 +504,7 @@
 
             <!-- List Thương hiệu -->
             <div class="my-6 md:my-10">
-                <h2 class="text-sky-900 font-medium uppercase "><a href="">ĐỐI TÁC - NHÀ CUNG CẤP</a> </h2>
+                <h2 class="uppercase font-bold mb-8 "><a href="">ĐỐI TÁC - NHÀ CUNG CẤP</a> </h2>
                 <!-- Swiper -->
                 <div class="relative mt-5">
                     <div class="brands-swiper">
