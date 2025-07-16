@@ -124,13 +124,14 @@ var cart = {
 
         });
         $('body').on('change', '.checkbox-all', function () {
-            
             const isChecked = $(this).prop('checked');
 
-            $('.table-addtocart .box-checkbox input[type="checkbox"]').prop('checked', isChecked);
+            // Chỉ chọn checkbox KHÔNG bị disabled
+            $('.table-addtocart .box-checkbox input[type="checkbox"]:not(:disabled)').prop('checked', isChecked);
 
             cart.ReRenderAmount();
         });
+
 
         $("body").on('click', ".box-checkbox-label,.delivery .list-option label,.pay .list-option label", function () {
             var element = $(this)

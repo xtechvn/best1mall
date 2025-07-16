@@ -58,19 +58,22 @@
         {
             <div class="bg-[#FF4169] md:rounded-3xl rounded-xl p-3 text-white relative component-flashsale-list">
                 <!-- Hiển thị Flash Sale đầu tiên hợp lệ -->
-                <div class="flex justify-between flex-wrap items-center mb-3">
+                <div class="head-flashsale flex justify-between flex-wrap items-center mb-3">
                     <div class="flex items-center gap-2">
-                        <img src="assets/images/flashsale.png" alt="" />
-                        <span class="md:block hidden ">Kết thúc trong</span>
+
+                        <div class="md:w-[240px] shrink-0">
+                            <img src="assets/images/flashsale.png" alt="" />
+
+                        </div>                       
+                        <span class="md:block hidden uppercase font-bold">Kết thúc trong</span>
                         <div id="countdown" class="flex gap-1 font-bold text-[#FF4169]">
                             <span class="bg-white px-2 py-1 rounded" id="hours">00</span> <span class="text-[#FF4169]">:</span>
                             <span class="bg-white px-2 py-1 rounded" id="minutes">00</span> <span class="text-[#FF4169]">:</span>
                             <span class="bg-white px-2 py-1 rounded" id="seconds">00</span>
                         </div>
                     </div>
-                    <a href="/flashSale" class="flex items-center gap-2 text-[16px]">
-                        Xem thêm
-                        <img src="/assets/images/nextf.png" alt="Arrow icon" width="26" height="26">
+                    <a href="/flashSale" class="flex items-center gap-2 text-sm xemthem">
+                        Xem nhiều hơn
                     </a>
 
 

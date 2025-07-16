@@ -350,6 +350,7 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressProvince, request)
         ).done(function (result) {
+            debugger
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
@@ -491,7 +492,7 @@ var address_client = {
             "Status": 0,
             "IsActive": $('#IsActive').is(":checked") ? true : false
         };
-
+        debugger
         // 4. Gửi request đến BE
         var result = global_service.POSTSynchorus(API_URL.UpdateAddress, request);
         if (result.is_success) {

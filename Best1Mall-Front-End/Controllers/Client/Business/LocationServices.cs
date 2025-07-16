@@ -37,6 +37,54 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return null;
 
         }
+        // Modified Service method
+        //public async Task<List<Province>> Province(LocationRequestModel request)
+        //{
+        //    try
+        //    {
+        //        // Sử dụng API Viettel Post
+        //        var viettelApiUrl = "https://partner.viettelpost.vn/v2/categories/listProvinceById?provinceId=-1";
+
+        //        using (var httpClient = new HttpClient())
+        //        {
+        //            // Có thể cần thêm headers nếu API yêu cầu
+        //            // httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer YOUR_TOKEN");
+
+        //            var response = await httpClient.GetAsync(viettelApiUrl);
+
+        //            if (response.IsSuccessStatusCode)
+        //            {
+        //                var jsonResult = await response.Content.ReadAsStringAsync();
+        //                var jsonData = JObject.Parse(jsonResult);
+
+        //                // Kiểm tra response structure của Viettel API
+        //                // Thường sẽ có status và data
+        //                if (jsonData["status"]?.ToString() == "200" || jsonData["success"]?.ToObject<bool>() == true)
+        //                {
+        //                    // Map dữ liệu từ Viettel format sang Province model của bạn
+        //                    var viettelProvinces = jsonData["data"]?.ToObject<List<ViettelProvince>>();
+
+        //                    if (viettelProvinces != null)
+        //                    {
+        //                        return viettelProvinces.Select(vp => new Province
+        //                        {
+        //                            Id = vp.PROVINCE_ID,
+        //                            Name = vp.PROVINCE_NAME,
+        //                            NameNonUnicode = vp.PROVINCE_CODE
+        //                            // Map các field khác theo cần thiết
+        //                        }).ToList();
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log exception nếu cần
+        //        // _logger.LogError(ex, "Error calling Viettel Post API");
+        //    }
+        //    return new List<Province>(); // Trả về empty list thay vì null
+        //}
         public async Task<List<District>> District(LocationRequestModel request)
         {
             try
