@@ -6,7 +6,7 @@
     
 }
 <style>
-    .list-category1 .active {
+    .list-category .active {
         border: #773efa 1px solid;
     }
 </style>
@@ -60,30 +60,32 @@
             </ul>
         </div>
 
+         @if (Model.Any()) 
+         { 
+        
+            @* var now = DateTime.UtcNow; // Lấy thời gian hiện tại (UTC) *@
+            @* var validFlashSales = Model.Where(f => f.fromdate <= now && f.todate >= now).ToList(); // Lọc tất cả Flash Sale hợp lệ *@
+            @* var firstValidFlashSale = validFlashSales.FirstOrDefault(); // Lấy Flash Sale hợp lệ đầu tiên *@
 
-        @if (Model.Any())
-        {
-            var now = DateTime.UtcNow; // Lấy thời gian hiện tại (UTC)
-            var validFlashSales = Model.Where(f => f.fromdate <= now && f.todate >= now).ToList(); // Lọc tất cả Flash Sale hợp lệ
-            var firstValidFlashSale = validFlashSales.FirstOrDefault(); // Lấy Flash Sale hợp lệ đầu tiên
-           
-            <div class="flex items-center gap-2 justify-center">
-                <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
-                <img src="/assets/images/flashsale-p.png" alt="" />
-                <span class="md:block hidden font-normal">Kết thúc trong</span>
+        <div class="flex items-center gap-2 justify-center mb-3">
+            <img src="assets/images/flash-sale.png" alt="" />
+            <div class="flex items-center gap-4 justify-center md:ml-40">
+                <span class="md:block hidden font-bold uppercase">Kết thúc trong</span>
                 <div id="countdown" class="flex gap-1 font-bold text-white">
-                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span> <span class="text-[#FF4169]">:</span>
-                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span> <span class="text-[#FF4169]">:</span>
+                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span> <span class="text-[#FF4169]"> :</span>
+                    <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span> <span class="text-[#FF4169]">
+                        :
+                    </span>
                     <span class="bg-[#FF4169] px-2 py-1 rounded" id="seconds">00</span>
                 </div>
-                <div class="h-[1px] bg-[#773EFA] w-[100px]"></div>
             </div>
+        </div>
 
-            <div class="flashsale-box my-3 md:rounded-3xl rounded-xl bg-[#FF4169]">
-               
-                <img class=" md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl"
+            
+
+        <img class=" md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl"
                      src="~/assets/images/banner-flashsale.jpg" alt="" />
-            </div>
+           
             <!-- List sản phẩm 5 cột -->
             <div class="list-topic grid lg:grid-cols-6 md:grid-cols-3 grid-cols-2 gap-3 mt-6">
                 <a href=""
@@ -108,7 +110,7 @@
                 @* </a> *@
                
             </div>
-            <div class=" list-category1  grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-3 mt-6">
+            <div class=" list-category ">
                 @await Component.InvokeAsync("MenuFlashSale", new { menuType = "groupflash_menu" })
                 @* <a href="" class="p-2 text-center bg-white w-full rounded-3xl border border-gray-200 active"> *@
                 @*     Dụng cụ massge *@
@@ -138,12 +140,12 @@
                  </div> 
              }
 
-
+    }
 
 
 
            
-        }
+        
 
 
         <!-- Sản phẩm theo Nhà cung cấp -->

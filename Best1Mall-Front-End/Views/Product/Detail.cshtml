@@ -60,10 +60,10 @@
                             <div class="thumb-small swiper  mb-6">
                                 <div class="swiper-wrapper">
                                     <!-- Thumbnail Images -->
-                                    <div class="swiper-slide w-20 h-20 small">
-                                         <img src="/assets/images/product1.jpg" alt="" 
-                                              class="w-full h-full object-contain border border-gray-300 rounded-md" /> 
-                                    </div>
+                                    @* <div class="swiper-slide w-20 h-20 small"> *@
+                                    @*      <img src="/assets/images/product1.jpg" alt=""  *@
+                                    @*           class="w-full h-full object-contain border border-gray-300 rounded-md" />  *@
+                                    @* </div> *@
 
                                 </div>
                             </div>
@@ -142,7 +142,7 @@
                         <div class="section-label mb-2 hidden"></div>
 
 
-                        <h1 class="md:text-2xl text-xl font-normal mb-4 name-product">
+                        <h1 class="title-product md:text-2xl text-xl font-normal mb-4 name-product">
                             @* Viên Uống Healthy Care Glucosamine HCL 1500mg, *@
                             @* Hộp *@
                             @* 400 Viên *@
@@ -223,7 +223,12 @@
                                                 @*     Giấy ĐKKD, Lịch sử thương *@
                                                 @*     hiệu *@
                                                 @* </p> *@
-
+                                                <svg class="chevron-icon w-4 h-4 transition-transform duration-300 transform"
+                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                     viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                          d="M9 5l7 7-7 7" />
+                                                </svg>
                                             </div>
                                             <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide " id="cert-root-product">
                                                 @* <p class="text-color-base">Giấy đăng ký kinh doanh</p> *@
@@ -293,11 +298,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2 justify-between mb-3 flash-sale-box" style="display: none;">
+                        <div class="flex items-center gap-2 justify-between my-5 flash-sale-box" style="display: none;">
                             <img src="/assets/images/flash-sale.png" alt="" />
-                            <div class="flex items-center gap-2">
-                                <span class="md:block hidden font-normal uppercase">Kết thúc trong</span>
-                                <div id="countdown" class="flex gap-1 font-bold text-white">
+                            <div class="flex items-center gap-6">
+                                <span class="md:block hidden font-bold uppercase">Kết thúc trong</span>
+                                <div id="countdown" class="flex gap-3 font-bold text-white">
                                     <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span>
                                     <span class="text-[#FF4169]">:</span>
                                     <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span>
@@ -307,8 +312,8 @@
                             </div>
                         </div>
 
-                        <div class="box-price">
-                            <div class="rounded-2xl bg-blue-50 p-4 md:px-6 mb-4 price">
+                        <div class="box-price price-detail">
+                            <div class=" price">
                                
                             </div>
                         </div>
@@ -506,21 +511,21 @@
                         <div class="relative">
                             <!-- Tabs Sticky -->
                             <div id="tabs"
-                                 class="sticky top-0 z-50 bg-white px-4 border-b border-gray-100 pt-2 md:rounded-tl-xl md:rounded-tr-xl rounded-tl-xl rounded-tr-xl  mb-2">
+                                 class="sticky top-0 z-50 bg-white">
                                 <div class="flex md:justify-between gap-3 overflow-x-auto whitespace-nowrap">
-                                    <button class="w-full text-center tab-link  font-normal border-b-2 border-transparent text-gray-600 px-3 py-2 focus:outline-none text-color-base border-blue-500 mo-ta "
+                                    <button class="tab-link active  mo-ta "
                                             data-target="#mo-ta">
                                         Mô tả sản phẩm
                                     </button>
-                                    <button class="w-full text-center tab-link  font-normal border-b-2 border-transparent text-gray-600 px-3 py-2 thanh-phan"
+                                    <button class="tab-link thanh-phan"
                                             data-target="#thanh-phan">
                                         Thành phần
                                     </button>
-                                    <button class="w-full text-center tab-link  font-normal border-b-2 border-transparent text-gray-600 px-3 py-2 cong-dung"
+                                    <button class="tab-link cong-dung"
                                             data-target="#cong-dung">
                                         Công dụng
                                     </button>
-                                    <button class="w-full text-center tab-link  font-normal border-b-2 border-transparent text-gray-600 px-3 py-2 cach-dung"
+                                    <button class="tab-link cach-dung"
                                             data-target="#cach-dung">
                                         Cách dùng
                                     </button>
@@ -559,7 +564,7 @@
                             <h2 class="font-semibold mb-2 uppercase">Đánh giá sản phẩm</h2>
 
                             <!-- Rating Summary + Filters -->
-                            <div class="border flex-wrap md:flex-nowrap border-gray-300 md:rounded-3xl rounded-xl md:p-5 p-3 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div class="box-rating border flex-wrap md:flex-nowrap border-gray-300 md:rounded-3xl rounded-xl md:p-5 p-3 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                                 <div class="flex flex-col justify-center gap-2">
                                     <div class="flex items-center justify-center gap-2 whitespace-nowrap">
                                         <span class="text-3xl font-bold text-red-400 overview__rating-score">4.9</span>
@@ -575,24 +580,34 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex flex-wrap gap-2 text-sm overview__filters">
+                                <div class=" list-filler flex flex-wrap gap-2 text-sm overview__filters">
                                     <button class="border border-red-400 bg-red-100 text-red-400 font-semibold px-3 py-2 rounded cursor-pointer overview__filter active">
                                         TẤT CẢ
                                     </button>
                                     <button id="overview_filter_5" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="5">
-                                        5 sao (<nw class="count">0</nw>)
+                                        5 sao <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                            <path d="M7.59027 1.30172L8.76483 4.93106H12.579C13.3312 4.93106 13.648 5.89441 13.0409 6.34312L9.95265 8.58665L11.1272 12.216C11.3648 12.9418 10.5333 13.5358 9.92623 13.0871L6.838 10.8435L3.74977 13.0871C3.14269 13.5358 2.31123 12.9286 2.54879 12.216L3.72339 8.58665L0.635126 6.34312C0.0280382 5.89441 0.33159 4.93106 1.09705 4.93106H4.91117L6.08573 1.30172C6.32329 0.575858 7.33951 0.575858 7.57706 1.30172H7.59027Z" fill="#BAAFFE" />
+                                        </svg>  (<nw class="count">0</nw>)
                                     </button>
                                     <button id="overview_filter_4" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="4">
-                                        4 sao (<nw class="count">0</nw>)
+                                        4 sao <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                            <path d="M7.59027 1.30172L8.76483 4.93106H12.579C13.3312 4.93106 13.648 5.89441 13.0409 6.34312L9.95265 8.58665L11.1272 12.216C11.3648 12.9418 10.5333 13.5358 9.92623 13.0871L6.838 10.8435L3.74977 13.0871C3.14269 13.5358 2.31123 12.9286 2.54879 12.216L3.72339 8.58665L0.635126 6.34312C0.0280382 5.89441 0.33159 4.93106 1.09705 4.93106H4.91117L6.08573 1.30172C6.32329 0.575858 7.33951 0.575858 7.57706 1.30172H7.59027Z" fill="#BAAFFE" />
+                                        </svg> (<nw class="count">0</nw>)
                                     </button>
                                     <button id="overview_filter_3" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="3">
-                                        3 sao (<nw class="count">0</nw>)
+                                        3 sao <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                            <path d="M7.59027 1.30172L8.76483 4.93106H12.579C13.3312 4.93106 13.648 5.89441 13.0409 6.34312L9.95265 8.58665L11.1272 12.216C11.3648 12.9418 10.5333 13.5358 9.92623 13.0871L6.838 10.8435L3.74977 13.0871C3.14269 13.5358 2.31123 12.9286 2.54879 12.216L3.72339 8.58665L0.635126 6.34312C0.0280382 5.89441 0.33159 4.93106 1.09705 4.93106H4.91117L6.08573 1.30172C6.32329 0.575858 7.33951 0.575858 7.57706 1.30172H7.59027Z" fill="#BAAFFE" />
+                                        </svg> (<nw class="count">0</nw>)
                                     </button>
                                     <button id="overview_filter_2" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="2">
-                                        2 sao (<nw class="count">0</nw>)
+                                        2 sao <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                            <path d="M7.59027 1.30172L8.76483 4.93106H12.579C13.3312 4.93106 13.648 5.89441 13.0409 6.34312L9.95265 8.58665L11.1272 12.216C11.3648 12.9418 10.5333 13.5358 9.92623 13.0871L6.838 10.8435L3.74977 13.0871C3.14269 13.5358 2.31123 12.9286 2.54879 12.216L3.72339 8.58665L0.635126 6.34312C0.0280382 5.89441 0.33159 4.93106 1.09705 4.93106H4.91117L6.08573 1.30172C6.32329 0.575858 7.33951 0.575858 7.57706 1.30172H7.59027Z" fill="#BAAFFE" />
+                                        </svg> (<nw class="count">0</nw>)
                                     </button>
                                     <button id="overview_filter_1" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="1">
-                                        1 sao (<nw class="count">0</nw>)
+                                        1 sao <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                            <path d="M7.59027 1.30172L8.76483 4.93106H12.579C13.3312 4.93106 13.648 5.89441 13.0409 6.34312L9.95265 8.58665L11.1272 12.216C11.3648 12.9418 10.5333 13.5358 9.92623 13.0871L6.838 10.8435L3.74977 13.0871C3.14269 13.5358 2.31123 12.9286 2.54879 12.216L3.72339 8.58665L0.635126 6.34312C0.0280382 5.89441 0.33159 4.93106 1.09705 4.93106H4.91117L6.08573 1.30172C6.32329 0.575858 7.33951 0.575858 7.57706 1.30172H7.59027Z" fill="#BAAFFE" />
+                                        </svg> (<nw class="count">0</nw>)
                                     </button>
                                     <button id="overview_filter_hascomment" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="comment">
                                         Có Bình Luận(<nw class="count">0</nw>)
@@ -641,15 +656,15 @@
                         </div>
 
                     </div>
-                    <div class="space-y-3">
-                        <div class="hidden md:block relative">
-                            <div class="sticky top-0 z-50 md:rounded-3xl rounded-xl bg-white md:p-5 p-3 ">
-                                <h1 class="md:text-2xl text-xl font-normal mb-4 name-product">
+                    <div class="space-y-6">
+                        
+                            <div class="sticky top-0 z-50 md:rounded-3xl rounded-xl bg-white md:p-5 p-3 md:block hidden ">
+                                <h1 class="title-product name-product">
                                     Viên Uống Healthy Care Glucosamine HCL 1500mg,
                                     Hộp 400 Viên
                                 </h1>
-                                <div class="box-price">
-                                    <div class="rounded-2xl bg-blue-50 p-4 md:px-6 mb-4 price">
+                                <div class="box-price price-detail">
+                                    <div class="price">
                                     </div>
                                 </div>
                                 <div class="box-info-details product-sidebar " data-product-type="sidebar">
@@ -716,7 +731,7 @@
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                       
                         <div class="bg-green-100 p-3 md:p-5 rounded-3xl">
                             <h4 class="text-green-400 mb-2">Làm sao để phân biệt hàng có trộn hay không ?</h4>
                             <p class="text-gray-700 text-sm">
@@ -750,18 +765,11 @@
 
         <!-- List Sản phẩm đã xem -->
         <div class="my-6 md:my-10" id="viewed-products-wrapper">
-            <div class="flex justify-between flex-wrap gap-2 mb-3">
-                <h2 class="text-sky-900 font-medium uppercase"><a href="">Sản phẩm đã xem</a> </h2>
-                @* <a href="/san-pham/tat-ca?group_id=1" class="flex items-center gap-2 text-blue-500 text-sm"> *@
-                @*     Xem thêm *@
-                @*     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"> *@
-                @*         <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z" *@
-                @*               fill="#098EF7" /> *@
-                @*     </svg> *@
-                @* </a> *@
+            <div class="tab-xuhuong !mb-0">
+                <h2 class="title">Sản phẩm đã xem</h2>
             </div>
 
-            <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+            
             <!-- Swiper -->
             <div class="relative mt-3">
                 <div class="flash-sale-swiper">
@@ -787,7 +795,7 @@
     </div>
 </section>
 
-@* Vourcher *@
+ @* Vourcher *@
 <div id="voucher-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
     <div class="flex justify-center md:items-center h-full">
         <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto  overflow-y-auto relative">
@@ -811,13 +819,13 @@
                                   fill="#773EFA" />
                         </svg>
                     </span>
-                    @* <input type="text" placeholder="Nhập mã Voucher" *@
-                    @*        class="pl-10 w-full px-4 py-3 border-0 border-gray-200 outline-0"> *@
+                    <input type="text" placeholder="Nhập mã Voucher"
+                            class="pl-10 w-full px-4 py-3 border-0 border-gray-200 outline-0"> 
                 </label>
 
             </div>
             <div class="list-voucher space-y-3">
-                @* ......................... *@
+               
             </div>
            
         </div>
@@ -860,8 +868,8 @@
                     const id = '#' + $(this).attr('id');
 
                     if (scrollPos >= top && scrollPos <= bottom) {
-                        tabLinks.removeClass('text-color-base border-blue-500');
-                        tabLinks.filter('[data-target="' + id + '"]').addClass('text-color-base border-blue-500');
+                        tabLinks.removeClass('active');
+                        tabLinks.filter('[data-target="' + id + '"]').addClass('active');
                     }
                 });
             });
