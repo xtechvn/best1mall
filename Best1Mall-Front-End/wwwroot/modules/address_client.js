@@ -354,7 +354,7 @@ var address_client = {
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
-
+                    
                     html += HTML_CONSTANTS.Global.SelectOption
                         .replaceAll('{value}', item.provinceId)
                         .replaceAll('{name}', item.name)
@@ -391,6 +391,7 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressDistrict, request)
         ).done(function (result) {
+            debugger
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
@@ -431,6 +432,7 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressWard, request)
         ).done(function (result) {
+            debugger
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {

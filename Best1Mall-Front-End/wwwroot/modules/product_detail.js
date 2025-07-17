@@ -476,7 +476,7 @@ var product_detail = {
         const labelUrl = `/thuong-hieu/${labelSlug}?label_id=${label.id}`;
         const html = `
        
-        <h6 class="">Thương hiệu: <a href="${labelUrl}" class="text-color-base">${label.labelCode}</a></h6>
+        <h6 class="cat-detail">Thương hiệu: <a href="${labelUrl}" class="text-color-base">${label.labelCode}</a></h6>
     `;
 
         $('.section-label').html(html).show();
@@ -654,14 +654,13 @@ var product_detail = {
 
         $('.section-details-product .price').html(`
     <div class="flex gap-2 items-center">
-        <div class="text-2xl md:text-3xl text-red-400 font-normal">${priceHtml}</div>
+        <div class="number">${priceHtml}</div>
         ${isFlashSale ? `
-            <div class="text-gray-400"><strike>${global_service.Comma(product.amount)} đ</strike></div>
-            <div class="text-red-400 flex gap-1 items-center">
-                ${product.discount}%
-                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" viewBox="0 0 10 20" fill="none">
-                    <path d="M2.84029 0H8.70628L6.16098 7.41677H9.32153L0.809102 20L3.09313 10.4509H0L2.84029 0Z" fill="#F9CA6B"/>
-                </svg>
+            <div class="color-gray-2"><strike>${global_service.Comma(product.amount)} đ</strike></div>
+            <div class="sale-percent flex gap-1 items-center">
+                -${product.discount}%
+               <img src="/assets/images/Sale.png" alt="decorative icon" width="15" height="25">
+
             </div>` : ''}
     </div>
 `);
@@ -946,15 +945,12 @@ var product_detail = {
                 // ✅ HTML hiển thị giá
                 const htmlPrice = `
                 <div class="flex gap-2 items-center">
-                    <div class="text-2xl md:text-3xl text-red-400 font-normal">${global_service.Comma(displayPrice)}</div>
-                    ${isFlashSale ? `<div class="text-gray-400"><strike>${global_service.Comma(oldPrice)}</strike></div>` : ''}
+                    <div class="number">${global_service.Comma(displayPrice)}</div>
+                    ${isFlashSale ? `<div class="color-gray-2"><strike>${global_service.Comma(oldPrice)}</strike></div>` : ''}
                     ${isFlashSale ? `
-                        <div class="text-red-400 flex gap-1 items-center">
-                            ${discountPercent}%
-                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" viewBox="0 0 10 20" fill="none">
-                                <path d="M2.84029 0H8.70628L6.16098 7.41677H9.32153L0.809102 20L3.09313 10.4509H0L2.84029 0Z"
-                                      fill="#F9CA6B" />
-                            </svg>
+                        <div class="sale-percent flex gap-1 items-center">
+                            -${discountPercent}%
+                           <img src="/assets/images/Sale.png" alt="decorative icon" width="15" height="25">
                         </div>` : ''}
                 </div>
             `;

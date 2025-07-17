@@ -439,10 +439,7 @@ var HTML_CONSTANTS = {
                             `,
         ThumbnailImages: ` <div class="swiper-slide w-20 h-20 small">
                                          <img src="{src}" alt="" 
-                                              class="w-full h-full object-contain border border-gray-300 rounded-md" style="
-    width: 100px;
-    height: 100px;
-" />
+                                              class="w-full h-full object-contain border border-gray-300 rounded-md"/>
                                     </div> `,
         ThumbnailVideos: `<div class="swiper-slide">
                                 <video>
@@ -464,14 +461,15 @@ var HTML_CONSTANTS = {
             Empty: '<svg width="18" height="19" viewBox="0 0 18 19" fill="#E0E0E0" xmlns="http://www.w3.org/2000/svg"><path d="M18 7.83382C18 8.00017 17.9063 8.18165 17.7188 8.37825L13.7921 12.3934L14.7224 18.0644C14.7296 18.1174 14.7332 18.193 14.7332 18.2913C14.7332 18.4501 14.6935 18.5824 14.6142 18.6883C14.5421 18.8017 14.4339 18.8584 14.2897 18.8584C14.1526 18.8584 14.0084 18.813 13.857 18.7223L9 16.0455L4.14303 18.7223C3.98437 18.813 3.84014 18.8584 3.71034 18.8584C3.55889 18.8584 3.44351 18.8017 3.36418 18.6883C3.29207 18.5824 3.25601 18.4501 3.25601 18.2913C3.25601 18.2459 3.26322 18.1703 3.27764 18.0644L4.20793 12.3934L0.270434 8.37825C0.090145 8.17409 0 7.99261 0 7.83382C0 7.55405 0.201923 7.38014 0.605769 7.31208L6.03606 6.48411L8.46995 1.32343C8.60697 1.01341 8.78365 0.858398 9 0.858398C9.21635 0.858398 9.39303 1.01341 9.53005 1.32343L11.9639 6.48411L17.3942 7.31208C17.7981 7.38014 18 7.55405 18 7.83382Z"/></svg>'
         },
         Tr_Voucher: `  <tr>
-                                        <td class="text-slate-500">Mã giảm giá:</td>
+                                        <td>Mã giảm giá:</td>
                                         <td>
-                                            <span class="flex gap-2 items-center">
-                                                <span class="rounded bg-red-100 text-red-400 px-2 text-sm cursor-pointer vorcher-pop" data-id="#voucher-popup">
-                                                    Giảm: 50,000 ₫
+                                            <span class="flex gap-2 items-center flex-wrap">
+                                            <div class="relative inline-block group">
+                                                <span class="rounded-3xl bg-red-100 text-red-400 px-2 text-sm cursor-pointer vorcher-pop" data-id="#voucher-popup">
+                                                   50,000 ₫ giảm
                                                     
                                                 </span>
-                                                
+                                                </div>
                                             </span>
                                         </td>
                                     </tr>`,
@@ -482,19 +480,19 @@ var HTML_CONSTANTS = {
                             </tr>`,
         Tr_Combo_Td_span: ` <span class="combo" data-id="{id}">{name}</span>`,
         Tr_Shipping: `  <tr>
-                               <td class="text-slate-500">Vận chuyển:</td>
+                               <td>Vận chuyển:</td>
                                 <td>Miễn phí vận chuyển</td>
                                     </tr>`,
         Tr_policy: `
             <tr>
-                  <td class="text-slate-500">Chính sách đổi trả:</td>
+                  <td>Chính sách đổi trả:</td>
               <td>Đổi trả trong vòng 3 ngày</td>
              </tr>
         `,
 
        
         Tr_Attributes: `<tr class="attributes" data-level="{level}">
-                    <td class="text-slate-500">Phân loại:</td>
+                    <td>Phân loại:</td>
                     <td>
                         <span class="flex flex-wrap gap-2 items-center box-tag">
                             {li}
@@ -509,7 +507,7 @@ var HTML_CONSTANTS = {
         `,
         
         Tr_Quanity: `<tr class="box-detail-stock">
-    <td class="text-slate-500">Số lượng:</td>
+    <td>Số lượng:</td>
     <td>
         <span class="flex gap-2 items-center">
             <div class="flex items-center number-input">

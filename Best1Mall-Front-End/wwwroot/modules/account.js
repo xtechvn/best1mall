@@ -65,7 +65,7 @@ var account = {
 
         }
         $("body").on('click', "#change-password-confirm", function () {
-            debugger
+            
            
             $('#forgot-password-change .content .err-form').hide();
             let isValid = true;
@@ -106,7 +106,7 @@ var account = {
             $.when(
                 global_service.POST(API_URL.ChangePassword, request)
             ).done(function (res) {
-                debugger
+                
                 if (res.is_success === true) {
                     Swal.fire({
                         icon: 'success',

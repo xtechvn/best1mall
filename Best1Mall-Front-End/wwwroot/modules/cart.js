@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     cart.Initialization()
-    debugger
+    
     // 🔁 Reload lại trang nếu người dùng quay lại bằng Back/Forward
     window.addEventListener('pageshow', function (event) {
         if (event.persisted || window.performance.navigation.type === 2) {
@@ -835,7 +835,7 @@ var cart = {
                 ).done(function (result) {
                     
                     if (result.is_success && result.data != undefined) {
-                        debugger
+                        
                         request.result = result.data
                         sessionStorage.setItem(STORAGE_NAME.Order, JSON.stringify(request))
                         sessionStorage.removeItem(STORAGE_NAME.CartCount)
