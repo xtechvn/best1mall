@@ -259,6 +259,7 @@ var address_client = {
         return data.address + '<br /> ' + address_select
     },
     CreateOrUpdateAddress: function (id) {
+       
         
         //var overlay_box = false
         //if ($('#address-book').hasClass('overlay')) {
@@ -302,7 +303,7 @@ var address_client = {
                 $.when(
                     global_service.POST(API_URL.AddressDetail, request)
                 ).done(function (result) {
-                    
+                   
                     if (result.is_success) {
                         $('#update-address .err').hide()
                         var item = result.data
@@ -342,7 +343,7 @@ var address_client = {
         $('#update-address .err').hide();
     },
     RenderProvinces: function (selected_value = undefined) {
-        
+       
         var request = {
             "id": '-1'
         }
@@ -350,13 +351,13 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressProvince, request)
         ).done(function (result) {
-            debugger
+           
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
                     
                     html += HTML_CONSTANTS.Global.SelectOption
-                        .replaceAll('{value}', item.provinceId)
+                        .replaceAll('{value}', item.id.toString())
                         .replaceAll('{name}', item.name)
 
                 });
@@ -391,13 +392,13 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressDistrict, request)
         ).done(function (result) {
-            debugger
+           
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
 
                     html += HTML_CONSTANTS.Global.SelectOption
-                        .replaceAll('{value}', item.districtId)
+                        .replaceAll('{value}', item.id.toString())
                         .replaceAll('{name}', item.name)
 
                 });
@@ -432,13 +433,13 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressWard, request)
         ).done(function (result) {
-            debugger
+           
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
 
                     html += HTML_CONSTANTS.Global.SelectOption
-                        .replaceAll('{value}', item.wardId)
+                        .replaceAll('{value}', item.id.toString())
                         .replaceAll('{name}', item.name)
 
                 });
@@ -494,7 +495,7 @@ var address_client = {
             "Status": 0,
             "IsActive": $('#IsActive').is(":checked") ? true : false
         };
-        debugger
+       
         // 4. Gửi request đến BE
         var result = global_service.POSTSynchorus(API_URL.UpdateAddress, request);
         if (result.is_success) {
