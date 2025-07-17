@@ -108,6 +108,8 @@ var account = {
             ).done(function (res) {
                 
                 if (res.is_success === true) {
+                    // ✅ Xoá UUID sau khi đổi mật khẩu thành công
+                    localStorage.removeItem("change_password_uuid");
                     Swal.fire({
                         icon: 'success',
                         title: 'Thành công 🎉',
