@@ -452,9 +452,11 @@ var product_detail = {
 
             total_stock = product_sub.reduce((n, { amount }) => n + amount, 0);
         }
+        
 
        
         htmlMain += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock));
+        htmlMain += HTML_CONSTANTS.Detail.Tr_Submit;
 
         htmlSidebar += HTML_CONSTANTS.Detail.Tr_Quanity.replaceAll('{stock}', global_service.Comma(total_stock));
 
