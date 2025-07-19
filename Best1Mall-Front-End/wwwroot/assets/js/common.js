@@ -80,17 +80,28 @@ $(document).ready(function() {
         });
     });
 });
-  // popup
 $(document).ready(function () {
     $('.toggle').on('click', function () {
         const $panel = $(this).next('.panel');
-        $('.panel').not($panel).slideUp(); // Đóng các panel khác
-        $panel.stop(true, true).slideToggle(); // Mở/đóng panel hiện tại
+        const $arrow = $(this).find('.arrow');
+
+        // Đóng tất cả panel khác + reset mũi tên
+        $('.panel').not($panel).slideUp();
+        $('.arrow').not($arrow).removeClass('open');
+
+        // Mở/đóng panel hiện tại, KHÔNG truyền tốc độ => dùng mặc định (400ms)
+        $panel.stop(true, true).slideToggle(function () {
+            const isVisible = $panel.is(':visible');
+            $arrow.toggleClass('open', isVisible);
+        });
     });
+
     $('.list-tab-menu .sub-menu').on('click', function () {
         $(this).toggleClass('active');
     });
 });
+
+
 
 // js tài khoản
 $(document).ready(function () {

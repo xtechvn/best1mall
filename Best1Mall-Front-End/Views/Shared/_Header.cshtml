@@ -203,22 +203,23 @@
             <!-- Search -->
             <div class="flex-1 w-full max-w-4xl relative md:order-1 order-3 mt-3 md:mt-0 form-search">
                 @await Component.InvokeAsync("Search")
+                @await Component.InvokeAsync("MenuNews", new { menuType = "headertrend_menu" })
 
-                <ul class="md:flex hidden overflow-ellipsis gap-3 items-center mt-2" style="
-                    justify-content: space-around;
-                ">
-                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Canxi</a></li>
-                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Kẽm</a></li>
-                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Lợi khuẩn</a></li>
-                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Rối loạn tiêu hoá</a></li>
-                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Tiêu chảy</a></li>
-                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Colon</a></li>
-                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Bifido</a></li>
-                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Omexxel</a></li>
-                    <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Antibio</a></li>
+                @* <ul class="md:flex hidden overflow-ellipsis gap-3 items-center mt-2" style=" *@
+                @*     justify-content: space-around; *@
+                @* "> *@
+                @*     <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Canxi</a></li> *@
+                @*     <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Kẽm</a></li> *@
+                @*     <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Lợi khuẩn</a></li> *@
+                @*     <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Rối loạn tiêu hoá</a></li> *@
+                @*     <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Tiêu chảy</a></li> *@
+                @*     <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Colon</a></li> *@
+                @*     <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Bifido</a></li> *@
+                @*     <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Omexxel</a></li> *@
+                @*     <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">Antibio</a></li> *@
 
 
-                </ul>
+                @* </ul> *@
 
 
 

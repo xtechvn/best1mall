@@ -58,11 +58,6 @@
         string badgeImg = BadgeHelper.GetBadgeImageByType(product.badge_type);
 
         <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14" data-index="@index">
-            <!-- ✅ badge image -->
-            @if (!string.IsNullOrEmpty(badgeImg))
-            {
-                <img class="tag-banchay" src="@badgeImg" alt="badge" />
-            }
             <a href="@seoUrl"
                onclick="global_service.saveViewedProduct(
        '@product._id',
@@ -74,6 +69,12 @@
        @(product.amount),
        @(product.discountvalue ?? 0),
        @(product.badge_type ?? -1))">
+            <!-- ✅ badge image -->
+            @if (!string.IsNullOrEmpty(badgeImg))
+            {
+                <img class="tag-banchay" src="@badgeImg" alt="badge" />
+            }
+          
 
                
                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
