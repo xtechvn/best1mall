@@ -193,9 +193,9 @@
 
         const template = `
 <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
-        {badge_img}
-    <a href="{url}">
        
+    <a href="{url}">
+        {badge_img}
         <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
             <img src="{avt}" alt="{name}" class="absolute inset-0 w-full h-full object-cover" />
             <div

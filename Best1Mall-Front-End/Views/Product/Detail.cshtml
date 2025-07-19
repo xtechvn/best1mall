@@ -9,6 +9,19 @@
         border-color: var(--color-purple-400);
     }
 
+
+    .arrow {
+        display: inline-block;
+        transition: transform 0.3s ease;
+        transform: rotate(0deg); /* Mặc định hướng sang phải */
+    }
+
+        .arrow.open {
+            transform: rotate(90deg); /* Xoay xuống khi mở */
+        }
+
+
+
 </style>
 <!-- SKELETON LOADING -->
 <div class="max-w-[1230px] mx-auto px-[15px]">
@@ -216,19 +229,16 @@
                                     <!-- Accordion Sections -->
                                     <div class="accordion-tab" id="accordion">
                                         <div class="group pb-3">
-                                            <div class="font-medium cursor-pointer toggle text-md">
+                                            <div class="font-medium cursor-pointer toggle text-md flex justify-between items-center">
                                                 @* root_product *@
                                                 THƯƠNG HIỆU GỐC
                                                 @* <p class="text-slate-500 text-base font-light"> *@
                                                 @*     Giấy ĐKKD, Lịch sử thương *@
                                                 @*     hiệu *@
                                                 @* </p> *@
-                                                @* <svg class="chevron-icon w-4 h-4 transition-transform duration-300 transform" *@
-                                                @*      xmlns="http://www.w3.org/2000/svg" fill="none" *@
-                                                @*      viewBox="0 0 24 24" stroke="currentColor"> *@
-                                                @*     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" *@
-                                                @*           d="M9 5l7 7-7 7" /> *@
-                                                @* </svg> *@
+                                                <svg class="arrow w-5 h-5 ml-2 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                                </svg>
                                             </div>
                                             <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide " id="cert-root-product">
                                                 @* <p class="text-color-base">Giấy đăng ký kinh doanh</p> *@
@@ -238,14 +248,16 @@
                                         </div>
 
                                         <div class="group pb-3">
-                                            <div class="font-medium cursor-pointer toggle text-md">
+                                            <div class="font-medium cursor-pointer toggle text-md flex justify-between items-center">
                                                 @* product *@
                                                 HÀNG HÓA
                                                 @* <p class="text-slate-500 text-base font-light"> *@
                                                 @*     Giấy ĐKKD, Lịch sử thương *@
                                                 @*     hiệu *@
                                                 @* </p> *@
-
+                                                <svg class="arrow w-5 h-5 ml-2 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                                </svg>
                                             </div>
                                             <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide" id="cert-product">
                                                 @* <p class="text-color-base">Giấy đăng ký kinh doanh</p> *@
@@ -256,14 +268,16 @@
                                         </div>
 
                                         <div class="group pb-3">
-                                            <div class="font-medium cursor-pointer toggle text-md">
+                                            <div class="font-medium cursor-pointer toggle text-md flex justify-between items-center">
                                                 @* supply *@
                                                 NHÀ PHÂN PHỐI
                                                 @* <p class="text-slate-500 text-base font-light"> *@
                                                 @*     Giấy ĐKKD, Lịch sử thương *@
                                                 @*     hiệu *@
                                                 @* </p> *@
-
+                                                <svg class="arrow w-5 h-5 ml-2 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                                </svg>
                                             </div>
                                             <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide" id="cert-supply">
                                                 @* <p>Giấy đăng ký kinh doanh</p> *@
@@ -273,27 +287,26 @@
                                         </div>
 
                                         <div class="group pb-3">
-                                            <div class="font-medium cursor-pointer toggle text-md">
-                                                <div class="flex gap-2">
-                                                    <div>
-                                                        @* confirm *@
-                                                        XÁC NHẬN
-                                                        @* <p class="text-slate-500 text-base font-light"> *@
-                                                        @*     Giấy ĐKKD, Lịch *@
-                                                        @*     sử *@
-                                                        @*     thương hiệu *@
-                                                        @* </p> *@
-                                                    </div>
-                                                    <img src="/assets/images/dau.png" alt="Giấy xác minh" />
-
+                                            <div class="font-medium cursor-pointer toggle text-md flex justify-between items-center">
+                                                <div class="flex items-center gap-2">
+                                                    <span>XÁC NHẬN</span>
+                                                    @* <img src="/assets/images/dau.png" *@
+                                                    @*      alt="Giấy xác minh" *@
+                                                    @*      class="w-5 h-5 inline-block align-middle ml-1" /> *@
                                                 </div>
+                                                <svg class="arrow w-5 h-5 ml-2 transition-transform duration-300"
+                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                     viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                          d="M9 5l7 7-7 7" />
+                                                </svg>
                                             </div>
-                                            <div class="panel mt-2  hidden max-h-[400px] overflow-y-auto scrollbar-hide" id="cert-confirm">
-                                                @* <p>Giấy đăng ký kinh doanh</p> *@
 
-
+                                            <div class="panel mt-2 hidden max-h-[400px] overflow-y-auto scrollbar-hide" id="cert-confirm">
+                                                @* Nội dung *@
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -316,7 +329,7 @@
                         </div>
 
                         <div class="box-price price-detail">
-                            <div class=" price">
+                            <div class="price">
                                
                             </div>
                         </div>
@@ -819,6 +832,23 @@
 
     <script>
 
+
+                        document.querySelectorAll('.toggle').forEach(toggle => {
+            const arrow = toggle.querySelector('.arrow');
+            const panel = toggle.nextElementSibling;
+
+            toggle.addEventListener('click', () => {
+                setTimeout(() => {
+                    const display = window.getComputedStyle(panel).display;
+                    const isOpen = display !== 'none'; // Nếu panel đang hiện ra
+                    if (arrow) {
+                        arrow.classList.toggle('open', isOpen);
+                    }
+                }, 10);
+            });
+        });
+
+ 
 
 
         // tab mô tả

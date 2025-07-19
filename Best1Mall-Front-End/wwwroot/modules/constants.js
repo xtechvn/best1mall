@@ -106,7 +106,7 @@ var GLOBAL_CONSTANTS = {
         Discount: 19,
         BEAR_COLLECTION:11,
         INTELLECTUAL_DEVELOPMENT: 12,
-        GROUP_PRODUCT: 1
+        GROUP_PRODUCT: 188
     },
     PaymentType: [
         { id: 1, name: 'Thanh toán khi nhận hàng(COD)' },
@@ -156,12 +156,12 @@ var HTML_CONSTANTS = {
 
                          <div class="swiper-slide">
                                         <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
-                                         <!-- tag -->
-                                      
-                                            {badge_img}
+                                        
                                             <!-- Sale badge -->
                                             <a href="{url}">
-                                              
+                                               <!-- tag -->
+
+                                            {badge_img}
 
                                                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                                                     <img src="{avt}" alt="Sản phẩm"
@@ -195,11 +195,11 @@ var HTML_CONSTANTS = {
                                         <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
                                          <!-- tag -->
                                       
-                                            {badge_img}
+                                           
                                             <!-- Sale badge -->
                                             <a href="{url}">
                                               
-
+                                                 {badge_img}
                                                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                                                     <img src="{avt}" alt="Sản phẩm"
                                                          class="absolute inset-0 w-full h-full object-cover" />

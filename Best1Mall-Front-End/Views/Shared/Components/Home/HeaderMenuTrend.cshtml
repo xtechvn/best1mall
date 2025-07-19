@@ -1,0 +1,35 @@
+﻿@using Best1Mall_Front_End.Models;
+@using Best1Mall_Front_End.Utilities;
+@using Best1Mall_Front_End.Models.Products
+@model List<CategoryModel>
+@{
+    ViewData["view_name"] = "headertrend_BestSeller"; // 👈 Chỉ định view riêng
+}
+
+
+@if (Model != null)
+{
+     <ul class="md:flex hidden overflow-ellipsis gap-3 items-center mt-2" style="
+                    justify-content: space-around;
+                        ">
+
+        @foreach (var item in Model)
+        {
+       
+            <li><a href="#" class="search-sample block text-gray-400 hover:text-gray-500">@item.name</a></li>
+           
+
+
+       
+          
+        
+        }
+    </ul>
+
+
+    <div class="category_id" data-categoryid="0" style="display:none;"></div>
+
+}
+
+
+
