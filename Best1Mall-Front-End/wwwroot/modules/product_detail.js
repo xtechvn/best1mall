@@ -507,7 +507,7 @@ var product_detail = {
 
 
     RenderBuyWithProducts: function (buywith) {
-
+        
         const $container = $('.product-buywith-container');
         const $section = $('.buywidth');
         $container.html('');
@@ -582,6 +582,7 @@ var product_detail = {
         $('.section-buywith-products').fadeIn();
 
         // ✅ Xử lý checkbox và tổng tiền sau khi render
+        
         buyTogether.selectedItems = [];
         buyTogether.total = 0;
         const $btnBuy = $('.btn-buy-together');
@@ -1276,7 +1277,7 @@ var buyTogether = {
     updateTotal: function () {
         
         // Lấy giá của sản phẩm chính từ phần tử .price
-        const mainProductPrice = parseInt($('.info-product .box-price .price').text().replace(/[^0-9]/g, '')) || 0; // Lấy giá và loại bỏ ký tự không phải số
+        const mainProductPrice = parseInt($('.info-product .box-price .price .number').text().replace(/[^0-9]/g, '')) || 0; // Lấy giá và loại bỏ ký tự không phải số
 
         // Cộng giá sản phẩm chính vào tổng
         buyTogether.total = mainProductPrice;
