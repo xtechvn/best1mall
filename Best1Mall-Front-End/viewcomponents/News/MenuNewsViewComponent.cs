@@ -91,10 +91,10 @@ namespace WEB.CMS.ViewComponents
 
             // 👉 Hai menu dùng ID truyền trực tiếp:
             { "trend_menu", ("menu_trend", "120", "~/Views/Shared/Components/Home/MenuTrend.cshtml", true) },
-            { "bestchoice_menu", ("menu_bestchoice", "114", "~/Views/Shared/Components/Home/MenuBestchoice.cshtml", true) }
+            { "bestchoice_menu", ("menu_bestchoice", "114", "~/Views/Shared/Components/Home/MenuBestchoice.cshtml", true) },
             // 👉 Hai Banner dùng ID truyền trực tiếp:
-            //{ "banner1_menu", ("menu_banner1", "237", "~/Views/Shared/Components/Home/Banner1.cshtml", true) },
-            //{ "banner2_menu", ("menu_banner2", "238", "~/Views/Shared/Components/Home/Banner2.cshtml", true) }
+            { "banner1_menu", ("menu_banner1", "237", "~/Views/Shared/Components/Home/Banner1.cshtml", true) },
+            { "banner2_menu", ("menu_banner2", "238", "~/Views/Shared/Components/Home/Banner2.cshtml", true) }
         };
 
                 // Check không có trong map
