@@ -87,11 +87,14 @@ namespace WEB.CMS.ViewComponents
             { "news", ("menu_news", "config:category_id", "~/Views/Shared/Components/News/Menu.cshtml", false) },
             { "newsdetail", ("menu_newdetails", "config:category_id", "~/Views/Shared/Components/News/MenuNewDetail.cshtml", false) },
             { "listproduct", ("menu_listproduct", "config:group_id", "~/Views/Shared/Components/Product/MenuListProduct.cshtml", false) },
-            { "header_menu", ("menu_header", "config:group_id", "~/Views/Shared/Components/Home/MenuHeader.cshtml", false) },
+            { "header_menu", ("menu_header", "188", "~/Views/Shared/Components/Home/MenuHeader.cshtml", true) },
 
             // 👉 Hai menu dùng ID truyền trực tiếp:
             { "trend_menu", ("menu_trend", "120", "~/Views/Shared/Components/Home/MenuTrend.cshtml", true) },
             { "bestchoice_menu", ("menu_bestchoice", "114", "~/Views/Shared/Components/Home/MenuBestchoice.cshtml", true) }
+            // 👉 Hai Banner dùng ID truyền trực tiếp:
+            //{ "banner1_menu", ("menu_banner1", "237", "~/Views/Shared/Components/Home/Banner1.cshtml", true) },
+            //{ "banner2_menu", ("menu_banner2", "238", "~/Views/Shared/Components/Home/Banner2.cshtml", true) }
         };
 
                 // Check không có trong map
