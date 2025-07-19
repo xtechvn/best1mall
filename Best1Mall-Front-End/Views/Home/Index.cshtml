@@ -373,46 +373,29 @@
             </div>
             <!-- Banner quảng cáo 1 -->
             <div class="my-6 md:my-10">
-                <div class="grid md:grid-cols-2 gap-2">
-                    <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                        <img src="assets/images/img.jpg" alt="Banner 1" class="w-full h-full object-cover" />
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                            <img src="assets/images/img.jpg" alt="Banner 1" class="w-full h-full object-cover" />
-                        </div>
-                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                            <img src="assets/images/img.jpg" alt="Banner 1" class="w-full h-full object-cover" />
-                        </div>
-                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                            <img src="assets/images/img.jpg" alt="Banner 1" class="w-full h-full object-cover" />
-                        </div>
-                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                            <img src="assets/images/img.jpg" alt="Banner 1" class="w-full h-full object-cover" />
-                        </div>
-                    </div>
-                </div>
+               
+                @await Component.InvokeAsync("MenuNews", new { menuType = "banner1_menu" })
             </div>
 
             
             <!-- Banner quảng cáo2 -->
             <div class="my-6 md:my-10">
 
-                <div class="md:rounded-3xl rounded-xl overflow-hidden col-span-3">
-                    <img src="assets/images/banner_fake.jpg" alt="Banner 1" class="w-full shadow" />
-                </div>
-                <div class="flex md:justify-between gap-2 overflow-x-auto scrollbar-hide md:grid grid-cols-3 pb-2 mt-2">
-                    <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full">
-                        <img src="assets/images/fake_small.jpg" alt="Banner 1" class="w-full shadow" />
-                    </div>
-                    <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full">
-                        <img src="assets/images/fake_small.jpg" alt="Banner 1" class="w-full shadow" />
-                    </div>
-                    <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full">
-                        <img src="assets/images/fake_small.jpg" alt="Banner 1" class="w-full shadow" />
-                    </div>
-                </div>
-                @* @await Component.InvokeAsync("MenuNews", new { menuType = "banner2_menu" }) *@
+                @* <div class="md:rounded-3xl rounded-xl overflow-hidden col-span-3"> *@
+                @*     <img src="assets/images/banner_fake.jpg" alt="Banner 1" class="w-full shadow" /> *@
+                @* </div> *@
+                @* <div class="flex md:justify-between gap-2 overflow-x-auto scrollbar-hide md:grid grid-cols-3 pb-2 mt-2"> *@
+                @*     <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full"> *@
+                @*         <img src="assets/images/fake_small.jpg" alt="Banner 1" class="w-full shadow" /> *@
+                @*     </div> *@
+                @*     <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full"> *@
+                @*         <img src="assets/images/fake_small.jpg" alt="Banner 1" class="w-full shadow" /> *@
+                @*     </div> *@
+                @*     <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full"> *@
+                @*         <img src="assets/images/fake_small.jpg" alt="Banner 1" class="w-full shadow" /> *@
+                @*     </div> *@
+                @* </div> *@
+                @await Component.InvokeAsync("MenuNews", new { menuType = "banner2_menu" })
             </div>
             <!-- Sản phẩm theo đối tượng -->
             @* <div class="my-6 md:my-10"> *@
