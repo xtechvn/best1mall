@@ -67,11 +67,11 @@
             @* var validFlashSales = Model.Where(f => f.fromdate <= now && f.todate >= now).ToList(); // Lọc tất cả Flash Sale hợp lệ *@
             @* var firstValidFlashSale = validFlashSales.FirstOrDefault(); // Lấy Flash Sale hợp lệ đầu tiên *@
 
-        <div class="flex items-center gap-2 justify-center mb-3">
-            <img src="assets/images/flash-sale.png" alt="" />
-            <div class="flex items-center gap-4 justify-center md:ml-40">
-                <span class="md:block hidden font-bold uppercase">Kết thúc trong</span>
-                
+            <div class="flex items-center gap-2 justify-center mb-3">
+                <img src="assets/images/flash-sale.png" alt="" />
+                <div class="flex items-center gap-4 justify-center md:ml-40 pb-[12px]">
+                    <span class="md:block hidden font-black uppercase">Kết thúc trong</span>
+
                     <div id="countdown" class="flex gap-1 font-bold text-white">
                         <span class="bg-[#FF4169] px-2 py-1 rounded" id="days">00</span>
                         <span class="text-[#FF4169]">:</span>
@@ -81,8 +81,8 @@
                         <span class="text-[#FF4169]">:</span>
                         <span class="bg-[#FF4169] px-2 py-1 rounded" id="seconds">00</span>
                     </div>
+                </div>
             </div>
-        </div>
 
             
 
