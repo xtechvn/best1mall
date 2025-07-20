@@ -109,6 +109,7 @@ var global_service = {
 
     DynamicBind: function () {
         $("body").on('click', ".all-pop", function (event) {
+            
             // Đảm bảo thông báo lỗi được ẩn khi người dùng chọn voucher
             $('#voucher-popup .voucher-error').remove();  // Xóa thông báo lỗi cũ nếu có
             var cartId
@@ -134,6 +135,44 @@ var global_service = {
                     address_client.RenderExistsAddress(data, $('#address-receivername').attr('data-id'));
                 }
             }
+            // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
+            // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
+            if (box_id === "#hinhthucgiaohang") {
+                cart.LoadShippingFee();
+
+                // 🔄 Đồng bộ option đang hiển thị
+                var currentText = $('#delivery-shippingtype .select-delivery .tt').text().trim();
+
+                $('#hinhthucgiaohang .shipping-option').each(function () {
+                    var li = $(this);
+                    var name = li.find('.name').text().trim();
+
+                    if (name === currentText) {
+                        // Reset tất cả option
+                        $('#hinhthucgiaohang .shipping-option').removeClass('active active-delivery bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]');
+
+                        // Gán lại cho cái đang dùng
+                        li.addClass('active active-delivery bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]');
+
+                        // Mở đúng panel
+                        $('.group.item .answer').hide();
+                        $('.group.item .title').removeClass('active');
+                        li.closest('.item').find('.title').addClass('active');
+                        li.closest('.item').find('.answer').show();
+                    }
+                });
+
+                // Kiểm tra nếu không có lựa chọn nào khả dụng, chuyển sang giao hàng tại cửa hàng
+                if ($('#hinhthucgiaohang .shipping-option.active-delivery').length === 0) {
+                    // Đặt mặc định về 'Lấy tại cửa hàng'
+                    var defaultLi = $('#hinhthucgiaohang .item[data-carrier-id="1"] .shipping-option').first();
+                    defaultLi.addClass('active-delivery active bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]');
+                    $('#hinhthucgiaohang .item[data-carrier-id="1"] .title').addClass('active');
+                    $('#hinhthucgiaohang .item[data-carrier-id="1"] .answer').show();
+                    $('#delivery-shippingtype .select-delivery .tt').text(defaultLi.find('.name').text());
+                }
+            }
+
         });
         $("body").on('click', ".client-login", function (event) {
             
@@ -1033,10 +1072,10 @@ var global_service = {
             <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
             <!-- tag -->
             <!-- tag -->
-                ${p.badge_img || ''}
+               
 
                 <a href="${p.url}">
-                   
+                    ${p.badge_img || ''}
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                         <img src="${p.img_src}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover" />
                          <div
