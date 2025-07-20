@@ -160,5 +160,24 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return null;
 
         }
+        public async Task<List<VTPServiceListingResponseModel>> GetVTPServiceListing(VTPServiceListingRequestModel request)
+        {
+            try
+            {
+                var result = await POST("/api/shipping/viettelpost/listing", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+                if (status == 0)
+                {
+                    return JsonConvert.DeserializeObject<List<VTPServiceListingResponseModel>>(jsonData["data"].ToString());
+                }
+            }
+            catch
+            {
+                // Ghi log nếu cần
+            }
+            return null;
+        }
+
     }
 }

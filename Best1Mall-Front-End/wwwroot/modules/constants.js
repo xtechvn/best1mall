@@ -71,8 +71,8 @@ var API_URL = {
     SendChangePassword: '/Client/SendChangePassword',
     ValidateChangePasswordToken:'/Client/ValidateChangePasswordToken',
     ProductSearchListingPaging: '/Product/SearchListingPaging',
-    CartGetShippingFee: '/Cart/GetShippingFee',
-    //CartGetShippingFee: '/Cart/GetVTPServiceListing',
+    //CartGetShippingFee: '/Cart/GetShippingFee',
+    CartGetShippingFee: '/Cart/GetVTPServiceListing',
     ProfileList: '/Client/ProfileList',
     UpdateProfile: '/Client/UpdateProfile',
 

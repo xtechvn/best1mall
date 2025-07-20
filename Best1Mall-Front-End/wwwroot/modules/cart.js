@@ -12,6 +12,7 @@
 
 })
 var appliedVoucher = null; // Lưu voucher đang áp dụng (nếu có)
+var activeShippingStyleClass = 'bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]';
 var cart = {
 
     Data: {
@@ -45,12 +46,46 @@ var cart = {
             element.addClass('active')
             element.addClass('active-delivery')
         });
+        // Gắn sự kiện chọn shipping option
+        // Gắn sự kiện chọn shipping option
+        $(document).on('click', '#hinhthucgiaohang .shipping-option', function () {
+            const selected = $(this);
+
+            // Kiểm tra xem có phải tùy chọn bị disable không
+            if (selected.hasClass('disabled')) {
+                return;  // Nếu bị disable, không làm gì
+            }
+
+            // ❌ Xoá class active + màu nền khỏi tất cả các option
+            $('#hinhthucgiaohang .shipping-option').removeClass('active active-delivery bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]');
+
+            // ✅ Gán lại class cho cái được chọn
+            selected.addClass('active active-delivery bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]');
+
+            // ✅ Mở đúng panel
+            $('.group.item .answer').hide();
+            $('.group.item .title').removeClass('active');
+            selected.closest('.item').find('.answer').show();
+            selected.closest('.item').find('.title').addClass('active');
+
+            // ✅ Cập nhật giao diện bên ngoài
+            cart.RenderSelectionDelivery();
+
+            // Lưu lại lựa chọn vào sessionStorage
+            sessionStorage.setItem("selectedShippingOption", selected.attr('data-shipping-type'));
+        });
+
+
+
         $("body").on('click', "#hinhthucgiaohang .btn-save", function () {
-           // $('#hinhthucgiaohang').removeClass('overlay-active')
+            // $('#hinhthucgiaohang').removeClass('overlay-active')
             $('#hinhthucgiaohang').addClass('hidden')
 
             cart.RenderSelectionDelivery()
         });
+
+
+        
         $("body").on('click', "#voucher-popup .btn-back", function () {
            // $('#hinhthucgiaohang').removeClass('overlay-active')
             $('#voucher-popup').addClass('hidden')
@@ -183,7 +218,7 @@ var cart = {
             var element = $(this)
             setTimeout(() => {
                 cart.ChangeCartQuanity(element.closest('.product'))
-                cart.LoadShippingFee()
+                //cart.LoadShippingFee()
                 cart.ReRenderAmount()
 
             }, 1000);
@@ -596,44 +631,61 @@ var cart = {
       
     },
 
-   UpdateDiscountView: function (data) {
-       
-        $('#voucher-popup').addClass('hidden')
-        // Hiển thị phần tử giảm giá sau khi áp dụng voucher thành công
-    $('#discountSection').removeClass('hidden')  // Loại bỏ class 'hidden' để hiện thị
-    // Cập nhật giao diện với thông tin giảm giá
-    $('.total-before-discount').text(global_service.Comma(data.total_order_amount_before) + ' đ');  // Tiền hàng trước khi giảm giá
-    $('.total-discount-amount').text('-' + global_service.Comma(data.discount) + ' đ');  // Giảm giá
-    $('.total-after-discount').text(global_service.Comma(data.total_order_amount_after) + ' đ');  // Tổng tiền sau khi giảm giá
-},
-    ReRenderAmount: function (loading_shipping = true) {
-        
-        var total_amount_cart = 0
-        var hasPricedItem = false;
-        $('.table-addtocart .product').each(function (index, item) {
-            var element = $(this)
-            var amount = parseFloat(element.attr('data-amount'))
-            var quanity = parseInt(element.find('.quantity').val())
-            var total_amount_product = amount * quanity
-            element.find('.product-line-price, .product-line-price-mobile').html(global_service.Comma(total_amount_product) + ' đ')
+    UpdateDiscountView: function (data) {
+        $('#voucher-popup').addClass('hidden');
+        $('#discountSection').removeClass('hidden');
 
-            if (element.find('.checkbox-cart').is(":checked")) {
-                total_amount_cart += total_amount_product
-                // 👇 Check đúng chuẩn yêu cầu: giá > 0 và số lượng > 0
-                if (amount > 0 && quanity > 0) {
+        // 1. Giá trị ban đầu (trước giảm giá, không có phí ship)
+        $('.total-before-discount').text(global_service.Comma(data.total_order_amount_before) + ' đ');
+
+        // 2. Số tiền giảm
+        $('.total-discount-amount').text('-' + global_service.Comma(data.discount) + ' đ');
+
+        // 3. Tính total after discount + phí vận chuyển
+        const shipping_fee = $('.total-cart .total-shipping-fee .pr').attr('data-price');
+        const shipping_fee_number = parseInt(shipping_fee) || 0;
+
+        const final_amount = data.total_order_amount_after + shipping_fee_number;
+
+        // 4. Hiển thị kết quả
+        $('.total-after-discount').text(global_service.Comma(final_amount) + ' đ');
+        $('.total-final-amount .pr').text(global_service.Comma(final_amount) + ' đ');
+
+        // 5. Cập nhật thêm nếu cần gửi đi khi đặt hàng
+        $('.total-final-amount .pr').attr('data-price', final_amount);
+    }
+,
+    ReRenderAmount: function (loading_shipping = true) {
+        let total_product_amount = 0;
+        let hasPricedItem = false;
+
+        $('.table-addtocart .product').each(function () {
+            const el = $(this);
+            const unit_price = parseFloat(el.attr('data-amount'));
+            const quantity = parseInt(el.find('.quantity').val());
+            const line_total = unit_price * quantity;
+
+            el.find('.product-line-price, .product-line-price-mobile').html(global_service.Comma(line_total) + ' đ');
+
+            if (el.find('.checkbox-cart').is(":checked")) {
+                total_product_amount += line_total;
+                if (unit_price > 0 && quantity > 0) {
                     hasPricedItem = true;
                 }
             }
+        });
 
-        })
-        $('.total-amount .pr').html(global_service.Comma(total_amount_cart) + ' đ')
-        var shipping_fee = $('.total-cart .total-shipping-fee .pr').attr('data-price')
-        if (shipping_fee != undefined && shipping_fee.trim() != '') {
-            var shipping_fee_number = parseInt(shipping_fee)
-            if (!isNaN(shipping_fee_number) && shipping_fee_number > 0) total_amount_cart += shipping_fee_number
-        }
-        $('.total-final-amount .pr').html(global_service.Comma(total_amount_cart) + ' đ')
-        // Nếu có voucher đang được áp dụng → gọi lại API ApplyVoucher
+        // Hiển thị tiền hàng (chưa giảm)
+        $('.total-amount .pr').html(global_service.Comma(total_product_amount) + ' đ');
+
+        // Tính phí ship
+        let shipping_fee = $('.total-cart .total-shipping-fee .pr').attr('data-price');
+        let shipping_fee_number = parseInt(shipping_fee) || 0;
+
+        // Tạm thời tổng đơn hàng là tiền hàng + phí ship (nếu chưa có giảm giá)
+        let total_temp = total_product_amount + shipping_fee_number;
+
+        // Nếu có voucher
         if (appliedVoucher !== null) {
             const usr = global_service.CheckLogin();
             const token = usr ? usr.token : '';
@@ -641,23 +693,28 @@ var cart = {
             const request = {
                 voucher_name: appliedVoucher.code,
                 token: token,
-                total_order_amount_before: total_amount_cart
+                total_order_amount_before: total_product_amount // 👈 CHỈ TIỀN HÀNG
             };
 
-            cart.ApplyVoucher(request);
-        }
-        if (total_amount_cart > 0 && hasPricedItem) {
-            if (loading_shipping) {
-                cart.LoadShippingFee()
-            }
-            $('.btn-confirm-cart').removeClass('button-disabled')
-
+            cart.ApplyVoucher(request); // nó sẽ gọi UpdateDiscountView
         } else {
-            $('.btn-confirm-cart').addClass('button-disabled')
-
+            // Nếu chưa có voucher, hiển thị luôn tổng
+            $('.total-final-amount .pr').html(global_service.Comma(total_temp) + ' đ');
         }
-         return total_amount_cart;  // Trả lại tổng giá trị đơn hàng
+
+        // Xử lý nút xác nhận
+        if (total_product_amount > 0 && hasPricedItem) {
+            //if (loading_shipping) {
+            //     cart.LoadShippingFee();
+            //}
+            $('.btn-confirm-cart').removeClass('button-disabled');
+        } else {
+            $('.btn-confirm-cart').addClass('button-disabled');
+        }
+
+        return total_temp;
     },
+
     //RemoveCartItem: function (data_id) {
     //    
     //    $("#lightbox-delete-cart").attr("data-cart-id", data_id).removeClass("hidden");
@@ -791,15 +848,20 @@ var cart = {
             }
             var default_address_json = sessionStorage.getItem(STORAGE_NAME.CartAddress)
             if (default_address_json) {
+                
                 var default_address = JSON.parse(default_address_json)
                 var selected = $('#hinhthucgiaohang .active-delivery').first()
                 var carrier_id = selected.closest('.item').attr('data-carrier-id')
-                var shipping_type = selected.attr('data-shipping-type')
+                var shipping_service_code = selected.attr('data-shipping-type')
+                // Nếu shipping_service_code là 1, truyền giá trị rỗng vào shipping_service_code
+                if (shipping_service_code == "1") {
+                    shipping_service_code = "";  // Đặt giá trị rỗng cho shipping_service_code
+                }
 
                 delivery_detail = {
-                    "from_province_id": 1,
-                    "to_province_id": default_address.provinceid,
-                    "shipping_type": shipping_type,
+                    //"from_province_id": 1,
+                    //"to_province_id": default_address.provinceid,
+                    "shipping_service_code": shipping_service_code,
                     "carrier_id": carrier_id,
                     "carts": []
                 }
@@ -916,123 +978,180 @@ var cart = {
 
         }, 3000);
     },
+
+    // Hàm LoadShippingFee để tính phí giao hàng và xử lý phương thức vận chuyển
     LoadShippingFee: function () {
-        $('#hinhthucgiaohang .item').each(function (index, item) {
-            var element = $(this)
-            var carrier_id = element.attr('data-carrier-id')
-            var default_address = sessionStorage.getItem(STORAGE_NAME.CartAddress)
-            if (default_address) {
-                var data_address = JSON.parse(default_address)
-                element.find('li').each(function (index, item) {
-                    var element_li = $(this)
-                    var shipping_type = element_li.attr('data-shipping-type')
-                    var request = {
-                        "from_province_id": 1,
-                        "to_province_id": data_address.provinceid,
-                        "shipping_type": shipping_type,
-                        "carrier_id": carrier_id,
-                        "carts": []
-                    }
-                    $('.shopping-cart .table-addtocart .product').each(function (index, item) {
-                        var element_cart = $(this)
-                        if (element_cart.find('.checkbox-cart').is(':checked')) {
-                            request.carts.push({
-                                "id": element_cart.attr('data-cart-id'),
-                                "product_id": element_cart.attr('data-product-id'),
-                                "quanity": parseInt(element_cart.find('.number-input').find('.quantity').val())
-                            })
-                        }
+        
+        var default_address = sessionStorage.getItem(STORAGE_NAME.CartAddress);
 
-                    })
-                    var result = global_service.POSTSynchorus(API_URL.CartGetShippingFee, request)
-                    if (result.is_success && result.data != undefined && result.data.total_shipping_fee != undefined && result.data.total_shipping_fee >= 0) {
-                        element_li.find('.price').html(global_service.Comma(result.data.total_shipping_fee) + 'đ')
-                        element_li.attr('data-price', result.data.total_shipping_fee)
-                        element_li.removeClass('disabled')
-                        element_li.css('color', '')
-                        element_li.find('.name').css('color', '')
-                        element_li.find('.des').css('color', '')
+        if (!default_address) {
+            cart.DisableAllShippingOptions();
+            return;
+        }
 
-                    } else {
-                        element_li.attr('data-price', '0')
-                        if (element_li.attr('data-shipping-type') != undefined && element_li.attr('data-shipping-type').trim() == '2') {
-                            element_li.find('.price').html('0 đ')
-                        } else {
-                            element_li.addClass('disabled')
-                            element_li.css('color', 'lightgray')
-                            element_li.find('.name').css('color', 'lightgray')
-                            element_li.find('.des').css('color', 'lightgray')
-                            element_li.find('.price').html('Không khả dụng')
-                        }
-                    }
-                    element_li.find('.price').removeClass('placeholder')
+        var data_address = JSON.parse(default_address);
+        var request = {
+            "receiver_provinces_id": data_address.provinceId,
+            "receiver_district_id": data_address.districtId,
+            "carts": []
+        };
 
-                })
-
-            } else {
-                $('#hinhthucgiaohang .item li').each(function (index, item) {
-                    var element_li = $(this)
-                    element_li.attr('data-price', '0')
-                    if (element_li.attr('data-shipping-type') != undefined && element_li.attr('data-shipping-type').trim() == '2') {
-                        element_li.find('.price').html('0 đ')
-                    } else {
-                        element_li.addClass('disabled')
-                        element_li.css('color', 'lightgray')
-                        element_li.find('.name').css('color', 'lightgray')
-                        element_li.find('.des').css('color', 'lightgray')
-                        element_li.find('.price').html('Không khả dụng')
-                    }
-
-                    element_li.closest('.item').find('h3').removeClass('active')
-                    element_li.closest('.item').find('.answer').hide()
-                })
-
+        $('.shopping-cart .table-addtocart .product').each(function () {
+            var cartEl = $(this);
+            if (cartEl.find('.checkbox-cart').is(':checked')) {
+                request.carts.push({
+                    "_id": cartEl.attr('data-cart-id'),
+                    "quanity": parseInt(cartEl.find('.number-input .quantity').val())
+                });
             }
+        });
 
-        })
-        var activated = false
-        $('#hinhthucgiaohang li').each(function (index, item) {
-            var element_li = $(this)
-            if (!element_li.hasClass('disabled') && !activated) {
-                activated = true
-                element_li.addClass('active-delivery')
-                element_li.addClass('active')
-                element_li.closest('.item').find('h3').addClass('active')
-                element_li.closest('.item').find('.answer').show()
+        var result = global_service.POSTSynchorus(API_URL.CartGetShippingFee, request);
+        if (!result.is_success || !Array.isArray(result.data)) {
+            cart.DisableAllShippingOptions();
+            return;
+        }
+        
 
+        // Lặp từng supplier
+        result.data.forEach(function (supplier) {
+            
+            var panel = $(`#hinhthucgiaohang .item[data-carrier-id="3"]`);
+            var ul = panel.find('ul');
+            ul.empty(); // Xoá li cũ
+
+            supplier.services.forEach(function (service) {
+                var li = $(`
+            <li class="shipping-option" data-shipping-type="${service.service_code}" data-price="${service.total_amount}">
+                <div class="gap-2 flex justify-between items-center px-4 py-2 cursor-pointer hover:bg-gray-50 transition box-select-ship">
+                    <div>
+                        <p class="font-normal name">${service.name}</p>
+                        <p class="text-sm text-gray-500 des">Thời gian: ${service.time}</p>
+                    </div>
+                    <span class="text-[#FF3D71] whitespace-nowrap price">${global_service.Comma(service.total_amount)}đ</span>
+                </div>
+            </li>
+        `);
+                ul.append(li);
+            });
+        });
+
+        // Kiểm tra có sản phẩm nào không
+        var anyProductSelected = $('.shopping-cart .table-addtocart .product .checkbox-cart:checked').length > 0;
+
+        // Nếu không có sản phẩm nào được chọn, chọn lại "Lấy tại cửa hàng"
+        if (!anyProductSelected) {
+            cart.SelectDefaultDeliveryOption();
+            return;
+        }
+
+        // Kiểm tra lựa chọn trước đó trong sessionStorage
+        var selectedShippingOption = sessionStorage.getItem("selectedShippingOption");
+
+        if (selectedShippingOption) {
+            var selectedOption = $(`#hinhthucgiaohang .shipping-option[data-shipping-type="${selectedShippingOption}"]`);
+
+            if (selectedOption.length > 0 && !selectedOption.hasClass('disabled')) {
+                // Nếu có lựa chọn hợp lệ, chọn nó
+                selectedOption.addClass('active-delivery active bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]');
+                selectedOption.closest('.item').find('.title').addClass('active');
+                selectedOption.closest('.item').find('.answer').show();
+                $('#delivery-shippingtype .select-delivery .tt').text(selectedOption.find('.name').text());
             } else {
-                element_li.removeClass('active-delivery')
-                element_li.removeClass('active')
-                element_li.closest('.item').find('h3').removeClass('active')
-                element_li.closest('.item').find('.answer').hide()
+                // Nếu lựa chọn trước đó không còn khả dụng, chuyển về "Lấy tại cửa hàng"
+                cart.SelectDefaultDeliveryOption();
             }
+        } else {
+            // Nếu không có lựa chọn nào trong sessionStorage, chọn "Lấy tại cửa hàng"
+            cart.SelectDefaultDeliveryOption();
+        }
 
-        })
-        cart.RenderSelectionDelivery()
+        // Xử lý việc vô hiệu hóa các tùy chọn không khả dụng
+        $('#hinhthucgiaohang .shipping-option').each(function () {
+            var li = $(this);
+            if (li.hasClass('disabled')) {
+                li.addClass('cursor-not-allowed');
+                li.css('pointer-events', 'none');
+            }
+        });
 
+        cart.RenderSelectionDelivery();
     },
-    RenderSelectionDelivery: function (element) {
-        var selected = $('#hinhthucgiaohang .active-delivery').first()
-        if (selected == undefined || selected.attr('data-shipping-type') == undefined
-            || selected.closest('.item').length <= 0) {
-            $('.total-cart .total-shipping-fee .pr').html(global_service.Comma(0) + ' đ')
-            $('.total-cart .total-shipping-fee .pr').attr('data-price', 0)
-            cart.ReRenderAmount(false)
-            return
-        }
-        if (selected.attr('data-shipping-type').trim() == '2') {
-            $('#delivery-carrier').hide()
-        }
-        else {
-            $('#delivery-carrier').show()
 
-        }
-        $('#delivery-shippingtype .select-delivery .tt').text(selected.find('.name').html())
-        $('#delivery-carrier .select-delivery .tt').text(selected.closest('.item').find('h3').html())
-        var total_price = parseInt(selected.attr('data-price'))
-        $('.total-cart .total-shipping-fee .pr').attr('data-price', total_price)
-        $('.total-cart .total-shipping-fee .pr').html(global_service.Comma(total_price) + ' đ')
-        cart.ReRenderAmount(false)
+    // Chọn lại mặc định "Lấy tại cửa hàng"
+    SelectDefaultDeliveryOption: function () {
+        // Đặt lại mặc định về 'Lấy tại cửa hàng'
+        var defaultLi = $('#hinhthucgiaohang .item[data-carrier-id="1"] .shipping-option').first();
+        defaultLi.addClass('active-delivery active bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]');
+        $('#hinhthucgiaohang .item[data-carrier-id="1"] .title').addClass('active');
+        $('#hinhthucgiaohang .item[data-carrier-id="1"] .answer').show();
+        $('#delivery-shippingtype .select-delivery .tt').text(defaultLi.find('.name').text());
+    },
 
+
+    
+    DisableAllShippingOptions: function () {
+        
+        let availableShipping = false;  // Kiểm tra xem có tùy chọn giao hàng nào khả dụng không
+
+        $('#hinhthucgiaohang .item').each(function () {
+            var el = $(this);
+            el.find('li').each(function () {
+                var li = $(this);
+                li.attr('data-price', '0');
+                if (li.attr('data-shipping-type') === '1') {
+                    li.find('.price').html('0 đ');
+                } else {
+                    li.addClass('disabled');
+                    li.css('color', 'lightgray');
+                    li.find('.name, .des').css('color', 'lightgray');
+                    li.find('.price').html('Không khả dụng');
+                }
+            });
+
+            el.find('.title').removeClass('active');
+            el.find('.answer').hide();
+        });
+
+        // Nếu không có tùy chọn nào khả dụng, chọn mặc định là "Lấy tại cửa hàng"
+        var defaultPanel = $('#hinhthucgiaohang .item[data-carrier-id="1"]');  // Carrier-id = 1 cho "Lấy tại cửa hàng"
+        var defaultLi = defaultPanel.find('li').first();
+        defaultLi.removeClass('disabled');
+        defaultLi.find('.price').html('0 đ');  // Giả sử giao hàng tại cửa hàng miễn phí
+        defaultPanel.find('.title').addClass('active');
+        defaultPanel.find('.answer').show();
+        defaultLi.addClass('active-delivery active');
+
+        cart.RenderSelectionDelivery();
+    },
+
+    // Hàm RenderSelectionDelivery để cập nhật giao diện chọn phương thức vận chuyển
+    RenderSelectionDelivery: function () {
+        
+        var selected = $('#hinhthucgiaohang .active-delivery').first();
+
+        // Kiểm tra lại nếu không có lựa chọn nào được chọn, chọn giao hàng tại cửa hàng
+        if (!selected || selected.attr('data-shipping-type') == undefined || selected.closest('.item').length <= 0 || selected.hasClass('disabled')) {
+            var defaultPanel = $('#hinhthucgiaohang .item[data-carrier-id="1"]');  // Carrier-id = 1 cho "Lấy tại cửa hàng"
+            selected = defaultPanel.find('li').first();
+            selected.addClass('active-delivery active');
+            defaultPanel.find('.title').addClass('active');
+            defaultPanel.find('.answer').show();
+        }
+
+        if (selected.attr('data-shipping-type').trim() == '1') {
+            $('#delivery-carrier').hide();
+        } else {
+            $('#delivery-carrier').show();
+        }
+
+        // Cập nhật giao diện hiển thị lựa chọn giao hàng
+        $('#delivery-shippingtype .select-delivery .tt').text(selected.find('.name').html());
+        $('#delivery-carrier .select-delivery .tt').text(selected.closest('.item').find('h3').html());
+        var total_price = parseInt(selected.attr('data-price'));
+        $('.total-cart .total-shipping-fee .pr').attr('data-price', total_price);
+        $('.total-cart .total-shipping-fee .pr').html(global_service.Comma(total_price) + ' đ');
+        cart.ReRenderAmount(false);
     }
+
 }
