@@ -2178,11 +2178,12 @@ input[type="checkbox"]:checked::after {
 
   .title {
     position: relative;
-    border-radius: 16px;
+    border-radius: 8px;
     background: #65C37E;
     display: inline-block;
     padding: 16px 24px;
     width: 240px;
+    flex-shrink: 0;
     color: #fff;
     text-align: center;
     order: -1;
@@ -2440,14 +2441,16 @@ input[type="checkbox"]:checked::after {
 
 .list-thuonghieu {
   .item {
-    padding: 8px 8px 24px;
-
+    padding: 0px 0 24px;
+    border-radius: 10px;
     .aspect-\[1\/1\] {
       background: #F1F5F9;
+      border-radius: 10px 10px 0 0;
     }
 
     .logo {
-      width: 130px;
+      width: auto;
+      max-width: 90%;
       height: 38px;
       object-fit: contain;
       border: 0;
@@ -2749,6 +2752,159 @@ input[type="checkbox"]:checked::after {
       align-items: center;
       gap: 5px;
       font-size: 13px;
+    }
+  }
+}
+.banner-hotro{
+  position: relative;
+  background: rgba(36, 36, 36, 0.8);
+  border-radius: 16px;
+  margin-bottom:40px;
+  img{
+    border-radius: 16px;
+    min-height: 400px;
+    object-fit: cover;
+    object-position: left;
+     @media (max-width:767px){
+      opacity: 0.8;
+    }
+  }
+  .box-input{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 48px;
+    font-size: 15px;
+    width: 100%;
+    max-width: 715px;
+    @media (max-width:767px){
+      padding: 15px;
+    }
+
+    .title{
+      color: #fff;
+      opacity: 0.8;
+      font-size: 31px;
+      margin-bottom: 24px;
+      line-height: 140%;
+      font-weight: bold;
+      @media (max-width:767px){
+        opacity: 1;
+      }
+    }
+    p{
+      color: #FFF;
+      margin-bottom: 10px;
+      font-weight: 700;
+
+    }
+  }
+}
+.title-page-hotro{
+    color: #58595B;
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 150%;
+    margin-bottom: 24px;
+}
+.banner-hoidap{
+  position: relative;
+  border-radius: 16px;
+  background: #E9DFFE;
+  display: flex;
+  align-items: end;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 40px;
+  .img-hoidap{
+    margin-top: auto;
+    border-radius: 16px;
+  }
+  .box-input{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 48px;
+    display: flex;
+    row-gap: 30px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    @media (max-width:991px){
+      padding: 15px;
+      position: relative;
+      }
+    h3{
+      color: #000;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    label{
+      color: #000;
+      font-size: 18px;
+      font-weight: 400;
+      display: block;
+      margin-bottom: 10px;
+      span{
+        color: #FB5736;
+      }
+    }
+    .input-box{
+      border-radius: 16px;
+      padding: 15px;
+      color: #000;
+      font-size: 18px;
+      font-weight: 400;
+      background: #fff;
+      width: 100%;
+    }
+    .btn{
+      color:  #FFF;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 130%;
+      padding: 10px 24px;
+      display: inline-block;
+      background: #773EFA;
+      margin-left: auto;
+      border-radius: 99px;
+      margin-right: 0;
+    }
+    .ft-hotro{
+      width: 100%;
+      .flex-ft{
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+          @media (max-width:767px){
+            p{
+              width: 100%;
+            }
+          }
+
+      }
+    }
+    .right-box{
+      width: 35%;
+      flex-shrink: 0;
+      color: #6843DD;
+      font-size: 18px;
+      font-weight: 400;
+      p{
+        margin-top: 15px;
+      }
+       @media (max-width:767px){
+       width: 100%;
+      }
+    }
+    .left-box{
+      width: 60%;
+       @media (max-width:767px){
+       width: 100%;
+      }
     }
   }
 }

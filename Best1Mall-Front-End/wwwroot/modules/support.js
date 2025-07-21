@@ -168,7 +168,7 @@ var _support =
 
                 $(".content-policy").html('');
                 if (data.length > 0) {
-                    $(".content-policy").append(`<h2 class="text-lg font-normal mb-4">${urlname}</h2>`);
+                    $(".content-policy").append(`<h2 class="title-page-hotro">${urlname}</h2>`);
                     data.forEach(item => {
                         $(".content-policy").append(`
                         <div class="accordion-ship space-y-3" id="accordion">
