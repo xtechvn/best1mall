@@ -1,0 +1,100 @@
+﻿@using Best1Mall_Front_End.Models;
+@using Best1Mall_Front_End.Utilities;
+@using Best1Mall_Front_End.Models.Products
+@model List<CategoryModel>
+
+@{
+    ViewData["view_name"] = "banner_header"; // 👈 View riêng
+}
+
+@functions {
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/assets/images/no-image.png";
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar;
+        }
+
+        return "https://static-image.adavigo.com" + avatar;
+    }
+}
+
+@if (Model != null )
+{
+    <!-- banner -->
+    <div class="banner my-6">
+        <!-- Swiper Banner -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+            <!-- Swiper Container -->
+            <div class="md:col-span-3 relative">
+                <div class="swiper h-full banner-slide md:rounded-3xl rounded-xl overflow-hidden">
+                    <div class="swiper-wrapper">
+                        <!-- Slide 1: Banner lớn -->
+                        <div class="swiper-slide">
+                            <a href="/tin-tuc">
+                                <img src="assets/images/ImageBig_Home.png" alt="Banner 1" class="w-full h-full object-cover shadow" />
+
+                            </a>
+
+                        </div>
+                        <!-- Slide 2: Banner lớn 2 -->
+                        <div class="swiper-slide">
+                            <a href="/tin-tuc">
+                                <img src="assets/images/ImageBig_Home2.webp" alt="Banner 2" class="w-full h-full object-cover shadow" />
+
+                            </a>
+
+                        </div>
+                        <!-- Slide 3: Banner lớn 3 -->
+                        <div class="swiper-slide">
+                            <a href="/tin-tuc">
+                                <img src="assets/images/ImageBig_Home3.webp" alt="Banner 3" class="w-full h-full object-cover shadow" />
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <!-- Pagination (on top of slide) -->
+                    <div class="swiper-pagination !bottom-0 !text-white"></div>
+
+                    <!-- Navigation buttons -->
+                    <div class="swiper-button-prev bg-white hover:bg-white/80 rounded-full p-2 shadow absolute  z-10">
+                        <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </div>
+                    <div class="swiper-button-next bg-white hover:bg-white/80 rounded-full p-2 shadow absolute z-10">
+                        <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner nhỏ (ẩn trên mobile) -->
+            <div class="hidden md:flex flex-col gap-4">
+                <a href="/tin-tuc">
+                    <img src="assets/images/imagesmall_home.png" alt="Small 1"
+                         class="md:rounded-3xl rounded-xl object-cover w-full h-full" />
+                </a>
+
+                <a href="/tin-tuc">
+                    <img src="assets/images/imagesmall_home2.png" alt="Small 2"
+                         class="md:rounded-3xl rounded-xl object-cover w-full h-full" />
+                </a>
+
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p class="text-gray-500 italic">Không đủ banner để hiển thị lưới (cần ít nhất 5 ảnh).</p>
+}
