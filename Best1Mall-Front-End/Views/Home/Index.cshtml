@@ -38,73 +38,8 @@
     <!-- HOME -->
     <section class="homepage">
         <div class="max-w-[1230px] mx-auto my-4 px-[15px]">
-            <!-- banner -->
-            <div class="banner my-6">
-                <!-- Swiper Banner -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
-                    <!-- Swiper Container -->
-                    <div class="md:col-span-3 relative">
-                        <div class="swiper h-full banner-slide md:rounded-3xl rounded-xl overflow-hidden">
-                            <div class="swiper-wrapper">
-                                <!-- Slide 1: Banner lớn -->
-                                <div class="swiper-slide">
-                                    <a href="/tin-tuc">
-                                        <img src="assets/images/ImageBig_Home.png" alt="Banner 1" class="w-full h-full object-cover shadow" />
-
-                                    </a>
-                                    
-                                </div>
-                                <!-- Slide 2: Banner nhỏ -->
-                                <div class="swiper-slide">
-                                    <a href="/tin-tuc">
-                                        <img src="assets/images/ImageBig_Home2.webp" alt="Banner 2" class="w-full h-full object-cover shadow" />
-
-                                    </a>
-                                   
-                                </div>
-                                <!-- Slide 3: Banner nhỏ -->
-                                <div class="swiper-slide">
-                                    <a href="/tin-tuc">
-                                        <img src="assets/images/ImageBig_Home3.webp" alt="Banner 3" class="w-full h-full object-cover shadow" />
-                                    </a>
-                                    
-                                </div>
-                            </div>
-
-                            <!-- Pagination (on top of slide) -->
-                            <div class="swiper-pagination !bottom-0 !text-white"></div>
-
-                            <!-- Navigation buttons -->
-                            <div class="swiper-button-prev bg-white hover:bg-white/80 rounded-full p-2 shadow absolute  z-10">
-                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </div>
-                            <div class="swiper-button-next bg-white hover:bg-white/80 rounded-full p-2 shadow absolute z-10">
-                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M9 5l7 7-7 7" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Banner nhỏ (ẩn trên mobile) -->
-                    <div class="hidden md:flex flex-col gap-4">
-                        <a href="/tin-tuc">
-                            <img src="assets/images/imagesmall_home.png" alt="Small 1"
-                                 class="md:rounded-3xl rounded-xl object-cover w-full h-full" />
-                        </a>
-                       
-                            <a href="/tin-tuc">
-                            <img src="assets/images/imagesmall_home2.png" alt="Small 2"
-                                 class="md:rounded-3xl rounded-xl object-cover w-full h-full" />
-                        </a>
-                        
-                    </div>
-                </div>
-            </div>
+            @await Component.InvokeAsync("MenuNews", new { menuType = "banner_header" })
+           
             <!--  Tiêu chí -->
             <div class="my-3 md:my-7">
                 @* <img src="assets/images/Banner_h.png" alt=""> *@
@@ -114,7 +49,7 @@
                             <div class="flex items-center justify-center gap-3 w-full">
                                 <img class="w-[80px]" src="assets/images/Frame.png" alt="">
                                 <div>
-                                    <h4 class="font-medium text-xl">Hàng chính hãng</h4>
+                                    <h6 class="font-bold text-[15px]">Hàng chính hãng</h6>
                                     <p>Đảm bảo hàng chính hãng<br />hoặc hoàn tiền gấp 10</p>
                                 </div>
                             </div>
@@ -128,7 +63,7 @@
                             <div class="flex items-center justify-center gap-3 w-full">
                                 <img class="w-[80px]" src="assets/images/Frame-2.png" alt="">
                                 <div>
-                                    <h4 class="font-medium text-xl">Đổi trả</h4>
+                                    <h4 class="font-bold text-[15px]">Đổi trả</h4>
                                     <p>
                                         Đổi trả hàng nếu sản phẩm <br />
                                         không đúng cam kết
@@ -140,7 +75,7 @@
                             <div class="flex items-center justify-center gap-3 w-full">
                                 <img class="w-[80px]" src="assets/images/tien-loi1.png" alt="">
                                 <div>
-                                    <h4 class="font-medium text-xl">Tiện lợi - An toàn</h4>
+                                    <h4 class="font-bold text-[15px]">Tiện lợi - An toàn</h4>
                                     <p>Mua sắm dễ dàng<br />An tâm giao dịch</p>
                                 </div>
                             </div>
@@ -495,55 +430,15 @@
                         <div class="swiper">
                             <div class="swiper-wrapper">
                                 <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Blackmores.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
+                                @await Component.InvokeAsync("MenuNews", new { menuType = "banner_thuonghieu" })
+                                @* <div class="swiper-slide"> *@
+                                @*     <a href=""> *@
+                                @*         <img src="assets/images/Card/Blackmores.png" alt="" *@
+                                @*              class="w-full h-30 object-contain px-3 py-5 bg-white" /> *@
+                                @*     </a> *@
+                                @* </div> *@
 
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Frame 5810.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Frame 5811.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Frame 5812.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Frame 5813.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Frame 5811.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/logo-th.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
+                               
                             </div>
                         </div>
 
@@ -571,7 +466,7 @@
                             <div class="flex items-center justify-center gap-3 w-full">
                                 <img class="w-[80px]" src="assets/images/Frame.png" alt="">
                                 <div>
-                                    <h4 class="font-medium text-xl">Hàng chính hãng</h4>
+                                    <h4 class="font-bold text-[15px]">Hàng chính hãng</h4>
                                     <p>Đảm bảo hàng chính hãng<br />hoặc hoàn tiền gấp 10</p>
                                 </div>
                             </div>
@@ -585,7 +480,7 @@
                             <div class="flex items-center justify-center gap-3 w-full">
                                 <img class="w-[80px]" src="assets/images/Frame-2.png" alt="">
                                 <div>
-                                    <h4 class="font-medium text-xl">Đổi trả</h4>
+                                    <h4 class="font-bold text-[15px]">Đổi trả</h4>
                                     <p>
                                         Đổi trả hàng nếu sản phẩm <br />
                                         không đúng cam kết
@@ -597,7 +492,7 @@
                             <div class="flex items-center justify-center gap-3 w-full">
                                 <img class="w-[80px]" src="assets/images/tien-loi1.png" alt="">
                                 <div>
-                                    <h4 class="font-medium text-xl">Tiện lợi - An toàn</h4>
+                                    <h4 class="font-bold text-[15px]">Tiện lợi - An toàn</h4>
                                     <p>Mua sắm dễ dàng<br />An tâm giao dịch</p>
                                 </div>
                             </div>

@@ -83,10 +83,10 @@ namespace WEB.CMS.ViewComponents
                 // - Những cái truyền số thẳng thì dùng groupId = -1 để xử lý riêng
                 var menuMap = new Dictionary<string, (string cacheKey, string configKeyOrId, string viewPath, bool isDirectId)>
         {
-            { "home", ("menu_home", "config:group_id", "~/Views/Shared/Components/Home/MenuHome.cshtml", false) },
+            { "home", ("menu_home", "188", "~/Views/Shared/Components/Home/MenuHome.cshtml", true) },
             { "news", ("menu_news", "config:category_id", "~/Views/Shared/Components/News/Menu.cshtml", false) },
             { "newsdetail", ("menu_newdetails", "config:category_id", "~/Views/Shared/Components/News/MenuNewDetail.cshtml", false) },
-            { "listproduct", ("menu_listproduct", "config:group_id", "~/Views/Shared/Components/Product/MenuListProduct.cshtml", false) },
+            { "listproduct", ("menu_listproduct", "188", "~/Views/Shared/Components/Product/MenuListProduct.cshtml", true) },
             { "header_menu", ("menu_header", "188", "~/Views/Shared/Components/Home/MenuHeader.cshtml", true) },
 
             // 👉 Hai menu dùng ID truyền trực tiếp:
@@ -95,7 +95,9 @@ namespace WEB.CMS.ViewComponents
             { "bestchoice_menu", ("menu_bestchoice", "114", "~/Views/Shared/Components/Home/MenuBestchoice.cshtml", true) },
             // 👉 Hai Banner dùng ID truyền trực tiếp:
             { "banner1_menu", ("menu_banner1", "237", "~/Views/Shared/Components/Home/Banner1.cshtml", true) },
-            { "banner2_menu", ("menu_banner2", "238", "~/Views/Shared/Components/Home/Banner2.cshtml", true) }
+            { "banner2_menu", ("menu_banner2", "238", "~/Views/Shared/Components/Home/Banner2.cshtml", true) },
+            { "banner_header", ("menu_bannerheader", "251", "~/Views/Shared/Components/Home/BannerHeader.cshtml", true) },
+            { "banner_thuonghieu", ("menu_bannerthuonghieu", "252", "~/Views/Shared/Components/Home/BannerThuonghieu.cshtml", true) }
         };
 
                 // Check không có trong map

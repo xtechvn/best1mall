@@ -494,14 +494,19 @@ var product_detail = {
             // Nếu có groups, render từng nhóm
             groups.forEach((item, index) => {
                 const isLast = index === groups.length - 1;
-                html += `
-                <li><span class="text-color-base">${item.name}</span></li>
-            `;
+
+                // Nếu là phần tử cuối cùng, thêm class "text-color-base", ngược lại không thêm
+                if (isLast) {
+                    html += `<li><span class="text-color-base">${item.name}</span></li>`;
+                } else {
+                    html += `<li><span>${item.name}</span></li>`;
+                }
             });
         }
 
         // Cập nhật HTML breadcrumb
         $('.breadcrumb ul').html(html);
+
     },
 
 
