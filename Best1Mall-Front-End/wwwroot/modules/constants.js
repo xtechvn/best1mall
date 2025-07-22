@@ -543,9 +543,8 @@ var HTML_CONSTANTS = {
 `//<span class= "text-slate-500 font-light soluong" > { stock } sản phẩm có sẵn</span>
     },
     Cart: {
-        Product: `<div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product {disabledClass}"
-data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
-
+        Product: `<div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product {disabledClass} mt-[11px]" data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
+    
     <!-- Checkbox -->
     <div class="product-checkall">
         <div class="box-checkbox">        
@@ -555,7 +554,7 @@ data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
     </div>
 
     <!-- Product Info -->
-    <div class="md:grid grid-cols-12 w-full items-center relative">
+    <div class="md:grid grid-cols-12 w-full items-center relative pro-in">
 
         <!-- Image + Name -->
         <div class="col-span-5">
@@ -601,13 +600,14 @@ data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
             <span class="product-line-price text-red-400 font-semibold">{total_amount} ₫</span>
         </div>
 
-        <!-- Remove -->
+       
+    </div>
+     <!-- Remove -->
         <div class="col-span-1 text-right md:relative absolute right-0 bottom-0 product-removal">
             <button class="text-sm text-blue-500 hover:underline cursor-pointer all-pop" data-id="#lightbox-delete-cart" data-cart-id="{id}">
                 Xóa
             </button>
         </div>
-    </div>
 </div>`,
         Empty: `<section class="product-cart-section">
     <div class="max-w-[1230px] mx-auto px-[15px]">
