@@ -90,8 +90,8 @@ namespace WEB.CMS.ViewComponents
             { "header_menu", ("menu_header", "188", "~/Views/Shared/Components/Home/MenuHeader.cshtml", true) },
 
             // 👉 Hai menu dùng ID truyền trực tiếp:
-            { "trend_menu", ("menu_trend", "120", "~/Views/Shared/Components/Home/MenuTrend.cshtml", true) },
-             { "headertrend_menu", ("menu_headertrend", "120", "~/Views/Shared/Components/Home/HeaderMenuTrend.cshtml", true) },
+            { "trend_menu", ("menu_trend", "269", "~/Views/Shared/Components/Home/MenuTrend.cshtml", true) },
+             { "headertrend_menu", ("menu_headertrend", "269", "~/Views/Shared/Components/Home/HeaderMenuTrend.cshtml", true) },
             { "bestchoice_menu", ("menu_bestchoice", "114", "~/Views/Shared/Components/Home/MenuBestchoice.cshtml", true) },
             // 👉 Hai Banner dùng ID truyền trực tiếp:
             { "banner1_menu", ("menu_banner1", "237", "~/Views/Shared/Components/Home/Banner1.cshtml", true) },
