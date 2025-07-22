@@ -3,6 +3,7 @@
     ViewData["Title"] = "Giỏ hàng | Hulotoys";
 
 }
+
 <!-- SKELETON LOADING -->
 <div class="max-w-[1230px] mx-auto px-[15px]">
     <div id="skeleton-loading" class="animate-pulse grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
@@ -55,75 +56,9 @@
                         </div>
                         <div class="list-product-cart table-addtocart">
                             <div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product">
-                                @* <div class="box-checkbox"> *@
-                                @*     <input type="checkbox" id="checkbox12" class="w-5 h-5 shrink-0 md:mt-0 mt-4 checkbox-cart" /> *@
-                                @*     <label for="checkbox12 box-checkbox-label"></label> *@
-                                @* </div> *@
+                               
                                 
-                                <div class="md:grid grid-cols-12 w-full items-center relative">
-                                    <div class="col-span-5">
-                                        <div class="flex gap-2 items-center">
-                                            <div class="relative aspect-[1/1] w-15 overflow-hidden rounded-lg shrink-0 shrink-0">
-                                                <img src="images/product1.jpg" alt="Sản phẩm shrink-0"
-                                                     class="absolute inset-0 w-full h-full object-cover" />
-                                            </div>
-                                            <div>
-                                                <p class="font-medium line-clamp-2 md:text-base text-sm">
-                                                    BLACKMORES –
-                                                    Cholesterol Health 400v
-                                                </p>
-                                                <div class="text-sm text-slate-500">Phân loại: 400v</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-span-2 md:text-center md:pl-0 pl-17">
-                                        <div class="flex flex-wrap md:flex-col gap-x-2 items-center">
-                                            <div class="font-medium md:text-base text-sm">169.000 ₫</div>
-                                            @* <div class="text-sm text-slate-500"> *@
-                                            @*     <span class="line-through"> *@
-                                            @*         199.000 ₫ *@
-                                            @*     </span> | *@
-                                            @*     -27% *@
-                                            @* </div> *@
-                                            @* <div class="discount-badge relative inline-block overflow-hidden"> *@
-                                            @*     <span>Giảm 50k</span> *@
-                                            @* </div> *@
-                                        </div>
-
-                                        <!-- ẩn pc-hiện mb -->
-                                        <span class="md:hidden block text-red-400 font-semibold">119.000 ₫</span>
-                                    </div>
-                                    <div class="col-span-2 md:text-center md:pl-0 pl-17">
-                                        <div class="flex items-center">
-                                            <button type="button"
-                                                    class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer"
-                                                    onclick="decrement()">
-                                                -
-                                            </button>
-                                            <input id="quantity" type="number" value="1" min="1" max="999"
-                                                   class="h-8 w-10 text-center border-t border-b border-gray-100 quantity text-sm" />
-                                            <button type="button"
-                                                    class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 border-gray-100  cursor-pointer"
-                                                    onclick="increment()">
-                                                +
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <!-- ẩn mb-hiện pc -->
-                                    <div class="col-span-2 md:text-center md:pl-0 pl-17 hidden md:block">
-                                        <span class="text-red-400 font-semibold">
-                                            119.000
-                                            ₫
-                                        </span>
-                                    </div>
-                                    <div class="col-span-1 text-right md:relative absolute right-0 bottom-0 product-removal">
-                                        @* <button class="text-sm text-blue-500 hover:underline cursor-pointer remove-product">Xóa</button> *@
-                                        <button class="text-sm text-blue-500 hover:underline cursor-pointer  all-pop"
-                                                data-id="#lightbox-delete-cart">
-                                            Xóa
-                                        </button>
-                                    </div>
-                                </div>
+                              
                             </div>
                            
                         </div>
@@ -509,7 +444,12 @@
     </div>
 </div>
 <style>
-    .disabled-product {
+    .disabled-product .product-checkall {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .disabled-product .pro-in {
         opacity: 0.5;
         pointer-events: none;
     }
@@ -524,6 +464,8 @@
         .disabled-product button {
             pointer-events: auto; /* vì có attr disabled rồi, nên bật lại */
         }
+
+
 
 </style>
 @section Scripts {
