@@ -33,7 +33,7 @@ namespace WEB.CMS.ViewComponents
             // 👉 Hai menu dùng ID truyền trực tiếp:
             { "type_menu", ("menu_type", "109", "~/Views/Shared/Components/FlashSale/MenuType.cshtml", true) },
           
-            { "groupflash_menu", ("menu_groupflash", "config:group_id", "~/Views/Shared/Components/FlashSale/MenuGroup.cshtml", false) }
+            { "groupflash_menu", ("menu_groupflash", "188", "~/Views/Shared/Components/FlashSale/MenuGroup.cshtml", true) }
         };
 
                 // Check không có trong map
