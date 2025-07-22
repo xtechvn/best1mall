@@ -104,7 +104,7 @@ var GLOBAL_CONSTANTS = {
     GroupProduct: {
         FlashSale: 2,
         Discount: 19,
-        BEAR_COLLECTION:11,
+        BEAR_COLLECTION:23,
         INTELLECTUAL_DEVELOPMENT: 12,
         GROUP_PRODUCT: 188
     },
