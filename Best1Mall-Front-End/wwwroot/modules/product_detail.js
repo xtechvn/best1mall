@@ -291,8 +291,10 @@ var product_detail = {
         });
     },
     Detail: function () {
-        
+       
         const usr = global_service.CheckLogin(); // kiểm tra đăng nhập
+       
+
         $('#skeleton-loading').show();
        // $('.product-details-section').hide();
 
@@ -306,7 +308,7 @@ var product_detail = {
         $.when(
             global_service.POST(API_URL.ProductDetail, request)
         ).done(function (result) {
-            
+           
             if (result.is_success && result.data && result.data.product_main) {
                 sessionStorage.setItem(STORAGE_NAME.ProductDetail, JSON.stringify(result.data))
                 sessionStorage.setItem(STORAGE_NAME.SubProduct, JSON.stringify(result.data.product_sub))
@@ -315,12 +317,21 @@ var product_detail = {
                 product_detail.GetListVoucherUser();
             }
             else {
-                window.location.href = '/Home/NotFound'
+                // ❌ Nếu lỗi → xóa sản phẩm khỏi localStorage (viewedProducts)
+                const viewedListKey = 'viewedProducts';
+                const viewedList = JSON.parse(localStorage.getItem(viewedListKey)) || [];
+
+                // Lấy code/id từ biến `code` (đã có ở trên)
+                const newList = viewedList.filter(p => p.id !== code);
+                localStorage.setItem(viewedListKey, JSON.stringify(newList));
+
+                // Redirect
+                window.location.href = '/Home/NotFound';
             }
         })
     },
     RenderDetail: function (product, product_sub, cert, favourite, buywith, label, group) {
-        
+        debugger
         
         this.RenderGallery(product);
         this.RenderTitle(product);
