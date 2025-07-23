@@ -224,14 +224,11 @@
                             <td>Tiền hàng:</td>
                             <td class="amount-before-discount">@(((double)order.data.total_price).ToString("N0")) đ</td>
                         </tr>
-                       @*  <tr>
+                         <tr>
                             <td>Phí vận chuyển</td>
-                            <td class="delivery-fee">33.000 đ</td>
+                            <td class="delivery-fee">@(order.data_order.ShippingFee == null ? "" : (((double)order.data_order.ShippingFee).ToString("N0") + " đ"))</td>
                         </tr>
-                        <tr>
-                            <td>Giảm giá:</td>
-                            <td class="discount-fee">-120.0000 đ</td>
-                        </tr> *@
+
                         <tr>
                             <td>Giảm giá:</td>
                             <td class="discount-fee">
