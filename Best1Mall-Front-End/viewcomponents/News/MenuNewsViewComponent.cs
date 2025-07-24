@@ -96,7 +96,7 @@ namespace WEB.CMS.ViewComponents
             // 👉 Hai Banner dùng ID truyền trực tiếp:
             { "banner1_menu", ("menu_banner1", "237", "~/Views/Shared/Components/Home/Banner1.cshtml", true) },
             { "banner2_menu", ("menu_banner2", "238", "~/Views/Shared/Components/Home/Banner2.cshtml", true) },
-            { "banner_header", ("menu_bannerheader", "251", "~/Views/Shared/Components/Home/BannerHeader.cshtml", true) },
+            //{ "banner_header", ("menu_bannerheader", "251", "~/Views/Shared/Components/Home/BannerHeader.cshtml", true) },
             { "banner_thuonghieu", ("menu_bannerthuonghieu", "252", "~/Views/Shared/Components/Home/BannerThuonghieu.cshtml", true) }
         };
 
