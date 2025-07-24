@@ -372,6 +372,7 @@ var cart = {
         ).done(function (result) {
             
             if (result.is_success) {
+                
                 cart.ConfirmCartAddress(result.data)
 
             }
@@ -597,6 +598,7 @@ var cart = {
     },
     ApplyVoucher: function (request) {
         
+        
         $.when(
             global_service.POST(API_URL.ApplyVoucher, request)
         ).done(function (res) {
@@ -632,6 +634,7 @@ var cart = {
     },
 
     UpdateDiscountView: function (data) {
+        
         $('#voucher-popup').addClass('hidden');
         $('#discountSection').removeClass('hidden');
 
@@ -656,6 +659,7 @@ var cart = {
     }
 ,
     ReRenderAmount: function (loading_shipping = true) {
+        
         let total_product_amount = 0;
         let hasPricedItem = false;
 
@@ -712,7 +716,10 @@ var cart = {
             $('.btn-confirm-cart').addClass('button-disabled');
         }
 
-        return total_temp;
+        // return total_temp; ❌ sai vì trả cả tiền ship
+
+        return total_product_amount; // ✅ chỉ trả về tiền hàng để dùng cho ApplyVoucher
+
     },
 
     //RemoveCartItem: function (data_id) {
