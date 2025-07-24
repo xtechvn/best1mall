@@ -59,7 +59,7 @@ var product_detail = {
     },
     DynamicBind: function () {
         $("body").on('click', ".attribute-detail", function () {
-
+            
             var element = $(this);
             if (element.hasClass('disabled')) return;
 
@@ -67,18 +67,20 @@ var product_detail = {
             var selectedId = element.data('id');
             var attrLevel = element.closest('.attributes').data('level');
 
-            // Bỏ active trong block hiện tại
-            wrapper.find('.attribute-detail').removeClass('active');
+            // Bỏ active trong block hiện tại của nhóm thuộc tính
+            wrapper.find('.attributes[data-level="' + attrLevel + '"] .attribute-detail').removeClass('active');
             element.addClass('active');
 
-            // 🔄 Đồng bộ sang các block khác
+            // Đồng bộ sự thay đổi với các nhóm thuộc tính cùng cấp
             $('.box-info-details').not(wrapper).each(function () {
                 var otherWrapper = $(this);
+                // Lọc những thuộc tính cùng cấp với thuộc tính đang được thay đổi
                 var sameAttr = otherWrapper.find('.attributes[data-level="' + attrLevel + '"] .attribute-detail');
                 sameAttr.removeClass('active');
                 sameAttr.filter('[data-id="' + selectedId + '"]').addClass('active');
             });
 
+            // Cập nhật lại thông tin sản phẩm dựa trên lựa chọn của người dùng
             var product = product_detail.GetProductDetailSession();
             if (product) {
                 product_detail.RenderChangedAttributeSelected(product, element);
@@ -87,6 +89,8 @@ var product_detail = {
                 window.location.reload();
             }
         });
+
+
         // Xử lý khi người dùng nhập tay
         $('body').on('input', '.quantity', function () {
             let val = $(this).val();
@@ -988,7 +992,7 @@ var product_detail = {
 
 
     RenderBuyNowButton: function () {
-
+        
         var no_select_all = false
         if ($('.box-info-details tbody .attributes').length <= 0) {
 
