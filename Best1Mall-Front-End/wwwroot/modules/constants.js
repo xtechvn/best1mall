@@ -508,7 +508,7 @@ var HTML_CONSTANTS = {
 
        
         Tr_Attributes: `<tr class="attributes" data-level="{level}">
-                    <td>Phân loại:</td>
+                    <td>{name}:</td>
                     <td>
                         <span class="flex flex-wrap gap-2 items-center box-tag">
                             {li}
