@@ -508,13 +508,17 @@ var product_detail = {
         } else {
             // Nếu có groups, render từng nhóm
             groups.forEach((item, index) => {
+               
                 const isLast = index === groups.length - 1;
+                const slug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-');
+               
+                const url = `/san-pham/${slug}?group_id=${item.id}`;
 
                 // Nếu là phần tử cuối cùng, thêm class "text-color-base", ngược lại không thêm
                 if (isLast) {
-                    html += `<li><span class="text-color-base">${item.name}</span></li>`;
+                    html += `<li><a href="#" class="text-color-base">${item.name}</a></li>`;
                 } else {
-                    html += `<li><span>${item.name}</span></li>`;
+                    html += `<li><a href="${url}">${item.name}</a></li>`;
                 }
             });
         }
