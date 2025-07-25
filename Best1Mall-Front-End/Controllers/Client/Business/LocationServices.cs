@@ -43,7 +43,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             try
             {
                 // Sử dụng API Viettel Post
-                var viettelApiUrl = "https://partner.viettelpost.vn/v2/categories/listProvinceById?provinceId=-1";
+                var viettelApiUrl = $"https://partner.viettelpost.vn/v2/categories/listProvinceById?provinceId={Convert.ToInt32(request.id)}";
 
                 using (var httpClient = new HttpClient())
                 {
