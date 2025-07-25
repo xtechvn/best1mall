@@ -109,7 +109,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             try
             {
 
-                var viettelApiUrl = $"https://partner.viettelpost.vn/v2/categories/listDistrict?provinceId=-1";
+                var viettelApiUrl = $"https://partner.viettelpost.vn/v2/categories/listDistrict?provinceId={Convert.ToInt32(request.id)}";
 
                 using (var httpClient = new HttpClient())
                 {
@@ -171,7 +171,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             try
             {
                 
-                var viettelApiUrl = $"https://partner.viettelpost.vn/v2/categories/listWards?districtId=-1";
+                var viettelApiUrl = $"https://partner.viettelpost.vn/v2/categories/listWards?districtId={Convert.ToInt32(request.id)}";
 
                 using (var httpClient = new HttpClient())
                 {
