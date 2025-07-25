@@ -16,5 +16,8 @@ namespace Best1Mall_Front_End.Models.Products
         public string icon { get; set; }
         public string banner { get; set; }
         public string? description { get; set; }
+        public string? BannerMain { get; set; }
+
+        public string? BannerSub { get; set; }
     }
 }
