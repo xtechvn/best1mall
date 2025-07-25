@@ -235,7 +235,9 @@ namespace Best1Mall_Front_End.Controllers.Product
                         labelCode = string.Empty,
                         icon = string.Empty,
                         banner = string.Empty,
-                        description = string.Empty
+                        description = string.Empty,
+                        BannerMain = string.Empty,
+                        BannerSub = string.Empty
                     }
                 };
             }

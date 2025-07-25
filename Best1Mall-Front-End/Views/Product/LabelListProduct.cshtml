@@ -1,6 +1,7 @@
 ﻿@using Best1Mall_Front_End.Models.Products
 @using Best1Mall_Front_End.ViewModels;
 @using Best1Mall_Front_End.Utilities;
+@using Newtonsoft.Json
 @model ProductListResponseModel
 
 <!-- Phần tử ẩn lưu group_id từ URL -->
@@ -34,7 +35,7 @@
     {
         if (string.IsNullOrEmpty(avatar))
         {
-            return "/images/no-image.png"; // fallback ảnh mặc định
+            return ""; // fallback ảnh mặc định
         }
 
         if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
@@ -101,5 +102,37 @@
 
             </div>
         </div>
+        <!-- Hiển thị banner phụ -->
+        <div class="my-6 md:my-10">
+
+            <!-- Kiểm tra và chỉ hiển thị BannerMain nếu có -->
+            @if (!string.IsNullOrEmpty(Model.label_detail.BannerMain))
+            {
+                <div class="md:rounded-3xl rounded-xl overflow-hidden col-span-3">
+                    <img src="@GetFullImageUrl(Model.label_detail.BannerMain)" alt="Banner Main" class="w-full shadow h-[162px]" />
+                </div>
+            }
+
+            <!-- Kiểm tra và chỉ hiển thị BannerSub nếu có -->
+            @if (!string.IsNullOrEmpty(Model.label_detail.BannerSub))
+            {
+                // Deserialize BannerSub (chuỗi JSON thành mảng)
+                var bannerSubList = JsonConvert.DeserializeObject<List<string>>(Model.label_detail.BannerSub);
+
+                if (bannerSubList != null && bannerSubList.Any())
+                {
+                    <div class="flex md:justify-between gap-2 overflow-x-auto scrollbar-hide md:grid grid-cols-3 pb-2 mt-2">
+                        @foreach (var banner in bannerSubList)
+                        {
+                            <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full">
+                                <img src="@GetFullImageUrl(banner)" alt="Banner Sub" class="w-full shadow h-[183px]" />
+                            </div>
+                        }
+                    </div>
+                }
+            }
+
+        </div>
+
     </div>
 </section>
