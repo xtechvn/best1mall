@@ -2083,7 +2083,11 @@ input[type="checkbox"]:checked::after {
 
 .popup-content {
   height: fit-content;
-  min-height: 100%;
+ 
+  @media (max-width:767px){
+    min-height: 100%;
+  }
+
 }
 .aspect-\[5\/3\],.aspect-\[16\/9\],
   .aspect-\[1\/1\] {

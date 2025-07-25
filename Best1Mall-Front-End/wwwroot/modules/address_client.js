@@ -163,7 +163,7 @@ var address_client = {
 
     },
     Detail: function (selected_id = undefined) {
-
+        
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -175,7 +175,7 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressList, request)
         ).done(function (result) {
-
+            
             var html = ''
             if (result.is_success) {
                 sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(result.data.list))
@@ -204,6 +204,7 @@ var address_client = {
         $('.content-left-user').removeClass('placeholder')
     },
     RenderExistsAddress: function (list, selected_id = undefined) {
+        
         // Kiểm tra xem đang ở trang "address" hay không
         const page = $('#address-book').data('page') || '';
         const isAddressPage = page === 'address';
@@ -242,7 +243,7 @@ var address_client = {
     },
 
     RenderDetailAddress: function (data) {
-
+        
         var address_select = ''
         if (data.ward_detail != null && data.ward_detail != undefined) {
             address_select += data.ward_detail.name
@@ -277,7 +278,7 @@ var address_client = {
         address_client.ResetAddressForm();
         $('#update-address').attr('data-id', id)
         if (id != undefined && id.trim() != '') {
-
+            
             var json = sessionStorage.getItem(STORAGE_NAME.AddressClient)
             if (json) {
                 var address_list = JSON.parse(json)
@@ -288,7 +289,7 @@ var address_client = {
                 $('#update-address').addClass('overlay-active')
                 $('#update-address .user input').val(item.receiverName)
                 $('#update-address .tel input').val(item.phone)
-                if (item.IsActive == true)
+                if (item.isActive == true)
                     $("#IsActive").prop("checked", true);
 
                 $('#update-address .address input').val(item.address)
@@ -303,7 +304,7 @@ var address_client = {
                 $.when(
                     global_service.POST(API_URL.AddressDetail, request)
                 ).done(function (result) {
-                   
+                    
                     if (result.is_success) {
                         $('#update-address .err').hide()
                         var item = result.data
@@ -343,7 +344,7 @@ var address_client = {
         $('#update-address .err').hide();
     },
     RenderProvinces: function (selected_value = undefined) {
-       
+        
         var request = {
             "id": '-1'
         }
@@ -351,7 +352,7 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressProvince, request)
         ).done(function (result) {
-           
+            
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
@@ -380,6 +381,7 @@ var address_client = {
 
     },
     RenderDistrict: function (selected_provinced = undefined, selected_value = undefined) {
+        
         var request = {
             "id": $('#update-address .province select').find(':selected').val()
         }
@@ -392,7 +394,7 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressDistrict, request)
         ).done(function (result) {
-           
+            
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
@@ -421,6 +423,7 @@ var address_client = {
 
     },
     RenderWards: function (selected_district = undefined, selected_value = undefined) {
+        
         var request = {
             "id": $('#update-address .district select').find(':selected').val()
         }
@@ -433,7 +436,7 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressWard, request)
         ).done(function (result) {
-           
+            
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
