@@ -98,6 +98,9 @@
                                     <ul class="mt-2 space-y-1">
                                         @foreach (var child in Model.ChildCategories)
                                         {
+                                            // Chỉ hiển thị nếu product_count > 0
+                                            if (child.product_count > 0)
+                                            {
                                             var isActive = child.id == productid_id || child.id == childrenId;
                                             <li>
                                                 <a href="/san-pham/@child.url_path?group_id=@Model.SelectedGroupId&children_id=@child.id"
@@ -108,6 +111,7 @@
                                                     <span>»</span> @child.name
                                                 </a>
                                             </li>
+                                            }
                                         }
                                     </ul>
                                     <div class="category_id" data-categoryid="@Model.SelectedGroupId" style="display:none;"></div>
