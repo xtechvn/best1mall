@@ -10,9 +10,12 @@
             </li>
             @foreach (var item in Model)
             {
-                <li>
-                    <a href="javascript:void(0)" class="cat-tag item" data-id="@item.id">@item.name</a>
+                if (item.id != 192) // 👈 Bỏ qua nếu id = 192
+                {
+                    <li>
+                        <a href="javascript:void(0)" class="cat-tag item" data-id="@item.id">@item.name</a>
                 </li>
+                }
             }
         </ul>
         <div class="category_id" data-categoryid="0" style="display:none;"></div>
