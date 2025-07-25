@@ -131,6 +131,7 @@ namespace Best1Mall_Front_End.Controllers.Product
         }
       
         public async Task<IActionResult> ProductDetail(ProductDetailRequestModel request)
+        
         {
             ProductDetailResponseModel result = await _productServices.GetProductDetail(request);
 

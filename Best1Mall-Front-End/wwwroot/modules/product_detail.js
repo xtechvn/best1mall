@@ -676,7 +676,7 @@ var product_detail = {
         }
 
         $('.section-details-product .price').html(`
-    <div class="flex gap-2 items-center">
+    <div class="flex gap-[20px] items-center">
         <div class="number">${priceHtml}</div>
         ${isFlashSale ? `
             <div class="color-gray-2"><strike>${global_service.Comma(product.amount)} đ</strike></div>
@@ -967,7 +967,7 @@ var product_detail = {
 
                 // ✅ HTML hiển thị giá
                 const htmlPrice = `
-                <div class="flex gap-2 items-center">
+                <div class="flex gap-[20px] items-center">
                     <div class="number">${global_service.Comma(displayPrice)}</div>
                     ${isFlashSale ? `<div class="color-gray-2"><strike>${global_service.Comma(oldPrice)}</strike></div>` : ''}
                     ${isFlashSale ? `

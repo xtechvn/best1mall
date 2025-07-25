@@ -13,6 +13,7 @@ using System.Reflection.Emit;
 using Best1Mall_Front_End.Models.Profile;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using HuloToys_Service.Models.Client;
+using Best1Mall_Front_End.Service.Redis;
 
 namespace Best1Mall_Front_End.Controllers.Client
 {
@@ -20,11 +21,12 @@ namespace Best1Mall_Front_End.Controllers.Client
     {
         private readonly IConfiguration _configuration;
         private readonly ClientServices _clientServices;
+        private readonly RedisConn redisService;
         private readonly AddressClientServices _addressClientServices;
         private readonly LocationServices _locationServices;
         private readonly IMemoryCache _cache;
 
-        public ClientController(IConfiguration configuration, IMemoryCache cache)
+        public ClientController(IConfiguration configuration, IMemoryCache cache, RedisConn _redisService)
         {
 
             _configuration = configuration;
