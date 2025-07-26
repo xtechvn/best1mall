@@ -1,0 +1,41 @@
+﻿@using Best1Mall_Front_End.Models;
+@using Best1Mall_Front_End.Utilities;
+@using Best1Mall_Front_End.Models.Products
+@model List<CategoryModel>
+@{
+    ViewData["view_name"] = "MenuThanhtoan_BestSeller"; // 👈 Chỉ định view riêng
+}
+
+@functions {
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/assets/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
+@if (Model != null)
+{
+
+
+    @foreach (var item in Model)
+    {
+        string imgSrc = GetFullImageUrl(item.image_path);
+
+        <img src="@imgSrc" class="h-8" />
+    }
+
+    <div class="category_id" data-categoryid="0" style="display:none;"></div>
+
+}
+
+
+

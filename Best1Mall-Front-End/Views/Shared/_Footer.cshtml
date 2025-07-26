@@ -88,7 +88,8 @@
                     <div class="md:w-2/5">
                         <h4 class="font-semibold mb-2">PHƯƠNG THỨC THANH TOÁN</h4>
                         <div class="flex flex-wrap items-center gap-2">
-                            <img src="/assets/images/vnpay.jpg" class="h-8" />
+                            
+                            @await Component.InvokeAsync("MenuNews", new { menuType = "banner_thanhtoan" })
                             @* <img src="/assets/images/visa.png" class="h-8" /> *@
                             @* <img src="/assets/images/jcb.png" class="h-8" /> *@
                         </div>
@@ -100,7 +101,8 @@
                 </div>
                 <h4 class="font-semibold mb-2 uppercase">Đơn vị vận chuyển</h4>
                 <div class="flex flex-wrap items-center gap-2">
-                    <img src="/assets/images/Viettel Post 3x.png" class="h-[35px]" />
+                    @await Component.InvokeAsync("MenuNews", new { menuType = "banner_vanchuyen" })
+                   
                 </div>
             </div>
 
