@@ -39,6 +39,7 @@ var account = {
         SendCodeTimeout: false,
         PasswordLength: 6,
         MaxPasswordLength: 32,
+        countdownInterval: undefined
     },
     Initialization: function () {
         if ($('#forgot-password-change').length > 0) {
@@ -312,7 +313,7 @@ var account = {
             $('#tab-register').removeClass('border-purple-500')
             $('#login-form').removeClass('hidden')
             $('#register-form').addClass('hidden')
-
+            $('#register-form input').val('').trigger('change')
         });
         $("body").on('click', "#tab-register", function () {
             $('#tab-login').removeClass('text-purple-500')
@@ -786,62 +787,61 @@ var account = {
     //    })
     //},
     ConfirmForgotPassword: function (element) {
-        // Vô hiệu hóa nút và thay đổi nội dung
-        element.html('Vui lòng chờ ....');
-        element.prop("disabled", true);
-        element.css('background-color', 'lightgray');
+      // Vô hiệu hóa nút và thay đổi nội dung
+      element.html('Vui lòng chờ ....');
+      element.prop("disabled", true);
+      element.css('background-color', 'lightgray');
 
-        // Thực hiện validate
-        var validate = account.ValidateForgotPassword();
-        if (validate) {
-            var request = {
-                "name": $("#forgot-usr").val()
-            };
+      // Thực hiện validate
+      var validate = account.ValidateForgotPassword();
+      if (validate) {
+          var request = {
+              "name": $("#forgot-usr").val()
+          };
 
-            // Gửi yêu cầu POST
-            $.when(global_service.POST(API_URL.ClientForgotPassword, request))
-                .done(function (res) {
-                    Swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        icon: 'success',
-                        title: res.msg,
-                        showConfirmButton: false,
-                        timer: 3000
-                    });
+          // Gửi yêu cầu POST
+          $.when(global_service.POST(API_URL.ClientForgotPassword, request))
+              .done(function (res) {
+                  Swal.fire({
+                      toast: true,
+                      position: 'top-end',
+                      icon: 'success',
+                      title: res.msg,
+                      showConfirmButton: false,
+                      timer: 3000
+                  });
 
-                    // Đếm ngược 30 giây
-                    let countdown = 30;
-                    let intervalId = setInterval(function () {
-                        // Cập nhật thời gian đếm ngược trên nút
-                        element.html(`Vui lòng chờ ${countdown} giây ...`);
-                        countdown--;
+                  // Đếm ngược 30 giây
+                  let countdown = 30;
+                  let intervalId = setInterval(function () {
+                      // Cập nhật thời gian đếm ngược trên nút
+                      element.html(`Vui lòng chờ ${countdown} giây ...`);
+                      countdown--;
 
-                        // Nếu hết thời gian, dừng đếm ngược và khôi phục lại nút
-                        if (countdown < 0) {
-                            clearInterval(intervalId);
-                            element.html('Gửi yêu cầu');
-                            element.prop("disabled", false);
-                            element.css('background-color', ''); // Khôi phục màu sắc ban đầu
-                        }
-                    }, 1000); // Cập nhật mỗi giây
+                      // Nếu hết thời gian, dừng đếm ngược và khôi phục lại nút
+                      if (countdown < 0) {
+                          clearInterval(intervalId);
+                          element.html('Gửi yêu cầu');
+                          element.prop("disabled", false);
+                          element.css('background-color', ''); // Khôi phục màu sắc ban đầu
+                      }
+                  }, 1000); // Cập nhật mỗi giây
 
-                    // Đóng pop-up sau khi gửi yêu cầu thành công
-                    setTimeout(() => {
-                        $('#forgot-popup').fadeOut();
-                    }, 1000);
-                })
-                .fail(function () {
-                    // Hiển thị lỗi nếu không gửi được yêu cầu
-                    Swal.fire("Lỗi", "Không thể gửi yêu cầu, vui lòng thử lại.", "error");
-                    // Khôi phục lại nút
-                    element.html('Gửi yêu cầu');
-                    element.prop("disabled", false);
-                    element.css('background-color', '');
-                });
-        }
-    },
-
+                  // Đóng pop-up sau khi gửi yêu cầu thành công
+                  setTimeout(() => {
+                      $('#forgot-popup').fadeOut();
+                  }, 1000);
+              })
+              .fail(function () {
+                  // Hiển thị lỗi nếu không gửi được yêu cầu
+                  Swal.fire("Lỗi", "Không thể gửi yêu cầu, vui lòng thử lại.", "error");
+                  // Khôi phục lại nút
+                  element.html('Gửi yêu cầu');
+                  element.prop("disabled", false);
+                  element.css('background-color', '');
+              });
+      }
+  },
     ValidateForgotPassword: function () {
         var validate=true
         var email = $("#forgot-usr").val();
@@ -872,7 +872,22 @@ var account = {
                 type: 'post',
                 data: model,
                 success: function (data) {
+                    if (data != undefined && data.is_success == false) {
+                        clearInterval(account.Data.countdownInterval);
+                        $thisButton.removeProp('disabled').text('Gửi mã xác thực');
+                        $thisButton.removeAttr('disabled')
+                        $thisButton.css('background-color', '');
+                        account.Data.SendCodeTimeout = false;
 
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'error',
+                            title: data.msg,
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    }
                 },
             });
         }
@@ -893,13 +908,13 @@ var account = {
         $thisButton.css('background-color', 'lightgray');
         account.Data.SendCodeTimeout = true;
         // Cập nhật bộ đếm thời gian mỗi giây
-        var countdownInterval = setInterval(function () {
+        account.Data.countdownInterval = setInterval(function () {
             countdownTime--;
             $thisButton.text('Vui lòng đợi (' + countdownTime + 's)');
 
             // Khi bộ đếm thời gian về 0, kích hoạt lại nút
             if (countdownTime <= 0) {
-                clearInterval(countdownInterval);
+                clearInterval(account.Data.countdownInterval);
                 $thisButton.removeProp('disabled').text(originalText);
                 $thisButton.removeAttr('disabled', 'disabled')
                 $thisButton.css('background-color', '');

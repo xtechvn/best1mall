@@ -21,6 +21,7 @@ public class AuthController : Controller
     private readonly ClientServices _clientServices;
     private readonly AuthenticationService _authenticationService;
     private readonly IMemoryCache _cache;
+    private readonly AddressClientServices _addressClientServices;
 
     public AuthController(IConfiguration configuration, IMemoryCache cache)
     {
@@ -28,6 +29,7 @@ public class AuthController : Controller
         _clientServices = new ClientServices(configuration);
         _authenticationService = new AuthenticationService(configuration);
         _cache = cache;
+        _addressClientServices = new AddressClientServices(configuration);
 
     }
 
@@ -214,20 +216,32 @@ public class AuthController : Controller
         {
             if (string.IsNullOrEmpty(email) || !_authenticationService.IsValidEmail(email))
             {
-                return BadRequest(new
+                return Ok(new
                 {
                     is_success = false,
                     msg = "Địa chỉ Email không chính xác, vui lòng thử lại"
                 });
             }
+            var validate = await _addressClientServices.ValidateRegisterEmail(new ClientRegisterRequestModel()
+            {
+                email = email
+            });
+            if (!validate)
+            {
+                return Ok(new
+                {
+                    is_success = false,
+                    msg = "Email này đã được sử dụng để đăng ký cho 1 tài khoản khác, vui lòng đăng nhập hoặc sử dụng chức năng quên mật khẩu."
+                });
+            }
             string code = new Random().Next(10000000, 99999999).ToString();
             var cacheKey = CacheKeys.RegisterEmailConfirm + EncodeHelpers.MD5Hash(email); // Đặt khóa cho cache
             _cache.Set(cacheKey, code, TimeSpan.FromMinutes(15));
-            var success= _authenticationService.SendVerificationEmailAsync(email, code);
+            var success= await _authenticationService.SendVerificationEmailAsync(email, code);
             return Ok(new
             {
                 is_success=success,
-                msg=email
+                msg="Gửi email xác nhận đăng ký " + (success ? "thành công" : "thất bại")
             });
         }
         catch (Exception ex)
