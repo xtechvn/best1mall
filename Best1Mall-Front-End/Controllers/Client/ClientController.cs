@@ -103,6 +103,7 @@ namespace Best1Mall_Front_End.Controllers.Client
                     }
                 });
             }
+            request.user_name = StringHelpers.CleanName(request.user_name);
             var result = await _clientServices.Register(request);
             try { _cache.Remove(cacheKey); } catch { }
             return Ok(new
@@ -218,7 +219,8 @@ namespace Best1Mall_Front_End.Controllers.Client
         }
         public async Task<IActionResult> ForgotPassword(ClientForgotPasswordRequestModel request)
         {
-            var result = await _addressClientServices.ForgotPassword(request);
+           
+            var result =  _addressClientServices.ForgotPassword(request);
 
             return Ok(new
             {
@@ -324,6 +326,9 @@ namespace Best1Mall_Front_End.Controllers.Client
                 msg = msg
             });
         }
+        [HttpGet]
+        [Route("/doi-mat-khau/{token}")]
+
         public async Task<ActionResult> ForgotPasswordChangePassword(string token)
         {
             ViewBag.Token = token;
@@ -338,10 +343,11 @@ namespace Best1Mall_Front_End.Controllers.Client
                 {
                     name=token
                 });
-                if (!result)
+                if (result==null ||result.Trim()=="")
                 {
                     return Redirect("/Home/Notfound");
                 }
+                ViewBag.Token = result;
                 return View();
             }
             catch
