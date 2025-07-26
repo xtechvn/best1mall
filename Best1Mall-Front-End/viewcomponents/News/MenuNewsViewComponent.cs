@@ -97,7 +97,11 @@ namespace WEB.CMS.ViewComponents
             { "banner1_menu", ("menu_banner1", "237", "~/Views/Shared/Components/Home/Banner1.cshtml", true) },
             { "banner2_menu", ("menu_banner2", "238", "~/Views/Shared/Components/Home/Banner2.cshtml", true) },
             //{ "banner_header", ("menu_bannerheader", "251", "~/Views/Shared/Components/Home/BannerHeader.cshtml", true) },
-            { "banner_thuonghieu", ("menu_bannerthuonghieu", "252", "~/Views/Shared/Components/Home/BannerThuonghieu.cshtml", true) }
+            { "banner_thuonghieu", ("menu_bannerthuonghieu", "252", "~/Views/Shared/Components/Home/BannerThuonghieu.cshtml", true) },
+           { "banner_product", ("menu_bannerproduct", "281", "~/Views/Shared/Components/Product/BannerProduct.cshtml", true) },
+            { "banner_vanchuyen", ("menu_vanchuyen", "283", "~/Views/Shared/Components/Home/BannerVanchuyen.cshtml", true) },
+            { "banner_thanhtoan", ("menu_thanhtoan", "284", "~/Views/Shared/Components/Home/BannerThanhtoan.cshtml", true) }
+
         };
 
                 // Check không có trong map

@@ -21,7 +21,7 @@
 <section class="product-section">
     <div class="max-w-[1230px] mx-auto my-4 px-[15px]">
         <!-- banner -->
-        <img src="/assets/images/banner_fake.jpg" alt="Banner 1" class="w-full h-[154px] shadow" />
+            @await Component.InvokeAsync("MenuNews", new { menuType = "banner_product" })
             <!-- List Thương hiệu -->
             <div class="my-6 md:my-10">
                 <!-- Swiper -->
