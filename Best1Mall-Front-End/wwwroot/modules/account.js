@@ -337,8 +337,24 @@ var account = {
             $('#forgot-popup').fadeIn()
 
         });
+        $("body").on('click', "#change-pass", function (e) {
+            debugger
+            $('#login-popup').fadeOut()
+            $('#forgot-popup').fadeIn()
+            // Cập nhật title khi nhấn "Đổi mật khẩu"
+            $('#tab-forgot').text("Đổi mật khẩu");
+
+        });
         $("body").on('click', "#forgot-popup .closePopup", function (e) {
-            $('#login-popup').fadeIn()
+            // Kiểm tra nếu form đang ở chế độ "Đổi mật khẩu" hay không
+            const currentTab = $('#tab-forgot').text();
+
+            // Nếu đang ở "Đổi mật khẩu", không quay lại đăng nhập
+            if (currentTab === "Đổi mật khẩu") {
+                $('#forgot-popup').fadeOut(); // Đóng pop-up đổi mật khẩu
+            } else {
+                $('#login-popup').fadeIn(); // Quay lại pop-up đăng nhập nếu là "Quên mật khẩu"
+            }
 
         });
         $("body").on('click', "#login-popup .closePopup", function (e) {
@@ -771,33 +787,61 @@ var account = {
     //    })
     //},
     ConfirmForgotPassword: function (element) {
-        element.html('Vui lòng chờ ....')
-        element.prop("disabled", true);
-        element.css('background-color', 'lightgray');
-        var validate = account.ValidateForgotPassword()
-        if (validate) {
-            var request = {
-                "name": $("#forgot-usr").val()
-            }
-            $.when(
-                global_service.POST(API_URL.ClientForgotPassword, request)
-            ).done(function (res) {
-               
-                Swal.fire({
-                    toast: true,
-                    position: 'top-end',
-                    icon: 'success',
-                    title: res.msg,
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-                setTimeout(() => {
-                    $('#forgot-popup').fadeOut()
-                }, 1000);
+      // Vô hiệu hóa nút và thay đổi nội dung
+      element.html('Vui lòng chờ ....');
+      element.prop("disabled", true);
+      element.css('background-color', 'lightgray');
 
-            })
-        }
-    },
+      // Thực hiện validate
+      var validate = account.ValidateForgotPassword();
+      if (validate) {
+          var request = {
+              "name": $("#forgot-usr").val()
+          };
+
+          // Gửi yêu cầu POST
+          $.when(global_service.POST(API_URL.ClientForgotPassword, request))
+              .done(function (res) {
+                  Swal.fire({
+                      toast: true,
+                      position: 'top-end',
+                      icon: 'success',
+                      title: res.msg,
+                      showConfirmButton: false,
+                      timer: 3000
+                  });
+
+                  // Đếm ngược 30 giây
+                  let countdown = 30;
+                  let intervalId = setInterval(function () {
+                      // Cập nhật thời gian đếm ngược trên nút
+                      element.html(`Vui lòng chờ ${countdown} giây ...`);
+                      countdown--;
+
+                      // Nếu hết thời gian, dừng đếm ngược và khôi phục lại nút
+                      if (countdown < 0) {
+                          clearInterval(intervalId);
+                          element.html('Gửi yêu cầu');
+                          element.prop("disabled", false);
+                          element.css('background-color', ''); // Khôi phục màu sắc ban đầu
+                      }
+                  }, 1000); // Cập nhật mỗi giây
+
+                  // Đóng pop-up sau khi gửi yêu cầu thành công
+                  setTimeout(() => {
+                      $('#forgot-popup').fadeOut();
+                  }, 1000);
+              })
+              .fail(function () {
+                  // Hiển thị lỗi nếu không gửi được yêu cầu
+                  Swal.fire("Lỗi", "Không thể gửi yêu cầu, vui lòng thử lại.", "error");
+                  // Khôi phục lại nút
+                  element.html('Gửi yêu cầu');
+                  element.prop("disabled", false);
+                  element.css('background-color', '');
+              });
+      }
+  },
     ValidateForgotPassword: function () {
         var validate=true
         var email = $("#forgot-usr").val();
