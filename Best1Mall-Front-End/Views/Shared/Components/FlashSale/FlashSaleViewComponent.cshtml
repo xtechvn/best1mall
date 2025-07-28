@@ -53,7 +53,7 @@
         var now = DateTime.UtcNow; // Lấy thời gian hiện tại (UTC)
         var validFlashSales = Model.Where(f => f.fromdate <= now && f.todate >= now).ToList(); // Lọc tất cả Flash Sale hợp lệ
         var firstValidFlashSale = validFlashSales.FirstOrDefault(); // Lấy Flash Sale hợp lệ đầu tiên
-        <img class=" md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl w-[100%]  h-[333px]"
+        <img class=" md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl w-[100%]  md:h-[333px]"
              src="@firstValidFlashSale.banner" alt="" />
         if (firstValidFlashSale != null)
         {
