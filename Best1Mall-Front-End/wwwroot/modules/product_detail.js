@@ -295,7 +295,7 @@ var product_detail = {
         });
     },
     Detail: function () {
-       
+       debugger
         const usr = global_service.CheckLogin(); // kiểm tra đăng nhập
        
 
@@ -330,7 +330,7 @@ var product_detail = {
                 localStorage.setItem(viewedListKey, JSON.stringify(newList));
 
                 // Redirect
-                window.location.href = '/Home/NotFound';
+                window.location.href = '/Home/Unavailable';
             }
         })
     },

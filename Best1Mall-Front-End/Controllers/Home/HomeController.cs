@@ -93,6 +93,10 @@ namespace Best1Mall_Front_End.Controllers.Home
         {
             return View();
         }
+        public IActionResult Unavailable()
+        {
+            return View();
+        }
         [Route("About")]
         public IActionResult About()
         {
