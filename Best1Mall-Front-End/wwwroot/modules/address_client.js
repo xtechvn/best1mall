@@ -12,14 +12,15 @@ var address_client = {
         $('#address-phone').html('')
         $('#address').html('(Chưa chọn địa chỉ giao hàng)')
         sessionStorage.removeItem(STORAGE_NAME.AddressClient)
-        if (!$('#address-book').hasClass('overlay')) {
-            $('.menu-left-user .list-tab-menu .client-address').addClass('active')
-            $('.menu-left-user .list-tab-menu .client-address').closest('.sub-menu').addClass('active')
+        //if (!$('#address-book').hasClass('overlay')) {
+        //    $('.menu-left-user .list-tab-menu .client-address').addClass('active')
+        //    $('.menu-left-user .list-tab-menu .client-address').closest('.sub-menu').addClass('active')
 
-        } else {
-            $('#address-book .btn-confirm-address').show()
+        //} else {
+        //    $('#address-book .btn-confirm-address').show()
 
-        }
+        //}
+
         address_client.Detail()
         address_client.RenderProvinces()
         address_client.DynamicBind()
