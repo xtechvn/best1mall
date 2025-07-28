@@ -582,6 +582,7 @@ var address_client = {
         const province = popup.find('.province select').val();
         const district = popup.find('.district select').val();
         const ward = popup.find('.wards select').val();
+        const phoneRegex = /^(0|\+84)(3[2-9]|5[6-9]|7[06-9]|8[1-9]|9[0-9])[0-9]{7}$/;
 
         // Reset lỗi trước
         popup.find('.err').hide();
@@ -590,8 +591,12 @@ var address_client = {
             popup.find('.user').siblings('.err').show();
             isValid = false;
         }
+        // Validate Số điện thoại
         if (!phone) {
-            popup.find('.tel').siblings('.err').show();
+            popup.find('.tel').siblings('.err').text('Vui lòng không để trống Số điện thoại').show();
+            isValid = false;
+        } else if (!phoneRegex.test(phone)) {
+            popup.find('.tel').siblings('.err').text('Số điện thoại không hợp lệ').show();
             isValid = false;
         }
         if (!province) {
