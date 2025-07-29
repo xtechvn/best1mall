@@ -23,7 +23,6 @@
         return "https://static-image.adavigo.com" + avatar;
     }
 }
-
 @if (Model != null && Model.Count >= 5)
 {
     var bigBanner = Model[0];
@@ -32,16 +31,20 @@
     <div class="grid md:grid-cols-2 gap-2">
         <!-- Ảnh lớn bên trái -->
         <div class="relative aspect-[1/1] overflow-hidden rounded-[16px]">
-            <img src="@GetFullImageUrl(bigBanner.image_path)" alt="@bigBanner.name" class="w-full h-full object-cover" />
+            <a href="@(!string.IsNullOrEmpty(bigBanner.description) ? bigBanner.description : "#")">
+                <img src="@GetFullImageUrl(bigBanner.image_path)" alt="@bigBanner.name" class="w-full h-full object-cover" />
+            </a>
         </div>
 
         <!-- Ảnh nhỏ bên phải -->
         <div class="grid grid-cols-2 gap-2">
             @foreach (var item in smallBanners)
             {
-                <div class="relative aspect-[1/1] overflow-hidden rounded-[16px]">
-                    <img src="@GetFullImageUrl(item.image_path)" alt="@item.name" class="w-full h-full object-cover" />
-                </div>
+                <a href="@(!string.IsNullOrEmpty(item.description) ? item.description : "#")">
+                    <div class="relative aspect-[1/1] overflow-hidden rounded-[16px]">
+                        <img src="@GetFullImageUrl(item.image_path)" alt="@item.name" class="w-full h-full object-cover" />
+                    </div>
+                </a>
             }
         </div>
     </div>
@@ -50,3 +53,4 @@ else
 {
     <p class="text-gray-500 italic">Không đủ banner để hiển thị lưới (cần ít nhất 5 ảnh).</p>
 }
+

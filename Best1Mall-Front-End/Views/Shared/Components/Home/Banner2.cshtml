@@ -36,7 +36,9 @@
         {
             string mainImg = GetFullImageUrl(mainBanner.image_path);
             <div class="md:rounded-3xl rounded-xl overflow-hidden col-span-3">
+            <a href="@(!string.IsNullOrEmpty(mainBanner.description) ? mainBanner.description : "#")">
                 <img src="@mainImg" alt="@mainBanner.name" class="w-full md:h-[171.83px] shadow" />
+            </a>
             </div>
         }
 
@@ -46,7 +48,9 @@
             {
                 string imgSrc = GetFullImageUrl(item.image_path);
                 <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full">
-                <img src="@imgSrc" alt="@item.name" class="w-full md:h-[171.83px] shadow" />
+                <a href="@(!string.IsNullOrEmpty(item.description) ? item.description : "#")">
+                    <img src="@imgSrc" alt="@item.name" class="w-full md:h-[171.83px] shadow" />
+                </a>
                 </div>
             }
         </div>
