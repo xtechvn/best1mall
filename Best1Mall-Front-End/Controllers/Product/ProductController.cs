@@ -1,7 +1,9 @@
 ﻿using Best1Mall_Front_End.Controllers.Client.Business;
+using Best1Mall_Front_End.Controllers.FlashSale.Business;
 using Best1Mall_Front_End.Controllers.Home.Business;
 using Best1Mall_Front_End.Controllers.News.Business;
 using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Models.Flashsale;
 using Best1Mall_Front_End.Models.Labels;
 using Best1Mall_Front_End.Models.Products;
 using Best1Mall_Front_End.Models.Raiting;
@@ -171,29 +173,7 @@ namespace Best1Mall_Front_End.Controllers.Product
             }
 
         }
-        public async Task<IActionResult> GetListLabel(ProductListByLabelFERequest request)
-        {
-            ProductListResponseModel result = await _productServices.LabelListProduct(request);
-
-            if (result != null && result.items != null && result.items.Count > 0)
-            {
-                return Ok(new
-                {
-                    is_success = true,
-                    data = result.items,
-                    count = result.count,
-                    label_detail= result.label_detail
-                });
-            }
-            else
-            {
-                return Ok(new
-                {
-                    is_success = false
-                });
-            }
-
-        }
+       
         public async Task<IActionResult> GetGroupProduct(ProductListRequestModel request)
         {
             GroupProductResponseModel result = await _productServices.GetGroupProduct(request);
@@ -220,14 +200,19 @@ namespace Best1Mall_Front_End.Controllers.Product
         [Route("thuong-hieu/{slug}")]
         public async Task<IActionResult> LabelListProduct(ProductListByLabelFERequest request)
         {
+            // Set page_index và page_size mặc định nếu không có giá trị
+            request.page_index = request.page_index > 0 ? request.page_index : 1;  // Gán 1 nếu page_index <= 0
+            request.page_size = request.page_size > 0 ? request.page_size : 10;   // Gán 10 nếu page_size <= 0
+
             var result = await _productServices.LabelListProduct(request);
+
             // Kiểm tra nếu result là null, gán model mặc định
             if (result == null)
             {
                 result = new ProductListResponseModel
                 {
                     items = new List<ProductMongoDbModel>(),
-                    count = 0,
+                    count = 0, // tổng số sản phẩm
                     label_detail = new LabelDetail
                     {
                         id = 0,
@@ -242,9 +227,58 @@ namespace Best1Mall_Front_End.Controllers.Product
                 };
             }
 
+            // Tính toán số trang (nếu cần thiết)
+            var totalPages = (int)Math.Ceiling(result.count / (double)request.page_size);
+
+            // Trả về dữ liệu kèm số trang
+            ViewBag.LabelId = request.label_id;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = request.page_index;
 
             return View("LabelListProduct", result);
         }
+        [HttpPost]
+        public async Task<IActionResult> LoadMoreFilteredLabel(ProductListByLabelFERequest request)
+        {
+            var result = await _productServices.LabelListProduct(request);
+
+            bool isLastPage = (request.page_index * request.page_size) >= result.count;
+
+            // Render lại phần HTML của danh sách sản phẩm
+            var html = await this.RenderViewAsync("ProductListLabel", result ?? new ProductListResponseModel(), true);
+
+            return Json(new
+            {
+                isLastPage,
+                html
+            });
+        }
+
+
+        public async Task<IActionResult> GetListLabel(ProductListByLabelFERequest request)
+        {
+            ProductListResponseModel result = await _productServices.LabelListProduct(request);
+
+            if (result != null && result.items != null && result.items.Count > 0)
+            {
+                return Ok(new
+                {
+                    is_success = true,
+                    data = result.items,
+                    count = result.count,
+                    label_detail = result.label_detail
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    is_success = false
+                });
+            }
+
+        }
+
         public async Task<IActionResult> Search(ProductGlobalSearchRequestModel request)
         {
             var result = await _productServices.Search(request);
