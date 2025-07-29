@@ -116,23 +116,39 @@
             <!-- Kiểm tra và chỉ hiển thị BannerSub nếu có -->
             @if (!string.IsNullOrEmpty(Model.label_detail.BannerSub))
             {
-                // Deserialize BannerSub (chuỗi JSON thành mảng)
-                var bannerSubList = JsonConvert.DeserializeObject<List<string>>(Model.label_detail.BannerSub);
-
-                if (bannerSubList != null && bannerSubList.Any())
+                try
                 {
-                    <div class="flex md:justify-between gap-2 overflow-x-auto scrollbar-hide md:grid grid-cols-3 pb-2 mt-2">
-                        @foreach (var banner in bannerSubList)
-                        {
-                            <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full">
-                                <img src="@GetFullImageUrl(banner)" alt="Banner Sub" class="w-full shadow h-[183px]" />
-                            </div>
-                        }
-                    </div>
+                    // Deserialize BannerSub (chuỗi JSON thành mảng)
+                    var bannerSubList = JsonConvert.DeserializeObject<List<string>>(Model.label_detail.BannerSub);
+
+                    if (bannerSubList != null && bannerSubList.Any())
+                    {
+                        <div class="flex md:justify-between gap-2 overflow-x-auto scrollbar-hide md:grid grid-cols-3 pb-2 mt-2">
+                            @foreach (var banner in bannerSubList)
+                            {
+                                <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full">
+                                    <img src="@GetFullImageUrl(banner)" alt="Banner Sub" class="w-full shadow h-[183px]" />
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-gray-500 italic">Không có banner phụ</p>
+                    }
                 }
-            }else{
-                <p class="text-gray-500 italic">Không có banner </p>
+                catch (Exception ex)
+                {
+                    // Log lỗi nếu có và không làm gián đoạn trang
+                    Console.WriteLine("Error parsing BannerSub: " + ex.Message);
+                    <p class="text-gray-500 italic">Có lỗi khi hiển thị banner phụ</p>
+                }
             }
+            else
+            {
+                <p class="text-gray-500 italic">Không có banner phụ</p>
+            }
+
 
         </div>
 
