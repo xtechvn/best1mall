@@ -37,7 +37,8 @@
                                 @*     </a> *@
                                 @* </div> *@
 
-                                @await Component.InvokeAsync("MenuNews", new { menuType = "banner_thuonghieu" })
+                                @* @await Component.InvokeAsync("MenuNews", new { menuType = "banner_thuonghieu" }) *@
+                                @await Component.InvokeAsync("LabelList", new { labeltype = "home2" })
                             </div>
                         </div>
 
