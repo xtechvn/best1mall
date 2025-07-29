@@ -58,13 +58,17 @@ namespace Best1Mall_Front_End.Utilities
 
             using var writer = new StringWriter();
             var viewEngine = controller.HttpContext.RequestServices.GetService<ICompositeViewEngine>();
+
+            
+
             var viewResult = partial
                 ? viewEngine.FindView(controller.ControllerContext, viewName, false)
                 : viewEngine.GetView(null, viewName, false);
 
             if (viewResult.View == null)
             {
-                throw new ArgumentNullException($"View '{viewName}' not found.");
+                // Thêm thông báo lỗi chi tiết
+                throw new ArgumentNullException($"View '{viewName}' not found. Ensure the path and view name are correct.");
             }
 
             var viewContext = new ViewContext(
@@ -79,5 +83,6 @@ namespace Best1Mall_Front_End.Utilities
             await viewResult.View.RenderAsync(viewContext);
             return writer.GetStringBuilder().ToString();
         }
+
     }
 }

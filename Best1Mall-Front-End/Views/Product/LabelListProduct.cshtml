@@ -101,6 +101,16 @@
 
 
             </div>
+            @* Hiển thị nút "Xem thêm" nếu có nhiều sản phẩm *@
+            @if (Model.count > 10)
+            {
+                <div class="flex justify-center mt-5">
+                    <button type="button" class="text-color-base font-normal" id="btn-load-label"
+                            data-labelid="@ViewBag.LabelId">
+                        Xem thêm
+                    </button>
+                </div>
+            }
         </div>
         <!-- Hiển thị banner phụ -->
         <div class="my-6 md:my-10">
@@ -149,8 +159,57 @@
                 <p class="text-gray-500 italic">Không có banner phụ</p>
             }
 
-
+           
         </div>
+        
+           
+        
 
     </div>
 </section>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+                            $(document).ready(function() {
+            $('#btn-load-label').on('click', function() {
+                debugger
+                var btn = $(this);
+                var container = $('.component-product-list');
+                var currentPage = parseInt(container.data("page") || 1);
+                var labelId = btn.data("labelid"); // Lấy LabelId từ data attribute
+                var pageSize = 10; // Kích thước trang cố định
+
+                currentPage++;
+
+                // Cập nhật dữ liệu cần thiết từ container
+                var requestData = {
+                    page_index: currentPage,
+                    page_size: pageSize,
+                    label_id: labelId // Sử dụng labelCode để lấy sản phẩm liên quan đến Label
+                };
+
+                btn.prop("disabled", true).text("Đang tải...");
+
+                $.post("/Product/LoadMoreFilteredLabel", requestData, function(res) {
+                    debugger
+                    if (res.html) {
+                        container.append(res.html);  // Thêm sản phẩm mới vào container
+                        container.data("page", currentPage); // Cập nhật trang hiện tại
+                    }
+
+                    if (res.isLastPage) {
+                        btn.hide();  // Nếu không còn sản phẩm nào, ẩn nút "Xem thêm"
+                    } else {
+                        btn.prop("disabled", false).text("Xem thêm");  // Hiển thị lại nút "Xem thêm"
+                    }
+                }).fail(function(err) {
+                    console.error("LoadMore error:", err);
+                    btn.prop("disabled", false).text("Xem thêm");
+                });
+            });
+        });
+
+
+    </script>
+}
