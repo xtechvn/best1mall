@@ -291,28 +291,28 @@ $(document).ready(function () {
                 //--Product Sale Slide:
               //  global_service.LoadHomeFlashSaleGrid($('.list-product-sale .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.FlashSale, GLOBAL_CONSTANTS.Size)
                 // Bear Collection
-                global_service.LoadHomeLabelGrid(
-                    $('#bear-collection .swiper-wrapper'),
-                    GLOBAL_CONSTANTS.GroupProduct.BEAR_COLLECTION,
-                    GLOBAL_CONSTANTS.GridSize,
-                    '#banner-bear-collection'
-                );
+                //global_service.LoadHomeLabelGrid(
+                //    $('#bear-collection .swiper-wrapper'),
+                //    GLOBAL_CONSTANTS.GroupProduct.BEAR_COLLECTION,
+                //    GLOBAL_CONSTANTS.GridSize,
+                //    '#banner-bear-collection'
+                //);
 
-                // Discount
-                global_service.LoadHomeLabelGrid(
-                    $('#product-discount .swiper-wrapper'),
-                    GLOBAL_CONSTANTS.GroupProduct.Discount,
-                    GLOBAL_CONSTANTS.GridSize,
-                    '#banner-product-discount'
-                );
+                //// Discount
+                //global_service.LoadHomeLabelGrid(
+                //    $('#product-discount .swiper-wrapper'),
+                //    GLOBAL_CONSTANTS.GroupProduct.Discount,
+                //    GLOBAL_CONSTANTS.GridSize,
+                //    '#banner-product-discount'
+                //);
 
-                // Intelligence
-                global_service.LoadHomeLabelGrid(
-                    $('#intelligence-collection .swiper-wrapper'),
-                    GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT,
-                    GLOBAL_CONSTANTS.GridSize,
-                    '#banner-intelligence-collection'
-                );
+                //// Intelligence
+                //global_service.LoadHomeLabelGrid(
+                //    $('#intelligence-collection .swiper-wrapper'),
+                //    GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT,
+                //    GLOBAL_CONSTANTS.GridSize,
+                //    '#banner-intelligence-collection'
+                //);
 
                 // Load sản phẩm theo group_id đầu tiên
                 home_product.loadProductByGroup(firstCategoryId);

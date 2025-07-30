@@ -23,6 +23,8 @@
         public DateTime? CreateTime { get; set; }
 
         public DateTime? UpdateTime { get; set; }
+        public int? Position { get; set; }
+        public int? ShopMallPosition { get; set; }
 
         public int? CreatedBy { get; set; }
 

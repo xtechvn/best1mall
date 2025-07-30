@@ -338,7 +338,7 @@ var account = {
 
         });
         $("body").on('click', "#change-pass", function (e) {
-            debugger
+            
             $('#login-popup').fadeOut()
             $('#forgot-popup').fadeIn()
             // Cập nhật title khi nhấn "Đổi mật khẩu"

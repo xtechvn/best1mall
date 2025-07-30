@@ -235,69 +235,37 @@
                 },
             },
         });
-                // Sản phẩm nổi bật - Bear
-        new Swiper("#bear-collection .swiper", {
-            slidesPerView: 2,
-            spaceBetween: 15,
-            navigation: {
-                nextEl: "#bear-collection .swiper-button-next",
-                prevEl: "#bear-collection .swiper-button-prev",
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 2.5,
-                },
-                768: {
-                    slidesPerView: 3.5,
-                },
-                1024: {
-                    slidesPerView: 5,
-                },
-            },
+                $(document).ready(function () {
+            // Khởi tạo Swiper cho từng block sản phẩm động
+            $('#dynamic-label-blocks .list_product').each(function () {
+                const section = $(this);
+                const swiperEl = section.find('.swiper')[0];
+                const nextBtn = section.find('.swiper-button-next')[0];
+                const prevBtn = section.find('.swiper-button-prev')[0];
 
-        });
-
-        // Sản phẩm giảm giá - Discount
-        new Swiper("#product-discount .swiper", {
-            slidesPerView: 2,
-            spaceBetween: 15,
-            navigation: {
-                nextEl: "#product-discount .swiper-button-next",
-                prevEl: "#product-discount .swiper-button-prev",
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 2.5,
-                },
-                768: {
-                    slidesPerView: 3.5,
-                },
-                1024: {
-                    slidesPerView: 5,
-                },
-            },
-        });
-
-        // Phát triển trí tuệ - Intelligence
-        new Swiper("#intelligence-collection .swiper", {
-            slidesPerView: 2,
-            spaceBetween: 15,
-            navigation: {
-                nextEl: "#intelligence-collection .swiper-button-next",
-                prevEl: "#intelligence-collection .swiper-button-prev",
-            },
+                // Init Swiper
+                new Swiper(swiperEl, {
+                    slidesPerView: 2,
+                    spaceBetween: 15,
+                    navigation: {
+                        nextEl: nextBtn,
+                        prevEl: prevBtn
+                    },
                     breakpoints: {
-            640: {
-                slidesPerView: 2.5,
-            },
-            768: {
-                slidesPerView: 3.5,
-            },
-            1024: {
-                slidesPerView: 5,
-            },
-        },
+                        640: {
+                            slidesPerView: 2.5,
+                        },
+                        768: {
+                            slidesPerView: 3.5,
+                        },
+                        1024: {
+                            slidesPerView: 5,
+                        },
+                    }
+                });
+            });
         });
+
 
     </script>
     <script>

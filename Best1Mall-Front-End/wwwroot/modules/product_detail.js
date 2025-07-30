@@ -295,7 +295,7 @@ var product_detail = {
         });
     },
     Detail: function () {
-       debugger
+       
         const usr = global_service.CheckLogin(); // kiểm tra đăng nhập
        
 
