@@ -274,6 +274,59 @@ var global_service = {
             $(".box-search-list").fadeOut();
             $("#global-search-loading").hide();
         });
+        $('#dynamic-label-blocks .list_product').each(function () {
+            
+            const section = $(this);
+            const swiperWrapper = section.find('.swiper-wrapper');
+            const labelId = swiperWrapper.attr('id').replace('swiper-wrapper-', '');
+            const bannerId = '#banner-' + section.find('img').attr('id').split('banner-')[1];
+
+            const defaultBanner = $(bannerId).attr('src');
+
+            const request = {
+                label_id: parseInt(labelId),
+                page_index: 1,
+                page_size: GLOBAL_CONSTANTS.GridSize
+            };
+
+            // Load sản phẩm theo LabelId
+            $.when(global_service.POST(API_URL.LabelListProduct, request))
+                .done(function (res) {
+                    
+                    if (res.is_success && res.data) {
+                        const products = res.data;
+                        const labelDetail = res.label_detail;
+
+                        let html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem);
+
+                        // Thêm nút "Xem tất cả" nếu không phải nhóm bị loại trừ
+                        if (![
+                            GLOBAL_CONSTANTS.GroupProduct.FlashSale
+                        ].includes(parseInt(labelId))) {
+                            const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu')).replace(" ", "-").toLowerCase();
+
+                            html += HTML_CONSTANTS.Home.SeeAllSlideItem
+                                .replace('{group_id}', labelId)
+                                .replace('{label_slug}', labelSlug);
+                        }
+
+                        swiperWrapper.html(html);
+
+                        // Đặt banner riêng nếu có
+                        if (labelDetail && labelDetail.banner && labelDetail.banner.trim() !== '') {
+                            $(bannerId).attr('src', labelDetail.banner);
+                        } else {
+                            $(bannerId).attr('src', defaultBanner);
+                        }
+
+                        $(bannerId).on('error', function () {
+                            $(this).attr('src', defaultBanner);
+                        });
+                    } else {
+                        swiperWrapper.html('');
+                    }
+                });
+        });
 
 
     },
@@ -614,65 +667,65 @@ var global_service = {
         })
     },
     
-    LoadHomeLabelGrid: function (element, group_id, size, bannerSelector, appendSeeAll = true) {
+    //LoadHomeLabelGrid: function (element, group_id, size, bannerSelector, appendSeeAll = true) {
         
-        const excludedGroups = [
-            GLOBAL_CONSTANTS.GroupProduct.FlashSale,
-            //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
-        ]
-        const defaultBanner = $(bannerSelector).attr('src'); // Lưu banner mặc định từ HTML
-        const section = element.closest('.list_product'); // lấy section chứa cả block
-        element.addClass('placeholder')
-        element.addClass('box-placeholder')
-        element.css('width', '100%')
-        element.css('height', '255px')
-        var request = {
-            "label_id": group_id,
-            "page_index": 1,
-            "page_size": size
-        }
-        $.when(
-            global_service.POST(API_URL.LabelListProduct, request)
-        ).done(function (result) {
+    //    const excludedGroups = [
+    //        GLOBAL_CONSTANTS.GroupProduct.FlashSale,
+    //        //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
+    //    ]
+    //    const defaultBanner = $(bannerSelector).attr('src'); // Lưu banner mặc định từ HTML
+    //    const section = element.closest('.list_product'); // lấy section chứa cả block
+    //    element.addClass('placeholder')
+    //    element.addClass('box-placeholder')
+    //    element.css('width', '100%')
+    //    element.css('height', '255px')
+    //    var request = {
+    //        "label_id": group_id,
+    //        "page_index": 1,
+    //        "page_size": size
+    //    }
+    //    $.when(
+    //        global_service.POST(API_URL.LabelListProduct, request)
+    //    ).done(function (result) {
             
-            if (result.is_success && result.data) {
+    //        if (result.is_success && result.data) {
                
-                var products = result.data
-                var labelDetail = result.label_detail;
+    //            var products = result.data
+    //            var labelDetail = result.label_detail;
 
-                var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
-                // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
-                if (appendSeeAll && !excludedGroups.includes(group_id)) {
-                    //const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu'))
-                    const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu')).replace(" ", "-").toLowerCase();
-
-
-                    html += HTML_CONSTANTS.Home.SeeAllSlideItem
-                        .replace('{group_id}', group_id)
-                        .replace('{label_slug}', labelSlug);
-                }
-                element.html(html)
-                // Set banner riêng
-                if (labelDetail && labelDetail.banner && labelDetail.banner.trim() !== '') {
-                    $(bannerSelector).attr('src', labelDetail.banner);
-                } else {
-                    $(bannerSelector).attr('src', defaultBanner); // fallback
-                }
-
-                // fallback nếu hình fail
-                $(bannerSelector).on('error', function () {
-                    $(this).attr('src', defaultBanner);
-                });
+    //            var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
+    //            // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
+    //            if (appendSeeAll && !excludedGroups.includes(group_id)) {
+    //                //const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu'))
+    //                const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu')).replace(" ", "-").toLowerCase();
 
 
-            } else {
-                element.html('')
-            }
-            element.removeClass('placeholder')
-            element.removeClass('box-placeholder')
-            element.css('height', 'auto')
-        })
-    },
+    //                html += HTML_CONSTANTS.Home.SeeAllSlideItem
+    //                    .replace('{group_id}', group_id)
+    //                    .replace('{label_slug}', labelSlug);
+    //            }
+    //            element.html(html)
+    //            // Set banner riêng
+    //            if (labelDetail && labelDetail.banner && labelDetail.banner.trim() !== '') {
+    //                $(bannerSelector).attr('src', labelDetail.banner);
+    //            } else {
+    //                $(bannerSelector).attr('src', defaultBanner); // fallback
+    //            }
+
+    //            // fallback nếu hình fail
+    //            $(bannerSelector).on('error', function () {
+    //                $(this).attr('src', defaultBanner);
+    //            });
+
+
+    //        } else {
+    //            element.html('')
+    //        }
+    //        element.removeClass('placeholder')
+    //        element.removeClass('box-placeholder')
+    //        element.css('height', 'auto')
+    //    })
+    //},
    
     LoadGroupProduct: function (element, group_id, size) {
         

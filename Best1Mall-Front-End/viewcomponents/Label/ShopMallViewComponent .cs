@@ -8,13 +8,13 @@ using Microsoft.Extensions.Logging;
 
 namespace BIOLIFE.ViewComponents.Product
 {
-    public class LabelListViewComponent : ViewComponent
+    public class ShopMallViewComponent : ViewComponent
     {
         private readonly IConfiguration configuration;
         private readonly RedisConn redisService;
         private readonly IMemoryCache _cache; // Inject IMemoryCache
-        private readonly ILogger<LabelListViewComponent> _logger;
-        public LabelListViewComponent(IConfiguration _Configuration, RedisConn _redisService, IMemoryCache cache, ILogger<LabelListViewComponent> logger)
+        private readonly ILogger<ShopMallViewComponent > _logger;
+        public ShopMallViewComponent (IConfiguration _Configuration, RedisConn _redisService, IMemoryCache cache, ILogger<ShopMallViewComponent> logger)
         {
             configuration = _Configuration;
             redisService = _redisService;
@@ -32,22 +32,21 @@ namespace BIOLIFE.ViewComponents.Product
             {
                 var labelMap = new Dictionary<string, (string cacheKey, int top, string viewPath)>
             {
-                { "home", ("label_home", 6, "~/Views/Shared/Components/Label/LabelListViewComponent.cshtml") },
-                //{ "product", ("label_product", 6, "~/Views/Shared/Components/Label/LabelProductViewComponent.cshtml") },
-                { "home2", ("label_home2", 6, "~/Views/Shared/Components/Home/BannerThuonghieu.cshtml") }
+                { "shopmall", ("shopmall_home", 3, "~/Views/Shared/Components/Label/ShopMallViewComponent.cshtml") },
+                
 
             };
 
                 if (!labelMap.TryGetValue(labeltype, out var config))
                 {
-                    _logger.LogWarning("Label ViewComponent: labeltype không hợp lệ ({LabelType})", labeltype);
+                    _logger.LogWarning("shopmall ViewComponent: shopmalltype không hợp lệ ({shopmallType})", labeltype);
                     return Content(""); // labeltype sai thì return rỗng
                 }
 
                 if (!_cache.TryGetValue(config.cacheKey, out var cachedView))
                 {
                     var objCate = new MenuService(configuration, redisService);
-                    cachedView = await objCate.GetLabelList(config.top);
+                    cachedView = await objCate.GetShopMall(config.top);
 
                     if (cachedView != null)
                     {

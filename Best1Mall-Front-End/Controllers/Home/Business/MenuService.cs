@@ -190,6 +190,38 @@ namespace Best1Mall_Front_End.Controllers.Home.Business
                 return null;
             }
         }
+        public async Task<List<LabelListingModel>?> GetShopMall(int top)
+        {
+            try
+            {
+                var connect_api_us = new ConnectApi(configuration, redisService);
+                var input_request = new Dictionary<string, string>
+                {
+                    {"top",top.ToString() }
+                };
+                var response_api = await connect_api_us.CreateHttpRequest("/api/label/shopmall", input_request);
+
+                // Nhan ket qua tra ve                            
+                var JsonParent = JArray.Parse("[" + response_api + "]");
+                int status = Convert.ToInt32(JsonParent[0]["status"]);
+
+                if (status == ((int)ResponseType.SUCCESS))
+                {
+                    string data = JsonParent[0]["data"].ToString();
+                    return JsonConvert.DeserializeObject<List<LabelListingModel>>(data);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Utilities.LogHelper.InsertLogTelegramByUrl(configuration["telegram_log_error_fe:Token"], configuration["telegram_log_error_fe:GroupId"], "getListMenuHelp " + ex.Message);
+                return null;
+            }
+        }
 
 
 

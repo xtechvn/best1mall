@@ -47,7 +47,7 @@
 {
 
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderBy(l => l.Position ?? int.MaxValue))
     {
         string imgSrc = GetFullImageUrl(item.Icon);
         <div class="swiper-slide">

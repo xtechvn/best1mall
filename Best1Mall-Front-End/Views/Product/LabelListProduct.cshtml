@@ -173,7 +173,7 @@
     <script>
                             $(document).ready(function() {
             $('#btn-load-label').on('click', function() {
-                debugger
+                
                 var btn = $(this);
                 var container = $('.component-product-list');
                 var currentPage = parseInt(container.data("page") || 1);
@@ -192,7 +192,7 @@
                 btn.prop("disabled", true).text("Đang tải...");
 
                 $.post("/Product/LoadMoreFilteredLabel", requestData, function(res) {
-                    debugger
+                    
                     if (res.html) {
                         container.append(res.html);  // Thêm sản phẩm mới vào container
                         container.data("page", currentPage); // Cập nhật trang hiện tại

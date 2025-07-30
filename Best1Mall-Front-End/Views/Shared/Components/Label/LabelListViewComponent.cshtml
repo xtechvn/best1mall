@@ -60,25 +60,23 @@
 
     <div class="list-thuonghieu grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-3 mt-3">
         <!-- Item -->
-        @foreach (var label in Model.Take(6))
+        @foreach (var label in Model.OrderBy(l => l.Position ?? int.MaxValue))
         {
             string imgSrc = GetFullImageUrl(label.Avatar);
             string imgSrc2 = GetFullImageUrl(label.Icon);
 
             <div class="item flex-shrink-0 w-full text-center p-3 rounded-xl bg-white">
                 <a href="/thuong-hieu/@ToSeoUrl(label.LabelCode)?label_id=@label.Id" class="block">
-
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg mb-2">
-                        <!-- Image for label (you can replace with the actual icon from the model) -->
                         <img src="@imgSrc" alt="@label.LabelName"
                              class="absolute inset-0 w-full h-full object-cover" />
                     </div>
                     <img src="@imgSrc2" alt="@label.LabelName"
-                         class="logo rounded-full border border-blue-100  !h-[83px] !mt-[22px]  bg-white mx-auto" />
-                    @* <p class="font-medium text-red-400 mt-3">@label.LabelName</p> *@
+                         class="logo rounded-full border border-blue-100 !h-[83px] !mt-[22px] bg-white mx-auto" />
                 </a>
             </div>
         }
+
     </div>
 
     @* <div class="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-3 mt-3"> *@
