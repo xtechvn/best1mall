@@ -799,15 +799,6 @@ var cart = {
         }
         // ❌ Nếu chưa chọn địa chỉ
         if (!$('#address-receivername').attr('data-id')?.trim()) {
-            //Swal.fire({
-            //    icon: 'warning',
-            //    title: 'Chưa chọn địa chỉ giao hàng',
-            //    text: 'Vui lòng thêm hoặc chọn địa chỉ trước khi tiếp tục.',
-            //    confirmButtonText: 'OK'
-            //}).then(() => {
-            //    $btn.prop('disabled', false).removeClass('opacity-60 cursor-not-allowed').text(originalText);
-            //    $('.mainheader .client-login').click();
-            //});
             address_client.CreateOrUpdateAddress('')
             return;
         }
@@ -884,7 +875,7 @@ var cart = {
 
                 })
             }
-
+            
             if (carts.length > 0) {
                 // ✅ Chặn confirm nếu toàn sản phẩm 0đ hoặc quantity = 0
                 
@@ -904,7 +895,7 @@ var cart = {
                 ).done(function (result) {
                     
                     if (result.is_success && result.data != undefined) {
-                        
+                       
                         request.result = result.data
                         sessionStorage.setItem(STORAGE_NAME.Order, JSON.stringify(request))
                         sessionStorage.removeItem(STORAGE_NAME.CartCount)
@@ -912,7 +903,30 @@ var cart = {
                         // ✅ Ghi dấu hiệu đã tạo đơn
                         localStorage.setItem('just_created_order', 'true');
 
-                        window.location.href = '/order/payment/' + result.data.id
+                        // 🆕 Bổ sung xử lý với VNPAY (payment_type == 3)
+                        const selected_payment_type = parseInt(request.payment_type);
+                        if (selected_payment_type === 3) {
+                            
+                            const redirect_request = {
+ 
+                                country: "vn",
+                                id: result.data.id
+                            };
+                            $.post('/Order/VNPay', redirect_request).done(function (res) {
+                                
+                                if (res.is_success && res.data) {
+                                    window.location.href = res.data; // redirect sang trang VNPAY
+                                } else {
+                                    Swal.fire("Lỗi", "Không thể tạo link thanh toán VNPay", "error");
+                                    $btn.prop('disabled', false).removeClass('opacity-60 cursor-not-allowed').text(originalText);
+                                }
+                            }).fail(function () {
+                                Swal.fire("Lỗi", "Giao tiếp với cổng thanh toán thất bại", "error");
+                                $btn.prop('disabled', false).removeClass('opacity-60 cursor-not-allowed').text(originalText);
+                            });
+                        } else {
+                            window.location.href = '/order/payment/' + result.data.id; // phương thức khác
+                        }
 
                     }
                     else {

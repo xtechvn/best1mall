@@ -7,4 +7,13 @@
         public bool pushed { get; set; }
 
     }
+    public class OrderVnPayResponseModel
+    {
+        public int amount { get; set; }
+        public string order_no { get; set; }
+        public string created_date { get; set; }
+        public long order_id { get; set; }
+
+    }
+
 }

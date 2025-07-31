@@ -10,6 +10,7 @@ using Best1Mall_Front_End.Models.Files;
 using Best1Mall_Front_End.Service;
 using System;
 using HuloToys_Service.Models.Orders;
+using Best1Mall_Front_End.Utilities.lib;
 
 namespace Best1Mall_Front_End.Controllers
 {
@@ -19,6 +20,8 @@ namespace Best1Mall_Front_End.Controllers
         private readonly IConfiguration _configuration;
         private readonly OrderServices _orderServices;
         private readonly StaticAPIService staticAPIService;
+        private readonly  VnpayLibrary _vnpayLibrary;
+
         private readonly string static_domain = "";
 
         public OrderController(IConfiguration configuration) {
@@ -27,6 +30,7 @@ namespace Best1Mall_Front_End.Controllers
             _orderServices = new OrderServices(configuration);
             staticAPIService = new StaticAPIService(configuration);
             static_domain = configuration["API:StaticURL"];
+            _vnpayLibrary = new VnpayLibrary(); // ✅ Fix null
 
         }
         public ActionResult Index()
@@ -138,6 +142,36 @@ namespace Best1Mall_Front_End.Controllers
                 data = result
             });
         }
+        [HttpPost]
+        public async Task<IActionResult> VNPay(OrdersVNPAYRequestModel request)
+        {
+            var ipAddress = _vnpayLibrary.GetIpAddress(HttpContext);
+
+            var vnpayRequest = new OrdersVNPAYRequestModel
+            {
+                client_ip = ipAddress,
+                country = request.country,
+                id = request.id
+            };
+            var result = await _orderServices.VNPay(vnpayRequest);
+
+            return Ok(new
+            {
+                is_success = result != null,
+                data = result
+            });
+        }
+        public async Task<IActionResult> VNPayValidate(OrdersVNPAYValidateRequestModel request)
+        {
+            var result = await _orderServices.VNPayValidate(request);
+
+            return Ok(new
+            {
+                is_success = result != null,
+                data = result
+            });
+        }
+
         [HttpPost]
         public async Task<IActionResult> InsertRaiting(ProductInsertRaitingRequestModel request)
         {
