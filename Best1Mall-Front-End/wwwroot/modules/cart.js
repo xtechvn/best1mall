@@ -390,7 +390,6 @@ var cart = {
         }
     },
     CartItem: function () {
-
         
         var usr = global_service.CheckLogin()
         $('#skeleton-loading').show();
@@ -518,23 +517,45 @@ var cart = {
 
 
     RenderBuyNowSelection: function () {
-        var buy_now_item = sessionStorage.getItem(STORAGE_NAME.BuyNowItem)
-        if (buy_now_item) {
-            var buy_now = JSON.parse(buy_now_item)
-            $('.table-addtocart .product').each(function (index, item) {
-                var element = $(this);
-                var checkbox = element.find('.checkbox-cart');
-                var isDisabled = checkbox.prop('disabled');
-                if (element.attr('data-product-id') == buy_now.product_id && !isDisabled) {
-                    element.find('.checkbox-cart').prop('checked', true)
-                    cart.ReRenderAmount()
-                    return false
-                }
-            })
-            sessionStorage.removeItem(STORAGE_NAME.BuyNowItem)
+        var buy_now_item = sessionStorage.getItem(STORAGE_NAME.BuyNowItem);
+        if (!buy_now_item) return;
+
+        var buy_now = JSON.parse(buy_now_item);
+        var productIds = [];
+
+        // Hỗ trợ cả kiểu cũ (product_id) và kiểu mới (product_ids)
+        if (Array.isArray(buy_now.product_ids)) {
+            productIds = buy_now.product_ids;
+        } else if (buy_now.product_id) {
+            productIds = [buy_now.product_id];
         }
 
+        if (productIds.length === 0) return;
+
+        $('.table-addtocart .product').each(function () {
+            var element = $(this);
+            var checkbox = element.find('.checkbox-cart');
+            var isDisabled = checkbox.prop('disabled');
+            var pid = element.attr('data-product-id');
+
+            if (productIds.includes(pid) && !isDisabled) {
+                checkbox.prop('checked', true);
+                element.addClass("highlight-buy-now");
+
+                // Optional: scroll đến sản phẩm đầu tiên được check
+                if (!$('html').data('scrolled')) {
+                    $('html').data('scrolled', true);
+                    $('html, body').animate({
+                        scrollTop: element.offset().top - 100
+                    }, 100);
+                }
+            }
+        });
+
+        cart.ReRenderAmount();
+        sessionStorage.removeItem(STORAGE_NAME.BuyNowItem);
     },
+
     RenderCartNumberOfProduct: function () {
         $('.total-sp').html('(' + $('.table-addtocart .product').length + ' sản phẩm) ')
 

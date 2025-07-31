@@ -1371,6 +1371,12 @@ var buyTogether = {
                 token: token
             }));
         });
+        // ✅ Lưu lại danh sách sản phẩm đã mua để tự động tích chọn
+        const selectedProductIds = [product._id, ...buyTogether.selectedItems.map(i => i.id)];
+
+        sessionStorage.setItem(STORAGE_NAME.BuyNowItem, JSON.stringify({
+            product_ids: selectedProductIds
+        }));
 
         // Khi gọi xong hết thì chuyển sang /cart
         $.when(...requests).done(function () {
