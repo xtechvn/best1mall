@@ -440,8 +440,23 @@ var product_detail = {
         let total_stock = product.quanity_of_stock || 0;
         // 👉 Chỉ product-main mới có shipping và policy
         htmlMain += HTML_CONSTANTS.Detail.Tr_Voucher;
-        htmlMain += HTML_CONSTANTS.Detail.Tr_Shipping;
-        htmlMain += HTML_CONSTANTS.Detail.Tr_policy;
+        // 🆕 Render động chính sách vận chuyển và đổi trả
+        const shippingText = product.description_delivery?.trim() || "Miễn phí vận chuyển";
+        const refundText = product.description_refund?.trim() || "Đổi trả trong vòng 3 ngày";
+
+                    htmlMain += `
+                <tr>
+                    <td>Vận chuyển:</td>
+                    <td>${shippingText}</td>
+                </tr>
+            `;
+                    htmlMain += `
+                <tr>
+                    <td>Chính sách đổi trả:</td>
+                    <td>${refundText}</td>
+                </tr>
+            `;
+
 
         if (product_sub?.length > 0) {
             $(product.attributes).each((_, attribute) => {

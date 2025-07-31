@@ -56,6 +56,8 @@ namespace Best1Mall_Front_End.Models.Products
         public string description_effect { get; set; }
         public string description_usepolicy { get; set; }
         public int? supplier_status { get; set; }
+        public string? description_delivery { get; set; } //Chính sách vận chuyển
+        public string? description_refund { get; set; } //Chính sách đổi trả
 
 
         public List<ProductMongoDbSpecification>? detail_specification { get; set; }
