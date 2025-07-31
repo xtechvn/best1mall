@@ -7,6 +7,7 @@
 <!-- Phần tử ẩn lưu group_id từ URL -->
 @* <input type="hidden" id="group_id_from_url" value="@productid_id" /> *@
 
+
 @functions {
     string ToSeoUrl(string name)
     {
@@ -62,8 +63,10 @@
             <div class="about-ncc">
                 <img src="@Model.label_detail.icon" alt="" class="images-logo object-contain">
                 <p class="des">
-                    @Model.label_detail.description
+                    <span id="label-description"></span>
+                    <a href="javascript:;" id="toggle-description" class="text-blue-500 underline text-sm ml-2 hidden">Xem thêm</a>
                 </p>
+
             </div>
         </div>
 
@@ -170,46 +173,75 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-                            $(document).ready(function() {
-            $('#btn-load-label').on('click', function() {
+    @* <script> *@
+    @*                         $(document).ready(function() { *@
+    @*         $('#btn-load-label').on('click', function() { *@
                 
-                var btn = $(this);
-                var container = $('.component-product-list');
-                var currentPage = parseInt(container.data("page") || 1);
-                var labelId = btn.data("labelid"); // Lấy LabelId từ data attribute
-                var pageSize = 10; // Kích thước trang cố định
+    @*             var btn = $(this); *@
+    @*             var container = $('.component-product-list'); *@
+    @*             var currentPage = parseInt(container.data("page") || 1); *@
+    @*             var labelId = btn.data("labelid"); // Lấy LabelId từ data attribute *@
+    @*             var pageSize = 10; // Kích thước trang cố định *@
 
-                currentPage++;
+    @*             currentPage++; *@
 
-                // Cập nhật dữ liệu cần thiết từ container
-                var requestData = {
-                    page_index: currentPage,
-                    page_size: pageSize,
-                    label_id: labelId // Sử dụng labelCode để lấy sản phẩm liên quan đến Label
-                };
+    @*             // Cập nhật dữ liệu cần thiết từ container *@
+    @*             var requestData = { *@
+    @*                 page_index: currentPage, *@
+    @*                 page_size: pageSize, *@
+    @*                 label_id: labelId // Sử dụng labelCode để lấy sản phẩm liên quan đến Label *@
+    @*             }; *@
 
-                btn.prop("disabled", true).text("Đang tải...");
+    @*             btn.prop("disabled", true).text("Đang tải..."); *@
 
-                $.post("/Product/LoadMoreFilteredLabel", requestData, function(res) {
+    @*             $.post("/Product/LoadMoreFilteredLabel", requestData, function(res) { *@
                     
-                    if (res.html) {
-                        container.append(res.html);  // Thêm sản phẩm mới vào container
-                        container.data("page", currentPage); // Cập nhật trang hiện tại
-                    }
+    @*                 if (res.html) { *@
+    @*                     container.append(res.html);  // Thêm sản phẩm mới vào container *@
+    @*                     container.data("page", currentPage); // Cập nhật trang hiện tại *@
+    @*                 } *@
 
-                    if (res.isLastPage) {
-                        btn.hide();  // Nếu không còn sản phẩm nào, ẩn nút "Xem thêm"
+    @*                 if (res.isLastPage) { *@
+    @*                     btn.hide();  // Nếu không còn sản phẩm nào, ẩn nút "Xem thêm" *@
+    @*                 } else { *@
+    @*                     btn.prop("disabled", false).text("Xem thêm");  // Hiển thị lại nút "Xem thêm" *@
+    @*                 } *@
+    @*             }).fail(function(err) { *@
+    @*                 console.error("LoadMore error:", err); *@
+    @*                 btn.prop("disabled", false).text("Xem thêm"); *@
+    @*             }); *@
+    @*         }); *@
+    @*     }); *@
+
+
+    @* </script> *@
+    <script>
+        $(document).ready(function () {
+            const MAX_LENGTH = 600;
+            const fullText = `@Html.Raw(Model.label_detail.description?.Trim())`; // Razor chuyển sang JS
+            const $desc = $('#label-description');
+            const $toggleBtn = $('#toggle-description');
+
+            if (fullText.length > MAX_LENGTH) {
+                const shortText = fullText.substring(0, MAX_LENGTH).trim() + '...';
+                $desc.text(shortText);
+                $toggleBtn.removeClass('hidden').text('Xem thêm');
+
+                let isExpanded = false;
+                $toggleBtn.on('click', function () {
+                    isExpanded = !isExpanded;
+                    if (isExpanded) {
+                        $desc.text(fullText);
+                        $toggleBtn.text('Thu gọn');
                     } else {
-                        btn.prop("disabled", false).text("Xem thêm");  // Hiển thị lại nút "Xem thêm"
+                        $desc.text(shortText);
+                        $toggleBtn.text('Xem thêm');
                     }
-                }).fail(function(err) {
-                    console.error("LoadMore error:", err);
-                    btn.prop("disabled", false).text("Xem thêm");
                 });
-            });
+            } else {
+                $desc.text(fullText);
+            }
         });
-
-
     </script>
+
 }
