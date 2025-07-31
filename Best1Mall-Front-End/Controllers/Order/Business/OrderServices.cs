@@ -99,6 +99,46 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return null;
 
         }
+        public async Task<string> VNPay(OrdersVNPAYRequestModel request)
+        {
+            try
+            {
+                var result = await POST("api/payment/vnpay/redirect", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return jsonData["data"].ToString();
+
+                }
+
+            }
+            catch
+            {
+            }
+            return null;
+
+        }
+        public async Task<OrderVnPayResponseModel> VNPayValidate(OrdersVNPAYValidateRequestModel request)
+        {
+            try
+            {
+                var result = await POST("api/payment/vnpay/validate", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<OrderVnPayResponseModel>(jsonData["data"].ToString());
+
+                }
+
+            }
+            catch
+            {
+            }
+            return null;
+
+        }
         public async Task<OrderHistoryResponseModel> Listing(OrderHistoryRequestModel request)
         {
             try
