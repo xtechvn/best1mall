@@ -483,7 +483,8 @@ var cart = {
         // 2. Lặp từng nhóm NCC
         for (const supplierId in groupedBySupplier) {
             const products = groupedBySupplier[supplierId];
-            const supplierName = `Nhà cung cấp: ${supplierId}`; // Bạn có thể đổi thành tên thật nếu có
+            const supplierNameRaw = products[0]?.product?.supplier_name || supplierId;
+            const supplierName = `${supplierNameRaw}`;
 
             // Header nhóm nhà cung cấp
             let groupHtml = `
