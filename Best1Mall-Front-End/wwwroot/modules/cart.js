@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     cart.Initialization()
-    
+
     // 🔁 Reload lại trang nếu người dùng quay lại bằng Back/Forward
     window.addEventListener('pageshow', function (event) {
         if (event.persisted || window.performance.navigation.type === 2) {
@@ -20,22 +20,22 @@ var cart = {
     },
     Initialization: function () {
         var appliedVoucher = null; // ví dụ: { code: 'ABC123', id: 3 }
-       
+
         cart.DynamicBind()
         cart.CartItem()
         $('.select-delivery .list-option').fadeOut()
         $('.select-bank .list-option').fadeOut()
-       // $('.voucher ').hide()
+        // $('.voucher ').hide()
         cart.OrderAddress()
-      
-        
+
+
         /* ================================================================================ */
 
 
     },
 
     DynamicBind: function () {
-       
+
         $("body").on('click', "#hinhthucgiaohang .item li", function () {
             var element = $(this)
             if (element.hasClass('disabled')) {
@@ -85,13 +85,13 @@ var cart = {
         });
 
 
-        
+
         $("body").on('click', "#voucher-popup .btn-back", function () {
-           // $('#hinhthucgiaohang').removeClass('overlay-active')
+            // $('#hinhthucgiaohang').removeClass('overlay-active')
             $('#voucher-popup').addClass('hidden')
 
-           
-         });
+
+        });
         $("body").on('click', "#hinhthucgiaohang .btn-back", function () {
             // $('#hinhthucgiaohang').removeClass('overlay-active')
             $('#hinhthucgiaohang').addClass('hidden')
@@ -154,7 +154,7 @@ var cart = {
 
         //});
         $("body").on('click', "#lightbox-delete-cart .btn-save", function () {
-            
+
             cart.ConfirmRemoveCartItem()
 
         });
@@ -191,15 +191,47 @@ var cart = {
                 element.closest('.list-option').fadeOut()
             }
         });
+        // ✅ Khi click checkbox, hoặc thay đổi số lượng
         $("body").on('click', ".box-checkbox, .number-input button, .checkbox-cart", function () {
-            cart.ReRenderAmount()
+            const clickedCheckbox = $(this).hasClass('checkbox-cart') ? $(this) : $(this).find('.checkbox-cart');
+
+            // ✅ Bổ sung VALIDATE: chỉ chọn sản phẩm của 1 NCC
+            if (clickedCheckbox.length > 0 && clickedCheckbox.is(':checked')) {
+                const selectedSupplier = clickedCheckbox.data('supplier-id');
+
+                // Kiểm tra xem có sản phẩm nào của NCC khác đang được chọn không
+                let conflictFound = false;
+                $('.checkbox-cart').each(function () {
+                    const otherCheckbox = $(this);
+                    const otherSupplier = otherCheckbox.data('supplier-id');
+
+                    if (otherCheckbox.prop('checked') && otherSupplier !== selectedSupplier) {
+                        conflictFound = true;
+                        return false;
+                    }
+                });
+
+                if (conflictFound) {
+                    // Bỏ chọn tất cả sản phẩm của NCC khác
+                    $('.checkbox-cart').each(function () {
+                        const otherCheckbox = $(this);
+                        const otherSupplier = otherCheckbox.data('supplier-id');
+
+                        if (otherSupplier !== selectedSupplier) {
+                            otherCheckbox.prop('checked', false);
+                        }
+                    });
+                }
+            }
+
+            cart.ReRenderAmount();
         });
         $("body").on('click', ".btn-confirm-cart", function () {
-            
+
             cart.ConfirmCart()
         });
         $("body").on('keyup', ".product-quantity input", function () {
-            
+
             $('.btn-confirm-cart').addClass('button-disabled')
             $('.btn-confirm-cart').addClass('placeholder')
 
@@ -231,23 +263,23 @@ var cart = {
         $("body").on('click', ".right-cart .select-bank", function () {
             $('#phuongthucthanhtoan').addClass('overlay-active')
         });
-       $("body").on('click', "#phuongthucthanhtoan .btn-save", function () {
-                $('#phuongthucthanhtoan').addClass('hidden');
+        $("body").on('click', "#phuongthucthanhtoan .btn-save", function () {
+            $('#phuongthucthanhtoan').addClass('hidden');
 
-                const selected = $('input[name="payment_type"]:checked');
-                const labelText = $(`label[for="${selected.attr('id')}"]`).text().trim();
+            const selected = $('input[name="payment_type"]:checked');
+            const labelText = $(`label[for="${selected.attr('id')}"]`).text().trim();
 
-                $('.right-cart .pay .select-bank .tt').html(labelText);
-            });
-            $("body").on('click', "#phuongthucthanhtoan .btn-back", function () {
-                $('#phuongthucthanhtoan').addClass('hidden');
+            $('.right-cart .pay .select-bank .tt').html(labelText);
+        });
+        $("body").on('click', "#phuongthucthanhtoan .btn-back", function () {
+            $('#phuongthucthanhtoan').addClass('hidden');
 
-               
-            });
+
+        });
 
         //Vourcher
         $('.btn-vorcher').on('click', function () {
-            
+
             const selectedVoucher = $('input[name="voucher"]:checked'); // Lấy voucher đã chọn
             // Đảm bảo thông báo lỗi được ẩn khi người dùng chọn voucher
             $('#voucher-popup .voucher-error').remove();  // Xóa thông báo lỗi cũ nếu có
@@ -257,7 +289,7 @@ var cart = {
                 const usr = global_service.CheckLogin();
                 const token = usr ? usr.token : '';
 
-               // Lấy tổng giá trị đơn hàng từ giỏ hàng
+                // Lấy tổng giá trị đơn hàng từ giỏ hàng
                 const totalOrderAmount = cart.ReRenderAmount(false);  // Gọi hàm để lấy tổng tiền đơn hàng
                 appliedVoucher = { code: voucherCode, id: voucherId };
                 // Kiểm tra nếu giỏ hàng không có sản phẩm hợp lệ
@@ -290,8 +322,8 @@ var cart = {
         let lastCheckedVoucher = null;
 
         $('.btn-remove-voucher').on('click', function () {
-            
-          
+
+
 
             // 1. Reset biến voucher
             appliedVoucher = null;
@@ -311,10 +343,10 @@ var cart = {
 
             cart.ReRenderAmount(); // render lại mà không dùng voucher
         });
-      
+
 
         $('body').on('click', 'input[name="voucher"]', function (e) {
-            
+
             const $this = $(this);
 
             // Nếu click vào chính voucher đang được chọn → uncheck thủ công
@@ -337,11 +369,12 @@ var cart = {
 
 
 
-       
+
+
     },
 
     OrderAddress: function () {
-        
+
         cart.RenderDefaultAddress();
         var request = {
 
@@ -349,7 +382,7 @@ var cart = {
         $.when(
             global_service.POST(API_URL.AddressPopup, request)
         ).done(function (result) {
-            
+
             $('body').append(result)
             address_client.Initialization()
             address_client.DynamicConfirmAddress(function (data) {
@@ -359,7 +392,7 @@ var cart = {
         })
     },
     RenderDefaultAddress: function () {
-        
+
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -370,16 +403,16 @@ var cart = {
         $.when(
             global_service.POST(API_URL.DefaultAddress, request)
         ).done(function (result) {
-            
+
             if (result.is_success) {
-                
+
                 cart.ConfirmCartAddress(result.data)
 
             }
         })
     },
     ConfirmCartAddress: function (data) {
-        
+
         if (data != undefined && data.id != undefined) {
             $('#address-receivername').attr('data-id', (data.id == null || data.id == undefined || data.id == '' ? '-1' : data.id))
             $('#address-receivername').html(data.receiverName)
@@ -401,7 +434,7 @@ var cart = {
                 global_service.POST(API_URL.CartList, request)
 
             ).done(function (result) {
-               
+
                 if (result.is_success && result.data && result.data.length > 0) {
                     cart.RenderCartItem(result.data)
                     cart.RenderBuyNowSelection()
@@ -432,89 +465,149 @@ var cart = {
 
     },
     RenderCartItem: function (list) {
-       
-        var html = ''
-        var total_amount = 0
+        ;
+        const groupedBySupplier = {};
 
-        $(list).each(function (index, item) {
-            
-            var product = item.product;
+        // 1. Gom nhóm theo supplier_id
+        list.forEach(item => {
+            const supplierId = item.product.supplier_id || 'unknown';
+            if (!groupedBySupplier[supplierId]) {
+                groupedBySupplier[supplierId] = [];
+            }
+            groupedBySupplier[supplierId].push(item);
+        });
 
-            // --- Điều kiện Flash Sale ---
-            var isFlashSale = product.amount_after_flashsale != null &&
-                product.amount_after_flashsale > 0 &&
-                product.flash_sale_todate != null &&
-                new Date(product.flash_sale_todate) > new Date();
+        let html = '';
+        let total_amount = 0;
 
-            var display_price = isFlashSale ? product.amount_after_flashsale : product.amount;
-            var quanity = item.quanity > 999 ? 999 : item.quanity; // ✅ Giới hạn tối đa 999
-            var total_price = display_price * quanity;
-            //var total_price = display_price * item.quanity;
+        // 2. Lặp từng nhóm NCC
+        for (const supplierId in groupedBySupplier) {
+            const products = groupedBySupplier[supplierId];
+            const supplierNameRaw = products[0]?.product?.supplier_name || supplierId;
+            const supplierName = `${supplierNameRaw}`;
 
-            // --- Điều kiện hiển thị sản phẩm trong giỏ ---
-            var amountOk = display_price > 0;
-            var statusOk = product.status === 1;
-            var supplierOk = product.supplier_status === 1;
-            var isEnabled = amountOk && statusOk && supplierOk;
+            // Header nhóm nhà cung cấp
+            let groupHtml = `
+            <div class="supplier-box mb-4 p-3 rounded-xl bg-white border border-gray-200 ">
+                <div class="font-semibold mb-2 uppercase text-sm text-gray-700">${supplierName}</div>
+                <div class="border-b border-[#B7CCD9] mt-2 mb-3"></div> 
+                `;
 
-            var disabledClass = isEnabled ? '' : 'disabled-product';
-            var checkboxDisabled = isEnabled ? '' : 'disabled';
-            var btnDisabled = isEnabled ? '' : 'disabled';
-            var inputReadonly = isEnabled ? '' : 'readonly';
 
-            var html_item = HTML_CONSTANTS.Cart.Product
-                .replaceAll('{url}', '/san-pham/' +
-                    global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(product.name)).replaceAll(' ', '-') +
-                    '--' + (product.parent_product_id || product._id)
-                )
+            // 3. Render từng sản phẩm trong nhóm
+            products.forEach(item => {
+                const product = item.product;
 
-                .replaceAll('{id}', item._id || product._id)
-                .replaceAll('{product_id}', product._id)
-                .replaceAll('{amount}', display_price)
-                .replaceAll('{name}', product.name)
-                .replaceAll('{amount_display}', global_service.Comma(display_price))
-                .replaceAll('{quanity}', global_service.Comma(quanity))
-                .replaceAll('{total_amount}', global_service.Comma(total_price))
-                .replaceAll('{disabledClass}', disabledClass)
-                .replaceAll('{checkboxDisabled}', checkboxDisabled)
-                .replaceAll('{btnDisabled}', btnDisabled)
-                .replaceAll('{inputReadonly}', inputReadonly);
+                const isFlashSale = product.amount_after_flashsale != null &&
+                    product.amount_after_flashsale > 0 &&
+                    product.flash_sale_todate != null &&
+                    new Date(product.flash_sale_todate) > new Date();
 
-            // --- Variation / attribute ---
-            var variation_value = '';
-            $(product.variation_detail).each(function (index_var, variation_item) {
-                var attribute = product.attributes.find(obj => obj._id === variation_item._id);
-                var attribute_detail = product.attributes_detail.find(obj => obj.name === variation_item.name);
-                if (attribute && attribute_detail) {
-                    variation_value += attribute.name + ':' + attribute_detail.name;
-                    if (index_var < product.variation_detail.length - 1) {
-                        variation_value += ', <br />';
+                const display_price = isFlashSale ? product.amount_after_flashsale : product.amount;
+                const quantity = item.quanity > 999 ? 999 : item.quanity;
+                const total_price = display_price * quantity;
+
+                const amountOk = display_price > 0;
+                const statusOk = product.status === 1;
+                const supplierOk = product.supplier_status === 1;
+                const isEnabled = amountOk && statusOk && supplierOk;
+
+                const disabledClass = isEnabled ? '' : 'disabled-product';
+                const checkboxDisabled = isEnabled ? '' : 'disabled';
+                const btnDisabled = isEnabled ? '' : 'disabled';
+                const inputReadonly = isEnabled ? '' : 'readonly';
+
+                let html_item = HTML_CONSTANTS.Cart.Product
+                    .replaceAll('{url}', '/san-pham/' +
+                        global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(product.name)).replaceAll(' ', '-') +
+                        '--' + (product.parent_product_id || product._id)
+                    )
+                    .replaceAll('{id}', item._id || product._id)
+                    .replaceAll('{supplier_id}', product.supplier_id)
+                    .replaceAll('{product_id}', product._id)
+                    .replaceAll('{amount}', display_price)
+                    .replaceAll('{name}', product.name)
+                    .replaceAll('{amount_display}', global_service.Comma(display_price))
+                    .replaceAll('{quanity}', global_service.Comma(quantity))
+                    .replaceAll('{total_amount}', global_service.Comma(total_price))
+                    .replaceAll('{disabledClass}', disabledClass)
+                    .replaceAll('{checkboxDisabled}', checkboxDisabled)
+                    .replaceAll('{btnDisabled}', btnDisabled)
+                    .replaceAll('{inputReadonly}', inputReadonly);
+
+                // Thuộc tính sản phẩm (variation)
+                let variation_value = '';
+                $(product.variation_detail).each(function (index_var, variation_item) {
+                    const attribute = product.attributes.find(obj => obj._id === variation_item._id);
+                    const attribute_detail = product.attributes_detail.find(obj => obj.name === variation_item.name);
+                    if (attribute && attribute_detail) {
+                        variation_value += attribute.name + ':' + attribute_detail.name;
+                        if (index_var < product.variation_detail.length - 1) {
+                            variation_value += ', <br />';
+                        }
                     }
+                });
+
+                let img_src = product.avatar;
+                if (!img_src.includes(API_URL.StaticDomain) &&
+                    !img_src.includes("data:image") &&
+                    !img_src.includes("http")) {
+                    img_src = API_URL.StaticDomain + product.avatar;
                 }
+
+                html_item = html_item
+                    .replaceAll('{attribute}', variation_value)
+                    .replaceAll('{src}', img_src);
+
+                groupHtml += html_item;
+                total_amount += total_price;
             });
 
-            var img_src = product.avatar;
-            if (!img_src.includes(API_URL.StaticDomain)
-                && !img_src.includes("data:image")
-                && !img_src.includes("http"))
-                img_src = API_URL.StaticDomain + product.avatar;
-
-            html_item = html_item
-                .replaceAll('{attribute}', variation_value)
-                .replaceAll('{src}', img_src);
-
-            html += html_item;
-            total_amount += total_price;
-        });
+            groupHtml += `</div>`; // đóng supplier-box
+            html += groupHtml;
+        }
 
         $('.section-cart .table-addtocart').html(html);
         $('#skeleton-loading').hide();
         $('.section-cart').removeClass('hidden');
+
         cart.ReRenderAmount();
         cart.RenderCartNumberOfProduct();
-        
+        cart.setupCheckboxValidation();;
     },
 
+    setupCheckboxValidation: function () {
+        $('.checkbox-cart').off('change').on('change', function () {
+            const currentCheckbox = $(this);
+            const selectedSupplier = currentCheckbox.data('supplier-id');
+
+            if (currentCheckbox.prop('checked')) {
+                // Kiểm tra xem đã có supplier nào khác được chọn chưa
+                let otherSelected = false;
+
+                $('.checkbox-cart').each(function () {
+                    const cb = $(this);
+                    const cbSupplier = cb.data('supplier-id');
+
+                    if (cb.prop('checked') && cbSupplier !== selectedSupplier) {
+                        otherSelected = true;
+                    }
+                });
+
+                if (otherSelected) {
+                    // Bỏ chọn tất cả sản phẩm của NCC khác
+                    $('.checkbox-cart').each(function () {
+                        const cb = $(this);
+                        const cbSupplier = cb.data('supplier-id');
+
+                        if (cbSupplier !== selectedSupplier) {
+                            cb.prop('checked', false);
+                        }
+                    });
+                }
+            }
+        });
+    },
 
     RenderBuyNowSelection: function () {
         var buy_now_item = sessionStorage.getItem(STORAGE_NAME.BuyNowItem);
@@ -561,7 +654,7 @@ var cart = {
 
     },
     GetListVoucherUser: function () {
-        
+
         const usr = global_service.CheckLogin();
         if (!usr) return;
 
@@ -573,23 +666,23 @@ var cart = {
             global_service.POST(API_URL.VourcherList, request)
 
         ).done(function (result) {
-            
+
             if (result.is_success && result.data && result.data.length > 0) {
-                
+
                 cart.RenderVoucherList(result.data);
-               
+
 
             }
-            
+
 
         })
 
-      
+
     },
 
     RenderVoucherList: function (vouchers) {
-        
-        
+
+
         let html = '';
         vouchers.forEach((v, idx) => {
             html += `
@@ -615,47 +708,47 @@ var cart = {
 
         $('.list-voucher').html(html);
 
-        
+
     },
     ApplyVoucher: function (request) {
-        
-        
+
+
         $.when(
             global_service.POST(API_URL.ApplyVoucher, request)
         ).done(function (res) {
-            
+
             if (res && res.is_success === true) {
-                
-                 // Nếu thành công, cập nhật giao diện với thông tin giảm giá
-                  cart.UpdateDiscountView(res.data);
-                   // Cập nhật voucher đã chọn vào phần ngoài popup
+
+                // Nếu thành công, cập nhật giao diện với thông tin giảm giá
+                cart.UpdateDiscountView(res.data);
+                // Cập nhật voucher đã chọn vào phần ngoài popup
                 const selectedVoucher = $('input[name="voucher"]:checked');
                 const voucherCode = selectedVoucher.data('code');
                 const voucherDescription = selectedVoucher.data('description');
                 const voucherDiscount = selectedVoucher.data('discount');
                 const voucherExpire = selectedVoucher.data('expire');
-                
+
                 // Cập nhật phần hiển thị voucher ngoài popup
                 $('.group .font-medium').text(voucherDescription);
-              //  $('.group .text-red-500').text(`Giảm: ${voucherDiscount}₫`);
-                
-               $('#discountCart').removeClass('hidden')  // Loại bỏ class 'hidden' để hiện thị
-            }else {
-                  // Nếu thất bại, sử dụng SweetAlert2 để hiển thị thông báo thất bại
-            Swal.fire({
-                icon: 'error',
-                title: 'Áp dụng voucher thất bại',
-                text: 'Có lỗi xảy ra khi áp dụng voucher. Vui lòng thử lại!',
-            });
-                }
+                //  $('.group .text-red-500').text(`Giảm: ${voucherDiscount}₫`);
+
+                $('#discountCart').removeClass('hidden')  // Loại bỏ class 'hidden' để hiện thị
+            } else {
+                // Nếu thất bại, sử dụng SweetAlert2 để hiển thị thông báo thất bại
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Áp dụng voucher thất bại',
+                    text: 'Có lỗi xảy ra khi áp dụng voucher. Vui lòng thử lại!',
+                });
+            }
 
 
         })
-      
+
     },
 
     UpdateDiscountView: function (data) {
-        
+
         $('#voucher-popup').addClass('hidden');
         $('#discountSection').removeClass('hidden');
 
@@ -678,9 +771,9 @@ var cart = {
         // 5. Cập nhật thêm nếu cần gửi đi khi đặt hàng
         $('.total-final-amount .pr').attr('data-price', final_amount);
     }
-,
+    ,
     ReRenderAmount: function (loading_shipping = true) {
-        
+
         let total_product_amount = 0;
         let hasPricedItem = false;
 
@@ -749,41 +842,44 @@ var cart = {
 
     //},
     ConfirmRemoveCartItem: function () {
-        
-        var data_id = $('#lightbox-delete-cart').attr('data-cart-id')
+        var data_id = $('#lightbox-delete-cart').attr('data-cart-id');
         var usr = global_service.CheckLogin();
-        $('.table-addtocart .product').each(function (index, item) {
-            var element = $(this)
-            if (element.attr('data-cart-id') == data_id) {
-                element.remove()
-                return false
-            }
-        })
-        if ($('.table-addtocart .product').length <= 0) {
-            $('#main').html(HTML_CONSTANTS.Cart.Empty)
 
+        $('.table-addtocart .product').each(function (index, item) {
+            var element = $(this);
+            if (element.attr('data-cart-id') == data_id) {
+                const supplierBox = element.closest('.supplier-box');
+                element.remove();
+
+                // ✅ Xoá box nếu rỗng
+                if (supplierBox.find('.product').length === 0) {
+                    supplierBox.remove();
+                }
+                return false;
+            }
+        });
+
+        // ✅ Nếu không còn sản phẩm nào → hiển thị giỏ hàng trống
+        if ($('.table-addtocart .product').length <= 0) {
+            $('#main').html(HTML_CONSTANTS.Cart.Empty);
         }
+
         if (usr) {
             var request = {
                 "id": data_id
-            }
+            };
             $.when(
                 global_service.POST(API_URL.CartDelete, request)
             ).done(function (result) {
-                sessionStorage.removeItem(STORAGE_NAME.CartCount)
-                global_service.LoadCartCount()
-                cart.RenderCartNumberOfProduct()
-                cart.ReRenderAmount()
-
-            })
-            $('#lightbox-delete-cart').removeClass('overlay-active')
-
+                sessionStorage.removeItem(STORAGE_NAME.CartCount);
+                global_service.LoadCartCount();
+                cart.RenderCartNumberOfProduct();
+                cart.ReRenderAmount();
+            });
+            $('#lightbox-delete-cart').removeClass('overlay-active');
         } else {
-            
             // ❌ Nếu chưa login → xoá trong sessionStorage
             let cart2 = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
-
-            // Lọc lại mảng cart
             cart2 = cart2.filter(function (item) {
                 return item.product_id !== data_id;
             });
@@ -795,20 +891,17 @@ var cart = {
             cart.RenderCartNumberOfProduct();
             cart.ReRenderAmount();
         }
-        
-
-
-
     },
 
+
     ConfirmCart: function () {
-        
+
         // ✨ Show loading + disable button
         const $btn = $('.btn-confirm-cart');
         $btn.prop('disabled', true).addClass('opacity-60 cursor-not-allowed');
         const originalText = $btn.text();
         $btn.html('<i class="fas fa-spinner fa-spin mr-2"></i> Đang xử lý...'); // icon font-awesome hoặc bạn dùng loader khác cũng ok
-        
+
         if ($('#address-receivername').attr('data-id') == null || $('#address-receivername').attr('data-id') == undefined || $('#address-receivername').attr('data-id').trim() == '') {
             $('#lightbox-cannot-add-cart .info-order .notification-content').html('Vui lòng thêm/chọn địa chỉ trước khi tiếp tục')
             $('#lightbox-cannot-add-cart .title-box').html('Chưa chọn địa chỉ giao hàng')
@@ -867,7 +960,7 @@ var cart = {
             }
             var default_address_json = sessionStorage.getItem(STORAGE_NAME.CartAddress)
             if (default_address_json) {
-                
+
                 var default_address = JSON.parse(default_address_json)
                 var selected = $('#hinhthucgiaohang .active-delivery').first()
                 var carrier_id = selected.closest('.item').attr('data-carrier-id')
@@ -896,11 +989,11 @@ var cart = {
 
                 })
             }
-            
+
             if (carts.length > 0) {
                 // ✅ Chặn confirm nếu toàn sản phẩm 0đ hoặc quantity = 0
-                
-               
+
+
                 var request = {
                     "carts": carts,
                     "token": usr.token,
@@ -914,9 +1007,9 @@ var cart = {
                 $.when(
                     global_service.POST(API_URL.CartConfirm, request)
                 ).done(function (result) {
-                    
+
                     if (result.is_success && result.data != undefined) {
-                       
+
                         request.result = result.data
                         sessionStorage.setItem(STORAGE_NAME.Order, JSON.stringify(request))
                         sessionStorage.removeItem(STORAGE_NAME.CartCount)
@@ -927,14 +1020,14 @@ var cart = {
                         // 🆕 Bổ sung xử lý với VNPAY (payment_type == 3)
                         const selected_payment_type = parseInt(request.payment_type);
                         if (selected_payment_type === 3) {
-                            
+
                             const redirect_request = {
- 
+
                                 country: "vn",
                                 id: result.data.id
                             };
                             $.post('/Order/VNPay', redirect_request).done(function (res) {
-                                
+
                                 if (res.is_success && res.data) {
                                     window.location.href = res.data; // redirect sang trang VNPAY
                                 } else {
@@ -1023,7 +1116,7 @@ var cart = {
 
     // Hàm LoadShippingFee để tính phí giao hàng và xử lý phương thức vận chuyển
     LoadShippingFee: function () {
-        
+
         var default_address = sessionStorage.getItem(STORAGE_NAME.CartAddress);
 
         if (!default_address) {
@@ -1053,11 +1146,11 @@ var cart = {
             cart.DisableAllShippingOptions();
             return;
         }
-        
+
 
         // Lặp từng supplier
         result.data.forEach(function (supplier) {
-            
+
             var panel = $(`#hinhthucgiaohang .item[data-carrier-id="3"]`);
             var ul = panel.find('ul');
             ul.empty(); // Xoá li cũ
@@ -1131,9 +1224,9 @@ var cart = {
     },
 
 
-    
+
     DisableAllShippingOptions: function () {
-        
+
         let availableShipping = false;  // Kiểm tra xem có tùy chọn giao hàng nào khả dụng không
 
         $('#hinhthucgiaohang .item').each(function () {
@@ -1169,7 +1262,7 @@ var cart = {
 
     // Hàm RenderSelectionDelivery để cập nhật giao diện chọn phương thức vận chuyển
     RenderSelectionDelivery: function () {
-        
+
         var selected = $('#hinhthucgiaohang .active-delivery').first();
 
         // Kiểm tra lại nếu không có lựa chọn nào được chọn, chọn giao hàng tại cửa hàng

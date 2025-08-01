@@ -543,81 +543,57 @@ var HTML_CONSTANTS = {
 `//<span class= "text-slate-500 font-light soluong" > { stock } sản phẩm có sẵn</span>
     },
     Cart: {
-        Product: `<div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product {disabledClass} mt-[11px]" data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
-    
-    <!-- Checkbox -->
-    <div class="product-checkall">
-        <div class="box-checkbox">        
-            <input type="checkbox" id="checkbox12" class="w-5 h-5 shrink-0 md:mt-0 mt-4 checkbox-cart" {checkboxDisabled} />
-            <label for="checkbox12" class="box-checkbox-label"></label>
+        Product: `
+    <div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product {disabledClass} mt-[11px]" data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
+        <div class="product-checkall">
+            <div class="box-checkbox">        
+                <input type="checkbox" id="checkbox12" class="w-5 h-5 shrink-0 md:mt-0 mt-4 checkbox-cart"  data-supplier-id="{supplier_id}" {checkboxDisabled} />
+                <label for="checkbox12" class="box-checkbox-label"></label>
+            </div>
         </div>
-    </div>
-
-    <!-- Product Info -->
-    <div class="md:grid grid-cols-12 w-full items-center relative pro-in">
-
-        <!-- Image + Name -->
-        <div class="col-span-5">
-            <a href="{url}">
-                <div class="flex gap-2 items-center">
-                    <div class="relative aspect-[1/1] w-16 overflow-hidden rounded-lg shrink-0">
-                        <img src="{src}" alt="{name}" class="absolute inset-0 w-full h-full object-cover" />
+        <div class="md:grid grid-cols-12 w-full items-center relative pro-in">
+            <div class="col-span-5">
+                <a href="{url}">
+                    <div class="flex gap-2 items-center">
+                        <div class="relative aspect-[1/1] w-16 overflow-hidden rounded-lg shrink-0">
+                            <img src="{src}" alt="{name}" class="absolute inset-0 w-full h-full object-cover" />
+                        </div>
+                        <div>
+                            <p class="font-medium line-clamp-2 md:text-base text-sm">{name}</p>
+                            <div class="text-sm text-slate-500">{attribute}</div>
+                        </div>
                     </div>
-                    <div>
-                        <p class="font-medium line-clamp-2 md:text-base text-sm">{name}</p>
-                        <div class="text-sm text-slate-500">{attribute}</div>
+                </a>
+            </div>
+            <div class="col-span-2 md:text-center md:pl-0 pl-17">
+                <div class="font-medium md:text-base text-sm">{amount_display}</div>
+                <span class="product-line-price-mobile md:hidden block text-red-400 font-semibold">{total_amount} ₫</span>
+            </div>
+            <div class="col-span-2 md:text-center md:pl-0 pl-17 product-quantity">
+                <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center number-input">
+                        <button type="button" class="btn-quantity-decrease h-8 w-8 border border-gray-100 text-gray-700 rounded-l hover:bg-gray-100 cursor-pointer" {btnDisabled}>-</button>
+                        <input type="text" value="{quanity}" min="1" max="999" name="quantity"
+                            class="h-8 w-10 text-center border-t border-b border-gray-100 text-sm quantity" {inputReadonly} />
+                        <button type="button" class="btn-quantity-increase h-8 w-8 border border-gray-100 text-gray-700 rounded-r hover:bg-gray-100 cursor-pointer" {btnDisabled}>+</button>
+                    </div>
+                    <div class="md:hidden">
+                        <button class="text-sm text-blue-500 hover:underline cursor-pointer all-pop" data-id="#lightbox-delete-cart" data-cart-id="{id}">
+                            Xóa
+                        </button>
                     </div>
                 </div>
-            </a>
-        </div>
-
-        <!-- Price & Discount -->
-        <div class="col-span-2 md:text-center md:pl-0 pl-17">
-            <div class="flex flex-wrap md:flex-col gap-x-2 items-center">
-                <div class="font-medium md:text-base text-sm">{amount_display}</div>
             </div>
-           <span class="product-line-price-mobile md:hidden block text-red-400 font-semibold">{total_amount} ₫</span>
-
+            <div class="col-span-2 md:text-center md:pl-0 pl-17 hidden md:block">
+                <span class="product-line-price text-red-400 font-semibold">{total_amount} ₫</span>
+            </div>
         </div>
-
-         <!-- Quantity + Remove (Responsive) -->
-<div class="col-span-2 md:text-center md:pl-0 pl-17 product-quantity">
-    <div class="flex items-center justify-between gap-2">
-
-        <!-- Quantity Control -->
-        <div class="flex items-center number-input">
-            <button type="button" class="btn-quantity-decrease h-8 w-8 border border-gray-100 text-gray-700 rounded-l hover:bg-gray-100 cursor-pointer" {btnDisabled}>-</button>
-
-            <input type="text" value="{quanity}" min="1" max="999" name="quantity"
-                class="h-8 w-10 text-center border-t border-b border-gray-100 text-sm quantity" {inputReadonly} />
-
-            <button type="button" class="btn-quantity-increase h-8 w-8 border border-gray-100 text-gray-700 rounded-r hover:bg-gray-100 cursor-pointer" {btnDisabled}>+</button>
-        </div>
-
-        <!-- Nút Xóa (Mobile only) -->
-        <div class="md:hidden">
+        <div class="col-span-1 text-right hidden md:block">
             <button class="text-sm text-blue-500 hover:underline cursor-pointer all-pop" data-id="#lightbox-delete-cart" data-cart-id="{id}">
                 Xóa
             </button>
         </div>
-    </div>
-</div>
-
-        <!-- Total (PC only) -->
-        <div class="col-span-2 md:text-center md:pl-0 pl-17 hidden md:block">
-            <span class="product-line-price text-red-400 font-semibold">{total_amount} ₫</span>
-        </div>
-
-       
-    </div>
-    <!-- Xóa trên PC -->
-<div class="col-span-1 text-right hidden md:block">
-    <button class="text-sm text-blue-500 hover:underline cursor-pointer all-pop" data-id="#lightbox-delete-cart" data-cart-id="{id}">
-        Xóa
-    </button>
-</div>
-
-</div>`,
+    </div>`,
         Empty: `<section class="product-cart-section">
     <div class="max-w-[1230px] mx-auto px-[15px]">
         <div class="breadcrumb my-4 ">

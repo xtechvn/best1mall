@@ -109,7 +109,7 @@ var global_service = {
 
     DynamicBind: function () {
         $("body").on('click', ".all-pop", function (event) {
-            
+           
             // Đảm bảo thông báo lỗi được ẩn khi người dùng chọn voucher
             $('#voucher-popup .voucher-error').remove();  // Xóa thông báo lỗi cũ nếu có
             var cartId
@@ -138,6 +138,7 @@ var global_service = {
             // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
             // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
             if (box_id === "#hinhthucgiaohang") {
+                
                 cart.LoadShippingFee();
 
                 // 🔄 Đồng bộ option đang hiển thị

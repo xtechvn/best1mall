@@ -50,6 +50,7 @@ namespace Best1Mall_Front_End.Models.Products
         public float? rating { get; set; }
         public long? total_sold { get; set; }
         public int? supplier_id { get; set; }
+        public string? supplier_name { get; set; } 
         public int? label_id { get; set; }
         public double? old_price { get; set; }
         public string description_ingredients { get; set; }
