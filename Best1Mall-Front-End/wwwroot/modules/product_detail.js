@@ -1073,7 +1073,7 @@ var product_detail = {
             product_id: product._id,
             quanity: quantity
         };
-
+      
         if (usr) {
             // Nếu đã login → gọi API lưu giỏ hàng
             var request = {
@@ -1112,7 +1112,9 @@ var product_detail = {
                 avatar: product.avatar,
                 variation_detail: product.variation_detail || [],
                 attributes: product.attributes || [],
-                attributes_detail: product.attributes_detail || []
+                attributes_detail: product.attributes_detail || [],
+                supplier_id: product.supplier_id || []
+
             };
             product_detail.SaveProductDetailAttributeSelected()
             //$('.mainheader .client-login').click()

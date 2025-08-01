@@ -27,42 +27,49 @@
     <!-- DANH SACH SAN PHAM -->
     <section class="product-cart-section section-cart hidden ">
         <div class="max-w-[1230px] mx-auto px-[15px]">
-            <div class="breadcrumb my-4 ">
+            <div class="breadcrumb my-4">
                 <ul class="flex items-center gap-3 font-normal">
                     <li><a href="/">Trang chủ</a></li>
                     <li><a href="" class="text-color-base">Giỏ hàng / Thanh toán</a></li>
                 </ul>
-            </div>
-            <div class=" box-cart flex flex-wrap md:flex-nowrap justify-between gap-3 my-4">
-                <div class=" list-addtocart w-full md:w-[70%] shrink-0 ">
-                    <div class="bg-white md:rounded-3xl rounded-xl md:p-3 p-2 shopping-cart">
-                        <div class="hidden md:flex items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl text-sm w-full mb-2">
-                            @* <input type="checkbox" class="w-5 h-5 shrink-0" /> *@
-                            <div class="product-checkall">
-                                <div class="box-checkbox">
-                                    <label class="box-checkbox-all">
-                                        <input type="checkbox" class="checkbox-all" />
-                                    </label>
-                                </div>
-                            </div>
 
-                            <div class="md:grid grid-cols-12 whitespace-nowrap w-full">
-                                <div class="col-span-5">Tên sản phẩm<span class="text-slate-500 total-sp"> (2 sản phẩm)</span></div>
-                                <div class="col-span-2 text-center">Đơn giá</div>
-                                <div class="col-span-2 text-center">Số lượng</div>
-                                <div class="col-span-2 text-center">Thành tiền</div>
-                                <div class="col-span-1 text-right"></div>
-                            </div>
+                <!-- 🔴 Cảnh báo cố định bên dưới -->
+                <div class="mt-2 text-red-500 text-sm font-medium">
+                    Lưu ý! Chỉ được chọn Sản phẩm của 1 NCC trước khi thanh toán
+                </div>
+            </div>
+
+            <div class=" box-cart flex flex-wrap md:flex-nowrap justify-between gap-3 my-4">
+                <div class=" list-addtocart w-full md:w-[70%] shrink-0 shopping-cart ">
+                    <div class="hidden md:flex items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl text-sm w-full mb-2">
+                        @* <input type="checkbox" class="w-5 h-5 shrink-0" /> *@
+                        @* <div class="product-checkall"> *@
+                        @*     <div class="box-checkbox"> *@
+                        @*         <label class="box-checkbox-all"> *@
+                        @*             <input type="checkbox" class="checkbox-all" /> *@
+                        @*         </label> *@
+                        @*     </div> *@
+                        @* </div> *@
+
+                        <div class="md:grid grid-cols-12 whitespace-nowrap w-full">
+                            <div class="col-span-5 pl-[2px]">Tên sản phẩm<span class="text-slate-500 total-sp"> (2 sản phẩm)</span></div>
+                            <div class="col-span-2 text-center">Đơn giá</div>
+                            <div class="col-span-2 text-center">Số lượng</div>
+                            <div class="col-span-2 text-center">Thành tiền</div>
+                            <div class="col-span-1 text-right"></div>
                         </div>
-                        <div class="list-product-cart table-addtocart">
-                            <div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product">
+                    </div>
+                   
+                       
+                        <div class=" table-addtocart">
+                             <div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product"> 
                                
                                 
                               
-                            </div>
+                            </div> 
                            
                         </div>
-                    </div>
+                   
                 </div>
                 <div class="w-full right-cart s">
                     <!-- Địa chỉ nhận hàng -->
