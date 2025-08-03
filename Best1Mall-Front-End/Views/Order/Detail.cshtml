@@ -222,7 +222,7 @@
                         </tr>
                         <tr>
                             <td>Tiền hàng:</td>
-                            <td class="amount-before-discount">@(((double)order.data.total_price).ToString("N0")) đ</td>
+                            <td class="amount-before-discount">@(((double)order.data_order.Amount - (order.data_order.ShippingFee == null ? 0 : (double)order.data_order.ShippingFee) + (order.data_order.Discount == null ? 0 : (double)order.data_order.Discount)).ToString("N0")) đ</td>
                         </tr>
                         @if (order.data_order!=null && order.data_order.ShippingFee != null && order.data_order.ShippingFee > 0)
                         {
