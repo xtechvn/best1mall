@@ -57,6 +57,7 @@ var order_index = {
 
         });
         $("body").on("click", ".rebuy-order-btn", function () {
+            debugger
             const rebuyRaw = $(this).attr("data-rebuy");
             let rebuyList = [];
 
@@ -84,6 +85,8 @@ var order_index = {
             Promise.all(addPromises).then(results => {
                 const allOk = results.every(res => res.is_success);
                 if (allOk) {
+                    const productIds = rebuyList.map(item => item.product_id);
+                    sessionStorage.setItem(STORAGE_NAME.BuyNowItem, JSON.stringify({ product_ids: productIds }));
                     window.location.href = "/cart";
                 } else {
                     alert("Có sản phẩm không thể thêm vào giỏ hàng.");
