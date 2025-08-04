@@ -261,7 +261,6 @@ var address_client = {
         return data.address + '<br /> ' + address_select
     },
     CreateOrUpdateAddress: function (id) {
-       
         
         //var overlay_box = false
         //if ($('#address-book').hasClass('overlay')) {

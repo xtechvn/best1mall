@@ -423,7 +423,7 @@ var cart = {
         }
     },
     CartItem: function () {
-        
+       
         var usr = global_service.CheckLogin()
         $('#skeleton-loading').show();
         if (usr) {
@@ -610,6 +610,7 @@ var cart = {
     },
 
     RenderBuyNowSelection: function () {
+       
         var buy_now_item = sessionStorage.getItem(STORAGE_NAME.BuyNowItem);
         if (!buy_now_item) return;
 
