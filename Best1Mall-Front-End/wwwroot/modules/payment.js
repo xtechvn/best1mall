@@ -37,6 +37,7 @@ var payment = {
             $.when(
                 global_service.POST(API_URL.OrderDetail, request)
             ).done(function (result) {
+                
                 if (result.is_success && result.data) {
                     
                     payment.RenderBankTransfer(result.data.data)
@@ -54,7 +55,7 @@ var payment = {
 
     },
     RenderBankTransfer: function (order_detail) {
-       
+        
         switch (order_detail.payment_type) {
             case 2:
             {
@@ -89,7 +90,7 @@ var payment = {
             case 3: {
                
             } break
-            case 4: {
+            case 1: {
                 $('.box-payment-sucess').show()
                 $('.box-payment-info').hide()
                 $('.box-payment-failed').hide()
