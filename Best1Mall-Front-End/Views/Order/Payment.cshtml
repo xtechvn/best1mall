@@ -123,51 +123,66 @@
                 <a href="#" class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full hover:opacity-80 inline-block md:w-auto w-full">Thanh toán lại</a>
             </div>
         </div>
+        <!-- Thanh toán thất bại -->
+        <div class="p-4 md:p-8 bg-white rounded-xl md:rounded-3xl shadow-md max-w-xl mx-auto mb-8 box-payment-failed2" style="display:none;"
+             style="display:none;"
+             style="display:none;">
+            <img src="/assets/images/icon-err.png" alt="Error Icon" class="w-12 h-12 mx-auto" />
+            <h2 class="text-center text-2xl my-4 text-color-base font-medium">Thanh toán không thành công</h2>
+            <div class="text-slate-500 space-y-1">
+                <p>Đơn hàng <span class="order-no">DH123456</span> của quý khách thanh toán không thành công, vui lòng thanh toán lại.</p>
+                <p>Hỗ trợ ngay: <strong>1900.633.376</strong></p>
+            </div>
+            <div class="text-center mt-6">
+                <a href="javascript:;" class="btn-repay border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full hover:opacity-80 inline-block md:w-auto w-full">Thanh toán lại</a>
+    
+            </div>
+        </div>
     </div>
 </section>
 
 @section Scripts {
     <script type="text/javascript" src="/modules/payment.js" asp-append-version="true"></script>
     <script>
-        $(document).ready(function () {
-            
-            const currentUrl = window.location.href;
+        // $(document).ready(function () {
+        //     debugger
+        //     const currentUrl = window.location.href;
 
-            if (currentUrl.includes("vnp_")) {
-                // Ẩn tất cả các block ban đầu
-                $('.box-payment-info').hide();
-                $('.box-payment-sucess').hide();
-                $('.box-payment-failed').hide();
-                $('.box-payment-waiting').hide();
+        //     if (currentUrl.includes("vnp_")) {
+        //         Ẩn tất cả các block ban đầu
+        //         $('.box-payment-info').hide();
+        //         $('.box-payment-sucess').hide();
+        //         $('.box-payment-failed').hide();
+        //         $('.box-payment-waiting').hide();
 
-                // Hiện đang xử lý
-                $('.box-payment-vnpay-processing').show();
+        //         Hiện đang xử lý
+        //         $('.box-payment-vnpay-processing').show();
 
-                $.post('/Order/VNPayValidate', {
-                    response_from_vnpay: currentUrl
-                }).done(function (res) {
-                    
-                    $('.box-payment-vnpay-processing').hide();
+        //         $.post('/Order/VNPayValidate', {
+        //             response_from_vnpay: currentUrl
+        //         }).done(function (res) {
+        //             debugger
+        //             $('.box-payment-vnpay-processing').hide();
 
-                    if (res.is_success  && res.data) {
-                        // Thành công
+        //             if (res.is_success  && res.data) {
+        //                 Thành công
                         
-                        $('.box-payment-sucess').show();
-                        $('.box-payment-sucess .order-no').text("#" + res.data.order_no);
-                         $('.box-payment-sucess .order-no').attr('href', '/order/detail/' + res.data.order_id );
-                        $('.box-payment-sucess .payment-type').text("VNPAY");
-                        $('.box-payment-sucess .date').append(`<p><strong>Thời gian thanh toán:</strong> ${res.data.created_date}</p>`);
-                    } else {
-                        // Thất bại
-                        $('.box-payment-failed').show();
-                        $('.box-payment-failed .order-no').text("Không xác định");
-                    }
-                }).fail(function () {
-                    $('.box-payment-vnpay-processing').hide();
-                    $('.box-payment-failed').show();
-                    $('.box-payment-failed .order-no').text("Không xác định");
-                });
-            }
-        });
+        //                 $('.box-payment-sucess').show();
+        //                 $('.box-payment-sucess .order-no').text("#" + res.data.order_no);
+        //                  $('.box-payment-sucess .order-no').attr('href', '/order/detail/' + res.data.order_id );
+        //                 $('.box-payment-sucess .payment-type').text("VNPAY");
+        //                 $('.box-payment-sucess .date').append(`<p><strong>Thời gian thanh toán:</strong> ${res.data.created_date}</p>`);
+        //             } else {
+        //                 Thất bại
+        //                 $('.box-payment-failed').show();
+        //                 $('.box-payment-failed .order-no').text("Không xác định");
+        //             }
+        //         }).fail(function () {
+        //             $('.box-payment-vnpay-processing').hide();
+        //             $('.box-payment-failed').show();
+        //             $('.box-payment-failed .order-no').text("Không xác định");
+        //         });
+        //     }
+        // });
     </script>
 }
