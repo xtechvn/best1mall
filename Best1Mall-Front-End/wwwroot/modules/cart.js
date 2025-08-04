@@ -1008,9 +1008,9 @@ var cart = {
                 $.when(
                     global_service.POST(API_URL.CartConfirm, request)
                 ).done(function (result) {
-
+                    
                     if (result.is_success && result.data != undefined) {
-
+                        
                         request.result = result.data
                         sessionStorage.setItem(STORAGE_NAME.Order, JSON.stringify(request))
                         sessionStorage.removeItem(STORAGE_NAME.CartCount)
@@ -1028,7 +1028,7 @@ var cart = {
                                 id: result.data.id
                             };
                             $.post('/Order/VNPay', redirect_request).done(function (res) {
-
+                                
                                 if (res.is_success && res.data) {
                                     window.location.href = res.data; // redirect sang trang VNPAY
                                 } else {
