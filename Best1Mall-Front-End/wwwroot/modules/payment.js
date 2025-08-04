@@ -28,7 +28,7 @@ var payment = {
         });
     },
     Detail: function () {
-        debugger
+        
         var usr = global_service.CheckLogin()
         if (usr) {
             var request = {
@@ -37,7 +37,7 @@ var payment = {
             $.when(
                 global_service.POST(API_URL.OrderDetail, request)
             ).done(function (result) {
-                debugger
+                
                 if (result.is_success && result.data) {
                     
                     payment.RenderBankTransfer(result.data.data)
@@ -55,7 +55,7 @@ var payment = {
 
     },
     RenderBankTransfer: function (order_detail) {
-        debugger
+        
         switch (order_detail.payment_type) {
             case 2:
             {
