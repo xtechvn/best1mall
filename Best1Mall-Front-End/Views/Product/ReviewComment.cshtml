@@ -12,7 +12,7 @@
         <div class="item-commnet border-t pt-4 mt-4">
             <div class="flex items-start gap-4">
                 <img src="@(string.IsNullOrWhiteSpace(comment.client_avatar) ? "/assets/images/logo.png" : comment.client_avatar)"
-                     alt="avatar" class="w-12 h-12 rounded-full" />
+                     alt="avatar" class="w-12 h-12 rounded-full object-contain" />
 
                 <div class="flex-1">
                     <div class="flex items-center gap-2">

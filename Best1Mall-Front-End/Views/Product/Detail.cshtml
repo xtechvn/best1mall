@@ -20,6 +20,12 @@
             transform: rotate(90deg); /* Xoay xuống khi mở */
         }
 
+    .overview__filter.active {
+        border-color: #f87171; /* tương đương tailwind: border-red-400 */
+        background-color: #fee2e2; /* tương đương bg-red-100 */
+        color: #f87171; /* text-red-400 */
+        font-weight: 600; /* font-semibold */
+    }
 
 
 </style>
@@ -575,7 +581,7 @@
                                     </div>
                                 </div>
                                 <div class=" list-filler flex flex-wrap gap-2 text-sm overview__filters">
-                                    <button class="border border-red-400 bg-red-100 text-red-400 font-semibold px-3 py-2 rounded cursor-pointer overview__filter active">
+                                    <button class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter active">
                                         TẤT CẢ
                                     </button>
                                     <button id="overview_filter_5" class="border-gray-300 border hover:border-red-200 hover:text-red-400 px-3 py-2 rounded cursor-pointer overview__filter" data-value="5">
