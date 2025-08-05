@@ -29,7 +29,7 @@ var order_detail = {
         $('body').on('click', '.order-index-refund', function () {
             var element=$(this)
             $('#refund-popup').attr('data-order-id', element.attr('data-order-id'))
-            $('#refund-popup-orderno').html(element.attr('data-order-no').toUpperCase())
+           $('#refund-popup-orderno').html(element.attr('data-order-no').toUpperCase())
             $('#refund-popup').show()
         });
         $('body').on('click', '#refund-popup-cancel', function () {
@@ -37,6 +37,17 @@ var order_detail = {
         });
         $('body').on('click', '#refund-popup-confirm', function () {
             order_detail.Refund()
+        });
+        //-- cancel:
+        $('body').on('click', '.order-index-cancel', function () {
+            var element = $(this)
+            $('#cancel-popup').show()
+        });
+        $('body').on('click', '#cancel-popup-cancel', function () {
+            $('#cancel-popup').hide()
+        });
+        $('body').on('click', '#cancel-popup-confirm', function () {
+            order_detail.Cancel()
         });
     },
     ConfirmCartAddress: function (data) {
@@ -122,6 +133,46 @@ var order_detail = {
                 position: 'top-end',
                 icon: 'success',
                 title: 'Gửi yêu cầu hoàn tiền thành công!',
+                showConfirmButton: false,
+                timer: 2000
+            });
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000);
+        })
+    },
+    Cancel: function () {
+        var reason = $('#order-cancel-reason').val()
+        if (reason == null || reason == undefined || reason.trim() == '') {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: 'Vui lòng nhập lý do hủy đơn',
+                showConfirmButton: false,
+                timer: 2000
+            });
+            return
+        }
+        var usr = global_service.CheckLogin()
+        var token = ''
+        if (usr) {
+            token = usr.token
+
+        }
+        var request = {
+            "reason": reason,
+            "id": $('#cancel-popup').attr('data-order-id'),
+            "token": token
+        }
+        $.when(
+            global_service.POST('/Order/Cancel', request)
+        ).done(function (result) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'Gửi yêu cầu hủy đơn thành công!',
                 showConfirmButton: false,
                 timer: 2000
             });
