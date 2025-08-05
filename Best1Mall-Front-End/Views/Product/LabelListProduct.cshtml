@@ -173,48 +173,47 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    @* <script> *@
-    @*                         $(document).ready(function() { *@
-    @*         $('#btn-load-label').on('click', function() { *@
-                
-    @*             var btn = $(this); *@
-    @*             var container = $('.component-product-list'); *@
-    @*             var currentPage = parseInt(container.data("page") || 1); *@
-    @*             var labelId = btn.data("labelid"); // Lấy LabelId từ data attribute *@
-    @*             var pageSize = 10; // Kích thước trang cố định *@
+    <script>
+        $(document).ready(function () {
+            $('#btn-load-label').on('click', function () {
 
-    @*             currentPage++; *@
+                var btn = $(this);
+                var container = $('.component-product-list');
+                var currentPage = parseInt(container.data("page") || 1);
+                var labelId = btn.data("labelid"); // Lấy LabelId từ data attribute
+                var pageSize = 10; // Kích thước trang cố định
 
-    @*             // Cập nhật dữ liệu cần thiết từ container *@
-    @*             var requestData = { *@
-    @*                 page_index: currentPage, *@
-    @*                 page_size: pageSize, *@
-    @*                 label_id: labelId // Sử dụng labelCode để lấy sản phẩm liên quan đến Label *@
-    @*             }; *@
+                currentPage++;
 
-    @*             btn.prop("disabled", true).text("Đang tải..."); *@
+                // Cập nhật dữ liệu cần thiết từ container
+                var requestData = {
+                    page_index: currentPage,
+                    page_size: pageSize,
+                    label_id: labelId // Sử dụng labelCode để lấy sản phẩm liên quan đến Label
+                };
 
-    @*             $.post("/Product/LoadMoreFilteredLabel", requestData, function(res) { *@
-                    
-    @*                 if (res.html) { *@
-    @*                     container.append(res.html);  // Thêm sản phẩm mới vào container *@
-    @*                     container.data("page", currentPage); // Cập nhật trang hiện tại *@
-    @*                 } *@
+                btn.prop("disabled", true).text("Đang tải...");
 
-    @*                 if (res.isLastPage) { *@
-    @*                     btn.hide();  // Nếu không còn sản phẩm nào, ẩn nút "Xem thêm" *@
-    @*                 } else { *@
-    @*                     btn.prop("disabled", false).text("Xem thêm");  // Hiển thị lại nút "Xem thêm" *@
-    @*                 } *@
-    @*             }).fail(function(err) { *@
-    @*                 console.error("LoadMore error:", err); *@
-    @*                 btn.prop("disabled", false).text("Xem thêm"); *@
-    @*             }); *@
-    @*         }); *@
-    @*     }); *@
+                $.post("/Product/LoadMoreFilteredLabel", requestData, function (res) {
 
+                    if (res.html) {
+                        container.append(res.html);  // Thêm sản phẩm mới vào container
+                        container.data("page", currentPage); // Cập nhật trang hiện tại
+                    }
 
-    @* </script> *@
+                    if (res.isLastPage) {
+                        btn.hide();  // Nếu không còn sản phẩm nào, ẩn nút "Xem thêm"
+                    } else {
+                        btn.prop("disabled", false).text("Xem thêm");  // Hiển thị lại nút "Xem thêm"
+                    }
+                }).fail(function (err) {
+                    console.error("LoadMore error:", err);
+                    btn.prop("disabled", false).text("Xem thêm");
+                });
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function () {
             const MAX_LENGTH = 600;
