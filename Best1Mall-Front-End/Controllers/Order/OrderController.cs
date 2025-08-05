@@ -104,7 +104,16 @@ namespace Best1Mall_Front_End.Controllers
                     break;
                 case (int)OrderStatusConstants.CANCELED:
                     {
-                        ViewBag.OrderStatusName = "Trả hàng/Hoàn tiền";
+                        if (data.data_order.PaymentType == (int)PaymentType.COD)
+                        {
+                            ViewBag.OrderStatusName = "Hủy đơn";
+
+                        }
+                        else
+                        {
+                            ViewBag.OrderStatusName = "Trả hàng / Hoàn tiền";
+
+                        }
                     }
                     break;
             }
