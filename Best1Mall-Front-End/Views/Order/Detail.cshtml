@@ -230,8 +230,28 @@
                     <tbody>
                         <tr>
                             <td>Hình thức thanh toán</td>
-                            <td class="payment-type">Thanh toán bằng ATM</td>
+                            <td class="payment-type">
+                                @{
+                                    var payType = order?.data?.payment_type ?? 0;
+                                    var paymentText = "Thanh toán bằng ATM"; // mặc định
+
+                                    if (payType == 1)
+                                    {
+                                        paymentText = "Thanh toán khi nhận hàng (COD)";
+                                    }
+                                    else if (payType == 2)
+                                    {
+                                        paymentText = "Chuyển khoản ngân hàng";
+                                    }
+                                    else if (payType == 3)
+                                    {
+                                        paymentText = "Thanh toán VN-PAY";
+                                    }
+                                }
+                                @paymentText
+                            </td>
                         </tr>
+
                         <tr>
                             <td>Tiền hàng:</td>
                             <td class="amount-before-discount">@(((double)order.data_order.Amount - (order.data_order.ShippingFee == null ? 0 : (double)order.data_order.ShippingFee) + (order.data_order.Discount == null ? 0 : (double)order.data_order.Discount)).ToString("N0")) đ</td>
