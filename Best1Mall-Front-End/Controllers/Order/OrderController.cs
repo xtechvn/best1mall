@@ -282,5 +282,13 @@ namespace Best1Mall_Front_End.Controllers
                 is_success = await _orderServices.Refund(request)
             });
         }
+        [HttpPost]
+        public async Task<IActionResult> Cancel(OrdersRefundRequestModel request)
+        {
+            return Ok(new
+            {
+                is_success = await _orderServices.Cancel(request)
+            });
+        }
     }
 }
