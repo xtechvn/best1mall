@@ -104,7 +104,7 @@ namespace Best1Mall_Front_End.Controllers
                     break;
                 case (int)OrderStatusConstants.CANCELED:
                     {
-                        if (data.data_order.PaymentType == (int)PaymentType.COD)
+                        if (data.data_order.PaymentType == (int)PaymentType.COD || data.data_order.PaymentStatus==0)
                         {
                             ViewBag.OrderStatusName = "Hủy đơn";
 
