@@ -55,7 +55,7 @@
             </div>
         </div>
     </div>
-    <div id="process-step-refund" class="process-wrap process-wrap-2" style="@(order.data_order.PaymentType!=(int)PaymentType.COD &&order.data_order.RefundStatus!=null && order.data_order.RefundStatus>0?"":"display:none;")">
+    <div id="process-step-refund" class="process-wrap process-wrap-2" style="@(order.data_order.PaymentType != (int)PaymentType.COD && order.data_order.PaymentStatus != 0 && order.data_order.RefundStatus != null && order.data_order.RefundStatus > 0 ? "" : "display:none;")">
         <div class="process-main">
             <div class="item @(order.data_order.RefundStatus!=null && order.data_order.RefundStatus==1?"active":"")  progress-start-refund">
                 <div class="process-step-cont">
