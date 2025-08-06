@@ -4,7 +4,7 @@ $(document).ready(function () {
         profile_client.Initialization()
 
     }
-    $("#fullName, #email, #phone").on("input", function () {
+    $("#fullName, #email, #phone, input[name='gender'], #dob").on("input change", function () {
         if (hasProfileChanged()) {
             enableUpdateButton(true);
         } else {
@@ -19,11 +19,15 @@ function hasProfileChanged() {
     const fullName = $("#fullName").val().trim();
     const email = $("#email").val().trim();
     const phone = $("#phone").val().trim();
+    const gender = $('input[name="gender"]:checked').val();
+    const dob = $("#dob").val();
 
     return (
         fullName !== originalProfileData.fullName ||
         email !== originalProfileData.email ||
-        phone !== originalProfileData.phone
+        phone !== originalProfileData.phone ||
+        gender !== originalProfileData.gender ||
+        dob !== originalProfileData.birth_day
     );
 }
 
@@ -55,6 +59,9 @@ var profile_client = {
             const fullName = $("#fullName").val().trim();
             const email = $("#email").val().trim();
             const phone = $("#phone").val().trim();
+            const gender = $('input[name="gender"]:checked').val();
+            const dob = $("#dob").val();
+
 
             let isValid = true;
 
@@ -90,6 +97,18 @@ var profile_client = {
                 $("#error-phone").text("Số điện thoại không hợp lệ");
                 isValid = false;
             }
+            // Validate giới tính
+            if (!gender) {
+                $("#error-gender").text("Vui lòng chọn giới tính");
+                isValid = false;
+            }
+
+            // Validate ngày sinh
+            if (!dob) {
+                $("#error-dob").text("Vui lòng chọn ngày sinh");
+                isValid = false;
+            }
+
 
             // Nếu có lỗi thì dừng lại
             if (!isValid) return;
@@ -106,11 +125,14 @@ var profile_client = {
                 ClientName: fullName,
                 Email: email,
                 Phone: phone,
+                Gender: gender,
+                BirthDay: dob
             };
 
             $.when(global_service.POST(API_URL.UpdateProfile, request))
                 .done(function (result) {
                     if (result && result.is_success && result.data) {
+                        
                         // ✅ Thông báo thành công với SweetAlert2
                         Swal.fire({
                             icon: 'success',
@@ -128,7 +150,9 @@ var profile_client = {
                         originalProfileData = {
                             fullName: fullName,
                             email: email,
-                            phone: phone
+                            phone: phone,
+                            gender: gender,
+                            birth_day: dob
                         };
 
                         enableUpdateButton(false);
@@ -152,7 +176,7 @@ var profile_client = {
 
     },
     GetProfile: function () {
-
+        
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -164,19 +188,25 @@ var profile_client = {
         $.when(
             global_service.POST(API_URL.ProfileList, request)
         ).done(function (result) {
-
+            
             if (result && result.is_success && result.data) {
                 const data = result.data;
                 originalProfileData = {
                     fullName: data.clientName || "",
                     email: data.email || "",
-                    phone: data.phone || ""
+                    phone: data.phone || "",
+                    gender: data.gender || "",
+                    birth_day: data.birthday ? data.birthday.substring(0, 10) : ""
                 };
 
                 $("#fullName").val(originalProfileData.fullName);
                 $("#email").val(originalProfileData.email);
                 $("#phone").val(originalProfileData.phone);
-                enableUpdateButton(false); // ✅ Disable khi vừa load
+                $("#dob").val(originalProfileData.birth_day);
+                if (originalProfileData.gender) {
+                    $(`input[name='gender'][value='${originalProfileData.gender}']`).prop("checked", true);
+                }
+                enableUpdateButton(false);
 
                 
             } else {
