@@ -569,7 +569,7 @@ var address_client = {
         $('#update-address').hide()
         $('#address-book').addClass('overlay-active')
         $('#address-book').addClass('show')
-        $('#address-book').show()
+        $('#address-book').hide()
     },
     ValidateAddressForm: function () {
         let isValid = true;

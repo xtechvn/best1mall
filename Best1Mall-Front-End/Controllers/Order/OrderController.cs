@@ -20,7 +20,7 @@ namespace Best1Mall_Front_End.Controllers
         private readonly IConfiguration _configuration;
         private readonly OrderServices _orderServices;
         private readonly StaticAPIService staticAPIService;
-        private readonly  VnpayLibrary _vnpayLibrary;
+        private readonly VnpayLibrary _vnpayLibrary;
 
         private readonly string static_domain = "";
 
