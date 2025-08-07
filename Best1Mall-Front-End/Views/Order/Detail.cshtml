@@ -103,7 +103,7 @@
             </div>
         </div>
     </div>
-    <div class=" md:grid flex justify-center md:justify-end text-center items-center my-4 gap-3">
+    <div class=" md:block flex justify-center md:justify-end text-end items-center my-4 gap-3 mb-[25px]">
         @if (order.data_order.OrderStatus == OrderStatus.FINISHED_DELIVERY || order.data_order.OrderStatus == OrderStatus.FINISHED ||
         order.data_order.OrderStatus == OrderStatus.CANCELED){
             <a href="javascript:;" class=" btn-buy-again border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Mua lại</a>
