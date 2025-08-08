@@ -2,179 +2,256 @@
     ViewData["Title"] = "Lịch sử đơn hàng | BestMall";
     Layout = "~/Views/Shared/_AccountManagementLayout.cshtml";
 }
-
+@model Best1Mall_Front_End.Models.Orders.OrderHistoryResponseModel
 @using Best1Mall_Front_End.Models.Orders
 @using Best1Mall_Front_End.Utilities
 @using Best1Mall_Front_End.Utilities.contants
 @{
     Layout = null;
-    OrderHistoryResponseModel data = (OrderHistoryResponseModel)ViewBag.Data;
+    // OrderHistoryResponseModel data = (OrderHistoryResponseModel)ViewBag.Data;
     var static_domain = (string)ViewBag.StaticDomain;
 
 }
 
-@if (data != null && data.data != null && data.data_order != null && data.data.Count > 0 && data.data_order.Count > 0)
+@if (Model != null && Model.data != null && Model.data_order != null && Model.data.Count > 0 && Model.data_order.Count > 0)
 {
-    foreach (var item in data.data)
-    {
-        var data_order = data.data_order.FirstOrDefault(x => x.order_id == item.Id);
-        if (data_order == null || data_order._id == null || data_order._id.Trim() == "")
+   
+        @foreach (var item in Model.data)
         {
-            data_order = data.data_order.FirstOrDefault(x => x.order_no.Trim().ToLower() == item.OrderNo.Trim().ToLower());
-        }
-        string orderStatusName = "Tạo mới";
-        string paymentStatusName = "Thanh toán thiếu";
+            var data_order = Model.data_order.FirstOrDefault(x => x.order_id == item.Id);
+            if (data_order == null || data_order._id == null || data_order._id.Trim() == "")
+            {
+                data_order = Model.data_order.FirstOrDefault(x => x.order_no.Trim().ToLower() == item.OrderNo.Trim().ToLower());
+            }
+            string orderStatusName = "Tạo mới";
+            string paymentStatusName = "Thanh toán thiếu";
 
-        switch (item.OrderStatus)
-        {
-            case (int)OrderStatusConstants.NEW:
-                orderStatusName = "Tạo mới"; break;
-            case (int)OrderStatusConstants.PAID:
-                orderStatusName = "Đã thanh toán"; break;
-            case (int)OrderStatusConstants.PROCESS:
-                orderStatusName = "Đang xử lý"; break;
-            case (int)OrderStatusConstants.ON_DELIVERY:
-                orderStatusName = "Đang vận chuyển"; break;
-            case (int)OrderStatusConstants.DELIVERED:
-                orderStatusName = "Giao hàng thành công"; break;
-            case (int)OrderStatusConstants.DONE:
-                orderStatusName = "Hoàn thành"; break;
-            case (int)OrderStatusConstants.CANCELED:
-                orderStatusName = "Trả hàng/Hoàn tiền"; break;
-        }
+            switch (item.OrderStatus)
+            {
+                case (int)OrderStatusConstants.NEW:
+                    orderStatusName = "Tạo mới"; break;
+                case (int)OrderStatusConstants.PAID:
+                    orderStatusName = "Đã thanh toán"; break;
+                case (int)OrderStatusConstants.PROCESS:
+                    orderStatusName = "Đang xử lý"; break;
+                case (int)OrderStatusConstants.ON_DELIVERY:
+                    orderStatusName = "Đang vận chuyển"; break;
+                case (int)OrderStatusConstants.DELIVERED:
+                    orderStatusName = "Giao hàng thành công"; break;
+                case (int)OrderStatusConstants.DONE:
+                    orderStatusName = "Hoàn thành"; break;
+                case (int)OrderStatusConstants.CANCELED:
+                    orderStatusName = "Trả hàng/Hoàn tiền"; break;
+            }
 
-        switch (item.PaymentStatus)
-        {
-            case (int)PaymentStatusConstants.Unpaid:
-                paymentStatusName = "Chưa thanh toán"; break;
-            case (int)PaymentStatusConstants.Paid:
-                paymentStatusName = "Đã thanh toán"; break;
-            case (int)PaymentStatusConstants.PartiallyPaid:
-                paymentStatusName = "Thanh toán thiếu"; break;
-        }
-        <div class="box-order-detail">
+            switch (item.PaymentStatus)
+            {
+                case (int)PaymentStatusConstants.Unpaid:
+                    paymentStatusName = "Chưa thanh toán"; break;
+                case (int)PaymentStatusConstants.Paid:
+                    paymentStatusName = "Đã thanh toán"; break;
+                case (int)PaymentStatusConstants.PartiallyPaid:
+                    paymentStatusName = "Thanh toán thiếu"; break;
+            }
+            <div class="box-order-detail">
 
-            <nw class="order-history-item" data-id="@item.Id">
-                <div class="head-box">
-                    <span class="code">Mã đơn hàng: <b>@item.OrderNo</b></span>
-                    <span class="status">Tình trạng: <span class="high">@orderStatusName</span></span>
-                    @* <span class="status flex gap-2 items-center"> *@
-                    @*     <span class="text-sm text-gray-500">Tình trạng:</span> *@
-                    @*     <span class="high font-semibold text-blue-600">@orderStatusName</span> *@
-                    @*     @if (!string.IsNullOrEmpty(paymentStatusName)) *@
-                    @*     { *@
-                    @*         <span class="px-2 py-1 rounded-full bg-red-100 text-red-600 text-xs font-medium">@paymentStatusName</span> *@
-                    @*     } *@
-                    @* </span> *@
+                <nw class="order-history-item" data-id="@item.Id">
+                    <div class="head-box">
+                        <span class="code">Mã đơn hàng: <b>@item.OrderNo</b></span>
+                        <span class="status">Tình trạng: <span class="high">@orderStatusName</span></span>
+                        @* <span class="status flex gap-2 items-center"> *@
+                        @*     <span class="text-sm text-gray-500">Tình trạng:</span> *@
+                        @*     <span class="high font-semibold text-blue-600">@orderStatusName</span> *@
+                        @*     @if (!string.IsNullOrEmpty(paymentStatusName)) *@
+                        @*     { *@
+                        @*         <span class="px-2 py-1 rounded-full bg-red-100 text-red-600 text-xs font-medium">@paymentStatusName</span> *@
+                        @*     } *@
+                        @* </span> *@
 
-                    <a href="/order/detail/@((data_order == null || data_order._id == null) ? " " : data_order._id)" class="btn-seemore">Xem chi tiết</a>
-                </div>
-                <div class="list-product-order">
-                    @{
-                        if (data_order?.carts?.Count > 0)
-                        {
-                            @foreach (var cart in data_order.carts)
+                        <a href="/order/detail/@((data_order == null || data_order._id == null) ? " " : data_order._id)" class="btn-seemore">Xem chi tiết</a>
+                    </div>
+                    <div class="list-product-order">
+                        @{
+                            if (data_order?.carts?.Count > 0)
                             {
-                                var isFlashSale = cart.product.amount_after_flashsale != null
-                                && cart.product.amount_after_flashsale > 0
-                                && cart.product.flash_sale_todate != null
-                                && cart.product.flash_sale_todate > DateTime.Now;
+                                @foreach (var cart in data_order.carts)
+                                {
+                                    var isFlashSale = cart.product.amount_after_flashsale != null
+                                    && cart.product.amount_after_flashsale > 0
+                                    && cart.product.flash_sale_todate != null
+                                    && cart.product.flash_sale_todate > DateTime.Now;
 
-                                var price = isFlashSale ? cart.product.amount_after_flashsale.Value : cart.product.amount;
-                                var total = price * cart.quanity;
+                                    var price = isFlashSale ? cart.product.amount_after_flashsale.Value : cart.product.amount;
+                                    var total = price * cart.quanity;
 
-                                <div class="item">
-                                    <div class="img">
-                                        <img src="@StringHelpers.CorrectImage(cart.product.avatar, static_domain)" alt="" />
-                                    </div>
-                                    <div class="info">
-                                        <h3 class="name-product">@cart.product.name</h3>
-                                        <div class="cat">Phân loại hàng: @StringHelpers.RenderVariationDetail(cart.product.attributes, cart.product.attributes_detail, cart.product.variation_detail)</div>
-                                        <div class="flex-quantity">
-                                            <span>Giá: @price.ToString("N0") đ</span>
-                                            <span>Số lượng: @cart.quanity.ToString("N0")</span>
+                                    <div class="item">
+                                        <div class="img">
+                                            <img src="@StringHelpers.CorrectImage(cart.product.avatar, static_domain)" alt="" />
                                         </div>
-                                        <p class="price">@total.ToString("N0") đ</p>
+                                        <div class="info">
+                                            <h3 class="name-product">@cart.product.name</h3>
+                                            <div class="cat">Phân loại hàng: @StringHelpers.RenderVariationDetail(cart.product.attributes, cart.product.attributes_detail, cart.product.variation_detail)</div>
+                                            <div class="flex-quantity">
+                                                <span>Giá: @price.ToString("N0") đ</span>
+                                                <span>Số lượng: @cart.quanity.ToString("N0")</span>
+                                            </div>
+                                            <p class="price">@total.ToString("N0") đ</p>
+                                        </div>
                                     </div>
-                                </div>
+                                }
+
+                            }
+                        }
+                    </div>
+
+                    <div class="bottom-box">
+                        <div class="total-price">Tổng tiền: <span class="number-price text-red-400">@(item.Amount == null ? "0" : ((double)item.Amount).ToString("N0")) đ</span> </div>
+                        <div class="flex flex-wrap md:justify-end justify-center text-center items-center gap-3">
+                            @if (item.RefundStatus != null && item.RefundStatus > 1)
+                            {
+                                <a href="javascript:;" style="pointer-events: none; cursor: default; background-color:lightgray;"
+                                   class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto">
+                                    @switch (item.RefundStatus)
+                                    {
+                                        default:
+                                            {
+                                                <nw>Yêu cầu Hoàn tiền</nw>
+
+                                            }
+                                            break;
+                                        case (int)(OrderRefundStatus.CONFIRM):
+                                            {
+                                                <nw>Xác nhận Trả hàng/Hoàn tiền</nw>
+                                            }
+                                            break;
+                                        case (int)(OrderRefundStatus.DONE):
+                                            {
+                                                <nw>Hoàn tiền thành công</nw>
+                                            }
+                                            break;
+                                    }
+                                </a>
+                            }
+                            else if (new List<int>() { OrderStatus.PAID, OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY }.Contains(item.OrderStatus))
+                            {
+                                <a href="javascript:;" data-order-id="@item.OrderId" data-order-no="@item.OrderNo"
+                                   class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto order-index-refund">
+                                    Trả hàng/Hoàn tiền
+                                </a>
+                            }
+                            @if (item.OrderStatus == OrderStatus.DELIVERY)
+                            {
+                                <a href="javascript;"
+                                   class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto order-index-received">Đã nhận được hàng</a>
+                            }
+                            @* Mua lại nếu đơn đã hoàn thành hoặc đã hủy *@
+                            @if ((item.OrderStatus == OrderStatus.FINISHED || item.OrderStatus == OrderStatus.CANCELED)
+                           && data_order?.carts?.Count > 0)
+                            {
+                                var rebuyData = Newtonsoft.Json.JsonConvert.SerializeObject(
+                                data_order.carts.Select(x => new
+                                {
+                                    product_id = x.product._id,
+                                    quanity = x.quanity
+                                })
+                                );
+
+                                <button class="rebuy-order-btn border-blue-500 bg-blue-500 border px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full sm:w-auto"
+                                        data-rebuy='@Html.Raw(rebuyData)'>
+                                    Mua lại
+                                </button>
                             }
 
-                        }
-                    }
-                </div>
-
-                <div class="bottom-box">
-                    <div class="total-price">Tổng tiền: <span class="number-price text-red-400">@(item.Amount == null ? "0" : ((double)item.Amount).ToString("N0")) đ</span> </div>
-                    <div class="flex flex-wrap md:justify-end justify-center text-center items-center gap-3">
-                        @if (item.RefundStatus != null && item.RefundStatus > 1)
-                        {
-                            <a href="javascript:;" style="pointer-events: none; cursor: default; background-color:lightgray;"
-                               class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto">
-                                @switch (item.RefundStatus)
-                                {
-                                    default:
-                                        {
-                                            <nw>Yêu cầu Hoàn tiền</nw>
-
-                                        }
-                                        break;
-                                    case (int)(OrderRefundStatus.CONFIRM):
-                                        {
-                                            <nw>Xác nhận Trả hàng/Hoàn tiền</nw>
-                                        }
-                                        break;
-                                    case (int)(OrderRefundStatus.DONE):
-                                        {
-                                            <nw>Hoàn tiền thành công</nw>
-                                        }
-                                        break;
-                                }
-                            </a>
-                        }
-                        else if (new List<int>() { OrderStatus.PAID, OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY }.Contains(item.OrderStatus))
-                        {
-                            <a href="javascript:;" data-order-id="@item.OrderId" data-order-no="@item.OrderNo"
-                               class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto order-index-refund">
-                                Trả hàng/Hoàn tiền
-                            </a>
-                        }
-                        @if (item.OrderStatus == OrderStatus.DELIVERY)
-                        {
-                            <a href="javascript;"
-                               class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto order-index-received">Đã nhận được hàng</a>
-                        }
-                        @* Mua lại nếu đơn đã hoàn thành hoặc đã hủy *@
-                        @if ((item.OrderStatus == OrderStatus.FINISHED || item.OrderStatus == OrderStatus.CANCELED)
-                       && data_order?.carts?.Count > 0)
-                        {
-                            var rebuyData = Newtonsoft.Json.JsonConvert.SerializeObject(
-                            data_order.carts.Select(x => new
+                            @* Thanh toán lại nếu trạng thái thanh toán là Thanh toán thiếu *@
+                            @if (item.PaymentType != (int)PaymentType.COD && item.PaymentStatus != (int)PaymentStatusConstants.Paid && item.OrderStatus != OrderStatus.FINISHED)
                             {
-                                product_id = x.product._id,
-                                quanity = x.quanity
-                            })
-                            );
-
-                            <button class="rebuy-order-btn border-blue-500 bg-blue-500 border px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full sm:w-auto"
-                                    data-rebuy='@Html.Raw(rebuyData)'>
-                                Mua lại
-                            </button>
-                        }
-
-                        @* Thanh toán lại nếu trạng thái thanh toán là Thanh toán thiếu *@
-                        @if (item.PaymentType != (int)PaymentType.COD &&item.PaymentStatus != (int)PaymentStatusConstants.Paid && item.OrderStatus != OrderStatus.FINISHED)
-                        {
-                            <a href="javascript:;"
-                               class="border border-yellow-500 bg-yellow-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto order-index-repay"
-                               data-order-id="@((data_order == null || data_order._id == null) ? "" : data_order._id)">
-                                Thanh toán lại
-                            </a>
-                        }
+                                <a href="javascript:;"
+                                   class="border border-yellow-500 bg-yellow-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto order-index-repay"
+                                   data-order-id="@((data_order == null || data_order._id == null) ? "" : data_order._id)">
+                                    Thanh toán lại
+                                </a>
+                            }
 
 
+                        </div>
                     </div>
-                </div>
-            </nw>
-        </div>
-    }
+                </nw>
+            </div>
+
+        }
+
+
+
+       
+    
+
+
+
 }
+@* @if (Model != null && Model.total > 10) *@
+@* { *@
+@*     <div class="flex justify-center mt-5"> *@
+@*         <button type="button" *@
+@*                 class="text-color-base font-normal border px-6 py-2 rounded hover:bg-gray-100" *@
+@*                 id="btn-load-order" *@
+@*                 data-page="1"> *@
+@*             Xem thêm *@
+@*         </button> *@
+@*     </div> *@
+@* } *@
+@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
+
+@* <script> *@
+@*     $(document).ready(function () { *@
+@*         $('#btn-load-order').on('click', function () { *@
+@*             debugger *@
+@*             var btn = $(this); *@
+@*             var page = parseInt(btn.attr('data-page'), 10) + 1; // tăng trang *@
+@*             var usr = global_service.CheckLogin(); *@
+
+@*             if (!usr || !usr.token) { *@
+@*                 Swal.fire('Thông báo', 'Vui lòng đăng nhập để xem đơn hàng.', 'info'); *@
+@*                 return; *@
+@*             } *@
+
+@*             var request = { *@
+@*                 token: usr.token, *@
+@*                 order_no: $('#order-keyword').val() || '', *@
+@*                 status: $('.tab-status .list-tab .active a').attr('data-id') || '', *@
+@*                 page_index: page, *@
+@*                 page_size: 10 // hoặc kích thước trang bạn muốn *@
+@*             }; *@
+
+@*             btn.prop('disabled', true).text('Đang tải...'); *@
+
+
+@*             $.post("/Order/LoadOrders", request, function (res) { *@
+@*                 debugger *@
+@*                 if (res) { *@
+@*                     $('.ok').append(res.html) *@
+@*                     btn.attr('data-page', page); *@
+@*                 } *@
+
+@*                 if (res.isLastPage) { *@
+@*                     btn.hide();  // Nếu không còn sản phẩm nào, ẩn nút "Xem thêm" *@
+@*                 } else { *@
+@*                     btn.prop("disabled", false).text("Xem thêm");  // Hiển thị lại nút "Xem thêm" *@
+@*                 } *@
+@*             }).fail(function (err) { *@
+@*                 console.error("LoadMore error:", err); *@
+@*                 btn.prop("disabled", false).text("Xem thêm"); *@
+@*             }); *@
+
+@*         }); *@
+
+@*     }); *@
+@* </script> *@
+
+
+
+   
+
+   
+
+
+

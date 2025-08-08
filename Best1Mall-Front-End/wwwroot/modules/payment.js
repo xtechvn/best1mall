@@ -84,9 +84,9 @@ var payment = {
                 $('.box-payment-info').show()
                 $('.box-payment-failed').hide()
                 $('.box-payment-sucess').hide()
-                $('.order-no').html(order_detail.order_no)
-                $('.order-no').attr('href', '/order/detail/' + order_detail._id);
-                $('.order-no').attr('target', '_blank');
+                    $('.order-no').text(order_detail.order_no)
+                //$('.order-no').attr('href', '/order/detail/' + order_detail._id);
+                //$('.order-no').attr('target', '_blank');
                 var payment_type = GLOBAL_CONSTANTS.PaymentType.filter(obj => {
                     return obj.id === order_detail.payment_type
                 })
@@ -145,9 +145,9 @@ var payment = {
                 $('.box-payment-sucess').show()
                 $('.box-payment-info').hide()
                 $('.box-payment-failed').hide()
-                $('.order-no').html(order_detail.order_no)
-                $('.order-no').attr('href', '/order/detail/' + order_detail._id);
-                $('.order-no').attr('target', '_blank');
+                $('.order-no').text(order_detail.order_no)
+                //$('.order-no').attr('href', '/order/detail/' + order_detail._id);
+                //$('.order-no').attr('target', '_blank');
                 var payment_type = GLOBAL_CONSTANTS.PaymentType.filter(obj => {
                     return obj.id === order_detail.payment_type
                 })

@@ -11,6 +11,9 @@ using Best1Mall_Front_End.Service;
 using System;
 using HuloToys_Service.Models.Orders;
 using Best1Mall_Front_End.Utilities.lib;
+using Best1Mall_Front_End.Models.Labels;
+using Best1Mall_Front_End.Models.Products;
+using Best1Mall_Front_End.Utilities;
 
 namespace Best1Mall_Front_End.Controllers
 {
@@ -38,26 +41,44 @@ namespace Best1Mall_Front_End.Controllers
             return View();
 
         }
+       
+        [HttpPost]
+        public async Task<IActionResult> Search(OrderHistoryRequestModel request)
+        {
+           var result = new OrderHistoryResponseModel();
+            ViewBag.StaticDomain = _configuration["API:StaticURL"];
+            try
+            {
+                result = await _orderServices.Listing(request);
+            }
+            catch (Exception ex) { 
+            
+            }
+            return View(result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> LoadOrders(OrderHistoryRequestModel request)
+        {
+            var result = await _orderServices.Listing(request);
+            ViewBag.StaticDomain = _configuration["API:StaticURL"];
+
+            bool isLastPage = (request.page_index * request.page_size) >= result.total;
+
+            var html = await this.RenderViewAsync("Search", result ?? new OrderHistoryResponseModel(), true);
+
+            return Json(new
+            {
+                isLastPage,
+                html
+            });
+        }
         public async Task<ActionResult> Payment(string id)
         {
             ViewBag.Id = id;
             return View();
 
         }
-        [HttpPost]
-        public async Task<IActionResult> Search(OrderHistoryRequestModel request)
-        {
-            ViewBag.Data = new OrderHistoryResponseModel();
-            ViewBag.StaticDomain = _configuration["API:StaticURL"];
-            try
-            {
-                ViewBag.Data = await _orderServices.Listing(request);
-            }
-            catch (Exception ex) { 
-            
-            }
-            return View();
-        }
+
         public async Task<IActionResult> Detail(string id)
         {
             ViewBag.StaticDomain = _configuration["API:StaticURL"];
