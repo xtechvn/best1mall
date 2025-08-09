@@ -135,18 +135,50 @@ var cart = {
         // Khi ấn +
         $('body').on('click', '.btn-quantity-increase', function () {
             const $input = $(this).closest('.number-input').find('.quantity');
-            let val = parseInt($input.val()) || 0;
-            if (val < 999) val++;
-            $input.val(val);
+            const max = parseInt($input.attr('data-max')) || parseInt($input.attr('max')) || 999;
+            let val = parseInt(($input.val() || '').toString().replace(/,/g, '')) || 0;
+
+            if (val >= max) {
+                Swal.fire('Thông báo', `Rất tiếc, bạn chỉ có thể mua tối đa ${global_service.Comma(max)} sản phẩm của chương trình giảm giá này.`, 'info');
+                return;
+            }
+            $input.val(val + 1).trigger('change');
         });
 
         // Khi ấn -
         $('body').on('click', '.btn-quantity-decrease', function () {
             const $input = $(this).closest('.number-input').find('.quantity');
-            let val = parseInt($input.val()) || 0;
-            if (val > 1) val--;
-            $input.val(val);
+            let val = parseInt(($input.val() || '').toString().replace(/,/g, '')) || 0;
+
+            if (val > 1) {
+                $input.val(val - 1).trigger('change');
+            }
         });
+        // Kiểm tra khi nhập tay (clamp về [1, max] và cảnh báo nếu vượt)
+        $('body').on('blur change', 'input.quantity', function () {
+            const $input = $(this);
+            const max = parseInt($input.attr('data-max')) || 999;
+
+            // Lấy số, loại bỏ ký tự không phải số (nếu bạn format có dấu phẩy)
+            let raw = ($input.val() || '').toString();
+            let val = parseInt(raw.replace(/[^\d]/g, ''), 10) || 0;
+
+            if (val > max) {
+                val = max;
+                Swal.fire('Thông báo', `Rất tiếc, bạn chỉ có thể mua tối đa ${global_service.Comma(max)} sản phẩm của chương trình giảm giá này.`, 'info');
+            } else if (val < 1) {
+                val = 1;
+            }
+
+            // ❌ KHÔNG trigger('change') ở đây để tránh vòng lặp
+            $input.val(val);
+
+            // Nếu bạn cần tính lại tổng, gọi trực tiếp:
+            if (typeof cart !== 'undefined' && typeof cart.ReRenderAmount === 'function') {
+                cart.ReRenderAmount();
+            }
+        });
+
         //$("body").on('click', ".section-cart .table-addtocart .remove-product", function () {
         //    
         //    var element = $(this)
@@ -193,36 +225,36 @@ var cart = {
         });
         // ✅ Khi click checkbox, hoặc thay đổi số lượng
         $("body").on('click', ".box-checkbox, .number-input button, .checkbox-cart", function () {
-            const clickedCheckbox = $(this).hasClass('checkbox-cart') ? $(this) : $(this).find('.checkbox-cart');
+            //const clickedCheckbox = $(this).hasClass('checkbox-cart') ? $(this) : $(this).find('.checkbox-cart');
 
-            // ✅ Bổ sung VALIDATE: chỉ chọn sản phẩm của 1 NCC
-            if (clickedCheckbox.length > 0 && clickedCheckbox.is(':checked')) {
-                const selectedSupplier = clickedCheckbox.data('supplier-id');
+            //// ✅ Bổ sung VALIDATE: chỉ chọn sản phẩm của 1 NCC
+            //if (clickedCheckbox.length > 0 && clickedCheckbox.is(':checked')) {
+            //    const selectedSupplier = clickedCheckbox.data('supplier-id');
 
-                // Kiểm tra xem có sản phẩm nào của NCC khác đang được chọn không
-                let conflictFound = false;
-                $('.checkbox-cart').each(function () {
-                    const otherCheckbox = $(this);
-                    const otherSupplier = otherCheckbox.data('supplier-id');
+            //    // Kiểm tra xem có sản phẩm nào của NCC khác đang được chọn không
+            //    let conflictFound = false;
+            //    $('.checkbox-cart').each(function () {
+            //        const otherCheckbox = $(this);
+            //        const otherSupplier = otherCheckbox.data('supplier-id');
 
-                    if (otherCheckbox.prop('checked') && otherSupplier !== selectedSupplier) {
-                        conflictFound = true;
-                        return false;
-                    }
-                });
+            //        if (otherCheckbox.prop('checked') && otherSupplier !== selectedSupplier) {
+            //            conflictFound = true;
+            //            return false;
+            //        }
+            //    });
 
-                if (conflictFound) {
-                    // Bỏ chọn tất cả sản phẩm của NCC khác
-                    $('.checkbox-cart').each(function () {
-                        const otherCheckbox = $(this);
-                        const otherSupplier = otherCheckbox.data('supplier-id');
+            //    if (conflictFound) {
+            //        // Bỏ chọn tất cả sản phẩm của NCC khác
+            //        $('.checkbox-cart').each(function () {
+            //            const otherCheckbox = $(this);
+            //            const otherSupplier = otherCheckbox.data('supplier-id');
 
-                        if (otherSupplier !== selectedSupplier) {
-                            otherCheckbox.prop('checked', false);
-                        }
-                    });
-                }
-            }
+            //            if (otherSupplier !== selectedSupplier) {
+            //                otherCheckbox.prop('checked', false);
+            //            }
+            //        });
+            //    }
+            //}
 
             cart.ReRenderAmount();
         });
@@ -503,14 +535,26 @@ var cart = {
                     product.flash_sale_todate != null &&
                     new Date(product.flash_sale_todate) > new Date();
 
+               
+
+                // Tồn kho & quantity an toàn
+                const stock = Number(product.quanity_of_stock) || 0;
+                const maxAllowed = Math.min(999, Math.max(0, stock)); // [0..999]
+                const stockOk = stock > 0;
+
+                // Nếu hết hàng, quantity hiển thị 0; còn hàng thì clamp theo tồn kho
+                const safeQty = stockOk
+                    ? Math.min(item.quanity || 1, maxAllowed)
+                    : 0;
+
                 const display_price = isFlashSale ? product.amount_after_flashsale : product.amount;
-                const quantity = item.quanity > 999 ? 999 : item.quanity;
+                const quantity = safeQty;
                 const total_price = display_price * quantity;
 
                 const amountOk = display_price > 0;
                 const statusOk = product.status === 1;
                 const supplierOk = product.supplier_status === 1;
-                const isEnabled = amountOk && statusOk && supplierOk;
+                const isEnabled = amountOk && statusOk && supplierOk && stockOk;
 
                 const disabledClass = isEnabled ? '' : 'disabled-product';
                 const checkboxDisabled = isEnabled ? '' : 'disabled';
@@ -529,6 +573,7 @@ var cart = {
                     .replaceAll('{name}', product.name)
                     .replaceAll('{amount_display}', global_service.Comma(display_price))
                     .replaceAll('{quanity}', global_service.Comma(quantity))
+                    .replaceAll('{max_quanity}', maxAllowed || 1)  // 👈 thêm dòng này
                     .replaceAll('{total_amount}', global_service.Comma(total_price))
                     .replaceAll('{disabledClass}', disabledClass)
                     .replaceAll('{checkboxDisabled}', checkboxDisabled)
@@ -573,7 +618,7 @@ var cart = {
 
         cart.ReRenderAmount();
         cart.RenderCartNumberOfProduct();
-        cart.setupCheckboxValidation();;
+        //cart.setupCheckboxValidation();
     },
 
     setupCheckboxValidation: function () {
