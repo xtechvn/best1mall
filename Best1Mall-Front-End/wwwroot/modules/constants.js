@@ -135,13 +135,14 @@ var FLASH_SALE_TYPE = {
     SupperSale: 117, // Siêu Sale
     Sale: 130, // Bán Chạy
     Bestchoice: 114, // Hot Trend
-    Featuredproduct: 113 // Nổi bật
+    Featuredproduct: 113 ,// Nổi bật,
+    HotTrend: 287, // Hot Trend
 };
 
 var FLASH_SALE_IMAGES = {
     [FLASH_SALE_TYPE.SupperSale]: '/assets/images/tag-sieusale.png',
     [FLASH_SALE_TYPE.Sale]: '/assets/images/tag-banchay.png',
-    [FLASH_SALE_TYPE.Bestchoice]: '/assets/images/tag-hottrend.png',
+    [FLASH_SALE_TYPE.HotTrend]: '/assets/images/tag-hottrend.png',
     [FLASH_SALE_TYPE.Featuredproduct]: '/assets/images/tag-noibat.png',
    
 };
@@ -522,25 +523,25 @@ var HTML_CONSTANTS = {
 
         `,
         
+        // HTML_CONSTANTS.Detail.Tr_Quanity
         Tr_Quanity: `<tr class="box-detail-stock">
-    <td>Số lượng:</td>
-    <td>
-        <span class="flex gap-2 items-center">
-            <div class="flex items-center number-input">
-                 <button type="button" class="btn-quantity-decrease h-8 w-8 border border-gray-100 text-gray-700 rounded-l hover:bg-gray-100 cursor-pointer">-</button>
+  <td>Số lượng:</td>
+  <td>
+    <span class="flex gap-2 items-center">
+      <div class="flex items-center number-input">
+        <button type="button" class="btn-quantity-decrease h-8 w-8 border border-gray-100 text-gray-700 rounded-l hover:bg-gray-100 cursor-pointer">-</button>
 
         <input id="quantity" name="quantity" type="text" value="1" min="1" max="999"
                class="quantity h-8 w-16 text-center border-t border-b border-gray-100" />
 
         <button type="button" class="btn-quantity-increase h-8 w-8 border border-gray-100 text-gray-700 rounded-r hover:bg-gray-100 cursor-pointer">+</button>
+      </div>
 
-            </div>
-
-            
-        </span>
-    </td>
-</tr>
-`//<span class= "text-slate-500 font-light soluong" > { stock } sản phẩm có sẵn</span>
+      <span class="text-slate-500 font-light soluong">{stock} sản phẩm có sẵn</span>
+    </span>
+  </td>
+</tr>`
+//<span class= "text-slate-500 font-light soluong" > { stock } sản phẩm có sẵn</span>
     },
     Cart: {
         Product: `
@@ -573,7 +574,7 @@ var HTML_CONSTANTS = {
                 <div class="flex items-center justify-between gap-2">
                     <div class="flex items-center number-input">
                         <button type="button" class="btn-quantity-decrease h-8 w-8 border border-gray-100 text-gray-700 rounded-l hover:bg-gray-100 cursor-pointer" {btnDisabled}>-</button>
-                        <input type="text" value="{quanity}" min="1" max="999" name="quantity"
+                        <input type="text" value="{quanity}" min="1" max="{max_quanity}" data-max="{max_quanity}"name="quantity"
                             class="h-8 w-10 text-center border-t border-b border-gray-100 text-sm quantity" {inputReadonly} />
                         <button type="button" class="btn-quantity-increase h-8 w-8 border border-gray-100 text-gray-700 rounded-r hover:bg-gray-100 cursor-pointer" {btnDisabled}>+</button>
                     </div>
