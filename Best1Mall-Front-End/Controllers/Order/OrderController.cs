@@ -321,7 +321,7 @@ namespace Best1Mall_Front_End.Controllers
             });
         }
         [HttpPost]
-        public async Task<IActionResult> ReceivedOrder(OrdersRefundRequestModel request)
+        public async Task<IActionResult> ReceivedOrder(OrdersReceivedPackageRequestModel request)
         {
             return Ok(new
             {

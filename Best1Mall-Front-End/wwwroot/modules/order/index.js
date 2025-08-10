@@ -310,7 +310,6 @@ var order_index = {
 
         }
         var request = {
-            "reason": reason,
             "id": $('#receiver-popup').attr('data-order-id'),
             "token": token
         }

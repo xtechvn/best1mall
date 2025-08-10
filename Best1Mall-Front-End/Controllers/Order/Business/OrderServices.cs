@@ -257,7 +257,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return false;
 
         }
-        public async Task<bool> ReceivedOrder(OrdersRefundRequestModel request)
+        public async Task<bool> ReceivedOrder(OrdersReceivedPackageRequestModel request)
         {
             try
             {
