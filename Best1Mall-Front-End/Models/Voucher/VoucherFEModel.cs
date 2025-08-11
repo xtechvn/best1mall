@@ -11,6 +11,7 @@
         public decimal? price_sales { get; set; }
         public string unit { get; set; }
         public string store_apply { get; set; }
+        public string group_user_priority { get; set; }
         public int? rule_type { get; set; }
         public bool? IsPublic { get; set; }
         public string description { get; set; }
@@ -19,6 +20,7 @@
         public double? MinTotalAmount { get; set; }
         public int? campaign_id { get; set; }
         public short? project_type { get; set; }
+        public bool? is_max_price_product { get; set; }
         public int TotalRow { get; set; }
     }
 }

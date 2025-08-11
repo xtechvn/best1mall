@@ -126,21 +126,21 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
 
         } 
       
-        public async Task<CartCheckProductResponseModel> CheckProduct(CartCheckProductRequestModel request)
-        {
-            try
-            {
-                var result = await POST(_configuration["API:order_confirm"], request);
-                var jsonData = JObject.Parse(result);
-                var status = int.Parse(jsonData["status"].ToString());
-                return JsonConvert.DeserializeObject<CartCheckProductResponseModel>(result);
-            }
-            catch
-            {
-            }
-            return null;
+        //public async Task<CartCheckProductResponseModel> CheckProduct(CartCheckProductRequestModel request)
+        //{
+        //    try
+        //    {
+        //        var result = await POST(_configuration["API:order_confirm"], request);
+        //        var jsonData = JObject.Parse(result);
+        //        var status = int.Parse(jsonData["status"].ToString());
+        //        return JsonConvert.DeserializeObject<CartCheckProductResponseModel>(result);
+        //    }
+        //    catch
+        //    {
+        //    }
+        //    return null;
 
-        }
+        //}
         public async Task<ShippingFeeResponseModel> ShippingFee(ShippingFeeRequestModel request)
         {
             try

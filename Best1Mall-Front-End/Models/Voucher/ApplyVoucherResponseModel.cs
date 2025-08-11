@@ -5,6 +5,7 @@
         public string status { get; set; }
         public string msg { get; set; }
         public int voucher_id { get; set; }
+        public int rule_type { get; set; }
         public double percent_decrease { get; set; }
         public string expire_date { get; set; }
         public string voucher_name { get; set; }

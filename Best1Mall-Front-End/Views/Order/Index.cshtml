@@ -95,6 +95,42 @@
         </div>
     </div>
 </div>
+<div id="receiver-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999" style="display:none;">
+    <div class="flex justify-center md:items-center h-full">
+        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto overflow-y-auto relative">
+            <span class="closePopup absolute right-2 top-2 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                          fill="#2A3262" />
+                </svg>
+            </span>
+            <h4 class="text-center text-xl text-color-base mb-3">ĐÃ NHẬN ĐƯỢC ĐƠN HÀNG <a href="javascript:;" id="receiver-popup-orderno"> </a></h4>
+            <div class="space-y-4 scrollbar-hide overflow-y-auto md:max-h-[80vh]">
+                <div class="rounded-xl bg-gray-100 p-2 order-raiting">
+                    <div class="flex items-center gap-2 my-3">
+                        <span></span>
+                    </div>
+                   <p>
+                        Khi nhấn vào nút xác nhận bên dưới, bạn đã xác nhận rằng <nw class="text-color-base" style="font-weight:bold;">đã nhận được đầy đủ các sản phẩm trong đơn hàng</nw>. <br />
+                        Sau khi xác nhận "Đã nhận được hàng", bạn sẽ <nw class="" style="font-weight:bold;color:red;">không thể thực hiện được thao tác Đổi trả / Hoàn tiền</nw>.  <br />
+                        Bạn có chắc chắn không?
+
+                   </p>
+                </div>
+            </div>
+            <div class="flex justify-end items-center mt-4 gap-3">
+                <button id="receiver-popup-cancel" class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80">
+                    Trở
+                    lại
+                </button>
+                <button id="receiver-popup-confirm" class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80">
+                    Xác nhận
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     <script type="text/javascript" src="/modules/order/index.js" asp-append-version="true"></script>
     

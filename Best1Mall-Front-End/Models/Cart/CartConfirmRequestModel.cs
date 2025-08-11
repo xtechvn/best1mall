@@ -16,8 +16,9 @@ namespace Models.APIRequest
         public List<CartConfirmItemRequestModel> carts { get; set; }
         public AddressClientFEModel address { get; set; }
         public long address_id { get; set; }
-        public int? voucher_id { get; set; }
-        public string voucher_code { get; set; }
+        // 🔁 Đổi từ int?/string → List<>
+        public List<int> voucher_id { get; set; } = new();        // cho phép mảng rỗng
+        public List<string> voucher_code { get; set; } = new();    // cho phép mảng rỗng
 
     }
     public class CartConfirmItemRequestModel

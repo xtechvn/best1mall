@@ -257,6 +257,26 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return false;
 
         }
+        public async Task<bool> ReceivedOrder(OrdersReceivedPackageRequestModel request)
+        {
+            try
+            {
+                var result = await POST(_configuration["API:order_receiver"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return true;
+
+                }
+
+            }
+            catch
+            {
+            }
+            return false;
+
+        }
         public async Task<bool> Cancel(OrdersRefundRequestModel request)
         {
             try

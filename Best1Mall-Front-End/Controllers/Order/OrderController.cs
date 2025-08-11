@@ -318,5 +318,13 @@ namespace Best1Mall_Front_End.Controllers
                 is_success = await _orderServices.Cancel(request)
             });
         }
+        [HttpPost]
+        public async Task<IActionResult> ReceivedOrder(OrdersReceivedPackageRequestModel request)
+        {
+            return Ok(new
+            {
+                is_success = await _orderServices.ReceivedOrder(request)
+            });
+        }
     }
 }

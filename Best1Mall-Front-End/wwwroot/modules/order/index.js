@@ -136,11 +136,23 @@ var order_index = {
             $('#refund-popup-orderno').html(element.attr('data-order-no').toUpperCase())
             $('#refund-popup').show()
         });
+        $('body').on('click', '.order-index-received', function () {
+            var element = $(this)
+            $('#receiver-popup').attr('data-order-id', element.attr('data-order-id'))
+            $('#receiver-popup-orderno').html(element.attr('data-order-no').toUpperCase())
+            $('#receiver-popup').show()
+        });
         $('body').on('click', '#refund-popup-cancel', function () {
             $('#refund-popup').hide()
         });
         $('body').on('click', '#refund-popup-confirm', function () {
             order_index.Refund()
+        });
+        $('body').on('click', '#receiver-popup-confirm', function () {
+            order_index.ReceivedOrder()
+        });
+        $('body').on('click', '#receiver-popup-cancel', function () {
+            $('#receiver-popup').hide()
         });
 
         $('#btn-load-order').on('click', function () {
@@ -281,6 +293,34 @@ var order_index = {
                 position: 'top-end',
                 icon: 'success',
                 title: 'Gửi yêu cầu hoàn tiền thành công!',
+                showConfirmButton: false,
+                timer: 2000
+            });
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000);
+        })
+    },
+    ReceivedOrder: function () {
+      
+        var usr = global_service.CheckLogin()
+        var token = ''
+        if (usr) {
+            token = usr.token
+
+        }
+        var request = {
+            "id": $('#receiver-popup').attr('data-order-id'),
+            "token": token
+        }
+        $.when(
+            global_service.POST('/Order/ReceivedOrder', request)
+        ).done(function (result) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'Gửi yêu cầu thành công!',
                 showConfirmButton: false,
                 timer: 2000
             });
