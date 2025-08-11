@@ -145,7 +145,7 @@
             @* else if (new List<int>() { OrderStatus.PAID, OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY }.Contains(order.data_order.OrderStatus)) *@
             else if (new List<int>() { OrderStatus.FINISHED_DELIVERY }.Contains(order.data_order.OrderStatus))
             {
-                <a href="javascript:;" data-order-id="@order.data_order.OrderId" data-order-no="@order.data_order.OrderNo"
+                <a href="javascript:;" data-order-id="@order.data_order.Id" data-order-no="@order.data_order.OrderNo"
                    class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px] order-index-refund">
                     Trả hàng/Hoàn tiền
                 </a>
@@ -154,7 +154,7 @@
         }
         @if (new List<int>() { OrderStatus.CREATED_ORDER, OrderStatus.PROCESSING}.Contains(order.data_order.OrderStatus) )
         {
-            <a href="javascript:;" data-order-id="@order.data_order.OrderId" data-order-no="@order.data_order.OrderNo"
+            <a href="javascript:;" data-order-id="@order.data_order.Id" data-order-no="@order.data_order.OrderNo"
                class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px] order-index-cancel">
                 Hủy đơn hàng
             </a>

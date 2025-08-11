@@ -5,7 +5,6 @@
        
 
         public long Id { get; set; }
-        public long OrderId { get; set; }
       
 
         public long ClientId { get; set; }
