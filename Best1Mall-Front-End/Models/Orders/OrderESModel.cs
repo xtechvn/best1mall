@@ -54,7 +54,7 @@
         public string Note { get; set; }
         
 
-        public int? VoucherId { get; set; }
+        public string VoucherId { get; set; }
        
 
         public int? IsDelete { get; set; }
