@@ -18,7 +18,8 @@
          DONE = 3,
          CANCELED = 4,
          DELIVERED = 5,
-        PAID = 6
+        PAID = 6,
+        REFUND=7
     }
     public enum OrderRefundStatus
     {
