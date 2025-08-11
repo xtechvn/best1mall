@@ -4,10 +4,10 @@
     {
        
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
       
 
-        public long ClientId { get; set; }
+        public long? ClientId { get; set; }
        
 
         public string OrderNo { get; set; }
@@ -34,13 +34,13 @@
 
         public double? Amount { get; set; }
        
-        public int OrderStatus { get; set; }
+        public int? OrderStatus { get; set; }
       
 
-        public short PaymentType { get; set; }
+        public short? PaymentType { get; set; }
        
 
-        public int PaymentStatus { get; set; }
+        public int? PaymentStatus { get; set; }
        
 
         public string UtmSource { get; set; }
