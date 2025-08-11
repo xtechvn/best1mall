@@ -18,5 +18,6 @@ namespace Best1Mall_Front_End.Models.Orders
      public long on_delivery { get; set; }
      public long success { get; set; }
      public long cancel { get; set; }
+     public long refund { get; set; }
     }
 }
