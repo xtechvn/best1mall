@@ -100,7 +100,9 @@ namespace WEB.CMS.ViewComponents
             //{ "banner_thuonghieu", ("menu_bannerthuonghieu", "252", "~/Views/Shared/Components/Home/BannerThuonghieu.cshtml", true) },
            { "banner_product", ("menu_bannerproduct", "281", "~/Views/Shared/Components/Product/BannerProduct.cshtml", true) },
             { "banner_vanchuyen", ("menu_vanchuyen", "283", "~/Views/Shared/Components/Home/BannerVanchuyen.cshtml", true) },
-            { "banner_thanhtoan", ("menu_thanhtoan", "284", "~/Views/Shared/Components/Home/BannerThanhtoan.cshtml", true) }
+            { "banner_thanhtoan", ("menu_thanhtoan", "284", "~/Views/Shared/Components/Home/BannerThanhtoan.cshtml", true) },
+            { "popup_home", ("popup_home", "83", "~/Views/Shared/Components/Home/PopupHome.cshtml", true) }
+
 
         };
 
