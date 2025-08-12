@@ -1,0 +1,97 @@
+﻿@using Best1Mall_Front_End.Models;
+@using Best1Mall_Front_End.Utilities;
+@using Best1Mall_Front_End.Models.Products
+@model List<CategoryModel>
+@{
+    ViewData["view_name"] = "MenuTrend_BestSeller"; // 👈 Chỉ định view riêng
+    var second = Model?.Skip(1).FirstOrDefault();
+}
+
+@functions {
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/assets/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
+@if (second != null)
+{
+
+
+   
+    string imgSrc = GetFullImageUrl(second.image_path);
+
+    <div id="popup-banner" class="popup fixed inset-0 bg-black/50 z-[999] flex justify-center items-center p-4 hidden">
+            <div class="popup-content relative bg-transparent w-full max-w-[400px] max-[639px]:max-w-[300px] max-[639px]:mt-[100px] rounded-xl">
+
+                <!-- Nút đóng -->
+                <span class="closePopup absolute right-2 top-2 z-10 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                        <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z" fill="#2A3262" />
+                    </svg>
+                </span>
+
+                <!-- Ảnh Shopee style -->
+            <a href="@second.description">
+                    <img src="@imgSrc" alt="Popup" class="w-full rounded-xl" />
+                </a>
+            </div>
+        </div>
+
+
+
+
+
+}
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    (function () {
+         const keyFirstSeen = 'popup_first_seen_MenuTrend_BestSeller';
+    const delay = 5 * 60 * 1000; // 5 phút
+    const isHome = location.pathname === "/" || location.pathname === "/index.html";
+    if (!isHome) return;
+
+    const popup = document.getElementById('popup-banner');
+    if (!popup) return;
+
+    const now = Date.now();
+    let firstSeen = Number(localStorage.getItem(keyFirstSeen) || 0);
+
+    // 1) Lần đầu vào trang: set mốc và bật ngay
+    if (!firstSeen) {
+      localStorage.setItem(keyFirstSeen, String(now));
+      popup.classList.remove('hidden');
+    } else {
+      // 2) Các lần refresh sau: nếu đã qua ≥5s từ mốc firstSeen -> bật lại
+      if (now - firstSeen >= delay) {
+        popup.classList.remove('hidden');
+        // cập nhật mốc để lần kế tiếp cũng cần ≥5s
+        localStorage.setItem(keyFirstSeen, String(now));
+      } else {
+        popup.classList.add('hidden');
+      }
+    }
+
+    // Đóng popup: chỉ ẩn, KHÔNG cập nhật mốc (để vẫn tính từ lần vào trang)
+    const close = () => {
+      popup.classList.add('hidden');
+      // không đụng tới keyFirstSeen
+    };
+    popup.querySelector('.closePopup')?.addEventListener('click', close);
+    popup.addEventListener('click', (e) => { if (e.target === popup) close(); });
+    })();
+</script>
