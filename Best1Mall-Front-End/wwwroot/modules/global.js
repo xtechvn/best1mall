@@ -109,37 +109,38 @@ var global_service = {
 
     DynamicBind: function () {
         $("body").on('click', ".all-pop", function (event) {
-           
+
+
             // Đảm bảo thông báo lỗi được ẩn khi người dùng chọn voucher
             $('#voucher-popup .voucher-error').remove();  // Xóa thông báo lỗi cũ nếu có
             var cartId
             var element = $(this)
             event.preventDefault()
-            var box_id = element.attr('data-id')
-            // Nếu là nút xoá, truyền data-cart-id
-            if (box_id === "#lightbox-delete-cart") {
-                cartId = element.attr('data-cart-id');
+            var box_id = element.attr('data-id') 
 
-            } else {
-                cartId = element.closest('.product').attr('data-cart-id');
-            }
-            $(box_id).attr("data-cart-id", cartId);
-            $('.popup').addClass('hidden')
-            $('' + box_id).removeClass('hidden')
-            $('' + box_id).show()
-            // 👉 Nếu là popup địa chỉ, gọi render địa chỉ
-            if (box_id === "#address-book") {
-                var list = sessionStorage.getItem(STORAGE_NAME.AddressClient);
-                if (list) {
-                    var data = JSON.parse(list);
-                    address_client.RenderExistsAddress(data, $('#address-receivername').attr('data-id'));
-                }
-            }
-            // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
-            // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
             if (box_id === "#hinhthucgiaohang") {
-                
-                cart.LoadShippingFee();
+
+                // 1) Mở popup ngay
+                $('.popup').addClass('hidden');
+                $(box_id).removeClass('hidden').show();
+
+                // 2) Thêm placeholder loading
+    //            var $panel = $('#hinhthucgiaohang .item[data-carrier-id="3"]');
+    //            var $ul = $panel.find('ul');
+    //            if ($ul.find('.skeleton-li').length === 0) {
+    //                $ul.html(`<li class="skeleton-li px-4 py-2 text-sm text-gray-400">
+    //  Đang tải phương án giao hàng…
+    //</li>`);
+    //            }
+
+                // 3) Ép trình duyệt PAINT popup ngay lập tức (force reflow)
+                $(box_id)[0].offsetHeight;
+
+                // 4) Đẩy việc nặng sang tick kế tiếp (không chặn paint)
+                setTimeout(function () {
+                    cart.LoadShippingFee(); // trong này vẫn là POSTSynchorus của bạn
+                }, 0);
+
 
                 // 🔄 Đồng bộ option đang hiển thị
                 var currentText = $('#delivery-shippingtype .select-delivery .tt').text().trim();
@@ -173,6 +174,29 @@ var global_service = {
                     $('#delivery-shippingtype .select-delivery .tt').text(defaultLi.find('.name').text());
                 }
             }
+            // Nếu là nút xoá, truyền data-cart-id
+            if (box_id === "#lightbox-delete-cart") {
+                cartId = element.attr('data-cart-id');
+
+            } else {
+                cartId = element.closest('.product').attr('data-cart-id');
+            }
+            $(box_id).attr("data-cart-id", cartId);
+            $('.popup').addClass('hidden')
+            $('' + box_id).removeClass('hidden')
+            $('' + box_id).show()
+            // 👉 Nếu là popup địa chỉ, gọi render địa chỉ
+            if (box_id === "#address-book") {
+                var list = sessionStorage.getItem(STORAGE_NAME.AddressClient);
+                if (list) {
+                    var data = JSON.parse(list);
+                    address_client.RenderExistsAddress(data, $('#address-receivername').attr('data-id'));
+                }
+            }
+            debugger
+            // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
+            // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
+           
 
         });
         $("body").on('click', ".client-login", function (event) {
