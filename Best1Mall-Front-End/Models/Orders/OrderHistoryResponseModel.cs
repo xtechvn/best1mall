@@ -19,5 +19,6 @@ namespace Best1Mall_Front_End.Models.Orders
      public long success { get; set; }
      public long cancel { get; set; }
      public long refund { get; set; }
+     public long processing { get; set; }
     }
 }

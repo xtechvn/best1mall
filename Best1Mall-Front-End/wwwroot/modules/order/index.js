@@ -260,6 +260,7 @@ var order_index = {
                 $('.order-tab-finish .tab-count').html('(' + (result.success != undefined && result.success > 0 ? result.success : '0') + ')');
                 $('.order-tab-cancel .tab-count').html('(' + (result.cancel != undefined && result.cancel > 0 ? result.cancel : '0') + ')');
                 $('.order-tab-refund .tab-count').html('(' + (result.refund != undefined && result.refund > 0 ? result.refund : '0') + ')');
+                $('.order-tab-processing .tab-count').html('(' + (result.processing != undefined && result.processing > 0 ? result.processing : '0') + ')');
             }
            
         })

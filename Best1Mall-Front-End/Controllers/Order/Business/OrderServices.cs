@@ -212,7 +212,9 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                 cancel=0,
                 on_delivery=0,
                success=0,
-               waiting_payment = 0
+               waiting_payment = 0,
+               processing=0,
+               refund=0
 
             };
 
