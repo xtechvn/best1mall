@@ -16,7 +16,7 @@
    
     <div id="process-step-order" class="process-wrap process-wrap-4">
         <div class="process-main">
-            <div class="item @(order.data_order.OrderStatus != OrderStatus.CANCELED ?"active":"") progress-confirmed">
+            <div class="item @((int)order.data_order.OrderStatus != OrderStatus.CANCELED ?"active":"") progress-confirmed">
                 <div class="process-step-cont">
                     <div class="process-step step-1">
                         <i class="icon icon-text"></i>
@@ -25,7 +25,7 @@
                     <span class="date-time">@(((DateTime)order.data_order.CreatedDate).ToString("dd/MM/yyyy HH:mm"))</span>
                 </div>
             </div>
-            <div class="item @(!new List<int>(){OrderStatus.CANCELED,OrderStatus.CREATED_ORDER}.Contains(order.data_order.OrderStatus)?"active":"" ) progress-payment">
+            <div class="item @((int)order.data_order.OrderStatus != null && !new List<int>() { OrderStatus.CANCELED, OrderStatus.CREATED_ORDER }.Contains((int)(int)order.data_order.OrderStatus) ? "active" : "") progress-payment">
                 <div class="process-step-cont  ">
                     <div class="process-step step-2">
                         <i class="icon icon-cashback"></i>
@@ -35,7 +35,7 @@
                     <span class="date-time"></span>
                 </div>
             </div>
-            <div class="item @(new List<int>() { OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY, OrderStatus.FINISHED }.Contains(order.data_order.OrderStatus) ? "active" : "")  progress-delivering">
+            <div class="item @(new List<int>() { OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY, OrderStatus.FINISHED }.Contains((int)order.data_order.OrderStatus) ? "active" : "")  progress-delivering">
                 <div class="process-step-cont">
                     <div class="process-step step-3 ">
                         <i class="icon icon-ship"></i>
@@ -44,7 +44,7 @@
                     <span class="date-time"></span>
                 </div>
             </div>
-            <div class="item @(new List<int>() { OrderStatus.FINISHED_DELIVERY, OrderStatus.FINISHED }.Contains(order.data_order.OrderStatus) ? "active" : "") progress-received">
+            <div class="item @(new List<int>() { OrderStatus.FINISHED_DELIVERY, OrderStatus.FINISHED }.Contains((int)order.data_order.OrderStatus) ? "active" : "") progress-received">
                 <div class="process-step-cont">
                     <div class="process-step step-4  ">
                         <i class="icon icon-box"></i>
@@ -104,17 +104,17 @@
         </div>
     </div>
     <div class=" md:block flex justify-center md:justify-end text-end items-center my-4 gap-3 mb-[25px]">
-        @if (order.data_order.OrderStatus == OrderStatus.FINISHED_DELIVERY || order.data_order.OrderStatus == OrderStatus.FINISHED ||
-        order.data_order.OrderStatus == OrderStatus.CANCELED){
+        @if ((int)order.data_order.OrderStatus == OrderStatus.FINISHED_DELIVERY || (int)order.data_order.OrderStatus == OrderStatus.FINISHED ||
+        (int)order.data_order.OrderStatus == OrderStatus.CANCELED){
             <a href="javascript:;" class=" btn-buy-again border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Mua lại</a>
         }
        
-        @if (order.data_order.OrderStatus == OrderStatus.FINISHED_DELIVERY || order.data_order.OrderStatus == OrderStatus.FINISHED)
+        @if ((int)order.data_order.OrderStatus == OrderStatus.FINISHED_DELIVERY || (int)order.data_order.OrderStatus == OrderStatus.FINISHED)
         {
             <a id="order-detail-raiting" href="javascript:;" class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Đánh giá</a>
         }
 
-        @if (new List<int>() { OrderStatus.PAID, OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY }.Contains(order.data_order.OrderStatus)
+        @if ((int)order.data_order.OrderStatus!=null && new List<int>() { OrderStatus.PAID, OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY }.Contains((int)(int)order.data_order.OrderStatus)
         )
         {
             if (order.data_order.RefundStatus!=null && order.data_order.RefundStatus > 0)
@@ -142,19 +142,19 @@
                     }
                 </a>
             }
-            @* else if (new List<int>() { OrderStatus.PAID, OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY }.Contains(order.data_order.OrderStatus)) *@
-            else if (new List<int>() { OrderStatus.FINISHED_DELIVERY }.Contains(order.data_order.OrderStatus))
+            @* else if (new List<int>() { OrderStatus.PAID, OrderStatus.DELIVERY, OrderStatus.FINISHED_DELIVERY }.Contains((int)order.data_order.OrderStatus)) *@
+            else if (new List<int>() { OrderStatus.FINISHED_DELIVERY }.Contains((int)order.data_order.OrderStatus))
             {
-                <a href="javascript:;" data-order-id="@order.data_order.OrderId" data-order-no="@order.data_order.OrderNo"
+                <a href="javascript:;" data-order-id="@order.data_order.Id" data-order-no="@order.data_order.OrderNo"
                    class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px] order-index-refund">
                     Trả hàng/Hoàn tiền
                 </a>
             }
            
         }
-        @if (new List<int>() { OrderStatus.CREATED_ORDER, OrderStatus.PROCESSING}.Contains(order.data_order.OrderStatus) )
+        @if (new List<int>() { OrderStatus.CREATED_ORDER, OrderStatus.PROCESSING}.Contains((int)order.data_order.OrderStatus) )
         {
-            <a href="javascript:;" data-order-id="@order.data_order.OrderId" data-order-no="@order.data_order.OrderNo"
+            <a href="javascript:;" data-order-id="@order.data_order.Id" data-order-no="@order.data_order.OrderNo"
                class="btn-review border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px] order-index-cancel">
                 Hủy đơn hàng
             </a>
@@ -215,7 +215,7 @@
                 @{
                     if(order!=null && order.data_order!=null && order.data.order_id > 0
 
-                    && (order.data_order.OrderStatus == OrderStatus.CREATED_ORDER || order.data_order.OrderStatus == OrderStatus.PAID|| order.data_order.OrderStatus == OrderStatus.PROCESSING))
+                    && ((int)order.data_order.OrderStatus == OrderStatus.CREATED_ORDER || (int)order.data_order.OrderStatus == OrderStatus.PAID|| (int)order.data_order.OrderStatus == OrderStatus.PROCESSING))
                     {
                         @* <a href="javascript:;"  data-id="@data_id" data-orderid="@order.data.order_id" class="update-add update-address-order">Cập nhật</a> *@
                         <a href="javascript:;"

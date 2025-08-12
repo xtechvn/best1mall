@@ -205,10 +205,12 @@ var order_index = {
             return;
         }
         $('#btn-load-order').hide();
+        var status = $('.tab-status .list-tab .active a').data('id')
+        var order_no=$('#order-keyword').val()
         var request = {
             token: usr.token,
-            order_no: $('#order-keyword').val() || '',
-            status: $('.tab-status .list-tab .active a').data('id') || '',
+            order_no: order_no == null || order_no == undefined ? '' : order_no,
+            status: status == null || status == undefined ? '' : status,
             page_index: order_index.Data.Index, // luôn 1 nếu bạn reset trước khi Search
             page_size: order_index.Data.Size
         };
@@ -257,6 +259,7 @@ var order_index = {
                 $('.order-tab-delvering .tab-count').html('(' + (result.on_delivery != undefined && result.on_delivery > 0 ? result.on_delivery : '0') + ')');
                 $('.order-tab-finish .tab-count').html('(' + (result.success != undefined && result.success > 0 ? result.success : '0') + ')');
                 $('.order-tab-cancel .tab-count').html('(' + (result.cancel != undefined && result.cancel > 0 ? result.cancel : '0') + ')');
+                $('.order-tab-refund .tab-count').html('(' + (result.refund != undefined && result.refund > 0 ? result.refund : '0') + ')');
             }
            
         })
