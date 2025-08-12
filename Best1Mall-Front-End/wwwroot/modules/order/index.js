@@ -205,10 +205,12 @@ var order_index = {
             return;
         }
         $('#btn-load-order').hide();
+        var status = $('.tab-status .list-tab .active a').data('id')
+        var order_no=$('#order-keyword').val()
         var request = {
             token: usr.token,
-            order_no: $('#order-keyword').val() || '',
-            status: $('.tab-status .list-tab .active a').data('id') || '',
+            order_no: order_no == null || order_no == undefined ? '' : order_no,
+            status: status == null || status == undefined ? '' : status,
             page_index: order_index.Data.Index, // luôn 1 nếu bạn reset trước khi Search
             page_size: order_index.Data.Size
         };
