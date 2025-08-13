@@ -195,6 +195,49 @@ var order_index = {
             });
            
         });
+        let velocity = 0;
+        let lastX = 0;
+        let frame;
+
+        $(document).on('mousedown', '.list-tab', function (e) {
+            $(this).data('isDown', true)
+                .data('startX', e.pageX - $(this).offset().left)
+                .data('scrollLeft', $(this).scrollLeft());
+            velocity = 0;
+            lastX = e.pageX;
+            cancelAnimationFrame(frame);
+        });
+
+        $(document).on(' mouseup', '.list-tab', function () {
+            let $this = $(this);
+            $this.data('isDown', false);
+
+            // Quán tính trượt
+            function momentum() {
+                $this.scrollLeft($this.scrollLeft() - velocity);
+                velocity *= 0.95; // giảm dần tốc độ
+                if (Math.abs(velocity) > 0.5) {
+                    frame = requestAnimationFrame(momentum);
+                }
+            }
+            requestAnimationFrame(momentum);
+        });
+
+        $(document).on('mousemove', '.list-tab', function (e) {
+            if (!$(this).data('isDown')) return;
+            e.preventDefault();
+
+            let startX = $(this).data('startX');
+            let scrollLeft = $(this).data('scrollLeft');
+            let x = e.pageX - $(this).offset().left;
+            let walk = (x - startX);
+
+            $(this).scrollLeft(scrollLeft - walk);
+
+            // Tính vận tốc
+            velocity = e.pageX - lastX;
+            lastX = e.pageX;
+        });
     },
     // --------- Actions ----------
     Search: function () {

@@ -106,3 +106,15 @@
 #login-form button, #register-form button {
    cursor:pointer;
 }
+.list-tab {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth; /* cuộn mượt */
+    -webkit-overflow-scrolling: touch; /* iOS mượt hơn */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE, Edge cũ */
+}
+
+    .list-tab::-webkit-scrollbar {
+        display: none; /* Chrome, Safari */
+    }
