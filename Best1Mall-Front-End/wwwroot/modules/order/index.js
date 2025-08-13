@@ -32,6 +32,13 @@ var order_index = {
             element.hide()
             $('#order-keyword').val(null).trigger('change')
         });
+        $(document).on('keydown', '#order-keyword', function (e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                e.preventDefault(); // Ngăn submit form / reload
+                order_index.Search();
+                return false;
+            }
+        });
         $("body").on('keyup', "#order-keyword", function (event) {
             event.preventDefault()
             var element = $(this);
@@ -39,10 +46,6 @@ var order_index = {
                 $('#order-keyword-clear').show();
             } else {
                 $('#order-keyword-clear').hide();
-            }
-
-            if (event.keyCode === 13) {
-                order_index.Search();
             }
         });
         $("body").on('click', "#order-keyword-search", function () {
