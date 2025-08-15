@@ -191,7 +191,7 @@ var order_raiting = {
             var element = $(this)
             if ((element.closest('#address-book') != undefined && element.closest('#address-book').length > 0) ||
                 (element.closest('#update-address') != undefined && element.closest('#update-address').length > 0)
-                && element.closest('#refund-popup').length > 0) {
+                || (element.closest('#refund-popup') != undefined && element.closest('#refund-popup').length > 0)) {
                 return;
             }
             order_raiting.confirmAndSubmitReviews();
