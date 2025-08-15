@@ -263,6 +263,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
         {
             try
             {
+
                 var result = await POST(_configuration["API:order_receiver"], request);
                 var jsonData = JObject.Parse(result);
                 var status = int.Parse(jsonData["status"].ToString());
