@@ -525,7 +525,7 @@ var product_detail = {
 
         // ✅ Tính trạng thái enable/disable ngay sau khi render
         product_detail.updateOptionStates(product, product_sub, $('.box-info-details'));
-        product_detail.RenderBuyNowButton();
+        //product_detail.RenderBuyNowButton();
     },
 
     RenderLabel: function (label) {
@@ -947,7 +947,6 @@ var product_detail = {
     },
     GetSubProductSessionByAttributeSelected: function () {
         
-
         var json = sessionStorage.getItem(STORAGE_NAME.SubProduct)
         if (!json || json.trim() === '' || json === 'null') return undefined;
         if (json != undefined && json.trim() != '') {
@@ -1124,6 +1123,37 @@ var product_detail = {
             }
         }
     },
+    //RenderBuyNowButton: function () {
+    //    
+    //    var no_select_all = false
+    //    if ($('.box-info-details tbody .attributes').length <= 0) {
+
+    //    }
+    //    else {
+    //        $('.box-info-details tbody .attributes').each(function (index, item) {
+    //            var element = $(this)
+    //            var li_active = element.find('.box-tag').find('.active')
+    //            if (li_active.length <= 0) {
+    //                no_select_all = true
+    //                return false
+    //            }
+    //        })
+    //    }
+    //    if (no_select_all) {
+    //        $('.add-cart').prop('disabled', true)
+    //        $('.buy-now').prop('disabled', true)
+    //        $('.add-cart').addClass('button-disabled')
+    //        $('.buy-now').addClass('button-disabled')
+
+    //    } else {
+    //        $('.add-cart').prop('disabled', false)
+    //        $('.buy-now').prop('disabled', false)
+    //        $('.add-cart').removeClass('button-disabled')
+    //        $('.buy-now').removeClass('button-disabled')
+    //    }
+    //},
+
+   
 
     RenderBuyNowButton: function () {
         
@@ -1131,7 +1161,6 @@ var product_detail = {
         var $wrapper = $('.box-info-details.product-main');
         if ($wrapper.length === 0) $wrapper = $('.box-info-details').first();
 
-        // KHÔNG dùng tbody ở đây
         var $groups = $wrapper.find('.attributes');
 
         var canBuy = true;
@@ -1169,16 +1198,17 @@ var product_detail = {
                 }
             }
         } else {
-            // Sản phẩm không có biến thể: check stock tổng
-            var pd = product_detail.GetProductDetailSession && product_detail.GetProductDetailSession();
-            stock = pd ? Number(pd.quanity_of_stock) || 0 : 0;
-            canBuy = stock > 0;
+            $('.add-cart').prop('disabled', false)
+            $('.buy-now').prop('disabled', false)
+             $('.add-cart').removeClass('button-disabled')
+             $('.buy-now').removeClass('button-disabled')
         }
 
         $('.add-cart, .buy-now')
             .prop('disabled', !canBuy)
             .toggleClass('button-disabled', !canBuy);
     },
+
 
     AddToCart: function (btn) {
         
