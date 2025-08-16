@@ -16,7 +16,7 @@
    
     <div id="process-step-order" class="process-wrap process-wrap-4">
         <div class="process-main">
-            <div class="item @((int)order.data_order.OrderStatus != OrderStatus.CANCELED ?"active":"") progress-confirmed">
+            <div class="item @(!new List<int>() { OrderStatus.CANCELED, OrderStatus.REFUND }.Contains((int)order.data_order.OrderStatus) ? "active" : "") progress-confirmed">
                 <div class="process-step-cont">
                     <div class="process-step step-1">
                         <i class="icon icon-text"></i>
@@ -25,7 +25,7 @@
                     <span class="date-time">@(((DateTime)order.data_order.CreatedDate).ToString("dd/MM/yyyy HH:mm"))</span>
                 </div>
             </div>
-            <div class="item @((int)order.data_order.OrderStatus != null && !new List<int>() { OrderStatus.CANCELED, OrderStatus.CREATED_ORDER }.Contains((int)(int)order.data_order.OrderStatus) ? "active" : "") progress-payment">
+            <div class="item @((int)order.data_order.OrderStatus != null && !new List<int>() { OrderStatus.CANCELED, OrderStatus.REFUND, OrderStatus.CREATED_ORDER }.Contains((int)(int)order.data_order.OrderStatus) ? "active" : "") progress-payment">
                 <div class="process-step-cont  ">
                     <div class="process-step step-2">
                         <i class="icon icon-cashback"></i>
@@ -55,7 +55,7 @@
             </div>
         </div>
     </div>
-    <div id="process-step-refund" class="process-wrap process-wrap-2" style="@(order.data_order.PaymentType != (int)PaymentType.COD && order.data_order.PaymentStatus != 0 && order.data_order.RefundStatus != null && order.data_order.RefundStatus > 0 ? "" : "display:none;")">
+    <div id="process-step-refund" class="process-wrap process-wrap-2" style="@((int)order.data_order.OrderStatus == OrderStatus.REFUND ? "" : "display:none;")">
         <div class="process-main">
             <div class="item @(order.data_order.RefundStatus!=null && order.data_order.RefundStatus==1?"active":"")  progress-start-refund">
                 <div class="process-step-cont">

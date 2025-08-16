@@ -9,6 +9,7 @@
         public static int FINISHED_DELIVERY = 5;
         public static int FINISHED = 3;
         public static int CANCELED = 4;
+        public static int REFUND = 7;
     }
     public enum OrderStatusConstants
     {
