@@ -43,26 +43,32 @@ namespace BIOLIFE.ViewComponents.Product
                     {
                         var products = await _flashSaleServices.GetById(new FlashsaleListingRequestModel { id = item.flashsale_id });
 
-                        viewModel.Add(new FlashSaleViewModel
+                        // 🔴 Chỉ add nếu có sản phẩm
+                        if (products != null && products.Any())
                         {
-                            flashsale_id = item.flashsale_id,
-                            fromdate = item.fromdate,
-                            todate = item.todate,
-                            name = item.name,
-                            banner = item.banner,
-                            Products = products
-                        });
+                            viewModel.Add(new FlashSaleViewModel
+                            {
+                                flashsale_id = item.flashsale_id,
+                                fromdate = item.fromdate,
+                                todate = item.todate,
+                                name = item.name,
+                                banner = item.banner,
+                                Products = products
+                            });
+                        }
                     }
                 }
 
-                // Chỉ rõ đường dẫn đến PartialView
-            return View("~/Views/Shared/Components/FlashSale/FlashSaleViewComponent.cshtml",  viewModel );
+                // Nếu không có flash sale thì render partial rỗng (ẩn section)
+                return View("~/Views/Shared/Components/FlashSale/FlashSaleViewComponent.cshtml", viewModel);
             }
             catch (Exception ex)
             {
-                // Handle exceptions as needed
-                return View(new List<FlashSaleViewModel>());
+                // log lỗi
+                Console.WriteLine("FlashSale VC error: " + ex.Message);
+                return View(new List<FlashSaleViewModel>()); // render rỗng, không crash
             }
         }
+
     }
 }
