@@ -14,6 +14,8 @@ using Best1Mall_Front_End.Utilities.lib;
 using Best1Mall_Front_End.Models.Labels;
 using Best1Mall_Front_End.Models.Products;
 using Best1Mall_Front_End.Utilities;
+using Best1Mall_Front_End.Utilities.Lib;
+using Google.Apis.Services;
 
 namespace Best1Mall_Front_End.Controllers
 {
@@ -24,13 +26,14 @@ namespace Best1Mall_Front_End.Controllers
         private readonly OrderServices _orderServices;
         private readonly StaticAPIService staticAPIService;
         private readonly VnpayLibrary _vnpayLibrary;
-
+        private ClientServices clientService;
         private readonly string static_domain = "";
 
         public OrderController(IConfiguration configuration) {
 
             _configuration= configuration;
             _orderServices = new OrderServices(configuration);
+            clientService = new ClientServices(configuration);
             staticAPIService = new StaticAPIService(configuration);
             static_domain = configuration["API:StaticURL"];
             _vnpayLibrary = new VnpayLibrary(); // ✅ Fix null
@@ -153,7 +156,10 @@ namespace Best1Mall_Front_End.Controllers
         public async Task<IActionResult> Confirm(CartConfirmRequestModel request)
         {
             var result = await _orderServices.Confirm(request);
-
+            if (result != null) // ✅ chỉ gửi notify khi có kết quả
+            {
+                await clientService.SendMessage("1", "50", "0", result.order_no, $"/order/detail/{result.id}");
+            }
             return Ok(new
             {
                 is_success = result != null,

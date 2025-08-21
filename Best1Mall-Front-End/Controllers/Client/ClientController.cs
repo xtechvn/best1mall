@@ -14,6 +14,10 @@ using Best1Mall_Front_End.Models.Profile;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using HuloToys_Service.Models.Client;
 using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities.Contants;
+using System.Security.Claims;
+using ENTITIES.ViewModels.Notify;
+using System.Reflection;
 
 namespace Best1Mall_Front_End.Controllers.Client
 {
@@ -131,6 +135,81 @@ namespace Best1Mall_Front_End.Controllers.Client
             {
                 is_success = (result),
                 data = result
+            });
+        }
+        [HttpPost]
+        public async Task<IActionResult> Notify(int pageindex, int pagesize ,string token)
+        {
+            try
+            {
+                var request = new ClientAddressGeneralRequestModel
+                {
+                    token = token
+                };
+
+                var profile = await _addressClientServices.ProfileList(request);
+                var _UserId = profile?.Id; // Lấy RequestId từ kết quả hoặc sử dụng giá trị mặc định
+
+                int db_index = Convert.ToInt32(_configuration["Redis:Database:db_common"]);
+
+                var lst_Notify = new NotifySummeryViewModel();
+
+                //lấy từ api
+                var ListNotify = await _clientServices.GetListNotify(_UserId.ToString(), pageindex, pagesize);
+                lst_Notify = ListNotify;
+                return Ok(new
+                {
+                    status = (int)ResponseType.SUCCESS,
+                    data = lst_Notify != null ? lst_Notify : null
+                });
+            }
+            catch (Exception ex)
+            {
+                //string error_msg = Assembly.GetExecutingAssembly().GetName().Name + "->" + MethodBase.GetCurrentMethod().Name + "=>" + ex.Message;
+                //Utilities.LogHelper.InsertLogTelegramByUrl(_configuration["log_telegram:token"], _configuration["log_telegram:group_id"], error_msg);
+                //return null;
+
+            }
+            return Ok(new
+            {
+                status = (int)ResponseType.ERROR,
+                data = new List<NotifySummeryViewModel>()
+            });
+        }
+        [HttpPost]
+        public async Task<IActionResult> updateNotify(string id, string seen_status,string token)
+        {
+            try
+            {
+                var request = new ClientAddressGeneralRequestModel
+                {
+                    token = token
+                };
+                var profile = await _addressClientServices.ProfileList(request);
+                var _UserId = profile?.Id; // Lấy RequestId từ kết quả hoặc sử dụng giá trị mặc định
+
+               
+
+                var UpdateNotify = await _clientServices.UpdateNotify(id, _UserId.ToString(), seen_status);
+                if (UpdateNotify == 0)
+                    return Ok(new
+                    {
+                        status = (int)ResponseType.SUCCESS,
+
+                    });
+
+            }
+            catch (Exception ex)
+            {
+                string error_msg = Assembly.GetExecutingAssembly().GetName().Name + "->" + MethodBase.GetCurrentMethod().Name + "=>" + ex.Message;
+                Utilities.LogHelper.InsertLogTelegramByUrl(_configuration["log_telegram:token"], _configuration["log_telegram:group_id"], error_msg);
+                return null;
+
+            }
+            return Ok(new
+            {
+                status = (int)ResponseType.ERROR,
+
             });
         }
         public async Task<IActionResult> UpdateProfile(ProfileUpdateRequestModel request)

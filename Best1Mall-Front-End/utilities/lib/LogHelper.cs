@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Data;
 using System.Net;
 using System.Text;
 
@@ -23,6 +24,21 @@ namespace Best1Mall_Front_End.Utilities.Lib
                 WriteLogActivity("D://", ex.ToString());
             }
         }
+        //public static int InsertLogTelegram(string message)
+        //{
+        //    var rs = 1;
+        //    try
+        //    {
+        //        LoadConfig();
+        //        TelegramBotClient alertMsgBot = new TelegramBotClient(botToken);
+        //        var rs_push = alertMsgBot.SendTextMessageAsync(group_Id, "[" + enviromment + "-" + CompanyType + "] - " + message).Result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        rs = -1;
+        //    }
+        //    return rs;
+        //}
         public static void WriteLogActivity(string AppPath, string log_content)
         {
             StreamWriter sLogFile = null;

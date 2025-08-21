@@ -50,6 +50,7 @@ var global_service = {
 
        
     },
+   
     LoadMorePaginated: function (config) {
         const btn = $(config.buttonSelector);
         const container = $(config.containerSelector);
@@ -193,7 +194,7 @@ var global_service = {
                     address_client.RenderExistsAddress(data, $('#address-receivername').attr('data-id'));
                 }
             }
-            debugger
+            
             // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
             // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
            
