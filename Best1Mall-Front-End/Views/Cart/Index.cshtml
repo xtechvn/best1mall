@@ -278,18 +278,18 @@
 
                 <!-- Lấy tại cửa hàng -->
                 <div class="group item pb-3" data-carrier-id="1">
-                    <div class="font-normal cursor-pointer toggle text-md flex justify-between items-center uppercase title active">
-                        Lấy tại cửa hàng
-                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </div>
+                    @* <div class="font-normal cursor-pointer toggle text-md flex justify-between items-center uppercase title active"> *@
+                    @*     Lấy tại cửa hàng *@
+                    @*     <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"> *@
+                    @*         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /> *@
+                    @*     </svg> *@
+                    @* </div> *@
                     <div class="panel answer mt-2 max-h-[400px] overflow-y-auto">
                         <ul class="space-y-2">
                             <li class="active active-delivery shipping-option" data-shipping-type="1" data-price="0">
-                                <div class="gap-2 flex justify-between items-center px-4 py-2 cursor-pointer hover:bg-gray-50 transition box-select-ship">
+                                <div class="gap-2 flex justify-between items-center px-4 py-2 cursor-pointer hover:bg-gray-50 transition box-select-ship hidden">
                                     <div>
-                                        <p class="font-normal name">Lấy hàng tại kho hàng </p>
+                                        <p class="font-normal name">Chọn Hình Thức Giao Hàng </p>
                                         <p class="text-sm text-gray-500 des">Nhận hàng tại kho hàng Bestmall</p>
                                     </div>
                                     <span class="text-[#FF3D71] whitespace-nowrap price">0đ</span>
@@ -298,6 +298,7 @@
                         </ul>
                     </div>
                 </div>
+
 
             </div>
 
@@ -448,6 +449,68 @@
                 </button>
                 <button class="border border-blue-500 bg-blue-500 px-1 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full btn-vorcher">
                     OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dieukien-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999">
+    <div class="flex justify-center md:items-center h-full">
+        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto  overflow-y-auto relative">
+
+            <span class=" closedk closePopup absolute right-2 top-2 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                          fill="#2A3262" />
+                </svg>
+            </span>
+            <!-- header -->
+            <h4 class="text-center text-xl text-color-base mb-3">Điệu kiện áp dụng</h4>
+
+            <div class="space-y-3">
+                <div class="flex gap-3 items-center">
+                    <img src="images/Voucher.png" alt="" class="shrink-0 w-1/4" />
+                    <div class="space-y-3">
+                        <h5>Áp dụng cho đơn hàng từ 50k</h5>
+                        <p class="text-slate-500">HSD: 18.06.2024</p>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="uppercase font-medium">Ưu đãi</h4>
+                    <p class="text-slate-500">Mã Miễn phí vận chuyển | Tất cả hình thức thanh toán</p>
+                </div>
+                <div>
+                    <h4 class="uppercase font-medium">Có hiệu lực</h4>
+                    <p class="text-slate-500">01.12.2020 00:00 - 31.12.2020 23:59 </p>
+                </div>
+                <div>
+                    <h4 class="uppercase font-medium">Thiết bị </h4>
+                    <p class="text-slate-500">
+                        Tất cả các thiết bị
+                    </p>
+                </div>
+                <div>
+                    <h4 class="uppercase font-medium">Thanh Toán</h4>
+                    <p class="text-slate-500">Tất cả các hình thức thanh toán</p>
+                </div>
+                <div>
+                    <h4 class="uppercase font-medium">Xem chi tiết</h4>
+                    <p class="text-slate-500">
+                        Sử dụng mã miễn phí vận chuyển cho đơn hàng thỏa điều kiện ưu đãi
+                        tại UsExpress. Đơn vị vận chuyển khả dụng: tất cả Hình thức thanh toán: tất cả
+                        Mã chỉ được hoàn theo quy định của UsExpress. Hạn sử dụng: 31/12/2020 - 23:59.
+                    </p>
+                </div>
+            </div>
+            <!-- Footer -->
+            <div class="flex justify-between items-center mt-4 gap-3">
+                <button class="btn-back-voucher border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full">
+                    Trở lại
+                </button>
+
+                <button class=" btn-vorcher border border-blue-500 bg-blue-500 px-1 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full">
+                    Dùng
+                    ngay
                 </button>
             </div>
         </div>

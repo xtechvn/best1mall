@@ -118,6 +118,50 @@ var global_service = {
             var element = $(this)
             event.preventDefault()
             var box_id = element.attr('data-id') 
+            if (box_id === "#dieukien-popup") {
+                var voucher = element.data("json"); // lấy object từ attr
+
+                // Render nội dung popup động
+                var html = `
+            <div class="flex gap-3 items-center">
+                <img src="${voucher.image || '/assets/images/Voucher.png'}" 
+                     alt="" class="shrink-0 w-1/4" />
+                <div class="space-y-3">
+                    <h5>${voucher.code || ''}</h5>
+                    <p class="text-slate-500">HSD: ${voucher.eDate || ''}</p>
+                </div>
+            </div>
+            <div>
+                    <h4 class="uppercase font-medium">Thiết bị </h4>
+                    <p class="text-slate-500">
+                        Tất cả các thiết bị
+                    </p>
+                </div>
+            <div>
+            <div>
+                    <h4 class="uppercase font-medium">Thanh Toán</h4>
+                    <p class="text-slate-500">Tất cả các hình thức thanh toán</p>
+                </div>
+                
+            </div>
+            <div>
+                    <h4 class="uppercase font-medium">Xem chi tiết</h4>
+                    <p class="text-slate-500">
+                        ${voucher.description}
+                    </p>
+                </div>
+            <div>
+                <h4 class="uppercase font-medium">Giảm giá</h4>
+                <p class="text-slate-500">
+                    ${global_service.Comma(voucher.price_sales || 0)} 
+                    ${voucher.unit === 'vnd' ? '₫' : '%'}
+                </p>
+            </div>
+            
+        `;
+
+                $("#dieukien-popup .space-y-3").html(html);
+            }
 
             if (box_id === "#hinhthucgiaohang") {
 
