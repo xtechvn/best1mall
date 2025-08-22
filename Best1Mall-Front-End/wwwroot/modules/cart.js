@@ -311,7 +311,7 @@ var cart = {
 
         //Vourcher
         $('.btn-vorcher').on('click', function () {
-            
+            $("#dieukien-popup").addClass("hidden")
             // Xoá lỗi cũ
             $('#voucher-popup .voucher-error').remove();
 
@@ -408,6 +408,14 @@ var cart = {
                 lastCheckedVoucher = $this[0];
             }
         });
+       
+ 
+        $("body").on("click", ".btn-back-voucher , .closedk", function () {
+            
+            $("#dieukien-popup").addClass("hidden");       // ẩn popup điều kiện
+            $("#voucher-popup").removeClass("hidden").show(); // hiện lại popup chọn voucher
+        });
+
 
 
 
@@ -801,7 +809,12 @@ var cart = {
                     <div class="flex gap-3 items-center justify-between text-sm text-slate-600">
                         <p>HSD: ${expireText}</p>
                         <p class="text-red-500">Giảm: ${global_service.Comma(v.price_sales || 0)} ${unitText}</p>
-                        <p class="text-slate-500">Điều kiện</p>
+                         <a href="" class="all-pop" data-id="#dieukien-popup"  data-json='${JSON.stringify(v)}'>
+                            <p class="text-red-500 item flex gap-1 items-center shrink-0">Điều kiện <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
+                                        <path d="M8.51552 6.76552L4.76552 10.5155C4.73068 10.5504 4.68932 10.578 4.64379 10.5969C4.59827 10.6157 4.54948 10.6254 4.50021 10.6254C4.45094 10.6254 4.40214 10.6157 4.35662 10.5969C4.3111 10.578 4.26974 10.5504 4.2349 10.5155C4.20005 10.4807 4.17242 10.4393 4.15356 10.3938C4.1347 10.3483 4.125 10.2995 4.125 10.2502C4.125 10.2009 4.1347 10.1521 4.15356 10.1066C4.17242 10.0611 4.20005 10.0197 4.2349 9.9849L7.72005 6.50021L4.2349 3.01552C4.16453 2.94516 4.125 2.84972 4.125 2.75021C4.125 2.6507 4.16453 2.55526 4.2349 2.4849C4.30526 2.41453 4.4007 2.375 4.50021 2.375C4.59972 2.375 4.69516 2.41453 4.76552 2.4849L8.51552 6.2349C8.55039 6.26972 8.57805 6.31108 8.59692 6.35661C8.61579 6.40213 8.6255 6.45093 8.6255 6.50021C8.6255 6.54949 8.61579 6.59829 8.59692 6.64381C8.57805 6.68934 8.55039 6.73069 8.51552 6.76552Z" fill="#FF4169"></path>
+                                    </svg></p>
+                        </a>
+                       
                     </div>
                 </div>
             </label>
@@ -820,45 +833,7 @@ var cart = {
         window.appliedVouchers = window.appliedVouchers || [];
 
         //// Nếu đã có chọn trước đó → pre-check lại
-        //const preselect = () => {
-        //    const codes = new Set((window.appliedVouchers || []).map(v => (v.code || '').toLowerCase()));
-        //    $root.find('input[name="voucher_shipping"], input[name="voucher_general"]').each(function () {
-        //        const code = String($(this).data('code') || '').toLowerCase();
-        //        if (codes.has(code)) $(this).prop('checked', true);
-        //    });
-        //};
-
-        //const syncApplied = () => {
-        //    const shipChecked = $root.find('input[name="voucher_shipping"]:checked');
-        //    const genChecked = $root.find('input[name="voucher_general"]:checked');
-
-        //    const selected = [];
-        //    if (shipChecked.length) {
-        //        selected.push({
-        //            id: parseInt(shipChecked.data('id'), 10),
-        //            code: (shipChecked.data('code') || '').trim(),
-        //            rule_type: 1
-        //        });
-        //    }
-        //    if (genChecked.length) {
-        //        selected.push({
-        //            id: parseInt(genChecked.data('id'), 10),
-        //            code: (genChecked.data('code') || '').trim(),
-        //            rule_type: 0 // không phải vận chuyển
-        //        });
-        //    }
-        //    window.appliedVouchers = selected;
-
-        //    // (Optional) badge đếm voucher
-        //    $('.badge-voucher-count').text(selected.length || 0);
-        //};
-
-        //$(document)
-        //    .off('change.voucher', 'input[name="voucher_shipping"], input[name="voucher_general"]')
-        //    .on('change.voucher', 'input[name="voucher_shipping"], input[name="voucher_general"]', syncApplied);
-
-        //preselect();
-        //syncApplied();
+       
 
 
     },
@@ -945,14 +920,14 @@ var cart = {
             $('#voucher-popup').addClass('hidden');
             $('#discountSection').addClass('hidden');
             $('.total-final-amount .pr').text(global_service.Comma(final_amount) + ' đ').attr('data-price', final_amount);
-            $('.total-shipping-fee .pr').text(global_service.Comma(ctx.total_shipping_fee_before || 0) + ' đ').attr('data-price', data.discount_shipping);
+            $('.total-shipping-fee .pr').text(global_service.Comma(ctx.total_shipping_fee_before || 0) + ' đ').attr('data-price', ctx.total_shipping_fee_before);
             return;
         }
 
         // Tách 2 voucher (nếu có)
         const shipVoucher = selected.find(v => v.rule_type === 1);
         const genVoucher = selected.find(v => v.rule_type !== 1);
-
+        
         // Tạo các promise áp dụng
         const calls = [];
         if (genVoucher) {
@@ -968,6 +943,16 @@ var cart = {
         }
 
         if (shipVoucher) {
+            if (ctx.total_shipping_fee_before <= 0) {
+                // 🚨 Nếu chưa có phí ship => báo lỗi
+                $('#voucher-popup .popup-content').append(
+                    '<p class="voucher-error text-red-500 mt-4">Chọn hình thức vận chuyển để áp dụng Voucher nha</p>'
+                );
+                // Hiện lại popup voucher để user fix
+                $('#voucher-popup').removeClass('hidden');
+                return; // ❌ stop ở đây luôn, không chạy xuống nữa
+            }
+
             calls.push(cart.ApplyVoucher({
                 voucher_name: shipVoucher.code,
                 token: token,
@@ -976,8 +961,12 @@ var cart = {
                 amount_by_supplier: ctx.amount_by_supplier
             }));
         } else {
-            calls.push($.Deferred().resolve({ is_success: true, data: { discount: 0, total_order_amount_after: ctx.total_order_amount_before } }).promise());
+            calls.push($.Deferred().resolve({
+                is_success: true,
+                data: { discount: 0, total_order_amount_after: ctx.total_order_amount_before }
+            }).promise());
         }
+
         
         // Chờ cả hai kết quả
         $.when.apply($, calls).done(function (resGen, resShip) {
@@ -1276,10 +1265,20 @@ var cart = {
                 var selected = $('#hinhthucgiaohang .active-delivery').first()
                 var carrier_id = selected.closest('.item').attr('data-carrier-id')
                 var shipping_service_code = selected.attr('data-shipping-type')
-                // Nếu shipping_service_code là 1, truyền giá trị rỗng vào shipping_service_code
-                if (shipping_service_code == "1") {
-                    shipping_service_code = "";  // Đặt giá trị rỗng cho shipping_service_code
+
+                // ❌ Nếu =1 => báo lỗi, chặn confirm luôn
+                if (shipping_service_code == "1" || !shipping_service_code) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Chưa chọn hình thức giao hàng',
+                        text: 'Vui lòng chọn hình thức giao hàng để tiếp tục.',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        $btn.prop('disabled', false).removeClass('opacity-60 cursor-not-allowed').text(originalText);
+                    });
+                    return; // 🚫 stop ConfirmCart
                 }
+
 
                 delivery_detail = {
                     //"from_province_id": 1,
@@ -1319,7 +1318,7 @@ var cart = {
 
             if (carts.length > 0) {
                 // ✅ Chặn confirm nếu toàn sản phẩm 0đ hoặc quantity = 0
-
+                
 
                 var request = {
                     "carts": carts,
