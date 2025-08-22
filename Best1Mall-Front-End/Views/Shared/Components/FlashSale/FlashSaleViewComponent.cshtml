@@ -54,7 +54,7 @@
         var validFlashSales = Model.Where(f => f.fromdate <= now && f.todate >= now).ToList(); // Lọc tất cả Flash Sale hợp lệ
         var firstValidFlashSale = validFlashSales.FirstOrDefault(); // Lấy Flash Sale hợp lệ đầu tiên
         <img class=" md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl w-[100%]  md:h-[333px]"
-             src="@firstValidFlashSale.banner" alt="" />
+             src="@firstValidFlashSale.banner" loading="lazy" alt="" />
         if (firstValidFlashSale != null)
         {
             <div class="bg-[#FF4169] md:rounded-3xl rounded-xl p-3 text-white relative component-flashsale-list">
@@ -138,7 +138,7 @@
                                                     <img class="tag-banchay" src="@badgeImg" alt="badge" />
                                                 }
                                                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                                                    <img src="@imgSrc" alt="@product.name" class="absolute inset-0 w-full h-full object-cover" />
+                                                    <img src="@imgSrc" alt="@product.name" loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
                                                     <div class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(/assets/images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1 @discountClass">
                                                         @discountText
                                                     </div>
