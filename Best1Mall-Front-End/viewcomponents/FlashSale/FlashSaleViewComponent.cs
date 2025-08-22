@@ -6,6 +6,7 @@ using Best1Mall_Front_End.Models.Flashsale;
 using Best1Mall_Front_End.Service.Redis;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace BIOLIFE.ViewComponents.Product
@@ -32,40 +33,58 @@ namespace BIOLIFE.ViewComponents.Product
         {
             try
             {
-                var _flashSaleServices = new FlashSaleServices(configuration);
-
-                var listFlashSales = await _flashSaleServices.GetList();
-
-                var viewModel = new List<FlashSaleViewModel>();
-                if (listFlashSales != null)
+                if (!_cache.TryGetValue("flashsale_home", out List<FlashSaleViewModel>? viewModel))
                 {
-                    foreach (var item in listFlashSales.Items)
-                    {
-                        var products = await _flashSaleServices.GetById(new FlashsaleListingRequestModel { id = item.flashsale_id });
+                    var flashSaleService = new FlashSaleServices(configuration);
+                    var listFlashSales = await flashSaleService.GetList();
 
-                        // 🔴 Chỉ add nếu có sản phẩm
-                        if (products != null && products.Any())
+                    viewModel = new List<FlashSaleViewModel>();
+
+                    if (listFlashSales?.Items != null && listFlashSales.Items.Any())
+                    {
+                        // Song song API call để lấy product list
+                        var tasks = listFlashSales.Items.Select(async item =>
                         {
-                            viewModel.Add(new FlashSaleViewModel
+                            var products = await flashSaleService.GetById(new FlashsaleListingRequestModel
                             {
-                                flashsale_id = item.flashsale_id,
-                                fromdate = item.fromdate,
-                                todate = item.todate,
-                                name = item.name,
-                                banner = item.banner,
-                                Products = products
+                                id = item.flashsale_id
                             });
-                        }
+
+                            if (products != null && products.Any())
+                            {
+                                return new FlashSaleViewModel
+                                {
+                                    flashsale_id = item.flashsale_id,
+                                    fromdate = item.fromdate,
+                                    todate = item.todate,
+                                    name = item.name,
+                                    banner = item.banner,
+                                    Products = products
+                                };
+                            }
+                            return null;
+                        });
+
+                        var results = await Task.WhenAll(tasks);
+                        viewModel = results.Where(x => x != null).ToList()!;
                     }
+
+                    // Cache 2 phút
+                    _cache.Set("flashsale_home", viewModel, TimeSpan.FromMinutes(2));
                 }
 
                 // Nếu không có flash sale thì render partial rỗng (ẩn section)
+                if (viewModel == null || !viewModel.Any())
+                {
+                    _logger.LogInformation("⚠️ FlashSaleViewComponent: Không có flash sale nào.");
+                    return View(new List<FlashSaleViewModel>());
+                }
+
                 return View("~/Views/Shared/Components/FlashSale/FlashSaleViewComponent.cshtml", viewModel);
             }
             catch (Exception ex)
             {
-                // log lỗi
-                Console.WriteLine("FlashSale VC error: " + ex.Message);
+                _logger.LogError(ex, "❌ Lỗi khi load FlashSaleViewComponent");
                 return View(new List<FlashSaleViewModel>()); // render rỗng, không crash
             }
         }
