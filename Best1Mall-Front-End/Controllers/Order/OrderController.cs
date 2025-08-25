@@ -16,6 +16,8 @@ using Best1Mall_Front_End.Models.Products;
 using Best1Mall_Front_End.Utilities;
 using Best1Mall_Front_End.Utilities.Lib;
 using Google.Apis.Services;
+using Best1Mall_Front_End.Models.Client;
+using Newtonsoft.Json.Linq;
 
 namespace Best1Mall_Front_End.Controllers
 {
@@ -25,6 +27,7 @@ namespace Best1Mall_Front_End.Controllers
         private readonly IConfiguration _configuration;
         private readonly OrderServices _orderServices;
         private readonly StaticAPIService staticAPIService;
+        private readonly AddressClientServices _addressClientServices;
         private readonly VnpayLibrary _vnpayLibrary;
         private ClientServices clientService;
         private readonly string static_domain = "";
@@ -33,6 +36,7 @@ namespace Best1Mall_Front_End.Controllers
 
             _configuration= configuration;
             _orderServices = new OrderServices(configuration);
+            _addressClientServices = new AddressClientServices(configuration);
             clientService = new ClientServices(configuration);
             staticAPIService = new StaticAPIService(configuration);
             static_domain = configuration["API:StaticURL"];
@@ -155,10 +159,18 @@ namespace Best1Mall_Front_End.Controllers
         }
         public async Task<IActionResult> Confirm(CartConfirmRequestModel request)
         {
+            var request2 = new ClientAddressGeneralRequestModel
+            {
+                token = request.token
+            };
+
+            var profile = await _addressClientServices.ProfileList(request2);
+            var _UserId = profile?.Id.ToString() ?? string.Empty; // Lấy RequestId từ kết quả hoặc sử dụng giá trị mặc định
+
             var result = await _orderServices.Confirm(request);
             if (result != null) // ✅ chỉ gửi notify khi có kết quả
             {
-                await clientService.SendMessage("1", "50", "0", result.order_no, $"/order/detail/{result.id}");
+                await clientService.SendMessage("1", _UserId, "0", result.order_no, $"/order/detail/{result.id}");
             }
             return Ok(new
             {
