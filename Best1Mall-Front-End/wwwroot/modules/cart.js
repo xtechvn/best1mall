@@ -796,7 +796,7 @@ var cart = {
                 <img src="${imgSrc}" alt="" class="shrink-0 w-16 h-16 object-contain" />
                 <div class="space-y-2 w-full">
                     <div class="flex gap-3 items-start justify-between">
-                        <h5 class="font-medium leading-5">${v.code || ''}</h5>
+                        <h5 class="font-medium leading-5">${v.name || ''}</h5>
                         <div class="relative">
                             <input type="radio" name="${groupName}" class="radio-custom mt-1"
                                    data-id="${v.id}" data-code="${v.code}"
