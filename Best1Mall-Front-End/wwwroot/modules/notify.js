@@ -1,13 +1,19 @@
 ﻿$(document).ready(function () {
     // Click item notify
-    $("body").on('click', ".notify-item", function () {
-        _noti.UpdateNotify($(this));
-    });
+    //$("body").on('click', ".notify-item", function () {
+    //    _noti.UpdateNotify($(this));
+    //});
 
     // Toggle dropdown khi click chuông
     $("#toggle-noti").on("click", function (e) {
         e.preventDefault();
         $("#note-tt").toggleClass("hidden");
+
+        // Khi mở dropdown lần đầu thì load notify
+        //if (!$("#note-tt").hasClass("hidden") && $("#Notify li").length === 0) {
+        //    pageindex = 1;
+        //    _noti.loadNotify();
+        //}
     });
 
     // Click ngoài đóng dropdown
@@ -17,117 +23,155 @@
         }
     });
 
+    // Lazy load khi scroll list notify
+    $("#Notify").on("scroll", function () {
+        if ($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight - 30) {
+            _noti.loadMoreNotify();
+        }
+    });
+
+    // SSE để nhận notify realtime
     _noti.loadNotify();
     _noti.listenSSE();
 });
 
 var _menu_html = {
-   
-        // Notify chưa xem
-        html_menu_notify_active: `
-      <li class="notify-item bg-purple-50 p-3 hover:bg-gray-100 cursor-pointer transition"
-          onclick="_noti.UpdateNotify($(this))" data="{id}">
-        <a href="{link}" class="flex items-start gap-3">
-            <div class="flex-1">
-                <p class="text-sm font-medium text-gray-900">{note}</p>
-                <div class="text-xs text-gray-500 mt-1">{date}</div>
-            </div>
-        </a>
-      </li>
-    `,
-        // Notify đã xem tổng quan (status = 1)
-    //    html_menu_notify: `
-    //  <li class="notify-item p-3 hover:bg-gray-50 cursor-pointer transition"
-    //      onclick="_noti.UpdateNotify($(this))" data="{id}">
-    //    <a href="{link}" class="flex items-start gap-3">
-    //        <div class="flex-1">
-    //            <p class="text-sm text-gray-800">{note}</p>
-    //            <div class="text-xs text-gray-500 mt-1">{date}</div>
-    //        </div>
-    //    </a>
-    //  </li>
-    //`,
-        // Notify đã xem chi tiết (status = 2)
-        html_menu_notify_detail: `
-      <li class="notify-item bg-gray-100 p-3 hover:bg-gray-200 cursor-pointer transition"
-          onclick="_noti.UpdateNotify($(this))" data="{id}">
-        <a href="{link}" class="flex items-start gap-3">
-            <div class="flex-1">
-                <p class="text-sm italic text-gray-600">{note}</p>
-                <div class="text-xs text-gray-400 mt-1">{date}</div>
-            </div>
-        </a>
-      </li>
-    `,
-  
+
+    // Notify chưa xem
+    html_menu_notify_active: `
+  <li class="notify-item bg-purple-50 p-3 hover:bg-gray-100 cursor-pointer transition"
+      onclick="_noti.UpdateNotify($(this))" data="{id}">
+    <a href="{link}" class="flex items-start gap-3">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-900">
+            {note} <span class="text-xs text-gray-500 ml-2">({date})</span>
+          </p>
+        </div>
+    </a>
+  </li>
+`,
+    
+    html_menu_notify_detail: `
+  <li class="notify-item bg-gray-100 p-3 hover:bg-gray-200 cursor-pointer transition"
+      onclick="_noti.UpdateNotify($(this))" data="{id}">
+    <a href="{link}" class="flex items-start gap-3">
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-900">
+            {note} <span class="text-xs text-gray-500 ml-2">({date})</span>
+          </p>
+        </div>
+    </a>
+  </li>
+`,
+
 
 };
 
 let pageindex = 1;
-let pagesize = 50;
+let pagesize = 5;
+let loading = false;
+let has_more = true; // ✅ thêm cờ này
 
 var _noti = {
     loadNotify: function () {
+        
+        if (loading || !has_more) return; // ✅ nếu đang loading hoặc hết data thì không gọi nữa
+        loading = true;
+
         var usr = global_service.CheckLogin();
+
+        if (pageindex === 1) {
+            $("#Notify").empty();
+        }
+        // nhớ lại scroll pos trước khi render
+        let oldScroll = $("#Notify").scrollTop();
+        $("#Notify").append(`<li id="loading" class="p-4 text-center text-gray-400">Đang tải...</li>`);
+
         $.ajax({
             url: "/Client/Notify",
             type: "POST",
             data: { pageindex, pagesize, token: usr.token },
             success: function (result) {
-                $("#Notify").empty();
+                
+                $("#loading").remove();
+                loading = false;
 
-                // Check dữ liệu trả về
+                if (pageindex === 1) {
+                    $("#coutn-noti").text(
+                        result.data && result.data.total_not_seen > 0
+                            ? result.data.total_not_seen
+                            : "0"
+                    );
+                }
+
                 if (result.status == 0 && result.data != null) {
+                    
+                    let list = result.data.lst_not_seen_detail;
 
-                    // Badge 🔔 hiển thị số notify chưa đọc (status = 0)
-                    $("#coutn-noti").text(result.data.total_not_seen > 0
-                        ? result.data.total_not_seen
-                        : "0");
-
-                    // Nếu list notify trống thật sự (kể cả đã đọc)
-                    if (!result.data.lst_not_seen_detail || result.data.lst_not_seen_detail.length === 0) {
-                        $("#Notify").html(
-                            `<li class="p-4 text-center text-gray-500">Không có thông báo từ hệ thống</li>`
-                        );
+                    if (!list || list.length === 0) {
+                        has_more = false; // ✅ hết dữ liệu
+                        if (pageindex === 1) {
+                            $("#Notify").html(`<li class="p-4 text-center text-gray-500">Không có thông báo</li>`);
+                        } else {
+                            $("#Notify").append(`<li class="p-4 text-center text-gray-400">Hết thông báo</li>`);
+                        }
                         return;
                     }
 
-                    // Render từng notify
-                    result.data.lst_not_seen_detail.forEach(function (item) {
+                    // Nếu trả về ít hơn pagesize → cũng coi như hết
+                    if (list.length < pagesize) {
+                        has_more = false; // ✅ đánh dấu hết notify
+                    }
+
+                    list.forEach(function (item) {
+                        ;
+                        if (!item || !item.content || item.content === "null" || item.content.trim() === "") {
+                            return; // ❌ bỏ qua notify rỗng hoặc content = "null"
+                        }
+
                         var date = (item.seen_date && item.seen_date > 0)
                             ? new Date(item.seen_date * 1000)
                             : new Date();
 
-                        // Chọn template dựa theo seen_status
                         var html;
                         if (item.seen_status == 0) {
-                            html = _menu_html.html_menu_notify_active; // chưa xem
-                        } else{
-                            html = _menu_html.html_menu_notify_detail; // đã xem chi tiết
+                            html = _menu_html.html_menu_notify_active;
+                        } else if (item.seen_status == 1) {
+                            html = _menu_html.html_menu_notify_overview; // nếu ông có template status=1
+                        } else {
+                            html = _menu_html.html_menu_notify_detail;
                         }
 
-                        // Append notify vào danh sách
                         $("#Notify").append(
-                            html.replace("{link}", item.link_redirect || "#")
+                            html.replaceAll("{link}", item.link_redirect || "#")
                                 .replaceAll("{id}", item.notify_id)
-                                .replace("{note}", item.content || "")
-                                .replace("{date}", _noti.GetDayText(date))
+                                .replaceAll("{note}", item.content || "(Không có nội dung)")
+                                .replaceAll("{date}", _noti.GetDayText(date))
                         );
                     });
-                } else {
-                    // Ko có dữ liệu hoặc error
-                    $("#coutn-noti").text("0");
-                    $("#Notify").html(
-                        `<li class="p-4 text-center text-gray-500">Không có thông báo từ hệ thống</li>`
-                    );
+                    // khôi phục lại scroll pos (chỉ khi loadMore)
+                    if (pageindex > 1) {
+                        $("#Notify").scrollTop(oldScroll);
+                    }
+
+
                 }
+            },
+            error: function () {
+                $("#loading").remove();
+                loading = false;
             }
         });
     },
 
+    loadMoreNotify: function () {
+        if (!has_more || loading) return; // ✅ check trước khi gọi
+        pageindex++;
+        _noti.loadNotify();
+    },
 
+    // Format date
     GetDayText: function (date) {
-        
         return ("0" + date.getDate()).slice(-2) + '/' +
             ("0" + (date.getMonth() + 1)).slice(-2) + '/' +
             date.getFullYear() + ' ' +
@@ -136,6 +180,7 @@ var _noti = {
     },
 
     UpdateNotify: function (li_id) {
+        
         var usr = global_service.CheckLogin()
         var id = li_id.attr("data");
         $.ajax({
@@ -143,27 +188,13 @@ var _noti = {
             type: "POST",
             data: { id, seen_status: 2, token: usr.token },
             success: function (result) {
+                
                 if (result.status == 0) _noti.loadNotify();
             }
         });
     },
 
-    //UpdateNotifyAll: function () {
-    //    var usr = global_service.CheckLogin()
-    //    var id = $("#lst_id_not_seen").val()
-    //    if (id) {
-    //        var list_id = id.split(",").slice(0, 20).toString();
-    //        $.ajax({
-    //            url: "/Client/updateNotify",
-    //            type: "POST",
-    //            data: { id: list_id, seen_status: 1, token: usr.token },
-    //            success: function (result) {
-    //                if (result.status == 0) _noti.loadNotify();
-    //            }
-    //        });
-    //    }
-    //},
-
+    // SSE realtime
     listenSSE: function () {
         var usr = global_service.CheckLogin()
         var eventSource = new EventSource(`/Sse/GetCommentsStream?Token=${encodeURIComponent(usr.token)}`);
@@ -173,51 +204,35 @@ var _noti = {
         };
 
         eventSource.onmessage = function (event) {
-            
             var data = JSON.parse(event.data);
 
-            $("#Notify").empty();
-
-            // Badge 🔔 chỉ tính số notify chưa đọc
-            $("#coutn-noti").text(data.total_not_seen > 0 ? data.total_not_seen : "0");
-
-            // Nếu list notify trống thật sự
-            if (!data.lst_not_seen_detail || data.lst_not_seen_detail.length === 0) {
-                $("#Notify").html(
-                    `<li class="p-4 text-center text-gray-500">Không có thông báo từ hệ thống</li>`
-                );
-                return;
+            if (data.total_not_seen !== undefined) {
+                $("#coutn-noti").text(data.total_not_seen > 0 ? data.total_not_seen : "0");
             }
 
-            // Có notify thì render ra
-            data.lst_not_seen_detail.forEach(function (item) {
-                var date = (item.seen_date && item.seen_date > 0)
-                    ? new Date(item.seen_date * 1000)
-                    : new Date();
+            // Notify mới
+            if (data.notify_id && !$("#Notify li[data='" + data.notify_id + "']").length) {
+                let html = _menu_html.html_menu_notify_active
+                    .replace("{link}", data.link_redirect || "#")
+                    .replaceAll("{id}", data.notify_id)
+                    .replace("{note}", data.content || "")
+                    .replace("{date}", _noti.GetDayText(new Date(data.seen_date * 1000 || Date.now())));
 
-                // Chọn template dựa theo seen_status
-                var html;
-                if (item.seen_status == 0) {
-                    html = _menu_html.html_menu_notify_active; // chưa xem
-                } else { 
-                    html = _menu_html.html_menu_notify_detail; // đã xem chi tiết
+                $("#Notify").prepend(html);
+            }
+
+            // Notify update (seen_status đổi)
+            if (data.notify_id && $("#Notify li[data='" + data.notify_id + "']").length) {
+                let li = $("#Notify li[data='" + data.notify_id + "']");
+                if (data.seen_status == 1 || data.seen_status == 2) {
+                    li.removeClass("bg-purple-50").addClass("bg-gray-100");
+                    li.find("p").addClass("italic text-gray-600");
                 }
+            }
 
-                // Append notify vào danh sách
-                $("#Notify").append(
-                    html.replace("{link}", item.link_redirect || "#")
-                        .replaceAll("{id}", item.notify_id)
-                        .replace("{note}", item.content || "")
-                        .replace("{date}", _noti.GetDayText(date))
-                );
-            });
-
-            // auto play âm thanh
             document.getElementById("myAudio").play();
-            // auto scroll lên đầu
-            $("#Notify").scrollTop(0);
+            //$("#Notify").scrollTop(0);
         };
-
 
         eventSource.onerror = function () {
             console.log("SSE closed");
