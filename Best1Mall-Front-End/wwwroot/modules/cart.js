@@ -484,7 +484,7 @@ var cart = {
                 global_service.POST(API_URL.CartList, request)
 
             ).done(function (result) {
-
+                
                 if (result.is_success && result.data && result.data.length > 0) {
                     cart.RenderCartItem(result.data)
                     cart.RenderBuyNowSelection()
@@ -515,7 +515,7 @@ var cart = {
 
     },
     RenderCartItem: function (list) {
-        ;
+        
         const groupedBySupplier = {};
 
         // 1. Gom nhóm theo supplier_id
@@ -745,7 +745,7 @@ var cart = {
     },
 
     RenderVoucherList: function (vouchers) {
-        
+        debugger
 
         const $root = $('.list-voucher');
         if ($root.length === 0) return;
@@ -778,7 +778,8 @@ var cart = {
             price_sales: v.price_sales,
             unit: v.unit,
             rule_type: v.rule_type, // =1: vận chuyển; !=1: khác
-            image: v.image
+            image: v.image,
+            name:v.name
         });
         const items = (vouchers || []).map(norm);
 
@@ -793,10 +794,13 @@ var cart = {
             const expireText = v.eDate ? v.eDate : '';
             return `
             <label class="item flex gap-3 items-center relative w-full p-3 border rounded-lg hover:bg-slate-50">
-                <img src="${imgSrc}" alt="" class="shrink-0 w-16 h-16 object-contain" />
+
+                
+
+
                 <div class="space-y-2 w-full">
                     <div class="flex gap-3 items-start justify-between">
-                        <h5 class="font-medium leading-5">${v.description || ''}</h5>
+                        <h5 class="font-medium leading-5">${v.name || ''}</h5>
                         <div class="relative">
                             <input type="radio" name="${groupName}" class="radio-custom mt-1"
                                    data-id="${v.id}" data-code="${v.code}"

@@ -917,7 +917,7 @@ var product_detail = {
         vouchers.forEach((v, idx) => {
             html += `
                 <label class="item flex gap-3 items-center relative w-full">
-                    <img src="${v.image || '/assets/images/Voucher.png'}" alt="" class="shrink-0 w-1/4" />
+                    
                     <div class="space-y-3 w-full">
                         <div class="item flex gap-3 items-center justify-between relative">
                             <h5>${v.description}</h5>

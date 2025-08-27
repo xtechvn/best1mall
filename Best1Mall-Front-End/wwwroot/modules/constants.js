@@ -278,7 +278,7 @@ var HTML_CONSTANTS = {
       <div class="item flex-shrink-0 w-27 text-center p-2 rounded-xl border border-blue-100">
                         <div class="rounded-xl  mb-2 p-2 h-22  flex items-center justify-center">
                             <a href="/san-pham/{url}?group_id={id}">
-                                <img src="{avt}" alt="{name}" class="mx-auto">
+                                <img loading="lazy" src="{avt}" alt="{name}" class="mx-auto">
                             </a>
                         </div>
                         <a href="/san-pham/{url}?group_id={id}" class="text-[13px] text-slate-700 ">{name}</a>
