@@ -2,8 +2,8 @@
     global_service.Initialization();
     global_service.DynamicBind();
     global_service.LoadPolicy();
-    global_service.LoadAbouHulotoys();
-    global_service.LoadCustomerSupport();
+    //global_service.LoadAbouHulotoys();
+    //global_service.LoadCustomerSupport();
     global_service.LoadCartCount();
    
     // 👉 GỌI THÊM:
@@ -124,8 +124,7 @@ var global_service = {
                 // Render nội dung popup động
                 var html = `
             <div class="flex gap-3 items-center">
-                <img src="${voucher.image || '/assets/images/Voucher.png'}" 
-                     alt="" class="shrink-0 w-1/4" />
+               
                 <div class="space-y-3">
                     <h5>${voucher.code || ''}</h5>
                     <p class="text-slate-500">HSD: ${voucher.eDate || ''}</p>
@@ -494,7 +493,7 @@ var global_service = {
         window.location.href = url + this.convertVietnameseToUnsign(title);
     },
     CheckLogin: function () {
-    
+        
         var str = localStorage.getItem(STORAGE_NAME.Login)
         if (str != undefined && str.trim() != '') {
             return JSON.parse(str)

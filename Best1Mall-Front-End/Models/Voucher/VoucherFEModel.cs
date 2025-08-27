@@ -22,5 +22,6 @@
         public short? project_type { get; set; }
         public bool? is_max_price_product { get; set; }
         public int TotalRow { get; set; }
+        public string name { get; set; }
     }
 }
