@@ -154,6 +154,49 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                 return null;
             }
         }
+        public async Task<int> GetCountNotify(string user_id)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                int result = 0;
+
+                var j_param = new Dictionary<string, object>
+        {
+            {"user_id", user_id}
+        };
+
+                var data_product = JsonConvert.SerializeObject(j_param);
+                var token = EncodeHelpers.Encode(data_product, B2C_KEY);
+
+                var request = new FormUrlEncodedContent(new[]
+                {
+            new KeyValuePair<string, string>("token", token)
+        });
+
+                var url = "http://api.best-mall.vn/api/notify/get-count.json";
+                var response = await httpClient.PostAsync(url, request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var stringResult = await response.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<dynamic>(stringResult);
+
+                    if (data != null && data.status == (int)ResponseType.SUCCESS)
+                    {
+                        result = (int)data.data.total_not_seen;
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                //LogHelper.InsertLogTelegram("GetCountNotify:" + ex.ToString());
+                return 0;
+            }
+        }
+
         public async Task<int> UpdateNotify(string notify_id, string user_seen_id, string seen_status)
         {
             try

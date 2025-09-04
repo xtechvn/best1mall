@@ -320,11 +320,22 @@ var address_client = {
             }
             $('#update-address .title-popup').html('Cập nhật địa chỉ');
             $('#update-address .btn-save').html('Cập nhật');
+            // ❌ Ẩn checkbox chính sách khi cập nhật
+            $('.agree-policy-wrap').hide();
 
         } else {
-            $('#update-address').addClass('overlay-active')
-            $('#update-address .title-popup').html('Thêm địa chỉ giao hàng mới')
-            $('#update-address .btn-save').html('Thêm')
+            // 👉 Thêm địa chỉ mới
+            $('#update-address .title-popup').html('Thêm địa chỉ mới');
+            $('#update-address .btn-save').html('Thêm');
+
+            // ✅ Hiện checkbox chính sách khi thêm
+            $('.agree-policy-wrap').show();
+
+            // reset form
+            $('#update-address input[type="text"], #update-address input[type="tel"]').val('');
+            $('#update-address select').val('');
+            $('#IsActive').prop('checked', false);
+            $('.agree-policy').prop('checked', false);
         }
         // 👉 Mở popup theo Tailwind (ẩn class hidden, hiển thị popup)
         $('.popup').addClass('hidden'); // ẩn các popup khác nếu có
@@ -573,7 +584,6 @@ var address_client = {
     },
     ValidateAddressForm: function () {
         let isValid = true;
-
         const popup = $('#update-address');
 
         const receiverName = popup.find('.user input').val().trim();
@@ -587,18 +597,22 @@ var address_client = {
         // Reset lỗi trước
         popup.find('.err').hide();
 
+        // Validate Họ tên
         if (!receiverName) {
-            popup.find('.user').siblings('.err').show();
+            popup.find('.user').siblings('.err').text('Vui lòng nhập Họ và tên').show();
             isValid = false;
         }
+
         // Validate Số điện thoại
         if (!phone) {
-            popup.find('.tel').siblings('.err').text('Vui lòng không để trống Số điện thoại').show();
+            popup.find('.tel').siblings('.err').text('Vui lòng nhập Số điện thoại').show();
             isValid = false;
         } else if (!phoneRegex.test(phone)) {
             popup.find('.tel').siblings('.err').text('Số điện thoại không hợp lệ').show();
             isValid = false;
         }
+
+        // Validate Tỉnh/Quận/Phường
         if (!province) {
             popup.find('.province').siblings('.err').show();
             isValid = false;
@@ -611,13 +625,25 @@ var address_client = {
             popup.find('.wards').siblings('.err').show();
             isValid = false;
         }
+
+        // Validate Địa chỉ cụ thể
         if (!address) {
             popup.find('.address').siblings('.err').show();
             isValid = false;
         }
 
+        // ✅ Check chính sách khi thêm mới
+        let currentId = popup.attr('data-id');
+        if (!currentId || parseInt(currentId) <= 0) {
+            if (!popup.find('.agree-policy').is(':checked')) {
+                alert("Bạn phải đồng ý với chính sách bảo mật trước khi thêm địa chỉ mới");
+                isValid = false;
+            }
+        }
+
         return isValid;
     },
+
 
     GetSelectedAddress: function (id) {
         var list = sessionStorage.getItem(STORAGE_NAME.AddressClient)

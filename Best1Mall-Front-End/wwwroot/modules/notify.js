@@ -1,19 +1,17 @@
 ﻿$(document).ready(function () {
-    // Click item notify
-    //$("body").on('click', ".notify-item", function () {
-    //    _noti.UpdateNotify($(this));
-    //});
+    
 
     // Toggle dropdown khi click chuông
     $("#toggle-noti").on("click", function (e) {
         e.preventDefault();
         $("#note-tt").toggleClass("hidden");
 
-        // Khi mở dropdown lần đầu thì load notify
-        //if (!$("#note-tt").hasClass("hidden") && $("#Notify li").length === 0) {
-        //    pageindex = 1;
-        //    _noti.loadNotify();
-        //}
+        if (!$("#note-tt").hasClass("hidden") && $("#Notify").children().length === 0) {
+            // Chỉ gọi loadNotify lần đầu khi mở dropdown
+            pageindex = 1;
+            has_more = true;
+            _noti.loadNotify();
+        }
     });
 
     // Click ngoài đóng dropdown
@@ -30,8 +28,8 @@
         }
     });
 
-    // SSE để nhận notify realtime
-    _noti.loadNotify();
+    // Khi load page: chỉ lấy count nhẹ
+    _noti.loadCount();
     _noti.listenSSE();
 });
 
@@ -73,6 +71,25 @@ let loading = false;
 let has_more = true; // ✅ thêm cờ này
 
 var _noti = {
+    // ✅ API count cho badge
+    loadCount: function () {
+        debugger
+        var usr = global_service.CheckLogin();
+        $.ajax({
+            url: "/Client/NotifyCount",
+            type: "POST",
+            data: { token: usr.token },
+            success: function (result) {
+                debugger
+                if (result.status == 0 && result.data !== undefined) {
+                    $("#coutn-noti").text(result.data > 0 ? result.data : "0");
+                }
+            },
+            error: function () {
+                $("#coutn-noti").text("0");
+            }
+        });
+    },
     loadNotify: function () {
         
         if (loading || !has_more) return; // ✅ nếu đang loading hoặc hết data thì không gọi nữa

@@ -127,6 +127,7 @@ namespace Best1Mall_Front_End.Controllers.Client
             return View();
 
         }
+       
         public async Task<IActionResult> ProfileList(ClientAddressGeneralRequestModel request)
         {
             var result = await _addressClientServices.ProfileList(request);
@@ -176,6 +177,48 @@ namespace Best1Mall_Front_End.Controllers.Client
                 data = new List<NotifySummeryViewModel>()
             });
         }
+        [HttpPost]
+        public async Task<IActionResult> NotifyCount(string token)
+        {
+            try
+            {
+                var request = new ClientAddressGeneralRequestModel
+                {
+                    token = token
+                };
+
+                var profile = await _addressClientServices.ProfileList(request);
+                var _UserId = profile?.Id;
+
+                if (_UserId == null)
+                {
+                    return Ok(new
+                    {
+                        status = (int)ResponseType.ERROR,
+                        msg = "User không tồn tại",
+                        data = 0
+                    });
+                }
+
+                // Gọi xuống service để lấy count
+                var totalCount = await _clientServices.GetCountNotify(_UserId.ToString());
+                return Ok(new
+                {
+                    status = (int)ResponseType.SUCCESS,
+                    data = totalCount
+                });
+            }
+            catch (Exception ex)
+            {
+                //LogHelper.InsertLogTelegram("NotifyCount error: " + ex);
+                return Ok(new
+                {
+                    status = (int)ResponseType.ERROR,
+                    data = 0
+                });
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> updateNotify(string id, string seen_status,string token)
         {
