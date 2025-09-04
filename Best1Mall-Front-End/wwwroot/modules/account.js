@@ -1,5 +1,52 @@
-﻿$(document).ready(function () {
+﻿var user = global_service.CheckLogin();
+var DOMAIN = CONSTANTS.DOMAIN;
+$(document).ready(function () {
     account.Initialization()
+    // 👉 Affiliate menu handler
+    $(document).on("click", ".affiliate-menu a", function (e) {
+        e.preventDefault();
+
+        let tabId = $(this).data("tab");
+
+        // ép sub-menu cha luôn giữ active
+        $(this).closest(".sub-menu").addClass("active");
+
+        // ẩn body chính
+        $(".content-left-user > *:not(#affiliate-tabs)").hide();
+
+        // hiện affiliate-tabs
+        $("#affiliate-tabs").removeClass("hidden");
+
+        // ẩn tất cả tab con
+        $("#affiliate-tabs .tab-content").addClass("hidden");
+
+        // show đúng tab được chọn
+        $("#" + tabId).removeClass("hidden");
+
+        // active highlight menu con
+        $(".affiliate-menu a").removeClass("active");
+        $(this).addClass("active");
+
+        // 👉 Logic riêng cho từng tab
+        switch (tabId) {
+            case "create-link":
+               account.loadAffiliateLink(); // gọi API /affiliate/register
+                break;
+            case "manage-orders":
+                //loadAffiliateOrders(); // gọi API /affiliate/order/listing
+                break;
+            case "commission":
+               // loadAffiliateCommission(); // gọi API đối soát hoa hồng
+                break;
+            case "payment-info":
+                //loadPaymentInfo(); // gọi API /affiliate/detail
+                break;
+            default:
+                console.log("Unknown tab: " + tabId);
+        }
+    });
+
+
 })
 function SyncSessionCartToServer() {
     
@@ -64,6 +111,7 @@ var account = {
             token = usr.token
 
         }
+
         $("body").on('click', "#change-password-confirm", function () {
             
            
@@ -383,6 +431,94 @@ var account = {
             e.preventDefault()
             account.ConfirmForgotPassword(element)
         });
+        $("#btnCopy").click(function () {
+            var text = document.getElementById("LindkAdavigo");
+            text.select();
+            text.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(text.value);
+        })
+        // Affilate
+        //$("#Create-Affiliate").click(function () {
+        //    debugger
+        //    var request = {
+        //         "token":user.token
+        //    };
+        //    $.when(
+        //        global_service.POST(API_URL.registerAffiliate, request)
+        //    ).done(function (res) {
+        //        debugger
+        //        if (res.is_success) {
+        //            //toastr.success("Đăng ký thành công!");
+        //            user.IsRegisterAffiliate = true;
+        //            user.CitizenId = res.utm_medium;
+        //            localStorage.setItem(CONSTANTS.STORAGE.User, JSON.stringify(user))
+        //            $("#affiliate_1").hide();
+        //            $("#affiliate_addlink").show();
+        //            if (user.CitizenId != null && user.CitizenId != undefined) {
+        //                $("#LindkAdavigo").val(DOMAIN + "/?utm_source=" + user.CitizenId);
+        //            } else {
+        //                $("#LindkAdavigo").val(DOMAIN + "/");
+        //            }
+        //        }
+        //        else {
+        //            toastr.error("Đăng ký không thành công!");
+
+        //        }
+
+        //    })
+        //})
+        $("#Create-Affiliate").click(function () {
+            debugger
+            var usr = global_service.CheckLogin();
+            if (!usr || !usr.token) {
+                toastr.error("Bạn chưa đăng nhập!");
+                return;
+            }
+
+            var request = {
+                token: usr.token,
+                AccountName: $("#AccountName").val(),
+                AccountNumber: $("#AccountNumber").val(),
+                BankId: $("#BankId").val(),
+                Branch: $("#Branch").val()
+            };
+
+            $.ajax({
+                url: API_URL.registerAffiliateAndBank,
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(request),
+                success: function (res) {
+                    debugger
+                    if (res && res.is_success) {
+                        //toastr.success("Đăng ký Affiliate + Lưu ngân hàng thành công!");
+                        $("#linkaffiliate")[0].reset();
+
+                        usr.isRegisterAffiliate = true;
+                        usr.referralId = res.affiliate?.data?.utm_medium;
+                     
+                        localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(usr))
+                        $("#affiliate_1").hide();
+                        $("#affiliate_addlink").show();
+                        if (usr.referralId != null && usr.referralId != undefined) {
+                            $("#LindkAdavigo").val(
+                                DOMAIN + "/?utm_source=" + res.affiliate?.data?.utm_source + "&utm_medium=" + usr.referralId
+                            );
+                        } else {
+                            $("#LindkAdavigo").val(DOMAIN + "/");
+                        }
+                    } else {
+                        //toastr.error(res?.msg || "Có lỗi xảy ra khi đăng ký Affiliate");
+                    }
+                },
+                error: function (err) {
+                    //toastr.error("Không thể kết nối server!");
+                    console.error(err);
+                }
+            });
+        });
+
+        //////////////////////////////////////
     },
     Login: function () {
         
@@ -401,7 +537,7 @@ var account = {
             $.when(
                 global_service.POST(API_URL.Login, request)
             ).done(function (res) {
-
+                
                 if (res.is_success && res.data != null && res.data != undefined && res.data.status != undefined && res.data.status == 0) {
                     if ($('#login-remember').is(":checked")) {
                         localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
@@ -492,6 +628,30 @@ var account = {
             })
         }
     },
+    //Afilate
+    loadAffiliateLink: function () {
+        debugger
+        if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
+            $("#affiliate_addlink").hide();
+            $("#affiliate_1").show();
+        }
+        else {
+            $("#affiliate_1").hide();
+            $("#affiliate_addlink").show();
+            if (user.referralId != null && user.referralId != undefined) {
+                $("#LindkAdavigo").val(DOMAIN + "/?utm_source=" + user.referralId);
+                $("#LindkAdavigo").val(
+                    DOMAIN + "/?utm_source=" + "bestmall" + "&utm_medium=" + user.referralId
+                );
+            } else {
+                $("#LindkAdavigo").val(DOMAIN + "/");
+            }
+
+        }
+    },
+
+
+    ////////////////////////////////////////////////
     ValidateLogin: function () {
         var password_length = account.Data.PasswordLength
         var max_password_length = account.Data.MaxPasswordLength
@@ -541,28 +701,25 @@ var account = {
             element.closest('.mb-4').find('.err-user').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err-user').show()
             success = false
-
         }
         var fullNameElement = $('#register-form .user input');
         if (fullNameElement.val() !== undefined && fullNameElement.val().trim() !== '') {
             var fullName = fullNameElement.val().trim();
-            //var nameRegex = /^[a-zA-Z0-9ÀÁẠẢÃẮẰẶẲẴẤẦẬẨẪÉÈẸẺẼÊỀỆỂỄÍÌỊỈĨÓÒỌỎÕÔỒỘỔỖƠỜỢỞỠÙÚỤỦŨƯỪỰỬỮÝỲỴỶỸĐđ' -]*$/u;
             var nameRegex = /^[a-zA-Z0-9À-Ỹà-ỹĐđ'\-\s]+$/u;
-
-
             if (!nameRegex.test(fullName)) {
-                fullNameElement.closest('.mb-4').find('.err-user').html('Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu câu thông thường, dấu nháy đơn, và dấu gạch nối.');
+                fullNameElement.closest('.mb-4').find('.err-user').html(
+                    'Họ và tên không được chứa ký tự đặc biệt, ngoại trừ dấu nháy đơn và dấu gạch nối.'
+                );
                 fullNameElement.closest('.mb-4').find('.err-user').show();
                 success = false
             }
         }
-        //if (!success) return success
+
         element = $('#register-form .email input')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err').show()
             success = false
-
         }
         else if (element.val() != undefined && element.val().trim() != '') {
             var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
@@ -579,7 +736,6 @@ var account = {
             element.closest('.mb-4').find('.err-tel').html(NOTIFICATION_MESSAGE.EmptyField)
             element.closest('.mb-4').find('.err-tel').show()
             success = false
-
         }
         else if (element.val() != undefined && element.val().trim() != '') {
             var pattern = /^(0|\+84|84)?(2[0-9]|3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])([0-9]{7})$/;
@@ -589,7 +745,6 @@ var account = {
                 success = false
             }
         }
-        //if (!success) return success
 
         element = $('#register-form .register-password input')
         if (element.val() == undefined || element.val().trim() == '') {
@@ -598,16 +753,19 @@ var account = {
             success = false
         }
         else if (element.val().length < password_length) {
-            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length))
+            element.closest('.mb-4').find('.err').html(
+                NOTIFICATION_MESSAGE.PasswordTooShort.replace('{count}', password_length)
+            )
             element.closest('.mb-4').find('.err').show()
             success = false
         }
         else if (element.val().length > max_password_length) {
-            element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.PasswordTooLong.replace('{count}', max_password_length))
+            element.closest('.mb-4').find('.err').html(
+                NOTIFICATION_MESSAGE.PasswordTooLong.replace('{count}', max_password_length)
+            )
             element.closest('.mb-4').find('.err').show()
             success = false
         }
-        //if (!success) return success
 
         element = $('#register-form .confirm-password input')
         if (element.val() == undefined || element.val().trim() == '') {
@@ -619,15 +777,23 @@ var account = {
             element.closest('.mb-4').find('.err').show()
             success = false
         }
-        //if (!success) return success
+
         element = $('#register-form .otp-code input')
         if (element.val() == undefined || element.val().trim() == '') {
             element.closest('.mb-4').find('.err').show()
             success = false
-
         }
+
+        // ✅ Check chính sách bảo mật
+        var agreePolicy = $('#register-form input.agree-policy').is(":checked")
+        if (!agreePolicy) {
+            $('#register-general-err .err').html("Bạn phải đồng ý với chính sách bảo mật để tiếp tục").show()
+            success = false
+        }
+
         return success
     },
+
     ValidateRegisterNoNotify: function () {
         var password_length = account.Data.PasswordLength
         var element = $('#register-form .user input');
