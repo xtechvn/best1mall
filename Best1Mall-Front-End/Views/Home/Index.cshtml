@@ -3,7 +3,7 @@
     int category_id = ViewBag.category_id;
     int current_page = ViewBag.page;
     int page_size = ViewBag.page_size;
-    int total_items = ViewBag.total_items;// Tổng toàn bộ bản ghi theo 1 cate
+   // int total_items = ViewBag.total_items;// Tổng toàn bộ bản ghi theo 1 cate
 }
 <input type="hidden" class="category_id" data-categoryid="@category_id" />
 <style>
@@ -103,7 +103,7 @@
                 </div>
             </div>
             <!-- Flash sale  -->
-            @await Component.InvokeAsync("FlashSale")
+            @* @await Component.InvokeAsync("FlashSale") *@
             @* <div class="flashsale-box my-6 md:my-10 md:rounded-3xl rounded-xl bg-[#FF4169]"> *@
             @*     <div class="bg-box md:px-6 md:py-10 py-4 px-3 pb-0 text-white md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl relative md:min-h-[320px]"> *@
             @*         <h2 class="md:text-4xl text-2xl my-3">Chăm cơ thể – giữ tinh thần – <br />tiết kiệm tối đa!</h2> *@

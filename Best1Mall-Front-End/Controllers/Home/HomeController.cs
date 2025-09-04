@@ -41,7 +41,7 @@ namespace Best1Mall_Front_End.Controllers.Home
             ViewBag.category_id = 22;// Convert.ToInt32(configuration["menu:news_parent_id"]);
             ViewBag.page = page;
             ViewBag.page_size = Convert.ToInt32(configuration["blognews:page_size"]);
-            ViewBag.total_items = await article_sv.getTotalNews(-1); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
+           // ViewBag.total_items = await article_sv.getTotalNews(-1); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
                                                                      // Gọi ViewComponent trực tiếp và trả về kết quả
            
             return View();
