@@ -15,6 +15,9 @@
     Profile:'Profile'
 
 }
+const CONSTANTS = {
+    DOMAIN: window.location.origin
+}
 var API_URL = {
     Login: '/Client/Login',
     ChangePassword: '/Client/ConfirmChangePassword',
@@ -26,7 +29,7 @@ var API_URL = {
     FlashSaleGetList: '/FlashSale/GetList',
     FlashSaleGetById: '/FlashSale/GetById',
     AddContract: '/Home/AddContract',
-
+    registerAffiliateAndBank: '/Client/registerAffiliateAndBank',
 
     GroupProduct: '/Product/GetGroupProduct',
 
