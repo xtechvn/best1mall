@@ -311,6 +311,7 @@ var cart = {
 
         //Vourcher
         $('.btn-vorcher').on('click', function () {
+            
             $("#dieukien-popup").addClass("hidden")
             // Xoá lỗi cũ
             $('#voucher-popup .voucher-error').remove();
@@ -745,7 +746,7 @@ var cart = {
     },
 
     RenderVoucherList: function (vouchers) {
-        debugger
+        
 
         const $root = $('.list-voucher');
         if ($root.length === 0) return;
@@ -1025,8 +1026,13 @@ var cart = {
         // Tiền hàng trước giảm (không gồm ship)
         $('.total-before-discount').text(global_service.Comma(data.total_order_amount_before) + ' đ');
 
-        // Giảm trên hàng
-        $('.total-discount-amount').text('-' + global_service.Comma(data.discount_goods) + ' đ');
+        // Check giảm giá hàng
+        if (data.discount_goods && data.discount_goods > 0) {
+            $('#discountSection').removeClass('hidden');
+            $('.total-discount-amount').text('-' + global_service.Comma(data.discount_goods) + ' đ');
+        } else {
+            $('#discountSection').addClass('hidden');
+        }
 
         // (Optional) nếu muốn show giảm ship riêng
         $('.total-shipping-fee .pr').text(global_service.Comma(data.discount_shipping || 0) + ' đ').attr('data-price', data.discount_shipping);
@@ -1310,6 +1316,9 @@ var cart = {
             } else if (typeof appliedVoucher !== 'undefined' && appliedVoucher) {
                 selectedVouchers = [appliedVoucher]
             }
+            // ✅ Affiliate (utm_source + utm_medium)
+            var utm_medium = UTILS.getWithExpiry(CONSTANTS.STORAGE.UtmMedium);
+            var utm_source = UTILS.getWithExpiry(CONSTANTS.STORAGE.UtmSource);
 
             // Map sang 2 mảng id & code (lọc null)
             const voucherIds = selectedVouchers
@@ -1332,7 +1341,9 @@ var cart = {
                     "address_id": $('#address-receivername').attr('data-id'),
                     "delivery_detail": delivery_detail,
                     "voucher_code": voucherCodes,
-                    "voucher_id": voucherIds
+                    "voucher_id": voucherIds,
+                    "utm_medium": utm_medium || "",
+                    "utm_source": utm_source || ""
 
                     // 🆕 Thêm dòng này:
                     //"voucher_code": appliedVoucher?.code || null
