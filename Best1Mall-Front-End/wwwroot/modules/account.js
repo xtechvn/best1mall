@@ -33,18 +33,36 @@ $(document).ready(function () {
                account.loadAffiliateLink(); // gọi API /affiliate/register
                 break;
             case "manage-orders":
-                //loadAffiliateOrders(); // gọi API /affiliate/order/listing
+               //account.loadAffiliateOrders(); // gọi API /affiliate/order/listing
                 break;
             case "commission":
                // loadAffiliateCommission(); // gọi API đối soát hoa hồng
                 break;
             case "payment-info":
-                //loadPaymentInfo(); // gọi API /affiliate/detail
+               account.loadPaymentInfo(); // gọi API /affiliate/detail
                 break;
             default:
                 console.log("Unknown tab: " + tabId);
         }
     });
+    
+    // Mở popup
+    $(document).on("click", ".update-bank", function () {
+        var id = $(this).data("id") || 0;
+        account.openPopup(id);
+        $("#bank-popup").css("display", "block").removeClass("hidden");
+    });
+
+    // Đóng popup
+    $(document).on("click", ".closePopup", function () {
+       
+        $("#bank-popup").addClass("hidden")
+            .removeAttr("style")   // xoá inline display:block
+            .attr("data-id", 0);
+    });
+
+
+    
 
 
 })
@@ -471,11 +489,12 @@ var account = {
             debugger
             var usr = global_service.CheckLogin();
             if (!usr || !usr.token) {
-                toastr.error("Bạn chưa đăng nhập!");
+                alert("Bạn chưa đăng nhập!");
                 return;
             }
 
             var request = {
+                Id:0,
                 token: usr.token,
                 AccountName: $("#AccountName").val(),
                 AccountNumber: $("#AccountNumber").val(),
@@ -495,14 +514,14 @@ var account = {
                         $("#linkaffiliate")[0].reset();
 
                         usr.isRegisterAffiliate = true;
-                        usr.referralId = res.affiliate?.data?.utm_medium;
+                        usr.referralId = res.data?.utm_medium;
                      
                         localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(usr))
                         $("#affiliate_1").hide();
                         $("#affiliate_addlink").show();
                         if (usr.referralId != null && usr.referralId != undefined) {
                             $("#LindkAdavigo").val(
-                                DOMAIN + "/?utm_source=" + res.affiliate?.data?.utm_source + "&utm_medium=" + usr.referralId
+                                DOMAIN + "/?utm_source=" + res.data?.utm_source + "&utm_medium=" + usr.referralId
                             );
                         } else {
                             $("#LindkAdavigo").val(DOMAIN + "/");
@@ -517,6 +536,49 @@ var account = {
                 }
             });
         });
+        $("#btnSaveBank").click(function () {
+            debugger
+            var usr = global_service.CheckLogin();
+            if (!usr || !usr.token) {
+                alert("Bạn chưa đăng nhập!");
+                return;
+            }
+
+            var request = {
+                token: usr.token,
+                Id: $("#bank-popup").attr("data-id"),  // lấy id từ popup
+                AccountName: $("#txtAccountName").val(),
+                AccountNumber: $("#txtAccountNumber").val(),
+                BankId: $("#txtBankId").val(),
+                Branch: $("#txtBranch").val()
+            };
+
+            $.ajax({
+                url: API_URL.registerAffiliateAndBank, // thay đúng API update bank của bạn
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(request),
+                success: function (res) {
+                    if (res && res.is_success) {
+                       
+
+                        $("#bank-popup").addClass("hidden")
+                            .removeAttr("style")   // xoá inline display:block
+                            .attr("data-id", 0);
+
+                        // reload lại danh sách bank info
+                        account.loadPaymentInfo();
+                    } else {
+                        alert(res?.msg || "Có lỗi khi cập nhật!");
+                    }
+                },
+                error: function (err) {
+                    console.error(err);
+                    alert("Không thể kết nối server!");
+                }
+            });
+        });
+
 
         //////////////////////////////////////
     },
@@ -632,6 +694,7 @@ var account = {
     loadAffiliateLink: function () {
         debugger
         if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
+           
             $("#affiliate_addlink").hide();
             $("#affiliate_1").show();
         }
@@ -649,6 +712,135 @@ var account = {
 
         }
     },
+    loadAffiliateOrders: function () {
+        debugger
+        if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
+
+            $("#affiliate_addlink").hide();
+            $("#affiliate_1").show();
+        }
+        else {
+            var usr = global_service.CheckLogin();
+            if (!usr || !usr.token) {
+                alert("Bạn chưa đăng nhập!");
+                return;
+            }
+
+            var request = { token: usr.token };
+
+            $.ajax({
+                url: API_URL.ListOrder,
+                type: "POST",
+                data: request,
+                success: function (res) {
+                    debugger
+                    if (res && res.is_success && res.bank) {
+                       
+
+                    } else {
+                        
+                    }
+                },
+                error: function (err) {
+                    
+                   
+                }
+            });
+
+        }
+    },
+    currentBank: null, // cache dữ liệu bank
+    loadPaymentInfo: function () {
+        if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
+            $("#affiliate_addlink").hide();
+            $("#affiliate_1").show();
+        } else {
+            var usr = global_service.CheckLogin();
+            if (!usr || !usr.token) {
+                alert("Bạn chưa đăng nhập!");
+                return;
+            }
+
+            var request = { token: usr.token };
+
+            $.ajax({
+                url: API_URL.GetBank,
+                type: "POST",
+                data: request,
+                success: function (res) {
+                    debugger
+                    if (res && res.is_success && res.bank) {
+                        var bank = res.bank.data;
+                        account.currentBank = bank; // lưu lại để xài cho popup
+
+                        var html = `
+                            <tr>
+                                <td>Chủ tài khoản:</td>
+                                <td>${bank.accountName || "-"}</td>
+                            </tr>
+                            <tr>
+                                <td>Số tài khoản:</td>
+                                <td>${bank.accountNumber || "-"}</td>
+                            </tr>
+                            <tr>
+                                <td>Ngân hàng:</td>
+                                <td>${bank.bankId || "-"}</td>
+                            </tr>
+                            <tr>
+                                <td>Chi nhánh:</td>
+                                <td>${bank.branch || "-"}</td>
+                            </tr>
+                        `;
+                        $(".affiliate-register table tbody").html(html);
+
+                        // Gán ID vào nút cập nhật
+                        $(".affiliate-register .update-bank")
+                            .attr("data-id", bank.id || 0)
+                            .show();
+
+                    } else {
+                        $(".affiliate-register table tbody").html(`
+                            <tr><td colspan="2">Chưa có thông tin ngân hàng</td></tr>
+                        `);
+
+                        $(".affiliate-register .update-bank")
+                            .attr("data-id", 0)
+                            .show();
+                        account.currentBank = null; // lưu lại để xài cho popup
+                    }
+                },
+                error: function (err) {
+                    
+                    $(".affiliate-register table tbody").html(`
+                        <tr><td colspan="2">Lỗi khi tải dữ liệu ngân hàng</td></tr>
+                    `);
+
+                    $(".affiliate-register .update-bank")
+                        .attr("data-id", 0)
+                        .show();
+                }
+            });
+        }
+    },
+    openPopup: function (id) {
+        debugger
+        // Nếu id > 0 thì fill data, còn không thì clear form
+        if (id > 0 && account.currentBank) {
+            var bank = account.currentBank;
+            $("#txtAccountName").val(bank.accountName || "");
+            $("#txtAccountNumber").val(bank.accountNumber || "");
+            $("#txtBankId").val(bank.bankId || "");
+            $("#txtBranch").val(bank.branch || "");
+        } else {
+            $("#txtAccountName").val("");
+            $("#txtAccountNumber").val("");
+            $("#txtBankId").val("");
+            $("#txtBranch").val("");
+        }
+
+        $("#bank-popup").removeClass("hidden").attr("data-id", id);
+    },
+    
 
 
     ////////////////////////////////////////////////

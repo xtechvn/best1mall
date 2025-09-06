@@ -23,8 +23,9 @@ namespace Best1Mall_Front_End.Models.Profile
 
 
         public string Phone { get; set; }
+        public string CitizenId { get; set; }
 
-    
+
         public string? Token { get; set; }
     }
 }

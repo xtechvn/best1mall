@@ -18,6 +18,8 @@ using Best1Mall_Front_End.Utilities.Contants;
 using System.Security.Claims;
 using ENTITIES.ViewModels.Notify;
 using System.Reflection;
+using Best1Mall_Front_End.Models.Cart;
+using ADAVIGO_FRONTEND_B2C.Models.Affiliate;
 
 namespace Best1Mall_Front_End.Controllers.Client
 {
@@ -63,6 +65,89 @@ namespace Best1Mall_Front_End.Controllers.Client
                 data = result
             });
         }
+
+    
+        [HttpPost]
+      public async Task<IActionResult> registerAffiliateAndBank([FromBody] RegisterAffiliateBankRequestModel model)
+
+            {
+                if (string.IsNullOrEmpty(model.token))
+                    return BadRequest(new { is_success = false, msg = "Token is required" });
+
+               
+
+                // 2. Gọi API cập nhật ngân hàng
+                var bankRequest = new
+                {
+                    token = model.token,
+                    detail = new
+                    {
+                        Id = model.Id,
+                        BankId = model.BankId,
+                        AccountNumber = model.AccountNumber,
+                        AccountName = model.AccountName,
+                        Branch = model.Branch
+                    }
+                };
+
+                var bankResult = await _clientServices.updateAffiliateBank(bankRequest);
+
+                if (bankResult == null || bankResult.status != 0)
+                {
+                    return Ok(new { is_success = false, msg = "Đăng ký thành công, nhưng lưu ngân hàng thất bại!" });
+                }
+
+                return Ok(new
+                {
+                    is_success = true,
+                    msg = "Thành công",
+                    //affiliate = affResult,
+                    bank = bankResult
+                });
+            }
+        [HttpPost]
+        public async Task<IActionResult> GetBank( CartGeneralRequestModel request)
+
+        {
+            
+
+            var bankResult = await _clientServices.GetBank(request);
+
+            if (bankResult == null || bankResult.status != 0)
+            {
+                return Ok(new { is_success = false, msg = "Đăng ký thành công, nhưng lưu ngân hàng thất bại!" });
+            }
+
+            return Ok(new
+            {
+                is_success = true,
+                msg = "Thành công",
+                //affiliate = affResult,
+                bank = bankResult
+            });
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetListOrder(CartGeneralRequestModel request)
+
+        {
+
+            var Result = await _clientServices.Listing (request);
+
+            if (Result == null)
+            {
+                return Ok(new { is_success = false, msg = "ko có Sản phẩm" });
+            }
+
+            return Ok(new
+            {
+                is_success = true,
+                msg = "Thành công",
+            
+                List = Result
+            });
+        }
+
+
 
         public async Task<IActionResult> Register(ClientRegisterRequestModel request)
         {
@@ -135,6 +220,16 @@ namespace Best1Mall_Front_End.Controllers.Client
             return Ok(new
             {
                 is_success = (result),
+                data = result
+            });
+        }
+        public async Task<IActionResult> UpdateProfile(ProfileUpdateRequestModel request)
+        {
+            var result = await _addressClientServices.UpdateProfile(request);
+
+            return Ok(new
+            {
+                is_success = result != null,
                 data = result
             });
         }
@@ -255,16 +350,7 @@ namespace Best1Mall_Front_End.Controllers.Client
 
             });
         }
-        public async Task<IActionResult> UpdateProfile(ProfileUpdateRequestModel request)
-        {
-            var result = await _addressClientServices.UpdateProfile(request);
-
-            return Ok(new
-            {
-                is_success = result != null,
-                data = result
-            });
-        }
+     
         public ActionResult AddressPopup()
         {
             return View();

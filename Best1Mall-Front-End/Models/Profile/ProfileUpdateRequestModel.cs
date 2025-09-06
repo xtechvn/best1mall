@@ -13,6 +13,7 @@
         public int? Gender { get; set; } // 0: Nam, 1: Nữ, 2: Khác
 
         public DateTime? Birthday { get; set; }
+        public string CitizenId { get; set; }
     }
 
 }

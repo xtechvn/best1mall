@@ -10,6 +10,11 @@ using Best1Mall_Front_End.Utilities.Contants;
 using LIB.Models.APIRequest;
 using Best1Mall_Front_End.Models.Client;
 using ENTITIES.ViewModels.Notify;
+using ADAVIGO_FRONTEND_B2C.Models.Affiliate;
+using Azure.Core;
+using Best1Mall_Front_End.Models.NinjaVan;
+using Best1Mall_Front_End.Models.Cart;
+using Best1Mall_Front_End.Models.Orders;
 
 namespace Best1Mall_Front_End.Controllers.Client.Business
 {
@@ -50,6 +55,102 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return null;
 
         }
+        public async Task<BaseResponseAffilia> registerAffiliate(CartGeneralRequestModel request)
+        {
+            try
+            {
+                var result = await POST("api/client/affiliate/get", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<BaseResponseAffilia>(jsonData["data"].ToString());
+                }
+            }
+            catch
+            {
+            }
+            return null;
+
+        }
+        public async Task<BaseResponseAffilia> updateAffiliateBank(object request)
+        {
+            try
+            {
+                var result = await POST("api/client/affiliate/update", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    var resultObj = JsonConvert.DeserializeObject<BaseResponseAffilia>(result);
+                    return resultObj;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: logging
+            }
+            return null;
+        }
+        public async Task<BaseResponseBank> GetBank(CartGeneralRequestModel request)
+        {
+            try
+            {
+                var result = await POST("api/client/affiliate/order/listing", request);
+
+                if (string.IsNullOrWhiteSpace(result))
+                    return null;
+
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    var resultObj = JsonConvert.DeserializeObject<BaseResponseBank>(result);
+                    if (resultObj != null)
+                    {
+                        var bank = resultObj.data;     // ✅ Thông tin ngân hàng
+                        var client = resultObj.client; // ✅ Thông tin client
+
+                        // Bạn có thể xử lý thêm ở đây nếu cần
+                        return resultObj;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: logging
+                Console.WriteLine($"[GetBank] Error: {ex.Message}");
+            }
+
+            return null;
+        }
+
+        public async Task<OrderHistoryResponseModel> Listing(CartGeneralRequestModel request)
+        {
+            try
+            {
+                var result = await POST("api/client/affiliate/order/listing", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<OrderHistoryResponseModel>(jsonData["data"].ToString());
+
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: logging
+                Console.WriteLine($"[GetBank] Error: {ex.Message}");
+            }
+
+            return null;
+        }
+
         public async Task<ClientRegisterResponseModel> Register(ClientRegisterRequestModel request)
         {
             try

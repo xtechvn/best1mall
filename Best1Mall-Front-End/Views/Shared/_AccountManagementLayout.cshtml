@@ -33,12 +33,26 @@
         <section class="section-qly-taikhoan">
             
                 <div class="box-quanlytaikhoan">
-                <div class="menu-left-user placeholder bg-[#FCFCFC] rounded-[16px]">
+                <div class="menu-left-user z">
                         <partial name="_MenuLeftUser" />
                     </div>
                     <div class="content-left-user">
                         @RenderBody()
-
+                    <!-- Affiliate Tabs -->
+                    <div id="affiliate-tabs" class="hidden">
+                        <div class="tab-content hidden" id="create-link">
+                            <partial name="/Views/Flights/Account/_Linkaffiliate.cshtml" />
+                        </div>
+                        <div class="tab-content hidden" id="manage-orders">
+                            <partial name="~/Views/Flights/Account/_ListOrderaffiliate.cshtml" />
+                        </div>
+                        <div class="tab-content hidden" id="commission">
+                            <partial name="~/Views/Flights/Account/_PaymentAccount.cshtml" />
+                        </div>
+                        <div class="tab-content hidden" id="payment-info">
+                            <partial name="~/Views/Flights/Account/_OrderDetailaffiliate.cshtml" />
+                        </div>
+                    </div>
                     </div>
                 </div>
             
@@ -58,7 +72,7 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
-
+   
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/swiper-bundle.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -78,11 +92,13 @@
     <script src="/assets/js/lightgallery.umd.js"></script>
     <script src="/assets/js/lg-video.umd.js"></script>
     <script src="/assets/js/lg-thumbnail.min.js"></script>
-    <!-- end lightgallery-->
 
+   
     <!-- Modules-->
-    <script asp-append-version="true" src="/modules/order_address.js"></script>
+    @* <script asp-append-version="true" src="/modules/order_address.js"></script> *@
+    <script type="text/javascript" src="/modules/utils.js" asp-append-version="true"></script>
     <script asp-append-version="true" src="/modules/account.js"></script>
+    <script asp-append-version="true" src="~/modules/profile.js"></script>
     <script asp-append-version="true" src="/modules/home_product.js"></script>
     <script asp-append-version="true" src="~/modules/support.js"></script>
     <script asp-append-version="true" type="text/javascript" src="~/modules/feedback.js"></script>

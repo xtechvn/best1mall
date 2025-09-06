@@ -20,6 +20,9 @@ namespace Models.APIRequest
         public List<int> voucher_id { get; set; } = new();        // cho phép mảng rỗng
         public List<string> voucher_code { get; set; } = new();    // cho phép mảng rỗng
 
+        public string utm_source { get; set; }
+        public string utm_medium { get; set; } 
+
     }
     public class CartConfirmItemRequestModel
     {
