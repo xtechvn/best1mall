@@ -16,7 +16,39 @@
 
 }
 const CONSTANTS = {
-    DOMAIN: window.location.origin
+    PAGE_SIZE: 20,
+    DOMAIN: window.location.origin,
+    DOMAIN_URL: "https://adavigo.com",
+    LOGIN_VERSION: "v1",
+    SAVE_UTM_MEDIUM_DAY: 30,
+    STORAGE: {
+        COUNTER_KEY: 'my-counter',
+        Search: 'dataFlightSearch',
+        Info: 'infoStep2',
+        ListFareData: 'listFareData',
+        ContactInfo: 'contactInfo',
+        Booked: 'booked',
+        Booking: 'booking',
+        Voucher: "voucher",
+        Issue: 'issue',
+        User: 'user',
+        CheckOutResponse: "checkOutResponse",
+        OrderId: "orderId",
+        Payment: "payment",
+        Path: "Path",
+        NewsCategoryId: "newsCategoryId",
+        SearchHistory: "searchHistory",
+        UtmMedium: "utm_medium",
+        UtmSource: "utm_source",
+        VIN: {
+            SearchVinwonder: "SearchVinwonder",
+            Cart: "Cart",
+            PaymentCart: "PaymentCart",
+            SaveData: "SaveData",
+            BookingId: "BookingId",
+            OrderId: "VinOrderId"
+        }
+    },
 }
 var API_URL = {
     Login: '/Client/Login',
@@ -30,6 +62,8 @@ var API_URL = {
     FlashSaleGetById: '/FlashSale/GetById',
     AddContract: '/Home/AddContract',
     registerAffiliateAndBank: '/Client/registerAffiliateAndBank',
+    GetBank: '/Client/GetBank',
+    ListOrder: '/Client/GetListOrder',
 
     GroupProduct: '/Product/GetGroupProduct',
 

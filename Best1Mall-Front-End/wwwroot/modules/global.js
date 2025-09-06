@@ -5,7 +5,7 @@
     //global_service.LoadAbouHulotoys();
     //global_service.LoadCustomerSupport();
     global_service.LoadCartCount();
-   
+    global_service.checkAffiliateParams();
     // 👉 GỌI THÊM:
     global_service.renderViewedProducts(); // gọi hàm load sản phẩm đã xem
    
@@ -107,6 +107,27 @@ var global_service = {
         });
     },
 
+    checkAffiliateParams: function () {
+        // Lấy tham số từ URL
+        var utm_source = UTILS.getUrlParam("utm_source");  // nguồn traffic (bestmall, fb, gg...)
+        var utm_medium = UTILS.getUrlParam("utm_medium");  // Affiliate ID (mã ref của user)
+
+        // --- Xử lý utm_source ---
+        if (utm_source) {
+            var utm_source_local = UTILS.getWithExpiry(CONSTANTS.STORAGE.UtmSource);
+            if (!utm_source_local || utm_source_local !== utm_source) {
+                UTILS.setExpiryDate(CONSTANTS.STORAGE.UtmSource, utm_source, CONSTANTS.SAVE_UTM_MEDIUM_DAY);
+            }
+        }
+
+        // --- Xử lý utm_medium ---
+        if (utm_medium) {
+            var utm_medium_local = UTILS.getWithExpiry(CONSTANTS.STORAGE.UtmMedium);
+            if (!utm_medium_local || utm_medium_local !== utm_medium) {
+                UTILS.setExpiryDate(CONSTANTS.STORAGE.UtmMedium, utm_medium, CONSTANTS.SAVE_UTM_MEDIUM_DAY);
+            }
+        }
+        },
 
     DynamicBind: function () {
         $("body").on('click', ".all-pop", function (event) {
