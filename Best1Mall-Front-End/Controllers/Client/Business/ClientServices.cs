@@ -99,7 +99,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
         {
             try
             {
-                var result = await POST("api/client/affiliate/order/listing", request);
+                var result = await POST("api/client/affiliate/detail", request);
 
                 if (string.IsNullOrWhiteSpace(result))
                     return null;
