@@ -64,6 +64,10 @@ var API_URL = {
     registerAffiliateAndBank: '/Client/registerAffiliateAndBank',
     GetBank: '/Client/GetBank',
     ListOrder: '/Client/GetListOrder',
+    ListPayment: '/Client/GetListPayment',
+    ListPaymentDetail: '/Client/GetPaymentDetail',
+
+
 
     GroupProduct: '/Product/GetGroupProduct',
 

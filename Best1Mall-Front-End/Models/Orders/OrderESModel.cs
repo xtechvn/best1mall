@@ -99,6 +99,7 @@
 
         public string RefundReason { get; set; }
         public DateTime? RefundDate { get; set; }
+        public double? ProfitAffiliate { get; set; }
 
     }
 }

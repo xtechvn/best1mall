@@ -128,8 +128,37 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
 
             return null;
         }
+        public async Task<AffiliateResponse> addNewAffiliate(AddAffiliateModel data)
+        {
+            AffiliateResponse result = new AffiliateResponse();
 
-        public async Task<OrderHistoryResponseModel> Listing(CartGeneralRequestModel request)
+            if (string.IsNullOrEmpty(data.link_aff))
+            {
+                result.status = 2; // invalid
+                return result;
+            }
+
+            string domain = "https://bestmall.com.vn/"; 
+
+            // check domain hợp lệ
+            if (!data.link_aff.ToLower().Contains(domain))
+            {
+                result.status = 2; // invalid domain
+                return result;
+            }
+
+            // build link Affiliate
+            string affLink = data.link_aff +
+                (data.link_aff.Contains("?") ? "&" : "?") +
+                "utm_source=bestmall&utm_medium=" + data.referral_first_id;
+
+            result.status = 0;
+            result.link = affLink;
+            return result;
+        }
+
+
+        public async Task<OrderHistoryResponseModel> Listing(ListorderRequestModel request)
         {
             try
             {
@@ -146,6 +175,56 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             {
                 // TODO: logging
                 Console.WriteLine($"[GetBank] Error: {ex.Message}");
+            }
+
+            return null;
+        }
+
+        public async Task<PaymentResponseModel> PaymentListing(CartGeneralRequestModel request)
+        {
+            try
+            {
+                var result = await POST("api/client/affiliate/payment/listing", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<PaymentResponseModel>(jsonData["data"].ToString());
+
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: logging
+                Console.WriteLine($"[GetBank] Error: {ex.Message}");
+            }
+
+            return null;
+        }
+
+        // thông tin payment ứng với client
+        public async Task<PaymentDetailResponseModel> PaymentDetail(CartGeneralRequestModel request)
+        {
+            try
+            {
+                var result = await POST("api/client/affiliate/payment/detail", request);
+                var jsonData = JObject.Parse(result);
+
+                var status = int.Parse(jsonData["status"].ToString());
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return new PaymentDetailResponseModel
+                    {
+                        Data = jsonData["data"]?.Value<decimal>() ?? 0,
+                        Total_Amount = jsonData["total_amount"]?.Value<decimal>() ?? 0,
+                        Count = jsonData["count"]?.Value<int>() ?? 0
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: logging
+                Console.WriteLine($"[PaymentDetail] Error: {ex.Message}");
             }
 
             return null;
