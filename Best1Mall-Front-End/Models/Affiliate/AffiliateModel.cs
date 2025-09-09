@@ -76,5 +76,14 @@ namespace ADAVIGO_FRONTEND_B2C.Models.Affiliate
         public string token { get; set; }
         public string referralId { get; set; }
     }
+    public class PaymentDetailResponseModel
+    {
+        public int Status { get; set; }
+        public string Msg { get; set; }
+        public decimal Data { get; set; }         // số dư tài khoản affiliate
+        public decimal Total_Amount { get; set; } // tổng doanh thu
+        public int Count { get; set; }            // tổng số đơn
+    }
+
 
 }

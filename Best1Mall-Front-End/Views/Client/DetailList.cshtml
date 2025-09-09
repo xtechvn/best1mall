@@ -1,0 +1,189 @@
+﻿@using Best1Mall_Front_End.Models.Orders
+@using Best1Mall_Front_End.Utilities
+@using Best1Mall_Front_End.Utilities.contants
+@{
+    OrderDetailResponseFEModel order = (OrderDetailResponseFEModel)ViewBag.Data;
+    ViewData["Title"] = "Chi tiết đơn hàng " + order.data_order.OrderNo + " | BestMall";
+    Layout = "~/Views/Shared/_AccountManagementLayout.cshtml";
+
+    string data_id = (string)ViewBag.Id;
+    var static_domain = (string)ViewBag.StaticDomain;
+    var OrderStatusName = (string)ViewBag.OrderStatusName;
+}
+
+@Html.AntiForgeryToken()
+<input id="order-detail" type="hidden" value="@data_id" />
+
+<div class="box-order-detail">
+    <h3 class="code mb-5">
+        Đơn hàng giới thiệu
+        <span class="text-color-green">@order.data_order.OrderNo</span>
+    </h3>
+
+    <div class="grid-info">
+        <div class="item">
+            <h4 class="title">Thông tin đơn hàng</h4>
+            <div class="box">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Mã đơn hàng</td>
+                            <td>@order.data_order.OrderNo</td>
+                        </tr>
+                        <tr>
+                            <td>Ngày đặt hàng</td>
+                            <td>@(((DateTime)order.data_order.CreatedDate).ToString("dd/MM/yyyy"))</td>
+                        </tr>
+                        <tr>
+                            <td>Ngày nhận hàng</td>
+                            <td>
+                                @(order.data_order.UpdateLast != null
+                                    ? ((DateTime)order.data_order.UpdateLast).ToString("dd/MM/yyyy")
+                                    : "Đang cập nhật")(Dự kiến)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Trạng thái đơn hàng</td>
+                            <td>@OrderStatusName</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="item">
+            <h4 class="title">Thông tin người đặt hàng</h4>
+            <div class="box">
+                <p>@order.data_order.ReceiverName</p>
+                <p class="add">
+                    Địa chỉ: <nw id="address">@order.data.address</nw> <br />
+                    <nw id="address-province">@(order.ward == null ? "" : order.ward.Name)</nw> <br />
+                    <nw id="address-district">@(order.district == null ? "" : order.district.Name)</nw> <br />
+                    <nw id="address-ward">@(order.province == null ? "" : order.province.Name)</nw> <br />
+                </p>
+                <p><span>Điện thoại:</span> @order.data_order.Phone</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="title-box">Chi tiết đơn hàng</div>
+    <div class="list-product-order">
+        @if (order.data != null && order.data.carts != null && order.data.carts.Count > 0)
+        {
+            foreach (var cart in order.data.carts)
+            {
+                var isFlashSale = cart.product.amount_after_flashsale != null
+                && cart.product.amount_after_flashsale > 0
+                && cart.product.flash_sale_todate != null
+                && cart.product.flash_sale_todate > DateTime.Now;
+
+                var price = isFlashSale
+                ? cart.product.amount_after_flashsale.Value
+                : cart.product.amount;
+                var total = price * cart.quanity;
+
+                <div class="item">
+                    <div class="img">
+                        <img src="@StringHelpers.CorrectImage(cart.product.avatar, static_domain)" alt="">
+                    </div>
+                    <div class="info">
+                        <h4 class="name-product">
+                            <a href="/san-pham/@(Best1Mall_Front_End.Utilities.Lib.StringHelpers.ConvertNewsUrlToNoSymbol(cart.product.name))--@cart.product._id">
+                                @cart.product.name
+                            </a>
+                        </h4>
+                        <div class="cat">
+                            Phân loại hàng:
+                            @StringHelpers.RenderVariationDetail(cart.product.attributes, cart.product.attributes_detail, cart.product.variation_detail)
+                        </div>
+                        <div class="flex-quantity">
+                            <span>Giá: @price.ToString("N0") đ</span>
+                            <span>Số lượng: @cart.quanity</span>
+                        </div>
+                        <p class="price">@total.ToString("N0") đ</p>
+                    </div>
+                </div>
+            }
+        }
+
+        <div class="total text-right">
+            <div class="flex justify-end mt-4">
+                <div class="w-full md:w-1/3">
+                    <div class="flex justify-between py-1">
+                        <span class="text-gray-600">Tiền hàng:</span>
+                        <span class="font-medium">
+                            @(((double)order.data_order.Amount
+                                - (order.data_order.ShippingFee ?? 0)
+                                + (order.data_order.Discount ?? 0)).ToString("N0")) đ
+                        </span>
+                    </div>
+
+                    @if (order.data_order.ShippingFee != null && order.data_order.ShippingFee > 0)
+                    {
+                        <div class="flex justify-between py-1">
+                            <span class="text-gray-600">Phí vận chuyển:</span>
+                            <span class="font-medium">
+                                @(((double)order.data_order.ShippingFee).ToString("N0")) đ
+                            </span>
+                        </div>
+                    }
+
+                    @if (order.data_order.Discount != null && order.data_order.Discount > 0)
+                    {
+                        <div class="flex justify-between py-1">
+                            <span class="text-gray-600">Giảm giá:</span>
+                            <span class="font-medium text-red-500">
+                                -@(((double)order.data_order.Discount).ToString("N0")) đ
+                            </span>
+                        </div>
+                    }
+
+                    <div class="border-t border-gray-200 my-2"></div>
+
+                    <div class="flex justify-between py-2 text-lg font-bold">
+                        <span>Tổng tiền</span>
+                        <span class="text-red-600">
+                            @(((double)order.data_order.Amount).ToString("N0")) đ
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="javascript:;" onclick="goBackToAffiliateOrders()" class="text-color-base text-sm">
+        &lt;&lt; Quay lại Quản lý đơn hàng giới thiệu
+    </a>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="/modules/order/detail.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/modules/order/order_raiting.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/modules/address_client.js" asp-append-version="true"></script>
+    <script>
+                function goBackToAffiliateOrders() {
+                    
+            // Ẩn hết tab
+            $("#affiliate-tabs .tab-content").addClass("hidden");
+
+            // Show tab manage-orders
+            $("#manage-orders").removeClass("hidden");
+
+            // Active menu
+            $(".affiliate-menu a").removeClass("active");
+            $('.affiliate-menu a[data-tab="manage-orders"]').addClass("active");
+
+            // Ẩn content khác, show affiliate-tabs
+            $(".content-left-user > *:not(#affiliate-tabs)").hide();
+            $("#affiliate-tabs").removeClass("hidden");
+
+            // Reload lại danh sách đơn hàng
+            if (typeof account !== "undefined" && account.loadAffiliateOrders) {
+                account.loadAffiliateOrders();
+            }
+        }
+
+    </script>
+}

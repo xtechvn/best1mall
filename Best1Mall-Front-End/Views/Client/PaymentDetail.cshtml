@@ -1,0 +1,78 @@
+﻿@{
+   
+    Layout = "~/Views/Shared/_AccountManagementLayout.cshtml";
+
+   
+}
+<div class="order-management pay_m">
+    <h4 class="title-noline">Đối soát hoa hồng - Tháng @ViewBag.Month</h4>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày đặt hàng</th>
+                    <th>Ngày nhận hàng</th>
+                    <th>Tiền hàng</th>
+                   
+                    <th>Hoa hồng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- JS render -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="note mt-4 text-sm text-gray-600">
+        <b>* Ghi chú:</b><br />
+        - Tổng tiền hoa hồng là số tiền tạm tính, và có thể có sự điều chỉnh sau khi chốt trạng thái các đơn hàng giới thiệu.<br />
+        - Sau khi thực hiện đối soát, hệ thống sẽ chi trả hoa hồng vào ngày 15-20 của tháng kế tiếp.
+    </div>
+</div>
+@* <div class="mt-4"> *@
+@*     <a href="javascript:;" onclick="goBackToPayment()" class="text-color-base text-sm"> *@
+@*         &lt;&lt; Quay lại Đối soát thanh toán hoa hồng *@
+@*     </a> *@
+@* </div> *@
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            
+            var month = "@ViewBag.Month"; // ex: "07/2025"
+            account.loadAffiliateCommissionDetail(month);
+        });
+    </script>
+    @* <script> *@
+    @*        function goBackToPayment() { *@
+    @*                         debugger *@
+    @*         // Ẩn hết tab *@
+    @*         $("#affiliate-tabs .tab-content").addClass("hidden"); *@
+    @*         $(".pay_m").addClass("hidden"); *@
+
+
+
+    @*         // Show tab commission *@
+    @*         $("#commission").removeClass("hidden"); *@
+
+    @*         // Active menu *@
+    @*         $(".affiliate-menu a").removeClass("active"); *@
+    @*         $('.affiliate-menu a[data-tab="commission"]').addClass("active"); *@
+
+    @*         // Ẩn content khác, show affiliate-tabs *@
+    @*         $(".content-left-user > *:not(#affiliate-tabs)").hide(); *@
+    @*         // $("#affiliate-tabs").removeClass("hidden"); *@
+
+    @*         // Reload lại danh sách commission *@
+    @*         if (typeof account !== "undefined" && account.loadAffiliateCommission) { *@
+    @*             account.loadAffiliateCommission(); *@
+    @*             // $(".order-management").removeClass("hidden"); *@
+    @*         } *@
+    @*     } *@
+
+
+    @* </script> *@
+}
+

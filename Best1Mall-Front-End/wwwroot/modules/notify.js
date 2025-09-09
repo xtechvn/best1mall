@@ -73,14 +73,14 @@ let has_more = true; // ✅ thêm cờ này
 var _noti = {
     // ✅ API count cho badge
     loadCount: function () {
-        debugger
+        
         var usr = global_service.CheckLogin();
         $.ajax({
             url: "/Client/NotifyCount",
             type: "POST",
             data: { token: usr.token },
             success: function (result) {
-                debugger
+                
                 if (result.status == 0 && result.data !== undefined) {
                     $("#coutn-noti").text(result.data > 0 ? result.data : "0");
                 }

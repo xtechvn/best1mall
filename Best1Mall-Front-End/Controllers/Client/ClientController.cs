@@ -20,6 +20,7 @@ using ENTITIES.ViewModels.Notify;
 using System.Reflection;
 using Best1Mall_Front_End.Models.Cart;
 using ADAVIGO_FRONTEND_B2C.Models.Affiliate;
+using Best1Mall_Front_End.Models.Orders;
 
 namespace Best1Mall_Front_End.Controllers.Client
 {
@@ -27,6 +28,7 @@ namespace Best1Mall_Front_End.Controllers.Client
     {
         private readonly IConfiguration _configuration;
         private readonly ClientServices _clientServices;
+        private readonly OrderServices _orderServices;
         private readonly RedisConn redisService;
         private readonly AddressClientServices _addressClientServices;
         private readonly LocationServices _locationServices;
@@ -34,7 +36,7 @@ namespace Best1Mall_Front_End.Controllers.Client
 
         public ClientController(IConfiguration configuration, IMemoryCache cache, RedisConn _redisService)
         {
-
+            _orderServices = new OrderServices(configuration);
             _configuration = configuration;
             _clientServices = new ClientServices(configuration);
             _addressClientServices = new AddressClientServices(configuration);
@@ -127,7 +129,16 @@ namespace Best1Mall_Front_End.Controllers.Client
             });
         }
         [HttpPost]
-        public async Task<IActionResult> GetListOrder(CartGeneralRequestModel request)
+       
+        public async Task<IActionResult> addNewAffiliate( AddAffiliateModel data)
+        {
+            var result = await _clientServices.addNewAffiliate(data);
+            return Ok(result);
+        }
+
+        //List đơn hàng
+        [HttpPost]
+        public async Task<IActionResult> GetListOrder(ListorderRequestModel request)
 
         {
 
@@ -145,6 +156,117 @@ namespace Best1Mall_Front_End.Controllers.Client
             
                 List = Result
             });
+        }
+        public async Task<IActionResult> DetailList(string id)
+        {
+            ViewBag.StaticDomain = _configuration["API:StaticURL"];
+            ViewBag.OrderStatusName = "Tạo mới";
+
+            var data = await _orderServices.GetDetail(new OrdersGeneralRequestModel()
+            {
+                id = id
+            });
+            if (data == null || data.data == null || data.data_order == null)
+            {
+                return Redirect("/home/error");
+            }
+            switch (data.data_order.OrderStatus)
+            {
+                case (int)OrderStatusConstants.NEW:
+                    {
+                        ViewBag.OrderStatusName = "Tạo mới";
+                    }
+                    break;
+                case (int)OrderStatusConstants.PAID:
+                    {
+                        ViewBag.OrderStatusName = "Đã thanh toán";
+                    }
+                    break;
+                case (int)OrderStatusConstants.PROCESS:
+                    {
+                        ViewBag.OrderStatusName = "Đang xử lý";
+                    }
+                    break;
+                case (int)OrderStatusConstants.ON_DELIVERY:
+                    {
+                        ViewBag.OrderStatusName = "Đang vận chuyển";
+                    }
+                    break;
+                case (int)OrderStatusConstants.DELIVERED:
+                    {
+                        ViewBag.OrderStatusName = "Giao hàng thành công";
+                    }
+                    break;
+                case (int)OrderStatusConstants.DONE:
+                    {
+                        ViewBag.OrderStatusName = "Hoàn thành";
+                    }
+                    break;
+                case (int)OrderStatusConstants.CANCELED:
+                    {
+                        ViewBag.OrderStatusName = "Hủy đơn";
+
+                    }
+                    break;
+                case (int)OrderStatusConstants.REFUND:
+                    {
+                        ViewBag.OrderStatusName = "Trả hàng/ Hoàn tiền";
+
+                    }
+                    break;
+            }
+            ViewBag.Id = id;
+            ViewBag.Data = data;
+            return View();
+        }
+        //List Hoa hông
+        [HttpPost]
+        public async Task<IActionResult> GetListPayment(CartGeneralRequestModel request)
+
+        {
+
+            var Result = await _clientServices.PaymentListing(request);
+
+            if (Result == null)
+            {
+                return Ok(new { is_success = false, msg = "ko có Sản phẩm" });
+            }
+
+            return Ok(new
+            {
+                is_success = true,
+                msg = "Thành công",
+
+                List = Result
+            });
+        }
+
+        //thông tin payment ứng với client
+        [HttpPost]
+        public async Task<IActionResult> GetPaymentDetail(CartGeneralRequestModel request)
+
+        {
+
+            var Result = await _clientServices.PaymentDetail(request);
+
+            if (Result == null)
+            {
+                return Ok(new { is_success = false, msg = "ko có Sản phẩm" });
+            }
+
+            return Ok(new
+            {
+                is_success = true,
+                msg = "Thành công",
+
+                List = Result
+            });
+        }
+        [HttpGet("client/detailpayment/{month}")]
+        public IActionResult PaymentDetail(string month)
+        {
+            ViewBag.Month = month; // "07/2025"
+            return View();
         }
 
 

@@ -26,17 +26,20 @@ $(document).ready(function () {
         // active highlight menu con
         $(".affiliate-menu a").removeClass("active");
         $(this).addClass("active");
+        
 
         // 👉 Logic riêng cho từng tab
         switch (tabId) {
+
             case "create-link":
+                //account.loadPaymentDetail();
                account.loadAffiliateLink(); // gọi API /affiliate/register
                 break;
             case "manage-orders":
-               //account.loadAffiliateOrders(); // gọi API /affiliate/order/listing
+               account.loadAffiliateOrders(); // gọi API /affiliate/order/listing
                 break;
             case "commission":
-               // loadAffiliateCommission(); // gọi API đối soát hoa hồng
+               account.loadAffiliateCommission(); // gọi API đối soát hoa hồng
                 break;
             case "payment-info":
                account.loadPaymentInfo(); // gọi API /affiliate/detail
@@ -60,12 +63,51 @@ $(document).ready(function () {
             .removeAttr("style")   // xoá inline display:block
             .attr("data-id", 0);
     });
+    $("#btn-search-orders").on("click", function () {
+        account.loadAffiliateOrders();
+    });
 
+    $(document).on("click", ".commission-detail-link", function () {
+        var month = $(this).data("month"); // ví dụ "07/2025"
+        // điều hướng sang trang detail
+        window.location.href = "/client/detailpayment/" + month;
+    });
+    $(document).on("click", "#btnQuickCopy", function () {
+   
+        
+        account.addNewAffiliate();
+       
+    });
 
-    
 
 
 })
+function getStatusText(status) {
+    switch (status) {
+        case 0: return "Tạo mới";              // NEW
+        case 6: return "Đã thanh toán";        // PAID
+        case 1: return "Đang xử lý";           // PROCESS
+        case 2: return "Đang vận chuyển";      // ON_DELIVERY
+        case 5: return "Giao hàng thành công"; // DELIVERED
+        case 3: return "Hoàn thành";           // DONE
+        case 4: return "Hủy đơn";              // CANCELED
+        case 7: return "Trả hàng/Hoàn tiền";   // REFUND
+        default: return "Không xác định";
+    }
+}
+
+function formatDate(dateStr) {
+    if (!dateStr) return "-";
+    let d = new Date(dateStr);
+    return d.toLocaleDateString("vi-VN");
+}
+
+function formatCurrency(num) {
+    if (!num) return "0 đ";
+    return num.toLocaleString("vi-VN") + " đ";
+}
+
+
 function SyncSessionCartToServer() {
     
     var usr = global_service.CheckLogin();
@@ -96,6 +138,30 @@ function SyncSessionCartToServer() {
         });
         
     });
+}
+
+function parseMonthYear(monthStr) {
+    if (!monthStr) return null;
+
+    // Nếu dạng "09-2025"
+    if (monthStr.includes("-")) {
+        let [m, y] = monthStr.split("-");
+        return { m: parseInt(m, 10), y: parseInt(y, 10) };
+    }
+
+    // Nếu dạng "09/2025"
+    if (monthStr.includes("/")) {
+        let [m, y] = monthStr.split("/");
+        return { m: parseInt(m, 10), y: parseInt(y, 10) };
+    }
+
+    // Nếu dạng "tháng 09, 2025"
+    let match = monthStr.match(/(\d{1,2}).*(\d{4})/);
+    if (match) {
+        return { m: parseInt(match[1], 10), y: parseInt(match[2], 10) };
+    }
+
+    return null;
 }
 
 
@@ -457,14 +523,14 @@ var account = {
         })
         // Affilate
         //$("#Create-Affiliate").click(function () {
-        //    debugger
+        //    
         //    var request = {
         //         "token":user.token
         //    };
         //    $.when(
         //        global_service.POST(API_URL.registerAffiliate, request)
         //    ).done(function (res) {
-        //        debugger
+        //        
         //        if (res.is_success) {
         //            //toastr.success("Đăng ký thành công!");
         //            user.IsRegisterAffiliate = true;
@@ -486,7 +552,7 @@ var account = {
         //    })
         //})
         $("#Create-Affiliate").click(function () {
-            debugger
+            
             var usr = global_service.CheckLogin();
             if (!usr || !usr.token) {
                 alert("Bạn chưa đăng nhập!");
@@ -508,7 +574,7 @@ var account = {
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(request),
                 success: function (res) {
-                    debugger
+                    
                     if (res && res.is_success) {
                         //toastr.success("Đăng ký Affiliate + Lưu ngân hàng thành công!");
                         $("#linkaffiliate")[0].reset();
@@ -537,7 +603,7 @@ var account = {
             });
         });
         $("#btnSaveBank").click(function () {
-            debugger
+            
             var usr = global_service.CheckLogin();
             if (!usr || !usr.token) {
                 alert("Bạn chưa đăng nhập!");
@@ -691,35 +757,225 @@ var account = {
         }
     },
     //Afilate
+    //loadPaymentDetail: function () {
+    //    
+    //    if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
+
+    //        $("#affiliate_addlink").hide();
+    //        $("#affiliate_1").show();
+    //    }
+    //    else {
+    //        $("#affiliate_1").hide();
+    //        $("#affiliate_addlink").show();
+    //        if (user.referralId != null && user.referralId != undefined) {
+    //            $("#LindkAdavigo").val(DOMAIN + "/?utm_source=" + user.referralId);
+    //            $("#LindkAdavigo").val(
+    //                DOMAIN + "/?utm_source=" + "bestmall" + "&utm_medium=" + user.referralId
+    //            );
+    //        } else {
+    //            $("#LindkAdavigo").val(DOMAIN + "/");
+    //        }
+
+    //    }
+    //},
+
     loadAffiliateLink: function () {
-        debugger
         if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
-           
             $("#affiliate_addlink").hide();
             $("#affiliate_1").show();
-        }
-        else {
+        } else {
             $("#affiliate_1").hide();
             $("#affiliate_addlink").show();
-            if (user.referralId != null && user.referralId != undefined) {
-                $("#LindkAdavigo").val(DOMAIN + "/?utm_source=" + user.referralId);
+
+            // setup link giới thiệu
+            if (user.referralId) {
                 $("#LindkAdavigo").val(
-                    DOMAIN + "/?utm_source=" + "bestmall" + "&utm_medium=" + user.referralId
+                    DOMAIN + "/?utm_source=bestmall&utm_medium=" + user.referralId
                 );
             } else {
                 $("#LindkAdavigo").val(DOMAIN + "/");
             }
 
+            // gọi API load stats
+            var usr = global_service.CheckLogin();
+            if (!usr || !usr.token) {
+                console.log("Chưa đăng nhập");
+                return;
+            }
+
+            $.ajax({
+                url: API_URL.ListPaymentDetail,
+                type: "POST",
+                data: { token: usr.token },
+                success: function (res) {
+                    
+                    if (res && res.is_success && res.list) {
+                        let detail = res.list;
+
+                        $("#affiliate-total-amount").text(
+                            formatCurrency(detail.total_Amount)
+                        );
+                        $("#affiliate-count").text(detail.count);
+                        $("#affiliate-data").text(formatCurrency(detail.data));
+                    } else {
+                        console.log("Không có dữ liệu payment detail");
+                    }
+                },
+                error: function (err) {
+                    console.log("API error payment detail", err);
+                }
+            });
         }
     },
-    loadAffiliateOrders: function () {
-        debugger
-        if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
 
+    loadAffiliateOrders: function () {
+        
+        if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
             $("#affiliate_addlink").hide();
             $("#affiliate_1").show();
+        } else {
+            var usr = global_service.CheckLogin();
+            if (!usr || !usr.token) {
+                alert("Bạn chưa đăng nhập!");
+                return;
+            }
+            // collect filter values
+            var status = $("#filter-status").val();
+            var fromdate = $("#filter-fromdate").val();
+            var todate = $("#filter-todate").val();
+
+            var request = {
+                token: usr.token,
+                fromdate: fromdate ? new Date(fromdate).toISOString() : null,
+                todate: todate ? new Date(todate).toISOString() : null,
+                page_index: 1,
+                page_size: 10
+            };
+            if (status) {
+                request.order_status = (status).toString(); // tuỳ BE có nhận không
+            }
+
+            $.ajax({
+                url: API_URL.ListOrder,
+                type: "POST",
+                data: request,
+                success: function (res) {
+                    if (res && res.is_success && res.list && res.list.data) {
+                        
+                        // clear tbody trước
+                        var $tbody = $(".order-management .list_order table tbody");
+                        $tbody.empty();
+
+                        // data summary
+                        var orders = res.list.data;
+                        // data detail
+                        var orderDetails = res.list.data_order || [];
+
+                        orders.forEach(function (order) {
+                            
+                            // tìm detail theo order.Id
+                            let detail = orderDetails.find(o => o.order_id === order.id);
+                            let detailId = (detail && detail._id) ? detail._id : "";
+                            let subTotal = order.amount - order.shippingFee + order.discount;
+                            let statusText = getStatusText(order.orderStatus);
+                            let row = `
+                        <tr>
+                            <td>
+                                <a href="/client/detaillist/${detailId}">
+                                    ${order.orderNo}
+                                </a>
+                            </td>
+                            <td>${statusText}</td>
+                            <td>${formatDate(order.createdDate)}</td>
+                            <td>${order.updateLast ? formatDate(order.updateLast) : "-"}</td>
+                            <td>${formatCurrency(subTotal)}</td>
+                           
+                            <td>${formatCurrency(order.profitAffiliate)}</td>
+                        </tr>`;
+                            $tbody.append(row);
+                        });
+                    } else {
+                        $(".order-management.list_order table tbody").html(
+                            `<tr><td colspan="7" class="text-center py-4">Không có đơn hàng nào</td></tr>`
+                        );
+                    }
+                },
+                error: function (err) {
+                    $(".order-management.list_order table tbody").html(
+                        `<tr><td colspan="7" class="text-center py-4 text-red-500">Lỗi tải dữ liệu</td></tr>`
+                    );
+                }
+            });
         }
-        else {
+    },
+    addNewAffiliate: function () {
+        var rawLink = $("#quickLinkAff").val().trim();
+        if (!rawLink) {
+            Swal.fire("Lỗi", "Vui lòng nhập hoặc dán link sản phẩm!", "error");
+            return;
+        }
+
+        var usr = global_service.CheckLogin();
+        if (!usr || !usr.token || !usr.referralId) {
+            Swal.fire("Lỗi", "Bạn chưa đăng nhập hoặc chưa có mã Affiliate!", "error");
+            return;
+        }
+
+        var request = {
+            link_aff: rawLink,
+            referral_first_id: usr.referralId
+        };
+
+        $.ajax({
+            url: "/Client/addNewAffiliate", // Controller
+            type: "POST",
+         
+            data: request,
+            success: function (res) {
+                
+                if (res && res.status === 0) {
+                    // copy vào clipboard nếu cần thì thêm navigator.clipboard.writeText(...)
+                    Swal.fire({
+                        title: "Thành công",
+                        text: "Link giới thiệu đã được tạo và copy!",
+                        icon: "success",
+                        timer: 3000,                // auto close sau 3s
+                        showConfirmButton: false,   // ẩn nút OK
+                        timerProgressBar: true      // có cái thanh thời gian chạy
+                    });
+                    // đẩy link ra input nếu muốn show
+                    $("#quickLinkAff").val(res.link);
+                } else {
+                    Swal.fire({
+                        title: "Lỗi",
+                        text: "Link không hợp lệ!",
+                        icon: "error",
+                        timer: 3000,
+                        showConfirmButton: false,
+                        timerProgressBar: true
+                    });
+                }
+            },
+            error: function (err) {
+                console.error(err);
+                Swal.fire({
+                    title: "Lỗi",
+                    text: "Lỗi Server!",
+                    icon: "error",
+                    timer: 3000,
+                    showConfirmButton: false,
+                    timerProgressBar: true
+                });
+            }
+        });
+    },
+
+    loadAffiliateCommission: function () {
+        
+        if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
+            $("#affiliate_addlink").hide();
+            $("#affiliate_1").show();
+        } else {
             var usr = global_service.CheckLogin();
             if (!usr || !usr.token) {
                 alert("Bạn chưa đăng nhập!");
@@ -729,26 +985,167 @@ var account = {
             var request = { token: usr.token };
 
             $.ajax({
-                url: API_URL.ListOrder,
+                url: API_URL.ListPayment,
                 type: "POST",
                 data: request,
                 success: function (res) {
-                    debugger
-                    if (res && res.is_success && res.bank) {
-                       
+                    
+                    if (res && res.is_success && res.list && res.list.listData) {
+                        var payments = res.list.listData;
+                        var $tbody = $(".order-management .table-wrapper table tbody");
+                        $tbody.empty();
 
+                        if (payments.length === 0) {
+                            $tbody.append(`<tr><td colspan="5" class="text-center py-4">Hiện tại bạn chưa có thông tin đối soát nào.</td></tr>`);
+                            return;
+                        }
+
+                        payments.forEach(function (item) {
+                            
+                            let date = new Date(item.paymentFromDate);
+                            let monthValue = ("0" + (date.getMonth() + 1)).slice(-2) + "-" + date.getFullYear(); // "09-2025"
+                            let monthLabel = date.toLocaleDateString("vi-VN", { month: "2-digit", year: "numeric" }); // "09/2025"
+
+
+                            let totalAmount = item.totalAmoutCalculate || 0;
+                            let commission = item.amountUse || 0;
+                            // trạng thái
+                            let statusHtml = "";
+                            if (item.paymentStatus === 1) {
+                                statusHtml = `<span class="text-color-green">Đã thanh toán</span>`;
+                            } else {
+                                statusHtml = `
+            <span class="text-color-base">Chưa thanh toán</span><br/>
+            ${item.paymentToDate ? `Dự kiến: ${formatDate(item.paymentToDate)}` : ""}
+        `;
+                            }
+
+                            let row = `
+                            <tr>
+                                <td>
+                                    Tháng ${monthLabel}<br/>
+                                    <a href="javascript:;" class="commission-detail-link" data-month="${monthValue}">Chi tiết</a>
+                                </td>
+                                <td>${formatCurrency(totalAmount)}</td>
+                                <td>${formatCurrency(commission)}</td>
+                                <td>
+                                    ${item.accountName || ""}<br/>
+                                    STK: ${item.accountNumber}<br/>
+                                    Ngân hàng: ${item.bankId}<br/>
+                                    Chi nhánh: ${item.branch || ""}
+                                </td>
+                                <td>${statusHtml}</td>
+                            </tr>
+                        `;
+                            $tbody.append(row);
+                        });
                     } else {
-                        
+                        $(".order-management .table-wrapper table tbody").html(
+                            `<tr><td colspan="5" class="text-center py-4">Không có dữ liệu đối soát</td></tr>`
+                        );
                     }
                 },
                 error: function (err) {
-                    
-                   
+                    $(".order-management .table-wrapper table tbody").html(
+                        `<tr><td colspan="5" class="text-center py-4 text-red-500">Lỗi tải dữ liệu</td></tr>`
+                    );
                 }
             });
-
         }
     },
+    loadAffiliateCommissionDetail: function (month) {
+        
+        var usr = global_service.CheckLogin();
+        if (!usr || !usr.token) {
+            alert("Bạn chưa đăng nhập!");
+            return;
+        }
+
+        var parsed = parseMonthYear(month);
+        if (!parsed || isNaN(parsed.m) || isNaN(parsed.y)) {
+            console.error("Invalid month format:", month);
+            return;
+        }
+
+        let fromdate = new Date(parsed.y, parsed.m - 1, 1).toISOString();
+        let todate = new Date(parsed.y, parsed.m, 0).toISOString();
+
+        var request = {
+            token: usr.token,
+            fromdate: fromdate,
+            todate: todate,
+            page_index: 1,
+            page_size: 10
+        };
+
+
+        $.ajax({
+            url: API_URL.ListOrder,
+            type: "POST",
+            data: request,
+            success: function (res) {
+                
+                var $tbody = $(".order-management .table-wrapper table tbody");
+                $tbody.empty();
+
+                if (res && res.is_success && res.list && res.list.data) {
+                    let orders = res.list.data;
+                    let orderDetails = res.list.data_order || [];
+
+                    let totalAmount = 0;
+                    let totalCommission = 0;
+
+                    orders.forEach(function (order) {
+                        
+                        let detail = orderDetails.find(o => o.order_id === order.id);
+                        let detailId = (detail && detail._id) ? detail._id : "";
+
+                        let subTotal = order.amount - order.shippingFee + order.discount;
+                        totalAmount += subTotal || 0;
+                        totalCommission += order.profitAffiliate || 0;
+
+                        let statusText = getStatusText(order.orderStatus);
+
+                        let row = `
+                            <tr>
+                                <td><a href="/client/detaillist/${detailId}">${order.orderNo}</a></td>
+                                <td>${statusText}</td>
+                                <td>${formatDate(order.createdDate)}</td>
+                                <td>${order.updateLast ? formatDate(order.updateLast) : "-"}</td>
+                                <td>${formatCurrency(subTotal)}</td>
+                              
+                                <td>${formatCurrency(order.profitAffiliate)}</td>
+                            </tr>`;
+                        $tbody.append(row);
+                    });
+
+                    // Row tổng
+                    let totalRow = `
+                        <tr>
+                            <td><b>Tổng</b></td>
+                            <td></td><td></td><td></td>
+                            <td>${formatCurrency(totalAmount)}</td>
+                           
+                            <td><span class="text-color-base">${formatCurrency(totalCommission)}</span></td>
+                        </tr>`;
+                    $tbody.append(totalRow);
+
+                } else {
+                    $tbody.html(`<tr><td colspan="7" class="text-center py-4">Không có đơn hàng nào</td></tr>`);
+                }
+            },
+            error: function () {
+                $(".order-management .table-wrapper table tbody").html(
+                    `<tr><td colspan="7" class="text-center py-4 text-red-500">Lỗi tải dữ liệu</td></tr>`
+                );
+            }
+        });
+    },
+
+
+// helper
+
+
     currentBank: null, // cache dữ liệu bank
     loadPaymentInfo: function () {
         if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
@@ -768,7 +1165,7 @@ var account = {
                 type: "POST",
                 data: request,
                 success: function (res) {
-                    debugger
+                    
                     if (res && res.is_success && res.bank) {
                         var bank = res.bank.data;
                         account.currentBank = bank; // lưu lại để xài cho popup
@@ -823,7 +1220,7 @@ var account = {
         }
     },
     openPopup: function (id) {
-        debugger
+        
         // Nếu id > 0 thì fill data, còn không thì clear form
         if (id > 0 && account.currentBank) {
             var bank = account.currentBank;
