@@ -106,7 +106,18 @@
     <div class=" md:block flex justify-center md:justify-end text-end items-center my-4 gap-3 mb-[25px]">
         @if ((int)order.data_order.OrderStatus == OrderStatus.FINISHED_DELIVERY || (int)order.data_order.OrderStatus == OrderStatus.FINISHED ||
         (int)order.data_order.OrderStatus == OrderStatus.CANCELED){
-            <a href="javascript:;" class=" btn-buy-again border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]">Mua lại</a>
+            var rebuyData = Newtonsoft.Json.JsonConvert.SerializeObject(
+            order.data.carts.Select(x => new
+            {
+                product_id = x.product._id,
+                quanity = x.quanity
+            })
+            );
+            <a href="javascript:;" class=" btn-buy-again border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]" data-rebuy='@Html.Raw(rebuyData)'>Mua lại</a>
+            @* <button class="btn-buy-again border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full min-w-[150px]" *@
+            @*         data-rebuy='@Html.Raw(rebuyData)'> *@
+            @*     Mua lại *@
+            @* </button> *@
         }
        
         @if ((int)order.data_order.OrderStatus == OrderStatus.FINISHED_DELIVERY || (int)order.data_order.OrderStatus == OrderStatus.FINISHED)
@@ -495,5 +506,44 @@
     <script type="text/javascript" src="/modules/order/detail.js" asp-append-version="true"></script>
     <script type="text/javascript" src="/modules/order/order_raiting.js" asp-append-version="true"></script>
     <script type="text/javascript" src="/modules/address_client.js" asp-append-version="true"></script>
+    <script>
+                $("body").on("click", ".btn-buy-again", function () {
+                    debugger
+            const rebuyRaw = $(this).attr("data-rebuy");
+            let rebuyList = [];
 
+            try {
+                rebuyList = JSON.parse(rebuyRaw);
+            } catch (e) {
+                alert("Dữ liệu đơn hàng không hợp lệ.");
+                return;
+            }
+
+            const usr = global_service.CheckLogin();
+            if (!usr) {
+                $(".mainheader .client-login").click();
+                return;
+            }
+
+            const addPromises = rebuyList.map(item => {
+                return global_service.POST(API_URL.AddToCart, {
+                    product_id: item.product_id,
+                    quanity: 1, // limit max 1 khi mua lại
+                    token: usr.token
+                });
+            });
+
+            Promise.all(addPromises).then(results => {
+                const allOk = results.every(res => res.is_success);
+                if (allOk) {
+                    const productIds = rebuyList.map(item => item.product_id);
+                    sessionStorage.setItem(STORAGE_NAME.BuyNowItem, JSON.stringify({ product_ids: productIds }));
+                    window.location.href = "/cart";
+                } else {
+                    alert("Có sản phẩm không thể thêm vào giỏ hàng.");
+                }
+            });
+        });
+
+    </script>
 }
