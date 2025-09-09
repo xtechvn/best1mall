@@ -247,7 +247,7 @@ var _noti = {
                 }
             }
 
-            document.getElementById("myAudio").play();
+            //document.getElementById("myAudio").play();
             //$("#Notify").scrollTop(0);
         };
 

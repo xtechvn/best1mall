@@ -1189,6 +1189,10 @@ var global_service = {
        
         const container = document.getElementById('viewed-products');
         const wrapper = document.getElementById('viewed-products-wrapper'); // 👈 thêm dòng này
+        if (!container || !wrapper) {
+            // nếu trang không có block "sản phẩm đã xem" thì skip luôn
+            return;
+        }
         const list = JSON.parse(localStorage.getItem('viewedProducts')) || [];
        
         // Nếu không có sản phẩm đã xem thì ẩn nguyên cái wrapper luôn
