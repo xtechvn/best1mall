@@ -36,10 +36,10 @@ $(document).ready(function () {
                account.loadAffiliateLink(); // gọi API /affiliate/register
                 break;
             case "manage-orders":
-               account.loadAffiliateOrders(); // gọi API /affiliate/order/listing
+                account.loadAffiliateOrders(1); // gọi API /affiliate/order/listing
                 break;
             case "commission":
-               account.loadAffiliateCommission(); // gọi API đối soát hoa hồng
+               account.loadAffiliateCommission(1); // gọi API đối soát hoa hồng
                 break;
             case "payment-info":
                account.loadPaymentInfo(); // gọi API /affiliate/detail
@@ -64,7 +64,7 @@ $(document).ready(function () {
             .attr("data-id", 0);
     });
     $("#btn-search-orders").on("click", function () {
-        account.loadAffiliateOrders();
+        account.loadAffiliateOrders(1);
     });
 
     $(document).on("click", ".commission-detail-link", function () {
@@ -163,6 +163,58 @@ function parseMonthYear(monthStr) {
 
     return null;
 }
+// 👉 Reusable pagination
+function renderPagination(pageIndex, pageSize, total, onPageChange) {
+    
+    let totalPages = Math.ceil(total / pageSize);
+    let $pagination = $(".pagination");
+    $pagination.empty();
+
+    if (totalPages <= 1) return;
+
+    // nút prev
+    if (pageIndex > 1) {
+        $pagination.append(`
+          <button class="page-btn px-3 py-1 border rounded hover:bg-gray-100" data-page="${pageIndex - 1}">«</button>
+        `);
+    }
+
+    let start = Math.max(1, pageIndex - 2);
+    let end = Math.min(totalPages, pageIndex + 2);
+
+    if (start > 1) {
+        $pagination.append(`
+          <button class="page-btn px-3 py-1 border rounded hover:bg-gray-100" data-page="1">1</button>
+        `);
+        if (start > 2) $pagination.append(`<span class="px-2 text-gray-400">...</span>`);
+    }
+
+    for (let i = start; i <= end; i++) {
+        $pagination.append(`
+          <button class="page-btn px-3 py-1 border rounded ${i === pageIndex ? 'bg-indigo-600 text-white font-bold' : 'bg-white text-gray-700 hover:bg-gray-100'}" data-page="${i}">${i}</button>
+        `);
+    }
+
+    if (end < totalPages) {
+        if (end < totalPages - 1) $pagination.append(`<span class="px-2 text-gray-400">...</span>`);
+        $pagination.append(`
+          <button class="page-btn px-3 py-1 border rounded hover:bg-gray-100" data-page="${totalPages}">${totalPages}</button>
+        `);
+    }
+
+    if (pageIndex < totalPages) {
+        $pagination.append(`
+          <button class="page-btn px-3 py-1 border rounded hover:bg-gray-100" data-page="${pageIndex + 1}">»</button>
+        `);
+    }
+
+    // bind click
+    $(".page-btn").off("click").on("click", function () {
+        let page = $(this).data("page");
+        if (onPageChange) onPageChange(page);
+    });
+}
+
 
 
 var account = {
@@ -828,7 +880,7 @@ var account = {
         }
     },
 
-    loadAffiliateOrders: function () {
+    loadAffiliateOrders: function (pageIndex = 1) {
         
         if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
             $("#affiliate_addlink").hide();
@@ -848,7 +900,7 @@ var account = {
                 token: usr.token,
                 fromdate: fromdate ? new Date(fromdate).toISOString() : null,
                 todate: todate ? new Date(todate).toISOString() : null,
-                page_index: 1,
+                page_index: pageIndex,
                 page_size: 10
             };
             if (status) {
@@ -894,14 +946,16 @@ var account = {
                         </tr>`;
                             $tbody.append(row);
                         });
+                        // 👉 render pagination
+                        renderPagination(res.list.page_index, res.list.page_size, res.list.total, account.loadAffiliateOrders);
                     } else {
-                        $(".order-management.list_order table tbody").html(
+                        $(".order-management .list_order table tbody").html(
                             `<tr><td colspan="7" class="text-center py-4">Không có đơn hàng nào</td></tr>`
                         );
                     }
                 },
                 error: function (err) {
-                    $(".order-management.list_order table tbody").html(
+                    $(".order-management .list_order table tbody").html(
                         `<tr><td colspan="7" class="text-center py-4 text-red-500">Lỗi tải dữ liệu</td></tr>`
                     );
                 }
@@ -970,7 +1024,7 @@ var account = {
         });
     },
 
-    loadAffiliateCommission: function () {
+    loadAffiliateCommission: function (pageIndex = 1) {
         
         if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
             $("#affiliate_addlink").hide();
@@ -982,7 +1036,11 @@ var account = {
                 return;
             }
 
-            var request = { token: usr.token };
+            var request = {
+                token: usr.token,
+                page_index: pageIndex,
+                page_size: 10
+            };
 
             $.ajax({
                 url: API_URL.ListPayment,
@@ -992,7 +1050,7 @@ var account = {
                     
                     if (res && res.is_success && res.list && res.list.listData) {
                         var payments = res.list.listData;
-                        var $tbody = $(".order-management .table-wrapper table tbody");
+                        var $tbody = $(".commission-management .table-wrapper table tbody");
                         $tbody.empty();
 
                         if (payments.length === 0) {
@@ -1039,21 +1097,29 @@ var account = {
                         `;
                             $tbody.append(row);
                         });
+                        // 👉 render phân trang (reuse chung)
+                        renderPagination(
+                            
+                            res.list.currentPage,
+                            res.list.pageSize,
+                            res.list.totalRecord,
+                            account.loadAffiliateCommission
+                        );
                     } else {
-                        $(".order-management .table-wrapper table tbody").html(
+                        $(".commission-management .table-wrapper table tbody").html(
                             `<tr><td colspan="5" class="text-center py-4">Không có dữ liệu đối soát</td></tr>`
                         );
                     }
                 },
                 error: function (err) {
-                    $(".order-management .table-wrapper table tbody").html(
+                    $(".commission-management .table-wrapper table tbody").html(
                         `<tr><td colspan="5" class="text-center py-4 text-red-500">Lỗi tải dữ liệu</td></tr>`
                     );
                 }
             });
         }
     },
-    loadAffiliateCommissionDetail: function (month) {
+    loadAffiliateCommissionDetail: function (month, pageIndex = 1) {
         
         var usr = global_service.CheckLogin();
         if (!usr || !usr.token) {
@@ -1074,7 +1140,7 @@ var account = {
             token: usr.token,
             fromdate: fromdate,
             todate: todate,
-            page_index: 1,
+            page_index: pageIndex,
             page_size: 10
         };
 
@@ -1129,6 +1195,15 @@ var account = {
                             <td><span class="text-color-base">${formatCurrency(totalCommission)}</span></td>
                         </tr>`;
                     $tbody.append(totalRow);
+                    // 👉 render phân trang
+                    renderPagination(
+                        res.list.page_index,
+                        res.list.page_size,
+                        res.list.total,
+                        function (page) {
+                            account.loadAffiliateCommissionDetail(month, page);
+                        }
+                    );
 
                 } else {
                     $tbody.html(`<tr><td colspan="7" class="text-center py-4">Không có đơn hàng nào</td></tr>`);

@@ -221,7 +221,7 @@ namespace Best1Mall_Front_End.Controllers.Client
         }
         //List Hoa hông
         [HttpPost]
-        public async Task<IActionResult> GetListPayment(CartGeneralRequestModel request)
+        public async Task<IActionResult> GetListPayment(ListPaymentRequestModel request)
 
         {
 

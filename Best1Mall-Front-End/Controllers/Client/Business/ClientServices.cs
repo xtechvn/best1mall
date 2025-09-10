@@ -180,7 +180,7 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return null;
         }
 
-        public async Task<PaymentResponseModel> PaymentListing(CartGeneralRequestModel request)
+        public async Task<PaymentResponseModel> PaymentListing(ListPaymentRequestModel request)
         {
             try
             {
