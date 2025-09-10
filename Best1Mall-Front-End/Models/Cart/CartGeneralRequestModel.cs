@@ -16,4 +16,12 @@
         public int page_size { get; set; }
 
     }
+    public class ListPaymentRequestModel
+    {
+        public string token { get; set; }
+       
+        public int page_index { get; set; }
+        public int page_size { get; set; }
+
+    }
 }
