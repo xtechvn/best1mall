@@ -2,6 +2,7 @@
 var DOMAIN = CONSTANTS.DOMAIN;
 $(document).ready(function () {
     account.Initialization()
+
     // 👉 Affiliate menu handler
     $(document).on("click", ".affiliate-menu a", function (e) {
         e.preventDefault();
@@ -78,6 +79,51 @@ $(document).ready(function () {
         account.addNewAffiliate();
        
     });
+    if (user && user.isRegisterAffiliate) {
+        // ✅ đã đăng ký → hiện box tạo link + bật menu
+        $(".link-aff").removeClass("hidden");
+        $("#banner-aff").addClass("hidden");
+
+        $(".affiliate-menu").removeClass("hidden");
+        $(".aff span i.icon-affiliate").removeClass("text-gray-400"); // trả về màu cũ
+        $("#banner-aff-bottom").addClass("hidden");
+    } else {
+        // ❌ chưa đăng ký → show banner + disable menu
+        $(".link-aff").addClass("hidden");
+        $("#banner-aff").removeClass("hidden");
+
+        $(".affiliate-menu").addClass("hidden"); // ẩn dropdown
+        $(".aff span i.icon-affiliate").addClass("text-gray-400"); // đổi icon màu xám
+        $(".aff span").addClass("cursor-not-allowed opacity-50"); // làm mờ + disable hover
+        // Chưa đăng ký → hiện banner
+        $("#banner-aff-bottom").removeClass("hidden");
+    }
+    $(document).on("click", "#btnRegisterAffiliate", function (e) {
+        e.preventDefault();
+
+        // ép menu cha active
+        $(".sub-menu:has(.affiliate-menu)").addClass("active");
+
+        // ẩn body chính
+        $(".content-left-user > *:not(#affiliate-tabs)").hide();
+
+        // hiện affiliate-tabs
+        $("#affiliate-tabs").removeClass("hidden");
+
+        // ẩn tất cả tab con
+        $("#affiliate-tabs .tab-content").addClass("hidden");
+
+        // show đúng tab create-link
+        $("#create-link").removeClass("hidden");
+
+        // active highlight menu con
+        $(".affiliate-menu a").removeClass("active");
+        $('.affiliate-menu a[data-tab="create-link"]').addClass("active");
+
+        // 👉 Gọi luôn hàm loadAffiliateLink (sẽ hiện form đăng ký nếu chưa có)
+        account.loadAffiliateLink();
+    });
+
 
 
 
@@ -628,25 +674,34 @@ var account = {
                 success: function (res) {
                     
                     if (res && res.is_success) {
-                        //toastr.success("Đăng ký Affiliate + Lưu ngân hàng thành công!");
                         $("#linkaffiliate")[0].reset();
 
                         usr.isRegisterAffiliate = true;
-                        usr.referralId = res.data?.utm_medium;
-                     
-                        localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(usr))
+                        usr.referralId = res.bank.data?.utm_medium;
+                        localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(usr));
+
+                        // 👉 gán lại user global để đồng bộ
+                        user = usr;
+
+                        // 👉 cập nhật UI ngay
+                        $(".link-aff").removeClass("hidden");
+                        $("#banner-aff").addClass("hidden");
+                        $(".affiliate-menu").removeClass("hidden");
+                        $(".aff span i.icon-affiliate").removeClass("text-gray-400");
+                        $("#banner-aff-bottom").addClass("hidden");
+
                         $("#affiliate_1").hide();
                         $("#affiliate_addlink").show();
-                        if (usr.referralId != null && usr.referralId != undefined) {
+
+                        if (usr.referralId) {
                             $("#LindkAdavigo").val(
-                                DOMAIN + "/?utm_source=" + res.data?.utm_source + "&utm_medium=" + usr.referralId
+                                DOMAIN + "/?utm_source=" + res.bank.data?.utm_source + "&utm_medium=" + usr.referralId
                             );
                         } else {
                             $("#LindkAdavigo").val(DOMAIN + "/");
                         }
-                    } else {
-                        //toastr.error(res?.msg || "Có lỗi xảy ra khi đăng ký Affiliate");
                     }
+
                 },
                 error: function (err) {
                     //toastr.error("Không thể kết nối server!");

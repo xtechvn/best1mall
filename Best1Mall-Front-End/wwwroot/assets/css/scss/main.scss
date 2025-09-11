@@ -3517,3 +3517,72 @@ input[type="checkbox"]:checked::after {
     }
   }
 }
+.banner-bottom{
+  position: relative;
+  margin-top: 15px;
+  text-align: center;
+  .text-box{
+      width: 50%;
+      text-align: left;
+      position: absolute;
+      top: 20px;
+      right: 10%;
+       @media (max-width:1200px){
+        width: 53%;
+      }
+      @media (max-width:991px){
+          right: 0;
+        width: 63%;
+      }
+      @media (max-width:767px){
+        right: 0;
+        width: 63%;
+        top: 0;
+      }
+      p{
+        color: #252525;
+        font-family: "Hubot Sans",sans-serif;
+        font-size: 12px;
+        @media (max-width:767px){
+          font-size: 8px;
+        }
+      }
+      .bg-p{
+        margin-top: 10px;
+        background: rgba(206, 197, 255, 0.3);
+        max-width: 280px;
+        padding: 10px 15px;
+        border-radius: 5px;
+      }
+  }
+  .image-box{
+      padding-top: 20px;
+        @media (max-width:1200px){
+          padding-top: 64px;
+        }
+      @media (max-width:991px){
+          padding-top: 90px;
+        }
+      @media (max-width:767px){
+          padding-top: 65px;
+        }
+      img{
+        width: 100%;
+       
+      }
+    }
+    .btn-primary {
+      background-color: #773EFA;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 400;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 20px;
+    }
+}
