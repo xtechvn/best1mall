@@ -687,7 +687,7 @@ var account = {
                         $(".link-aff").removeClass("hidden");
                         $("#banner-aff").addClass("hidden");
                         $(".affiliate-menu").removeClass("hidden");
-                        $(".aff span i.icon-affiliate").removeClass("text-gray-400");
+                        $(".aff span i.icon-affiliate").removeClass("text-gray-400"); // trả về màu cũ
                         $("#banner-aff-bottom").addClass("hidden");
 
                         $("#affiliate_1").hide();
@@ -967,7 +967,8 @@ var account = {
                 type: "POST",
                 data: request,
                 success: function (res) {
-                    if (res && res.is_success && res.list && res.list.data) {
+                   
+                    if (res && res.is_success && res.list && res.list.data && res.list.data.length > 0) {
                         
                         // clear tbody trước
                         var $tbody = $(".order-management .list_order table tbody");
@@ -1005,7 +1006,7 @@ var account = {
                         renderPagination(res.list.page_index, res.list.page_size, res.list.total, account.loadAffiliateOrders);
                     } else {
                         $(".order-management .list_order table tbody").html(
-                            `<tr><td colspan="7" class="text-center py-4">Không có đơn hàng nào</td></tr>`
+                            `<tr><td colspan="7" class="text-center py-4">Hiện tại bạn chưa có đơn hàng nào</td></tr>`
                         );
                     }
                 },
@@ -1162,7 +1163,7 @@ var account = {
                         );
                     } else {
                         $(".commission-management .table-wrapper table tbody").html(
-                            `<tr><td colspan="5" class="text-center py-4">Không có dữ liệu đối soát</td></tr>`
+                            `<tr><td colspan="5" class="text-center py-4">Hiện tại bạn chưa có thông tin đối soát nào.</td></tr>`
                         );
                     }
                 },
@@ -1209,7 +1210,7 @@ var account = {
                 var $tbody = $(".order-management .table-wrapper table tbody");
                 $tbody.empty();
 
-                if (res && res.is_success && res.list && res.list.data) {
+                if (res && res.is_success && res.list && res.list.data && res.list.data.length > 0) {
                     let orders = res.list.data;
                     let orderDetails = res.list.data_order || [];
 
@@ -1261,7 +1262,7 @@ var account = {
                     );
 
                 } else {
-                    $tbody.html(`<tr><td colspan="7" class="text-center py-4">Không có đơn hàng nào</td></tr>`);
+                    $tbody.html(`<tr><td colspan="7" class="text-center py-4">Hiện tại bạn chưa có đơn hàng nào</td></tr>`);
                 }
             },
             error: function () {
