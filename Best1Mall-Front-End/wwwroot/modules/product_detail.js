@@ -6,27 +6,27 @@
 
 })
 // Hàm này nằm ngoài các object, và có thể truy cập từ bất kỳ đâu
-function handleQuantityInput(maxStock) {
+//function handleQuantityInput(maxStock) {
     
-    const input = document.getElementById('quantity');
+//    const input = document.getElementById('quantity');
 
-    // Bôi đen khi focus
-    input.addEventListener('focus', function () {
-        this.select();
-    });
+//    // Bôi đen khi focus
+//    input.addEventListener('focus', function () {
+//        this.select();
+//    });
 
-    //input.addEventListener('input', function () {
-    //    let value = this.value.replace(/[^0-9]/g, ''); // Chỉ số
-    //    if (value === '' || value === '0') value = 1;
+//    //input.addEventListener('input', function () {
+//    //    let value = this.value.replace(/[^0-9]/g, ''); // Chỉ số
+//    //    if (value === '' || value === '0') value = 1;
 
-    //    value = parseInt(value, 10);
-    //    if (value > maxStock) {
-    //        value = maxStock;
-    //    }
+//    //    value = parseInt(value, 10);
+//    //    if (value > maxStock) {
+//    //        value = maxStock;
+//    //    }
 
-    //    this.value = value;
-    //});
-}
+//    //    this.value = value;
+//    //});
+//}
 
 
 var product_detail = {
