@@ -77,7 +77,7 @@ namespace BIOLIFE.ViewComponents.Product
                 if (viewModel == null || !viewModel.Any())
                 {
                     _logger.LogInformation("⚠️ FlashSaleViewComponent: Không có flash sale nào.");
-                    return View(new List<FlashSaleViewModel>());
+                    return Content(""); // không có thì trả về rỗng
                 }
 
                 return View("~/Views/Shared/Components/FlashSale/FlashSaleViewComponent.cshtml", viewModel);
@@ -85,7 +85,7 @@ namespace BIOLIFE.ViewComponents.Product
             catch (Exception ex)
             {
                 _logger.LogError(ex, "❌ Lỗi khi load FlashSaleViewComponent");
-                return View(new List<FlashSaleViewModel>()); // render rỗng, không crash
+                return Content(""); // fallback rỗng, không crash
             }
         }
 
