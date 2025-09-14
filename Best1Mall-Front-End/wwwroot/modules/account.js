@@ -79,25 +79,25 @@ $(document).ready(function () {
         account.addNewAffiliate();
        
     });
-    if (user && user.isRegisterAffiliate) {
-        // ✅ đã đăng ký → hiện box tạo link + bật menu
-        $(".link-aff").removeClass("hidden");
-        $("#banner-aff").addClass("hidden");
+    //if (user && user.isRegisterAffiliate) {
+    //    // ✅ đã đăng ký → hiện box tạo link + bật menu
+    //    $(".link-aff").removeClass("hidden");
+    //    $("#banner-aff").addClass("hidden");
 
-        $(".affiliate-menu").removeClass("hidden");
-        $(".aff span i.icon-affiliate").removeClass("text-gray-400"); // trả về màu cũ
-        $("#banner-aff-bottom").addClass("hidden");
-    } else {
-        // ❌ chưa đăng ký → show banner + disable menu
-        $(".link-aff").addClass("hidden");
-        $("#banner-aff").removeClass("hidden");
+    //    $(".affiliate-menu").removeClass("hidden");
+    //    $(".aff span i.icon-affiliate").removeClass("text-gray-400"); // trả về màu cũ
+    //    $("#banner-aff-bottom").addClass("hidden");
+    //} else {
+    //    // ❌ chưa đăng ký → show banner + disable menu
+    //    $(".link-aff").addClass("hidden");
+    //    $("#banner-aff").removeClass("hidden");
 
-        $(".affiliate-menu").addClass("hidden"); // ẩn dropdown
-        $(".aff span i.icon-affiliate").addClass("text-gray-400"); // đổi icon màu xám
-        $(".aff span").addClass("cursor-not-allowed opacity-50"); // làm mờ + disable hover
-        // Chưa đăng ký → hiện banner
-        $("#banner-aff-bottom").removeClass("hidden");
-    }
+    //    $(".affiliate-menu").addClass("hidden"); // ẩn dropdown
+    //    $(".aff span i.icon-affiliate").addClass("text-gray-400"); // đổi icon màu xám
+    //    $(".aff span").addClass("cursor-not-allowed opacity-50"); // làm mờ + disable hover
+    //    // Chưa đăng ký → hiện banner
+    //    $("#banner-aff-bottom").removeClass("hidden");
+    //}
     $(document).on("click", "#btnRegisterAffiliate", function (e) {
         e.preventDefault();
 
@@ -700,6 +700,14 @@ var account = {
                         } else {
                             $("#LindkAdavigo").val(DOMAIN + "/");
                         }
+                        // 👉 thông báo đẹp với SweetAlert2
+                        Swal.fire({
+                            icon: "success",
+                            title: "Đăng ký thành công 🎉",
+                            text: "Bạn đã tạo affiliate account thành công rồi!",
+                            showConfirmButton: false,
+                            timer: 2500 // tự tắt sau 2.5s
+                        });
                     }
 
                 },
