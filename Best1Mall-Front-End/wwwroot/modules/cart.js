@@ -746,50 +746,60 @@ var cart = {
     },
 
     RenderVoucherList: function (vouchers) {
-        
 
+        debugger
         const $root = $('.list-voucher');
         if ($root.length === 0) return;
 
         // 1) Tạo 2 cụm bên trong .list-voucher nếu chưa có
         if ($root.find('.list-voucher-shipping').length === 0 || $root.find('.list-voucher-general').length === 0) {
             $root.html(`
-            <div class="voucher-section space-y-4">
-              <div class="voucher-group-shipping">
-                <h4 class="font-semibold mb-2">Voucher vận chuyển</h4>
-                <div class="list-voucher-shipping space-y-3"></div>
-              </div>
-              <div class="voucher-group-general mt-6">
-                <h4 class="font-semibold mb-2">Voucher khác</h4>
-                <div class="list-voucher-general space-y-3"></div>
-              </div>
-            </div>
+        <div class="voucher-section space-y-4">
+          <div class="voucher-group-shipping">
+            <h4 class="font-semibold mb-2">Voucher vận chuyển</h4>
+            <div class="list-voucher-shipping space-y-3"></div>
+          </div>
+          <div class="voucher-group-general mt-6">
+            <h4 class="font-semibold mb-2">Voucher khác</h4>
+            <div class="list-voucher-general space-y-3"></div>
+          </div>
+        </div>
         `);
         }
 
         const $ship = $root.find('.list-voucher-shipping');
         const $gen = $root.find('.list-voucher-general');
 
-        // 2) Chuẩn hoá (API C# có thể trả "Id" pascal-case)
+        // 2) Chuẩn hoá field
         const norm = (v) => ({
             id: typeof v.id !== 'undefined' ? v.id : v.Id,
             code: v.code,
             description: v.description,
-            eDate: v.eDate,
+            eDate: v.eDate, // "2025-09-15" hoặc ISO string
             price_sales: v.price_sales,
             unit: v.unit,
             rule_type: v.rule_type, // =1: vận chuyển; !=1: khác
             image: v.image,
-            name:v.name
+            name: v.name
         });
-        const items = (vouchers || []).map(norm);
+        let items = (vouchers || []).map(norm);
 
-        // 3) Chia nhóm
+        // 3) Lọc voucher còn hạn
+        const now = new Date();
+        items = items.filter(v => {
+            if (!v.eDate) return true; // ko có hạn thì cho qua
+            const expire = new Date(v.eDate);
+            return expire >= now; // chỉ lấy còn hạn
+        });
+
+        // 4) Chia nhóm
         const shipping = items.filter(x => x.rule_type === 1);
         const general = items.filter(x => x.rule_type !== 1);
 
+
         // 4) Template item (radio theo nhóm để limit 1 lựa chọn/nhóm)
         const renderItem = (v, groupName) => {
+            debugger
             const unitText = v.unit === 'vnd' ? '₫' : '%';
             const imgSrc = v.image || '/assets/images/Voucher.png';
             const expireText = v.eDate ? v.eDate : '';
@@ -825,19 +835,27 @@ var cart = {
             </label>
         `;
         };
-
-        // 5) Render
+        debugger
+        // 6) Render
         $ship.html(shipping.map(v => renderItem(v, 'voucher_shipping')).join(''));
         $gen.html(general.map(v => renderItem(v, 'voucher_general')).join(''));
 
-        // 6) Ẩn tiêu đề nhóm nếu rỗng
+        // 7) Ẩn tiêu đề nhóm nếu rỗng
         $root.find('.voucher-group-shipping').toggle(shipping.length > 0);
         $root.find('.voucher-group-general').toggle(general.length > 0);
 
-        // 7) Đồng bộ lựa chọn vào biến global cho ConfirmCart
+        // 8) Nếu cả 2 đều rỗng thì show text fallback
+        if (shipping.length === 0 && general.length === 0) {
+            $root.html(`
+      <div class="text-center text-slate-500 py-6">
+        Không có voucher khả dụng
+      </div>
+    `);
+        }
+
+        // 9) Đồng bộ lựa chọn
         window.appliedVouchers = window.appliedVouchers || [];
 
-        //// Nếu đã có chọn trước đó → pre-check lại
        
 
 
