@@ -32,7 +32,7 @@ namespace Best1Mall_Front_End.Controllers.Product
         public ProductController(IConfiguration configuration, IMemoryCache cache, RedisConn _redisService) {
 
             _configuration= configuration;
-            _productServices = new ProductServices(configuration, _redisService);
+            _productServices = new ProductServices(configuration, _redisService, cache);
             _menuService = new MenuService(configuration, _redisService);
             redisService = _redisService;
             _cache = cache;
@@ -99,7 +99,7 @@ namespace Best1Mall_Front_End.Controllers.Product
                 };
 
                 // Gọi service để lấy danh sách sản phẩm + count
-                var productService = new ProductServices(_configuration, redisService);
+                var productService = new ProductServices(_configuration, redisService, _cache);
                 var data = await productService.GetProductList(model);
                 var count = data?.count ?? 0;
 
@@ -176,7 +176,7 @@ namespace Best1Mall_Front_End.Controllers.Product
        
         public async Task<IActionResult> GetGroupProduct(ProductListRequestModel request)
         {
-            GroupProductResponseModel result = await _productServices.GetGroupProduct(request);
+            var result = await _productServices.GetGroupProduct(request);
 
             if (result != null && result.items != null && result.items.Count > 0)
             {

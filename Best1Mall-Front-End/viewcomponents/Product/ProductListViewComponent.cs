@@ -53,7 +53,7 @@ namespace BIOLIFE.ViewComponents.Product
                 {
                     if (!_cache.TryGetValue(cacheKey, out cached_view))
                     {
-                        var productService = new ProductServices(configuration, redisService);
+                        var productService = new ProductServices(configuration, redisService, _cache);
                         cached_view = await productService.GetProductList(request);
                         if (cached_view != null)
                         {
@@ -63,7 +63,7 @@ namespace BIOLIFE.ViewComponents.Product
                 }
                 else
                 {
-                    var productService = new ProductServices(configuration, redisService);
+                    var productService = new ProductServices(configuration, redisService, _cache);
                     cached_view = await productService.GetProductList(request);
                 }
 

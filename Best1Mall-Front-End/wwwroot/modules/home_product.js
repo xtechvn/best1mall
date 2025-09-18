@@ -9,6 +9,7 @@ function getRawNumber(str) {
 
 
 $(document).ready(function () {
+    home_product.Initialization()
     // ✅ Mặc định load danh sách "Tất cả" (group_id = 0)
 
     // Gắn sự kiện click cho từng danh mục
@@ -253,12 +254,26 @@ $(document).ready(function () {
     });
 
 
-        home_product.Initialization()
+       
     })
 
     var home_product = {
         Initialization: function () {
-            
+
+            global_service.LoadGroupProduct($('.list-danhmuc'), GLOBAL_CONSTANTS.GroupProduct.GROUP_PRODUCT, GLOBAL_CONSTANTS.GridSize)
+            // Lấy group_id đầu tiên từ danh sách danh mục
+            const firstCategoryId = parseInt($('.cat-tag2').first().data('id')) || 0;
+
+            // Thêm active cho tab đầu tiên
+            $('.cat-tag2').removeClass('bg-blue-500 text-white border-blue-500'); // Xóa active cho tất cả tab
+            $('.cat-tag2[data-id="' + firstCategoryId + '"]').addClass('bg-blue-500 text-white border-blue-500'); // Thêm active cho tab đầu tiên
+
+
+
+
+
+            // Load sản phẩm theo group_id đầu tiên
+            home_product.loadProductByGroup(firstCategoryId);
             // 👉 Nếu đang ở trang /san-pham thì load dữ liệu sản phẩm ngay lập tức
             if (window.location.pathname.toLowerCase().includes("/san-pham")) {
                 
@@ -278,44 +293,7 @@ $(document).ready(function () {
             }
            
            
-            // Lấy group_id đầu tiên từ danh sách danh mục
-            const firstCategoryId = parseInt($('.cat-tag2').first().data('id')) || 0;
-
-            // Thêm active cho tab đầu tiên
-            $('.cat-tag2').removeClass('bg-blue-500 text-white border-blue-500'); // Xóa active cho tất cả tab
-            $('.cat-tag2[data-id="' + firstCategoryId + '"]').addClass('bg-blue-500 text-white border-blue-500'); // Thêm active cho tab đầu tiên
-
-
-            
-            global_service.LoadGroupProduct($('.list-danhmuc'), GLOBAL_CONSTANTS.GroupProduct.GROUP_PRODUCT, GLOBAL_CONSTANTS.GridSize)
-                //--Product Sale Slide:
-              //  global_service.LoadHomeFlashSaleGrid($('.list-product-sale .swiper-wrapper'), GLOBAL_CONSTANTS.GroupProduct.FlashSale, GLOBAL_CONSTANTS.Size)
-                // Bear Collection
-                //global_service.LoadHomeLabelGrid(
-                //    $('#bear-collection .swiper-wrapper'),
-                //    GLOBAL_CONSTANTS.GroupProduct.BEAR_COLLECTION,
-                //    GLOBAL_CONSTANTS.GridSize,
-                //    '#banner-bear-collection'
-                //);
-
-                //// Discount
-                //global_service.LoadHomeLabelGrid(
-                //    $('#product-discount .swiper-wrapper'),
-                //    GLOBAL_CONSTANTS.GroupProduct.Discount,
-                //    GLOBAL_CONSTANTS.GridSize,
-                //    '#banner-product-discount'
-                //);
-
-                //// Intelligence
-                //global_service.LoadHomeLabelGrid(
-                //    $('#intelligence-collection .swiper-wrapper'),
-                //    GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT,
-                //    GLOBAL_CONSTANTS.GridSize,
-                //    '#banner-intelligence-collection'
-                //);
-
-                // Load sản phẩm theo group_id đầu tiên
-                home_product.loadProductByGroup(firstCategoryId);
+           
 
                 
 

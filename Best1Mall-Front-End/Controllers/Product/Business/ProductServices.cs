@@ -8,6 +8,9 @@ using System.Reflection;
 using Best1Mall_Front_End.Utilities.Lib;
 using Best1Mall_Front_End.Service.Redis;
 using Best1Mall_Front_End.Models.Labels;
+using BIOLIFE.ViewComponents.Product;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace Best1Mall_Front_End.Controllers.Client.Business
 {
@@ -15,9 +18,13 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
     {
         private readonly IConfiguration _configuration;
         private readonly RedisConn redisService;
-        public ProductServices(IConfiguration configuration , RedisConn _redisService) :base(configuration) {
+        private readonly IMemoryCache _cache; // Inject IMemoryCache
+       
+        public ProductServices(IConfiguration configuration , RedisConn _redisService, IMemoryCache cache) :base(configuration) {
             _configuration = configuration;
             redisService = _redisService;
+            _cache = cache;
+           
         }
         public async Task<ProductDetailResponseModel> GetProductDetail(ProductDetailRequestModel request)
         {
@@ -83,51 +90,64 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
         }
         public async Task<GroupProductResponseModel> GetGroupProduct(ProductListRequestModel request)
         {
+            string cacheKey = $"GroupProduct:{request.group_id}:{request.page_index}:{request.page_size}";
+            if (_cache.TryGetValue(cacheKey, out GroupProductResponseModel cached))
+                return cached;
+
+            var result = await POST(_configuration["API:get_group_product"], request);
+            var jsonData = JObject.Parse(result);
+            var status = int.Parse(jsonData["status"].ToString());
+
+            if (status == (int)ResponseType.SUCCESS)
+            {
+                var products = JsonConvert.DeserializeObject<List<GroupProductModel>>(jsonData["data"].ToString());
+                var response = new GroupProductResponseModel
+                {
+                    items = products,
+                    count = products.Count
+                };
+                _cache.Set(cacheKey, response, TimeSpan.FromMinutes(2));
+                return response;
+            }
+
+            return null;
+        }
+
+        public async Task<ProductListResponseModel?> LabelListProduct(ProductListByLabelFERequest request)
+        {
+            string cacheKey = $"LabelList:{request.label_id}:{request.page_index}:{request.page_size}";
+
+            if (_cache.TryGetValue(cacheKey, out ProductListResponseModel cached))
+                return cached;
+
             try
             {
-                var result = await POST(_configuration["API:get_group_product"], request);
+                var result = await POST("api/Product/list-by-label", request);
                 var jsonData = JObject.Parse(result);
-                var status = int.Parse(jsonData["status"].ToString());
+                int status = (int)(jsonData["status"] ?? 0);
 
                 if (status == (int)ResponseType.SUCCESS)
                 {
-                    var products = JsonConvert.DeserializeObject<List<GroupProductModel>>(jsonData["data"].ToString());
-
-                    return new GroupProductResponseModel
+                    var data = jsonData["data"]?.ToString();
+                    if (!string.IsNullOrEmpty(data))
                     {
-                        items = products,
-                        count = products.Count
-                    };
-                }
+                        var parsed = JsonConvert.DeserializeObject<ProductListResponseModel>(data);
 
+                        // cache 2 phút
+                        _cache.Set(cacheKey, parsed, TimeSpan.FromSeconds(30));
+
+
+                        return parsed;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                string error_msg = Assembly.GetExecutingAssembly().GetName().Name + "->" + MethodBase.GetCurrentMethod().Name + "=>" + ex.Message;
-                LogHelper.InsertLogTelegramByUrl(_configuration["telegram:log_try_catch:bot_token"], _configuration["telegram:log_try_catch:group_id"], error_msg);
+                // log lỗi
             }
             return null;
-
         }
-        public async Task<ProductListResponseModel> LabelListProduct(ProductListByLabelFERequest request)
-        {
-            try
-            {
-                var result = await POST("api/Product/list-by-label ", request);
-                var jsonData = JObject.Parse(result);
-                var status = int.Parse(jsonData["status"].ToString());
 
-                if (status == (int)ResponseType.SUCCESS)
-                {
-                    return JsonConvert.DeserializeObject<ProductListResponseModel>(jsonData["data"].ToString());
-                }
-            }
-            catch
-            {
-            }
-            return null;
-
-        }
         public async Task<ProductListResponseModel> Search(ProductGlobalSearchRequestModel request)
         {
             try

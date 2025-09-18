@@ -48,11 +48,11 @@
 {
     var labels = Model.OrderBy(l => l.ShopMallPosition ?? int.MaxValue).ToList();
 
-    <div id="dynamic-label-blocks">
+   <div id="dynamic-label-blocks">
         @for (int i = 0; i < labels.Count; i++)
         {
             var label = labels[i];
-            if (label == null || label.Id == 0) { continue; } // Bỏ qua nếu label null hoặc thiếu ID
+            if (label == null || label.Id == 0) { continue; }
 
             var labelSlug = ToSeoUrl(label.LabelCode ?? "thuong-hieu");
             var bannerId = $"banner-{labelSlug}";
@@ -62,18 +62,22 @@
             <div class="md:rounded-3xl rounded-xl bg-[#E6E1F4] @spacingClass list_product">
                 <a href="/thuong-hieu/@labelSlug?label_id=@label.Id" class="block">
                     <img id="@bannerId"
-                         @* src="@GetFullImageUrl(label.Avatar)" *@
-                         alt="@label.LabelName ?? " Thương hiệu""
+                        
+                         @* alt="@label.LabelName ?? "Thương hiệu"" *@
                          loading="lazy"
-                         style="width: 100%; "
-                         @* style="width: 1250px; object-fit: cover;" *@
-                         class="rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl md:h-[425px]">
+                         class="rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl md:h-[425px] w-full ">
                 </a>
 
                 <div class="relative p-3">
                     <div class="dynamic-collection" id="block-@label.Id">
                         <div class="swiper">
-                            <div class="swiper-wrapper" id="@swiperWrapperId"></div>
+                            <div class="swiper-wrapper" id="@swiperWrapperId">
+                                <!-- skeleton -->
+                                @for (int j = 0; j < 4; j++)
+                                {
+                                    <div class="swiper-slide animate-pulse bg-gray-200 rounded-lg h-[200px]"></div>
+                                }
+                            </div>
                         </div>
 
                         <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">

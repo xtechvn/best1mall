@@ -37,7 +37,7 @@ var global_service = {
             }
         });
         // 👉 Load sản phẩm theo từng block group-id-best
-        $('.list_product').each(function () {
+        $('.Best.list_product').each(function () {
             const $el = $(this);
             const groupId = $el.data('groupIdBest'); // jQuery tự lấy từ data-group-id-best
 
@@ -364,62 +364,102 @@ var global_service = {
             $(".box-search-list").fadeOut();
             $("#global-search-loading").hide();
         });
-        $('#dynamic-label-blocks .list_product').each(function () {
-            
-            const section = $(this);
-            const swiperWrapper = section.find('.swiper-wrapper');
-            const labelId = swiperWrapper.attr('id').replace('swiper-wrapper-', '');
-            const bannerId = '#banner-' + section.find('img').attr('id').split('banner-')[1];
+        const promises = $('#dynamic-label-blocks .list_product').map(function () {
+            return global_service.loadLabelSection($(this));
+        }).get();
 
-            const defaultBanner = $(bannerId).attr('src');
-
-            const request = {
-                label_id: parseInt(labelId),
-                page_index: 1,
-                page_size: GLOBAL_CONSTANTS.GridSize
-            };
-
-            // Load sản phẩm theo LabelId
-            $.when(global_service.POST(API_URL.LabelListProduct, request))
-                .done(function (res) {
-                    
-                    if (res.is_success && res.data) {
-                        const products = res.data;
-                        const labelDetail = res.label_detail;
-
-                        let html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem);
-
-                        // Thêm nút "Xem tất cả" nếu không phải nhóm bị loại trừ
-                        if (![
-                            GLOBAL_CONSTANTS.GroupProduct.FlashSale
-                        ].includes(parseInt(labelId))) {
-                            const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu')).replace(" ", "-").toLowerCase();
-
-                            html += HTML_CONSTANTS.Home.SeeAllSlideItem
-                                .replace('{group_id}', labelId)
-                                .replace('{label_slug}', labelSlug);
-                        }
-
-                        swiperWrapper.html(html);
-
-                        // Đặt banner riêng nếu có
-                        if (labelDetail && labelDetail.banner && labelDetail.banner.trim() !== '') {
-                            $(bannerId).attr('src', labelDetail.banner);
-                        } else {
-                            $(bannerId).attr('src', defaultBanner);
-                        }
-
-                        $(bannerId).on('error', function () {
-                            $(this).attr('src', defaultBanner);
-                        });
-                    } else {
-                        swiperWrapper.html('');
-                    }
-                });
+        Promise.all(promises).then(() => {
+            console.log("Tất cả block đã load xong");
         });
+
+        // Observer config
+        //const observer = new IntersectionObserver(entries => {
+        //    entries.forEach(entry => {
+        //        if (entry.isIntersecting) {
+        //            const section = $(entry.target);
+
+        //            // load block khi nó vào viewport
+        //            global_service.loadLabelSection(section);
+
+        //            // bỏ theo dõi sau khi load xong (chỉ load 1 lần)
+        //            observer.unobserve(entry.target);
+        //        }
+        //    });
+        //}, { threshold: 0.2 });
+
+        //// Apply observer cho tất cả block
+        //$('#dynamic-label-blocks .list_product').each(function (i, el) {
+        //    if (i < 3) { // load ngay 3 block đầu
+        //        global_service.loadLabelSection($(this));
+        //    } else {
+        //        observer.observe(el);
+        //    }
+        //});
+
+        //$('#dynamic-label-blocks .list_product').each(function () {
+        //    global_service.loadLabelSection($(this));
+        //});
+
+
+
+
 
 
     },
+    loadLabelSection: function (section) {
+                const swiperWrapper = section.find('.swiper-wrapper');
+        const labelId = parseInt(swiperWrapper.attr('id').replace('swiper-wrapper-', ''), 10);
+        const bannerEl = section.find('img[id^="banner-"]');
+        const bannerId = '#' + bannerEl.attr('id');
+        const defaultBanner = bannerEl.attr('src');
+
+        const request = {
+            label_id: labelId,
+            page_index: 1,
+            page_size: GLOBAL_CONSTANTS.GridSize
+        };
+
+        // ✅ return Ajax promise
+        return global_service.POST(API_URL.LabelListProduct, request)
+            .then(res => {
+                if (res.is_success && res.data) {
+                    const products = res.data;
+                    const labelDetail = res.label_detail;
+
+                    let html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem);
+
+                    if (![GLOBAL_CONSTANTS.GroupProduct.FlashSale].includes(labelId)) {
+                        const labelSlug = global_service.RemoveUnicode(
+                            global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu')
+                        ).replace(/ /g, "-").toLowerCase();
+
+                        html += HTML_CONSTANTS.Home.SeeAllSlideItem
+                            .replace('{group_id}', labelId)
+                            .replace('{label_slug}', labelSlug);
+                    }
+
+                    swiperWrapper.empty().html(html);
+
+                    // Banner
+                    if (labelDetail?.banner?.trim()) {
+                        $(bannerId).attr('src', labelDetail.banner);
+                    } else {
+                        $(bannerId).attr('src', defaultBanner);
+                    }
+
+                    $(bannerId).on('error', function () {
+                        $(this).attr('src', defaultBanner);
+                    });
+                } else {
+                    swiperWrapper.html('<div class="text-center text-gray-500 py-6">Không có sản phẩm</div>');
+                }
+            })
+            .catch(() => {
+                swiperWrapper.html('<div class="text-center text-red-500 py-6">Lỗi khi tải dữ liệu</div>');
+            });
+        },
+
+
     LoadPolicy: function () {
         $.ajax({
             url: "/Support/GetListPolicy",
@@ -817,40 +857,35 @@ var global_service = {
     //    })
     //},
    
-    LoadGroupProduct: function (element, group_id, size) {
-        
-       
-        element.addClass('placeholder')
-        element.addClass('box-placeholder')
-        element.css('width', '100%')
-        element.css('height', '255px')
-        var request = {
-            "group_id": group_id,
-            "page_index": 1,
-            "page_size": size
-        }
-        $.when(
-            global_service.POST(API_URL.GroupProduct, request)
-        ).done(function (result) {
-            
-            if (result.is_success) {
-               
-                var products = result.data
+    LoadGroupProduct: function ($element, group_id, size) {
+        // add placeholder khi load
+        $element
+            .addClass('placeholder box-placeholder')
+            .css({ width: '100%', height: '255px' });
 
+        const request = {
+            group_id: group_id,
+            page_index: 1,
+            page_size: size
+        };
 
-                var html = global_service.RenderGroupProductItem(products, HTML_CONSTANTS.Home.GroupProductItem)
-                element.html(html)
-
-
-                //var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
-                //element.html(html)
-            } else {
-                element.html('')
-            }
-            element.removeClass('placeholder')
-            element.removeClass('box-placeholder')
-            element.css('height', 'auto')
-        })
+        $.when(global_service.POST(API_URL.GroupProduct, request))
+            .done(function (result) {
+                if (result.is_success) {
+                    const html = global_service.RenderGroupProductItem(
+                        result.data,
+                        HTML_CONSTANTS.Home.GroupProductItem
+                    );
+                    $element.html(html);
+                } else {
+                    $element.empty();
+                }
+            })
+            .always(function () {
+                $element
+                    .removeClass('placeholder box-placeholder')
+                    .css('height', 'auto');
+            });
     },
 
     GotoCart: function () {
@@ -976,105 +1011,95 @@ var global_service = {
         $('.box-search-list .price-old').addClass('placeholder')
     },
 
-    RenderGroupProductItem: function (list, template) {
-        
-        var html = '';
-        $(list).each(function (index, item) {
-            var img_src = item.image_path;
-            if (!img_src.includes(API_URL.StaticDomain)
-                && !img_src.includes("data:image")
-                && !img_src.includes("http")) {
+   RenderGroupProductItem: function(list, template) {
+    return list.map(item => {
+        let img_src = item.image_path;
+        if (!img_src.includes("http")) {
+            img_src = API_URL.StaticDomain + img_src;
+        }
+        return template
+            .replaceAll('{url}', item.url_path)
+            .replaceAll('{avt}', img_src)
+            .replaceAll('{id}', item.id)
+            .replaceAll('{name}', item.name);
+    }).join('');
+},
+
+    RenderSlideProductItem: function (list, template) {
+        if (!list || !list.length) return '';
+
+        const now = new Date();
+        return list.map(item => {
+            let img_src = item.avatar || '';
+            if (img_src && !img_src.includes(API_URL.StaticDomain) && !img_src.startsWith("http") && !img_src.startsWith("data:image")) {
                 img_src = API_URL.StaticDomain + img_src;
             }
 
-            html += template
-                .replaceAll('{url}',item.url_path)
-                .replaceAll('{avt}', img_src)
-                .replaceAll('{id}', item.id)
-                .replaceAll('{name}', item.name);
-        });
-
-        return html;
-    },
-    RenderSlideProductItem: function (list, template) {
-        var html = '';
-        var now = new Date();
-
-        $(list).each(function (index, item) {
-           
-            var img_src = item.avatar;
-            if (!img_src.includes(API_URL.StaticDomain) &&
-                !img_src.includes("data:image") &&
-                !img_src.includes("http")) {
-                img_src = API_URL.StaticDomain + item.avatar;
-            }
-           
-
-            var badgeType = item.flashsale_badge_type;
-            var badge_img = '';
-
-            if (badgeType != null && FLASH_SALE_IMAGES[badgeType]) {
-                var tagImage = FLASH_SALE_IMAGES[badgeType];
-                badge_img = `<img class="tag-banchay" src="${tagImage}" alt="" />`;
+            let badge_img = '';
+            if (item.flashsale_badge_type && FLASH_SALE_IMAGES[item.flashsale_badge_type]) {
+                badge_img = `<img loading="lazy" class="tag-banchay" src="${FLASH_SALE_IMAGES[item.flashsale_badge_type]}" alt="" />`;
             }
 
+            // giá
+            let amount_html = 'Giá liên hệ';
+            let amount_number = 0;
+            let has_price = false;
 
-
-            // --- XỬ LÝ GIÁ ---
-            var amount_html = 'Giá liên hệ';
-            var amount_number = 0;
-            var has_price = false;
-
-            var flash_sale_todate = item.flash_sale_todate ? new Date(item.flash_sale_todate) : null;
-            var isFlashSale = item.amount_after_flashsale != null &&
-                item.amount_after_flashsale > 0 &&
-                flash_sale_todate != null &&
-                flash_sale_todate > now;
+            const flash_sale_todate = item.flash_sale_todate ? new Date(item.flash_sale_todate) : null;
+            const isFlashSale = item.amount_after_flashsale && item.amount_after_flashsale > 0 && flash_sale_todate > now;
 
             if (isFlashSale) {
                 amount_html = global_service.Comma(item.amount_after_flashsale) + ' đ';
                 amount_number = item.amount_after_flashsale;
                 has_price = true;
-            }
-            else if (item.amount_min != null && item.amount_min > 0) {
+            } else if (item.amount_min && item.amount_min > 0) {
                 amount_html = global_service.Comma(item.amount_min) + ' đ';
                 amount_number = item.amount_min;
                 has_price = true;
-            }
-            else if (item.amount != null && item.amount > 0) {
+            } else if (item.amount && item.amount > 0) {
                 amount_html = global_service.Comma(item.amount) + ' đ';
                 amount_number = item.amount;
                 has_price = true;
             }
 
-            if (has_price) {
-                let discountRounded = Math.round(parseFloat(item.discount) || 0);
-                let showDiscount = discountRounded > 0;
+            if (!has_price) return '';
 
-                html += template
-                    .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
-                    .replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}',  ${amount_number},
-                    ${item.rating || 0},
-                    ${item.review_count || 0},
-                    ${item.old_price || 0},
-                    ${discountRounded || 0},
-                    ${badgeType || 'null'})" href="`)
+            const discountRounded = Math.round(parseFloat(item.discount) || 0);
+            const showDiscount = discountRounded > 0;
 
+            const url = '/san-pham/' +
+                global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replace(/ /g, '-') +
+                '--' + item._id;
 
-                    .replaceAll('{badge_img}', badge_img)
-                    .replaceAll('{discount_text}', `-${discountRounded}%`)
-                    .replaceAll('{discount_style}', showDiscount ? '' : 'hidden')
-                    .replaceAll('{avt}', img_src)
-                    .replaceAll('{name}', item.name)
-                    .replaceAll('{amount}', amount_html)
-                    .replaceAll('{review_point}', (item.rating == null || item.rating <= 0) ? '' : item.rating.toFixed(1) + '★')
-                    .replaceAll('{review_count}', (item.review_count == null || item.review_count <= 0) ? '' : '(' + item.review_count.toFixed(0) + ')')
-                    .replaceAll('{old_price_style}', (item.old_price && item.old_price > 0 ? '' : 'display:none;'))
-                    .replaceAll('{price}', (item.old_price && item.old_price > 0) ? (global_service.Comma(item.old_price) + ' đ') : '');
-            }
-        });
-
-        return html;
+            return `
+            <div class="swiper-slide">
+                <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                    <a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}', ${amount_number}, ${item.rating || 0}, ${item.review_count || 0}, ${item.old_price || 0}, ${discountRounded || 0}, ${item.flashsale_badge_type || 'null'})"
+                       href="${url}">
+                        ${badge_img}
+                        <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                            <img loading="lazy" src="${img_src}" alt="${item.name}" class="absolute inset-0 w-full h-full object-cover" />
+                            <div class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(assets/images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1 ${showDiscount ? '' : 'hidden'}">
+                                -${discountRounded}%
+                            </div>
+                        </div>
+                        <p class="text-sm line-clamp-2 font-medium mt-2">${item.name}</p>
+                        <div class="absolute bottom-2 w-full px-2 left-0">
+                            <div class="text-rose-600 font-bold mt-1">${amount_html}</div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-xs line-through text-slate-400" style="${item.old_price && item.old_price > 0 ? '' : 'display:none;'}">
+                                    ${item.old_price ? global_service.Comma(item.old_price) + ' đ' : ''}
+                                </div>
+                                <div class="text-xs text-yellow-500 mt-1">
+                                    ${item.rating > 0 ? (item.rating.toFixed(1) + '★') : ''} 
+                                    ${item.review_count > 0 ? '(' + item.review_count + ')' : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>`;
+        }).join('');
     },
 
     RenderSlideSaleProductItem: function (list, template) {
