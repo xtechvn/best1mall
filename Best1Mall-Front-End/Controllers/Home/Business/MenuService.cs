@@ -196,32 +196,37 @@ namespace Best1Mall_Front_End.Controllers.Home.Business
             {
                 var connect_api_us = new ConnectApi(configuration, redisService);
                 var input_request = new Dictionary<string, string>
-                {
-                    {"top",top.ToString() }
-                };
+        {
+            { "top", top.ToString() }
+        };
+
                 var response_api = await connect_api_us.CreateHttpRequest("/api/label/shopmall", input_request);
 
-                // Nhan ket qua tra ve                            
-                var JsonParent = JArray.Parse("[" + response_api + "]");
-                int status = Convert.ToInt32(JsonParent[0]["status"]);
+                // Parse JSON trực tiếp, không cần wrap thêm "[ ... ]"
+                var jsonData = JObject.Parse(response_api);
+                int status = (int)jsonData["status"];
 
-                if (status == ((int)ResponseType.SUCCESS))
+                if (status == (int)ResponseType.SUCCESS)
                 {
-                    string data = JsonParent[0]["data"].ToString();
+                    string data = jsonData["data"]?.ToString();
+                    if (string.IsNullOrEmpty(data)) return null;
+
                     return JsonConvert.DeserializeObject<List<LabelListingModel>>(data);
                 }
-                else
-                {
-                    return null;
-                }
 
+                return null;
             }
             catch (Exception ex)
             {
-                Utilities.LogHelper.InsertLogTelegramByUrl(configuration["telegram_log_error_fe:Token"], configuration["telegram_log_error_fe:GroupId"], "getListMenuHelp " + ex.Message);
+                Utilities.LogHelper.InsertLogTelegramByUrl(
+                    configuration["telegram_log_error_fe:Token"],
+                    configuration["telegram_log_error_fe:GroupId"],
+                    "GetShopMall error: " + ex.Message
+                );
                 return null;
             }
         }
+
 
 
 

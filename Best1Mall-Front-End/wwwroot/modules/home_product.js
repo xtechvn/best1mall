@@ -259,6 +259,7 @@ $(document).ready(function () {
 
     var home_product = {
         Initialization: function () {
+            
 
             global_service.LoadGroupProduct($('.list-danhmuc'), GLOBAL_CONSTANTS.GroupProduct.GROUP_PRODUCT, GLOBAL_CONSTANTS.GridSize)
             // Lấy group_id đầu tiên từ danh sách danh mục

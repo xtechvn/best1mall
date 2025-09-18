@@ -23,27 +23,25 @@ namespace Best1Mall_Front_End.Controllers.Home
             redisService = _redisService;
             _newServices = new NewsService(_configuration, _redisService);
         }
-        public async Task<IActionResult> Index(string path, int category_id, int page = 1, string category_path_child = "")
+        public async Task<IActionResult> Index()
         {
-            var globalConstants = new
-            {
-                GroupProduct = new
-                {
-                    FlashSale = 15,
-                    ListProduct = 1
-                }
-            };
+            //var globalConstants = new
+            //{
+            //    GroupProduct = new
+            //    {
+            //        FlashSale = 15,
+            //        ListProduct = 1
+            //    }
+            //};
 
-            ViewBag.GLOBAL_CONSTANTS = globalConstants;
+            //ViewBag.GLOBAL_CONSTANTS = globalConstants;
             // Khởi tạo các param phân vào các ViewComponent
-            var article_sv = new NewsService(configuration, redisService);
+            //var article_sv = new NewsService(configuration, redisService);
 
-            ViewBag.category_id = 22;// Convert.ToInt32(configuration["menu:news_parent_id"]);
-            ViewBag.page = page;
-            ViewBag.page_size = Convert.ToInt32(configuration["blognews:page_size"]);
-           // ViewBag.total_items = await article_sv.getTotalNews(-1); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
-                                                                     // Gọi ViewComponent trực tiếp và trả về kết quả
-           
+            //ViewBag.category_id = 22;// Convert.ToInt32(configuration["menu:news_parent_id"]);
+            //ViewBag.page = page;
+            //ViewBag.page_size = Convert.ToInt32(configuration["blognews:page_size"]);
+         
             return View();
         }
         // Load label( Thương Hiệu) 

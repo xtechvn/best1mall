@@ -19,7 +19,7 @@ var cart = {
         cancel_token: false
     },
     Initialization: function () {
-       
+
 
         cart.DynamicBind()
         cart.CartItem()
@@ -311,7 +311,7 @@ var cart = {
 
         //Vourcher
         $('.btn-vorcher').on('click', function () {
-            
+
             $("#dieukien-popup").addClass("hidden")
             // Xoá lỗi cũ
             $('#voucher-popup .voucher-error').remove();
@@ -389,7 +389,7 @@ var cart = {
 
 
         $('body').on('click', 'input[name="voucher_shipping"], input[name="voucher_general"]', function (e) {
-            
+
             const $this = $(this);
 
             // Nếu click vào chính voucher đang được chọn → uncheck thủ công
@@ -409,10 +409,10 @@ var cart = {
                 lastCheckedVoucher = $this[0];
             }
         });
-       
- 
+
+
         $("body").on("click", ".btn-back-voucher , .closedk", function () {
-            
+
             $("#dieukien-popup").addClass("hidden");       // ẩn popup điều kiện
             $("#voucher-popup").removeClass("hidden").show(); // hiện lại popup chọn voucher
         });
@@ -474,7 +474,7 @@ var cart = {
         }
     },
     CartItem: function () {
-       
+
         var usr = global_service.CheckLogin()
         $('#skeleton-loading').show();
         if (usr) {
@@ -485,7 +485,7 @@ var cart = {
                 global_service.POST(API_URL.CartList, request)
 
             ).done(function (result) {
-                
+
                 if (result.is_success && result.data && result.data.length > 0) {
                     cart.RenderCartItem(result.data)
                     cart.RenderBuyNowSelection()
@@ -516,7 +516,7 @@ var cart = {
 
     },
     RenderCartItem: function (list) {
-        
+
         const groupedBySupplier = {};
 
         // 1. Gom nhóm theo supplier_id
@@ -554,7 +554,7 @@ var cart = {
                     product.flash_sale_todate != null &&
                     new Date(product.flash_sale_todate) > new Date();
 
-               
+
 
                 // Tồn kho & quantity an toàn
                 const stock = Number(product.quanity_of_stock) || 0;
@@ -674,7 +674,7 @@ var cart = {
     },
 
     RenderBuyNowSelection: function () {
-       
+
         var buy_now_item = sessionStorage.getItem(STORAGE_NAME.BuyNowItem);
         if (!buy_now_item) return;
 
@@ -719,7 +719,7 @@ var cart = {
 
     },
     GetListVoucherUser: function () {
-        
+
         const usr = global_service.CheckLogin();
         if (!usr) return;
 
@@ -746,50 +746,60 @@ var cart = {
     },
 
     RenderVoucherList: function (vouchers) {
-        
 
+        debugger
         const $root = $('.list-voucher');
         if ($root.length === 0) return;
 
         // 1) Tạo 2 cụm bên trong .list-voucher nếu chưa có
         if ($root.find('.list-voucher-shipping').length === 0 || $root.find('.list-voucher-general').length === 0) {
             $root.html(`
-            <div class="voucher-section space-y-4">
-              <div class="voucher-group-shipping">
-                <h4 class="font-semibold mb-2">Voucher vận chuyển</h4>
-                <div class="list-voucher-shipping space-y-3"></div>
-              </div>
-              <div class="voucher-group-general mt-6">
-                <h4 class="font-semibold mb-2">Voucher khác</h4>
-                <div class="list-voucher-general space-y-3"></div>
-              </div>
-            </div>
+        <div class="voucher-section space-y-4">
+          <div class="voucher-group-shipping">
+            <h4 class="font-semibold mb-2">Voucher vận chuyển</h4>
+            <div class="list-voucher-shipping space-y-3"></div>
+          </div>
+          <div class="voucher-group-general mt-6">
+            <h4 class="font-semibold mb-2">Voucher khác</h4>
+            <div class="list-voucher-general space-y-3"></div>
+          </div>
+        </div>
         `);
         }
 
         const $ship = $root.find('.list-voucher-shipping');
         const $gen = $root.find('.list-voucher-general');
 
-        // 2) Chuẩn hoá (API C# có thể trả "Id" pascal-case)
+        // 2) Chuẩn hoá field
         const norm = (v) => ({
             id: typeof v.id !== 'undefined' ? v.id : v.Id,
             code: v.code,
             description: v.description,
-            eDate: v.eDate,
+            eDate: v.eDate, // "2025-09-15" hoặc ISO string
             price_sales: v.price_sales,
             unit: v.unit,
             rule_type: v.rule_type, // =1: vận chuyển; !=1: khác
             image: v.image,
-            name:v.name
+            name: v.name
         });
-        const items = (vouchers || []).map(norm);
+        let items = (vouchers || []).map(norm);
 
-        // 3) Chia nhóm
+        // 3) Lọc voucher còn hạn
+        const now = new Date();
+        items = items.filter(v => {
+            if (!v.eDate) return true; // ko có hạn thì cho qua
+            const expire = new Date(v.eDate);
+            return expire >= now; // chỉ lấy còn hạn
+        });
+
+        // 4) Chia nhóm
         const shipping = items.filter(x => x.rule_type === 1);
         const general = items.filter(x => x.rule_type !== 1);
 
+
         // 4) Template item (radio theo nhóm để limit 1 lựa chọn/nhóm)
         const renderItem = (v, groupName) => {
+            debugger
             const unitText = v.unit === 'vnd' ? '₫' : '%';
             const imgSrc = v.image || '/assets/images/Voucher.png';
             const expireText = v.eDate ? v.eDate : '';
@@ -825,26 +835,34 @@ var cart = {
             </label>
         `;
         };
-
-        // 5) Render
+        debugger
+        // 6) Render
         $ship.html(shipping.map(v => renderItem(v, 'voucher_shipping')).join(''));
         $gen.html(general.map(v => renderItem(v, 'voucher_general')).join(''));
 
-        // 6) Ẩn tiêu đề nhóm nếu rỗng
+        // 7) Ẩn tiêu đề nhóm nếu rỗng
         $root.find('.voucher-group-shipping').toggle(shipping.length > 0);
         $root.find('.voucher-group-general').toggle(general.length > 0);
 
-        // 7) Đồng bộ lựa chọn vào biến global cho ConfirmCart
+        // 8) Nếu cả 2 đều rỗng thì show text fallback
+        if (shipping.length === 0 && general.length === 0) {
+            $root.html(`
+      <div class="text-center text-slate-500 py-6">
+        Không có voucher khả dụng
+      </div>
+    `);
+        }
+
+        // 9) Đồng bộ lựa chọn
         window.appliedVouchers = window.appliedVouchers || [];
 
-        //// Nếu đã có chọn trước đó → pre-check lại
-       
+
 
 
     },
     // Lấy voucher đang chọn theo 2 nhóm radio
     GetSelectedVouchers: function () {
-        
+
         const ship = $('input[name="voucher_shipping"]:checked');
         const gen = $('input[name="voucher_general"]:checked');
 
@@ -866,7 +884,7 @@ var cart = {
         return res;
     },
     BuildVoucherContext: function () {
-        
+
         let total_product_amount = 0;
         const bySupplier = {};
 
@@ -876,7 +894,7 @@ var cart = {
 
         // duyệt sản phẩm được tick
         $('.table-addtocart .product').each(function () {
-            
+
             const $el = $(this);
             if (!$el.find('.checkbox-cart').is(':checked')) return;
 
@@ -911,13 +929,13 @@ var cart = {
     },
     // Preview tổng giảm khi có thể có 2 voucher (ship + general)
     PreviewSelectedVouchers: function () {
-        
+
         const usr = global_service.CheckLogin();
         const token = usr ? usr.token : '';
 
         const ctx = cart.BuildVoucherContext();
         const selected = Array.isArray(window.appliedVouchers) ? window.appliedVouchers : [];
-        
+
         // Không có voucher -> reset hiển thị
         if (selected.length === 0) {
             // tổng = tiền hàng + ship (chưa giảm)
@@ -932,7 +950,7 @@ var cart = {
         // Tách 2 voucher (nếu có)
         const shipVoucher = selected.find(v => v.rule_type === 1);
         const genVoucher = selected.find(v => v.rule_type !== 1);
-        
+
         // Tạo các promise áp dụng
         const calls = [];
         if (genVoucher) {
@@ -972,10 +990,10 @@ var cart = {
             }).promise());
         }
 
-        
+
         // Chờ cả hai kết quả
         $.when.apply($, calls).done(function (resGen, resShip) {
-            
+
             // Nếu chỉ có 1 real call, jQuery sẽ truyền khác dạng — normalize lại:
             const resultGen = Array.isArray(resGen) ? resGen[0] : resGen;
             const resultShip = Array.isArray(resShip) ? resShip[0] : resShip;
@@ -1018,7 +1036,7 @@ var cart = {
         });
     },
     UpdateDiscountViewCombined: function (data) {
-        
+
         // Ẩn popup, show section giảm
         $('#voucher-popup').addClass('hidden');
         $('#discountSection').removeClass('hidden');
@@ -1045,7 +1063,7 @@ var cart = {
 
 
     ApplyVoucher: function (request) {
-        
+
 
         return $.when(global_service.POST(API_URL.ApplyVoucher, request));
 
@@ -1082,7 +1100,7 @@ var cart = {
 
     // Tính lại tiền hàng, phí ship, hiển thị tổng; nếu có voucher sẽ preview bằng 2 call /voucher/apply
     ReRenderAmount: function (loading_shipping = true) {
-        
+
         let total_product_amount = 0;
         let hasPricedItem = false;
 
@@ -1205,7 +1223,7 @@ var cart = {
 
 
     ConfirmCart: function () {
-        
+
         // ✨ Show loading + disable button
         const $btn = $('.btn-confirm-cart');
         $btn.prop('disabled', true).addClass('opacity-60 cursor-not-allowed');
@@ -1331,7 +1349,7 @@ var cart = {
 
             if (carts.length > 0) {
                 // ✅ Chặn confirm nếu toàn sản phẩm 0đ hoặc quantity = 0
-                
+
 
                 var request = {
                     "carts": carts,
@@ -1351,9 +1369,9 @@ var cart = {
                 $.when(
                     global_service.POST(API_URL.CartConfirm, request)
                 ).done(function (result) {
-                    
+
                     if (result.is_success && result.data != undefined) {
-                        
+
                         request.result = result.data
                         sessionStorage.setItem(STORAGE_NAME.Order, JSON.stringify(request))
                         sessionStorage.removeItem(STORAGE_NAME.CartCount)
@@ -1371,7 +1389,7 @@ var cart = {
                                 id: result.data.id
                             };
                             $.post('/Order/VNPay', redirect_request).done(function (res) {
-                                
+
                                 if (res.is_success && res.data) {
                                     window.location.href = res.data; // redirect sang trang VNPAY
                                 } else {
@@ -1685,7 +1703,7 @@ var cart = {
         };
     },
 
-   
+
 
 
 

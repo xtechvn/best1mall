@@ -858,6 +858,7 @@ var global_service = {
     //},
    
     LoadGroupProduct: function ($element, group_id, size) {
+        
         // add placeholder khi load
         $element
             .addClass('placeholder box-placeholder')
@@ -1011,7 +1012,8 @@ var global_service = {
         $('.box-search-list .price-old').addClass('placeholder')
     },
 
-   RenderGroupProductItem: function(list, template) {
+    RenderGroupProductItem: function (list, template) {
+        
     return list.map(item => {
         let img_src = item.image_path;
         if (!img_src.includes("http")) {
