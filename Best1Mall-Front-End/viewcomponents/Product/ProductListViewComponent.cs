@@ -57,7 +57,7 @@ namespace BIOLIFE.ViewComponents.Product
                         cached_view = await productService.GetProductList(request);
                         if (cached_view != null)
                         {
-                            _cache.Set(cacheKey, cached_view, TimeSpan.FromSeconds(30));
+                            _cache.Set(cacheKey, cached_view, TimeSpan.FromSeconds(60));
                         }
                     }
                 }

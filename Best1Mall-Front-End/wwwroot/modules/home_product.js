@@ -9,6 +9,7 @@ function getRawNumber(str) {
 
 
 $(document).ready(function () {
+    global_service.LoadGroupProduct($('.list-danhmuc'), GLOBAL_CONSTANTS.GroupProduct.GROUP_PRODUCT, GLOBAL_CONSTANTS.GridSize)
     home_product.Initialization()
     // ✅ Mặc định load danh sách "Tất cả" (group_id = 0)
 
@@ -261,7 +262,7 @@ $(document).ready(function () {
         Initialization: function () {
             
 
-            global_service.LoadGroupProduct($('.list-danhmuc'), GLOBAL_CONSTANTS.GroupProduct.GROUP_PRODUCT, GLOBAL_CONSTANTS.GridSize)
+           
             // Lấy group_id đầu tiên từ danh sách danh mục
             const firstCategoryId = parseInt($('.cat-tag2').first().data('id')) || 0;
 

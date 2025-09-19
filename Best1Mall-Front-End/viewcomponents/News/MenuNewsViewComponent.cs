@@ -137,7 +137,7 @@ namespace WEB.CMS.ViewComponents
 
                     if (cachedView != null)
                     {
-                        _cache.Set(menuInfo.cacheKey, cachedView, TimeSpan.FromSeconds(30));
+                        _cache.Set(menuInfo.cacheKey, cachedView, TimeSpan.FromSeconds(60));
                     }
                 }
 

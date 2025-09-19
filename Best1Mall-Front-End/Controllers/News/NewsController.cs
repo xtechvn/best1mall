@@ -33,11 +33,11 @@ namespace Best1Mall_Front_End.Controllers.News
         public async Task<IActionResult> Index(string path, int category_id, int page = 1, string category_path_child = "")
         {
             // Khởi tạo các param phân vào các ViewComponent
-            var article_sv = new NewsService(configuration, redisService);
+            //var article_sv = new NewsService(configuration, redisService);
 
             ViewBag.category_id = category_id;// Convert.ToInt32(configuration["menu:news_parent_id"]);
-            ViewBag.page = page;
-            ViewBag.page_size = Convert.ToInt32(configuration["blognews:page_size"]);
+            //ViewBag.page = page;
+            //ViewBag.page_size = Convert.ToInt32(configuration["blognews:page_size"]);
             //ViewBag.total_items = await article_sv.getTotalNews(11); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
             return View();
         }
@@ -46,11 +46,11 @@ namespace Best1Mall_Front_End.Controllers.News
         [HttpGet]
         public async Task<IActionResult> Category(string path, string category_path_child, int category_id, int page = 1)
         {
-            var article_sv = new NewsService(configuration, redisService);
+            //var article_sv = new NewsService(configuration, redisService);
             ViewBag.category_id = category_id;
-            ViewBag.page_size = Convert.ToInt32(configuration["blognews:page_size"]);
-            ViewBag.total_items = await article_sv.getTotalNews(category_id); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
-            ViewBag.page = page;
+            //ViewBag.page_size = Convert.ToInt32(configuration["blognews:page_size"]);
+           // ViewBag.total_items = await article_sv.getTotalNews(category_id); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
+            //ViewBag.page = page;
 
             // Chung view với trang chủ news
             return View("~/Views/News/Index.cshtml");

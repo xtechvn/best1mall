@@ -51,7 +51,7 @@ namespace BIOLIFE.ViewComponents.Product
 
                     if (cachedView != null)
                     {
-                        _cache.Set(config.cacheKey, cachedView, TimeSpan.FromSeconds(20));
+                        _cache.Set(config.cacheKey, cachedView, TimeSpan.FromSeconds(60));
                     }
                 }
                 // ✅ Nếu không có dữ liệu → không render gì cả

@@ -117,12 +117,23 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
         {
             string cacheKey = $"LabelList:{request.label_id}:{request.page_index}:{request.page_size}";
 
+            // ✅ Check cache trước
             if (_cache.TryGetValue(cacheKey, out ProductListResponseModel cached))
+            {
+                Console.WriteLine($"[CACHE HIT] LabelListProduct label_id={request.label_id}, page={request.page_index} took 0 ms");
                 return cached;
+            }
+
+            //var sw = System.Diagnostics.Stopwatch.StartNew();
 
             try
             {
+                // ✅ Call API backend
                 var result = await POST("api/Product/list-by-label", request);
+
+                //sw.Stop();
+                //Console.WriteLine($"[API CALL] LabelListProduct label_id={request.label_id}, page={request.page_index} took {sw.ElapsedMilliseconds} ms");
+
                 var jsonData = JObject.Parse(result);
                 int status = (int)(jsonData["status"] ?? 0);
 
@@ -133,18 +144,24 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                     {
                         var parsed = JsonConvert.DeserializeObject<ProductListResponseModel>(data);
 
-                        // cache 2 phút
-                        _cache.Set(cacheKey, parsed, TimeSpan.FromSeconds(30));
-
+                        // ✅ Save vào cache
+                        _cache.Set(cacheKey, parsed, TimeSpan.FromSeconds(60));
+                        //Console.WriteLine($"[CACHE SET] LabelListProduct label_id={request.label_id}, page={request.page_index}, cached for 30s");
 
                         return parsed;
                     }
                 }
+                else
+                {
+                    Console.WriteLine($"[API FAIL] LabelListProduct label_id={request.label_id}, status={status}");
+                }
             }
             catch (Exception ex)
             {
-                // log lỗi
+                //sw.Stop();
+                Console.WriteLine($"[ERROR] LabelListProduct label_id={request.label_id} failed after ms: {ex.Message}");
             }
+
             return null;
         }
 

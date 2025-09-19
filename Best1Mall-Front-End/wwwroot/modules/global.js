@@ -13,6 +13,16 @@
 })
 var global_service = {
     Initialization: function () {
+        //////////////////////////// ListLabel
+        const promises = $('#dynamic-label-blocks .list_product').map(function () {
+            return global_service.loadLabelSection($(this));
+        }).get();
+
+        Promise.all(promises).then(() => {
+            console.log("Tất cả block đã load xong");
+        });
+
+        ////////////////////////////////////////////////
         if (window.history && window.history.pushState) {
             $(window).on('popstate', function () {
                 window.location.reload()
@@ -364,13 +374,7 @@ var global_service = {
             $(".box-search-list").fadeOut();
             $("#global-search-loading").hide();
         });
-        const promises = $('#dynamic-label-blocks .list_product').map(function () {
-            return global_service.loadLabelSection($(this));
-        }).get();
-
-        Promise.all(promises).then(() => {
-            console.log("Tất cả block đã load xong");
-        });
+        
 
         // Observer config
         //const observer = new IntersectionObserver(entries => {
@@ -407,7 +411,7 @@ var global_service = {
 
     },
     loadLabelSection: function (section) {
-                const swiperWrapper = section.find('.swiper-wrapper');
+        const swiperWrapper = section.find('.swiper-wrapper');
         const labelId = parseInt(swiperWrapper.attr('id').replace('swiper-wrapper-', ''), 10);
         const bannerEl = section.find('img[id^="banner-"]');
         const bannerId = '#' + bannerEl.attr('id');
@@ -419,14 +423,24 @@ var global_service = {
             page_size: GLOBAL_CONSTANTS.GridSize
         };
 
-        // ✅ return Ajax promise
+        //// Log toàn bộ process
+        //console.time(`label-block-${labelId}`);
+
+        //// Log riêng API
+        //console.time(`api-label-${labelId}`);
+
         return global_service.POST(API_URL.LabelListProduct, request)
             .then(res => {
+                //console.timeEnd(`api-label-${labelId}`); // đo xong API
+
                 if (res.is_success && res.data) {
                     const products = res.data;
                     const labelDetail = res.label_detail;
 
+                    // Log render
+                    //console.time(`render-products-${labelId}`);
                     let html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem);
+                    //console.timeEnd(`render-products-${labelId}`);
 
                     if (![GLOBAL_CONSTANTS.GroupProduct.FlashSale].includes(labelId)) {
                         const labelSlug = global_service.RemoveUnicode(
@@ -453,11 +467,17 @@ var global_service = {
                 } else {
                     swiperWrapper.html('<div class="text-center text-gray-500 py-6">Không có sản phẩm</div>');
                 }
+
+               // console.timeEnd(`label-block-${labelId}`); // đo tổng block
             })
             .catch(() => {
+                //console.timeEnd(`api-label-${labelId}`);
+                //console.timeEnd(`label-block-${labelId}`);
+
                 swiperWrapper.html('<div class="text-center text-red-500 py-6">Lỗi khi tải dữ liệu</div>');
             });
-        },
+    },
+
 
 
     LoadPolicy: function () {
