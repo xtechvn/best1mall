@@ -9,8 +9,6 @@
         margin-top: 4px;
     }
 
-
-   
 </style>
 
 <div class="box-info" id="profile">
@@ -66,11 +64,14 @@
 
         <div class="form-group">
             <label>Ngày sinh</label>
-            <div class="box-input birthday">
-                <input id="dob" class="form-control !pl-[11px]" type="date" />
-                
-                <div class="error-message" id="error-dob"></div>
+            <div class="box-input birthday" style="display:flex;align-items:center;gap:6px;">
+                <input id="dob"
+                       class="form-control !pl-[11px]"
+                       type="date"
+                       placeholder="Chọn ngày sinh" />
+                <button id="calendar-btn" style="display:none" type="button">📅</button>
             </div>
+            <div class="error-message" id="error-dob"></div>
         </div>
 
 
@@ -89,22 +90,22 @@
         </div>
     </form>
 </div>
-@* <div class="banner-bottom hidden" id="banner-aff-bottom"> *@
-@*     <div class="text-box"> *@
-@*         <p> *@
-@*             Trở thành <span class="text-color-base">sứ giả hàng thật</span>, giới thiệu sản phẩm thật, chất lượng, chính hãng *@
-@*             tới người khác để lan tỏa giá trị, giúp cộng đồng tránh được rủi ro mua phải *@
-@*             hàng giả, hàng kém chất lượng tại những kênh bán không uy tín. *@
-@*         </p> *@
-@*         <p class="bg-p">Hưởng chính sách giới thiệu sản phẩm<br /> khi đơn hàng mua thành công.</p> *@
-@*     </div> *@
-@*     <div class="image-box"> *@
-@*         <a href=""> *@
-@*             <img src="/assets/images/banner-aff-ft.png" alt="" /> *@
-@*         </a> *@
-@*     </div> *@
-@*     <a href="javascript:;" class="btn-primary" id="btnRegisterAffiliate">Đăng ký Affiliate ngay</a> *@
-@* </div> *@
+<div class="banner-bottom hidden" id="banner-aff-bottom">
+    <div class="text-box">
+        <p>
+            Trở thành <span class="text-color-base">sứ giả hàng thật</span>, giới thiệu sản phẩm thật, chất lượng, chính hãng
+            tới người khác để lan tỏa giá trị, giúp cộng đồng tránh được rủi ro mua phải
+            hàng giả, hàng kém chất lượng tại những kênh bán không uy tín.
+        </p>
+        <p class="bg-p">Hưởng chính sách giới thiệu sản phẩm<br /> khi đơn hàng mua thành công.</p>
+    </div>
+    <div class="image-box">
+        <a href="">
+            <img src="/assets/images/banner-aff-ft.png" alt="" />
+        </a>
+    </div>
+    <a href="javascript:;" class="btn-primary" id="btnRegisterAffiliate">Đăng ký Affiliate ngay</a>
+</div>
 
 
 @section Scripts {
@@ -113,12 +114,16 @@
         const dobInput = document.getElementById("dob");
         const calendarBtn = document.getElementById("calendar-btn");
 
-        // cách 1: focus vào input => trình duyệt mở picker
+        // Click vào icon => mở date picker
         calendarBtn.addEventListener("click", () => {
           dobInput.showPicker?.() || dobInput.focus();
         });
 
-        // cách 2: click cả input (nếu muốn custom lại behavior)
+        // Click hoặc focus vào input => mở date picker luôn
+        dobInput.addEventListener("focus", () => {
+          dobInput.showPicker?.();
+        });
+
         dobInput.addEventListener("click", () => {
           dobInput.showPicker?.();
         });

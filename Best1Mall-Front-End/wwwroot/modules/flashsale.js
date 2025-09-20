@@ -76,7 +76,7 @@ var flashsale = {
                 });
 
                 //container.append(flashsale.RenderViewAllSlide());
-                flashsale.InitializeSwiper();
+                //flashsale.InitializeSwiper();
             } else {
                 container.html('<div class="swiper-slide text-center text-gray-400">Không có sản phẩm.</div>');
             }

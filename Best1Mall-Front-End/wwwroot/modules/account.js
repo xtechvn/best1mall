@@ -27,29 +27,29 @@ $(document).ready(function () {
         // active highlight menu con
         $(".affiliate-menu a").removeClass("active");
         $(this).addClass("active");
-        
+
 
         // 👉 Logic riêng cho từng tab
         switch (tabId) {
 
             case "create-link":
                 //account.loadPaymentDetail();
-               account.loadAffiliateLink(); // gọi API /affiliate/register
+                account.loadAffiliateLink(); // gọi API /affiliate/register
                 break;
             case "manage-orders":
                 account.loadAffiliateOrders(1); // gọi API /affiliate/order/listing
                 break;
             case "commission":
-               account.loadAffiliateCommission(1); // gọi API đối soát hoa hồng
+                account.loadAffiliateCommission(1); // gọi API đối soát hoa hồng
                 break;
             case "payment-info":
-               account.loadPaymentInfo(); // gọi API /affiliate/detail
+                account.loadPaymentInfo(); // gọi API /affiliate/detail
                 break;
             default:
                 console.log("Unknown tab: " + tabId);
         }
     });
-    
+
     // Mở popup
     $(document).on("click", ".update-bank", function () {
         var id = $(this).data("id") || 0;
@@ -59,7 +59,7 @@ $(document).ready(function () {
 
     // Đóng popup
     $(document).on("click", ".closePopup", function () {
-       
+
         $("#bank-popup").addClass("hidden")
             .removeAttr("style")   // xoá inline display:block
             .attr("data-id", 0);
@@ -74,30 +74,30 @@ $(document).ready(function () {
         window.location.href = "/client/detailpayment/" + month;
     });
     $(document).on("click", "#btnQuickCopy", function () {
-   
-        
+
+
         account.addNewAffiliate();
-       
+
     });
-    //if (user && user.isRegisterAffiliate) {
-    //    // ✅ đã đăng ký → hiện box tạo link + bật menu
-    //    $(".link-aff").removeClass("hidden");
-    //    $("#banner-aff").addClass("hidden");
+    if (user && user.isRegisterAffiliate) {
+        // ✅ đã đăng ký → hiện box tạo link + bật menu
+        $(".link-aff").removeClass("hidden");
+        $("#banner-aff").addClass("hidden");
 
-    //    $(".affiliate-menu").removeClass("hidden");
-    //    $(".aff span i.icon-affiliate").removeClass("text-gray-400"); // trả về màu cũ
-    //    $("#banner-aff-bottom").addClass("hidden");
-    //} else {
-    //    // ❌ chưa đăng ký → show banner + disable menu
-    //    $(".link-aff").addClass("hidden");
-    //    $("#banner-aff").removeClass("hidden");
+        $(".affiliate-menu").removeClass("hidden");
+        $(".aff span i.icon-affiliate").removeClass("text-gray-400"); // trả về màu cũ
+        $("#banner-aff-bottom").addClass("hidden");
+    } else {
+        // ❌ chưa đăng ký → show banner + disable menu
+        $(".link-aff").addClass("hidden");
+        $("#banner-aff").removeClass("hidden");
 
-    //    $(".affiliate-menu").addClass("hidden"); // ẩn dropdown
-    //    $(".aff span i.icon-affiliate").addClass("text-gray-400"); // đổi icon màu xám
-    //    $(".aff span").addClass("cursor-not-allowed opacity-50"); // làm mờ + disable hover
-    //    // Chưa đăng ký → hiện banner
-    //    $("#banner-aff-bottom").removeClass("hidden");
-    //}
+        $(".affiliate-menu").addClass("hidden"); // ẩn dropdown
+        $(".aff span i.icon-affiliate").addClass("text-gray-400"); // đổi icon màu xám
+        $(".aff span").addClass("cursor-not-allowed opacity-50"); // làm mờ + disable hover
+        // Chưa đăng ký → hiện banner
+        $("#banner-aff-bottom").removeClass("hidden");
+    }
     $(document).on("click", "#btnRegisterAffiliate", function (e) {
         e.preventDefault();
 
@@ -155,7 +155,7 @@ function formatCurrency(num) {
 
 
 function SyncSessionCartToServer() {
-    
+
     var usr = global_service.CheckLogin();
     if (!usr) return;
 
@@ -165,14 +165,14 @@ function SyncSessionCartToServer() {
     let syncCount = 0;
 
     cart.forEach(item => {
-        
+
         let request = {
             product_id: item.product_id,
             quanity: item.quanity,
             token: usr.token
         };
         $.when(global_service.POST(API_URL.AddToCart, request)).done(function (result) {
-            
+
             if (result.is_success && result.data) {
                 syncCount++;
                 if (syncCount === cart.length) {
@@ -182,7 +182,7 @@ function SyncSessionCartToServer() {
                 }
             }
         });
-        
+
     });
 }
 
@@ -211,7 +211,7 @@ function parseMonthYear(monthStr) {
 }
 // 👉 Reusable pagination
 function renderPagination(pageIndex, pageSize, total, onPageChange) {
-    
+
     let totalPages = Math.ceil(total / pageSize);
     let $pagination = $(".pagination");
     $pagination.empty();
@@ -273,7 +273,7 @@ var account = {
     Initialization: function () {
         if ($('#forgot-password-change').length > 0) {
             account.DynamicBindChangePassword()
-            if ($('#forgot-password-change').attr('data-type')==2) {
+            if ($('#forgot-password-change').attr('data-type') == 2) {
                 account.RenderHTML()
                 account.DynamicBind()
             }
@@ -282,10 +282,10 @@ var account = {
             account.RenderHTML()
             account.DynamicBind()
         }
-     
+
     },
     DynamicBindChangePassword: function () {
-        var notification_empty ='Vui lòng không để trống'
+        var notification_empty = 'Vui lòng không để trống'
         var notification_diffirent = 'Mật khẩu và Xác nhận mật khẩu phải giống nhau'
         var usr = global_service.CheckLogin()
         var token = ''
@@ -295,18 +295,18 @@ var account = {
         }
 
         $("body").on('click', "#change-password-confirm", function () {
-            
-           
+
+
             $('#forgot-password-change .content .err-form').hide();
             let isValid = true;
             var request = {
                 "token": token,
-                
+
                 "password": $('#forgot-password-change .new-password input').val(),
                 "confirm_password": $('#forgot-password-change .confirm-new-password input').val()
             }
-            
-          
+
+
 
             // Validate mật khẩu mới
             if (!request.password || request.password.trim() === '') {
@@ -315,7 +315,7 @@ var account = {
             } else if (request.password.length < 6) {
                 $('.new-password .err').html("Mật khẩu mới phải có ít nhất 6 ký tự").show();
                 isValid = false;
-           
+
             } else {
                 $('.new-password .err').hide();
             }
@@ -336,7 +336,7 @@ var account = {
             $.when(
                 global_service.POST(API_URL.ChangePassword, request)
             ).done(function (res) {
-                
+
                 if (res.is_success === true) {
                     // ✅ Xoá UUID sau khi đổi mật khẩu thành công
                     localStorage.removeItem("change_password_uuid");
@@ -369,7 +369,7 @@ var account = {
         });
     },
     RenderHTML: function () {
-       
+
         $('.err').hide()
         var usr = global_service.CheckLogin()
         const $wrapper = $('#accountButton');
@@ -387,7 +387,7 @@ var account = {
                 .removeAttr('data-id')
                 .removeClass('client-login')
                 .addClass('client-logged');
-                // Xoá dropdown cũ nếu có
+            // Xoá dropdown cũ nếu có
             $('#accountDropdown').remove();
             // Thêm dropdown vào DOM
             const dropdownHTML = `
@@ -439,7 +439,7 @@ var account = {
 
         });
         $("body").on('keyup', "#register-form input", function () {
-           
+
             if (account.ValidateRegisterNoNotify() == true && !$('#register-form').hasClass('hidden')) {
                 $('#btn-client-register').removeAttr('disabled')
                 $('#btn-client-register').removeProp('disabled')
@@ -447,7 +447,7 @@ var account = {
 
             } else {
                 $('#btn-client-register').attr('disabled', 'disabled')
-                $('#btn-client-register').prop('disabled',true)
+                $('#btn-client-register').prop('disabled', true)
                 $('#btn-client-register').css('background-color', 'lightgray');
             }
         });
@@ -568,7 +568,7 @@ var account = {
 
         });
         $("body").on('click', "#change-pass", function (e) {
-            
+
             $('#login-popup').fadeOut()
             $('#forgot-popup').fadeIn()
             // Cập nhật title khi nhấn "Đổi mật khẩu"
@@ -592,16 +592,16 @@ var account = {
 
         });
         $("body").on('keyup', "#forgot-usr", function () {
-            var element=$(this)
+            var element = $(this)
             if (element.val() != undefined && element.val().trim() != '') {
                 var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
                 if (!pattern.test(element.val())) {
                     element.closest('.mb-4').find('.err').html(NOTIFICATION_MESSAGE.EmailInCorrect)
-                    element.closest('.mb-4').find('.err').show() 
+                    element.closest('.mb-4').find('.err').show()
                 } else {
                     $('#btn-client-forgot').prop('disabled', false)
                     $('#btn-client-forgot').css('background-color', '')
-                    element.closest('.mb-4').find('.err').hide() 
+                    element.closest('.mb-4').find('.err').hide()
                     return
                 }
             }
@@ -609,7 +609,7 @@ var account = {
             $('#btn-client-forgot').css('background-color', 'lightgray')
         });
         $("body").on('click', "#btn-client-forgot", function (e) {
-            var element=$(this)
+            var element = $(this)
             e.preventDefault()
             account.ConfirmForgotPassword(element)
         });
@@ -650,7 +650,7 @@ var account = {
         //    })
         //})
         $("#Create-Affiliate").click(function () {
-            
+
             var usr = global_service.CheckLogin();
             if (!usr || !usr.token) {
                 alert("Bạn chưa đăng nhập!");
@@ -658,7 +658,7 @@ var account = {
             }
 
             var request = {
-                Id:0,
+                Id: 0,
                 token: usr.token,
                 AccountName: $("#AccountName").val(),
                 AccountNumber: $("#AccountNumber").val(),
@@ -672,7 +672,7 @@ var account = {
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(request),
                 success: function (res) {
-                    
+
                     if (res && res.is_success) {
                         $("#linkaffiliate")[0].reset();
 
@@ -718,7 +718,7 @@ var account = {
             });
         });
         $("#btnSaveBank").click(function () {
-            
+
             var usr = global_service.CheckLogin();
             if (!usr || !usr.token) {
                 alert("Bạn chưa đăng nhập!");
@@ -741,7 +741,7 @@ var account = {
                 data: JSON.stringify(request),
                 success: function (res) {
                     if (res && res.is_success) {
-                       
+
 
                         $("#bank-popup").addClass("hidden")
                             .removeAttr("style")   // xoá inline display:block
@@ -764,7 +764,7 @@ var account = {
         //////////////////////////////////////
     },
     Login: function () {
-        
+
         var element = $('#btn-client-login')
         if (account.ValidateLogin()) {
             $(':input[type="submit"]').prop('disabled', true);
@@ -780,7 +780,7 @@ var account = {
             $.when(
                 global_service.POST(API_URL.Login, request)
             ).done(function (res) {
-                
+
                 if (res.is_success && res.data != null && res.data != undefined && res.data.status != undefined && res.data.status == 0) {
                     if ($('#login-remember').is(":checked")) {
                         localStorage.setItem(STORAGE_NAME.Login, JSON.stringify(res.data))
@@ -794,21 +794,21 @@ var account = {
                 else {
                     $('#login-general-err .err').show()
                     $('#login-general-err .err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
-                    
+
                     element.html('Đăng nhập')
                     element.prop("disabled", false);
 
                 }
 
             })
-          
+
         }
     },
     Logout: function () {
         localStorage.removeItem(STORAGE_NAME.Login)
         sessionStorage.removeItem(STORAGE_NAME.Login)
         sessionStorage.removeItem(STORAGE_NAME.Cart);
-        window.location.href='/'
+        window.location.href = '/'
     },
     Register: function () {
         var element = $('#btn-client-register')
@@ -863,7 +863,7 @@ var account = {
                         $('#register-general-err .err').show()
                         $('#register-general-err .err').html(res.msg)
                     }
-                   
+
                     element.html('Đăng ký')
 
                 }
@@ -923,7 +923,7 @@ var account = {
                 type: "POST",
                 data: { token: usr.token },
                 success: function (res) {
-                    
+
                     if (res && res.is_success && res.list) {
                         let detail = res.list;
 
@@ -944,7 +944,7 @@ var account = {
     },
 
     loadAffiliateOrders: function (pageIndex = 1) {
-        
+
         if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
             $("#affiliate_addlink").hide();
             $("#affiliate_1").show();
@@ -975,9 +975,9 @@ var account = {
                 type: "POST",
                 data: request,
                 success: function (res) {
-                   
+
                     if (res && res.is_success && res.list && res.list.data && res.list.data.length > 0) {
-                        
+
                         // clear tbody trước
                         var $tbody = $(".order-management .list_order table tbody");
                         $tbody.empty();
@@ -988,7 +988,7 @@ var account = {
                         var orderDetails = res.list.data_order || [];
 
                         orders.forEach(function (order) {
-                            
+
                             // tìm detail theo order.Id
                             let detail = orderDetails.find(o => o.order_id === order.id);
                             let detailId = (detail && detail._id) ? detail._id : "";
@@ -1047,10 +1047,10 @@ var account = {
         $.ajax({
             url: "/Client/addNewAffiliate", // Controller
             type: "POST",
-         
+
             data: request,
             success: function (res) {
-                
+
                 if (res && res.status === 0) {
                     // copy vào clipboard nếu cần thì thêm navigator.clipboard.writeText(...)
                     Swal.fire({
@@ -1089,7 +1089,7 @@ var account = {
     },
 
     loadAffiliateCommission: function (pageIndex = 1) {
-        
+
         if (user.isRegisterAffiliate == false || user.isRegisterAffiliate == null) {
             $("#affiliate_addlink").hide();
             $("#affiliate_1").show();
@@ -1111,7 +1111,7 @@ var account = {
                 type: "POST",
                 data: request,
                 success: function (res) {
-                    
+
                     if (res && res.is_success && res.list && res.list.listData) {
                         var payments = res.list.listData;
                         var $tbody = $(".commission-management .table-wrapper table tbody");
@@ -1123,7 +1123,7 @@ var account = {
                         }
 
                         payments.forEach(function (item) {
-                            
+
                             let date = new Date(item.paymentFromDate);
                             let monthValue = ("0" + (date.getMonth() + 1)).slice(-2) + "-" + date.getFullYear(); // "09-2025"
                             let monthLabel = date.toLocaleDateString("vi-VN", { month: "2-digit", year: "numeric" }); // "09/2025"
@@ -1163,7 +1163,7 @@ var account = {
                         });
                         // 👉 render phân trang (reuse chung)
                         renderPagination(
-                            
+
                             res.list.currentPage,
                             res.list.pageSize,
                             res.list.totalRecord,
@@ -1184,7 +1184,7 @@ var account = {
         }
     },
     loadAffiliateCommissionDetail: function (month, pageIndex = 1) {
-        
+
         var usr = global_service.CheckLogin();
         if (!usr || !usr.token) {
             alert("Bạn chưa đăng nhập!");
@@ -1214,7 +1214,7 @@ var account = {
             type: "POST",
             data: request,
             success: function (res) {
-                
+
                 var $tbody = $(".order-management .table-wrapper table tbody");
                 $tbody.empty();
 
@@ -1226,7 +1226,7 @@ var account = {
                     let totalCommission = 0;
 
                     orders.forEach(function (order) {
-                        
+
                         let detail = orderDetails.find(o => o.order_id === order.id);
                         let detailId = (detail && detail._id) ? detail._id : "";
 
@@ -1282,7 +1282,7 @@ var account = {
     },
 
 
-// helper
+    // helper
 
 
     currentBank: null, // cache dữ liệu bank
@@ -1304,7 +1304,7 @@ var account = {
                 type: "POST",
                 data: request,
                 success: function (res) {
-                    
+
                     if (res && res.is_success && res.bank) {
                         var bank = res.bank.data;
                         account.currentBank = bank; // lưu lại để xài cho popup
@@ -1346,7 +1346,7 @@ var account = {
                     }
                 },
                 error: function (err) {
-                    
+
                     $(".affiliate-register table tbody").html(`
                         <tr><td colspan="2">Lỗi khi tải dữ liệu ngân hàng</td></tr>
                     `);
@@ -1359,7 +1359,7 @@ var account = {
         }
     },
     openPopup: function (id) {
-        
+
         // Nếu id > 0 thì fill data, còn không thì clear form
         if (id > 0 && account.currentBank) {
             var bank = account.currentBank;
@@ -1376,7 +1376,7 @@ var account = {
 
         $("#bank-popup").removeClass("hidden").attr("data-id", id);
     },
-    
+
 
 
     ////////////////////////////////////////////////
@@ -1642,7 +1642,7 @@ var account = {
 
         return true
     },
-    
+
     //ThirdPartyRegister: function (email, password, token, name, type) {
     //    $('.client-login-popup').removeClass('overlay-active')
     //    $('#register-form').addClass('overlay-active')
@@ -1681,63 +1681,63 @@ var account = {
     //    })
     //},
     ConfirmForgotPassword: function (element) {
-      // Vô hiệu hóa nút và thay đổi nội dung
-      element.html('Vui lòng chờ ....');
-      element.prop("disabled", true);
-      element.css('background-color', 'lightgray');
+        // Vô hiệu hóa nút và thay đổi nội dung
+        element.html('Vui lòng chờ ....');
+        element.prop("disabled", true);
+        element.css('background-color', 'lightgray');
 
-      // Thực hiện validate
-      var validate = account.ValidateForgotPassword();
-      if (validate) {
-          var request = {
-              "name": $("#forgot-usr").val()
-          };
+        // Thực hiện validate
+        var validate = account.ValidateForgotPassword();
+        if (validate) {
+            var request = {
+                "name": $("#forgot-usr").val()
+            };
 
-          // Gửi yêu cầu POST
-          $.when(global_service.POST(API_URL.ClientForgotPassword, request))
-              .done(function (res) {
-                  Swal.fire({
-                      toast: true,
-                      position: 'top-end',
-                      icon: 'success',
-                      title: res.msg,
-                      showConfirmButton: false,
-                      timer: 3000
-                  });
+            // Gửi yêu cầu POST
+            $.when(global_service.POST(API_URL.ClientForgotPassword, request))
+                .done(function (res) {
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title: res.msg,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
 
-                  // Đếm ngược 30 giây
-                  let countdown = 30;
-                  let intervalId = setInterval(function () {
-                      // Cập nhật thời gian đếm ngược trên nút
-                      element.html(`Vui lòng chờ ${countdown} giây ...`);
-                      countdown--;
+                    // Đếm ngược 30 giây
+                    let countdown = 30;
+                    let intervalId = setInterval(function () {
+                        // Cập nhật thời gian đếm ngược trên nút
+                        element.html(`Vui lòng chờ ${countdown} giây ...`);
+                        countdown--;
 
-                      // Nếu hết thời gian, dừng đếm ngược và khôi phục lại nút
-                      if (countdown < 0) {
-                          clearInterval(intervalId);
-                          element.html('Gửi yêu cầu');
-                          element.prop("disabled", false);
-                          element.css('background-color', ''); // Khôi phục màu sắc ban đầu
-                      }
-                  }, 1000); // Cập nhật mỗi giây
+                        // Nếu hết thời gian, dừng đếm ngược và khôi phục lại nút
+                        if (countdown < 0) {
+                            clearInterval(intervalId);
+                            element.html('Gửi yêu cầu');
+                            element.prop("disabled", false);
+                            element.css('background-color', ''); // Khôi phục màu sắc ban đầu
+                        }
+                    }, 1000); // Cập nhật mỗi giây
 
-                  // Đóng pop-up sau khi gửi yêu cầu thành công
-                  setTimeout(() => {
-                      $('#forgot-popup').fadeOut();
-                  }, 1000);
-              })
-              .fail(function () {
-                  // Hiển thị lỗi nếu không gửi được yêu cầu
-                  Swal.fire("Lỗi", "Không thể gửi yêu cầu, vui lòng thử lại.", "error");
-                  // Khôi phục lại nút
-                  element.html('Gửi yêu cầu');
-                  element.prop("disabled", false);
-                  element.css('background-color', '');
-              });
-      }
-  },
+                    // Đóng pop-up sau khi gửi yêu cầu thành công
+                    setTimeout(() => {
+                        $('#forgot-popup').fadeOut();
+                    }, 1000);
+                })
+                .fail(function () {
+                    // Hiển thị lỗi nếu không gửi được yêu cầu
+                    Swal.fire("Lỗi", "Không thể gửi yêu cầu, vui lòng thử lại.", "error");
+                    // Khôi phục lại nút
+                    element.html('Gửi yêu cầu');
+                    element.prop("disabled", false);
+                    element.css('background-color', '');
+                });
+        }
+    },
     ValidateForgotPassword: function () {
-        var validate=true
+        var validate = true
         var email = $("#forgot-usr").val();
         var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         validate = emailPattern.test(email)
@@ -1791,7 +1791,7 @@ var account = {
             $thisButton.css('background-color', '');
         }
     },
-    DisableSendButtonBySecond: function (second=120) {
+    DisableSendButtonBySecond: function (second = 120) {
         var $thisButton = $('#register-send-code');
         var countdownTime = second; // Thời gian chờ (giây)
         var originalText = $thisButton.text();

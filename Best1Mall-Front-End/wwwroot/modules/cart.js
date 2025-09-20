@@ -747,7 +747,7 @@ var cart = {
 
     RenderVoucherList: function (vouchers) {
 
-        debugger
+        
         const $root = $('.list-voucher');
         if ($root.length === 0) return;
 
@@ -799,7 +799,7 @@ var cart = {
 
         // 4) Template item (radio theo nhóm để limit 1 lựa chọn/nhóm)
         const renderItem = (v, groupName) => {
-            debugger
+            
             const unitText = v.unit === 'vnd' ? '₫' : '%';
             const imgSrc = v.image || '/assets/images/Voucher.png';
             const expireText = v.eDate ? v.eDate : '';
@@ -835,7 +835,7 @@ var cart = {
             </label>
         `;
         };
-        debugger
+        
         // 6) Render
         $ship.html(shipping.map(v => renderItem(v, 'voucher_shipping')).join(''));
         $gen.html(general.map(v => renderItem(v, 'voucher_general')).join(''));
