@@ -1050,19 +1050,24 @@ var account = {
 
             data: request,
             success: function (res) {
-
+              
                 if (res && res.status === 0) {
-                    // copy vào clipboard nếu cần thì thêm navigator.clipboard.writeText(...)
-                    Swal.fire({
-                        title: "Thành công",
-                        text: "Link giới thiệu đã được tạo và copy!",
-                        icon: "success",
-                        timer: 3000,                // auto close sau 3s
-                        showConfirmButton: false,   // ẩn nút OK
-                        timerProgressBar: true      // có cái thanh thời gian chạy
-                    });
+                    
+                   
                     // đẩy link ra input nếu muốn show
                     $("#quickLinkAff").val(res.link);
+                    // copy luôn vào clipboard
+                    navigator.clipboard.writeText(res.link).then(function () {
+                        Swal.fire({
+                            title: "Đã copy 🎉",
+                            text: "Link giới thiệu đã được tạo và copy!",
+                            icon: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }).catch(function (err) {
+                        console.error("Copy failed: ", err);
+                    });
                 } else {
                     Swal.fire({
                         title: "Lỗi",

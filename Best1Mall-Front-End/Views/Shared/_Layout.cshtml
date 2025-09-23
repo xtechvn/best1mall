@@ -273,38 +273,49 @@
 
     </script>
     <script>
-                // Thiết lập thời gian kết thúc - ví dụ ngày mai lúc 23:59:59
+        // Thiết lập thời gian kết thúc - ví dụ ngày mai lúc 23:59:59
         const now = new Date();
-        const endTime = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 23, 59, 59, 999); // Hết ngày mai
+        const endTime = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate() + 1,
+          23, 59, 59, 999
+        ); // Hết ngày mai
 
         function updateCountdown() {
-            const currentTime = new Date().getTime();
-            const timeLeft = endTime - currentTime;
+          const currentTime = new Date().getTime();
+          const timeLeft = endTime - currentTime;
 
-            if (timeLeft <= 0) {
-                document.getElementById('days').textContent = '00';
-                document.getElementById('hours').textContent = '00';
-                document.getElementById('minutes').textContent = '00';
-                document.getElementById('seconds').textContent = '00';
-                clearInterval(timer);
-                return;
-            }
+          // helper nhỏ để set text nếu element có tồn tại
+          function setText(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value;
+          }
 
-            const days = String(Math.floor(timeLeft / (1000 * 60 * 60 * 24))).padStart(2, '0');
-            const hours = String(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-            const minutes = String(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-            const seconds = String(Math.floor((timeLeft % (1000 * 60)) / 1000)).padStart(2, '0');
+          if (timeLeft <= 0) {
+            setText('days', '00');
+            setText('hours', '00');
+            setText('minutes', '00');
+            setText('seconds', '00');
+            clearInterval(timer);
+            return;
+          }
 
-            document.getElementById('days').textContent = days;
-            document.getElementById('hours').textContent = hours;
-            document.getElementById('minutes').textContent = minutes;
-            document.getElementById('seconds').textContent = seconds;
+          const days = String(Math.floor(timeLeft / (1000 * 60 * 60 * 24))).padStart(2, '0');
+          const hours = String(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+          const minutes = String(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+          const seconds = String(Math.floor((timeLeft % (1000 * 60)) / 1000)).padStart(2, '0');
+
+          setText('days', days);
+          setText('hours', hours);
+          setText('minutes', minutes);
+          setText('seconds', seconds);
         }
 
         const timer = setInterval(updateCountdown, 1000);
         updateCountdown(); // chạy lần đầu
-
     </script>
+
     <script>
         // js qc
         new Swiper(".banner-ads", {

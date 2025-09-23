@@ -147,10 +147,14 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                 return result;
             }
 
-            // build link Affiliate
-            string affLink = data.link_aff +
-                (data.link_aff.Contains("?") ? "&" : "?") +
-                "utm_source=bestmall&utm_medium=" + data.referral_first_id;
+            string affLink = data.link_aff;
+
+            // check nếu đã có UTM rồi thì ko append nữa
+            if (!affLink.Contains("utm_source=") && !affLink.Contains("utm_medium="))
+            {
+                affLink += (affLink.Contains("?") ? "&" : "?") +
+                           "utm_source=bestmall&utm_medium=" + data.referral_first_id;
+            }
 
             result.status = 0;
             result.link = affLink;
