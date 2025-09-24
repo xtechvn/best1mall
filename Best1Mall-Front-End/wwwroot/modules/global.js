@@ -199,18 +199,17 @@ var global_service = {
                 $('.popup').addClass('hidden');
                 $(box_id).removeClass('hidden').show();
 
-                // 2) Thêm placeholder loading
-    //            var $panel = $('#hinhthucgiaohang .item[data-carrier-id="3"]');
-    //            var $ul = $panel.find('ul');
-    //            if ($ul.find('.skeleton-li').length === 0) {
-    //                $ul.html(`<li class="skeleton-li px-4 py-2 text-sm text-gray-400">
-    //  Đang tải phương án giao hàng…
-    //</li>`);
-    //            }
-
+               
                 // 3) Ép trình duyệt PAINT popup ngay lập tức (force reflow)
                 $(box_id)[0].offsetHeight;
+                // 👉 Check đã chọn sp chưa
+                var anyProductSelected = $('.shopping-cart .table-addtocart .product .checkbox-cart:checked').length > 0;
 
+                if (!anyProductSelected) {
+                    // ❗ Chưa chọn sp -> show notice ngay trong Viettel Post
+                    cart.ShowNoProductSelectedNotice();
+                    return; // không load shipping fee
+                }
                 // 4) Đẩy việc nặng sang tick kế tiếp (không chặn paint)
                 setTimeout(function () {
                     cart.LoadShippingFee(); // trong này vẫn là POSTSynchorus của bạn

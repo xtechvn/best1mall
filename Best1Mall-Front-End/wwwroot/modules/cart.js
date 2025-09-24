@@ -718,148 +718,153 @@ var cart = {
         $('.total-sp').html('(' + $('.table-addtocart .product').length + ' sản phẩm) ')
 
     },
-    GetListVoucherUser: function () {
+   GetListVoucherUser: function () {
+  const usr = global_service.CheckLogin();
+  if (!usr) return;
 
-        const usr = global_service.CheckLogin();
-        if (!usr) return;
+  const $root = $('.list-voucher');
+  if ($root.length) {
+    // (optional) loading state
+    $root.html(`
+      <div class="text-center text-slate-500 py-6" role="status" aria-live="polite">
+        Đang tải voucher...
+      </div>
+    `);
+  }
 
-        const request = {
-            token: usr.token,
-            //product_id:"682551b6711071e30c18bae6"
-        };
-        $.when(
-            global_service.POST(API_URL.VourcherList, request)
+  const request = { token: usr.token };
 
-        ).done(function (result) {
+  $.when(global_service.POST(API_URL.VourcherList, request))
+    .done(function (result) {
+      const arr = (result && result.is_success && Array.isArray(result.data)) ? result.data : [];
+      cart.RenderVoucherList(arr); // luôn render, kể cả rỗng
+    })
+    .fail(function () {
+      // API lỗi cũng render rỗng để hiện fallback text
+      cart.RenderVoucherList([]);
+    });
+},
 
-            if (result.is_success && result.data && result.data.length > 0) {
-
-                cart.RenderVoucherList(result.data);
-
-
-            }
-
-
-        })
-
-
-    },
 
     RenderVoucherList: function (vouchers) {
-
-        
         const $root = $('.list-voucher');
         if ($root.length === 0) return;
 
-        // 1) Tạo 2 cụm bên trong .list-voucher nếu chưa có
-        if ($root.find('.list-voucher-shipping').length === 0 || $root.find('.list-voucher-general').length === 0) {
-            $root.html(`
-        <div class="voucher-section space-y-4">
-          <div class="voucher-group-shipping">
-            <h4 class="font-semibold mb-2">Voucher vận chuyển</h4>
-            <div class="list-voucher-shipping space-y-3"></div>
-          </div>
-          <div class="voucher-group-general mt-6">
-            <h4 class="font-semibold mb-2">Voucher khác</h4>
-            <div class="list-voucher-general space-y-3"></div>
-          </div>
-        </div>
-        `);
-        }
+        // Clear trước
+        $root.empty();
 
-        const $ship = $root.find('.list-voucher-shipping');
-        const $gen = $root.find('.list-voucher-general');
+        // Nếu null/undefined -> về mảng rỗng cho chắc
+        let items = Array.isArray(vouchers) ? vouchers.slice() : [];
 
-        // 2) Chuẩn hoá field
+        // Chuẩn hoá field
         const norm = (v) => ({
             id: typeof v.id !== 'undefined' ? v.id : v.Id,
             code: v.code,
             description: v.description,
-            eDate: v.eDate, // "2025-09-15" hoặc ISO string
+            eDate: v.eDate, // ISO hoặc yyyy-MM-dd
             price_sales: v.price_sales,
-            unit: v.unit,
-            rule_type: v.rule_type, // =1: vận chuyển; !=1: khác
+            unit: v.unit,               // 'vnd' | '%'
+            rule_type: v.rule_type,     // 1 = vận chuyển; khác = general
             image: v.image,
             name: v.name
         });
-        let items = (vouchers || []).map(norm);
+        items = items.map(norm);
 
-        // 3) Lọc voucher còn hạn
+        // Filter còn hạn (nếu có eDate)
         const now = new Date();
         items = items.filter(v => {
-            if (!v.eDate) return true; // ko có hạn thì cho qua
+            if (!v.eDate) return true;
             const expire = new Date(v.eDate);
-            return expire >= now; // chỉ lấy còn hạn
+            return !isNaN(expire) && expire >= now;
         });
 
-        // 4) Chia nhóm
+        // === Fallback nếu rỗng sau khi lọc
+        if (items.length === 0) {
+            $root.html(`
+      <div class="text-center text-slate-500 py-6" role="status" aria-live="polite">
+        Chưa có mã nào khả dụng trong thời điểm này.
+      </div>
+    `);
+            return;
+        }
+
+        // Tạo khung nhóm nếu chưa có
+        $root.html(`
+    <div class="voucher-section space-y-4">
+      <div class="voucher-group-shipping">
+        <h4 class="font-semibold mb-2">Voucher vận chuyển</h4>
+        <div class="list-voucher-shipping space-y-3"></div>
+      </div>
+      <div class="voucher-group-general mt-6">
+        <h4 class="font-semibold mb-2">Voucher khác</h4>
+        <div class="list-voucher-general space-y-3"></div>
+      </div>
+    </div>
+  `);
+
+        const $ship = $root.find('.list-voucher-shipping');
+        const $gen = $root.find('.list-voucher-general');
+
+        // Chia nhóm
         const shipping = items.filter(x => x.rule_type === 1);
         const general = items.filter(x => x.rule_type !== 1);
 
-
-        // 4) Template item (radio theo nhóm để limit 1 lựa chọn/nhóm)
+        // Template item
         const renderItem = (v, groupName) => {
-            
             const unitText = v.unit === 'vnd' ? '₫' : '%';
             const imgSrc = v.image || '/assets/images/Voucher.png';
-            const expireText = v.eDate ? v.eDate : '';
+            const expireText = v.eDate || '';
             return `
-            <label class="item flex gap-3 items-center relative w-full p-3 border rounded-lg hover:bg-slate-50">
-
-                
-
-
-                <div class="space-y-2 w-full">
-                    <div class="flex gap-3 items-start justify-between">
-                        <h5 class="font-medium leading-5">${v.name || ''}</h5>
-                        <div class="relative">
-                            <input type="radio" name="${groupName}" class="radio-custom mt-1"
-                                   data-id="${v.id}" data-code="${v.code}"
-                                   data-description="${v.description || ''}"
-                                   data-expire="${expireText}"
-                                   data-discount="${v.price_sales || 0}"
-                                   data-rule-type="${v.rule_type || ''}" />
-                        </div>
-                    </div>
-                    <div class="flex gap-3 items-center justify-between text-sm text-slate-600">
-                        <p>HSD: ${expireText}</p>
-                        <p class="text-red-500">Giảm: ${global_service.Comma(v.price_sales || 0)} ${unitText}</p>
-                         <a href="" class="all-pop" data-id="#dieukien-popup"  data-json='${JSON.stringify(v)}'>
-                            <p class="text-red-500 item flex gap-1 items-center shrink-0">Điều kiện <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
-                                        <path d="M8.51552 6.76552L4.76552 10.5155C4.73068 10.5504 4.68932 10.578 4.64379 10.5969C4.59827 10.6157 4.54948 10.6254 4.50021 10.6254C4.45094 10.6254 4.40214 10.6157 4.35662 10.5969C4.3111 10.578 4.26974 10.5504 4.2349 10.5155C4.20005 10.4807 4.17242 10.4393 4.15356 10.3938C4.1347 10.3483 4.125 10.2995 4.125 10.2502C4.125 10.2009 4.1347 10.1521 4.15356 10.1066C4.17242 10.0611 4.20005 10.0197 4.2349 9.9849L7.72005 6.50021L4.2349 3.01552C4.16453 2.94516 4.125 2.84972 4.125 2.75021C4.125 2.6507 4.16453 2.55526 4.2349 2.4849C4.30526 2.41453 4.4007 2.375 4.50021 2.375C4.59972 2.375 4.69516 2.41453 4.76552 2.4849L8.51552 6.2349C8.55039 6.26972 8.57805 6.31108 8.59692 6.35661C8.61579 6.40213 8.6255 6.45093 8.6255 6.50021C8.6255 6.54949 8.61579 6.59829 8.59692 6.64381C8.57805 6.68934 8.55039 6.73069 8.51552 6.76552Z" fill="#FF4169"></path>
-                                    </svg></p>
-                        </a>
-                       
-                    </div>
-                </div>
-            </label>
-        `;
+      <label class="item flex gap-3 items-center w-full p-3 border rounded-lg hover:bg-slate-50">
+        <img src="${imgSrc}" alt="Voucher" class="w-14 h-14 object-contain hidden md:block" />
+        <div class="space-y-2 w-full">
+          <div class="flex gap-3 items-start justify-between">
+            <h5 class="font-medium leading-5">${v.name || ''}</h5>
+            <input type="radio" name="${groupName}" class="radio-custom mt-1"
+              data-id="${v.id}" data-code="${v.code}"
+              data-description="${v.description || ''}"
+              data-expire="${expireText}"
+              data-discount="${v.price_sales || 0}"
+              data-rule-type="${v.rule_type || ''}" />
+          </div>
+          <div class="flex gap-3 items-center justify-between text-sm text-slate-600">
+            <p>HSD: ${expireText}</p>
+            <p class="text-red-500">Giảm: ${global_service.Comma(v.price_sales || 0)} ${unitText}</p>
+            <a href="javascript:void(0)" class="all-pop" data-id="#dieukien-popup" data-json='${JSON.stringify(v)}'>
+              <span class="text-red-500 inline-flex items-center gap-1">
+                Điều kiện
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
+                  <path d="M8.51552 6.76552L4.76552 10.5155C4.73068 10.5504 4.68932 10.578 4.64379 10.5969C4.59827 10.6157 4.54948 10.6254 4.50021 10.6254C4.45094 10.6254 4.40214 10.6157 4.35662 10.5969C4.3111 10.578 4.26974 10.5504 4.2349 10.5155C4.20005 10.4807 4.17242 10.4393 4.15356 10.3938C4.1347 10.3483 4.125 10.2995 4.125 10.2502C4.125 10.2009 4.1347 10.1521 4.15356 10.1066C4.17242 10.0611 4.20005 10.0197 4.2349 9.9849L7.72005 6.50021L4.2349 3.01552C4.16453 2.94516 4.125 2.84972 4.125 2.75021C4.125 2.6507 4.16453 2.55526 4.2349 2.4849C4.30526 2.41453 4.4007 2.375 4.50021 2.375C4.59972 2.375 4.69516 2.41453 4.76552 2.4849L8.51552 6.2349C8.55039 6.26972 8.57805 6.31108 8.59692 6.35661C8.61579 6.40213 8.6255 6.45093 8.6255 6.50021C8.6255 6.54949 8.61579 6.59829 8.59692 6.64381C8.57805 6.68934 8.55039 6.73069 8.51552 6.76552Z" fill="#FF4169"></path>
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </label>
+    `;
         };
-        
-        // 6) Render
+
+        // Render nhóm
         $ship.html(shipping.map(v => renderItem(v, 'voucher_shipping')).join(''));
         $gen.html(general.map(v => renderItem(v, 'voucher_general')).join(''));
 
-        // 7) Ẩn tiêu đề nhóm nếu rỗng
+        // Ẩn tiêu đề nếu nhóm rỗng
         $root.find('.voucher-group-shipping').toggle(shipping.length > 0);
         $root.find('.voucher-group-general').toggle(general.length > 0);
 
-        // 8) Nếu cả 2 đều rỗng thì show text fallback
+        // Nếu cả 2 nhóm đều rỗng (vd filter hết hạn) -> fallback text
         if (shipping.length === 0 && general.length === 0) {
             $root.html(`
-      <div class="text-center text-slate-500 py-6">
-        Không có voucher khả dụng
+      <div class="text-center text-slate-500 py-6" role="status" aria-live="polite">
+        Chưa có mã nào khả dụng trong thời điểm này.
       </div>
     `);
         }
 
-        // 9) Đồng bộ lựa chọn
+        // (Optional) đồng bộ lựa chọn
         window.appliedVouchers = window.appliedVouchers || [];
-
-
-
-
     },
+
     // Lấy voucher đang chọn theo 2 nhóm radio
     GetSelectedVouchers: function () {
 
@@ -1539,6 +1544,7 @@ var cart = {
         // Nếu không có sản phẩm nào được chọn, chọn lại "Lấy tại cửa hàng"
         if (!anyProductSelected) {
             cart.SelectDefaultDeliveryOption();
+            //cart.ShowNoProductSelectedNotice();
             return;
         }
 
@@ -1584,7 +1590,40 @@ var cart = {
         $('#hinhthucgiaohang .item[data-carrier-id="1"] .answer').show();
         $('#delivery-shippingtype .select-delivery .tt').text(defaultLi.find('.name').text());
     },
+    ShowNoProductSelectedNotice: function () {
+        debugger
+        const $wrap = $('#hinhthucgiaohang');
+        const $viettel = $wrap.find('.item[data-carrier-id="3"]');        // Viettel Post
+        const $title = $viettel.find('.title');
+        const $panel = $viettel.find('.answer');
+        const $ul = $panel.find('ul');
 
+        // Clear state cũ
+        $wrap.find('.ship-notice').remove();
+        $wrap.find('.shipping-option').removeClass('active active-delivery bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]');
+        $wrap.find('.panel ul').each(function () {
+            $(this).find('li').not('.keep-static').remove();
+        });
+
+        // Reset accordion: chỉ mở Viettel Post
+        $wrap.find('.title').removeClass('active');
+        $wrap.find('.answer').hide();
+        $title.addClass('active');
+        $panel.show();
+
+        // Inject notice vào đúng UL của Viettel Post
+        $ul.empty().append(`
+      <li class="ship-notice px-4 py-3 text-sm bg-yellow-50 border border-yellow-200 text-yellow-700 rounded">
+        Vui Lòng Chọn Sản phẩm trước khi chọn hình thức giao hàng
+      </li>
+    `);
+
+      
+        cart.RenderSelectionDelivery();
+
+        // Clear text hiển thị ở chỗ summary
+        $('#delivery-shippingtype .select-delivery .tt').text('Chọn Hình Thức Giao Hàng');
+    },
 
 
     DisableAllShippingOptions: function () {
