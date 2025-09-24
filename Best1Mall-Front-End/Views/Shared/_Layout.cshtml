@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="/assets/css/jquery-ui.css">
     <link rel="stylesheet" href="/assets/css/select2.min.css">
     <link rel="stylesheet" href="/assets/css/lightgallery-bundle.css" />
-    
-    
-     @* <link rel="stylesheet" href="/assets/css/main.min.css">  *@
+
+
+    @* <link rel="stylesheet" href="/assets/css/main.min.css">  *@
     <script src="/assets/js/tailwindcss.js"></script>
     <link rel="stylesheet" href="/assets/css/main.css">
-   
+
     <link rel="stylesheet" href="/custom/site.css">
-   
+
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet" />
 
@@ -29,6 +29,7 @@
         .bg-blue-100 {
             background-color: #EBE2FE !important;
         }
+
         .bg-orange-500 {
             background-color: #FF4169 !important;
         }
@@ -51,12 +52,11 @@
             visibility: hidden;
         }
 
-
     </style>
 </head>
 <body class="text-sky-900 bg-[#F9FBFC]">
     <partial name="_Header" />
-    <partial name="_Login" /> 
+    <partial name="_Login" />
 
     <section id="main">
         @RenderBody()
@@ -69,8 +69,8 @@
         </svg>
 
     </div>
-     <partial name="_Lightbox"/> 
-  
+    <partial name="_Lightbox" />
+
 
     <script asp-append-version="true" src="/assets/js/jquery.min.js"></script>
     <script asp-append-version="true" src="/assets/js/swiper-bundle.min.js"></script>
@@ -79,7 +79,7 @@
     <script asp-append-version="true" src="/custom/jquery.magnific-popup.min.js"></script>
     <script asp-append-version="true" src="/assets/js/select2.min.js"></script>
     <script src="/modules/constants.js" asp-append-version="true"></script>
-     
+
     <script asp-append-version="true" src="/modules/home_product.js"></script>
     @* <script src="/modules/services.js" asp-append-version="true"></script> *@
     <script src="/modules/global.js" asp-append-version="true"></script>
@@ -97,13 +97,12 @@
     <script src="/assets/js/lg-video.umd.js" asp-append-version="true"></script>
     <script src="/assets/js/lg-thumbnail.min.js" asp-append-version="true"></script>
     <!-- end lightgallery-->
-
     <!-- Modules-->
-    
+
     <script type="text/javascript" src="/modules/utils.js" asp-append-version="true"></script>
     <script asp-append-version="true" src="/modules/account.js"></script>
     <script asp-append-version="true" src="/modules/account_google.js"></script>
-     <script asp-append-version="true" src="~/modules/support.js"></script> 
+    <script asp-append-version="true" src="~/modules/support.js"></script>
     <script asp-append-version="true" src="~/modules/sweetalert2.js"></script>
     <script type="text/javascript" src="~/modules/feedback.js" asp-append-version="true"></script>
     <script src="https://accounts.google.com/gsi/client" async></script>
@@ -199,7 +198,7 @@
 
 
         const brandsSwiper = new Swiper(".brands-swiper .swiper", {
-           
+
             slidesPerView: 2,
             spaceBetween: 15,
             navigation: {
@@ -220,7 +219,7 @@
         });
         // js slide sản phẩm 4 cột
         const productSwiper = new Swiper(".product-swiper .swiper", {
-          
+
             slidesPerView: 2,
             spaceBetween: 15,
             navigation: {
@@ -273,49 +272,38 @@
 
     </script>
     <script>
-        // Thiết lập thời gian kết thúc - ví dụ ngày mai lúc 23:59:59
+                // Thiết lập thời gian kết thúc - ví dụ ngày mai lúc 23:59:59
         const now = new Date();
-        const endTime = new Date(
-          now.getFullYear(),
-          now.getMonth(),
-          now.getDate() + 1,
-          23, 59, 59, 999
-        ); // Hết ngày mai
+        const endTime = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 23, 59, 59, 999); // Hết ngày mai
 
         function updateCountdown() {
-          const currentTime = new Date().getTime();
-          const timeLeft = endTime - currentTime;
+            const currentTime = new Date().getTime();
+            const timeLeft = endTime - currentTime;
 
-          // helper nhỏ để set text nếu element có tồn tại
-          function setText(id, value) {
-            const el = document.getElementById(id);
-            if (el) el.textContent = value;
-          }
+            if (timeLeft <= 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                clearInterval(timer);
+                return;
+            }
 
-          if (timeLeft <= 0) {
-            setText('days', '00');
-            setText('hours', '00');
-            setText('minutes', '00');
-            setText('seconds', '00');
-            clearInterval(timer);
-            return;
-          }
+            const days = String(Math.floor(timeLeft / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            const hours = String(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            const minutes = String(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            const seconds = String(Math.floor((timeLeft % (1000 * 60)) / 1000)).padStart(2, '0');
 
-          const days = String(Math.floor(timeLeft / (1000 * 60 * 60 * 24))).padStart(2, '0');
-          const hours = String(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-          const minutes = String(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-          const seconds = String(Math.floor((timeLeft % (1000 * 60)) / 1000)).padStart(2, '0');
-
-          setText('days', days);
-          setText('hours', hours);
-          setText('minutes', minutes);
-          setText('seconds', seconds);
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
         }
 
         const timer = setInterval(updateCountdown, 1000);
         updateCountdown(); // chạy lần đầu
-    </script>
 
+    </script>
     <script>
         // js qc
         new Swiper(".banner-ads", {
@@ -378,7 +366,7 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-    
+
 
 
     @await RenderSectionAsync("Scripts", required: false)
