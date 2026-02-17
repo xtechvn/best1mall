@@ -45,7 +45,7 @@ namespace Best1Mall_Front_End.Controllers.News.Business
                   {"article_id",article_id }
               };
 
-                response_api = await connect_api_us.CreateHttpRequest("/api/news/get-article-detail.json", input_request);
+                response_api = await connect_api_us.CreateHttpRequest("/api/news/get-detail.json", input_request);
 
                 // Nhan ket qua tra ve                            
                 var JsonParent = JArray.Parse("[" + response_api + "]");
@@ -129,26 +129,35 @@ namespace Best1Mall_Front_End.Controllers.News.Business
                 var input_request = new Dictionary<string, int>
               {
                    {"skip", skip},
-                   {"top", top},
+                   {"take", top},
                    {"category_id", category_id}
               };
 
 
                 // Lấy các tin được đăng gần nhất
-                response_api = await connect_api_us.CreateHttpRequest("/api/news/get-list-news.json", input_request);
+                response_api = await connect_api_us.CreateHttpRequest("/api/news/get-list-by-categoryid-order.json", input_request);
 
                 // Nhan ket qua tra ve                            
-                var JsonParent = JArray.Parse("[" + response_api + "]");
+               var JsonParent = JArray.Parse("[" + response_api + "]");
                 int status = Convert.ToInt32(JsonParent[0]["status"]);
 
                 if (status == ((int)ResponseType.SUCCESS))
                 {
-                    var _list_article = JsonConvert.DeserializeObject<List<CategoryArticleModel>>(JsonParent[0]["data"].ToString());
+                    var list_article = JsonConvert.DeserializeObject<List<CategoryArticleModel>>(JsonParent[0]["data_list"].ToString());
+                    var list_pinned = JsonConvert.DeserializeObject<List<CategoryArticleModel>>(JsonParent[0]["pinned"].ToString());
+
+                    int total = Convert.ToInt32(JsonParent[0]["total_item"]); // ✅ Lấy đúng key
+                    int total_page = Convert.ToInt32(JsonParent[0]["total_page"]);
+
                     var model = new ArticleViewModel
                     {
                         category_id = category_id,
-                        obj_article_list = _list_article
+                        obj_article_list = list_article,
+                        obj_article_pinned = list_pinned,
+                        total_items = total,
+                        total_page = total_page
                     };
+
                     return model;
                 }
                 else
@@ -201,6 +210,7 @@ namespace Best1Mall_Front_End.Controllers.News.Business
             {
                 string error_msg = Assembly.GetExecutingAssembly().GetName().Name + "->" + MethodBase.GetCurrentMethod().Name + "=>" + ex.Message;
                 Utilities.LogHelper.InsertLogTelegramByUrl(configuration["log_telegram:token"], configuration["log_telegram:group_id"], error_msg);
+                LoggerDiscord.Sendlog(error_msg);
                 return 0;
             }
         }
@@ -223,14 +233,15 @@ namespace Best1Mall_Front_End.Controllers.News.Business
                 }
                 else
                 {
-                    var msg = int.Parse(jsonData["msg"].ToString());
-                    Utilities.LogHelper.InsertLogTelegramByUrl(configuration["BotSetting:bot_token"], configuration["BotSetting:bot_group_id"], "GetMostViewedArticles-NewServices:" + msg.ToString());
+                    var msg = jsonData["msg"].ToString();
+                    Utilities.LogHelper.InsertLogTelegramByUrl(configuration["BotSetting:bot_token"], configuration["BotSetting:bot_group_id"], "GetMostViewedArticles-NewServices:" + msg);
 
                 }
             }
             catch (Exception ex)
             {
                 Utilities.LogHelper.InsertLogTelegramByUrl(configuration["BotSetting:bot_token"], configuration["BotSetting:bot_group_id"], "GetMostViewedArticles-NewServices:" + ex.ToString());
+                LoggerDiscord.Sendlog(ex.Message);
             }
             return null;
         }

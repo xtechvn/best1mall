@@ -7,6 +7,7 @@ using Best1Mall_Front_End.Models.Raiting;
 using System.Reflection;
 using Best1Mall_Front_End.Utilities.Lib;
 using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Models.Labels;
 
 namespace Best1Mall_Front_End.Controllers.Client.Business
 {
@@ -29,7 +30,28 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
 
                 if (status == (int)ResponseType.SUCCESS)
                 {
-                    return JsonConvert.DeserializeObject<ProductDetailResponseModel>(jsonData["data"].ToString());
+                    var detail = JsonConvert.DeserializeObject<ProductDetailResponseModel>(jsonData["data"].ToString());
+                    var cert = JsonConvert.DeserializeObject<ProductCertModel>(jsonData["cert"].ToString());
+                    detail.cert = cert;
+                    // ✅ lấy thêm `favourite`
+                    if (jsonData["favourite"] != null)
+                    {
+                        detail.favourite = jsonData["favourite"].ToObject<FavouriteStatusModel>();
+                    }
+                    // ✅ Parse buywith
+                    if (jsonData["buywith"] != null)
+                    {
+                        detail.product_buy_with_output = jsonData["buywith"].ToObject<List<ProductDetailResponseModelProductBuyWith>>();
+                    }
+                    if (jsonData["label_detail"] != null)
+                    {
+                        detail.label_detail = jsonData["label_detail"].ToObject<Label>();
+                    }
+                    if (jsonData["groups"] != null)
+                    {
+                        detail.groups = jsonData["groups"].ToObject<List<GroupProductESModel>>();
+                    }
+                    return detail;
                 }
             }
             catch
@@ -87,11 +109,49 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return null;
 
         }
+        public async Task<ProductListResponseModel> LabelListProduct(ProductListByLabelFERequest request)
+        {
+            try
+            {
+                var result = await POST("api/Product/list-by-label ", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<ProductListResponseModel>(jsonData["data"].ToString());
+                }
+            }
+            catch
+            {
+            }
+            return null;
+
+        }
         public async Task<ProductListResponseModel> Search(ProductGlobalSearchRequestModel request)
         {
             try
             {
                 var result = await POST(_configuration["API:product_search"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<ProductListResponseModel>(jsonData["data"].ToString());
+                }
+            }
+            catch
+            {
+            }
+            return null;
+
+        }
+        public async Task<ProductListResponseModel> SearchListing(ProductGlobalSearchRequestModel request)
+        {
+            try
+            {
+                var result = await POST("api/Product/search-listing", request);
                 var jsonData = JObject.Parse(result);
                 var status = int.Parse(jsonData["status"].ToString());
 

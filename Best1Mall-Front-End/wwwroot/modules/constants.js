@@ -1,4 +1,5 @@
 ﻿var STORAGE_NAME = {
+    Cart: "user_cart_items",
     Login: 'account',
     ProductDetail: 'ProductDetail',
     CartCount: 'CartCount',
@@ -11,7 +12,43 @@
     ProductCommentCount: 'ProductCommentCount',
     OrderDetail: 'OrderDetail',
     AddressClientLocal: 'AddressClientLocal',
+    Profile:'Profile'
 
+}
+const CONSTANTS = {
+    PAGE_SIZE: 20,
+    DOMAIN: window.location.origin,
+    DOMAIN_URL: "https://adavigo.com",
+    LOGIN_VERSION: "v1",
+    SAVE_UTM_MEDIUM_DAY: 30,
+    STORAGE: {
+        COUNTER_KEY: 'my-counter',
+        Search: 'dataFlightSearch',
+        Info: 'infoStep2',
+        ListFareData: 'listFareData',
+        ContactInfo: 'contactInfo',
+        Booked: 'booked',
+        Booking: 'booking',
+        Voucher: "voucher",
+        Issue: 'issue',
+        User: 'user',
+        CheckOutResponse: "checkOutResponse",
+        OrderId: "orderId",
+        Payment: "payment",
+        Path: "Path",
+        NewsCategoryId: "newsCategoryId",
+        SearchHistory: "searchHistory",
+        UtmMedium: "utm_medium",
+        UtmSource: "utm_source",
+        VIN: {
+            SearchVinwonder: "SearchVinwonder",
+            Cart: "Cart",
+            PaymentCart: "PaymentCart",
+            SaveData: "SaveData",
+            BookingId: "BookingId",
+            OrderId: "VinOrderId"
+        }
+    },
 }
 var API_URL = {
     Login: '/Client/Login',
@@ -19,19 +56,41 @@ var API_URL = {
     Register: '/Client/Register',
     ProductDetail: '/Product/ProductDetail',
     ProductList: '/Product/GetList',
+    SaleTypePage:'/FlashSale/LoadMoreFilteredFlashSale',
+    LabelListProduct: '/Product/GetListLabel',
+    FlashSaleGetList: '/FlashSale/GetList',
+    FlashSaleGetById: '/FlashSale/GetById',
+    AddContract: '/Home/AddContract',
+    registerAffiliateAndBank: '/Client/registerAffiliateAndBank',
+    GetBank: '/Client/GetBank',
+    ListOrder: '/Client/GetListOrder',
+    ListPayment: '/Client/GetListPayment',
+    ListPaymentDetail: '/Client/GetPaymentDetail',
+
+
+
     GroupProduct: '/Product/GetGroupProduct',
 
     AddToCart: '/Cart/AddToCart',
     CartCount: '/Cart/CartCount',
     CartList: '/Cart/GetList',
+    VourcherList: '/Vourcher/GetList',
+    ApplyVoucher: '/Vourcher/ApplyVoucher',
+
     CartDelete: '/Cart/Delete',
+    AddToFavourite: '/Favourite/AddToFavourite',
+    FavouriteList: '/Favourite/GetList',
+    FavouriteDelete: '/Favourite/Delete',
+
     CartDeleteByOrder: '/Cart/DeleteByOrder',
     CartConfirm: '/Order/Confirm',
     OrderDetail: '/Order/GetDetail',
+    OrderDetailView: '/Order/Detail',
     OrderHistoryDetail: '/Order/GetHistoryDetail',
     QRCode: '/Order/QRCode',
     StaticDomain: 'https://static-image.adavigo.com',
-    OrderListing: '/Order/Listing',
+    OrderSearch: '/Order/Search',
+    OrderCount: '/Order/Count',
     AddressList: '/Client/AddressList',
     AddressDetail: '/Client/AddressDetail',
     AddressPopup: '/Client/AddressPopup',
@@ -50,8 +109,13 @@ var API_URL = {
     OrderRaitingUploadVideo: '/Files/SummitVideo',
     OrderRaitingSubmmit: '/Order/InsertRaiting',
     ClientForgotPassword: '/Client/ForgotPassword',
+    SendChangePassword: '/Client/SendChangePassword',
+    ValidateChangePasswordToken:'/Client/ValidateChangePasswordToken',
     ProductSearchListingPaging: '/Product/SearchListingPaging',
-    CartGetShippingFee: '/Cart/GetShippingFee',
+    //CartGetShippingFee: '/Cart/GetShippingFee',
+    CartGetShippingFee: '/Cart/GetVTPServiceListing',
+    ProfileList: '/Client/ProfileList',
+    UpdateProfile: '/Client/UpdateProfile',
 
 
 }
@@ -61,6 +125,7 @@ var NOTIFICATION_MESSAGE = {
     EmailInCorrect: 'Vui lòng nhập đúng địa chỉ Email',
     PhoneNotCorrect: 'Vui lòng nhập đúng số điện thoại',
     PasswordTooShort: 'Vui lòng nhập mật khẩu trên {count} ký tự',
+    PasswordTooLong: 'Mật khẩu tối đa {count} ký tự',
     PasswordConfirmNotEqual: 'Xác nhận mật khẩu và mật khẩu không khớp',
     EmptyField: 'Vui lòng không để trống'
 }
@@ -78,11 +143,11 @@ var GLOBAL_CONSTANTS = {
     GridSize: 10,
     ProductSize: 12,
     GroupProduct: {
-        FlashSale: 15,
-        Discount: 16,
-        BEAR_COLLECTION: 17,
-        INTELLECTUAL_DEVELOPMENT: 18,
-        GROUP_PRODUCT: 1
+        FlashSale: 2,
+        Discount: 19,
+        BEAR_COLLECTION:23,
+        INTELLECTUAL_DEVELOPMENT: 12,
+        GROUP_PRODUCT: 188
     },
     PaymentType: [
         { id: 1, name: 'Thanh toán khi nhận hàng(COD)' },
@@ -107,6 +172,22 @@ var GLOBAL_CONSTANTS = {
         MaxVideoSize: 52428800
     }
 }
+var FLASH_SALE_TYPE = {
+    SupperSale: 117, // Siêu Sale
+    Sale: 130, // Bán Chạy
+    Bestchoice: 114, // Hot Trend
+    Featuredproduct: 113 ,// Nổi bật,
+    HotTrend: 287, // Hot Trend
+};
+
+var FLASH_SALE_IMAGES = {
+    [FLASH_SALE_TYPE.SupperSale]: '/assets/images/tag-sieusale.png',
+    [FLASH_SALE_TYPE.Sale]: '/assets/images/tag-banchay.png',
+    [FLASH_SALE_TYPE.HotTrend]: '/assets/images/tag-hottrend.png',
+    [FLASH_SALE_TYPE.Featuredproduct]: '/assets/images/tag-noibat.png',
+   
+};
+
 var HTML_CONSTANTS = {
     GoogleAccountNotRegistered: '<span class="err err-gg-account" style=" width: 100%; text-align: -webkit-center; ">Tài khoản Google chưa được đăng ký, vui lòng điền đầy đủ thông tin và nhấn tạo tài khoản</span>',
     Global: {
@@ -115,18 +196,22 @@ var HTML_CONSTANTS = {
     Home: {
         SlideProductItem: ` 
 
-                         <div class="swiper-slide pt-3">
-                                        <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                         <div class="swiper-slide">
+                                        <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                                        
                                             <!-- Sale badge -->
                                             <a href="{url}">
-                                               <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 {discount_style}">
-                                                    {discount_text}
-                                                </div>
+                                               <!-- tag -->
+
+                                            {badge_img}
 
                                                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
                                                     <img src="{avt}" alt="Sản phẩm"
                                                          class="absolute inset-0 w-full h-full object-cover" />
-
+                                                    <div
+                                                    class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(assets/images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1 {discount_style}">
+                                                    {discount_text}
+                                                    </div>
                                                 </div>
                                                 <p class="text-sm line-clamp-2 font-medium mt-2">
                                                    {name}
@@ -143,17 +228,101 @@ var HTML_CONSTANTS = {
                                             </a>
                                         </div>
                                     </div>
+
                         
                         `,
+        FlashTypeItem: ` 
 
+                        
+                                        <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                                         <!-- tag -->
+                                      
+                                           
+                                            <!-- Sale badge -->
+                                            <a href="{url}">
+                                              
+                                                 {badge_img}
+                                                <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                                    <img src="{avt}" alt="Sản phẩm"
+                                                         class="absolute inset-0 w-full h-full object-cover" />
+                                                    <div
+                                                    class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(assets/images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1 {discount_style}">
+                                                    {discount_text}
+                                                    </div>
+                                                </div>
+                                                <p class="text-sm line-clamp-2 font-medium mt-2">
+                                                   {name}
+                                                </p>
+                                                <div class="absolute bottom-2 w-full px-2 left-0">
+                                                    <div class="text-rose-600 font-bold mt-1">{amount}</div>
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="text-xs line-through text-slate-400 " style="{old_price_style}">{price}</div>
+                                                        <div class="text-xs text-yellow-500 mt-1">
+                                                            {review_point} <span class="text-color-base">{review_count}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                
+
+                        
+                        `,
+        FlashSaleItem: `
+            <div class="swiper-slide pt-3">
+                                        <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+                                            <!-- Sale badge -->
+                                            <a href="{url}">
+                                               <div class="absolute -top-1  z-10 left-1 bg-[url(assets/images/icon/tag1.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 {discount_style}">
+                                                    {discount_text}
+                                                </div>
+
+                                                <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
+                                                    <img src="{avt}" alt="Sản phẩm"
+                                                         class="absolute inset-0 w-full h-full object-cover" />
+
+                                                </div>
+                                                <p class="text-sm line-clamp-2 font-medium mt-2">
+                                                   {name}
+                                                </p>
+                                                <div class="absolute bottom-2 w-full px-2 left-0">
+                                                    <div class="text-rose-600 font-bold mt-1">{price}</div>
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="text-xs line-through text-slate-400 " style="{old_price_style}">{amount}</div>
+                                                        <div class="text-xs text-yellow-500 mt-1">
+                                                            {review_point} <span class="text-color-base">{review_count}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+        ` ,
+        SeeAllSlideItem: `
+                    <div class="swiper-slide pt-3">
+                      <div class="flex items-center justify-center w-full h-full">
+                        <a href="/thuong-hieu/{label_slug}?label_id={group_id}" class="flex items-center gap-2 text-blue-500 justify-center">
+                          Xem tất cả
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                viewBox="0 0 18 18" fill="none">
+                                                <path
+                                                    d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z"
+                                                    fill="#773EFA" />
+                                            </svg>
+                        </a>
+                      </div>
+                    </div>
+                    `
+                    ,
+    
         GroupProductItem: ` 
-      <div class="flex-shrink-0 w-27 text-center p-2 rounded-xl border border-blue-100">
-                        <div class="rounded-xl bg-blue-50 mb-2 p-2 h-22 w-22 flex items-center justify-center">
-                            <a href="{url}">
-                                <img src="{avt}" alt="{name}" class="mx-auto h-15">
+      <div class="item flex-shrink-0 w-27 text-center p-2 rounded-xl border border-blue-100">
+                        <div class="rounded-xl  mb-2 p-2 h-22  flex items-center justify-center">
+                            <a href="/san-pham/{url}?group_id={id}">
+                                <img loading="lazy" src="{avt}" alt="{name}" class="mx-auto">
                             </a>
                         </div>
-                        <a href="/san-pham?group_id={id}" class="text-[13px] text-slate-700 ">{name}</a>
+                        <a href="/san-pham/{url}?group_id={id}" class="text-[13px] text-slate-700 ">{name}</a>
                     </div>
 
     `,
@@ -180,16 +349,18 @@ var HTML_CONSTANTS = {
                 </div>
             </a>
         </div>`,
-        GlobalSearchByKeyword: ` 
-        <li class="p-2 hover:bg-red-50 hover:text-red-500 cursor-pointer flex items-center gap-2 text-xs">
-            <img src="/assets/images/product1.jpg" alt="Sản phẩm" class="w-14 h-14 object-cover rounded">
+        GlobalSearchByKeyword: `
+    <li class="p-2 hover:bg-red-50 hover:text-red-500 cursor-pointer flex items-center gap-2 text-xs">
+        <a href="{url}" class="flex w-full items-center gap-2"> <!-- Bao bọc toàn bộ nội dung bằng thẻ <a> -->
+            <img src="{avatar}" alt="Sản phẩm" class="w-14 h-14 object-cover rounded">
             <div>
-                <a href="{url}">{name}</a>
-                <div class="text-red-400 mt-1">185.000 đ</div>
+                <span>{name}</span> <!-- Thay vì <a> ở đây, chỉ cần span để không tạo thẻ <a> lồng nhau -->
+                <div class="text-red-400 mt-1">{amount} đ</div>
             </div>
-        </li>
-
-        `,
+        </a>
+    </li>
+`
+,
         GlobalSearchBoxLoading: ` <div class="list-product-recomment">
         <div class="item-product">
             <a href="">
@@ -287,9 +458,14 @@ var HTML_CONSTANTS = {
     },
     Detail: {
         Images: `
-                              <a  class="swiper-slide" href="{src}" data-lg-id="3e1fbec2-9c35-461a-b9cc-79fd1d885438">
-                                <img src="{src}" width="500" height="300">
+                            
+                            <a class="swiper-slide" href="{src}" data-lg-id="3e1fbec2-9c35-461a-b9cc-79fd1d885438">
+                            <div class="w-full aspect-square bg-white flex items-center justify-center">
+                                <img src="{src}"class="object-contain w-full h-full">
+                                 </div>
                             </a>
+                              
+                            
 
                             `,
         Videos: `
@@ -304,9 +480,10 @@ var HTML_CONSTANTS = {
 
 
                             `,
-        ThumbnailImages: `<div class="swiper-slide">
-                            <img src="{src}" alt="" />
-                            </div > `,
+        ThumbnailImages: ` <div class="swiper-slide w-20 h-20 small">
+                                         <img src="{src}" alt="" 
+                                              class="w-full h-full object-contain border border-gray-300 rounded-md"/>
+                                    </div> `,
         ThumbnailVideos: `<div class="swiper-slide">
                                 <video>
                                       <source src="{src}" type="video/mp4">
@@ -321,25 +498,59 @@ var HTML_CONSTANTS = {
                                     </svg>`,
         Half_Star: `<i class="icon half-star"></i>`,
         Empty_Star: `<i class="icon empty-star"></i>`,
-        Tr_Voucher: ` <tr>
-                                 <td>Mã giảm giá</td>
-                                <td>
-                                   {span}
-                                </td> 
-                            </tr>`,
+        Star2: {
+            Full: '<svg width="18" height="19" viewBox="0 0 18 19" fill="#FFAA00" xmlns="http://www.w3.org/2000/svg"><path d="M18 7.83382C18 8.00017 17.9063 8.18165 17.7188 8.37825L13.7921 12.3934L14.7224 18.0644C14.7296 18.1174 14.7332 18.193 14.7332 18.2913C14.7332 18.4501 14.6935 18.5824 14.6142 18.6883C14.5421 18.8017 14.4339 18.8584 14.2897 18.8584C14.1526 18.8584 14.0084 18.813 13.857 18.7223L9 16.0455L4.14303 18.7223C3.98437 18.813 3.84014 18.8584 3.71034 18.8584C3.55889 18.8584 3.44351 18.8017 3.36418 18.6883C3.29207 18.5824 3.25601 18.4501 3.25601 18.2913C3.25601 18.2459 3.26322 18.1703 3.27764 18.0644L4.20793 12.3934L0.270434 8.37825C0.090145 8.17409 0 7.99261 0 7.83382C0 7.55405 0.201923 7.38014 0.605769 7.31208L6.03606 6.48411L8.46995 1.32343C8.60697 1.01341 8.78365 0.858398 9 0.858398C9.21635 0.858398 9.39303 1.01341 9.53005 1.32343L11.9639 6.48411L17.3942 7.31208C17.7981 7.38014 18 7.55405 18 7.83382Z"/></svg>',
+            Half: '<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="half"><stop offset="50%" stop-color="#FFAA00"/><stop offset="50%" stop-color="#E0E0E0"/></linearGradient></defs><path d="M18 7.83382C18 8.00017 17.9063 8.18165 17.7188 8.37825L13.7921 12.3934L14.7224 18.0644C14.7296 18.1174 14.7332 18.193 14.7332 18.2913C14.7332 18.4501 14.6935 18.5824 14.6142 18.6883C14.5421 18.8017 14.4339 18.8584 14.2897 18.8584C14.1526 18.8584 14.0084 18.813 13.857 18.7223L9 16.0455L4.14303 18.7223C3.98437 18.813 3.84014 18.8584 3.71034 18.8584C3.55889 18.8584 3.44351 18.8017 3.36418 18.6883C3.29207 18.5824 3.25601 18.4501 3.25601 18.2913C3.25601 18.2459 3.26322 18.1703 3.27764 18.0644L4.20793 12.3934L0.270434 8.37825C0.090145 8.17409 0 7.99261 0 7.83382C0 7.55405 0.201923 7.38014 0.605769 7.31208L6.03606 6.48411L8.46995 1.32343C8.60697 1.01341 8.78365 0.858398 9 0.858398V16.0455Z" fill="url(#half)"/></svg>',
+            Empty: '<svg width="18" height="19" viewBox="0 0 18 19" fill="#E0E0E0" xmlns="http://www.w3.org/2000/svg"><path d="M18 7.83382C18 8.00017 17.9063 8.18165 17.7188 8.37825L13.7921 12.3934L14.7224 18.0644C14.7296 18.1174 14.7332 18.193 14.7332 18.2913C14.7332 18.4501 14.6935 18.5824 14.6142 18.6883C14.5421 18.8017 14.4339 18.8584 14.2897 18.8584C14.1526 18.8584 14.0084 18.813 13.857 18.7223L9 16.0455L4.14303 18.7223C3.98437 18.813 3.84014 18.8584 3.71034 18.8584C3.55889 18.8584 3.44351 18.8017 3.36418 18.6883C3.29207 18.5824 3.25601 18.4501 3.25601 18.2913C3.25601 18.2459 3.26322 18.1703 3.27764 18.0644L4.20793 12.3934L0.270434 8.37825C0.090145 8.17409 0 7.99261 0 7.83382C0 7.55405 0.201923 7.38014 0.605769 7.31208L6.03606 6.48411L8.46995 1.32343C8.60697 1.01341 8.78365 0.858398 9 0.858398C9.21635 0.858398 9.39303 1.01341 9.53005 1.32343L11.9639 6.48411L17.3942 7.31208C17.7981 7.38014 18 7.55405 18 7.83382Z"/></svg>'
+        },
+        Tr_Voucher: `  <tr>
+                                        <td>Mã giảm giá:</td>
+                                        <td>
+                                            <span class="flex gap-2 items-center flex-wrap">
+                                            <div class="relative inline-block group">
+                                                <span class="rounded-3xl bg-[#DEF4D7] text-[#38AF6B] px-2 text-sm cursor-pointer vorcher-pop" data-id="#voucher-popup">
+                                                   50,000 ₫ giảm
+                                                    
+                                                </span>
+                                                </div>
+                                            </span>
+                                        </td>
+                                    </tr>`,
         Tr_Voucher_Td_span: `<span class="coupon" data-id="{id}">{name}</span>`,
         Tr_Combo: ` <tr>
                                 <td>Combo khuyến mại</td>
                                 <td> {span} </td>
                             </tr>`,
         Tr_Combo_Td_span: ` <span class="combo" data-id="{id}">{name}</span>`,
-
-        Tr_Shipping: ` <tr class="text-slate-500">
-                                <td>Vận chuyển</td>
+        Tr_Shipping: `  <tr>
+                               <td>Vận chuyển:</td>
                                 <td>Miễn phí vận chuyển</td>
-                            </tr>`,
+                                    </tr>`,
+        Tr_policy: `
+            <tr>
+                  <td>Chính sách đổi trả:</td>
+              <td>Đổi trả trong vòng 3 ngày</td>
+             </tr>
+        `,
+        Tr_Submit: `
+            <tr>
+                                    <td ></td>
+                                    <td>
+                                         <div class="flex items-center flex-wrap gap-3 mt-4 justify-start box-action">
+                                            <button
+                                                class="btn add-cart border-blue-500 border px-6 py-2 text-color-base rounded-full cursor-pointer hover:opacity-80 flex items-center justify-center gap-2 w-full sm:w-auto"  data-target="main">
+                                               <img src="/assets/images/Group2.png" width="24" height="24" alt="Icon mô tả">Thêm vào giỏ hàng</button>
+                                            <button
+                                                class="btn buy-now border-blue-500 bg-blue-500 border px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full sm:w-auto" data-target="main">Mua
+                                                ngay</button>
+                                        </div>
+                                    </td>
+                                </tr>
+        `,
+
+       
         Tr_Attributes: `<tr class="attributes" data-level="{level}">
-                    <td class="text-slate-500">{name}:</td>
+                    <td>{name}:</td>
                     <td>
                         <span class="flex flex-wrap gap-2 items-center box-tag">
                             {li}
@@ -347,92 +558,103 @@ var HTML_CONSTANTS = {
                     </td>
                 </tr>`,
         Tr_Attributes_Td_li: `
-            <span class=" attribute-detail rounded border border-gray-200 hover:border-red-500 hover:bg-red-100 p-2 text-sm cursor-pointer {active}" data-id="{name}">
+            <span class=" attribute-detail rounded hover:bg-purple-100 border border-gray-200 hover:border-purple-500 p-2 text-sm cursor-pointer {active}" data-id="{name}">
     {src}{name}
 </span>
 
         `,
+        
+        // HTML_CONSTANTS.Detail.Tr_Quanity
         Tr_Quanity: `<tr class="box-detail-stock">
-    <td class="text-slate-500">Số lượng:</td>
-    <td>
-        <span class="flex gap-2 items-center">
-            <div class="flex items-center number-input">
-                <button type="button"
-                        class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tl rounded-bl hover:bg-gray-100 cursor-pointer"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                    -
-                </button>
-                <input id="quantity" name="quantity" type="number" value="1" min="1"
-                       class="h-8 w-16 text-center border-t border-b border-gray-100 quantity" />
-                <button type="button"
-                        class="h-8 w-8 border border-gray-100 text-gray-700 rounded-tr rounded-br hover:bg-gray-100 border-gray-100 cursor-pointer"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                    +
-                </button>
-            </div>
+  <td>Số lượng:</td>
+  <td>
+    <span class="flex gap-2 items-center">
+      <div class="flex items-center number-input">
+        <button type="button" class="btn-quantity-decrease h-8 w-8 border border-gray-100 text-gray-700 rounded-l hover:bg-gray-100 cursor-pointer">-</button>
 
-            <span class="text-slate-500 font-light soluong">{stock} sản phẩm có sẵn</span>
-        </span>
-    </td>
-</tr>
-`
+        <input id="quantity" name="quantity" type="text" value="1" min="1" max="999"
+               class="quantity h-8 w-16 text-center border-t border-b border-gray-100" />
+
+        <button type="button" class="btn-quantity-increase h-8 w-8 border border-gray-100 text-gray-700 rounded-r hover:bg-gray-100 cursor-pointer">+</button>
+      </div>
+
+      <span class="text-slate-500 font-light soluong">{stock} sản phẩm có sẵn</span>
+    </span>
+  </td>
+</tr>`
+//<span class= "text-slate-500 font-light soluong" > { stock } sản phẩm có sẵn</span>
     },
     Cart: {
-        Product: `<div class="product" data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
-                            <div class="product-checkall">
-                                <div class="box-checkbox">
-                                    <input type="checkbox" name="checkbox-cart-product" class="checkbox-cart" />
-                                    <label class="box-checkbox-label"></label>
-                                </div>
-                            </div>
-                            <div class="product-image">
-                                <img class="thumb-product" src="{src}" alt="" />
-                                <div class="product-title">
-                                    <h3 class="name-product">
-                                       {name}
-                                    </h3>
-                                    <p class="product-description">{attribute}</p>
-                                </div>
-
-                            </div>
-                            <div class="product-price">
-                                <span class="price-one">{amount_display}</span>
-                                <span class="price-old" style="display:none">
-                                    932.00đ <span class="percent">6%</span>
-                                    <div class="discount">
-                                        <span class="bg-sale">Giảm 30K</span>
-                                    </div>
-                            </div>
-                            <div class="product-quantity">
-                                <div class="number-input">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                                    <input class="quantity" min="1" name="quantity" value="{quanity}" type="number">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                            class="plus"></button>
-                                </div>
-                            </div>
-
-                            <div class="product-line-price">{total_amount} đ</div>
-                            <div class="product-removal">
-                                <button class="remove-product">
-                                    Xóa
-                                </button>
-                            </div>
-                        </div>`,
-        Empty: `<section class="cart-empty" style="margin-top:20px;margin-bottom:100px;">
-    <div class="container">
-        <div class="breadcrumb">
-            <ul>
+        Product: `
+    <div class="flex md:items-center gap-3 py-2 bg-gray-50 p-2 rounded-xl w-full product {disabledClass} mt-[11px]" data-cart-id="{id}" data-product-id="{product_id}" data-amount="{amount}">
+        <div class="product-checkall">
+            <div class="box-checkbox">        
+                <input type="checkbox" id="checkbox12" class="w-5 h-5 shrink-0 md:mt-0 mt-4 checkbox-cart"  data-supplier-id="{supplier_id}" {checkboxDisabled} />
+                <label for="checkbox12" class="box-checkbox-label"></label>
+            </div>
+        </div>
+        <div class="md:grid grid-cols-12 w-full items-center relative pro-in">
+            <div class="col-span-5">
+                <a href="{url}">
+                    <div class="flex gap-2 items-center">
+                        <div class="relative aspect-[1/1] w-16 overflow-hidden rounded-lg shrink-0">
+                            <img src="{src}" alt="{name}" class="absolute inset-0 w-full h-full object-cover" />
+                        </div>
+                        <div>
+                            <p class="font-medium line-clamp-2 md:text-base text-sm">{name}</p>
+                            <div class="text-sm text-slate-500">{attribute}</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-span-2 md:text-center md:pl-0 pl-17">
+                <div class="font-medium md:text-base text-sm">{amount_display}</div>
+                <span class="product-line-price-mobile md:hidden block text-red-400 font-semibold">{total_amount} ₫</span>
+            </div>
+            <div class="col-span-2 md:text-center md:pl-0 pl-17 product-quantity">
+                <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center number-input">
+                        <button type="button" class="btn-quantity-decrease h-8 w-8 border border-gray-100 text-gray-700 rounded-l hover:bg-gray-100 cursor-pointer" {btnDisabled}>-</button>
+                        <input type="text" value="{quanity}" min="1" max="{max_quanity}" data-max="{max_quanity}"name="quantity"
+                            class="h-8 w-10 text-center border-t border-b border-gray-100 text-sm quantity" {inputReadonly} />
+                        <button type="button" class="btn-quantity-increase h-8 w-8 border border-gray-100 text-gray-700 rounded-r hover:bg-gray-100 cursor-pointer" {btnDisabled}>+</button>
+                    </div>
+                    <div class="md:hidden">
+                        <button class="text-sm text-blue-500 hover:underline cursor-pointer all-pop" data-id="#lightbox-delete-cart" data-cart-id="{id}">
+                            Xóa
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-2 md:text-center md:pl-0 pl-17 hidden md:block">
+                <span class="product-line-price text-red-400 font-semibold">{total_amount} ₫</span>
+            </div>
+        </div>
+        <div class="col-span-1 text-right hidden md:block">
+            <button class="text-sm text-blue-500 hover:underline cursor-pointer all-pop" data-id="#lightbox-delete-cart" data-cart-id="{id}">
+                Xóa
+            </button>
+        </div>
+    </div>`,
+        Empty: `<section class="product-cart-section">
+    <div class="max-w-[1230px] mx-auto px-[15px]">
+        <div class="breadcrumb my-4 ">
+            <ul class="flex items-center gap-3 font-normal">
                 <li><a href="/">Trang chủ</a></li>
-                <li class="active"><a href="javascript:;">Giỏ hàng / Thanh toán</a></li>
+                <li><a href="" class="text-color-base">Giỏ hàng / Thanh toán</a></li>
             </ul>
         </div>
-        <div class="box-empty">
-            <img src="/assets/images/empty.png" alt="" />
-            <h3 class="title">Giỏ hàng trống</h3>
+        <div class="flex flex-col text-center items-center justify-center gap-5 bg-white md:rounded-3xl rounded-xl md:p-5 p-3">
+            <img src="assets/images/empty.jpg" alt="Sản phẩm"
+            class="mx-auto max-w-[400px] w-full" />
+            <h3 class="text-2xl font-semibold">Giỏ hàng trống</h3>
             <p>Không có sản phẩm nào trong giỏ hàng của bạn</p>
-            <a href="/" class="btn btn-base">Tiếp tục mua sắm</a>
+            <a href="/" class="bg-blue-500 text-sm text-white px-6 py-3 rounded-full">Tiếp tục mua sắm</a>
         </div>
+
+
+
+        
     </div>
 </section>`
     },
@@ -448,11 +670,12 @@ var HTML_CONSTANTS = {
                                {product_detail}
                             </div>
                             <div class="bottom-box">
-                                <div class="action">
-                                    <a href="javascript:;" class="btn btn-base btn-confirm-received {confirm_display}" style="">Đã nhận được hàng</a>
-                                    <a href="javascript:;" class="btn btn-line btn-cancel-order {confirm_cancel}" >Hủy đơn hàng</a>
+                             <div class="total-price">Tổng tiền: <span class="number-price text-red-400">{total_amount}</span> </div>
+                                <div class="action flex flex-wrap md:justify-end justify-center text-center items-center gap-3">
+                                    <a href="javascript:;" class=" btn-confirm-received border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto {confirm_display}" style="">Đã nhận được hàng</a>
+                                    <a href="javascript:;" class=" btn-cancel-order border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80 w-full md:w-auto {confirm_cancel}" >Hủy đơn hàng</a>
                                 </div>
-                                <div class="total-price">Tổng tiền: <span class="number-price">{total_amount}</span> </div>
+                               
                             </div>
                         </div>`,
         ItemProduct: ` <div class="item">
@@ -473,16 +696,30 @@ var HTML_CONSTANTS = {
                                 </div>`
     },
     Address: {
-        GridItem: ` <div class="item address-item {active}" data-id="{id}">
-                            <span class="defauld" style="{default-address-style}">Đặt làm mặc định</span>
-                            <h3 class="name">{name}</h3>
-                            <p class="add">
-                               {address}
-                            </p>
-                            <p class="tel">Điện thoại: {tel}</p>
-                            <a href="javascript:;" class="btn btn-update btn-update-address">Cập nhật</a>
-                        </div>`
+        GridItem: `
+    <label class="rounded-2xl border border-gray-100 cursor-pointer transition-all duration-200 relative">
+        <div class="p-3 flex gap-2 items-start">
+            <div class="relative">
+                {radio}
+            </div>
+            <div class="flex flex-col text-slate-500 item address-item {active}" data-id="{id}">
+                <div class="flex items-center justify-between gap-2">
+                    <span class="font-medium text-gray-900 name">{name}</span>
+                    {defaultLabel}
+                </div>
+                <p class="add">{address}</p>
+                <div class="flex justify-between items-center mt-2 gap-3">
+                    <p class="text-sm tel">Điện thoại: {tel}</p>
+                    <button class="border border-purple-500 text-purple-600 px-3 py-1 rounded-full mt-2 self-end text-sm hover:bg-purple-100 btn btn-update btn-update-address">
+                        Sửa
+                    </button>
+                </div>
+            </div>
+        </div>
+    </label>
+    `
     },
+
 
     OrderDetailRaiting: {
         ReviewImage: `<div class="item review-img">
@@ -549,12 +786,12 @@ var HTML_CONSTANTS = {
     }
 
 }
-const RESPONSE_CODE =  {
-    Success : 0,
-    Gerneral : 1,
-    DataInvalid : 2,
-    EmailInvalid : 3,
-    ErrorOnExcution : 4,
-    OTPNotCorrect : 5,
+const RESPONSE_CODE = {
+    Success: 0,
+    Gerneral: 1,
+    DataInvalid: 2,
+    EmailInvalid: 3,
+    ErrorOnExcution: 4,
+    OTPNotCorrect: 5,
 
 }

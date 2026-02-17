@@ -23,7 +23,7 @@ namespace Best1Mall_Front_End.Models.Products
         public double amount { get; set; }
         public int quanity_of_stock { get; set; }
 
-        public double discount { get; set; }
+        public double? discount { get; set; }
         public List<string> images { get; set; }
         public string avatar { get; set; }
         public List<string> videos { get; set; }
@@ -49,6 +49,34 @@ namespace Best1Mall_Front_End.Models.Products
         public float? review_count { get; set; }
         public float? rating { get; set; }
         public long? total_sold { get; set; }
+        public int? supplier_id { get; set; }
+        public string? supplier_name { get; set; } 
+        public int? label_id { get; set; }
+        public double? old_price { get; set; }
+        public string description_ingredients { get; set; }
+        public string description_effect { get; set; }
+        public string description_usepolicy { get; set; }
+        public int? supplier_status { get; set; }
+        public string? description_delivery { get; set; } //Chính sách vận chuyển
+        public string? description_refund { get; set; } //Chính sách đổi trả
+
+
+        public List<ProductMongoDbSpecification>? detail_specification { get; set; }
+        // ✅ Thêm các field Flash Sale (để map đúng dữ liệu API trả về)
+        public int? exists_flashsale_id { get; set; }
+        public string exists_flashsale_name { get; set; }
+        public double? amount_after_flashsale { get; set; }
+        public DateTime? flash_sale_fromdate { get; set; }
+        public DateTime? flash_sale_todate { get; set; }
+        public int? flashsale_badge_type { get; set; }
 
     }
+    public class ProductMongoDbSpecification
+    {
+        public string key { get; set; }
+        public string value { get; set; }
+    }
+
+
 }
+

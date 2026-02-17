@@ -2,12 +2,14 @@
     global_service.Initialization();
     global_service.DynamicBind();
     global_service.LoadPolicy();
-    global_service.LoadAbouHulotoys();
-    global_service.LoadCustomerSupport();
+    //global_service.LoadAbouHulotoys();
+    //global_service.LoadCustomerSupport();
     global_service.LoadCartCount();
-   
+    global_service.checkAffiliateParams();
     // 👉 GỌI THÊM:
     global_service.renderViewedProducts(); // gọi hàm load sản phẩm đã xem
+   
+
 })
 var global_service = {
     Initialization: function () {
@@ -26,9 +28,244 @@ var global_service = {
         if (!localStorage.getItem('viewedProducts')) {
             localStorage.setItem('viewedProducts', JSON.stringify([]));
         }
+        global_service.LoadMorePaginated({
+            buttonSelector: '#btn-load-superflashsale',
+            containerSelector: '#super-sale-container',
+            getRequestData: null, // Không cần vì đã xử lý ở bên trong rồi
+            onSuccess: function () {
+                console.log("Đã tải thêm sản phẩm thành công");
+            }
+        });
+        // 👉 Load sản phẩm theo từng block group-id-best
+        $('.list_product').each(function () {
+            const $el = $(this);
+            const groupId = $el.data('groupIdBest'); // jQuery tự lấy từ data-group-id-best
+
+            if (typeof groupId === 'number' && groupId > 0) {
+                const container = $el.find('.home-product-grid');
+               
+                global_service.LoadHomeProductGrid(container, groupId, 10);
+            } 
+        });
+
+       
     },
+   
+    LoadMorePaginated: function (config) {
+        const btn = $(config.buttonSelector);
+        const container = $(config.containerSelector);
+
+        if (!btn.length || !container.length) return;
+
+        btn.off('click').on("click", function () {
+            let currentPage = parseInt(container.data("page")) || 1;
+            const pageSize = parseInt(container.data("pagesize")) || 10;
+            const mode = container.data("mode") || 'default'; // "default" | "filtered"
+            const defaultUrl = container.data("url") || '/FlashSale/LoadMoreFilteredFlashSale';
+
+            const groupId = parseInt(container.data("group-id")) || -1;
+            const type = parseInt(container.data("type")) || -1;
+
+            currentPage++;
+
+            const isFiltered = mode === 'filtered';
+            const requestUrl = isFiltered ? '/FlashSale/LoadMoreFilteredFlashSale' : defaultUrl;
+
+            const requestData = isFiltered
+                ? {
+                    type: type,
+                    group_id: groupId,
+                    page_index: currentPage,
+                    page_size: pageSize
+                }
+                : {
+                    type: type,
+                    group_id: groupId,
+                    page_index: currentPage,
+                    page_size: pageSize
+                };
+
+            btn.prop("disabled", true).text("Đang tải...");
+
+            $.post(requestUrl, requestData).done(function (res) {
+                if (res.html) {
+                    container.append(res.html);
+                    container.data("page", currentPage);
+                }
+
+                if (res.isLastPage) {
+                    btn.hide();
+                } else {
+                    btn.prop("disabled", false).text("Xem thêm");
+                }
+
+                if (config.onSuccess) config.onSuccess(res);
+            }).fail(function (err) {
+                console.error("LoadMorePaginated error:", err);
+                if (config.onError) config.onError(err);
+            });
+        });
+    },
+
+    checkAffiliateParams: function () {
+        // Lấy tham số từ URL
+        var utm_source = UTILS.getUrlParam("utm_source");  // nguồn traffic (bestmall, fb, gg...)
+        var utm_medium = UTILS.getUrlParam("utm_medium");  // Affiliate ID (mã ref của user)
+
+        // --- Xử lý utm_source ---
+        if (utm_source) {
+            var utm_source_local = UTILS.getWithExpiry(CONSTANTS.STORAGE.UtmSource);
+            if (!utm_source_local || utm_source_local !== utm_source) {
+                UTILS.setExpiryDate(CONSTANTS.STORAGE.UtmSource, utm_source, CONSTANTS.SAVE_UTM_MEDIUM_DAY);
+            }
+        }
+
+        // --- Xử lý utm_medium ---
+        if (utm_medium) {
+            var utm_medium_local = UTILS.getWithExpiry(CONSTANTS.STORAGE.UtmMedium);
+            if (!utm_medium_local || utm_medium_local !== utm_medium) {
+                UTILS.setExpiryDate(CONSTANTS.STORAGE.UtmMedium, utm_medium, CONSTANTS.SAVE_UTM_MEDIUM_DAY);
+            }
+        }
+        },
+
     DynamicBind: function () {
+        $("body").on('click', ".all-pop", function (event) {
+
+
+            // Đảm bảo thông báo lỗi được ẩn khi người dùng chọn voucher
+            $('#voucher-popup .voucher-error').remove();  // Xóa thông báo lỗi cũ nếu có
+            var cartId
+            var element = $(this)
+            event.preventDefault()
+            var box_id = element.attr('data-id') 
+            if (box_id === "#dieukien-popup") {
+                var voucher = element.data("json"); // lấy object từ attr
+
+                // Render nội dung popup động
+                var html = `
+            <div class="flex gap-3 items-center">
+               
+                <div class="space-y-3">
+                    <h5>${voucher.code || ''}</h5>
+                    <p class="text-slate-500">HSD: ${voucher.eDate || ''}</p>
+                </div>
+            </div>
+            <div>
+                    <h4 class="uppercase font-medium">Thiết bị </h4>
+                    <p class="text-slate-500">
+                        Tất cả các thiết bị
+                    </p>
+                </div>
+            <div>
+            <div>
+                    <h4 class="uppercase font-medium">Thanh Toán</h4>
+                    <p class="text-slate-500">Tất cả các hình thức thanh toán</p>
+                </div>
+                
+            </div>
+            <div>
+                    <h4 class="uppercase font-medium">Xem chi tiết</h4>
+                    <p class="text-slate-500">
+                        ${voucher.description}
+                    </p>
+                </div>
+            <div>
+                <h4 class="uppercase font-medium">Giảm giá</h4>
+                <p class="text-slate-500">
+                    ${global_service.Comma(voucher.price_sales || 0)} 
+                    ${voucher.unit === 'vnd' ? '₫' : '%'}
+                </p>
+            </div>
+            
+        `;
+
+                $("#dieukien-popup .space-y-3").html(html);
+            }
+
+            if (box_id === "#hinhthucgiaohang") {
+
+                // 1) Mở popup ngay
+                $('.popup').addClass('hidden');
+                $(box_id).removeClass('hidden').show();
+
+                // 2) Thêm placeholder loading
+    //            var $panel = $('#hinhthucgiaohang .item[data-carrier-id="3"]');
+    //            var $ul = $panel.find('ul');
+    //            if ($ul.find('.skeleton-li').length === 0) {
+    //                $ul.html(`<li class="skeleton-li px-4 py-2 text-sm text-gray-400">
+    //  Đang tải phương án giao hàng…
+    //</li>`);
+    //            }
+
+                // 3) Ép trình duyệt PAINT popup ngay lập tức (force reflow)
+                $(box_id)[0].offsetHeight;
+
+                // 4) Đẩy việc nặng sang tick kế tiếp (không chặn paint)
+                setTimeout(function () {
+                    cart.LoadShippingFee(); // trong này vẫn là POSTSynchorus của bạn
+                }, 0);
+
+
+                // 🔄 Đồng bộ option đang hiển thị
+                var currentText = $('#delivery-shippingtype .select-delivery .tt').text().trim();
+
+                $('#hinhthucgiaohang .shipping-option').each(function () {
+                    var li = $(this);
+                    var name = li.find('.name').text().trim();
+
+                    if (name === currentText) {
+                        // Reset tất cả option
+                        $('#hinhthucgiaohang .shipping-option').removeClass('active active-delivery bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]');
+
+                        // Gán lại cho cái đang dùng
+                        li.addClass('active active-delivery bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]');
+
+                        // Mở đúng panel
+                        $('.group.item .answer').hide();
+                        $('.group.item .title').removeClass('active');
+                        li.closest('.item').find('.title').addClass('active');
+                        li.closest('.item').find('.answer').show();
+                    }
+                });
+
+                // Kiểm tra nếu không có lựa chọn nào khả dụng, chuyển sang giao hàng tại cửa hàng
+                if ($('#hinhthucgiaohang .shipping-option.active-delivery').length === 0) {
+                    // Đặt mặc định về 'Lấy tại cửa hàng'
+                    var defaultLi = $('#hinhthucgiaohang .item[data-carrier-id="1"] .shipping-option').first();
+                    defaultLi.addClass('active-delivery active bg-gradient-to-r from-cyan-50 to-cyan-100 border-l-[3px] border-[#00CFE8]');
+                    $('#hinhthucgiaohang .item[data-carrier-id="1"] .title').addClass('active');
+                    $('#hinhthucgiaohang .item[data-carrier-id="1"] .answer').show();
+                    $('#delivery-shippingtype .select-delivery .tt').text(defaultLi.find('.name').text());
+                }
+            }
+            // Nếu là nút xoá, truyền data-cart-id
+            if (box_id === "#lightbox-delete-cart") {
+                cartId = element.attr('data-cart-id');
+
+            } else {
+                cartId = element.closest('.product').attr('data-cart-id');
+            }
+            $(box_id).attr("data-cart-id", cartId);
+            $('.popup').addClass('hidden')
+            $('' + box_id).removeClass('hidden')
+            $('' + box_id).show()
+            // 👉 Nếu là popup địa chỉ, gọi render địa chỉ
+            if (box_id === "#address-book") {
+                var list = sessionStorage.getItem(STORAGE_NAME.AddressClient);
+                if (list) {
+                    var data = JSON.parse(list);
+                    address_client.RenderExistsAddress(data, $('#address-receivername').attr('data-id'));
+                }
+            }
+            
+            // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
+            // 👉 Nếu là popup hình thức giao hàng, gọi hàm tính phí ship
+           
+
+        });
         $("body").on('click', ".client-login", function (event) {
+            
             var element = $(this)
             event.preventDefault()
             var box_id = element.attr('data-id')
@@ -41,22 +278,56 @@ var global_service = {
             event.preventDefault()
             element.closest('.popup').addClass('hidden')
         });
+        let debounceTimeout = null;
+
         $("body").on('keyup', ".global-search", function () {
-            if (!$('#global-search-loading').is(':hidden')) {
-                return
+            clearTimeout(debounceTimeout); // Xoá timeout cũ nếu có
+
+            const element = $(this);
+
+            if (element.val() === undefined || element.val().trim() === '') {
+                $('#clear-search').hide();
+                $('.box-search-list').fadeOut();
+                $('#global-search-loading').hide();
+                return;
             }
-            $('#global-search-loading').show()
-            var element = $(this)
-            //global_service.RenderSearchBoxLoading()
-            if (element.val() != undefined && element.val().trim() != '') {
-                $('.box-search-list').fadeIn()
-                global_service.RenderSearchBox()
-            } else {
-                $('.box-search-list').fadeOut()
-                $('#global-search-loading').hide()
+            $('#clear-search').show();
+            $('#global-search-loading').show();
+            $('.box-search-list').fadeIn();
+
+            debounceTimeout = setTimeout(() => {
+                global_service.RenderSearchBox();
+            }, 250); // đợi 400ms sau khi gõ mới gọi API
+        });
+        $("body").on("click", "#search-button", function () {
+            
+            var usr = global_service.CheckLogin()
+            var token = ''
+            if (usr) {
+                token = usr.token
 
             }
+
+            var keyword = global_service.GetGlobalSearchKeyword();
+          
+           
+
+            if (keyword) {
+                const encodedKeyword = encodeURIComponent(keyword);
+                window.location.href = `/ListSearch/${encodedKeyword}`;
+            } else {
+                // Hiển thị thông báo bằng SweetAlert2
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Thiếu từ khóa tìm kiếm',
+                    text: 'Vui lòng nhập từ khóa để tiếp tục tra cứu thông tin.',
+                    confirmButtonText: 'Đóng',
+                    allowOutsideClick: false,
+                    allowEscapeKey: true
+                });
+            }
         });
+
         $(document).on('click', function (event) {
             // Kiểm tra nếu click không nằm trong div.form-search
             if (!$(event.target).closest('.form-search').length) {
@@ -64,14 +335,17 @@ var global_service = {
                 $('#global-search-loading').hide()
             }
         });
-        // Xử lý click vào item mẫu tìm kiếm
         $("body").on("click", ".search-sample", function (e) {
             e.preventDefault();
             var keyword = $(this).text().trim();
-            var $input = $(".global-search");
 
-            $input.val(keyword).trigger("input").trigger("keyup"); // Thêm trigger input ở đây nè
+            // Encode keyword để tránh lỗi URL nếu có dấu cách, ký tự đặc biệt
+            var encodedKeyword = encodeURIComponent(keyword);
+
+            // Chuyển trang tới kết quả tìm kiếm
+            window.location.href = "/ListSearch/" + encodedKeyword;
         });
+
 
         // Xử lý hiển thị nút clear khi có text
         $("body").on("input", ".global-search", function () {
@@ -89,6 +363,59 @@ var global_service = {
             $(this).addClass("hidden");
             $(".box-search-list").fadeOut();
             $("#global-search-loading").hide();
+        });
+        $('#dynamic-label-blocks .list_product').each(function () {
+            
+            const section = $(this);
+            const swiperWrapper = section.find('.swiper-wrapper');
+            const labelId = swiperWrapper.attr('id').replace('swiper-wrapper-', '');
+            const bannerId = '#banner-' + section.find('img').attr('id').split('banner-')[1];
+
+            const defaultBanner = $(bannerId).attr('src');
+
+            const request = {
+                label_id: parseInt(labelId),
+                page_index: 1,
+                page_size: GLOBAL_CONSTANTS.GridSize
+            };
+
+            // Load sản phẩm theo LabelId
+            $.when(global_service.POST(API_URL.LabelListProduct, request))
+                .done(function (res) {
+                    
+                    if (res.is_success && res.data) {
+                        const products = res.data;
+                        const labelDetail = res.label_detail;
+
+                        let html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem);
+
+                        // Thêm nút "Xem tất cả" nếu không phải nhóm bị loại trừ
+                        if (![
+                            GLOBAL_CONSTANTS.GroupProduct.FlashSale
+                        ].includes(parseInt(labelId))) {
+                            const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu')).replace(" ", "-").toLowerCase();
+
+                            html += HTML_CONSTANTS.Home.SeeAllSlideItem
+                                .replace('{group_id}', labelId)
+                                .replace('{label_slug}', labelSlug);
+                        }
+
+                        swiperWrapper.html(html);
+
+                        // Đặt banner riêng nếu có
+                        if (labelDetail && labelDetail.banner && labelDetail.banner.trim() !== '') {
+                            $(bannerId).attr('src', labelDetail.banner);
+                        } else {
+                            $(bannerId).attr('src', defaultBanner);
+                        }
+
+                        $(bannerId).on('error', function () {
+                            $(this).attr('src', defaultBanner);
+                        });
+                    } else {
+                        swiperWrapper.html('');
+                    }
+                });
         });
 
 
@@ -146,6 +473,7 @@ var global_service = {
         });
     },
     LoadCartCount: function () {
+      
         var usr = global_service.CheckLogin()
         if (usr) {
             $.ajax({
@@ -157,14 +485,23 @@ var global_service = {
                     }
                 },
                 success: function (result) {
+                    
                     if (result.is_success && result.data) {
-                        $('#carts .badge').html(result.data)
-                    } else { $('#carts .badge').html('0') }
+                        $('#carts .badge').html(result.data);
+                    } else {
+                        $('#carts .badge').html('0');
+                    }
                 },
+                error: function () {
+                    $('#carts .badge').html('0');
+                }
             });
         }
         else {
-            $('#carts .badge').html('0')
+            // 🔴 Nếu chưa login → lấy giỏ hàng từ sessionStorage
+            let cart = JSON.parse(sessionStorage.getItem(STORAGE_NAME.Cart)) || [];
+            let total = cart.length; // Đếm số mặt hàng khác nhau
+            $('#carts .badge').html(total);
         }
 
     },
@@ -177,6 +514,7 @@ var global_service = {
         window.location.href = url + this.convertVietnameseToUnsign(title);
     },
     CheckLogin: function () {
+        
         var str = localStorage.getItem(STORAGE_NAME.Login)
         if (str != undefined && str.trim() != '') {
             return JSON.parse(str)
@@ -314,12 +652,13 @@ var global_service = {
         str = str.replace(/\s+/g, '-'); // Thay thế nhiều khoảng trắng thành 1 -
         return str.trim();
     },
-    LoadHomeProductGrid: function (element, group_id, size) {
-       
-        element.addClass('placeholder')
-        element.addClass('box-placeholder')
-        element.css('width', '100%')
-        element.css('height', '255px')
+    LoadHomeProductGrid: function (element, group_id, size, appendSeeAll = true) {
+        const excludedGroups = [
+            GLOBAL_CONSTANTS.GroupProduct.FlashSale,
+            //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
+        ]
+        // 👇 Hiện loading trước
+        //element.html('<div class="loading-spinner w-full text-center py-5">Đang tải...</div>');
         var request = {
             "group_id": group_id,
             "page_index": 1,
@@ -330,10 +669,84 @@ var global_service = {
         ).done(function (result) {
             if (result.is_success) {
                 var products = result.data
-                
+                    
                     var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
-                element.html(html)
+                // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
+                //if (appendSeeAll && !excludedGroups.includes(group_id)) {
+                //    html += HTML_CONSTANTS.Home.SeeAllSlideItem.replace('{group_id}', group_id)
+                //}
+                element.fadeOut(50, function () {
+                    element.html(html).fadeIn(100);
+                });
+
                 
+
+            } else {
+                element.html('')
+            }
+           
+        })
+    },
+
+    //FllashSale
+    LoadFlashSalGrid: function (element, group_id, badge_type, size, appendSeeAll = true) {
+        
+        var request = {
+            "type": badge_type,
+            "group_id": group_id,
+            "page_index": 1,
+            "page_size": size
+        };
+
+        $.when(global_service.POST(API_URL.SaleTypePage, request)).done(function (res) {
+            
+            const $btn = $('#btn-load-superflashsale');
+
+            if (res && res.html != null) {
+                element.fadeOut(50, function () {
+                    element.html(res.html).fadeIn(100);
+                    element.data("page", 1); // reset lại page về 1
+
+                    if (res.isLastPage) {
+                        $btn.hide();
+                    } else {
+                        $btn.show().prop("disabled", false).text("Xem thêm");
+                    }
+                });
+            }
+        });
+    },
+
+
+    LoadHomeFlashSaleGrid: function (element, group_id, size, appendSeeAll = true) {
+        
+        const excludedGroups = [
+            GLOBAL_CONSTANTS.GroupProduct.FlashSale,
+            //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
+        ]
+        element.addClass('placeholder')
+        element.addClass('box-placeholder')
+        element.css('width', '100%')
+        element.css('height', '255px')
+        var request = {
+            "id": group_id,
+            //"page_index": 1,
+            //"page_size": size
+        }
+        $.when(
+            global_service.POST(API_URL.FlashSaleGetById, request)
+        ).done(function (result) {
+            if (result.is_success) {
+                
+                var products = result.data
+
+                var html = global_service.RenderSlideSaleProductItem(products, HTML_CONSTANTS.Home.FlashSaleItem)
+                //// Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
+                //if (appendSeeAll && !excludedGroups.includes(group_id)) {
+                //    html += HTML_CONSTANTS.Home.SeeAllSlideItem.replace('{group_id}', group_id)
+                //}
+                element.html(html)
+
 
             } else {
                 element.html('')
@@ -343,8 +756,69 @@ var global_service = {
             element.css('height', 'auto')
         })
     },
+    
+    //LoadHomeLabelGrid: function (element, group_id, size, bannerSelector, appendSeeAll = true) {
+        
+    //    const excludedGroups = [
+    //        GLOBAL_CONSTANTS.GroupProduct.FlashSale,
+    //        //GLOBAL_CONSTANTS.GroupProduct.INTELLECTUAL_DEVELOPMENT
+    //    ]
+    //    const defaultBanner = $(bannerSelector).attr('src'); // Lưu banner mặc định từ HTML
+    //    const section = element.closest('.list_product'); // lấy section chứa cả block
+    //    element.addClass('placeholder')
+    //    element.addClass('box-placeholder')
+    //    element.css('width', '100%')
+    //    element.css('height', '255px')
+    //    var request = {
+    //        "label_id": group_id,
+    //        "page_index": 1,
+    //        "page_size": size
+    //    }
+    //    $.when(
+    //        global_service.POST(API_URL.LabelListProduct, request)
+    //    ).done(function (result) {
+            
+    //        if (result.is_success && result.data) {
+               
+    //            var products = result.data
+    //            var labelDetail = result.label_detail;
+
+    //            var html = global_service.RenderSlideProductItem(products, HTML_CONSTANTS.Home.SlideProductItem)
+    //            // Chỉ chèn slide “Xem tất cả” nếu KHÔNG phải Flash Sale
+    //            if (appendSeeAll && !excludedGroups.includes(group_id)) {
+    //                //const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu'))
+    //                const labelSlug = global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(labelDetail.labelCode || 'thuong-hieu')).replace(" ", "-").toLowerCase();
+
+
+    //                html += HTML_CONSTANTS.Home.SeeAllSlideItem
+    //                    .replace('{group_id}', group_id)
+    //                    .replace('{label_slug}', labelSlug);
+    //            }
+    //            element.html(html)
+    //            // Set banner riêng
+    //            if (labelDetail && labelDetail.banner && labelDetail.banner.trim() !== '') {
+    //                $(bannerSelector).attr('src', labelDetail.banner);
+    //            } else {
+    //                $(bannerSelector).attr('src', defaultBanner); // fallback
+    //            }
+
+    //            // fallback nếu hình fail
+    //            $(bannerSelector).on('error', function () {
+    //                $(this).attr('src', defaultBanner);
+    //            });
+
+
+    //        } else {
+    //            element.html('')
+    //        }
+    //        element.removeClass('placeholder')
+    //        element.removeClass('box-placeholder')
+    //        element.css('height', 'auto')
+    //    })
+    //},
    
     LoadGroupProduct: function (element, group_id, size) {
+        
        
         element.addClass('placeholder')
         element.addClass('box-placeholder')
@@ -358,7 +832,7 @@ var global_service = {
         $.when(
             global_service.POST(API_URL.GroupProduct, request)
         ).done(function (result) {
-           
+            
             if (result.is_success) {
                
                 var products = result.data
@@ -380,15 +854,17 @@ var global_service = {
     },
 
     GotoCart: function () {
-        var usr = global_service.CheckLogin()
-        if (usr) {
-            window.location.href = '/cart'
+        
+        //var usr = global_service.CheckLogin()
+        //if (usr) {
+        //    window.location.href = '/cart'
 
-        }
-        else {
-            $('.mainheader .client-login').click()
-            return
-        }
+        //}
+        //else {
+        //    $('.mainheader .client-login').click()
+        //    return
+        //}
+        window.location.href = '/cart';
     },
 
     DateTimeToString: function (date, has_time = false) {
@@ -437,30 +913,55 @@ var global_service = {
         return value.trim();
     },
     RenderSearchBox: function () {
-       
+
         var usr = global_service.CheckLogin()
         var token = ''
         if (usr) {
             token = usr.token
 
         }
+
+        var keyword = global_service.GetGlobalSearchKeyword(); // <-- PHẢI có dòng này!
+
         var request = {
-            "keyword": global_service.GetGlobalSearchKeyword(),
+            "keyword": keyword,
             "token": token
         }
         $.when(
             global_service.POST(API_URL.GlobalSearch, request)
         ).done(function (result) {
-           
+          
             if (result.is_success && result.data && result.data.items) {
                 if (result.data.items.length > 0) {
                     var html = `<ul class="divide-y divide-gray-100">` + global_service.RenderSearchProductItem(result.data.items) + `</ul>`
                     $('.box-search-list').html(html)
                 } else {
-                    $('.box-search-list').html('Không tìm thấy kết quả')
+                    $('.box-search-list').html(`
+                    
+                        <ul class="p-3">
+                            <li class="py-2 text-sm">Không tìm thấy kết quả với từ khoá “${keyword}”</li>
+                            <li class="border-dashed border-gray-300 border-b my-2"></li>
+                            <li class="py-2 list-disc text-sm ml-4">Kiểm tra lỗi chính tả với từ khoá đã nhập</li>
+                            <li class="py-2 list-disc text-sm ml-4">Trong trường hợp cần hỗ trợ, hãy liên hệ với Best Mall qua tổng đài miễn phí 
+                                <a href="" class="text-color-base">1900 6868</a>
+                            </li>
+                        </ul>
+                    
+                `)
                 }
             } else {
-                $('.box-search-list').html('Không tìm thấy kết quả')
+                $('.box-search-list').html(`
+                    
+                        <ul class="p-3">
+                            <li class="py-2 text-sm">Không tìm thấy kết quả với từ khoá “${keyword}”</li>
+                            <li class="border-dashed border-gray-300 border-b my-2"></li>
+                            <li class="py-2 list-disc text-sm ml-4">Kiểm tra lỗi chính tả với từ khoá đã nhập</li>
+                            <li class="py-2 list-disc text-sm ml-4">Trong trường hợp cần hỗ trợ, hãy liên hệ với Best Mall qua tổng đài miễn phí 
+                                <a href="" class="text-color-base">1900 6868</a>
+                            </li>
+                        </ul>
+                    
+                `)
             }
             $('#global-search-loading').hide()
 
@@ -476,10 +977,10 @@ var global_service = {
     },
 
     RenderGroupProductItem: function (list, template) {
-       
+        
         var html = '';
         $(list).each(function (index, item) {
-            var img_src = item.imagePath;
+            var img_src = item.image_path;
             if (!img_src.includes(API_URL.StaticDomain)
                 && !img_src.includes("data:image")
                 && !img_src.includes("http")) {
@@ -487,7 +988,7 @@ var global_service = {
             }
 
             html += template
-                .replaceAll('{url}', '/' + item.path)
+                .replaceAll('{url}',item.url_path)
                 .replaceAll('{avt}', img_src)
                 .replaceAll('{id}', item.id)
                 .replaceAll('{name}', item.name);
@@ -496,9 +997,92 @@ var global_service = {
         return html;
     },
     RenderSlideProductItem: function (list, template) {
-        var html = ''
-       
+        var html = '';
+        var now = new Date();
+
         $(list).each(function (index, item) {
+           
+            var img_src = item.avatar;
+            if (!img_src.includes(API_URL.StaticDomain) &&
+                !img_src.includes("data:image") &&
+                !img_src.includes("http")) {
+                img_src = API_URL.StaticDomain + item.avatar;
+            }
+           
+
+            var badgeType = item.flashsale_badge_type;
+            var badge_img = '';
+
+            if (badgeType != null && FLASH_SALE_IMAGES[badgeType]) {
+                var tagImage = FLASH_SALE_IMAGES[badgeType];
+                badge_img = `<img class="tag-banchay" src="${tagImage}" alt="" />`;
+            }
+
+
+
+            // --- XỬ LÝ GIÁ ---
+            var amount_html = 'Giá liên hệ';
+            var amount_number = 0;
+            var has_price = false;
+
+            var flash_sale_todate = item.flash_sale_todate ? new Date(item.flash_sale_todate) : null;
+            var isFlashSale = item.amount_after_flashsale != null &&
+                item.amount_after_flashsale > 0 &&
+                flash_sale_todate != null &&
+                flash_sale_todate > now;
+
+            if (isFlashSale) {
+                amount_html = global_service.Comma(item.amount_after_flashsale) + ' đ';
+                amount_number = item.amount_after_flashsale;
+                has_price = true;
+            }
+            else if (item.amount_min != null && item.amount_min > 0) {
+                amount_html = global_service.Comma(item.amount_min) + ' đ';
+                amount_number = item.amount_min;
+                has_price = true;
+            }
+            else if (item.amount != null && item.amount > 0) {
+                amount_html = global_service.Comma(item.amount) + ' đ';
+                amount_number = item.amount;
+                has_price = true;
+            }
+
+            if (has_price) {
+                let discountRounded = Math.round(parseFloat(item.discount) || 0);
+                let showDiscount = discountRounded > 0;
+
+                html += template
+                    .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
+                    .replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}',  ${amount_number},
+                    ${item.rating || 0},
+                    ${item.review_count || 0},
+                    ${item.old_price || 0},
+                    ${discountRounded || 0},
+                    ${badgeType || 'null'})" href="`)
+
+
+                    .replaceAll('{badge_img}', badge_img)
+                    .replaceAll('{discount_text}', `-${discountRounded}%`)
+                    .replaceAll('{discount_style}', showDiscount ? '' : 'hidden')
+                    .replaceAll('{avt}', img_src)
+                    .replaceAll('{name}', item.name)
+                    .replaceAll('{amount}', amount_html)
+                    .replaceAll('{review_point}', (item.rating == null || item.rating <= 0) ? '' : item.rating.toFixed(1) + '★')
+                    .replaceAll('{review_count}', (item.review_count == null || item.review_count <= 0) ? '' : '(' + item.review_count.toFixed(0) + ')')
+                    .replaceAll('{old_price_style}', (item.old_price && item.old_price > 0 ? '' : 'display:none;'))
+                    .replaceAll('{price}', (item.old_price && item.old_price > 0) ? (global_service.Comma(item.old_price) + ' đ') : '');
+            }
+        });
+
+        return html;
+    },
+
+    RenderSlideSaleProductItem: function (list, template) {
+    
+        var html = ''
+
+        $(list).each(function (index, item) {
+           
             var img_src = item.avatar
             if (!img_src.includes(API_URL.StaticDomain)
                 && !img_src.includes("data:image")
@@ -506,44 +1090,45 @@ var global_service = {
                 img_src = API_URL.StaticDomain + item.avatar
             var amount_html = 'Giá liên hệ'
             var amount_number = 0
-            var has_price = false
-            if (item.amount_min != null
-                && item.amount_min != undefined && item.amount_min > 0) {
-                amount_html = global_service.Comma(item.amount_min) + ' đ'
-                amount_number = item.amount_min
-                has_price = true
-            }
-            else if (item.amount != undefined
-                && item.amount != null && item.amount > 0) {
-                amount_html = global_service.Comma(item.amount) + ' đ'
-                amount_number = item.amount
+            var badgeType = item.badge_type;
+            var badge_img = '';
 
-                has_price = true
+            if (badgeType != null && FLASH_SALE_IMAGES[badgeType]) {
+                var tagImage = FLASH_SALE_IMAGES[badgeType];
+                badge_img = `<img class="tag-banchay" src="${tagImage}" alt="" />`;
             }
-            if (has_price) {
-                
-                debugger
-                let showDiscount = item.amount_max != null ;
+            
+
+            if (item.amount) {
+
+
+
                 html += template
                     .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
-                    .replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}',  ${amount_number},
-                    ${item.rating || 0},
-                    ${item.review_count || 0},
-                    ${item.amount_max || 0},
-                    ${item.discount ||0})" href="`)
-                    .replaceAll('{discount_text}', showDiscount ? `-${item.discount}%` : '')
-                    .replaceAll('{discount_style}', showDiscount ? '' : 'hidden')
+                    //.replaceAll('<a href="', `<a onclick="global_service.saveViewedProduct('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${img_src}',  ${amount_number},
+                    //${item.rating || 0},
+                    //${item.review_count || 0},
+                    //${item.old_price || 0},
+                    //${discountRounded || 0})" href="`)
+                    .replaceAll('{discount_text}', `-${item.discountvalue}%`)
+                    .replaceAll('{badge_img}', badge_img)
+                    
 
 
                     .replaceAll('{avt}', img_src)
                     .replaceAll('{name}', item.name)
-                    .replaceAll('{amount}', amount_html)
+                    .replaceAll('{amount}', global_service.Comma(item.amount) + ' đ')
                     .replaceAll('{review_point}', (item.rating == null || item.rating == undefined || item.rating <= 0) ? '' : item.rating.toFixed(1) + '★')
                     //.replaceAll('{review_point}', (item.star == null || item.star == undefined || item.star <= 0) ? '' : item.star.toFixed(1) +'<i class="icon icon-star"></i>')
                     .replaceAll('{review_count}', (item.review_count == null || item.review_count == undefined || item.review_count <= 0) ? '' : '(' + item.review_count.toFixed(0) + ')')
                     //.replaceAll('{review_count}', (item.total_sold == null || item.total_sold == undefined || item.total_sold <= 0) ? '' : '(' + item.total_sold.toFixed(0) + ')')
-                    .replaceAll('{old_price_style}', (item.amount_max <= amount_number ? 'display:none;' : ''))
-                    .replaceAll('{price}', global_service.Comma(item.amount_max) + ' ' + 'đ')
+                 //   .replaceAll('{old_price_style}', (item.old_price && item.old_price > 0 ? '' : 'display:none;'))
+
+                    //.replaceAll('{price_style}', (item.old_price && item.old_price > 0) ? '' : 'display:none;')
+                    //.replaceAll('{price}', (item.old_price && item.old_price > 0) ? (global_service.Comma(item.old_price) + ' đ') : '')
+                    .replaceAll('{price}', global_service.Comma(item.amount_after_flashsale) + ' đ'  )
+
+
 
             }
         });
@@ -551,8 +1136,19 @@ var global_service = {
         return html
     },
 
-    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, amount_max = 0, discount=0) {
+    saveViewedProduct: function (id, name, image, price, rating = 0, review_count = 0, old_price = 0, discount = 0, badge_type = null) {
        
+        var img_src = image
+        if (!img_src.includes(API_URL.StaticDomain)
+            && !img_src.includes("data:image")
+            && !img_src.includes("http"))
+            img_src = API_URL.StaticDomain + image
+
+
+        let badge_img = '';
+        if (badge_type != null && FLASH_SALE_IMAGES[badge_type]) {
+            badge_img = `<img class="tag-banchay" src="${FLASH_SALE_IMAGES[badge_type]}" alt="" />`;
+        }
         const key = 'viewedProducts';
         let list = JSON.parse(localStorage.getItem(key)) || [];
 
@@ -563,12 +1159,13 @@ var global_service = {
         list.unshift({
             id,
             name,
-            image,
+            img_src,
             price,
             rating,
             review_count,
-            amount_max,
+            old_price,
             discount,
+            badge_img, // ✅ thêm dòng này
             url: `/san-pham/${global_service.toSlug(name)}--${id}`
         });
 
@@ -588,9 +1185,14 @@ var global_service = {
     },
 
     renderViewedProducts: function () {
+        
        
         const container = document.getElementById('viewed-products');
         const wrapper = document.getElementById('viewed-products-wrapper'); // 👈 thêm dòng này
+        if (!container || !wrapper) {
+            // nếu trang không có block "sản phẩm đã xem" thì skip luôn
+            return;
+        }
         const list = JSON.parse(localStorage.getItem('viewedProducts')) || [];
        
         // Nếu không có sản phẩm đã xem thì ẩn nguyên cái wrapper luôn
@@ -604,27 +1206,35 @@ var global_service = {
 
         let html = '';
         list.forEach(p => {
+            
            
-            const showOldPrice = p.amount_max && p.amount_max > p.price;
-            const showDiscount = p.amount_max != null;
+            const showOldPrice = p.old_price && p.old_price > p.price;
+            const showDiscount = p.discount && p.discount > 0;
             const ratingHtml = p.rating > 0 ? `${p.rating.toFixed(1)}★` : '';
             const reviewHtml = p.review_count > 0 ? `(${p.review_count})` : '';
+            
 
             html += `
-            <div class="swiper-slide pt-3">
-            <div class="bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+            <div class="swiper-slide ">
+            <div class="product-item bg-white rounded-xl p-2 text-slate-800 relative h-full pb-14">
+            <!-- tag -->
+            <!-- tag -->
+               
+
                 <a href="${p.url}">
-                   <div class="absolute -top-1 z-10 left-1 bg-[url(assets/images/icon/tag.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[50px] h-[30px] py-1 ${showDiscount ? '' : 'hidden'}">
-                        -${p.discount}%
-                    </div>
+                    ${p.badge_img || ''}
                     <div class="relative aspect-[1/1] overflow-hidden rounded-lg">
-                        <img src="${p.image}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover" />
+                        <img src="${p.img_src}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover" />
+                         <div
+                             class="tag-sale absolute bottom-0 z-10 left-0 bg-[url(/assets/images/tag-sale.png)] bg-contain bg-no-repeat text-white text-xs px-2 w-[56px] h-[30px] py-1 ${showDiscount ? '' : 'hidden'}">
+                              -${p.discount}%
+                         </div>
                     </div>
                     <p class="text-sm line-clamp-2 font-medium mt-2">${p.name}</p>
                     <div class="absolute bottom-2 w-full px-2 left-0">
                         <div class="text-rose-600 font-bold mt-1">${p.price.toLocaleString()} đ</div>
                         <div class="flex items-center justify-between">
-                            <div class="text-xs line-through text-slate-400" style="${showOldPrice ? '' : 'display:none;'}">${p.amount_max.toLocaleString()} đ</div>
+                            <div class="text-xs line-through text-slate-400" style="${showOldPrice ? '' : 'display:none;'}">${p.old_price.toLocaleString()} đ</div>
                             <div class="text-xs text-yellow-500 mt-1">${ratingHtml} <span class="text-slate-400">${reviewHtml}</span></div>
                         </div>
                     </div>
@@ -657,18 +1267,27 @@ var global_service = {
 
 
     RenderSearchProductItem: function (list) {
+       
 
         var html = ''
         var template = HTML_CONSTANTS.Home.GlobalSearchByKeyword
+        
         var keyword = global_service.GetGlobalSearchKeyword()
         //html += template
         //    .replaceAll('{url}', '/tim-kiem/' + keyword)
         //    .replaceAll('{name}', 'Tìm kiếm "' + keyword + '"')
 
         $(list).each(function (index, item) {
+            var img_src = item.avatar
+            if (!img_src.includes(API_URL.StaticDomain)
+                && !img_src.includes("data:image")
+                && !img_src.includes("http"))
+                img_src = API_URL.StaticDomain + item.avatar
             html += template
                 .replaceAll('{url}', '/san-pham/' + global_service.RemoveUnicode(global_service.RemoveSpecialCharacters(item.name)).replaceAll(' ', '-') + '--' + item._id)
                 .replaceAll('{name}', item.name)
+                .replaceAll('{avatar}', img_src)
+                .replaceAll('{amount}', global_service.Comma(item.amount))
 
         });
 

@@ -1,0 +1,246 @@
+﻿@using Best1Mall_Front_End.Models.Products
+@using Best1Mall_Front_End.ViewModels;
+@using Best1Mall_Front_End.Utilities;
+@using Newtonsoft.Json
+@model ProductListResponseModel
+
+<!-- Phần tử ẩn lưu group_id từ URL -->
+@* <input type="hidden" id="group_id_from_url" value="@productid_id" /> *@
+
+
+@functions {
+    string ToSeoUrl(string name)
+    {
+        return RemoveUnicode(RemoveSpecialCharacters(name)).Replace(" ", "-").ToLower();
+    }
+
+    string RemoveUnicode(string text)
+    {
+        var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+        var chars = normalized.Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark);
+        return new string(chars.ToArray()).Normalize(System.Text.NormalizationForm.FormC);
+    }
+
+    string RemoveSpecialCharacters(string input)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(input, "[^a-zA-Z0-9\\s-]", "");
+    }
+
+    string FormatCurrency(double? amount)
+    {
+        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "";
+    }
+
+
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return ""; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
+
+<section class="product-section">
+    <div class="max-w-[1230px] mx-auto my-4 px-[15px]">
+        <div class="breadcrumb my-4 ">
+            <ul class="flex items-center gap-3 font-normal">
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="" class="text-color-base">@Model.label_detail.labelCode</a></li>
+            </ul>
+        </div>
+        <div class="banner-ncc">
+            <img src="@GetFullImageUrl(Model.label_detail.banner)" alt="@Model.label_detail.labelCode"
+                 class="rounded-3xl w-full"  />
+
+            <div class="about-ncc">
+                <img src="@Model.label_detail.icon" alt="" class="images-logo object-contain">
+                <p class="des">
+                    <span id="label-description"></span>
+                    <a href="javascript:;" id="toggle-description" class="text-blue-500 underline text-sm ml-2 hidden">Xem thêm</a>
+                </p>
+
+            </div>
+        </div>
+
+        <div class="my-6 md:my-10">
+            <div class="md:grid grid-cols-5 gap-3">
+               
+
+
+
+
+
+                @* </div> *@
+                @* ListProduct *@
+                <div class="col-span-5">
+
+                    @* Kiểm tra nếu không có sản phẩm nào *@
+                    @if (Model?.items == null || !Model.items.Any())
+                    {
+                        <div class="w-full flex items-center justify-center py-10 text-gray-500 text-center text-lg" id="no-products-message">
+                            Không tìm thấy sản phẩm nào 
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-span-5">
+                            <div class="grid lg:grid-cols-5 md:grid-cols-5 grid-cols-2 gap-3 component-product-list">
+                                @Html.Partial("~/Views/Shared/Components/Product/ProductListViewComponent.cshtml", Model)
+                            </div>
+                        </div>
+                    }
+
+                   
+                </div>
+               
+
+
+            </div>
+            @* Hiển thị nút "Xem thêm" nếu có nhiều sản phẩm *@
+            @if (Model.count > 10)
+            {
+                <div class="flex justify-center mt-5">
+                    <button type="button" class="text-color-base font-normal" id="btn-load-label"
+                            data-labelid="@ViewBag.LabelId">
+                        Xem thêm
+                    </button>
+                </div>
+            }
+        </div>
+        <!-- Hiển thị banner phụ -->
+        <div class="my-6 md:my-10">
+
+            <!-- Kiểm tra và chỉ hiển thị BannerMain nếu có -->
+            @if (!string.IsNullOrEmpty(Model.label_detail.BannerMain))
+            {
+                <div class="md:rounded-3xl rounded-xl overflow-hidden col-span-3">
+                    <img src="@GetFullImageUrl(Model.label_detail.BannerMain)" alt="Banner Main" class="w-full shadow h-[162px]" />
+                </div>
+            }
+
+            <!-- Kiểm tra và chỉ hiển thị BannerSub nếu có -->
+            @if (!string.IsNullOrEmpty(Model.label_detail.BannerSub))
+            {
+                try
+                {
+                    // Deserialize BannerSub (chuỗi JSON thành mảng)
+                    var bannerSubList = JsonConvert.DeserializeObject<List<string>>(Model.label_detail.BannerSub);
+
+                    if (bannerSubList != null && bannerSubList.Any())
+                    {
+                        <div class="flex md:justify-between gap-2 overflow-x-auto scrollbar-hide md:grid grid-cols-3 pb-2 mt-2">
+                            @foreach (var banner in bannerSubList)
+                            {
+                                <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full">
+                                    <img src="@GetFullImageUrl(banner)" alt="Banner Sub" class="w-full shadow h-[183px]" />
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-gray-500 italic">Không có banner phụ</p>
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log lỗi nếu có và không làm gián đoạn trang
+                    Console.WriteLine("Error parsing BannerSub: " + ex.Message);
+                    <p class="text-gray-500 italic">Có lỗi khi hiển thị banner phụ</p>
+                }
+            }
+            else
+            {
+                <p class="text-gray-500 italic">Không có banner phụ</p>
+            }
+
+           
+        </div>
+        
+           
+        
+
+    </div>
+</section>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#btn-load-label').on('click', function () {
+
+                var btn = $(this);
+                var container = $('.component-product-list');
+                var currentPage = parseInt(container.data("page") || 1);
+                var labelId = btn.data("labelid"); // Lấy LabelId từ data attribute
+                var pageSize = 10; // Kích thước trang cố định
+
+                currentPage++;
+
+                // Cập nhật dữ liệu cần thiết từ container
+                var requestData = {
+                    page_index: currentPage,
+                    page_size: pageSize,
+                    label_id: labelId // Sử dụng labelCode để lấy sản phẩm liên quan đến Label
+                };
+
+                btn.prop("disabled", true).text("Đang tải...");
+
+                $.post("/Product/LoadMoreFilteredLabel", requestData, function (res) {
+
+                    if (res.html) {
+                        container.append(res.html);  // Thêm sản phẩm mới vào container
+                        container.data("page", currentPage); // Cập nhật trang hiện tại
+                    }
+
+                    if (res.isLastPage) {
+                        btn.hide();  // Nếu không còn sản phẩm nào, ẩn nút "Xem thêm"
+                    } else {
+                        btn.prop("disabled", false).text("Xem thêm");  // Hiển thị lại nút "Xem thêm"
+                    }
+                }).fail(function (err) {
+                    console.error("LoadMore error:", err);
+                    btn.prop("disabled", false).text("Xem thêm");
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            const MAX_LENGTH = 600;
+            const fullText = `@Html.Raw(Model.label_detail.description?.Trim())`; // Razor chuyển sang JS
+            const $desc = $('#label-description');
+            const $toggleBtn = $('#toggle-description');
+
+            if (fullText.length > MAX_LENGTH) {
+                const shortText = fullText.substring(0, MAX_LENGTH).trim() + '...';
+                $desc.text(shortText);
+                $toggleBtn.removeClass('hidden').text('Xem thêm');
+
+                let isExpanded = false;
+                $toggleBtn.on('click', function () {
+                    isExpanded = !isExpanded;
+                    if (isExpanded) {
+                        $desc.text(fullText);
+                        $toggleBtn.text('Thu gọn');
+                    } else {
+                        $desc.text(shortText);
+                        $toggleBtn.text('Xem thêm');
+                    }
+                });
+            } else {
+                $desc.text(fullText);
+            }
+        });
+    </script>
+
+}

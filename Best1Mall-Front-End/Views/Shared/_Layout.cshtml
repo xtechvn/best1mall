@@ -22,9 +22,37 @@
 
 
     <title>@ViewData["Title"]</title>
-    <link type="image/x-icon" href="~/images/img-search.png" rel="shortcut icon" />
+    <link type="image/x-icon" href="~/assets/images/LogoHome.png" rel="shortcut icon" />
     <!-- CSS-->
     @RenderSection("Styles", required: false)
+    <style>
+        .bg-blue-100 {
+            background-color: #EBE2FE !important;
+        }
+        .bg-orange-500 {
+            background-color: #FF4169 !important;
+        }
+
+        .swiper-button-next[aria-disabled="true"],
+        .swiper-button-prev[aria-disabled="true"] {
+            display: flex !important;
+            opacity: 0.5; /* hoặc 1 tùy ý */
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .swiper-button-disabled {
+            opacity: 0.4 !important;
+            pointer-events: auto !important;
+            filter: grayscale(1);
+        }
+
+        .flashsale-box {
+            visibility: hidden;
+        }
+
+
+    </style>
 </head>
 <body class="text-sky-900 bg-[#F9FBFC]">
     <partial name="_Header" />
@@ -41,7 +69,7 @@
         </svg>
 
     </div>
-    @* <partial name="_Lightbox"/> *@
+     <partial name="_Lightbox"/> 
   
 
     <script asp-append-version="true" src="/assets/js/jquery.min.js"></script>
@@ -51,28 +79,57 @@
     <script asp-append-version="true" src="/custom/jquery.magnific-popup.min.js"></script>
     <script asp-append-version="true" src="/assets/js/select2.min.js"></script>
     <script src="/modules/constants.js" asp-append-version="true"></script>
-    <script src="/modules/services.js" asp-append-version="true"></script>
+      <script type="text/javascript" src="~/modules/notify.js"></script>  
+    @* <script src="/modules/services.js" asp-append-version="true"></script> *@
     <script src="/modules/global.js" asp-append-version="true"></script>
-    
+    <script asp-append-version="true" src="https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
 
     <!-- lightgallery-->
-    <script src="/assets/js/lightgallery.min.js"></script>
-    <script src="/assets/js/video.min.js"></script>
-    <script src="/assets/js/lightgallery.umd.js"></script>
-    <script src="/assets/js/lg-video.umd.js"></script>
-    <script src="/assets/js/lg-thumbnail.min.js"></script>
+    <script src="/assets/js/lightgallery.min.js" asp-append-version="true"></script>
+    <script src="/assets/js/video.min.js" asp-append-version="true"></script>
+    <script src="/assets/js/lightgallery.umd.js" asp-append-version="true"></script>
+    <script src="/assets/js/lg-video.umd.js" asp-append-version="true"></script>
+    <script src="/assets/js/lg-thumbnail.min.js" asp-append-version="true"></script>
     <!-- end lightgallery-->
 
     <!-- Modules-->
+    <script type="text/javascript" src="/modules/utils.js" asp-append-version="true"></script>
     <script asp-append-version="true" src="/modules/account.js"></script>
     <script asp-append-version="true" src="/modules/account_google.js"></script>
     <script asp-append-version="true" src="/modules/home_product.js"></script>
-    <script asp-append-version="true" src="~/modules/support.js"></script>
+     <script asp-append-version="true" src="~/modules/support.js"></script> 
+    <script asp-append-version="true" src="~/modules/sweetalert2.js"></script>
     <script type="text/javascript" src="~/modules/feedback.js" asp-append-version="true"></script>
     <script src="https://accounts.google.com/gsi/client" async></script>
     @* <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v20.0" nonce="P6zkdA3O"></script> *@
 
     <script>
+            // js tiêu chí
+        new Swiper(".tieuchi-slide", {
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 15,
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                },
+                768: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 4,
+                },
+            },
+            pagination: {
+                el: ".tieuchi-slide .swiper-pagination",
+                clickable: true,
+            },
+            navigation: false,
+        });
         // js banner
         new Swiper(".banner-slide", {
             loop: true,
@@ -85,7 +142,8 @@
                 prevEl: ".banner-slide .swiper-button-prev",
             },
         });
-        // js slide sản phẩm 5 cột
+               window.addEventListener('load', function () {
+               // js slide sản phẩm 5 cột
         const flashSaleSwiper = new Swiper(".flash-sale-swiper .swiper", {
             slidesPerView: 2,
             spaceBetween: 15,
@@ -105,7 +163,41 @@
                 },
             },
         });
+            // Hiển thị Swiper khi Swiper đã được khởi tạo xong
+            document.querySelector('.flashsale-box').style.visibility = 'visible';
+        });
+                $('.best-choice-swiper').each(function () {
+            const $this = $(this);
+            const swiperContainer = $this.find('.swiper')[0];
+            const nextBtn = $this.find('.swiper-button-next')[0];
+            const prevBtn = $this.find('.swiper-button-prev')[0];
+
+            new Swiper(swiperContainer, {
+                slidesPerView: 2,
+                spaceBetween: 15,
+                navigation: {
+                    nextEl: nextBtn,
+                    prevEl: prevBtn,
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2.5,
+                    },
+                    768: {
+                        slidesPerView: 3.5,
+                    },
+                    1024: {
+                        slidesPerView: 5,
+                    },
+                }
+            });
+        });
+
+
+
+
         const brandsSwiper = new Swiper(".brands-swiper .swiper", {
+           
             slidesPerView: 2,
             spaceBetween: 15,
             navigation: {
@@ -126,6 +218,7 @@
         });
         // js slide sản phẩm 4 cột
         const productSwiper = new Swiper(".product-swiper .swiper", {
+          
             slidesPerView: 2,
             spaceBetween: 15,
             navigation: {
@@ -140,22 +233,54 @@
                     slidesPerView: 3.5,
                 },
                 1024: {
-                    slidesPerView: 4,
+                    slidesPerView: 5,
                 },
             },
         });
+                $(document).ready(function () {
+            // Khởi tạo Swiper cho từng block sản phẩm động
+            $('#dynamic-label-blocks .list_product').each(function () {
+                const section = $(this);
+                const swiperEl = section.find('.swiper')[0];
+                const nextBtn = section.find('.swiper-button-next')[0];
+                const prevBtn = section.find('.swiper-button-prev')[0];
+
+                // Init Swiper
+                new Swiper(swiperEl, {
+                    slidesPerView: 2,
+                    spaceBetween: 15,
+                    navigation: {
+                        nextEl: nextBtn,
+                        prevEl: prevBtn
+                    },
+                    breakpoints: {
+                        640: {
+                            slidesPerView: 2.5,
+                        },
+                        768: {
+                            slidesPerView: 3.5,
+                        },
+                        1024: {
+                            slidesPerView: 5,
+                        },
+                    }
+                });
+            });
+        });
+
+
     </script>
     <script>
-        // Thiết lập thời gian kết thúc - ví dụ hôm nay lúc 23:59:59
+                // Thiết lập thời gian kết thúc - ví dụ ngày mai lúc 23:59:59
         const now = new Date();
-        const endTime = new Date();
-        endTime.setHours(23, 59, 59, 999); // Hết ngày
+        const endTime = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 23, 59, 59, 999); // Hết ngày mai
 
         function updateCountdown() {
             const currentTime = new Date().getTime();
             const timeLeft = endTime - currentTime;
 
             if (timeLeft <= 0) {
+                document.getElementById('days').textContent = '00';
                 document.getElementById('hours').textContent = '00';
                 document.getElementById('minutes').textContent = '00';
                 document.getElementById('seconds').textContent = '00';
@@ -163,10 +288,12 @@
                 return;
             }
 
-            const hours = String(Math.floor(timeLeft / (1000 * 60 * 60))).padStart(2, '0');
+            const days = String(Math.floor(timeLeft / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            const hours = String(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
             const minutes = String(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
             const seconds = String(Math.floor((timeLeft % (1000 * 60)) / 1000)).padStart(2, '0');
 
+            document.getElementById('days').textContent = days;
             document.getElementById('hours').textContent = hours;
             document.getElementById('minutes').textContent = minutes;
             document.getElementById('seconds').textContent = seconds;
@@ -174,6 +301,51 @@
 
         const timer = setInterval(updateCountdown, 1000);
         updateCountdown(); // chạy lần đầu
+
+    </script>
+    <script>
+        // js qc
+        new Swiper(".banner-ads", {
+            loop: false,
+            slidesPerView: 1.3,
+            spaceBetween: 10,
+            pagination: {
+                el: ".banner-ads .swiper-pagination",
+                clickable: true,
+            },
+            navigation: false,
+            breakpoints: {
+                768: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+        //js ban điều hành
+        var swipers = {};
+
+        $(".swiperCEO").each(function (index, element) {
+            var group = $(element).data("group");
+            swipers[group] = new Swiper(element, {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: false,
+            });
+        });
+
+        // Click avatar để điều khiển swiper theo group
+        $(".swiper-pagination-avatar img").click(function () {
+            var index = $(this).data("slide");
+            var group = $(this).data("group");
+
+            if (swipers[group]) {
+                swipers[group].slideToLoop(index);
+                updateActiveAvatar(group, index);
+            }
+            function updateActiveAvatar(group, index) {
+                $(`.swiper-pagination-avatar img[data-group='${group}']`).removeClass("active-avatar");
+                $(`.swiper-pagination-avatar img[data-group='${group}'][data-slide='${index}']`).addClass("active-avatar");
+            }
+        });
     </script>
 
 

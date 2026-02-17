@@ -260,6 +260,29 @@ namespace Best1Mall_Front_End.Utilities.Lib
         {
             return base_name + "_" + user_id + "_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "." + extension;
         }
-     
+        public static string CleanName(string input)
+        {
+            try
+            {
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    return input;
+                }
+                string normalizedString = input.Normalize(NormalizationForm.FormD);
+
+
+                string pattern = @"[^a-zA-Z\p{L}\s'\-]";
+
+                string result = Regex.Replace(normalizedString, pattern, string.Empty);
+
+                result = result.ToString().Normalize(NormalizationForm.FormC);
+                result = Regex.Replace(result, @"\s+", " ").Trim();
+
+                return result;
+            }
+            catch { }
+            return input;
+        }
     }
 }

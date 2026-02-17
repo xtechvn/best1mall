@@ -1,9 +1,14 @@
 ﻿using Best1Mall_Front_End.Controllers.Client.Business;
+using Best1Mall_Front_End.Controllers.FlashSale.Business;
+using Best1Mall_Front_End.Controllers.Home.Business;
 using Best1Mall_Front_End.Controllers.News.Business;
 using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Models.Flashsale;
+using Best1Mall_Front_End.Models.Labels;
 using Best1Mall_Front_End.Models.Products;
 using Best1Mall_Front_End.Models.Raiting;
 using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities;
 using Best1Mall_Front_End.Utilities.contants;
 using Best1Mall_Front_End.Utilities.Lib;
 using Best1Mall_Front_End.ViewModels;
@@ -11,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace Best1Mall_Front_End.Controllers.Product
 {
@@ -18,74 +24,100 @@ namespace Best1Mall_Front_End.Controllers.Product
     public class ProductController : Controller
     {
         private readonly IConfiguration _configuration;
-
+        private readonly RedisConn redisService;
         private readonly ProductServices _productServices;
         private readonly IMemoryCache _cache;
+        private readonly MenuService _menuService;
 
         public ProductController(IConfiguration configuration, IMemoryCache cache, RedisConn _redisService) {
 
             _configuration= configuration;
             _productServices = new ProductServices(configuration, _redisService);
+            _menuService = new MenuService(configuration, _redisService);
+            redisService = _redisService;
             _cache = cache;
 
         }
         // Layout trang chủ news dùng chung với trang Category cấp 2
-        [Route("san-pham")]
+        //[Route("san-pham/{url_path}")]
         [HttpGet]
-        public async Task<IActionResult> Index(int group_id, int pageindex = 1, int pageize = 12)
+        public async Task<IActionResult> Index(int group_id, int pageindex = 1, int pageize = 12, int? children_id = null)
         {
+            // Tìm group cha
+            //int parentGroupId = await _menuService.GetParentIdAsync(group_id);
+            //if (parentGroupId == 0) parentGroupId = group_id; // Nếu group_id là cha rồi
+            // Lấy danh mục con theo group_id để hiển thị bộ lọc
+            var childCategories = await _menuService.getListMenu(group_id);
+            // Nếu có group_id của con, lọc theo children_id
+            //int groupToShow = children_id ?? group_id;
 
-           
-           
-                // Nếu không có trong cache, truy vấn dữ liệu
-                var request = new ProductListRequestModel
-                {
-                    group_id = group_id,
-                    page_index = pageindex,
-                    page_size = pageize
-                };
-                ViewBag.group_id = group_id;
+            // Nếu không có trong cache, truy vấn dữ liệu
+            var request = new ProductListRequestModel
+            {
+                group_id = group_id,
+                page_index = pageindex,
+                page_size = pageize
+            };
+            ViewBag.group_id = group_id;
 
-                var result = await _productServices.GetProductList(request);
+            var result = await _productServices.GetProductList(request);
+            var model = new ProductListPageViewModel
+            {
+                Products = result,
+                ChildCategories = childCategories,
+                SelectedGroupId = group_id
+            };
+            ViewData["ChildrenId"] = children_id;  // Truyền children_id vào View   
 
-                if (result != null && result.items != null && result.items.Count > 0)
-                {
-                    // Lưu vào cache
-                    //_cache.Set(cacheKey, result.items, TimeSpan.FromMinutes(10)); // Lưu trong 10 phút
-                    return View(result);
-                }
-                else
-                {
-                    return View("NoProductsFound");
-                }
-           
+            //if (result != null && result.items != null && result.items.Count > 0)
+            //{
+                // Lưu vào cache
+                //_cache.Set(cacheKey, result.items, TimeSpan.FromMinutes(10)); // Lưu trong 10 phút
+                return View(model);
+            //}
+            //else
+            //{
+            //    return View("NoProductsFound");
+            //}
+
         }
         // Load  sản phẩm 
         [HttpPost]
-        public IActionResult loadProductTopComponent(int group_id, int page_index, int page_size, string view_name , double? price_from, double? price_to , float? rating)
+        public async Task<IActionResult> loadProductTopComponent(int group_id, int page_index, int page_size, string view_name, double? price_from, double? price_to, float? rating)
         {
             try
             {
                 var model = new ProductListRequestModel
                 {
                     group_id = group_id,
-                    view_name= view_name,
+                    view_name = view_name,
                     page_index = page_index,
                     page_size = page_size,
                     price_from = price_from,
                     price_to = price_to,
                     rating = rating
                 };
-                // Gọi ViewComponent trực tiếp và trả về kết quả
-                return ViewComponent("ProductList", model);
+
+                // Gọi service để lấy danh sách sản phẩm + count
+                var productService = new ProductServices(_configuration, redisService);
+                var data = await productService.GetProductList(model);
+                var count = data?.count ?? 0;
+
+                // Render ViewComponent thành HTML string
+                var html = await this.RenderViewComponentToStringAsync("ProductList", model);
+
+                return Json(new
+                {
+                    html,
+                    count
+                });
             }
             catch (Exception ex)
             {
-                // Ghi log lỗi nếu cần
-               
-                return StatusCode(500); // Trả về lỗi 500 nếu có lỗi
+                return Json(new { html = "", count = 0 });
             }
         }
+
 
         public ActionResult Detail(string product_code, string title)
         {
@@ -101,17 +133,24 @@ namespace Best1Mall_Front_End.Controllers.Product
         }
       
         public async Task<IActionResult> ProductDetail(ProductDetailRequestModel request)
+        
         {
             ProductDetailResponseModel result = await _productServices.GetProductDetail(request);
-           
+
 
             return Ok(new
             {
                 is_success = result != null,
-                data = result
+                data = result,
+                cert = result?.cert,
+                favourite = result?.favourite, // ✅ thêm dòng này
+                buywith = result?.product_buy_with_output, // ✅ thêm dòng này nè
+                label_detail = result?.label_detail, // ✅ thêm dòng này nè
+                groups=result?.groups
             });
+
         }
-       
+
         public async Task<IActionResult> GetList(ProductListRequestModel request)
         {
             ProductListResponseModel result = await _productServices.GetProductList(request);
@@ -134,6 +173,7 @@ namespace Best1Mall_Front_End.Controllers.Product
             }
 
         }
+       
         public async Task<IActionResult> GetGroupProduct(ProductListRequestModel request)
         {
             GroupProductResponseModel result = await _productServices.GetGroupProduct(request);
@@ -156,6 +196,89 @@ namespace Best1Mall_Front_End.Controllers.Product
             }
 
         }
+
+        [Route("thuong-hieu/{slug}")]
+        public async Task<IActionResult> LabelListProduct(ProductListByLabelFERequest request)
+        {
+            // Set page_index và page_size mặc định nếu không có giá trị
+            request.page_index = request.page_index > 0 ? request.page_index : 1;  // Gán 1 nếu page_index <= 0
+            request.page_size = request.page_size > 0 ? request.page_size : 10;   // Gán 10 nếu page_size <= 0
+
+            var result = await _productServices.LabelListProduct(request);
+
+            // Kiểm tra nếu result là null, gán model mặc định
+            if (result == null)
+            {
+                result = new ProductListResponseModel
+                {
+                    items = new List<ProductMongoDbModel>(),
+                    count = 0, // tổng số sản phẩm
+                    label_detail = new LabelDetail
+                    {
+                        id = 0,
+                        labelName = string.Empty,
+                        labelCode = string.Empty,
+                        icon = string.Empty,
+                        banner = string.Empty,
+                        description = string.Empty,
+                        BannerMain = string.Empty,
+                        BannerSub = string.Empty
+                    }
+                };
+            }
+
+            // Tính toán số trang (nếu cần thiết)
+            var totalPages = (int)Math.Ceiling(result.count / (double)request.page_size);
+
+            // Trả về dữ liệu kèm số trang
+            ViewBag.LabelId = request.label_id;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = request.page_index;
+
+            return View("LabelListProduct", result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> LoadMoreFilteredLabel(ProductListByLabelFERequest request)
+        {
+            var result = await _productServices.LabelListProduct(request);
+
+            bool isLastPage = (request.page_index * request.page_size) >= result.count;
+
+            // Render lại phần HTML của danh sách sản phẩm
+            var html = await this.RenderViewAsync("ProductListLabel", result ?? new ProductListResponseModel(), true);
+
+            return Json(new
+            {
+                isLastPage,
+                html
+            });
+        }
+
+
+        public async Task<IActionResult> GetListLabel(ProductListByLabelFERequest request)
+        {
+            ProductListResponseModel result = await _productServices.LabelListProduct(request);
+
+            if (result != null && result.items != null && result.items.Count > 0)
+            {
+                return Ok(new
+                {
+                    is_success = true,
+                    data = result.items,
+                    count = result.count,
+                    label_detail = result.label_detail
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    is_success = false
+                });
+            }
+
+        }
+
         public async Task<IActionResult> Search(ProductGlobalSearchRequestModel request)
         {
             var result = await _productServices.Search(request);
@@ -166,6 +289,19 @@ namespace Best1Mall_Front_End.Controllers.Product
                 data = result
             });
         }
+        [HttpGet("/ListSearch/{keyword}")]
+        public async Task<IActionResult> ListSearch(string keyword)
+        {
+            var result = await _productServices.SearchListing(new ProductGlobalSearchRequestModel
+            {
+                keyword = keyword,
+               
+            });
+
+            return View("ListSearch", result); // Trả về View với danh sách sản phẩm
+        }
+
+
         public async Task<IActionResult> RaitingPaging(PagingFeViewModel request)
         {
 

@@ -1,0 +1,253 @@
+﻿ <!-- dashboard -->
+ <style>
+    #affiliate_addlink, #affiliate_1 {
+        display: none; /* cả 2 tab con mặc định ẩn */
+    }
+
+
+    .affiliate-dashboard .affiliate-link2 {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        border: 1px solid #e5e7eb
+    }
+
+
+
+    .affiliate-dashboard .affiliate-link2 h4 {
+        font-weight: 700;
+        margin-bottom: 6px
+    }
+
+    .affiliate-dashboard .affiliate-link2 p {
+        margin-bottom: 12px
+    }
+
+    .affiliate-dashboard .affiliate-link2 .link-input {
+        position: relative
+    }
+
+        .affiliate-dashboard .affiliate-link2 .link-input .prefix {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            color: #3b82f6;
+            font-weight: bold;
+            font-size: 16px
+        }
+
+        .affiliate-dashboard .affiliate-link2 .link-input input {
+            width: 100%;
+            padding: 10px 60px 10px 30px;
+            border: 1px solid #d1d3d4;
+            border-radius: 10px
+        }
+
+        .affiliate-dashboard .affiliate-link2 .link-input .btn-copy {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            height: 100%;
+            padding-left: 20px;
+            border-left: 1px solid #d1d3d4
+        }
+
+            .affiliate-dashboard .affiliate-link2 .link-input .btn-copy:hover {
+                color: #3b82f6
+            }
+
+
+</style>
+
+<div class=" pd-20 radius10 account-content affiliate_setting "  id="account-linkaffiliate">
+    <form id="linkaffiliate">
+        <div class="detail-dh  pd-20 radius10" id="profile">
+            
+            <div id="affiliate_1" class="affiliate_s1 center">
+                <div class="affiliate-container">
+                    <div class="product-links p-6 bg-white rounded-lg shadow-md">
+                        <h2 class="title-box text-xl font-bold mb-4">Thông tin tài khoản</h2>
+
+                        <!-- Họ tên -->
+                        <div class="form-group mb-4">
+                            <label for="affiliate_fullName" class="block text-gray-700 mb-1">Tài khoản Bestmall</label>
+                            <div class="link-row">
+                                <input id="affiliate_fullName"
+                                       type="text"
+                                       disabled
+                                       placeholder="Nhập họ tên"
+                                       class="w-full rounded border px-3 py-2 text-gray-700 placeholder-gray-400
+               disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed" />
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group mb-4">
+                            <label for="affiliate_email" class="block text-gray-700 mb-1">Địa chỉ Email</label>
+                            <div class="link-row">
+                                <input id="affiliate_email"
+                                       type="text"
+                                       disabled
+                                       placeholder="Nhập địa chỉ Email"
+                                       class="w-full rounded border px-3 py-2 text-gray-700 placeholder-gray-400
+               disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed" />
+                            </div>
+                        </div>
+
+                        <!-- SĐT -->
+                        <div class="form-group mb-4">
+                            <label for="affiliate_phone" class="block text-gray-700 mb-1">Số điện thoại</label>
+                            <div class="link-row">
+                                <input id="affiliate_phone"
+                                       type="text"
+                                       disabled
+                                       placeholder="Nhập số điện thoại"
+                                       class="w-full rounded border px-3 py-2 text-gray-700 placeholder-gray-400
+               disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed" />
+                            </div>
+                        </div>
+
+                        <!-- CCCD -->
+                        <div class="form-group mb-4">
+                            <label for="affiliate_cid" class="block text-gray-700 mb-1">Số CCCD</label>
+                            <div class="link-row">
+                                <input id="affiliate_cid" type="text"
+                                       disabled
+                                       readonly
+                                       placeholder="Nhập số CCCD"
+                                       class="w-full rounded border px-3 py-2 text-gray-700 placeholder-gray-400
+               disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="product-links !mb-[0px]">
+                        <h2 class="title-box">Thông tin thanh toán</h2>
+                        <div class="form-group">
+                            <label>Chủ tài khoản</label><sup class="red" style="color:red">*</sup></label>
+                            <div class="link-row">
+                                <input type="text" class="form-control" id="AccountName" name="AccountName" placeholder="Họ và tên chủ tài khoản">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Số tài khoản</label><sup class="red" style="color:red">*</sup></label>
+                            <div class="link-row">
+                                <input type="text" class="form-control" id="AccountNumber" name="AccountNumber" placeholder="Nhập số tài khoản">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ngân hàng</label><sup class="red" style="color:red">*</sup></label>
+                            <div class="link-row">
+                                <input type="text" class="form-control" id="BankId" name="BankId" placeholder="Tên ngân hàng">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Chi nhánh</label><sup class="red" style="color:red">*</sup></label>
+                            <div class="link-row">
+                                <input type="text" class="form-control" id="Branch" name="Branch" placeholder="Tên chi nhánh">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center pb-6">
+                    <a id="Create-Affiliate"
+                       class="bg-[#773EFA] text-white px-8 py-3 rounded-full font-semibold shadow-md hover:bg-[#5b2ec2] transition cursor-pointer mt-[15px]">
+                        Đăng ký sử dụng Affiliate
+                    </a>
+                </div>
+
+
+
+            </div>
+            <div class="affiliate-dashboard" id="affiliate_addlink">
+                <div class="stats">
+                    <div class="stat-box">
+                        <img src="/assets/images/icon-stats1.png" alt="" />
+                        <div class="stat-info">
+                            <div class="label">Doanh thu</div>
+                            <div class="value" id="affiliate-total-amount">0 đ</div>
+                        </div>
+                    </div>
+                    <img src="/assets/images/line-stats.png" alt="" class="line" />
+                    <div class="stat-box">
+                        <img src="/assets/images/icon-stats2.png" alt="" />
+                        <div class="stat-info">
+                            <div class="label">Đơn hàng</div>
+                            <div class="value" id="affiliate-count">0</div>
+                        </div>
+                    </div>
+                    <img src="/assets/images/line-stats.png" alt="" class="line" />
+                    <div class="stat-box">
+                        <img src="/assets/images/icon-stats3.png" alt="" />
+                        <div class="stat-info">
+                            <div class="label">Hoa hồng</div>
+                            <div class="value" id="affiliate-data">0 đ</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="affiliate-link2">
+                    <h4>Link Đăng Ký Đối Tác Affiliate</h4>
+                    <p>
+                        Gửi link này cho bất kỳ ai bạn muốn mời tham gia chương trình tiếp thị liên kết cùng Best
+                        Mall
+                    </p>
+                    <div class="link-input max-w-xl">
+                        <span class="prefix">$</span>
+                        <input class="form-control copy" id="LindkAdavigo" name="LindkAdavigo" >
+                        <button id="btnCopy" type="button" class="btn-copy">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20"
+                                 fill="none">
+                                <path d="M13.4201 3.30469H3.47301C2.1072 3.30469 1 4.41188 1 5.7777V16.3705C1 17.7363 2.1072 18.8435 3.47301 18.8435H13.4201C14.7859 18.8435 15.8931 17.7363 15.8931 16.3705V5.7777C15.8931 4.41188 14.7859 3.30469 13.4201 3.30469Z"
+                                      fill="#FCFCFC" stroke="#0088FF" stroke-width="0.645735"
+                                      stroke-miterlimit="10" />
+                                <path d="M20.8533 0.511719H10.9061C9.5403 0.511719 8.43311 1.61891 8.43311 2.98473V13.5776C8.43311 14.9434 9.5403 16.0506 10.9061 16.0506H20.8533C22.2191 16.0506 23.3263 14.9434 23.3263 13.5776V2.98473C23.3263 1.61891 22.2191 0.511719 20.8533 0.511719Z"
+                                      fill="#FCFCFC" stroke="#0088FF" stroke-width="0.645735"
+                                      stroke-miterlimit="10" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="policy">
+                    <h4>Chính sách hoa hồng mặc định</h4>
+                    <ul>
+                        <li>Tên chính sách: Chính sách hoa hồng cho Sứ Giả Hàng Thật Best Mall</li>
+                        <li>Loại hoa hồng: % hoa hồng theo giá trị đơn hàng</li>
+                        <li>Tỉ lệ hoa hồng: 10%</li>
+                        <li>
+                            Điều kiện áp dụng: Tài khoản đã đăng ký tiếp thị liên kết tại Best
+                            Mall, người mua hàng có gắn mã giới thiệu của tài khoản affiliate <a href="">
+                                được cung
+                                cấp
+                                bởi Best Mall
+                            </a>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+           
+        </div>
+    </form>
+</div>
+
+
+
+

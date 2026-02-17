@@ -1,0 +1,133 @@
+@{
+    ViewData["Title"] = "Profile | Best mall";
+    Layout = "~/Views/Shared/_AccountManagementLayout.cshtml";
+}
+<style>
+    .error-message {
+        color: red;
+        /* font-size: 0.875rem; */
+        margin-top: 4px;
+    }
+
+
+   
+</style>
+
+<div class="box-info" id="profile">
+    <form id="formProfile">
+        <div class="form-group">
+            <label>Họ và tên</label>
+            <div class="box-input user">
+                <input id="fullName" class="form-control" type="text" placeholder="Nhập họ tên" />
+                <div class="error-message" id="error-fullName"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Địa chỉ Email</label>
+            <div class="box-input email">
+                <input id="email" class="form-control" type="text" placeholder="Nhập địa chỉ Email" />
+                <div class="error-message" id="error-email"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Số điện thoại</label>
+            <div class="box-input tel">
+                <input id="phone" class="form-control" type="text" placeholder="Nhập số điện thoại" />
+                <div class="error-message" id="error-phone"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Số CCCD</label>
+            <div class="relative box-input cid">
+                <!-- Icon CCCD -->
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M5.5 7h13a1.5 1.5 0 011.5 1.5v7A1.5 1.5 0 0118.5 17h-13A1.5 1.5 0 014 15.5v-7A1.5 1.5 0 015.5 7z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M7 10h5m-5 4h3" />
+                    </svg>
+                </span>
+
+                <input id="cid" class="form-control pl-10 w-full px-4 py-3 border border-gray-200 rounded-full"
+                       type="text" placeholder="Nhập số CCCD" />
+                <div class="error-message" id="error-cid"></div>
+            </div>
+        </div>
+
+        <div class="flex items-center mb-[15px]">
+            <label>Giới tính</label>
+            <div class="box-input gender flex items-center gap-4 ml-[143px]">
+                <label><input type="radio" name="gender" value="1" /> Nam</label>
+                <label><input type="radio" name="gender" value="2" /> Nữ</label>
+            </div>
+            <div class="error-message" id="error-gender"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Ngày sinh</label>
+            <div class="box-input birthday" style="display:flex;align-items:center;gap:6px;">
+                <input id="dob"
+                       class="form-control !pl-[11px]"
+                       type="date"
+                       placeholder="Chọn ngày sinh" />
+                <button id="calendar-btn" style="display:none" type="button">📅</button>
+            </div>
+            <div class="error-message" id="error-dob"></div>
+        </div>
+
+
+
+        <div class="flex justify-center text-center items-center mt-4 gap-3">
+            <button id="btnUpdate"
+                    type="button"
+                    class="border border-blue-500 px-6 py-2 text-white rounded-full w-full
+               bg-gray-300 text-white cursor-not-allowed opacity-70 transition duration-200"
+                    disabled>
+                Cập nhật
+            </button>
+
+
+
+        </div>
+    </form>
+</div>
+ <div class="banner-bottom hidden" id="banner-aff-bottom"> 
+     <div class="text-box"> 
+         <p> 
+             Trở thành <span class="text-color-base">sứ giả hàng thật</span>, giới thiệu sản phẩm thật, chất lượng, chính hãng 
+             tới người khác để lan tỏa giá trị, giúp cộng đồng tránh được rủi ro mua phải 
+             hàng giả, hàng kém chất lượng tại những kênh bán không uy tín. 
+         </p> 
+         <p class="bg-p">Hưởng chính sách giới thiệu sản phẩm<br /> khi đơn hàng mua thành công.</p> 
+     </div> 
+     <div class="image-box"> 
+         <a href=""> 
+             <img src="/assets/images/banner-aff-ft.png" alt="" /> 
+         </a> 
+     </div> 
+     <a href="javascript:;" class="btn-primary" id="btnRegisterAffiliate">Đăng ký Affiliate ngay</a> 
+ </div> 
+
+
+@section Scripts {
+    <script type="text/javascript" src="/modules/profile.js" asp-append-version="true"></script>
+        <script>
+             const dobInput = document.getElementById("dob");
+             const calendarBtn = document.getElementById("calendar-btn");
+
+             // Click vào icon => mở date picker
+             calendarBtn.addEventListener("click", () => {
+               dobInput.showPicker?.() || dobInput.focus();
+             });
+
+             // Click hoặc focus vào input => mở date picker luôn
+             dobInput.addEventListener("focus", () => {
+               dobInput.showPicker?.();
+             });
+
+             dobInput.addEventListener("click", () => {
+               dobInput.showPicker?.();
+             });
+    </script>
+}

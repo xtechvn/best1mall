@@ -1,13 +1,18 @@
 ﻿$(document).ready(function () {
     // ✅ Mặc định load danh sách "Tất cả" (category_id = 0)
-    let category_id2 = parseInt($(".category_id").data("categoryid")) || 0;
-
+    let category_id2 = parseInt($(".category_id2").data("categoryid2")) || 22;
+    // Biến toàn cục lưu category_id hiện tại (mặc định)
+    let currentCategoryId = parseInt($(".category_id2").data("categoryid2")) || 22;
     const query_string = window.location.search;
     const url_params = new URLSearchParams(query_string);
     const page = url_params.get('page') == null ? 1 : url_params.get('page');
+    // Cập nhật active tab dựa trên categoryId
+    $('.cat-tag').removeClass('active');
+    $(`.cat-tag[data-id='${category_id2}']`).addClass('item active');
 
     // ✅ Gọi load bài viết mặc định
     _new.loadNewsSection({
+        
         targetSelector: '.list-news-home',
         view_name: '~/Views/Shared/Components/News/Home.cshtml',
         category_id: category_id2,
@@ -20,37 +25,58 @@
         category_id: category_id2,
         page: page
     });
+   
 
     // ✅ Gắn sự kiện click cho từng danh mục
     $('body').on('click', '.cat-tag', function (e) {
+        
         e.preventDefault();
 
         const $this = $(this);
         const categoryId = parseInt($this.data('id'));
         if (isNaN(categoryId)) return;
-
+        currentCategoryId = categoryId;   // Cập nhật category hiện tại
+        currentPage = 1;                  // Reset page về 1 khi đổi tab
         // Xóa active tab "Tất cả" khi chọn danh mục khác
         if (categoryId !== 0) {
-            $('.cat-tag[data-id="0"]').removeClass('bg-blue-500 text-white border-blue-500');
+            $('.cat-tag[data-id="0"]').removeClass('active');
         }
 
         // Thêm active cho tab được chọn
-        $('.cat-tag').removeClass('bg-blue-500 text-white border-blue-500');  // Xóa active tất cả
-        $this.addClass('bg-blue-500 text-white border-blue-500');  // Thêm active cho thẻ <a> đang click
+        $('.cat-tag').removeClass('active');  // Xóa active tất cả
+        $this.addClass('active');  // Thêm active cho thẻ <a> đang click
 
         // Load bài viết tương ứng
         _new.loadNewsSection({
             targetSelector: '.list-news-home',
             view_name: '~/Views/Shared/Components/News/Home.cshtml',
-            category_id: categoryId,
-            page: 1
+            category_id: currentCategoryId,
+            page: currentPage 
         });
 
         _new.loadNewsSection({
             targetSelector: '.list-home',
             view_name: '~/Views/Shared/Components/News/HealthCorner.cshtml',
-            category_id: categoryId,
-            page: 1
+            category_id: currentCategoryId,
+            page: currentPage 
+        });
+    });
+    $('body').on('click', '.pagination-btn', function (e) {
+        
+        e.preventDefault();
+        if ($(this).is(':disabled')) return;
+
+        var page1 = $(this).data('page');
+        //page = page1;
+      
+
+        // Load bài theo page và category hiện tại
+        _new.loadNewsSection({
+            targetSelector: '.list-news-home',
+            view_name: '~/Views/Shared/Components/News/Home.cshtml',
+            category_id: currentCategoryId,
+            page: page1,
+            isPaging: true
         });
     });
 
@@ -70,6 +96,7 @@ let category_id = 22;
 let category_id_menu = 22;
 
 var _new = {
+
     Initialization: function () {
         
         _new.getNewsMostViewedArticle(1, 3, category_id_menu);
@@ -77,11 +104,16 @@ var _new = {
 
 
 
-    loadNewsSection: function ({ targetSelector, category_id, page = 1, view_name }) {
-        debugger
+    loadNewsSection: function ({ targetSelector, category_id, page = 1, view_name, isPaging = false }) {
+        
         const $container = $(targetSelector);
         const loading = `<div class="py-6 text-center text-blue-500">Đang tải dữ liệu...</div>`;
-        $container.html(loading);
+        // Nếu là phân trang chỉ tải lại phần remaining
+        if (isPaging) {
+            $container.find('#section-article-paginate').html(loading);
+        } else {
+            $container.html(loading);
+        }
 
         $.ajax({
             type: 'POST',
@@ -90,16 +122,33 @@ var _new = {
             data: {
                 category_id: category_id,
                 page: page,
-                view_name: view_name
+                view_name: view_name,
+                isPaging: isPaging // gửi param phân trang
             },
             success: function (html) {
                 
-                $container.html(html);
+
+                if (isPaging) {
+                    // Chỉ cập nhật lại phần remainingArticles
+                    $container.find('#section-article-paginate').html(html);
+                } else {
+                    // Load full
+                    $container.html(html);
+                }
             },
             error: function (xhr, status, error) {
-                $container.html(`<div class="text-red-500 text-center">Tải thất bại: ${error}</div>`);
+                
+                if (isPaging) {
+                    $container.find('#section-article-paginate').html(`<div class="text-red-500 text-center">Tải thất bại: ${error}</div>`);
+                } else {
+                    $container.html(`<div class="text-red-500 text-center">Tải thất bại: ${error}</div>`);
+                }
             }
         });
+    },
+    loadPage: function (targetSelector, category_id, view_name, page) {
+        
+        this.loadNewsSection({ targetSelector, category_id, view_name, page });
     },
 
 
@@ -121,12 +170,18 @@ var _new = {
   
     GetFindArticleByTitle: function () {
         
+        const keyword = $('#text_input').val().trim();
+        if (!keyword) {
+            // Nếu trống thì về lại trang Home
+            window.location.href = '/tin-tuc';
+            return;
+        }
         $('.list-news-top').hide();
         $('#section-article-paginate').hide();
         $('.pagination').hide();
 
         var requestObj = {
-            title: $('#text_input').val(),
+            title: keyword,
             parent_cate_faq_id: category_id
         };
         $.ajax({
@@ -134,6 +189,7 @@ var _new = {
             type: 'post',
             data: { requestObj: requestObj },
             success: function (data) {
+
                 $('#section-article-paginate').show();
                 $('.pagination').show();
                 $("#section-article-paginate").html(data);

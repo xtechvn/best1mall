@@ -11,12 +11,15 @@ var product_raiting = {
     },
     DynamicBind: function () {
         $("body").on('click', ".overview__filter", function () {
-            var element = $(this)
-            $('.overview__filter').removeClass('active')
-            element.addClass('active')
-            product_raiting.ListingComment()
-            product_raiting.Paging(1)
+            var element = $(this);
+            $('.overview__filter')
+                .removeClass('active border-red-400 bg-red-100 text-red-400 font-semibold');
+            element
+                .addClass('active border-red-400 bg-red-100 text-red-400 font-semibold');
+            product_raiting.ListingComment();
+            product_raiting.Paging(1);
         });
+
     },
     Detail: function () {
         product_raiting.RaitingCount()
@@ -254,9 +257,9 @@ var product_raiting = {
         //} else {
         //    $('.section-details-product .total-review').html(global_service.Comma(product.reviews_count) + ' Đánh giá')
         //}
-        $('.info-product .box-review .review').html(html)
-        $('.info-product .box-review .total-sold').html(global_service.Comma(result.data.total_sold) + ' Đã bán')
-        $('.info-product .box-review .total-review').html(global_service.Comma(result.data.total_count)+' Đánh giá')
+        //$('.info-product .box-review .review').html(html)
+        //$('.info-product .box-review .total-sold').html(global_service.Comma(result.data.total_sold) + ' Đã bán')
+        //$('.info-product .box-review .total-review').html(global_service.Comma(result.data.total_count)+' Đánh giá')
     },
     GetFilter: function (page) {
         var request = {

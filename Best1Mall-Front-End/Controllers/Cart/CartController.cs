@@ -94,6 +94,16 @@ namespace Best1Mall_Front_End.Controllers.Product
                 data = result
             });
         }
+        public async Task<IActionResult> GetVTPServiceListing(VTPServiceListingRequestModel request)
+        {
+            var result = await _cartServices.GetVTPServiceListing(request);
+
+            return Ok(new
+            {
+                is_success = result != null,
+                data = result
+            });
+        }
 
     }
 }

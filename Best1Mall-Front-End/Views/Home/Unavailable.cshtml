@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Sản phẩm không tồn tại";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="bg-[#F9FAFB] min-h-screen flex items-center justify-center px-4 py-10">
+    <div class="bg-white shadow-lg rounded-3xl p-10 max-w-2xl w-full text-center border border-blue-100">
+
+        <img src="/assets/images/empty-product.png" alt="Không tìm thấy sản phẩm"
+             class="mx-auto w-48 h-48 object-contain mb-6" />
+
+        <h1 class="text-2xl md:text-3xl font-bold text-blue-700 mb-3">Sản phẩm không còn tồn tại</h1>
+        <p class="text-gray-600 text-base md:text-lg mb-6 leading-relaxed">
+            Sản phẩm bạn đang tìm kiếm có thể đã được gỡ bỏ hoặc hiện không còn có sẵn trên hệ thống.
+        </p>
+
+        <a href="/"
+           class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-base font-medium px-6 py-3 rounded-full transition duration-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Trở về Trang chủ
+        </a>
+
+    </div>
+</main>

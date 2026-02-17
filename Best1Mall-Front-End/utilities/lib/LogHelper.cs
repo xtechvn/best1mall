@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using Newtonsoft.Json;
+using System.Data;
+using System.Net;
+using System.Text;
 
 namespace Best1Mall_Front_End.Utilities.Lib
 {
@@ -6,6 +9,7 @@ namespace Best1Mall_Front_End.Utilities.Lib
     {
         public static void InsertLogTelegramByUrl(string bot_token, string id_group, string msg)
         {
+            InsertLogSlack(msg);
             string JsonContent = string.Empty;
             string url_api = "https://api.telegram.org/bot" + bot_token + "/sendMessage?chat_id=" + id_group + "&text=" + msg;
             try
@@ -20,6 +24,21 @@ namespace Best1Mall_Front_End.Utilities.Lib
                 WriteLogActivity("D://", ex.ToString());
             }
         }
+        //public static int InsertLogTelegram(string message)
+        //{
+        //    var rs = 1;
+        //    try
+        //    {
+        //        LoadConfig();
+        //        TelegramBotClient alertMsgBot = new TelegramBotClient(botToken);
+        //        var rs_push = alertMsgBot.SendTextMessageAsync(group_Id, "[" + enviromment + "-" + CompanyType + "] - " + message).Result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        rs = -1;
+        //    }
+        //    return rs;
+        //}
         public static void WriteLogActivity(string AppPath, string log_content)
         {
             StreamWriter sLogFile = null;
@@ -66,6 +85,50 @@ namespace Best1Mall_Front_End.Utilities.Lib
             }
         }
 
+        private static async Task InsertLogSlack(string message)
+        {
+            try
+            {
+                using (StreamReader r = new StreamReader("appsettings.json"))
+                {
+                    AppSettings _appconfig = new AppSettings();
+                    string json = r.ReadToEnd();
+                    _appconfig = JsonConvert.DeserializeObject<AppSettings>(json);
+                    var url = _appconfig.BotSetting.slack_n8n;
+                    var contentObj = new logSlackmodel();
+                    contentObj.environment = _appconfig.BotSetting.environment;
+                    contentObj.project_name = _appconfig.BotSetting.project_name;
+                    contentObj.log_content = message;
+                    HttpClient httpClient = new HttpClient();
+                    var content = new StringContent(JsonConvert.SerializeObject(contentObj), Encoding.UTF8, "application/json");
+                    await httpClient.PostAsync(url, content);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteLogActivity("D://", ex.ToString());
+            }
 
+        }
+        public class AppSettings
+        {
+            public BotSetting BotSetting { get; set; }
+            public string CompanyType { get; set; }
+
+        }
+        public class logSlackmodel
+        {
+            public string project_name { get; set; }
+            public string log_content { get; set; }
+            public string environment { get; set; }
+        }
+        public class BotSetting
+        {
+            public string bot_token { get; set; }
+            public string bot_group_id { get; set; }
+            public string environment { get; set; }
+            public string slack_n8n { get; set; }
+            public string project_name { get; set; }
+        }
     }
 }

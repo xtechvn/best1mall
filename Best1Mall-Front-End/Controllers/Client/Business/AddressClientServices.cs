@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Best1Mall_Front_End.Utilities.Contants;
 using Best1Mall_Front_End.Models.Client;
 using Best1Mall_Front_End.Models.Address;
+using Best1Mall_Front_End.Models.Profile;
 
 namespace Best1Mall_Front_End.Controllers.Client.Business
 {
@@ -25,6 +26,46 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
                 if (status == (int)ResponseType.SUCCESS)
                 {
                     return JsonConvert.DeserializeObject<ClientAddressListResponseModel>(jsonData["data"].ToString());
+                }
+            }
+            catch
+            {
+            }
+            return null;
+
+        }
+        public async Task<ProfileListResponseModel> ProfileList(ClientAddressGeneralRequestModel request)
+        {
+            try
+            {
+                var result = await POST(_configuration["API:profile_list"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return JsonConvert.DeserializeObject<ProfileListResponseModel>(jsonData["data"].ToString());
+                }
+            }
+            catch
+            {
+            }
+            return null;
+
+        }
+        public async Task<string> UpdateProfile(ProfileUpdateRequestModel request)
+        {
+            try
+            {
+                var url = _configuration["API:profile_update"];
+
+                var result = await POST(url, request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return jsonData["data"].ToString();
                 }
             }
             catch
@@ -73,8 +114,9 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return null;
 
         }
+       
         public async Task<AddressClientFEModel> DefaultAddress(ClientAddressGeneralRequestModel request)
-        {
+         {
             try
             {
                 var result = await POST(_configuration["API:address_client_default"], request);
@@ -111,6 +153,44 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return false;
 
         }
+        public async Task<bool> SendChangePassword(CientSendGmailRequestModel request)
+        {
+            try
+            {
+                var result = await POST("/api/client/change-password-sendemail-validate", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+            return false;
+
+        }
+        public async Task<bool> ValidateChangePasswordToken(ValidateChangePasswordTokenRequest request)
+        {
+            try
+            {
+                var result = await POST("/api/client/change-password-validate-token", request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+            return false;
+
+        }
         public async Task<bool> ChangePassword(ClientChangePasswordRequestModel request)
         {
             try
@@ -130,11 +210,49 @@ namespace Best1Mall_Front_End.Controllers.Client.Business
             return false;
 
         }
-        public async Task<bool> ValidateForgotPassword(ClientForgotPasswordRequestModel request)
+        public async Task<string> ValidateForgotPassword(ClientForgotPasswordRequestModel request)
         {
             try
             {
                 var result = await POST(_configuration["API:client_validate_forgot_password"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return jsonData["data"].ToString();
+                }
+            }
+            catch
+            {
+            }
+            return null;
+
+        }  
+        public async Task<bool> ValidateRegisterEmail(ClientRegisterRequestModel request)
+        {
+            try
+            {
+                var result = await POST(_configuration["API:client_register_validate_email"], request);
+                var jsonData = JObject.Parse(result);
+                var status = int.Parse(jsonData["status"].ToString());
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+            return false;
+
+        }
+        public async Task<bool> ForgotChangePassword(ClientForgotChangePasswordRequestModel request)
+        {
+            try
+            {
+                var result = await POST(_configuration["API:client_forgot_change_password"], request);
                 var jsonData = JObject.Parse(result);
                 var status = int.Parse(jsonData["status"].ToString());
 

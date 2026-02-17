@@ -3,7 +3,7 @@
 })
 var account_manage_global = {
     Initialization: function () {
-        $('.content-left-user').addClass('placeholder')
+        /*$('.content-left-user').addClass('placeholder')*/
         account_manage_global.DynamicBind()
         account_manage_global.Detail()
 
@@ -16,9 +16,11 @@ var account_manage_global = {
         if (usr == undefined ||  usr.token == undefined) {
             window.location.href = '/'
         }
-        $('.box-quanlytaikhoan .avatar img').attr('src', usr.avatar == undefined ? '/images/img-search.png' : usr.avatar)
+        $('.box-quanlytaikhoan .avatar img').attr('src', usr.avatar == undefined ? '/assets/images/img-search.png' : usr.avatar)
         $('.box-quanlytaikhoan .box-name .name').html(usr.name)
         $('.box-quanlytaikhoan .menu-left-user').removeClass('placeholder')
+
+        $('.box-quanlytaikhoan .list-tab-menu .client-password').html('<a href="/account/change-password">Đổi mật khẩu</a>')
       
     },
 }

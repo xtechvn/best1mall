@@ -1,0 +1,23 @@
+﻿@using Best1Mall_Front_End.Models;
+@using Best1Mall_Front_End.Utilities;
+@model List<CategoryModel>
+@{
+    if (Model != null)
+    {
+        <ul class="list-category-news">
+            <li>
+                <a href="javascript:void(0)" class="item active cat-tag" data-id="22">Tất cả</a>
+            </li>
+            @foreach (var item in Model)
+            {
+                if (item.id != 192) // 👈 Bỏ qua nếu id = 192
+                {
+                    <li>
+                        <a href="javascript:void(0)" class="cat-tag item" data-id="@item.id">@item.name</a>
+                </li>
+                }
+            }
+        </ul>
+        <div class="category_id" data-categoryid="0" style="display:none;"></div>
+    }
+}

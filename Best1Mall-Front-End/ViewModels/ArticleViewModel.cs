@@ -6,6 +6,8 @@ namespace Best1Mall_Front_End.ViewModels
     {
         public Int32 category_id { get; set; }      
         public List<CategoryArticleModel> obj_article_list { get; set; }
+        public List<CategoryArticleModel> obj_article_pinned { get; set; }
         public int total_items { get; set; } // tông số toàn bộ bản ghi để phân trang
+        public int? total_page { get; set; }
     }
 }

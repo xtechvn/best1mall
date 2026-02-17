@@ -1,0 +1,14 @@
+﻿@model Best1Mall_Front_End.ViewModels.ArticleViewModel
+
+<div id="section-article-paginate">
+    @await Html.PartialAsync("~/Views/Shared/Components/News/RemainingArticlesPartial.cshtml", Model)
+
+    @await Component.InvokeAsync("Pagination", new
+        {
+            page = ViewBag.page,
+            total_items = ViewBag.total_items,
+            total_page = ViewBag.total_page,
+            page_size = ViewBag.page_size,
+            view = "~/Views/Shared/Components/Pagination/Default.cshtml"
+        })
+</div>

@@ -1,278 +1,46 @@
-﻿<section class="section-qly-taikhoan">
-    <div class="container">
-        <div class="box-quanlytaikhoan">
-            <div class="menu-left-user">
-                <div class="header-user">
-                    <div class="avatar">
-                        <img src="/assets/images/product.jpg" alt="">
-                    </div>
-                    <div class="box-name">
-                        <span class="sayhi">Xin chào bạn</span>
-                        <h3 class="name">Lê Văn Cường</h3>
-                    </div>
-                </div>
-                <div class="list-tab-menu">
-                    <ul>
-                        <li class="sub-menu active">
-                            <span><i class="icon icon-user-base"></i> Thông tin tài khoản </span>
-                            <ul>
-                                <li><a href="">Hồ sơ</a></li>
-                                <li><a href="">Địa chỉ</a></li>
-                                <li><a href="">Đổi mật khẩu</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu ">
-                            <a href="javascript:;" id="tab-order"><i class="icon icon-order"></i>Đơn hàng của tôi</a>
-                        </li>
-                        <li class="sub-menu">
-                            <span><i class="icon icon-notifi-base"></i>Thông báo</span>
-                            <ul>
-                                <li class="active"><a href="">Đơn hàng</a></li>
-                                <li><a href="">Khuyến mãi</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href=""><i class="icon icon-like"></i>Sản phẩm yêu thích</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="content-left-user">
-                <div id="body_list_order"></div>
-                <div id="body_user">
-                    <!-- Thông tin tài khoản -->
-                    <div class="box-info">
-                        <form>
-                            <div class="form-group">
-                                <label>Họ và tên</label>
-                                <div class="box-input user">
-                                    <input class="form-control" type="text" placeholder="Nhập họ tên">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Địa chỉ Email</label>
-                                <div class="box-input email">
-                                    <input class="form-control" type="text" placeholder="Nhập địa chỉ Email">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Số điện thoại</label>
-                                <div class="box-input tel">
-                                    <input class="form-control" type="text" placeholder="Nhập số điện thoại">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Giới tính</label>
-                                <div class="box-check">
-                                    <div class="box-checkbox">
-                                        <input type="checkbox" id="checkbox" class="checkbox">
-                                        <label for="checkbox"><span>Nam</span></label>
-                                    </div>
-                                    <div class="box-checkbox">
-                                        <input type="checkbox" id="checkbox" class="checkbox">
-                                        <label for="checkbox"><span>Nữ</span></label>
-                                    </div>
-                                    <div class="box-checkbox">
-                                        <input type="checkbox" id="checkbox" class="checkbox">
-                                        <label for="checkbox"><span>Khác</span></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Ngày sinh</label>
-                                <div class="listbox-select">
-                                    <div class="box-select">
-                                        <div class="select">
-                                            <select id="day" class="select-hidden">
-                                                <option value="hide">Ngày</option>
-                                                <option value="2020">01</option>
-                                                <option value="2021">02</option>
-                                                <option value="2022">03</option>
-                                                <option value="2023">04</option>
-                                            </select><div class="select-styled">Ngày</div><ul class="select-options" style="display: none;"><li rel="hide" class="is-selected">Ngày</li><li rel="2020">01</li><li rel="2021">02</li><li rel="2022">03</li><li rel="2023">04</li></ul>
-                                        </div>
-                                    </div>
-                                    <div class="box-select">
-                                        <div class="select">
-                                            <select id="month" class="select-hidden">
-                                                <option value="hide">Tháng</option>
-                                                <option value="2020">Tháng 1</option>
-                                                <option value="2021">Tháng 2</option>
-                                                <option value="2022">Tháng 3</option>
-                                                <option value="2023">Tháng 4</option>
-                                                <option value="2024">Tháng 5</option>
-                                                <option value="2025">Tháng 6</option>
-                                            </select><div class="select-styled">Tháng</div><ul class="select-options" style="display: none;"><li rel="hide" class="is-selected">Tháng</li><li rel="2020">Tháng 1</li><li rel="2021">Tháng 2</li><li rel="2022">Tháng 3</li><li rel="2023">Tháng 4</li><li rel="2024">Tháng 5</li><li rel="2025">Tháng 6</li></ul>
-                                        </div>
-                                    </div>
-                                    <div class="box-select">
-                                        <div class="select">
-                                            <select id="year" class="select-hidden">
-                                                <option value="hide">Năm</option>
-                                                <option value="2020">2021</option>
-                                                <option value="2021">2020</option>
-                                            </select><div class="select-styled">Năm</div><ul class="select-options" style="display: none;"><li rel="hide" class="is-selected">Năm</li><li rel="2020">2021</li><li rel="2021">2020</li></ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Tỉnh/thành</label>
-                                <div class="box-input province">
-                                    <input class="form-control" type="text" placeholder="Chọn tỉnh thành">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Quận/Huyện</label>
-                                <div class="box-input district">
-                                    <input class="form-control" type="text" placeholder="Chọn quận/huyện">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Phường/Xã</label>
-                                <div class="box-input wards">
-                                    <input class="form-control" type="text" placeholder="Chọn phường/xã">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Địa chỉ cụ thể</label>
-                                <div class="box-input address">
-                                    <input class="form-control" type="text" placeholder="Nhập địa chỉ cụ thể">
-                                </div>
-                            </div>
-                            <div class="action">
-                                <a href="" class="btn back">Trở lại</a>
-                                <a href="" class="btn btn-save">Cập nhật</a>
-                            </div>
-                        </form>
-                    </div>
+﻿@* <section class="section-qly-taikhoan py-6"> *@
+@*     <div class="max-w-[1230px] mx-auto px-[15px]"> *@
+@*         <div class="box-quanlytaikhoan"> *@
+@*             <div class="menu-left-user"> *@
+@*                 <div class="header-user"> *@
+@*                     <div class="avatar"> *@
+@*                         <img src="/assets/images/product.jpg" alt=""> *@
+@*                     </div> *@
+@*                     <div class="box-name"> *@
+@*                         <span class="sayhi">Xin chào bạn</span> *@
+@*                         <h3 class="name">Lê Văn Cường</h3> *@
+@*                     </div> *@
+@*                 </div> *@
+@*                 <div class="list-tab-menu"> *@
+@*                     <ul> *@
+@*                         <li class="sub-menu"> *@
+@*                             <span><i class="icon icon-user-base"></i> Thông tin tài khoản </span> *@
+@*                             <ul> *@
+@*                                 <li><a href="">Hồ sơ</a></li> *@
+@*                                 <li><a href="">Địa chỉ</a></li> *@
+@*                                 <li><a href="">Đổi mật khẩu</a></li> *@
+@*                             </ul> *@
+@*                         </li> *@
+@*                         <li class="active"> *@
+@*                             <a href=""><i class="icon icon-order"></i>Đơn hàng của tôi</a> *@
+@*                         </li> *@
+@*                         <li class="sub-menu"> *@
+@*                             <span><i class="icon icon-notifi-base"></i>Thông báo</span> *@
+@*                             <ul> *@
+@*                                 <li class="active"><a href="">Đơn hàng</a></li> *@
+@*                                 <li><a href="">Khuyến mãi</a></li> *@
+@*                             </ul> *@
+@*                         </li> *@
+@*                         <li> *@
+@*                             <a href=""><i class="icon icon-like"></i>Sản phẩm yêu thích</a> *@
+@*                         </li> *@
+@*                     </ul> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </section> *@
 
-                    <!-- Cập nhật mật khẩu -->
-                    <div class="box-info">
-                        <p class="note-password">Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu cho người khác</p>
-                        <form>
-                            <div class="form-group">
-                                <label>Mật khẩu</label>
-                                <div class="box-input password">
-                                    <input class="form-control" type="password" placeholder="Nhập mật khẩu từ 6 đến 32 ký tự">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Xác nhận mật khẩu</label>
-                                <div class="box-input password">
-                                    <input class="form-control" type="password" placeholder="Nhập lại mật khẩu">
-                                </div>
-                            </div>
-                            <div class="action">
-                                <a href="" class="btn back">Trở lại</a>
-                                <a href="" class="btn btn-save">Xác nhận</a>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Thông báo -->
-                    <div class="box-noti">
-                        <div class="mark-all-read"><a href="" class="readall">Đánh dấu đã đọc tất cả</a></div>
-                        <div class="list-noti">
-                            <div class="item">
-                                <div class="thumb-noti">
-                                    <img src="./assets/images/voucher.png" alt="">
-                                </div>
-                                <div class="des">
-                                    <h3 class="title-noti">
-                                        Đừng bỏ lỡ sản phẩm này nữa !
-                                    </h3>
-                                    <p>
-                                        Nhập mã <b>HULOTOYS</b> giảm thêm <b>20%</b> cho các sản phẩm thú nhồi bông. Thời
-                                        gian áp dụng từ <b>06/09 - 13/9</b>
-                                    </p>
-                                    <p class="time">14:33 20/06/2024</p>
-                                </div>
-                                <a href="" class="readmore">Xem chi tiết</a>
-                            </div>
-                            <div class="item readed">
-                                <div class="thumb-noti">
-                                    <img src="./assets/images/voucher.png" alt="">
-                                </div>
-                                <div class="des">
-                                    <h3 class="title-noti">
-                                        Đừng bỏ lỡ sản phẩm này nữa !
-                                    </h3>
-                                    <p>
-                                        Nhập mã <b>HULOTOYS</b> giảm thêm <b>20%</b> cho các sản phẩm thú nhồi bông. Thời
-                                        gian áp dụng từ <b>06/09 - 13/9</b>
-                                    </p>
-                                    <p class="time">14:33 20/06/2024</p>
-                                </div>
-                                <a href="" class="readmore">Xem chi tiết</a>
-                            </div>
-                            <div class="item">
-                                <div class="thumb-noti">
-                                    <img src="./assets/images/product.jpg" alt="">
-                                </div>
-                                <div class="des">
-                                    <h3 class="title-noti">
-                                        Giao kiện hàng thành công
-                                    </h3>
-                                    <p>
-                                        Kiện hàng <b>VN123456789</b> của đơn hàng <b>123456789</b> đã giao thành công đến bạn
-                                    </p>
-                                    <p class="time">14:33 20/06/2024</p>
-                                </div>
-                                <a href="" class="readmore">Xem chi tiết</a>
-                            </div>
-                            <div class="item readed">
-                                <div class="thumb-noti">
-                                    <img src="./assets/images/product.jpg" alt="">
-                                </div>
-                                <div class="des">
-                                    <h3 class="title-noti">
-                                        Giao kiện hàng thành công
-                                    </h3>
-                                    <p>
-                                        Kiện hàng <b>VN123456789</b> của đơn hàng <b>123456789</b> đã giao thành công đến bạn
-                                    </p>
-                                    <p class="time">14:33 20/06/2024</p>
-                                </div>
-                                <a href="" class="readmore">Xem chi tiết</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Địa chỉ -->
-                    <div class="box-address">
-                        <div class="list-add">
-                            <div class="item active">
-                                <span class="defauld">Đặt làm mặc định</span>
-                                <h3 class="name">mai văn đinh</h3>
-                                <p class="add">
-                                    Địa chỉ: Tầng 10, Tòa A FPT Tower, số 10 Phạm Văn Bạch, Dịch Vọng, Cầu Giấy,
-                                    Hà Nội
-                                </p>
-                                <p class="tel">Điện thoại: 024 7300 8899</p>
-                                <a href="" class="btn btn-update">Cập nhật</a>
-                            </div>
-                            <div class="item">
-                                <span class="defauld">Đặt làm mặc định</span>
-                                <h3 class="name">mai văn đinh</h3>
-                                <p class="add">
-                                    Địa chỉ: Tầng 10, Tòa A FPT Tower, số 10 Phạm Văn Bạch, Dịch Vọng, Cầu Giấy,
-                                    Hà Nội
-                                </p>
-                                <p class="tel">Điện thoại: 024 7300 8899</p>
-                                <a href="" class="btn btn-update">Cập nhật</a>
-                            </div>
-                        </div>
-                        <div class="action-center">
-                            <a href="" class="btn btn-add">Thêm địa chỉ giao hàng mới</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</section>
 @section scripts {
     <script type="text/javascript" src="~/modules/account_client.js"></script>
 }

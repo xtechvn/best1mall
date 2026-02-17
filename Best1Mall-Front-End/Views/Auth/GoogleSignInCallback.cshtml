@@ -1,6 +1,7 @@
 ﻿@{
     Layout = null;
     string data = (string)ViewBag.Data;
+    string msg = (string)ViewBag.msg;
 }
 <!DOCTYPE html>
 <html>
@@ -14,6 +15,10 @@
             var data = '@Html.Raw(data)'
             if(data!=null && data.trim()!=''){
                 localStorage.setItem('account', '@Html.Raw(data)');
+            }
+            var msg = '@(Html.Raw(msg))'
+            if (msg != null && msg.trim() != '') {
+                localStorage.setItem('msg', msg);
             }
             window.close();
         });

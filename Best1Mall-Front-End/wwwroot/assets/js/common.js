@@ -80,11 +80,88 @@ $(document).ready(function() {
         });
     });
 });
-  // popup
 $(document).ready(function () {
     $('.toggle').on('click', function () {
         const $panel = $(this).next('.panel');
-        $('.panel').not($panel).slideUp(); // Đóng các panel khác
-        $panel.stop(true, true).slideToggle(); // Mở/đóng panel hiện tại
+        const $arrow = $(this).find('.arrow');
+
+        // Đóng tất cả panel khác + reset mũi tên
+        $('.panel').not($panel).slideUp();
+        $('.arrow').not($arrow).removeClass('open');
+
+        // Mở/đóng panel hiện tại, KHÔNG truyền tốc độ => dùng mặc định (400ms)
+        $panel.stop(true, true).slideToggle(function () {
+            const isVisible = $panel.is(':visible');
+            $arrow.toggleClass('open', isVisible);
+        });
+    });
+
+    $('.list-tab-menu .sub-menu').on('click', function () {
+        $(this).toggleClass('active');
+    });
+});
+
+
+
+// js tài khoản
+$(document).ready(function () {
+    function isMobile() {
+        return window.innerWidth < 768;
+    }
+    // Toggle dropdown khi bấm vào #accountButton trên mobile
+    $('#accountButton').on('click', function (e) {
+        if (isMobile()) {
+            const $dropdown = $('#accountDropdown');
+
+            // Ngăn sự kiện lan ra gây lỗi
+            //e.stopPropagation();
+
+            const $target = $(e.currentTarget).find('.client-login');
+            if ($target.length && $target.attr('data-id')) {
+                // Nếu là chưa đăng nhập thì mở popup
+                const popupTarget = $target.attr('data-id');
+                $(popupTarget).fadeIn(); // Hoặc dùng logic mở popup của bạn
+                return;
+            }
+
+            // Nếu đã đăng nhập mới xử lý dropdown toggle
+            if (!$dropdown.length) return;
+
+            const isInnerClick = $(e.target).closest('#accountDropdown a, #accountDropdown button').length;
+            if (!isInnerClick) {
+                e.preventDefault();
+                $dropdown.toggleClass('hidden');
+            }
+        }
+    });
+
+
+    
+
+
+
+
+    // Ẩn dropdown khi click ngoài (chỉ mobile)
+    $(document).on('click touchstart', function (e) {
+        if (
+            isMobile() &&
+            !$(e.target).closest('#accountButton').length &&
+            !$(e.target).closest('#accountDropdown').length
+        ) {
+            $('#accountDropdown').addClass('hidden');
+        }
+    });
+
+    // Khi resize về PC, đảm bảo dropdown bị ẩn đi (vì hover sẽ lo hiển thị)
+    $(window).on('resize', function () {
+        if (!isMobile()) {
+            $('#accountDropdown').addClass('hidden');
+        }
+    });
+    // Auto đóng dropdown khi bấm link hoặc logout trong menu
+    $(document).on('click', '#accountDropdown a, #accountDropdown button', function () {
+        if (isMobile()) {
+            $('#accountDropdown').addClass('hidden');
+        }
     });
 });

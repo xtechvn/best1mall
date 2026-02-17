@@ -1,0 +1,187 @@
+﻿@using Best1Mall_Front_End.Models.Flashsale
+@model List<FlashSaleViewModel>
+@{
+    // ViewData["Title"] = product.name +" | Hulotoys";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+<style>
+    .list-category .active {
+        border: #773efa 1px solid;
+    }
+</style>
+<!-- Thêm Swiper CSS -->
+@* <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"> *@
+
+@functions {
+    string ToSeoUrl(string name)
+    {
+        return RemoveUnicode(RemoveSpecialCharacters(name)).Replace(" ", "-").ToLower();
+    }
+
+    string RemoveUnicode(string text)
+    {
+        var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+        var chars = normalized.Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark);
+        return new string(chars.ToArray()).Normalize(System.Text.NormalizationForm.FormC);
+    }
+
+    string RemoveSpecialCharacters(string input)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(input, "[^a-zA-Z0-9\\s-]", "");
+    }
+
+    string FormatCurrency(double? amount)
+    {
+        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "Giá liên hệ";
+    }
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
+
+<section class="homepage">
+    <div class="max-w-[1230px] mx-auto my-4 px-[15px]">
+        <div class="breadcrumb my-4 ">
+            <ul class="flex items-center gap-3 font-normal">
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/flashsale" class="text-color-base">Flashsale</a></li>
+            </ul>
+        </div>
+
+         @if (Model.Any()) 
+         { 
+        
+             var now = DateTime.UtcNow; // Lấy thời gian hiện tại (UTC) *@
+             var validFlashSales = Model.Where(f => f.fromdate <= now && f.todate >= now).ToList(); // Lọc tất cả Flash Sale hợp lệ *@
+             var firstValidFlashSale = validFlashSales.FirstOrDefault(); // Lấy Flash Sale hợp lệ đầu tiên *@
+
+            <div class="flex items-center gap-2 justify-center mb-3">
+                <img src="assets/images/flash-sale.png" alt="" />
+                <div class="flex items-center gap-4 justify-center md:ml-40 pb-[12px]">
+                    <span class="md:block hidden font-black uppercase">Kết thúc trong</span>
+
+                    <div id="countdown" class="flex gap-1 font-bold text-white">
+                        <span class="bg-[#FF4169] px-2 py-1 rounded" id="days">00</span>
+                        <span class="text-[#FF4169]">:</span>
+                        <span class="bg-[#FF4169] px-2 py-1 rounded" id="hours">00</span>
+                        <span class="text-[#FF4169]">:</span>
+                        <span class="bg-[#FF4169] px-2 py-1 rounded" id="minutes">00</span>
+                        <span class="text-[#FF4169]">:</span>
+                        <span class="bg-[#FF4169] px-2 py-1 rounded" id="seconds">00</span>
+                    </div>
+                </div>
+            </div>
+
+            
+
+        <img class=" md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl"
+                 src="@firstValidFlashSale.banner" alt="" />
+           
+            <!-- List sản phẩm 5 cột -->
+            <div class="list-topic grid lg:grid-cols-6 md:grid-cols-3 grid-cols-2 gap-3 mt-6">
+                <a href=""
+                   class="tag-flashsale tag-flashsale-default flex items-center gap-1 justify-center py-3 text-center bg-stone-800 text-white w-full rounded-md active"
+                   data-id="-1"
+                   data-flash-type="all">
+                    Tất cả sản phẩm
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <path d="M20.7991 11.7617L10.2991 23.0117C10.1878 23.1305 10.041 23.2098 9.88065 23.2377C9.72034 23.2657 9.55528 23.2407 9.41039 23.1667C9.2655 23.0926 9.14863 22.9734 9.07743 22.827C9.00623 22.6807 8.98455 22.5152 9.01568 22.3555L10.39 15.4808L4.98724 13.452C4.87121 13.4086 4.76773 13.3372 4.68606 13.244C4.60439 13.1508 4.54706 13.0389 4.51921 12.9182C4.49135 12.7975 4.49383 12.6718 4.52642 12.5522C4.55902 12.4327 4.62071 12.3231 4.70599 12.2333L15.206 0.983274C15.3173 0.864526 15.4641 0.785191 15.6244 0.75724C15.7848 0.729289 15.9498 0.75424 16.0947 0.828326C16.2396 0.902412 16.3565 1.02161 16.4277 1.16794C16.4989 1.31428 16.5205 1.47979 16.4894 1.63952L15.1113 8.52171L20.5141 10.5476C20.6293 10.5913 20.7319 10.6627 20.813 10.7555C20.894 10.8483 20.9509 10.9596 20.9787 11.0796C21.0065 11.1996 21.0044 11.3246 20.9724 11.4436C20.9404 11.5626 20.8796 11.6718 20.7954 11.7617H20.7991Z"
+                              fill="white" />
+                    </svg>
+                </a>
+
+                @await Component.InvokeAsync("MenuFlashSale", new { menuType = "type_menu" })
+                @* <a href="" *@
+                @*    class="flex items-center gap-1 justify-center py-3 text-center bg-stone-800 text-white w-full rounded-md active"> *@
+                @*     Sản phẩm nổi bật *@
+                @*     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none"> *@
+                @*         <path d="M20.7991 11.7617L10.2991 23.0117C10.1878 23.1305 10.041 23.2098 9.88065 23.2377C9.72034 23.2657 9.55528 23.2407 9.41039 23.1667C9.2655 23.0926 9.14863 22.9734 9.07743 22.827C9.00623 22.6807 8.98455 22.5152 9.01568 22.3555L10.39 15.4808L4.98724 13.452C4.87121 13.4086 4.76773 13.3372 4.68606 13.244C4.60439 13.1508 4.54706 13.0389 4.51921 12.9182C4.49135 12.7975 4.49383 12.6718 4.52642 12.5522C4.55902 12.4327 4.62071 12.3231 4.70599 12.2333L15.206 0.983274C15.3173 0.864526 15.4641 0.785191 15.6244 0.75724C15.7848 0.729289 15.9498 0.75424 16.0947 0.828326C16.2396 0.902412 16.3565 1.02161 16.4277 1.16794C16.4989 1.31428 16.5205 1.47979 16.4894 1.63952L15.1113 8.52171L20.5141 10.5476C20.6293 10.5913 20.7319 10.6627 20.813 10.7555C20.894 10.8483 20.9509 10.9596 20.9787 11.0796C21.0065 11.1996 21.0044 11.3246 20.9724 11.4436C20.9404 11.5626 20.8796 11.6718 20.7954 11.7617H20.7991Z" *@
+                @*               fill="white" /> *@
+                @*     </svg> *@
+                @* </a> *@
+               
+            </div>
+            <div class=" list-category ">
+                @await Component.InvokeAsync("MenuFlashSale", new { menuType = "groupflash_menu" })
+                @* <a href="" class="p-2 text-center bg-white w-full rounded-3xl border border-gray-200 active"> *@
+                @*     Dụng cụ massge *@
+                @*     và trị liệu *@
+                @* </a> *@
+               
+            </div>
+
+
+            <div class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-3 mt-6" id="super-sale-container"
+                 data-url="/FlashSale/LoadMoreFilteredFlashSale"
+                 data-page="1"
+                 data-pagesize="10"
+                 data-type="-1"        
+                data-group-id="-1"
+                 data-mode="default">
+                @await Html.PartialAsync("_SuperFlashSale", ViewBag.SuperSaleProducts as List<FlashSaleProductResposeModel>)
+            </div>
+
+
+            @if ((ViewBag.TotalSuperSaleCount ?? 0) > 10) 
+             { 
+                <div class="flex justify-center mt-5"> 
+                  <button class="text-color-base font-normal load-more-btn" id="btn-load-superflashsale"> 
+                         Xem thêm 
+                    </button> 
+                 </div> 
+             }
+
+    }
+
+
+
+           
+        
+
+
+        <!-- Sản phẩm theo Nhà cung cấp -->
+        @* <h2 class="text-sky-900 mb-3 font-medium uppercase"><a href="#">HOT DEAL</a> </h2> *@
+        @* @await Component.InvokeAsync("MenuNews", new { menuType = "home" }) *@
+        @* <!-- Swiper --> *@
+        @* <div class="relative mt-3"> *@
+        @*     <div class="flash-sale-swiper list-product"> *@
+        @*         <div class="swiper"> *@
+        @*             <div class="swiper-wrapper"> *@
+        @*             </div> *@
+        @*         </div> *@
+
+        @*         <!-- Navigation --> *@
+        @*         <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2"> *@
+        @*             <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"> *@
+        @*                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /> *@
+        @*             </svg> *@
+        @*         </div> *@
+        @*         <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2"> *@
+        @*             <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"> *@
+        @*                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /> *@
+        @*             </svg> *@
+        @*         </div> *@
+        @*     </div> *@
+        @* </div> *@
+        
+    </div>
+
+</section>
+
+@section scripts {
+    <script asp-append-version="true" type="text/javascript" src="~/modules/flashsale.js"></script>
+    <!-- Thêm Swiper JS -->
+    @* <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> *@
+}

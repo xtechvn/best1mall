@@ -1,7 +1,13 @@
-﻿using Best1Mall_Front_End.Controllers.News.Business;
+﻿using Best1Mall_Front_End.Controllers.Favourite.Business;
+using Best1Mall_Front_End.Controllers.FlashSale.Business;
+using Best1Mall_Front_End.Controllers.Home.Business;
+using Best1Mall_Front_End.Controllers.News.Business;
+using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Models.Flashsale;
 using Best1Mall_Front_End.Models.Labels;
 using Best1Mall_Front_End.Models.Products;
 using Best1Mall_Front_End.Service.Redis;
+using Best1Mall_Front_End.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Best1Mall_Front_End.Controllers.Home
@@ -35,7 +41,9 @@ namespace Best1Mall_Front_End.Controllers.Home
             ViewBag.category_id = 22;// Convert.ToInt32(configuration["menu:news_parent_id"]);
             ViewBag.page = page;
             ViewBag.page_size = Convert.ToInt32(configuration["blognews:page_size"]);
-            ViewBag.total_items = await article_sv.getTotalNews(-1); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
+           // ViewBag.total_items = await article_sv.getTotalNews(-1); // Lấy ra tổng toàn bộ bản ghi theo chuyên mục
+                                                                     // Gọi ViewComponent trực tiếp và trả về kết quả
+           
             return View();
         }
         // Load label( Thương Hiệu) 
@@ -49,19 +57,73 @@ namespace Best1Mall_Front_End.Controllers.Home
                     top = top,
                     
                 };
-                // Gọi ViewComponent trực tiếp và trả về kết quả
+               
+
                 return ViewComponent("LabelList", model);
             }
             catch (Exception ex)
             {
                 // Ghi log lỗi nếu cần
+                LoggerDiscord.Sendlog(ex.Message);
 
                 return StatusCode(500); // Trả về lỗi 500 nếu có lỗi
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddContract (ClientContactMongoDbModel request)
+        {
+            // Khởi tạo các param phân vào các ViewComponent
+            var contract = new FavouriteService(configuration);
+            var result = await contract.AddContract(request);
+
+            return Ok(new
+            {
+                is_success = result != null,
+                data = result
+            });
+        }
+
+        // Action để trả về ViewComponent
+        public IActionResult FlashSale()
+        {
+            return ViewComponent("FlashSale");  // ViewComponent trả về PartialView
+        }
         public IActionResult NotFound()
         {
             return View();
+        }
+        public IActionResult Unavailable()
+        {
+            return View();
+        }
+        [Route("About")]
+        public IActionResult About()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult GetGoogleClientId(int top)
+        {
+            try
+            {
+                return Ok(new
+                {
+                    is_success =true,
+                    data = configuration["Authentication:Google:ClientId"]
+                });
+            }
+            catch (Exception ex)
+            {
+                LoggerDiscord.Sendlog(ex.Message);
+                LogHelper.InsertLogTelegramByUrl(configuration["BotSetting:bot_token"], configuration["BotSetting:bot_group_id"], "GetGoogleClientId - HomeController:" + ex.ToString());
+
+            }
+            return Ok(new
+            {
+                is_success = false,
+                data = "65575993345-haqgehmq7lr2spseivas34237t3qkuos.apps.googleusercontent.com"
+            });
         }
     }
 }

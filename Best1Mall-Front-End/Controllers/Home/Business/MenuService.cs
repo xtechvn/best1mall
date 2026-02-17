@@ -1,5 +1,6 @@
 ﻿
 using Best1Mall_Front_End.Models;
+using Best1Mall_Front_End.Models.Flashsale;
 using Best1Mall_Front_End.Models.Labels;
 using Best1Mall_Front_End.Service.Redis;
 using Best1Mall_Front_End.Utilities;
@@ -56,6 +57,107 @@ namespace Best1Mall_Front_End.Controllers.Home.Business
                 return null;
             }
         }
+        public async Task<HomepageBannerModel?> getBannerHome(int parent_id)
+        {
+            try
+            {
+                var connect_api_us = new ConnectApi(configuration, redisService);
+                var input_request = new Dictionary<string, string>
+                {
+                    {"category_id",parent_id.ToString() }
+                };
+                var response_api = await connect_api_us.CreateHttpRequest("/api/home/banner", input_request);
+
+                var json = JObject.Parse(response_api);
+                int status = (int)json["status"];
+
+                if (status == ((int)ResponseType.SUCCESS))
+                {
+                    var result = new HomepageBannerModel
+                    {
+                        main = JsonConvert.DeserializeObject<List<AllCode>>(json["main_slide"].ToString()),
+                        sub = JsonConvert.DeserializeObject<List<AllCode>>(json["sub_banner"].ToString())
+                    };
+
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Utilities.LogHelper.InsertLogTelegramByUrl(configuration["telegram_log_error_fe:Token"], configuration["telegram_log_error_fe:GroupId"], "getListMenuHelp " + ex.Message);
+                return null;
+            }
+        }
+        public async Task<List<CategorySaleModel>?> getListMenuSale(int parent_id)
+        {
+            try
+            {
+                var connect_api_us = new ConnectApi(configuration, redisService);
+                var input_request = new Dictionary<string, string>
+                {
+                    {"group_id",parent_id.ToString() }
+                };
+                var response_api = await connect_api_us.CreateHttpRequest("/api/flashsale/group-product", input_request);
+
+                // Nhan ket qua tra ve                            
+                var JsonParent = JArray.Parse("[" + response_api + "]");
+                int status = Convert.ToInt32(JsonParent[0]["status"]);
+
+                if (status == ((int)ResponseType.SUCCESS))
+                {
+                    string data = JsonParent[0]["data"].ToString();
+                    return JsonConvert.DeserializeObject<List<CategorySaleModel>>(data);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Utilities.LogHelper.InsertLogTelegramByUrl(configuration["telegram_log_error_fe:Token"], configuration["telegram_log_error_fe:GroupId"], "getListMenuHelp " + ex.Message);
+                return null;
+            }
+        }
+        public async Task<int> GetParentIdAsync(int categoryId)
+        {
+            try
+            {
+                var connect_api_us = new ConnectApi(configuration, redisService);
+                var input_request = new Dictionary<string, string>
+        {
+            {"category_id", categoryId.ToString() }
+        };
+                var response_api = await connect_api_us.CreateHttpRequest("/api/news/get-parent-category.json", input_request);
+
+                // Giả sử API trả về thông tin category chi tiết
+                var json = JObject.Parse(response_api);
+                int status = json["status"].Value<int>();
+
+                if (status == (int)ResponseType.SUCCESS)
+                {
+                    
+                   
+                        // Lấy parent_id từ response
+                        int parentId = json["parent_id"]?.Value<int>() ?? 0;
+                        return parentId;
+                    
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Utilities.LogHelper.InsertLogTelegramByUrl(configuration["telegram_log_error_fe:Token"], configuration["telegram_log_error_fe:GroupId"], "GetParentIdAsync " + ex.Message);
+                return 0;
+            }
+        }
+
         public async Task<List<LabelListingModel>?> GetLabelList(int top)
         {
             try
@@ -66,6 +168,38 @@ namespace Best1Mall_Front_End.Controllers.Home.Business
                     {"top",top.ToString() }
                 };
                 var response_api = await connect_api_us.CreateHttpRequest("/api/label/list", input_request);
+
+                // Nhan ket qua tra ve                            
+                var JsonParent = JArray.Parse("[" + response_api + "]");
+                int status = Convert.ToInt32(JsonParent[0]["status"]);
+
+                if (status == ((int)ResponseType.SUCCESS))
+                {
+                    string data = JsonParent[0]["data"].ToString();
+                    return JsonConvert.DeserializeObject<List<LabelListingModel>>(data);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Utilities.LogHelper.InsertLogTelegramByUrl(configuration["telegram_log_error_fe:Token"], configuration["telegram_log_error_fe:GroupId"], "getListMenuHelp " + ex.Message);
+                return null;
+            }
+        }
+        public async Task<List<LabelListingModel>?> GetShopMall(int top)
+        {
+            try
+            {
+                var connect_api_us = new ConnectApi(configuration, redisService);
+                var input_request = new Dictionary<string, string>
+                {
+                    {"top",top.ToString() }
+                };
+                var response_api = await connect_api_us.CreateHttpRequest("/api/label/shopmall", input_request);
 
                 // Nhan ket qua tra ve                            
                 var JsonParent = JArray.Parse("[" + response_api + "]");

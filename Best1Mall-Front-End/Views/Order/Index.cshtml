@@ -1,96 +1,144 @@
 ﻿@{
-    ViewData["Title"] = "Lịch sử đơn hàng | Hulotoys";
+    ViewData["Title"] = "Lịch sử đơn hàng | BestMall";
     Layout = "~/Views/Shared/_AccountManagementLayout.cshtml";
 }
 <div class="box-order">
     <div class="tab-status">
-        <ul class="list-tab">
+        <ul class="list-tab" style=" width: 100%; overflow-y: hidden; overflow-x: scroll; ">
             <li class="active">
-                <a href="javascript:;" class="order-tab" data-id="-1">Tất cả<nw class="tab-count">(0)</nw></a>
+                <a href="javascript:;" class="order-tab order-tab-all" data-id="-1">Tất cả<nw class="tab-count">(0)</nw></a>
             </li>
             <li>
-                <a href="javascript:;" class="order-tab" data-id="0">Chờ thanh toán<nw class="tab-count">(0)</nw></a>
+                <a href="javascript:;" class="order-tab order-tab-waiting" data-id="0">Chờ thanh toán<nw class="tab-count">(0)</nw></a>
             </li>
             <li>
-                <a href="javascript:;" class="order-tab" data-id="1,2">Đang giao<nw class="tab-count">(0)</nw></a>
+                <a href="javascript:;" class="order-tab order-tab-processing" data-id="1,6">Chờ lấy hàng<nw class="tab-count">(0)</nw></a>
             </li>
             <li>
-                <a href="javascript:;" class="order-tab" data-id="3">Hoàn thành<nw class="tab-count">(0)</nw></a>
+
+                <a href="javascript:;" class="order-tab order-tab-delvering" data-id="2,5">Giao hàng<nw class="tab-count">(0)</nw></a>
+
             </li>
             <li>
-                <a href="javascript:;" class="order-tab" data-id="4">Đã hủy<nw class="tab-count">(0)</nw></a>
+                <a href="javascript:;" class="order-tab order-tab-finish" data-id="3">Hoàn thành<nw class="tab-count">(0)</nw></a>
+            <li>
+                <a href="javascript:;" class="order-tab order-tab-refund" data-id="7">Trả hàng / Hoàn tiền<nw class="tab-count">(0)</nw></a>
+            </li>
+            <li>
+                <a href="javascript:;" class="order-tab order-tab-cancel" data-id="4">Đã hủy<nw class="tab-count">(0)</nw></a>
             </li>
         </ul>
     </div>
     <div class="box-filler">
         <form>
-            <div class="form-search">
-                <input type="text" placeholder="Từ khoá, mã sản phẩm,...">
-                <button type="button" class="btn-search"><i class="icon icon-search"></i></button>
-            </div>
-            <div class="form-datetime">
-                <label>Ngày</label>
-                <div class="input-datetime">
-                    <input type="text" id="datepicker" placeholder="Ngày / tháng / năm" class="hasDatepicker">
-                </div>
+            <div class="relative w-full">
+                <input id="order-keyword" type="text" placeholder="Tìm kiếm mã đơn hàng ..."
+                       class="w-full outline-0 border bg-white border-gray-300 rounded-full px-4 py-3 pr-26 focus:outline-none font-normal">
+                <a id="order-keyword-clear" href="javascript:;" class=" absolute right-[80px] top-[15px] cursor-pointer" style="display:none;">
+                    <svg width="24" height="24" class="h-full w-full" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.0033 2.4C17.3053 2.4 21.6033 6.69807 21.6033 12C21.6033 17.3019 17.3053 21.6 12.0033 21.6C6.70139 21.6 2.40332 17.3019 2.40332 12C2.40332 6.69807 6.70139 2.4 12.0033 2.4ZM9.37464 8.53646C9.1408 8.37447 8.81749 8.39761 8.60921 8.60589L8.53978 8.68899C8.37779 8.92283 8.40093 9.24614 8.60921 9.45442L11.1548 12L8.60921 14.5456L8.53978 14.6287C8.37779 14.8625 8.40093 15.1858 8.60921 15.3941L8.69231 15.4635C8.92615 15.6255 9.24946 15.6024 9.45774 15.3941L12.0033 12.8485L14.5489 15.3941L14.632 15.4635C14.8658 15.6255 15.1892 15.6024 15.3974 15.3941L15.4669 15.311C15.6289 15.0772 15.6057 14.7539 15.3974 14.5456L12.8518 12L15.3974 9.45442L15.4669 9.37132C15.6289 9.13748 15.6057 8.81417 15.3974 8.60589L15.3143 8.53646C15.0805 8.37447 14.7572 8.39761 14.5489 8.60589L12.0033 11.1515L9.45774 8.60589L9.37464 8.53646Z"
+                              fill="currentColor"></path>
+                    </svg>
+                </a>
+                <a id="order-keyword-search" href="javascript:;" class="py-[8px] px-[24px] bg-blue-100 absolute right-2 top-[5px] rounded-full shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M21.5306 20.4694L16.8365 15.7763C18.1971 14.1429 18.8755 12.0478 18.7307 9.92697C18.5859 7.8061 17.629 5.82271 16.0591 4.38938C14.4892 2.95605 12.4271 2.18314 10.3019 2.23144C8.17663 2.27974 6.15181 3.14553 4.64864 4.6487C3.14547 6.15187 2.27968 8.17669 2.23138 10.3019C2.18308 12.4272 2.95599 14.4893 4.38932 16.0592C5.82265 17.6291 7.80604 18.586 9.92691 18.7308C12.0478 18.8756 14.1428 18.1971 15.7762 16.8366L20.4693 21.5307C20.539 21.6003 20.6218 21.6556 20.7128 21.6933C20.8038 21.731 20.9014 21.7505 21 21.7505C21.0985 21.7505 21.1961 21.731 21.2871 21.6933C21.3782 21.6556 21.4609 21.6003 21.5306 21.5307C21.6003 21.461 21.6556 21.3783 21.6933 21.2872C21.731 21.1962 21.7504 21.0986 21.7504 21C21.7504 20.9015 21.731 20.8039 21.6933 20.7129C21.6556 20.6218 21.6003 20.5391 21.5306 20.4694ZM3.74997 10.5C3.74997 9.16501 4.14585 7.85996 4.88755 6.74993C5.62925 5.6399 6.68346 4.77474 7.91686 4.26384C9.15026 3.75295 10.5075 3.61928 11.8168 3.87973C13.1262 4.14018 14.3289 4.78306 15.2729 5.72706C16.2169 6.67106 16.8598 7.8738 17.1203 9.18317C17.3807 10.4925 17.2471 11.8497 16.7362 13.0831C16.2253 14.3165 15.3601 15.3708 14.2501 16.1125C13.14 16.8542 11.835 17.25 10.5 17.25C8.71037 17.248 6.99463 16.5363 5.72919 15.2708C4.46375 14.0054 3.75196 12.2896 3.74997 10.5Z"
+                              fill="#773EFA" />
+                    </svg>
+                </a>
             </div>
         </form>
     </div>
-    <nw id="order-history">
-        <div class="box-order-detail">
-            <div class="head-box">
-                <span class="code">Mã đơn hàng: <b>NG7668779</b></span>
-                <span class="status">Tình trạng: <span class="high">Trả hàng/Hoàn tiền</span></span>
-                <span class="code">Ngày đặt hàng: <b>09:00 23/1/2024</b></span>
-                <a href="" class="btn-seemore">Xem chi tiết</a>
-            </div>
-            <div class="list-product-order">
-                <div class="item">
-                    <div class="img">
-                        <img src="/assets/images/product.jpg" alt="">
+    <nw id="order-history" class="placeholder">
+        
+    </nw>
+   
+  
+        <div class="flex justify-center mt-5">
+        <button type="button"
+                id="btn-load-order"
+                class="text-color-base font-normal "
+                data-page="1"
+                data-size="10"
+                style="display:none;">
+            Xem thêm
+        </button>
+
+        </div>
+
+</div>
+<div id="refund-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999" style="display:none;">
+    <div class="flex justify-center md:items-center h-full">
+        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto overflow-y-auto relative">
+            <span class="closePopup absolute right-2 top-2 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                          fill="#2A3262" />
+                </svg>
+            </span>
+            <h4 class="text-center text-xl text-color-base mb-3">TRẢ HÀNG / HOÀN TIỀN ĐƠN HÀNG <a href="javascript:;" id="refund-popup-orderno"> </a></h4>
+            <div class="space-y-4 scrollbar-hide overflow-y-auto md:max-h-[80vh]">
+                <div class="rounded-xl bg-gray-100 p-2 order-raiting" >
+                    <div class="flex items-center gap-2 my-3">
+                        <span>Lý do Trả hàng / Hoàn tiền</span>
                     </div>
-                    <div class="info">
-                        <h3 class="name-product">
-                            Gấu Bông Mèo Hoàng Thượng Cosplay, Thú Nhồi Bông An Toàn
-                            Cho Bé
-                        </h3>
-                        <div class="cat">Phân loại hàng: Gấu Trúc, 40cm</div>
-                        <div class="flex-quantity">
-                            <span>Giá: 899.000đ</span>
-                            <span>Số lượng:1</span>
-                        </div>
-                        <p class="price">890.000đ</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="img">
-                        <img src="/assets/images/product.jpg" alt="">
-                    </div>
-                    <div class="info">
-                        <h3 class="name-product">
-                            Gấu Bông Mèo Hoàng Thượng Cosplay, Thú Nhồi Bông An Toàn
-                            Cho Bé
-                        </h3>
-                        <div class="cat">Phân loại hàng: Gấu Trúc, 40cm</div>
-                        <div class="flex-quantity">
-                            <span>Giá: 899.000đ</span>
-                            <span>Số lượng:1</span>
-                        </div>
-                        <p class="price">890.000đ</p>
-                    </div>
+                    <textarea id="order-refund-reason" placeholder="Nhập lý do bạn muốn Trả hàng / Hoàn tiền (Tối đa 500 ký tự)" class="w-full bg-white rounded-xl p-3 order-refund-reason" rows="3"></textarea>
+
                 </div>
             </div>
-            <div class="bottom-box">
-                <div class="action">
-                    <a href="" class="btn btn-base">Đã nhận được hàng</a>
-                    <a href="" class="btn btn-line">Hủy đơn hàng</a>
-                </div>
-                <div class="total-price">Tổng tiền: <span class="number-price">900.000 đ</span> </div>
+            <div class="flex justify-end items-center mt-4 gap-3">
+                <button id="refund-popup-cancel" class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80">
+                    Trở
+                    lại
+                </button>
+                <button id="refund-popup-confirm" class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80">
+                    Gửi yêu cầu
+                </button>
+
             </div>
         </div>
-    </nw>
+    </div>
+</div>
+<div id="receiver-popup" class="popup fixed inset-0 bg-black/50 bg-opacity-50 hidden overflow-x-hidden z-999" style="display:none;">
+    <div class="flex justify-center md:items-center h-full">
+        <div class="popup-content bg-white p-6 md:rounded-3xl shadow-lg max-w-3xl w-full mx-auto overflow-y-auto relative">
+            <span class="closePopup absolute right-2 top-2 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <path d="M19.281 18.7193C19.3507 18.789 19.406 18.8717 19.4437 18.9628C19.4814 19.0538 19.5008 19.1514 19.5008 19.2499C19.5008 19.3485 19.4814 19.4461 19.4437 19.5371C19.406 19.6281 19.3507 19.7109 19.281 19.7806C19.2114 19.8502 19.1286 19.9055 19.0376 19.9432C18.9465 19.9809 18.849 20.0003 18.7504 20.0003C18.6519 20.0003 18.5543 19.9809 18.4632 19.9432C18.3722 19.9055 18.2895 19.8502 18.2198 19.7806L12.0004 13.5602L5.78104 19.7806C5.64031 19.9213 5.44944 20.0003 5.25042 20.0003C5.05139 20.0003 4.86052 19.9213 4.71979 19.7806C4.57906 19.6398 4.5 19.449 4.5 19.2499C4.5 19.0509 4.57906 18.86 4.71979 18.7193L10.9401 12.4999L4.71979 6.28055C4.57906 6.13982 4.5 5.94895 4.5 5.74993C4.5 5.55091 4.57906 5.36003 4.71979 5.2193C4.86052 5.07857 5.05139 4.99951 5.25042 4.99951C5.44944 4.99951 5.64031 5.07857 5.78104 5.2193L12.0004 11.4396L18.2198 5.2193C18.3605 5.07857 18.5514 4.99951 18.7504 4.99951C18.9494 4.99951 19.1403 5.07857 19.281 5.2193C19.4218 5.36003 19.5008 5.55091 19.5008 5.74993C19.5008 5.94895 19.4218 6.13982 19.281 6.28055L13.0607 12.4999L19.281 18.7193Z"
+                          fill="#2A3262" />
+                </svg>
+            </span>
+            <h4 class="text-center text-xl text-color-base mb-3">ĐÃ NHẬN ĐƯỢC ĐƠN HÀNG <a href="javascript:;" id="receiver-popup-orderno"> </a></h4>
+            <div class="space-y-4 scrollbar-hide overflow-y-auto md:max-h-[80vh]">
+                <div class="rounded-xl bg-gray-100 p-2 order-raiting">
+                    <div class="flex items-center gap-2 my-3">
+                        <span></span>
+                    </div>
+                   <p>
+                        Khi nhấn vào nút xác nhận bên dưới, bạn đã xác nhận rằng <nw class="text-color-base" style="font-weight:bold;">đã nhận được đầy đủ các sản phẩm trong đơn hàng</nw>. <br />
+                        Sau khi xác nhận "Đã nhận được hàng", bạn sẽ <nw class="" style="font-weight:bold;color:red;">không thể thực hiện được thao tác Đổi trả / Hoàn tiền</nw>.  <br />
+                        Bạn có chắc chắn không?
+
+                   </p>
+                </div>
+            </div>
+            <div class="flex justify-end items-center mt-4 gap-3">
+                <button id="receiver-popup-cancel" class="border border-blue-500 px-6 py-2 text-blue-500 rounded-full cursor-pointer hover:opacity-80">
+                    Trở
+                    lại
+                </button>
+                <button id="receiver-popup-confirm" class="border border-blue-500 bg-blue-500 px-6 py-2 text-white rounded-full cursor-pointer hover:opacity-80">
+                    Xác nhận
+                </button>
+
+            </div>
+        </div>
+    </div>
 </div>
 @section Scripts {
-    <script type="text/javascript" src="/modules/order_history.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/modules/order/index.js" asp-append-version="true"></script>
+    
+
 
 }

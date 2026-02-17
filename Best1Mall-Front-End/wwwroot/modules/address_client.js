@@ -3,6 +3,8 @@
         address_client.Initialization()
 
     }
+
+
 })
 var address_client = {
     Initialization: function () {
@@ -10,24 +12,31 @@ var address_client = {
         $('#address-phone').html('')
         $('#address').html('(Chưa chọn địa chỉ giao hàng)')
         sessionStorage.removeItem(STORAGE_NAME.AddressClient)
-        if (!$('#address-book').hasClass('overlay')) {
-            $('.menu-left-user .list-tab-menu .client-address').addClass('active')
-            $('.menu-left-user .list-tab-menu .client-address').closest('.sub-menu').addClass('active')
+        //if (!$('#address-book').hasClass('overlay')) {
+        //    $('.menu-left-user .list-tab-menu .client-address').addClass('active')
+        //    $('.menu-left-user .list-tab-menu .client-address').closest('.sub-menu').addClass('active')
 
-        } else {
-            $('#address-book .btn-confirm-address').show()
+        //} else {
+        //    $('#address-book .btn-confirm-address').show()
 
-        }
+        //}
+
         address_client.Detail()
         address_client.RenderProvinces()
         address_client.DynamicBind()
         $('#update-address .err').hide()
     },
     DynamicBind: function () {
+
+
         $("body").on('click', "#address-book .btn-update-address", function () {
+            
             var element = $(this)
             var id = element.closest('.address-item').attr('data-id')
             address_client.CreateOrUpdateAddress(id)
+            $('#address-book').removeClass('overlay-active')
+            //$('#address-book').addClass('hidden')
+            //$('#address-book').hide()
         });
         $("body").on('click', "#address-book .list-add .item .defauld", function () {
             var element = $(this)
@@ -37,30 +46,54 @@ var address_client = {
             element.hide()
         });
         $("body").on('click', "#address-book .btn-add-address", function () {
+            
             var element = $(this)
             address_client.CreateOrUpdateAddress('')
 
         });
         $("body").on('click', ".update-address-order", function () {
+
             var list = sessionStorage.getItem(STORAGE_NAME.AddressClient)
+            const selectedId = $('#address-receivername').attr('data-id'); // Lấy data-id đã gán ở ConfirmCartAddress
             if (list) {
                 var data = JSON.parse(list)
-                address_client.RenderExistsAddress(data, $('#address-receivername').attr('data-id'))
+                address_client.RenderExistsAddress(data, selectedId); // Truyền vào để active cái đang dùng
 
             }
             if ($('#address-book').hasClass('overlay')) {
                 $('#address-book').addClass('overlay-active')
+
             }
+            $('#address-book').show()
 
         });
 
-        $("body").on('click', "#update-address .btn-save", function () {
+        $("body").on('click', "#update-address .btn-save", function (e) {
+            e.preventDefault()
+            if (!address_client.ValidateAddressForm()) {
+                return; // Dừng nếu không hợp lệ
+            }
             address_client.Confirm()
         });
-        $("body").on('click', "#address-book .list-add .item", function () {
-            var element = $(this)
-            $('#address-book .list-add .item').removeClass('active')
-            element.addClass('active')
+        //$("body").on('click', "#address-book .list-add .item", function () {
+        //    var element = $(this)
+        //    $('#address-book .list-add .item').removeClass('active')
+        //    element.addClass('active')
+        //});
+        //Chọn Adress
+        $("body").on("click", "#address-book .list-add input[type=radio], #address-book .list-add .address-item", function () {
+            let target = $(this)
+
+            // Nếu là radio thì tìm tới thằng cha label rồi tìm .address-item bên trong
+            if (target.is("input[type=radio]")) {
+                target = target.closest("label").find(".address-item")
+            }
+
+            // Remove active ở tất cả
+            $("#address-book .list-add .address-item").removeClass("active")
+
+            // Add active đúng thằng target
+            target.addClass("active")
         });
         $("body").on('select2:select', "#update-address .province select", function () {
             $('#update-address .wards select').val(null).trigger('change')
@@ -71,7 +104,8 @@ var address_client = {
             address_client.RenderWards()
 
         });
-        $("body").on('click', "#update-address .btn-close", function () {
+        $("body").on('click', "#update-address .btn-close", function (e) {
+            e.preventDefault()
             if ($('#address-book').hasClass('overlay')) {
                 $('#address-book').addClass('overlay-active')
             }
@@ -80,16 +114,19 @@ var address_client = {
 
     },
     DynamicConfirmAddress: function (callback) {
-        $("body").on('click', "#update-address .btn-save", function () {
-            var element = $(this)
-            var selected_item = address_client.GetUpdatedAddress()
 
-            callback(selected_item)
+        //$("body").on('click', "#update-address .btn-save", function () {
+        //    var element = $(this)
+        //    var selected_item = address_client.GetUpdatedAddress()
 
-        });
-        $("body").on('click', "#address-book .btn-save", function () {
+        //    callback(selected_item)
+
+        //});
+        $("body").on('click', "#address-book .btn-save", function (e) {
+            e.preventDefault()
+
             var element = $(this)
-            var id=undefined
+            var id = undefined
             $('#address-book .box-address .item').each(function (index, item) {
                 var div = $(this)
                 if (div.hasClass('active')) {
@@ -103,9 +140,18 @@ var address_client = {
                 callback(item)
             }
             $('#address-book').removeClass('overlay-active')
+            $('#address-book').addClass('hidden')
+            $('#address-book').hide()
+            $('#update-address').removeClass('overlay-active')
+            $('#update-address').addClass('hidden')
+            $('#update-address').hide()
 
         });
-        $("body").on('click', "#address-book .btn-save", function () {
+        $("body").on('click', "#address-book .btn-close", function (e) {
+            e.preventDefault()
+            $('#address-book').removeClass('overlay-active')
+            $('#address-book').addClass('hidden')
+            $('#address-book').hide()
 
 
         });
@@ -118,6 +164,7 @@ var address_client = {
 
     },
     Detail: function (selected_id = undefined) {
+        
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
@@ -129,20 +176,24 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressList, request)
         ).done(function (result) {
+            
             var html = ''
             if (result.is_success) {
                 sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(result.data.list))
                 address_client.RenderExistsAddress(result.data.list, selected_id)
             }
-            $('#address-book .list-add').html(html)
+
             address_client.RemoveLoading()
 
         }).fail(function (jqXHR, textStatus) {
             $('#address-book .list-add').html('')
-           address_client.RemoveLoading()
+            address_client.RemoveLoading()
         })
 
     },
+
+
+
     AddLoading: function () {
         $('#address-book .box-address').addClass('placeholder')
         $('#address-book').addClass('placeholder')
@@ -154,8 +205,30 @@ var address_client = {
         $('.content-left-user').removeClass('placeholder')
     },
     RenderExistsAddress: function (list, selected_id = undefined) {
-        var html = ''
+        
+        // Kiểm tra xem đang ở trang "address" hay không
+        const page = $('#address-book').data('page') || '';
+        const isAddressPage = page === 'address';
+
+        // ✅ Sort: Địa chỉ mặc định lên đầu
+        list.sort(function (a, b) {
+            return (b.isActive === true ? 1 : 0) - (a.isActive === true ? 1 : 0);
+        });
+
+        var html = '';
+
         $(list).each(function (index, item) {
+            let defaultLabel = '';
+
+            if (item.isActive === true) {
+                defaultLabel = `<span class="text-[13px] italic leading-[1.5] text-[#773EFA] ">
+                Địa chỉ mặc định
+            </span>`;
+            }
+            // Nếu ở trang Address thì không render input radio
+            const radioHtml = isAddressPage ? '' :
+                `<input type="radio" name="address" class="radio-custom mt-1" ${selected_id == item.id ? 'checked' : ''} />`;
+
             html += HTML_CONSTANTS.Address.GridItem
                 .replaceAll('{active}', (selected_id != undefined && selected_id == item.id) ? 'active' : '')
                 .replaceAll('{id}', item.id)
@@ -163,11 +236,15 @@ var address_client = {
                 .replaceAll('{name}', item.receiverName)
                 .replaceAll('{address}', address_client.RenderDetailAddress(item))
                 .replaceAll('{tel}', item.phone.trim())
+                .replaceAll('{defaultLabel}', defaultLabel)
+                .replaceAll('{radio}', radioHtml); // 👈 thay thế radio động
         });
-        $('#address-book .list-add').html(html)
-        
+
+        $('#address-book .list-add').html(html);
     },
+
     RenderDetailAddress: function (data) {
+        
         var address_select = ''
         if (data.ward_detail != null && data.ward_detail != undefined) {
             address_select += data.ward_detail.name
@@ -184,20 +261,24 @@ var address_client = {
         return data.address + '<br /> ' + address_select
     },
     CreateOrUpdateAddress: function (id) {
-        var overlay_box = false
-        if ($('#address-book').hasClass('overlay')) {
-            overlay_box = true
-        }
-        if (overlay_box) {
-            $('#address-book').removeClass('overlay-active')
-        }
+        
+        //var overlay_box = false
+        //if ($('#address-book').hasClass('overlay')) {
+        //    overlay_box = true
+        //}
+        //if (overlay_box) {
+        //    $('#address-book').removeClass('overlay-active')
+        //}
 
         var usr = global_service.CheckLogin()
         if (usr == undefined || usr.token == undefined) {
             return
         }
+        // Reset popup trước khi thao tác
+        address_client.ResetAddressForm();
         $('#update-address').attr('data-id', id)
         if (id != undefined && id.trim() != '') {
+            
             var json = sessionStorage.getItem(STORAGE_NAME.AddressClient)
             if (json) {
                 var address_list = JSON.parse(json)
@@ -208,6 +289,8 @@ var address_client = {
                 $('#update-address').addClass('overlay-active')
                 $('#update-address .user input').val(item.receiverName)
                 $('#update-address .tel input').val(item.phone)
+                if (item.isActive == true)
+                    $("#IsActive").prop("checked", true);
 
                 $('#update-address .address input').val(item.address)
                 address_client.RenderProvinces(item.provinceId)
@@ -221,6 +304,7 @@ var address_client = {
                 $.when(
                     global_service.POST(API_URL.AddressDetail, request)
                 ).done(function (result) {
+                    
                     if (result.is_success) {
                         $('#update-address .err').hide()
                         var item = result.data
@@ -234,14 +318,44 @@ var address_client = {
                     }
                 })
             }
+            $('#update-address .title-popup').html('Cập nhật địa chỉ');
+            $('#update-address .btn-save').html('Cập nhật');
+            // ❌ Ẩn checkbox chính sách khi cập nhật
+            $('.agree-policy-wrap').hide();
 
         } else {
-            $('#update-address').addClass('overlay-active')
-            $('#update-address .title-popup').html('Thêm địa chỉ giao hàng mới')
-            $('#update-address .btn-save').html('Thêm')
+            // 👉 Thêm địa chỉ mới
+            $('#update-address .title-popup').html('Thêm địa chỉ mới');
+            $('#update-address .btn-save').html('Thêm');
+
+            // ✅ Hiện checkbox chính sách khi thêm
+            $('.agree-policy-wrap').show();
+
+            // reset form
+            $('#update-address input[type="text"], #update-address input[type="tel"]').val('');
+            $('#update-address select').val('');
+            $('#IsActive').prop('checked', false);
+            $('.agree-policy').prop('checked', false);
         }
+        // 👉 Mở popup theo Tailwind (ẩn class hidden, hiển thị popup)
+        $('.popup').addClass('hidden'); // ẩn các popup khác nếu có
+        $('#update-address').removeClass('hidden').show();
+    },
+    ResetAddressForm: function () {
+        $('#update-address').attr('data-id', '');
+        $('#update-address .user input').val('');
+        $('#update-address .tel input').val('');
+        $('#update-address .address input').val('');
+        $("#IsActive").prop("checked", false);
+        // ✅ Fix: đúng class là ".wards" chứ không phải ".ward"
+        $('#update-address .province select').val('');
+        $('#update-address .district select').html('<option value="">--Chọn quận/huyện--</option>');
+        $('#update-address .wards select').html('<option value="">--Chọn phường/xã--</option>');
+
+        $('#update-address .err').hide();
     },
     RenderProvinces: function (selected_value = undefined) {
+        
         var request = {
             "id": '-1'
         }
@@ -249,12 +363,13 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressProvince, request)
         ).done(function (result) {
+            
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
-
+                    
                     html += HTML_CONSTANTS.Global.SelectOption
-                        .replaceAll('{value}', item.provinceId)
+                        .replaceAll('{value}', item.id.toString())
                         .replaceAll('{name}', item.name)
 
                 });
@@ -277,6 +392,7 @@ var address_client = {
 
     },
     RenderDistrict: function (selected_provinced = undefined, selected_value = undefined) {
+        
         var request = {
             "id": $('#update-address .province select').find(':selected').val()
         }
@@ -289,12 +405,13 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressDistrict, request)
         ).done(function (result) {
+            
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
 
                     html += HTML_CONSTANTS.Global.SelectOption
-                        .replaceAll('{value}', item.districtId)
+                        .replaceAll('{value}', item.id.toString())
                         .replaceAll('{name}', item.name)
 
                 });
@@ -317,6 +434,7 @@ var address_client = {
 
     },
     RenderWards: function (selected_district = undefined, selected_value = undefined) {
+        
         var request = {
             "id": $('#update-address .district select').find(':selected').val()
         }
@@ -329,12 +447,13 @@ var address_client = {
         $.when(
             global_service.POST(API_URL.AddressWard, request)
         ).done(function (result) {
+            
             var html = ''
             if (result.is_success) {
                 $(result.data).each(function (index, item) {
 
                     html += HTML_CONSTANTS.Global.SelectOption
-                        .replaceAll('{value}', item.wardId)
+                        .replaceAll('{value}', item.id.toString())
                         .replaceAll('{name}', item.name)
 
                 });
@@ -360,28 +479,50 @@ var address_client = {
 
     },
     Confirm: function () {
-        var usr = global_service.CheckLogin()
-        if (usr == undefined || usr.token == undefined) {
-            return
+        
+        // 🚨 Validate form trước
+        if (!address_client.ValidateAddressForm()) {
+            return; // Dừng không gửi request, không update gì hết
         }
+        // 1. Kiểm tra login
+        var usr = global_service.CheckLogin();
+        if (!usr || !usr.token) {
+            return;
+        }
+
+        // 2. Lấy ID từ form (nếu có)
+        var currentId = $('#update-address').attr('data-id');
+        if (!currentId || parseInt(currentId) <= 0) {
+            currentId = 0; // Mặc định là 0 để BE hiểu là Create
+        }
+
+        // 3. Tạo object request để gửi lên BE
         var request = {
-            "Id": $('#update-address').attr('data-id'),
+            "Id": currentId,
             "token": usr.token,
             "ReceiverName": $('#update-address .user input').val(),
             "Phone": $('#update-address .tel input').val(),
-            "ProvinceId": $('#update-address .province select').find(':selected').val(),
-            "DistrictId": $('#update-address .district select').find(':selected').val(),
-            "WardId": $('#update-address .wards select').find(':selected').val(),
+            "ProvinceId": $('#update-address .province select').val(),
+            "DistrictId": $('#update-address .district select').val(),
+            "WardId": $('#update-address .wards select').val(),
             "Address": $('#update-address .address input').val(),
             "Status": 0,
-            "IsActive": 0
-        }
-        var updated_item = address_client.GetUpdatedAddress()
-        var result = global_service.POSTSynchorus(API_URL.UpdateAddress, request)
+            "IsActive": $('#IsActive').is(":checked") ? true : false
+        };
+       
+        // 4. Gửi request đến BE
+        var result = global_service.POSTSynchorus(API_URL.UpdateAddress, request);
         if (result.is_success) {
-            request.Id = result.data
+            // Gán ID trả về (Create sẽ có ID mới, Update sẽ giữ nguyên)
+            request.Id = result.data;
+            $('#update-address').attr('data-id', result.data); // ✅ Gán lại ID vào DOM
+        } else {
+            alert("Cập nhật địa chỉ thất bại!");
+            return;
         }
-        var request = {
+
+        // 5. Chuẩn bị object lưu vào sessionStorage
+        var sessionItem = {
             "id": request.Id,
             "token": usr.token,
             "receiverName": request.ReceiverName,
@@ -391,44 +532,119 @@ var address_client = {
             "wardId": request.WardId,
             "address": request.Address,
             "status": 0,
-            "isactive": 0,
+            "isActive": request.IsActive, // ✅ Dùng request.IsActive để đồng bộ
             "province_detail": {
-                name: $('#update-address .province select').find(':selected').text()
+                name: $('#update-address .province select option:selected').text()
             },
             "district_detail": {
-                name: $('#update-address .district select').find(':selected').text()
+                name: $('#update-address .district select option:selected').text()
             },
             "ward_detail": {
-                name: $('#update-address .wards select').find(':selected').text()
-            },
+                name: $('#update-address .wards select option:selected').text()
+            }
+        };
 
+        
+        // 6. Cập nhật vào sessionStorage
+        var list = sessionStorage.getItem(STORAGE_NAME.AddressClient);
+        var data = list ? JSON.parse(list) : [];
+        if (!Array.isArray(data)) data = [];
+
+        // 🆕 Remove phiên bản cũ của địa chỉ đang cập nhật (tránh giữ lại dữ liệu cũ)
+        data = data.filter(item => item.id != sessionItem.id);
+
+        // ✅ Nếu địa chỉ này là mặc định, xoá cờ mặc định ở tất cả địa chỉ còn lại
+        if (sessionItem.isActive) {
+            data.forEach(item => item.isActive = false);
         }
-        var list = sessionStorage.getItem(STORAGE_NAME.AddressClient)
-        if (list) {
-            var data = JSON.parse(list)
-            if (data == undefined) data = []
-            if (data[0]) {
-                var index = data.findIndex(obj => obj.id == updated_item.id);
-                if (index >= 0) {
-                    data[index] = updated_item
-                } else {
-                    data.push(request)
-                }
-            }
-            else {
-                data.push[request]
-            }
-        } else {
-            var data = []
-            data.push(request)
+
+        // ➕ Push địa chỉ mới vào danh sách
+        data.push(sessionItem);
+
+        // 💾 Lưu lại vào sessionStorage
+        sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(data));
+        if (typeof cart !== 'undefined') {
+            // ✅ Chỉ render UI nếu thành công
+            cart.ConfirmCartAddress(sessionItem);
         }
-        sessionStorage.setItem(STORAGE_NAME.AddressClient, JSON.stringify(data))
+       
+
+
+        // 8. UI handling
+        $('#update-address').addClass('hidden');
+        address_client.AddLoading();
+        address_client.RenderExistsAddress(data, sessionItem.id);
+        address_client.RemoveLoading();
         $('#update-address').removeClass('overlay-active')
-        address_client.AddLoading()
-        address_client.RenderExistsAddress(data, request.Id)
-        address_client.RemoveLoading()
-
+        $('#update-address').addClass('hidden')
+        $('#update-address').hide()
+        $('#address-book').addClass('overlay-active')
+        $('#address-book').addClass('show')
+        $('#address-book').hide()
     },
+    ValidateAddressForm: function () {
+        let isValid = true;
+        const popup = $('#update-address');
+
+        const receiverName = popup.find('.user input').val().trim();
+        const phone = popup.find('.tel input').val().trim();
+        const address = popup.find('.address input').val().trim();
+        const province = popup.find('.province select').val();
+        const district = popup.find('.district select').val();
+        const ward = popup.find('.wards select').val();
+        const phoneRegex = /^(0|\+84)(3[2-9]|5[6-9]|7[06-9]|8[1-9]|9[0-9])[0-9]{7}$/;
+
+        // Reset lỗi trước
+        popup.find('.err').hide();
+
+        // Validate Họ tên
+        if (!receiverName) {
+            popup.find('.user').siblings('.err').text('Vui lòng nhập Họ và tên').show();
+            isValid = false;
+        }
+
+        // Validate Số điện thoại
+        if (!phone) {
+            popup.find('.tel').siblings('.err').text('Vui lòng nhập Số điện thoại').show();
+            isValid = false;
+        } else if (!phoneRegex.test(phone)) {
+            popup.find('.tel').siblings('.err').text('Số điện thoại không hợp lệ').show();
+            isValid = false;
+        }
+
+        // Validate Tỉnh/Quận/Phường
+        if (!province) {
+            popup.find('.province').siblings('.err').show();
+            isValid = false;
+        }
+        if (!district) {
+            popup.find('.district').siblings('.err').show();
+            isValid = false;
+        }
+        if (!ward) {
+            popup.find('.wards').siblings('.err').show();
+            isValid = false;
+        }
+
+        // Validate Địa chỉ cụ thể
+        if (!address) {
+            popup.find('.address').siblings('.err').show();
+            isValid = false;
+        }
+
+        // ✅ Check chính sách khi thêm mới
+        let currentId = popup.attr('data-id');
+        if (!currentId || parseInt(currentId) <= 0) {
+            if (!popup.find('.agree-policy').is(':checked')) {
+                alert("Bạn phải đồng ý với chính sách bảo mật trước khi thêm địa chỉ mới");
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    },
+
+
     GetSelectedAddress: function (id) {
         var list = sessionStorage.getItem(STORAGE_NAME.AddressClient)
         if (list) {
@@ -441,6 +657,7 @@ var address_client = {
 
     },
     GetUpdatedAddress: function () {
+
         var usr = global_service.CheckLogin()
         var request = {
             "id": $('#update-address').attr('data-id'),

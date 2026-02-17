@@ -4,11 +4,10 @@
     {
        
 
-        public long Id { get; set; }
-        public long OrderId { get; set; }
+        public long? Id { get; set; }
       
 
-        public long ClientId { get; set; }
+        public long? ClientId { get; set; }
        
 
         public string OrderNo { get; set; }
@@ -35,13 +34,13 @@
 
         public double? Amount { get; set; }
        
-        public int OrderStatus { get; set; }
+        public int? OrderStatus { get; set; }
       
 
-        public short PaymentType { get; set; }
+        public short? PaymentType { get; set; }
        
 
-        public int PaymentStatus { get; set; }
+        public int? PaymentStatus { get; set; }
        
 
         public string UtmSource { get; set; }
@@ -54,7 +53,7 @@
         public string Note { get; set; }
         
 
-        public int? VoucherId { get; set; }
+        public string VoucherId { get; set; }
        
 
         public int? IsDelete { get; set; }
@@ -95,5 +94,12 @@
         public int? ShippingStatus { get; set; }
        
         public double? PackageWeight { get; set; }
+
+        public int? RefundStatus { get; set; }
+
+        public string RefundReason { get; set; }
+        public DateTime? RefundDate { get; set; }
+        public double? ProfitAffiliate { get; set; }
+
     }
 }

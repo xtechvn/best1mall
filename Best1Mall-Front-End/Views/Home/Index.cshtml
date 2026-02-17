@@ -3,9 +3,34 @@
     int category_id = ViewBag.category_id;
     int current_page = ViewBag.page;
     int page_size = ViewBag.page_size;
-    int total_items = ViewBag.total_items;// Tổng toàn bộ bản ghi theo 1 cate
+   // int total_items = ViewBag.total_items;// Tổng toàn bộ bản ghi theo 1 cate
 }
 <input type="hidden" class="category_id" data-categoryid="@category_id" />
+<style>
+    .bear-collection .swiper-button-next {
+        right: -20px;
+    }
+
+    .bear-collection .swiper-button-prev {
+        left: -20px;
+    }
+
+    .product-discount .swiper-button-next {
+        right: -20px;
+    }
+
+    .product-discount .swiper-button-prev {
+        left: -20px;
+    }
+
+    .intelligence-collection .swiper-button-next {
+        right: -20px;
+    }
+
+    .intelligence-collection .swiper-button-prev {
+        left: -20px;
+    }
+</style>
 
 <main>
 
@@ -13,442 +38,300 @@
     <!-- HOME -->
     <section class="homepage">
         <div class="max-w-[1230px] mx-auto my-4 px-[15px]">
-            <!-- banner -->
-            <div class="banner my-6">
-                <!-- Swiper Banner -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
-                    <!-- Swiper Container -->
-                    <div class="md:col-span-3 relative">
-                        <div class="swiper h-full banner-slide md:rounded-3xl rounded-xl overflow-hidden">
-                            <div class="swiper-wrapper">
-                                <!-- Slide 1: Banner lớn -->
-                                <div class="swiper-slide">
-                                    <img src="assets/images/ImageBig_Home.webp" alt="Banner 1" class="w-full h-full object-cover shadow" />
-                                </div>
-                                <!-- Slide 2: Banner nhỏ -->
-                                <div class="swiper-slide">
-                                    <img src="assets/images/ImageBig_Home2.webp" alt="Banner 2" class="w-full h-full object-cover shadow" />
-                                </div>
-                                <!-- Slide 3: Banner nhỏ -->
-                                <div class="swiper-slide">
-                                    <img src="assets/images/ImageBig_Home3.webp" alt="Banner 3" class="w-full h-full object-cover shadow" />
-                                </div>
+            @await Component.InvokeAsync("HomeBanner")
+           
+            <!--  Tiêu chí -->
+            <div class="my-3 md:my-7">
+                @* <img src="assets/images/Banner_h.png" alt=""> *@
+                <div class="swiper h-full tieuchi-slide md:rounded-3xl rounded-xl overflow-hidden">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img class="w-[214px]" src="assets/images/icon-01.png" loading="lazy" alt="">
+                                @* <div> *@
+                                @*     <h6 class="font-bold text-[15px]">Hàng chính hãng</h6> *@
+                                @*     <p>Đảm bảo hàng chính hãng<br />hoặc hoàn tiền gấp 10</p> *@
+                                @* </div> *@
                             </div>
-
-                            <!-- Pagination (on top of slide) -->
-                            <div class="swiper-pagination !bottom-0 !text-white"></div>
-
-                            <!-- Navigation buttons -->
-                            <div class="swiper-button-prev bg-white hover:bg-white/80 rounded-full p-2 shadow absolute  z-10">
-                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M15 19l-7-7 7-7" />
-                                </svg>
+                        </div>
+                        <div class="swiper-slide ">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img class="w-[184px]" src="assets/images/icon-02.png" loading="lazy" alt="">
                             </div>
-                            <div class="swiper-button-next bg-white hover:bg-white/80 rounded-full p-2 shadow absolute z-10">
-                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M9 5l7 7-7 7" />
-                                </svg>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img class="w-[214px]" src="assets/images/icon-03.png" loading="lazy" alt="">
+                                @* <div> *@
+                                @*     <h4 class="font-bold text-[15px]">Đổi trả</h4> *@
+                                @*     <p> *@
+                                @*         Đổi trả hàng nếu sản phẩm <br /> *@
+                                @*         không đúng cam kết *@
+                                @*     </p> *@
+                                @* </div> *@
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img class="w-[214px]" src="assets/images/icon-04.png" loading="lazy" alt="">
+                                @* <div> *@
+                                @*     <h4 class="font-bold text-[15px]">Tiện lợi - An toàn</h4> *@
+                                @*     <p>Mua sắm dễ dàng<br />An tâm giao dịch</p> *@
+                                @* </div> *@
                             </div>
                         </div>
                     </div>
 
-                    <!-- Banner nhỏ (ẩn trên mobile) -->
-                    <div class="hidden md:flex flex-col gap-4">
-                        <img src="assets/images/imagesmall_home.webp" alt="Small 1"
-                             class="md:rounded-3xl rounded-xl object-cover w-full h-full" />
-                        <img src="assets/images/imagesmall_home2.webp" alt="Small 2"
-                             class="md:rounded-3xl rounded-xl object-cover w-full h-full" />
-                    </div>
+                    <!-- Pagination (on top of slide) -->
+                    <div class="swiper-pagination mt-3 !text-white !static"></div>
                 </div>
-            </div>
-            <!--  Tiêu chí -->
-            <div class="my-6 md:my-10 flex flex-wrap md:flex-nowrap items-center justify-center gap-3">
-                <div class="flex items-center md:justify-center gap-3 w-full">
-                    <img src="assets/images/icon/icon1.svg" alt="" class="h-8">
-                    <div>
-                        <h4 class="font-medium">Trả hàng Miễn phí 15 ngày</h4>
-                        <p class="text-slate-700">Trả hàng Miễn phí 15 ngày</p>
-                    </div>
-                </div>
-                <div class=" flex items-center md:justify-center gap-3 w-full">
-                    <img src="assets/images/icon/icon2.svg" alt="" class="h-8">
-                    <div>
-                        <h4 class="font-medium">Hàng chính hãng 100%</h4>
-                        <p class="text-slate-700 md:whitespace-nowrap">Đảm bảo hàng chính hẵng hoặc hoàn tiền gấp đôi</p>
-                    </div>
-                </div>
-                <div class=" flex items-center md:justify-center gap-3 w-full">
-                    <img src="assets/images/icon/icon3.svg" alt="" class="h-8">
-                    <div>
-                        <h4 class="font-medium">Miễn phí vận chuyển</h4>
-                        <p class="text-slate-700">Giao hàng miễn phí toàn quốc</p>
-                    </div>
-                </div>
+
             </div>
             <!-- DANH MỤC SẢN PHẨM -->
-            <div class="bg-white my-6 md:my-10 p-3 pb-2 md:rounded-3xl rounded-xl border border-gray-200">
-                <h2 class="text-sky-900 border-b pb-2 mb-3 font-medium">DANH MỤC SẢN PHẨM</h2>
 
-                <div class="flex lg:justify-between gap-2 overflow-x-auto scrollbar-hide pb-2 list-category ">
+            <div class="box-danhmuc bg-white my-3 md:my-7  p-3 pb-2 md:rounded-3xl rounded-xl border border-gray-200">
+                
+                    <h2 class="head-title">
+                        <span class="title">DANH MỤC SẢN PHẨM</span>
+                        <span class="hottrend">HOT TREND</span>
+                        <span class="line"></span>
+                        <span class="trusted">TRUSTED BRAND</span>
+                    </h2>
+                
+
+                <div class="list-danhmuc flex lg:justify-evenly gap-2 overflow-x-auto scrollbar-hide pb-2 ">
                 </div>
             </div>
             <!-- Flash sale  -->
-            <div class="flashsale-box my-6 md:my-10 md:rounded-3xl rounded-xl bg-[#FF4169]">
-                <div class="bg-box md:px-6 md:py-10 py-4 px-3 pb-0 text-white md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl relative md:min-h-[320px]">
-                    <h2 class="md:text-4xl text-2xl my-3">Chăm cơ thể – giữ tinh thần – <br />tiết kiệm tối đa!</h2>
-                    <h3 class="md:text-5xl text-3xl md:my-4 my-3">Giảm 50%</h3>
-                    <p>cho các dòng vitamin, collagen, men tiêu hóa,...</p>
-                    <img src="assets/images/imageads.png" alt="" class="md:absolute right-0 bottom-0 max-w-2/3 ml-auto">
-                </div>
-                <!-- Flash Sale Section -->
-                <div class="bg-[#FF4169] md:rounded-3xl rounded-xl p-3 text-white relative">
-                    <!-- Header -->
-                    <div class="flex justify-between flex-wrap items-center mb-3">
-                        <div class="flex items-center gap-2">
-                            <img src="assets/images/flashsale.png" alt="" />
-                            <span class="md:block hidden">Kết thúc trong</span>
-                            <div id="countdown" class="flex gap-1 font-bold text-[#FF4169]">
-                                <span class="bg-white px-2 py-1 rounded" id="hours">00</span> :
-                                <span class="bg-white px-2 py-1 rounded" id="minutes">00</span> :
-                                <span class="bg-white px-2 py-1 rounded" id="seconds">00</span>
-                            </div>
-                        </div>
-                        <a href="/san-pham?group_id=@ViewBag.GLOBAL_CONSTANTS.GroupProduct.FlashSale" class="flex items-center gap-2 text-sm">
-                            Xem thêm
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                <path d="M12.773 9.39792L7.14804 15.0229C7.09578 15.0752 7.03373 15.1166 6.96545 15.1449C6.89716 15.1732 6.82398 15.1878 6.75007 15.1878C6.67616 15.1878 6.60297 15.1732 6.53469 15.1449C6.46641 15.1166 6.40436 15.0752 6.3521 15.0229C6.29984 14.9707 6.25838 14.9086 6.2301 14.8403C6.20181 14.772 6.18726 14.6989 6.18726 14.6249C6.18726 14.551 6.20181 14.4779 6.2301 14.4096C6.25838 14.3413 6.29984 14.2792 6.3521 14.227L11.5798 8.99995L6.3521 3.77292C6.24655 3.66737 6.18726 3.52421 6.18726 3.37495C6.18726 3.22568 6.24655 3.08253 6.3521 2.97698C6.45765 2.87143 6.6008 2.81213 6.75007 2.81213C6.89934 2.81213 7.04249 2.87143 7.14804 2.97698L12.773 8.60198C12.8253 8.65422 12.8668 8.71626 12.8951 8.78454C12.9234 8.85283 12.938 8.92603 12.938 8.99995C12.938 9.07387 12.9234 9.14706 12.8951 9.21535C12.8668 9.28364 12.8253 9.34567 12.773 9.39792Z"
-                                      fill="#FCFCFC" />
-                            </svg>
-                        </a>
-                    </div>
+             @await Component.InvokeAsync("FlashSale") 
+            @* <div class="flashsale-box my-6 md:my-10 md:rounded-3xl rounded-xl bg-[#FF4169]"> *@
+            @*     <div class="bg-box md:px-6 md:py-10 py-4 px-3 pb-0 text-white md:rounded-tl-3xl rounded-tl-xl md:rounded-tr-3xl rounded-tr-xl relative md:min-h-[320px]"> *@
+            @*         <h2 class="md:text-4xl text-2xl my-3">Chăm cơ thể – giữ tinh thần – <br />tiết kiệm tối đa!</h2> *@
+            @*         <h3 class="md:text-5xl text-3xl md:my-4 my-3">Giảm 50%</h3> *@
+            @*         <p>cho các dòng vitamin, collagen, men tiêu hóa,...</p> *@
+            @*         <img src="assets/images/imageads.png" alt="" class="md:absolute right-0 bottom-0 max-w-2/3 ml-auto"> *@
+            @*     </div> *@
+            @*     <!-- Flash Sale Section --> *@
+            @*     <div class="bg-[#FF4169] md:rounded-3xl rounded-xl p-3 text-white relative"> *@
+            @*         <!-- Header --> *@
+            @*         <div class="flex justify-between flex-wrap items-center mb-3"> *@
+            @*             <div class="flex items-center gap-2"> *@
+            @*                 <img src="assets/images/flashsale.png" alt="" /> *@
+            @*                 <span class="md:block hidden">Kết thúc trong</span> *@
+            @*                 <div id="countdown" class="flex gap-1 font-bold text-[#FF4169]"> *@
+            @*                     <span class="bg-white px-2 py-1 rounded" id="hours">00</span> : *@
+            @*                     <span class="bg-white px-2 py-1 rounded" id="minutes">00</span> : *@
+            @*                     <span class="bg-white px-2 py-1 rounded" id="seconds">00</span> *@
+            @*                 </div> *@
+            @*             </div> *@
+            @*             <a href="/flashSale" class="flex items-center gap-2 text-sm"> *@
+            @*                 Xem thêm *@
+            @*                 <svg xmlns="http://www.w3.org/2000/svg" *@
+            @*                      width="18" height="18" viewBox="0 0 18 18" fill="none"> *@
+            @*                     <path d="M12.773 9.39792L7.14804 15.0229C7.09578 15.0752 7.03373 15.1166 6.96545 15.1449C6.89716 15.1732 6.82398 15.1878 6.75007 15.1878C6.67616 15.1878 6.60297 15.1732 6.53469 15.1449C6.46641 15.1166 6.40436 15.0752 6.3521 15.0229C6.29984 14.9707 6.25838 14.9086 6.2301 14.8403C6.20181 14.772 6.18726 14.6989 6.18726 14.6249C6.18726 14.551 6.20181 14.4779 6.2301 14.4096C6.25838 14.3413 6.29984 14.2792 6.3521 14.227L11.5798 8.99995L6.3521 3.77292C6.24655 3.66737 6.18726 3.52421 6.18726 3.37495C6.18726 3.22568 6.24655 3.08253 6.3521 2.97698C6.45765 2.87143 6.6008 2.81213 6.75007 2.81213C6.89934 2.81213 7.04249 2.87143 7.14804 2.97698L12.773 8.60198C12.8253 8.65422 12.8668 8.71626 12.8951 8.78454C12.9234 8.85283 12.938 8.92603 12.938 8.99995C12.938 9.07387 12.9234 9.14706 12.8951 9.21535C12.8668 9.28364 12.8253 9.34567 12.773 9.39792Z" *@
+            @*                           fill="#FCFCFC" /> *@
+            @*                 </svg> *@
+            @*             </a> *@
+            @*         </div> *@
 
-                    <!-- Swiper -->
-                    <div class="relative">
-                        <div class="flash-sale-swiper list-product-sale">
-                            <div class="swiper  product-slide">
-                                <div class="swiper-wrapper">
-                                </div>
-                            </div>
+            @*         <!-- Swiper --> *@
+            @*         <div class="relative"> *@
+            @*             <div class="flash-sale-swiper list-product-sale"> *@
+            @*                 <div class="swiper  product-slide"> *@
+            @*                     <div class="swiper-wrapper"> *@
+            @*                     </div> *@
+            @*                 </div> *@
 
-                            <!-- Navigation -->
-                            <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
-                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M9 5l7 7-7 7" />
-                                </svg>
-                            </div>
-                            <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
-                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            @*                 <!-- Navigation --> *@
+            @*                 <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2"> *@
+            @*                     <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"> *@
+            @*                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" *@
+            @*                               d="M9 5l7 7-7 7" /> *@
+            @*                     </svg> *@
+            @*                 </div> *@
+            @*                 <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2"> *@
+            @*                     <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"> *@
+            @*                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" *@
+            @*                               d="M15 19l-7-7 7-7" /> *@
+            @*                     </svg> *@
+            @*                 </div> *@
+            @*             </div> *@
+            @*         </div> *@
+            @*     </div> *@
 
-            </div>
+            @* </div> *@
             @await Component.InvokeAsync("LabelList", new { labeltype = "home" })
             <!-- List Thương hiệu được yêu thích -->
+          
+            <!-- List sp -->
+            <div class="my-6 md:my-10 shop-noubat">
+                <h2 class="title md:mb-5 mb-3">SHOP MALL NỔI BẬT</h2>
+                @await Component.InvokeAsync("ShopMall", new { labeltype = "shopmall" })
+                <!--  -->
+                @* <div class="md:rounded-3xl rounded-xl bg-[#E6E1F4] mb-6 list_product"> *@
+                @*     <img id="banner-bear-collection" src="assets/images/banner_fake.jpg" alt="" *@
+                @*          style="width: 1250px; object-fit: cover;" *@
+                @*          class="rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl md:h-[425px]"> *@
+                @*     <!-- Swiper --> *@
+                @*     <div class="relative  p-3"> *@
+                @*         <div class="bear-collection" id="bear-collection"> *@
+                @*             <div class="swiper "> *@
+                @*                 <div class="swiper-wrapper"> *@
+                @*                     <!-- Slide Item --> *@
+
+
+                                  
+                @*                 </div> *@
+                @*             </div> *@
+                @*             <!-- Navigation --> *@
+                @*             <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2"> *@
+                @*                 <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"> *@
+                @*                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" *@
+                @*                           d="M9 5l7 7-7 7" /> *@
+                @*                 </svg> *@
+                @*             </div> *@
+                @*             <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2"> *@
+                @*                 <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"> *@
+                @*                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" *@
+                @*                           d="M15 19l-7-7 7-7" /> *@
+                @*                 </svg> *@
+                @*             </div> *@
+                @*         </div> *@
+                @*     </div> *@
+                @* </div> *@
+                
+            </div>
+
+
+            @* Best Choice *@
+            <div class="tab-bestchoice">
+                <h2 class="title " style="background-color: #35C677 !important; border-radius:8px !important;">Best Choice<span class="hot-trend">Hot trend</span></h2>
+            </div>
+            @await Component.InvokeAsync("MenuNews", new { menuType = "bestchoice_menu" })
+            
+
+            <!-- List XU HƯỚNG MUA SẮM -->
+            <div class="my-6 md:my-10 block-xuhuong">
+                
+                    <div class="tab-xuhuong">
+                        <h2 class="title">XU HƯỚNG MUA SẮM</h2>
+                    </div>
+                    @* <a href="#" class="flex items-center gap-2 text-blue-500 text-sm"> *@
+                    @*     Xem thêm *@
+                    @*     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"> *@
+                    @*         <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z" *@
+                    @*               fill="#773EFA" /> *@
+                    @*     </svg> *@
+                    @* </a> *@
+            
+
+                @* <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div> *@
+                <div class="box-xuhuong mt-4 grid md:grid-cols-4 grid-cols-2 md:gap-6 gap-2">
+                    @await Component.InvokeAsync("MenuNews", new { menuType = "trend_menu" })
+                   
+                        
+                        @* <a href="" class="search-sample"> *@
+                        @*     <div class="flex gap-2 items-center"> *@
+                        @*         <h3 class="title">Canxi</h3> *@
+                        @*         <img src="assets/images/imgxh.png" alt="" width="130" height="160" class="rounded-full" /> *@
+                        @*     </div> *@
+                        @* </a> *@
+                  
+                   
+                </div>
+            </div>
+            <!-- Banner quảng cáo 1 -->
+            <div class="my-6 md:my-10">
+               
+                @await Component.InvokeAsync("MenuNews", new { menuType = "banner1_menu" })
+            </div>
+
+            
+            <!-- Banner quảng cáo2 -->
+            <div class="my-6 md:my-10">
+
+                @* <div class="md:rounded-3xl rounded-xl overflow-hidden col-span-3"> *@
+                @*     <img src="assets/images/banner_fake.jpg" alt="Banner 1" class="w-full shadow" /> *@
+                @* </div> *@
+                @* <div class="flex md:justify-between gap-2 overflow-x-auto scrollbar-hide md:grid grid-cols-3 pb-2 mt-2"> *@
+                @*     <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full"> *@
+                @*         <img src="assets/images/fake_small.jpg" alt="Banner 1" class="w-full shadow" /> *@
+                @*     </div> *@
+                @*     <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full"> *@
+                @*         <img src="assets/images/fake_small.jpg" alt="Banner 1" class="w-full shadow" /> *@
+                @*     </div> *@
+                @*     <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full"> *@
+                @*         <img src="assets/images/fake_small.jpg" alt="Banner 1" class="w-full shadow" /> *@
+                @*     </div> *@
+                @* </div> *@
+                @await Component.InvokeAsync("MenuNews", new { menuType = "banner2_menu" })
+            </div>
+            <!-- Sản phẩm theo đối tượng -->
+            @* <div class="my-6 md:my-10"> *@
+            @*     <h2 class="text-sky-900 mb-3 font-medium uppercase"><a href="">Sản phẩm theo đối tượng</a> </h2> *@
+            @*     @await Component.InvokeAsync("MenuNews", new { menuType = "home" }) *@
+
+            @*     <!-- Swiper --> *@
+            @*     <div class="relative mt-3"> *@
+            @*         <div class="flash-sale-swiper list-product"> *@
+            @*             <div class="swiper"> *@
+            @*                 <div class="swiper-wrapper"> *@
+            @*                 </div> *@
+            @*             </div> *@
+
+            @*             <!-- Navigation --> *@
+            @*             <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2"> *@
+            @*                 <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"> *@
+            @*                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /> *@
+            @*                 </svg> *@
+            @*             </div> *@
+            @*             <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2"> *@
+            @*                 <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"> *@
+            @*                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /> *@
+            @*                 </svg> *@
+            @*             </div> *@
+            @*         </div> *@
+            @*     </div> *@
+            @* </div> *@
+            <!-- List Góc sức khoẻ -->
             @* <div class="my-6 md:my-10"> *@
             @*     <div class="flex justify-between flex-wrap gap-2 mb-3"> *@
-            @*         <h2 class="text-sky-900 font-medium uppercase"><a href="">Thương hiệu được yêu thích</a> </h2> *@
-            @*         <a href="/san-pham" class="flex items-center gap-2 text-blue-500 text-sm"> *@
+            @*         <h2 class="text-sky-900 font-medium uppercase"><a href="">Góc sức khoẻ</a> </h2> *@
+            @*         <a href="/tin-tuc" class="flex items-center gap-2 text-blue-500 text-sm"> *@
             @*             Xem thêm *@
             @*             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"> *@
             @*                 <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z" *@
-            @*                       fill="#098EF7" /> *@
+            @*                       fill="#773EFA" /> *@
             @*             </svg> *@
             @*         </a> *@
             @*     </div> *@
-
             @*     <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div> *@
 
-            @*     <div class="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-3 mt-3"> *@
-            @*         <!-- Item --> *@
-            @*         <div class="flex-shrink-0 w-full text-center p-3 rounded-xl bg-white"> *@
-            @*             <a href=""> *@
-            @*                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg mb-2"> *@
-            @*                     <img src="assets/images/product1.jpg" alt="Sản phẩm" *@
-            @*                          class="absolute inset-0 w-full h-full object-cover" /> *@
-            @*                 </div> *@
-            @*                 <img src="assets/images/logo-th.png" alt="" *@
-            @*                      class="rounded-full border border-blue-100 w-2/3 h-10 object-contain bg-white mx-auto" /> *@
-            @*                 <p class="font-medium text-red-400 mt-3">Ưu đãi đến 50%</p> *@
+            @*     @await Component.InvokeAsync("MenuNews", new { menuType = "news" }) *@
 
-            @*             </a> *@
+
+            @*     @* Vùng render danh sách bài viết *@ 
+            @*     <div class="list-home mt-4 relative min-h-[150px]"> *@
+            @*         <div class="loading absolute inset-0 flex justify-center items-center z-10 bg-white bg-opacity-80 hidden"> *@
+            @*             <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-blue-500"></div> *@
             @*         </div> *@
-            @*         <!-- Item --> *@
-            @*         <div class="flex-shrink-0 w-full text-center p-3 rounded-xl bg-white"> *@
-            @*             <a href=""> *@
-            @*                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg mb-2"> *@
-            @*                     <img src="assets/images/product1.jpg" alt="Sản phẩm" *@
-            @*                          class="absolute inset-0 w-full h-full object-cover" /> *@
-            @*                 </div> *@
-            @*                 <img src="assets/images/logo-th.png" alt="" *@
-            @*                      class="rounded-full border border-blue-100 w-2/3 h-10 object-contain bg-white mx-auto" /> *@
-            @*                 <p class="font-medium text-red-400 mt-3">Ưu đãi đến 50%</p> *@
-
-            @*             </a> *@
-            @*         </div> *@
-
-            @*         <!-- Item --> *@
-            @*         <div class="flex-shrink-0 w-full text-center p-3 rounded-xl bg-white"> *@
-            @*             <a href=""> *@
-            @*                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg mb-2"> *@
-            @*                     <img src="assets/images/product1.jpg" alt="Sản phẩm" *@
-            @*                          class="absolute inset-0 w-full h-full object-cover" /> *@
-            @*                 </div> *@
-            @*                 <img src="assets/images/logo-th.png" alt="" *@
-            @*                      class="rounded-full border border-blue-100 w-2/3 h-10 object-contain bg-white mx-auto" /> *@
-            @*                 <p class="font-medium text-red-400 mt-3">Ưu đãi đến 50%</p> *@
-
-            @*             </a> *@
-            @*         </div> *@
-
-            @*         <!-- Item --> *@
-            @*         <div class="flex-shrink-0 w-full text-center p-3 rounded-xl bg-white"> *@
-            @*             <a href=""> *@
-            @*                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg mb-2"> *@
-            @*                     <img src="assets/images/product1.jpg" alt="Sản phẩm" *@
-            @*                          class="absolute inset-0 w-full h-full object-cover" /> *@
-            @*                 </div> *@
-            @*                 <img src="assets/images/logo-th.png" alt="" *@
-            @*                      class="rounded-full border border-blue-100 w-2/3 h-10 object-contain bg-white mx-auto" /> *@
-            @*                 <p class="font-medium text-red-400 mt-3">Ưu đãi đến 50%</p> *@
-
-            @*             </a> *@
-            @*         </div> *@
-
-            @*         <!-- Item --> *@
-            @*         <div class="flex-shrink-0 w-full text-center p-3 rounded-xl bg-white"> *@
-            @*             <a href=""> *@
-            @*                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg mb-2"> *@
-            @*                     <img src="assets/images/product1.jpg" alt="Sản phẩm" *@
-            @*                          class="absolute inset-0 w-full h-full object-cover" /> *@
-            @*                 </div> *@
-            @*                 <img src="assets/images/logo-th.png" alt="" *@
-            @*                      class="rounded-full border border-blue-100 w-2/3 h-10 object-contain bg-white mx-auto" /> *@
-            @*                 <p class="font-medium text-red-400 mt-3">Ưu đãi đến 50%</p> *@
-
-            @*             </a> *@
-            @*         </div> *@
-
-            @*         <!-- Item --> *@
-            @*         <div class="flex-shrink-0 w-full text-center p-3 rounded-xl bg-white"> *@
-            @*             <a href=""> *@
-            @*                 <div class="relative aspect-[1/1] overflow-hidden rounded-lg mb-2"> *@
-            @*                     <img src="assets/images/product1.jpg" alt="Sản phẩm" *@
-            @*                          class="absolute inset-0 w-full h-full object-cover" /> *@
-            @*                 </div> *@
-            @*                 <img src="assets/images/logo-th.png" alt="" *@
-            @*                      class="rounded-full border border-blue-100 w-2/3 h-10 object-contain bg-white mx-auto" /> *@
-            @*                 <p class="font-medium text-red-400 mt-3">Ưu đãi đến 50%</p> *@
-
-            @*             </a> *@
-            @*         </div> *@
-
+            @*         <div class="articles-wrapper"></div> *@
             @*     </div> *@
             @* </div> *@
-            <!-- List sp -->
-            <div class="my-6 md:my-10">
-                <h2 class="text-blue-500 text-xl md:text-4xl lg:text-5xl md:mb-5 mb-3">Sản phẩm nổi bật trong ngày</h2>
-                <!--  -->
-                <div class="md:rounded-3xl rounded-xl bg-white p-3 mb-6">
-                    <img src="assets/images/product_1.webp" alt=""
-                         class="rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl w-full">
-                    <!-- Swiper -->
-                    <div class="relative mt-3">
-                        <div class="flash-sale-swiper " id="bear-collection">
-                            <div class="swiper ">
-                                <div class="swiper-wrapper">
-                                    <!-- Slide Item -->
-
-
-
-                                </div>
-                            </div>
-                            <!-- Navigation -->
-                            <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
-                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M9 5l7 7-7 7" />
-                                </svg>
-                            </div>
-                            <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
-                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--  -->
-                <div class="md:rounded-3xl rounded-xl bg-white p-3 my-6 md:my-10">
-                    <img src="assets/images/product_2.webp" alt=""
-                         class="rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl w-full">
-                    <!-- Swiper -->
-                    <div class="relative mt-3">
-                        <div class="flash-sale-swiper" id="product-discount">
-                            <div class="swiper">
-                                <div class="swiper-wrapper">
-                                </div>
-                            </div>
-                            <!-- Navigation -->
-                            <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
-                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M9 5l7 7-7 7" />
-                                </svg>
-                            </div>
-                            <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
-                                <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--  -->
-                <div class="md:rounded-3xl rounded-xl bg-white p-3 my-6 md:my-10">
-                    <img src="assets/images/product_3.webp" alt=""
-                         class="rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl w-full">
-                    <!-- Swiper -->
-                    <div class="grid md:grid-cols-5 gap-2">
-                        <div class="md:col-span-4 relative mt-3 overflow-hidden">
-                            <div class="product-swiper " id="intelligence-collection">
-                                <div class="swiper">
-                                    <div class="swiper-wrapper">
-                                    </div>
-                                </div>
-
-
-                                <!-- Navigation -->
-                                <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
-                                    <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </div>
-                                <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
-                                    <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="/san-pham?group_id=@ViewBag.GLOBAL_CONSTANTS.GroupProduct.ListProduct" class="flex items-center gap-2 text-blue-500 justify-center">
-                            Xem tất cả
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z"
-                                      fill="#098EF7" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- Banner quảng cáo -->
-            <div class="my-6 md:my-10">
-                <h2 class="text-sky-900 mb-2 font-medium uppercase">
-                    <a href="">
-                        BestMall sự lựa
-                        chọn tốt
-                        nhất cho sức khoẻ của bạn
-                    </a>
-                </h2>
-                <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 mb-3"></div>
-                <div class="md:rounded-3xl rounded-xl overflow-hidden col-span-3">
-                    <img src="assets/images/choice_Big.jpg" alt="Banner 1" class="w-full shadow" />
-                </div>
-                <div class="flex md:justify-between gap-2 overflow-x-auto scrollbar-hide md:grid grid-cols-3 pb-2 mt-2">
-                    <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full">
-                        <img src="assets/images/choice_small1.jpg" alt="Banner 1" class="w-full shadow" />
-                    </div>
-                    <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full">
-                        <img src="assets/images/choice_small2.jpg" alt="Banner 1" class="w-full shadow" />
-                    </div>
-                    <div class="md:rounded-3xl rounded-xl overflow-hidden md:w-full min-w-2/3 md:min-w-full">
-                        <img src="assets/images/choice_small3.jpg" alt="Banner 1" class="w-full shadow" />
-                    </div>
-                </div>
-            </div>
-            <!-- Sản phẩm theo đối tượng -->
-            <div class="my-6 md:my-10">
-                <h2 class="text-sky-900 mb-3 font-medium uppercase"><a href="">Sản phẩm theo đối tượng</a> </h2>
-                @await Component.InvokeAsync("MenuNews", new { menuType = "home" })
-
-                <!-- Swiper -->
-                <div class="relative mt-3">
-                    <div class="flash-sale-swiper list-product">
-                        <div class="swiper">
-                            <div class="swiper-wrapper">
-                            </div>
-                        </div>
-
-                        <!-- Navigation -->
-                        <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
-                            <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </div>
-                        <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
-                            <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- List Góc sức khoẻ -->
-            <div class="my-6 md:my-10">
-                <div class="flex justify-between flex-wrap gap-2 mb-3">
-                    <h2 class="text-sky-900 font-medium uppercase"><a href="">Góc sức khoẻ</a> </h2>
-                    <a href="/tin-tuc" class="flex items-center gap-2 text-blue-500 text-sm">
-                        Xem thêm
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                            <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z"
-                                  fill="#773EFA" />
-                        </svg>
-                    </a>
-                </div>
-                <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
-
-                @await Component.InvokeAsync("MenuNews", new { menuType = "news" })
-
-
-                @* Vùng render danh sách bài viết *@
-                <div class="list-home mt-4 relative min-h-[150px]">
-                    <div class="loading absolute inset-0 flex justify-center items-center z-10 bg-white bg-opacity-80 hidden">
-                        <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-blue-500"></div>
-                    </div>
-                    <div class="articles-wrapper"></div>
-                </div>
-
-
-
-
-
-            </div>
             <!-- List Sản phẩm đã xem -->
             <div class="my-6 md:my-10 " id="viewed-products-wrapper">
-                <div class="flex justify-between flex-wrap gap-2 mb-3">
-                    <h2 class="text-sky-900 font-medium uppercase"><a href="">Sản phẩm đã xem</a> </h2>
-                    <a href="/san-pham?group_id=@ViewBag.GLOBAL_CONSTANTS.GroupProduct.ListProduct" class="flex items-center gap-2 text-blue-500 text-sm">
-                        Xem thêm
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                            <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z"
-                                  fill="#098EF7" />
-                        </svg>
-                    </a>
+                <div class="flex justify-between flex-wrap gap-2 mb-8">
+                    <h2 class="uppercase font-bold">Sản phẩm đã xem </h2>
+                    @* <a href="/san-pham/tat-ca?group_id=@ViewBag.GLOBAL_CONSTANTS.GroupProduct.ListProduct" class="flex items-center gap-2 text-blue-500 text-sm"> *@
+                    @*     Xem thêm *@
+                    @*     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"> *@
+                    @*         <path d="M12.773 9.39804L7.14804 15.023C7.09578 15.0753 7.03373 15.1168 6.96545 15.145C6.89716 15.1733 6.82398 15.1879 6.75007 15.1879C6.67616 15.1879 6.60297 15.1733 6.53469 15.145C6.46641 15.1168 6.40436 15.0753 6.3521 15.023C6.29984 14.9708 6.25838 14.9087 6.2301 14.8404C6.20181 14.7722 6.18726 14.699 6.18726 14.6251C6.18726 14.5512 6.20181 14.478 6.2301 14.4097C6.25838 14.3414 6.29984 14.2794 6.3521 14.2271L11.5798 9.00007L6.3521 3.77304C6.24655 3.66749 6.18726 3.52434 6.18726 3.37507C6.18726 3.2258 6.24655 3.08265 6.3521 2.9771C6.45765 2.87155 6.6008 2.81226 6.75007 2.81226C6.89934 2.81226 7.04249 2.87155 7.14804 2.9771L12.773 8.6021C12.8253 8.65434 12.8668 8.71638 12.8951 8.78466C12.9234 8.85295 12.938 8.92615 12.938 9.00007C12.938 9.07399 12.9234 9.14719 12.8951 9.21547C12.8668 9.28376 12.8253 9.3458 12.773 9.39804Z" *@
+                    @*               fill="#098EF7" /> *@
+                    @*     </svg> *@
+                    @* </a> *@
                 </div>
 
-                <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+                @* <div class="h-[1px] w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div> *@
                 <!-- Swiper -->
                 <div class="relative mt-3">
                     <div class="flash-sale-swiper">
@@ -474,61 +357,22 @@
 
             <!-- List Thương hiệu -->
             <div class="my-6 md:my-10">
+                <h2 class="uppercase font-bold mb-8 ">ĐỐI TÁC - NHÀ CUNG CẤP </h2>
                 <!-- Swiper -->
-                <div class="relative mt-3">
+                <div class="relative mt-5">
                     <div class="brands-swiper">
                         <div class="swiper">
                             <div class="swiper-wrapper">
                                 <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Blackmores.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
+                                @await Component.InvokeAsync("LabelList", new { labeltype = "home2" })
+                                @* <div class="swiper-slide"> *@
+                                @*     <a href=""> *@
+                                @*         <img src="assets/images/Card/Blackmores.png" alt="" *@
+                                @*              class="w-full h-30 object-contain px-3 py-5 bg-white" /> *@
+                                @*     </a> *@
+                                @* </div> *@
 
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Frame 5810.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Frame 5811.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Frame 5812.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Frame 5813.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/Card/Frame 5811.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
-                                <!-- Slide Item -->
-                                <div class="swiper-slide">
-                                    <a href="">
-                                        <img src="assets/images/logo-th.png" alt=""
-                                             class="w-full h-30 object-contain px-3 py-5 bg-white" />
-                                    </a>
-                                </div>
+                               
                             </div>
                         </div>
 
@@ -549,39 +393,67 @@
 
 
             <!--  Tiêu chí -->
-            <div class="my-6 md:my-10 flex flex-wrap md:flex-nowrap items-center justify-center gap-3">
-                <div class="flex items-center md:justify-center gap-3 w-full">
-                    <img src="assets/images/icon/icon1.svg" alt="" class="h-8">
-                    <div>
-                        <h4 class="font-medium">Trả hàng Miễn phí 15 ngày</h4>
-                        <p class="text-slate-700">Trả hàng Miễn phí 15 ngày</p>
+            <div class="my-6 md:my-10">
+                <div class="swiper h-full tieuchi-slide md:rounded-3xl rounded-xl overflow-hidden">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img class="w-[214px]" src="assets/images/icon-01.png" loading="lazy" alt="">
+                                @* <div> *@
+                                @*     <h6 class="font-bold text-[15px]">Hàng chính hãng</h6> *@
+                                @*     <p>Đảm bảo hàng chính hãng<br />hoặc hoàn tiền gấp 10</p> *@
+                                @* </div> *@
+                            </div>
+                        </div>
+                        <div class="swiper-slide ">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img class="w-[184px]" src="assets/images/icon-02.png" loading="lazy" alt="">
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img class="w-[214px]" src="assets/images/icon-03.png" loading="lazy" alt="">
+                                @* <div> *@
+                                @*     <h4 class="font-bold text-[15px]">Đổi trả</h4> *@
+                                @*     <p> *@
+                                @*         Đổi trả hàng nếu sản phẩm <br /> *@
+                                @*         không đúng cam kết *@
+                                @*     </p> *@
+                                @* </div> *@
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="flex items-center justify-center gap-3 w-full">
+                                <img class="w-[214px]" src="assets/images/icon-04.png" loading="lazy" alt="">
+                                @* <div> *@
+                                @*     <h4 class="font-bold text-[15px]">Tiện lợi - An toàn</h4> *@
+                                @*     <p>Mua sắm dễ dàng<br />An tâm giao dịch</p> *@
+                                @* </div> *@
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class=" flex items-center md:justify-center gap-3 w-full">
-                    <img src="assets/images/icon/icon2.svg" alt="" class="h-8">
-                    <div>
-                        <h4 class="font-medium">Hàng chính hãng 100%</h4>
-                        <p class="text-slate-700 md:whitespace-nowrap">
-                            Đảm bảo hàng chính hẵng hoặc hoàn tiền gấp đôi
-                        </p>
-                    </div>
-                </div>
-                <div class=" flex items-center md:justify-center gap-3 w-full">
-                    <img src="assets/images/icon/icon3.svg" alt="" class="h-8">
-                    <div>
-                        <h4 class="font-medium">Miễn phí vận chuyển</h4>
-                        <p class="text-slate-700">Giao hàng miễn phí toàn quốc</p>
-                    </div>
+
+                    <!-- Pagination (on top of slide) -->
+                    <div class="swiper-pagination mt-3 !text-white !static"></div>
                 </div>
             </div>
-            <!--  -->
         </div>
 
     </section>
 
+   
+    @await Component.InvokeAsync("MenuNews", new { menuType = "popup_home" })
+    
+
+
+
+
+
     <!-- END HOME -->
 
 </main>
-@section scripts {
-    <script asp-append-version="true" type="text/javascript" src="~/modules/new.js"></script>
-}
+
+@* @section scripts { *@
+   
+@*     <script asp-append-version="true" type="text/javascript" src="~/modules/new.js"></script> *@
+@* } *@

@@ -2,49 +2,8 @@
     ViewData["Title"] = "Đóng góp ý kiến";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    .AddcommentSucces {
-        padding: 15px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        background-color: #f0ad4e;
-        color: #fff;
-    }
-
-    .close {
-        float: right;
-        font-size: 21px;
-        font-weight: bold;
-        line-height: 1;
-        color: #000;
-        text-shadow: 0 1px 0 #fff;
-        opacity: .5;
-    }
-
-/*     #CommentSucces {
-        display: none;
-        text-align: center;
-        line-height: 30px; 
-    } */
-
-    #PromotionNoti
-    {
-        display: none;
-        text-align: center;
-        line-height: 30px;
-    }
-
-    .disabled {
-        pointer-events: none;
-        opacity: 0.5; /* Làm mờ liên kết */
-    }
-
-    .btn-Send {
-        float:right;
-    }
-</style>
-<div id="Comment_success" class="overlay form-noti">
-    <div class="popup">
+<div id="Comment_success" class="overlay form-noti" style="display:none;">
+    <div class="popup p-4 md:p-8 bg-white rounded-xl md:rounded-3xl shadow-md max-w-4xl md:my-8 my-4 mx-auto">
         <a class="close" href="javascript:;">
             <i class="icon icon-close"></i>
         </a>
@@ -55,34 +14,89 @@
         </div>
     </div>
 </div>
-<section class="section-banner-search section-donggopykien">
-    <div class="container">
-        <div class="flex-banner">
-            <div class="wrap-form">
-                <h2 class="title">Đóng góp ý kiến</h2>
-                <div class="form-donggop">
-                    <form onsubmit="return false" class="needs-validation" novalidate>
-                        <div class="form-group">
-                            <label>Nội dung*</label>
-                            <div class="box-input">
-                                <textarea maxlength="500" style="min-height:150px" oninput="_feedback.SaveText()" class="form-control" id="comment-text" rows="5" placeholder="Hãy chia sẽ những góp ý của bạn với Hulo Toys tại đây nhé."></textarea>
-                                <div id="invalid-comment" style="font-size:inherit;color:red;display:none">Vui lòng nhập nội dung góp ý!</div>
-                            </div>
-                        </div>
-                        <div class="action">
-                            <div></div>
-                            <a onclick="_feedback.CreateFeedback()" id="liveToastBtn" class="btn btn-Send">Gửi</a>
-                        </div>
-                    </form>
+<div class="max-w-[1230px] mx-auto px-[15px]">
+    <div class="breadcrumb my-4 ">
+        <ul class="flex items-center gap-3 font-normal">
+            <li><a href="/">Trang chủ</a></li>
+            <li><a href="" class="text-color-base">Hỏi đáp</a></li>
+        </ul>
+    </div>
+    <div class="banner-hoidap">
+         <form onsubmit="return false">
+        <div class="box-input">
+           
+        
+            
+            
+            <div class="left-box">
+                <h3>Đóng góp ý kiến</h3>
+                    <label for="comment-text">Nội dung <span>*</span></label>
+                    <textarea id="comment-text"
+                              oninput="_feedback.SaveText()"
+                              maxlength="500"
+                              rows="3" class="input-box"></textarea>
+                    <div id="invalid-comment" class="text-red-500 text-sm mt-1 hidden">Vui lòng nhập nội dung góp ý!</div>
+                <div class="text-right">
+                        <a onclick="_feedback.CreateFeedback()"
+                           id="liveToastBtn"
+                           class="btn cursor-pointer">
+                            Gửi Best Mall
+                        </a>
+                   
+                </div>
+
+
+            </div>
+          
+            <div class="right-box">
+                <img src="assets/images/logo.png" alt="" />
+                <p>
+                    Chúng tôi luôn sẵn sàng làm việc và lắng nghe những góp ý để trở nên hoàn thiện hơn, mang thật nhiều
+                    giá trị tốt đẹp tới cộng đồng!
+                </p>
+            </div>
+            <div class="ft-hotro">
+                <h3>Bạn cần hỗ trợ nhanh</h3>
+                <div class="flex-ft">
+                    <p>Chat trực tiếp với chúng tôi</p>
+                    <img class="img-avt" src="assets/images/avat-help.png" alt="" />
+                        <a href="https://www.facebook.com/bestmallvietnam">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M22.6487 0.349365C35.1518 0.349365 45.2992 10.4968 45.2992 22.9999C45.2992 35.503 35.1518 45.6504 22.6487 45.6504C10.1456 45.6504 -0.00183105 35.503 -0.00183105 22.9999C-0.00183105 10.4968 10.1456 0.349365 22.6487 0.349365Z"
+                                  fill="black" />
+                            <path d="M25.6036 45.4435V27.9443H30.5479L31.1951 21.7834H25.6036V18.7029C25.6036 17.098 25.759 16.2437 28.0628 16.2437H31.1433V10.0828H26.199C20.2711 10.0828 18.2002 13.0597 18.2002 18.0816V21.7834H14.4984V27.9443H18.2002V45.1846C19.6498 45.4694 21.1253 45.6247 22.6526 45.6247C23.6363 45.6247 24.62 45.5729 25.6036 45.4435Z"
+                                  fill="white" />
+                        </svg>
+                    </a>
+                        <a href="https://www.facebook.com/bestmallvietnam">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="47" height="46" viewBox="0 0 47 46" fill="none">
+                            <path d="M9.03536 37.8199V46L16.6977 41.6511C18.8204 42.2724 21.0984 42.6089 23.454 42.6089C36.0607 42.6089 46.2599 33.0827 46.2599 21.3303C46.2599 9.57794 36.0607 0 23.454 0C10.8474 0 0.648193 9.52617 0.648193 21.2786C0.648193 27.9313 3.93576 33.8852 9.06125 37.794L9.03536 37.8199Z"
+                                  fill="black" />
+                            <path d="M21.0235 15.48L8.72754 28.5008L19.9363 22.3657L25.7866 28.5008L38.0309 15.48L26.9515 21.5115L21.0494 15.48H21.0235Z"
+                                  fill="white" />
+                        </svg>
+                    </a>
+                        <a href="/dong-gop-y-kien">
+                        <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23.0034 0.608398C16.9201 0.608398 16.1435 0.608398 13.762 0.73783C11.3804 0.841375 9.74957 1.22967 8.32582 1.77328C6.82441 2.34278 5.47833 3.22292 4.36521 4.36192C3.22622 5.47503 2.34608 6.847 1.77658 8.32252C1.23297 9.74627 0.844669 11.3771 0.741124 13.7587C0.637579 16.1402 0.611694 16.9168 0.611694 23.0001C0.611694 29.0834 0.611692 29.8599 0.741124 32.2415C0.844669 34.623 1.23297 36.2539 1.77658 37.6776C2.34608 39.179 3.22622 40.5251 4.36521 41.6382C5.47833 42.7772 6.8503 43.6574 8.32582 44.2269C9.74957 44.7705 11.3804 45.1588 13.762 45.2623C16.1435 45.3659 16.9201 45.3917 23.0034 45.3917C29.0867 45.3917 29.8632 45.3917 32.2448 45.2623C34.6263 45.1588 36.2572 44.7705 37.6809 44.2269C40.6837 43.062 43.0653 40.6804 44.2302 37.6776C44.7738 36.2539 45.1621 34.623 45.2656 32.2415C45.3692 29.8599 45.395 29.0834 45.395 23.0001C45.395 16.9168 45.395 16.1402 45.2656 13.7587C45.1621 11.3771 44.7738 9.74627 44.2302 8.32252C43.6607 6.82112 42.7805 5.47503 41.6415 4.36192C40.5284 3.22292 39.1564 2.34278 37.6809 1.77328C36.2572 1.22967 34.6263 0.841375 32.2448 0.73783C29.8632 0.634285 29.0867 0.608398 23.0034 0.608398Z"
+                                  fill="black" />
+                            <path d="M4.90615 29.4509V28.0002L13.5724 17.0434H5.23066V15.5354H15.7675V16.967L7.12043 27.9429H15.9966V29.4509H4.90615ZM21.2047 29.6227C20.5556 29.6227 19.9703 29.5209 19.4485 29.3173C18.9268 29.101 18.4814 28.8019 18.1123 28.4201C17.756 28.0256 17.476 27.5612 17.2724 27.0267C17.0688 26.4795 16.967 25.8814 16.967 25.2324V23.6862C16.967 22.7954 17.1388 22.0191 17.4824 21.3574C17.8387 20.6956 18.3286 20.1802 18.9522 19.8112C19.5885 19.4422 20.3393 19.2576 21.2047 19.2576C21.9555 19.2576 22.6363 19.4167 23.2471 19.7348C23.858 20.0403 24.3097 20.4666 24.6024 21.0138H24.6979L24.8124 19.4294H26.3777V29.4509H24.8124L24.6788 27.8475H24.6024C24.3097 28.4074 23.858 28.8465 23.2471 29.1646C22.6363 29.47 21.9555 29.6227 21.2047 29.6227ZM21.72 28.2674C22.42 28.2674 23.0308 28.102 23.5525 27.7711C24.0743 27.4275 24.4561 26.9503 24.6979 26.3395V22.5409C24.4561 21.9428 24.0743 21.4783 23.5525 21.1474C23.0308 20.8038 22.42 20.632 21.72 20.632C21.1219 20.632 20.6002 20.7402 20.1548 20.9565C19.7094 21.1729 19.3594 21.4846 19.1049 21.8919C18.8504 22.2991 18.7231 22.7954 18.7231 23.3808V25.5187C18.7231 26.0786 18.8504 26.5686 19.1049 26.9885C19.3594 27.4085 19.7094 27.7266 20.1548 27.9429C20.6002 28.1593 21.1219 28.2674 21.72 28.2674ZM28.5517 29.4509V15.5354H30.2315V29.4509H28.5517ZM36.8771 29.6227C36.139 29.6227 35.4709 29.5209 34.8728 29.3173C34.2747 29.101 33.7657 28.7956 33.3457 28.4011C32.9258 28.0066 32.6013 27.5293 32.3722 26.9694C32.1431 26.3968 32.0286 25.7605 32.0286 25.0606V23.8007C32.0286 22.8717 32.2259 22.07 32.6204 21.3956C33.0149 20.7084 33.5748 20.1802 34.3002 19.8112C35.0382 19.4422 35.8972 19.2576 36.8771 19.2576C37.6279 19.2576 38.3024 19.3658 38.9005 19.5821C39.4986 19.7985 40.0076 20.1039 40.4276 20.4984C40.8475 20.8929 41.172 21.3701 41.4011 21.93C41.6302 22.49 41.7447 23.1135 41.7447 23.8007V25.0606C41.7447 25.9895 41.5474 26.7976 41.1529 27.4848C40.7585 28.172 40.1985 28.7001 39.4732 29.0692C38.7478 29.4382 37.8824 29.6227 36.8771 29.6227ZM36.8771 28.2674C37.5134 28.2674 38.067 28.1529 38.5378 27.9238C39.0087 27.6948 39.365 27.3766 39.6068 26.9694C39.8613 26.5495 39.9885 26.0723 39.9885 25.5378V23.3426C39.9885 22.7954 39.8613 22.3182 39.6068 21.9109C39.365 21.5037 39.0087 21.1856 38.5378 20.9565C38.0797 20.7275 37.5325 20.6129 36.8962 20.6129C36.2599 20.6129 35.7063 20.7275 35.2355 20.9565C34.7646 21.1856 34.402 21.5037 34.1474 21.9109C33.9057 22.3182 33.7848 22.7954 33.7848 23.3426V25.5378C33.7848 26.0723 33.9057 26.5495 34.1474 26.9694C34.402 27.3766 34.7646 27.6948 35.2355 27.9238C35.7063 28.1529 36.2536 28.2674 36.8771 28.2674Z"
+                                  fill="white" />
+                        </svg>
+
+                    </a>
                 </div>
             </div>
-            <div class="image">
-                <img src="/assets/images/img-search.png" alt="">
-            </div>
         </div>
+        </form>
+        <img class="img-hoidap" src="assets/images/bg-hoidap.jpg" alt="" />
     </div>
-</section>
+</div>
 
-@section scripts {
-    
-}
+
+
+
+
+
+

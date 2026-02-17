@@ -35,6 +35,10 @@
 
                                 }
                             }
+                            else
+                            {
+                                label_price = ((double)p.amount).ToString("N0");
+                            }
                         }
                         <div class="price-sale">@label_price</div>
                         <div class="review">@p.star<i class="icon icon-star"></i>@* <span class="total-review">(322)</span> *@</div>

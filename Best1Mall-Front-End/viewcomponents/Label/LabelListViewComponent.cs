@@ -33,7 +33,9 @@ namespace BIOLIFE.ViewComponents.Product
                 var labelMap = new Dictionary<string, (string cacheKey, int top, string viewPath)>
             {
                 { "home", ("label_home", 6, "~/Views/Shared/Components/Label/LabelListViewComponent.cshtml") },
-                { "product", ("label_product", 6, "~/Views/Shared/Components/Label/LabelProductViewComponent.cshtml") }
+                //{ "product", ("label_product", 6, "~/Views/Shared/Components/Label/LabelProductViewComponent.cshtml") },
+                { "home2", ("label_home2", 6, "~/Views/Shared/Components/Home/BannerThuonghieu.cshtml") }
+
             };
 
                 if (!labelMap.TryGetValue(labeltype, out var config))

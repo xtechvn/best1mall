@@ -1,11 +1,13 @@
 ﻿using Best1Mall_Front_End.Service.Redis;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<HtmlHelperOptions>(); // ✅ Cái này fix lỗi của bạn
 builder.Services.AddResponseCaching(); // Cho phép sử dụng Response Caching
 builder.Services.AddMemoryCache(); // Đăng ký Memory Cache
 builder.Services.AddSingleton<RedisConn>();
@@ -78,13 +80,17 @@ app.MapControllerRoute(
     pattern: "/san-pham/{title}--{product_code}",
     defaults: new { controller = "Product", action = "Detail" });
 app.MapControllerRoute(
+    name: "category",
+    pattern: "/san-pham/{url_path}",
+    defaults: new { controller = "Product", action = "Index" });
+app.MapControllerRoute(
     name: "thanh-toan",
     pattern: "/order/payment/{id}",
     defaults: new { controller = "Order", action = "Payment" });
 app.MapControllerRoute(
     name: "thanh-toan",
     pattern: "/order/detail/{id}",
-    defaults: new { controller = "Order", action = "OrderDetail" });
+    defaults: new { controller = "Order", action = "Detail" });
 app.MapControllerRoute(
     name: "san-pham-new",
     pattern: "/product/detailnew/{title}--{product_code}",
@@ -95,10 +101,14 @@ app.MapControllerRoute(
     defaults: new { controller = "Product", action = "SearchListing" });
 app.MapControllerRoute(
     name: "doi-mat-khau",
-    pattern: "/account/change-password/{token}",
+    pattern: "/account/change-password",
     defaults: new { controller = "Client", action = "ChangePassword" });
 app.MapControllerRoute(
     name: "error",
     pattern: "/error",
     defaults: new { controller = "Home", action = "NotFound" });
+app.MapControllerRoute(
+    name: "quen-mat-khau",
+    pattern: "/doi-mat-khau/{token}",
+    defaults: new { controller = "Client", action = "ForgotPasswordChangePassword" });
 app.Run();

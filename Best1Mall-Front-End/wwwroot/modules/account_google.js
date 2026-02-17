@@ -2,6 +2,7 @@
 
 $(document).ready(function () {
 
+    account_google.getGoogleClientIdSync()
     account_google.DynamicBind()
     
 });
@@ -19,19 +20,28 @@ var account_google = {
             const popupInterval = setInterval(() => {
                 if (popupWindow && popupWindow.closed) {
                     clearInterval(popupInterval);
-                    // Kiểm tra xem dữ liệu đã được truyền từ popup chưa
-                    var token_local = localStorage.getItem(STORAGE_NAME.Login);
-                    if (token_local == null || token_local == undefined || token_local.trim() == '' || token_local.trim() == 'null'
-                        || token_local.trim() == 'undefined') {
-                        $(':input[type="submit"]').prop('disabled', false);
+                    setTimeout(function () {
+                        // Kiểm tra xem dữ liệu đã được truyền từ popup chưa
+                        var token_local = localStorage.getItem(STORAGE_NAME.Login);
+                        if (token_local == null || token_local == undefined || token_local.trim() == '' || token_local.trim() == 'null'
+                            || token_local.trim() == 'undefined') {
+                            $(':input[type="submit"]').prop('disabled', false);
 
-                        $('#dangnhap .user input').closest('.form-group').find('.err').show()
-                        $('#dangnhap .user input').closest('.form-group').find('.err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
-                    } else {
+                            $('#login-general-err .err').show()
+                            var msg = localStorage.getItem('msg')
+                            if (msg == null || msg == undefined || msg.trim() == '' || msg.trim() == 'null' || msg.trim() == 'undefined') {
+                                msg = NOTIFICATION_MESSAGE.LoginIncorrect
+                            }
+                            $('#login-general-err .err').html(msg)
+                            localStorage.removeItem('msg')
+                        } else {
 
-                        window.location.reload();
+                            window.location.reload();
 
-                    }
+                        }
+
+                    }, 300);
+                   
                 }
             }, 500);
         });
@@ -46,21 +56,41 @@ var account_google = {
             const popupInterval = setInterval(() => {
                 if (popupWindow && popupWindow.closed) {
                     clearInterval(popupInterval);
-                    // Kiểm tra xem dữ liệu đã được truyền từ popup chưa
-                    var token_local = localStorage.getItem(STORAGE_NAME.Login);
-                    if (token_local == null || token_local == undefined || token_local.trim() == '' || token_local.trim() == 'null'
-                        || token_local.trim() == 'undefined') {
-                        $(':input[type="submit"]').prop('disabled', false);
+                    setTimeout(function () {
+                        // Kiểm tra xem dữ liệu đã được truyền từ popup chưa
+                        var token_local = localStorage.getItem(STORAGE_NAME.Login);
+                        if (token_local == null || token_local == undefined || token_local.trim() == '' || token_local.trim() == 'null'
+                            || token_local.trim() == 'undefined') {
+                            $(':input[type="submit"]').prop('disabled', false);
 
-                        $('#dangnhap .user input').closest('.form-group').find('.err').show()
-                        $('#dangnhap .user input').closest('.form-group').find('.err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
-                    } else {
+                       
+                            $('#register-general-err .err').show()
+                            $('#register-general-err .err').html(NOTIFICATION_MESSAGE.LoginIncorrect)
+                        } else {
 
-                        window.location.reload();
+                            window.location.reload();
 
-                    }
+                            }
+                    }, 300);
                 }
             }, 500);
+        });
+    },
+    getGoogleClientIdSync: function () {
+        $.ajax({
+            url: '/Home/GetGoogleClientId', // Đảm bảo đường dẫn URL là chính xác
+            type: 'GET',
+            dataType: 'json',
+            async: false, // Quan trọng: Đặt thành false để thực hiện đồng bộ
+            success: function (response) {
+                if (response.is_success) {
+                    googleClientId = response.data;
+                } else {
+                    console.error('Lỗi khi lấy Google Client ID:', response);
+                }
+            },
+            error: function (xhr, status, error) {
+            }
         });
     }
 }

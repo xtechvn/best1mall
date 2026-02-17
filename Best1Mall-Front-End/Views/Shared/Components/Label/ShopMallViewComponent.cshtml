@@ -1,0 +1,102 @@
+﻿
+@using Best1Mall_Front_End.Models.Labels
+@using Best1Mall_Front_End.ViewModels;
+@using Best1Mall_Front_End.Utilities;
+@model List<LabelListingModel>
+
+@functions {
+    string ToSeoUrl(string name)
+    {
+        return RemoveUnicode(RemoveSpecialCharacters(name)).Replace(" ", "-").ToLower();
+    }
+
+    string RemoveUnicode(string text)
+    {
+        var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+        var chars = normalized.Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark);
+        return new string(chars.ToArray()).Normalize(System.Text.NormalizationForm.FormC);
+    }
+
+    string RemoveSpecialCharacters(string input)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(input, "[^a-zA-Z0-9\\s-]", "");
+    }
+
+    string FormatCurrency(double? amount)
+    {
+        return (amount.HasValue && amount > 0) ? string.Format("{0:#,0} đ", amount.Value) : "";
+    }
+
+
+    string GetFullImageUrl(string avatar)
+    {
+        if (string.IsNullOrEmpty(avatar))
+        {
+            return "/images/no-image.png"; // fallback ảnh mặc định
+        }
+
+        if (avatar.StartsWith("http") || avatar.StartsWith("data:image"))
+        {
+            return avatar; // Giữ nguyên nếu đã là URL hoặc base64
+        }
+
+        return "https://static-image.adavigo.com" + avatar; // Gắn domain tĩnh
+    }
+}
+
+@if (Model != null && Model.Any())
+{
+    var labels = Model.OrderBy(l => l.ShopMallPosition ?? int.MaxValue).ToList();
+
+    <div id="dynamic-label-blocks">
+        @for (int i = 0; i < labels.Count; i++)
+        {
+            var label = labels[i];
+            if (label == null || label.Id == 0) { continue; } // Bỏ qua nếu label null hoặc thiếu ID
+
+            var labelSlug = ToSeoUrl(label.LabelCode ?? "thuong-hieu");
+            var bannerId = $"banner-{labelSlug}";
+            var swiperWrapperId = $"swiper-wrapper-{label.Id}";
+            var spacingClass = i == 0 ? "my-6" : "my-6 md:my-10";
+
+            <div class="md:rounded-3xl rounded-xl bg-[#E6E1F4] @spacingClass list_product">
+                <a href="/thuong-hieu/@labelSlug?label_id=@label.Id" class="block">
+                    <img id="@bannerId"
+                         src="@GetFullImageUrl(label.Avatar)"
+                         alt="@label.LabelName ?? " Thương hiệu""
+                         loading="lazy"
+                         style="width: 100%; "
+                         @* style="width: 1250px; object-fit: cover;" *@
+                         class="rounded-tl-xl rounded-tr-xl md:rounded-tl-3xl md:rounded-tr-3xl md:h-[425px]">
+                </a>
+
+                <div class="relative p-3">
+                    <div class="dynamic-collection" id="block-@label.Id">
+                        <div class="swiper">
+                            <div class="swiper-wrapper" id="@swiperWrapperId"></div>
+                        </div>
+
+                        <div class="swiper-button-next shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                            <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        <div class="swiper-button-prev shadow !text-white !bg-white hover:!bg-white/70 rounded-full p-2">
+                            <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="text-center py-10 text-gray-500">Không có thương hiệu nào hiển thị.</div>
+}
+
+

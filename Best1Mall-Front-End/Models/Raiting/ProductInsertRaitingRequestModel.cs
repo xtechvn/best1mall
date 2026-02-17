@@ -14,6 +14,8 @@ namespace Best1Mall_Front_End.Models.Raiting
         public float star { get; set; }
         public string comment { get; set; }
         public string img_link { get; set; }
-        public string video_link { get; set; }
+        public string video_link { get; set; } 
+        public List<string> img_links { get; set; }
+        public List<string> video_links { get; set; }
     }
 }
